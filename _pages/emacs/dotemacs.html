@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-11-09 10:44 +0200</b>.</li>
+<li>Updated: <b>2021-11-09 14:31 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -3142,7 +3142,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org6b67f42">
+<pre class="example" id="org2c87205">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3209,7 +3209,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgc9a8310">
+<pre class="example" id="org9ff7263">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3809,15 +3809,37 @@ Only works when variable `file-name-shadow-mode' is non-nil."
   :group 'mct)
 
 (defcustom mct-live-completion t
-  "Automatically display the Completions buffer.
+  "Control auto-display and live-update of Completions' buffer.
 
-When disabled, the user has to manually request completions,
-using the regular activating commands.  Note that
-`mct-completion-passlist' overrides this option, while taking
-precedence over `mct-completion-blocklist'.
+When nil, the user has to manually request completions, using the
+regular activating commands.  The Completions' buffer is never
+updated live to match user input.  Updating has to be handled
+manually.  This is like the out-of-the-box minibuffer completion
+experience.
 
-Live updating is subject to `mct-minimum-input'."
-  :type 'boolean
+When set to the value `visible', the Completions' buffer is live
+updated only if it is visible.  The actual display of the
+completions is still handled manually.  For this reason, the
+`visible' style does not read the `mct-minimum-input', meaning
+that it will always try to live update the visible completions,
+regardless of input length.
+
+When non-nil (the default), the Completions' buffer is
+automatically displayed once the `mct-minimum-input' is met and
+is hidden once the input drops below that threshold.  While
+visible, the buffer is updated live to match the user input.
+
+Note that every function in the `mct-completion-passlist' ignores
+this option altogether.  This means that every such command will
+always show the Completions' buffer automatically and will always
+update its contents live.  Same principle for every function
+declared in the `mct-completion-blocklist', which will always
+disable both the automatic display and live updating of the
+Completions' buffer."
+  :type '(choice
+          (const :tag "Disable live-updating" nil)
+          (const :tag "Enable live-updating" t)
+          (const :tag "Live update only visible Completions" 'visible))
   :group 'mct)
 
 (defcustom mct-minimum-input 3
@@ -3836,24 +3858,25 @@ Set this to 0 to disable the delay."
   :group 'mct)
 
 (defcustom mct-completion-blocklist nil
-  "Commands that do not do live updating of completions.
-
-A less drastic measure is to set `mct-minimum-input'
-to an appropriate value.
+  "Functions that disable live completions.
+This means that they ignore `mct-live-completion'.  They do not
+automatically display the Completions' buffer, nor do they update
+it to match user input.
 
 The Completions' buffer can still be accessed with commands that
 place it in a window (such as `mct-list-completions-toggle',
-`mct-switch-to-completions-top')."
+`mct-switch-to-completions-top').
+
+A less drastic measure is to set `mct-minimum-input' to an
+appropriate value."
   :type '(repeat symbol)
   :group 'mct)
 
 (defcustom mct-completion-passlist nil
-  "Commands that do live updating of completions from the start.
-
-This means that they ignore `mct-minimum-input' and
-the inherent constraint of updating the Completions' buffer only
-upon user input.  Furthermore, they also bypass any possible
-delay introduced by `mct-live-update-delay'."
+  "Functions that do live updating of completions from the start.
+This means that they ignore the value of `mct-live-completion'
+and the `mct-minimum-input'.  They also bypass any possible delay
+introduced by `mct-live-update-delay'."
   :type '(repeat symbol)
   :group 'mct)
 
@@ -4018,7 +4041,8 @@ Meant to be added to `after-change-functions'."
   (when (minibufferp) ; skip if we've exited already
     (let ((while-no-input-ignore-events '(selection-request)))
       (while-no-input
-        (if (mct--minimum-input)
+        (if (or (mct--minimum-input)
+                (eq mct-live-completion 'visible))
             (condition-case nil
                 (save-match-data
                   (save-excursion
@@ -4037,6 +4061,11 @@ Meant to be added to `after-change-functions'."
     (when (&gt;= delay 0)
       (run-with-idle-timer delay nil #'mct--live-completions))))
 
+(defun mct--live-completions-visible-timer (&amp;rest _)
+  "Update visible Completions' buffer."
+  (when (window-live-p (mct--get-completion-window))
+    (mct--live-completions-timer)))
+
 (defun mct--setup-completions ()
   "Set up the completions' buffer."
   (cond
@@ -4047,7 +4076,9 @@ Meant to be added to `after-change-functions'."
     (add-hook 'after-change-functions #'mct--live-completions nil t))
    ((null mct-live-completion))
    ((not (memq this-command mct-completion-blocklist))
-    (add-hook 'after-change-functions #'mct--live-completions-timer nil t))))
+    (if (eq mct-live-completion 'visible)
+        (add-hook 'after-change-functions #'mct--live-completions-visible-timer nil t)
+      (add-hook 'after-change-functions #'mct--live-completions-timer nil t)))))
 
 ;;;;; Alternating backgrounds (else "stripes")
 
@@ -14047,7 +14078,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org6e0ae44">
+<pre class="example" id="orgabd261a">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14059,7 +14090,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org41d4374">
+<pre class="example" id="orgb65a8b0">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14074,7 +14105,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org0a74917">
+<pre class="example" id="org7a02666">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14092,7 +14123,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgc3198fb">
+<pre class="example" id="orgee50f1d">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14121,7 +14152,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org669508b">
+<pre class="example" id="orgb993fa5">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14285,7 +14316,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org5b68057">
+<pre class="example" id="org38f64ef">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15013,7 +15044,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org48cfb4f">
+<pre class="example" id="orgf931ccf">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15047,7 +15078,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org6508bf7">
+<pre class="example" id="org4295f4f">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15211,7 +15242,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org2afaf23">
+<pre class="example" id="orgae75f1c">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15406,7 +15437,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orga999d53">
+<pre class="example" id="org1f44253">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16642,7 +16673,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orga6c5575">
+<pre class="example" id="org94719cb">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17614,7 +17645,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgf029143">
+<pre class="example" id="orgd3e9fbd">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18313,7 +18344,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orga069a14">
+<pre class="example" id="orgfd8987b">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21486,7 +21517,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org6d809e1">
+<pre class="example" id="org5676eb9">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23240,7 +23271,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org3898f13">
+<pre class="example" id="orgfbeab56">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23662,7 +23693,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org172b4c3">
+<pre class="example" id="orga8e6a9b">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23671,7 +23702,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgb48645d">
+<pre class="example" id="org15b929b">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23696,7 +23727,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org4722727">
+<pre class="example" id="org01d69bc">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -23756,7 +23787,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgee22887">
+<pre class="example" id="org5c58fdb">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23781,7 +23812,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org85fb214">
+<pre class="example" id="orgf7c7833">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23790,7 +23821,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org2e427c5">
+<pre class="example" id="org272108f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -23809,7 +23840,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgc3e8133">
+<pre class="example" id="org21f199f">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
