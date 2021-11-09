@@ -1,0 +1,47 @@
+---
+id: 217
+title: The crisis of the Euro is deeply Political
+date: 2011-09-27T13:19:00+00:00
+author: Protesilaos Stavrou
+guid: https://protesilaos.com/the-crisis-of-the-euro-is-deeply-political/
+permalink: /the-crisis-of-the-euro-is-deeply-political/
+blogger_blog:
+  - protes-stavrou.blogspot.com
+blogger_permalink:
+  - /2011/09/crisis-of-euro-is-deeply-political.html
+blogger_author:
+  - Unknown
+categories:
+  - Euroblog
+  - Uncategorized
+---
+<span style="font-size: large;">The crisis is profoundly political. Even the ideal plan to deal with its economic dimension, will have to withstand the pressures of the complex political order of the EU. </span>
+
+<table cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: right; margin-left: 1em; text-align: right;">
+  <tr>
+    <td style="text-align: center;">
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="tr-caption" style="text-align: center;">
+      Image source: <a href="http://frenchtribune.com/sites/default/files/european-union_0.jpg">French Tribune</a>
+    </td>
+  </tr>
+</table>
+
+I have time and again stressed the systemic structure of the current crisis and have elaborated on the numerous dimensions of the problem that encompass public debts, insolvent banks, under-investment and structural trade deficits of the European periphery _vis a vis_ the center, all of which are rooted in the structural flaws of the euro that never envisaged a crisis of such a magnitude and thus caught us all unprepared. The euro was built on sand not stone, as its drafters apparently never really believed an earthquake would ever hit it. Hence with the first earthquake of such great magnitude it started falling apart. Everyone was aware that the monetary union project would die on its birth, or in its early infancy, without a genuine fiscal union backing it, or at least without a surplus recycling mechanism that would counter the structural trade deficits of the periphery by re-investing/recycling with profit the accumulated surpluses of the center to the periphery (the latter can be done ad hoc within the current institutional framework by mobilizing the European Investment Bank).
+
+I have also stressed on a number of occasions that the irrationality and confusion that characterize European action (or inaction) is in fact well explained on grounds of reason and well-worked political objectives. European leaders are not naive to assume that their vaunted policies are effective in containing the spiraling crisis. They all know that the half-measures they agree to from summit after summit are massively failing to produce the desired results first because they are self-defeating in their own capacity and second because they are cures to diseases that have nothing to do with the current one. Our leaders have fundamentally failed to diagnose the systemic nature of the problem, by clinging to the belief that the crisis is confined within the national borders of certain &#8220;irresponsible&#8221; countries. They make the grave mistake of assuming that these &#8220;profligate&#8221; countries operate in a vacuum, as if nothing exists beyond their own borders and nothing external affects them. As if they are the black sheep in an otherwise purely white flock. Unfortunately the real world shows that it is never that simple and the principle of maintaining in a perfectly separable manner the internal problems of a much broader and deeper crisis, is a regime that leads with mathematical accuracy to the collapse of the euro, since the forces of contagion are accelerated with every failure Europeans are led to.
+
+Having said all of the above and having previously worked in detail on the economic dimension of the crisis, I now say that the crisis of the Euro is above all political. It is a crisis that is reinvigorated and reinforced by the multifaceted complexity of decision-making in the EU/Eurozone and by the political balance of power that has decisively shifted in favor of the surplus countries, primarily Germany. Surplus countries now have the upper hand in all negotiations, which gives them the power to impose their own understanding of an ever-closer union, which might be good or bad, yet this is something that cannot be judged in prior. The point is that the immense bargaining power that lies in the hands of Ms Merkel and her counterparts in the other surplus countries, is a unique opportunity for them to push for fundamental reforms all across the EU/Eurozone and not just in Greece, Ireland, Portugal, in order to produce the uniformity necessary to implement the one-size-fits-all ideal of the monetary policy the ECB exercises and of whatever other policy they envision within their understanding of political integration. 
+
+Considering the diverse and multiple interests that need to be persuaded at every given level of decision making in the EU, from the supranational, to the intergovernmental, to the national; taking into account the efforts that are necessary to convince political parties, labor unions and all sorts of pressure groups; including the demagogy that many will exercise to build their political careers even if that is openly against the interests of their country and the broader EU; acknowledging the existing institutional gap that produces endless discussions on how it should be filled; recognizing the external forces of the markets that push for their own objectives; allows everyone to grasp the kind of gargantuan political challenge European leaders are facing to deal with the systemic crisis of the euro (the reason the crisis is called a &#8220;debt&#8221; crisis and not a systemic crisis is due to this complexity).
+
+Even if we were to exclude all of the above structural political rigidities, we will still find ourselves confronted with the bargaining process that occurs between European states. Does anyone really believe that when German Chancellor Merkel calls lets say Greek Prime Minister Papandreou, that Mr. Papandreou speaks out his mind? Or does anyone bear any delusions whatsoever that a leader of a state, in his/her own capacity can convince leaders from surplus countries to change their strategy? Once Ms. Merkel says &#8220;nein&#8221; the discussion is over, no matter who has made the proposal. I am not saying that the idiosyncrasy of certain leaders is preventing Europe from going forward. I am saying that the balance of power is such that leaders willing to push for their own understanding of Europe will take full advantage of the bargaining power they now have (which might be a good thing after all &#8211; but also it might be a really bad prospect).
+
+A European solution to the systemic crisis will take material form when all the necessary steps are made towards a set of institutions and mechanisms that satisfy the visions of the power holders. At some point there will be a cleansing of the European banking system from all the toxic waste it has accumulated. There will be a considerable transferring of power from the states to the European level. There will be orderly default(s) within the context of the euro. In short there will be solutions to the problem of the EU only when matters have reached such a critical point where the most radical reforms will pose as the only means of avoiding total destruction.
+
+This of course holds true only if all other things remain equal, which is a brave hypothesis. The variable, unpredictable factors in this power struggle are two: the markets and the people. Both can react in ways that can destabilize and render obsolete any grand plan for a different Europe. The spread of fear among the people who are subject to draconian austerity and the exponentially increasing uncertainty in the markets might lead to reactions much different from those that our leaders expect and thus put an abrupt end to their visions and plans. I am not suggesting that we are facing a three-way conflict of politicians, markets and people. I am only pointing to the fact that the current handling of the crisis is verging on a fine line and any imbalance could jeopardize not just the plans themselves but above all the integrity of the EU/Eurozone. I am not arguing for or against the visions of Ms. Merkel and others, I am only saying that this is a potentially very dangerous game and I find it unwise to gamble on the fate of a European Union that took decades to construct and which, despite all its flaws, is a much better place to live than the blood-stained first half of the 20th century.
+
+The crisis is profoundly political and even if the ideal plan to deal with its economic dimension is devised, it will still have to face the challenge of withstanding the pressures of the complex political world of the EU. There is no easy way out of our troubles, there are no magical solutions, no means of escaping from the tides of the crisis unharmed. There certainly are rational plans by respected experts to counter the spiraling crisis, yet either we like it or not the crisis is above all handled by politicians, whose agendas and mode of thinking and acting vary considerably from that of academics. Since this is how things stand politicians ought to realize the responsibility they hold in their hands and the historic moments we are now living in. Out of this political crisis we might well end up with a much better Europe or with a deeply divided Europe, plunged into uncertainty, underdevelopment and &#8220;wars&#8221; of attrition.

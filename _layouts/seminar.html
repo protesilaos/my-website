@@ -1,0 +1,78 @@
+---
+layout: default
+---
+<article class="post">
+
+	<div class="post-inner">
+
+		<div class="post-header">
+			<h1>{{ page.title }}</h1>
+			{% if page.subtitle %}
+				<h2 class="subtitle">{{ page.subtitle }}</h2>
+			{% endif %}
+			<div class="post-header-meta">
+				{% if page.lecturetheme %}
+					<h4>{{ page.lecturetheme }} ({{ page.lecture }})</h4>
+				{% endif %}
+				<time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: site.date_format }}</time>
+			</div>
+		</div>
+
+		<div class="post-body">
+
+			<div class="medialayer">
+				<div class="mediaframe">
+					<div class="mediawrapper">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ page.mediaid }}?rel=0&amp;showinfo=0" allowfullscreen></iframe>
+					</div>
+				</div>
+			</div>
+
+			{{ content }}
+		</div>
+
+	</div>
+
+</article>
+
+<div class="post-footer">
+  <div class="post-footer-inner">
+    {% capture the_collection %}{{ page.collection }}{% endcapture %}
+
+    {% if page.collection %}
+      {% assign document = site[the_collection] | where: 'layout', 'seminar' | sort:'date' %}
+    {% endif %}
+
+    {% for links in document %}
+      {% if links.title == page.title %}
+        {% unless forloop.first %}
+          {% assign prevurl = prev.url %}
+          {% assign prevtitle = prev.title %}
+        {% endunless %}
+        {% unless forloop.last %}
+          {% assign next = document[forloop.index] %}
+          {% assign nexttitle = next.title %}
+          {% assign nexturl = next.url %}
+        {% endunless %}
+      {% endif %}
+      {% assign prev = links %}
+    {% endfor %}
+
+    <div id="seminars-nextprev" class="nextprev clearfix">
+      {% if nexturl %}
+      <div class="nextprev-item">
+        <span class="nextprev-link">Next:</span><a class="next" rel="next" href="{{nexturl}}">{{ nexttitle }}</a>
+      </div>
+      {% endif %}
+      {% if prevurl %}
+      <div class="nextprev-item">
+        <span class="nextprev-link">Previous:</span><a class="prev" rel="prev" href="{{prevurl}}">{{ prevtitle }}</a>
+      </div>
+      {% endif %}
+      <div class="nextprev-item">
+        <span class="nextprev-link">See all:</span> <a href="/seminars/">Seminar items</a>
+      </div>
+    </div>
+
+  </div>
+</div>

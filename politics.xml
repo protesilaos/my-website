@@ -1,0 +1,26 @@
+---
+layout: none
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>{{ site.title | smartify | strip_html | normalize_whitespace | escape_xml }}: Political Writings</title>
+    <description>Political Writings</description>
+    <link>{{ "politics" | absolute_url }}</link>
+    <atom:link href="{{ page.url | absolute_url }}" rel="self" type="application/rss+xml"/>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    {% assign politics = site.politics | sort: 'date' | reverse %}
+    {% for i in politics %}
+    <item>
+      <title>{{ i.title | smartify | strip_html | normalize_whitespace | escape_xml }}</title>
+      <description>{{ i.excerpt | xml_escape }}</description>
+      <pubDate>{{ i.date | date_to_rfc822 }}</pubDate>
+      <link>{{ i.url | prepend: site.baseurl | prepend: site.url }}</link>
+      <guid isPermaLink="true">{{ i.url | prepend: site.baseurl | prepend: site.url }}</guid>
+      <content:encoded><![CDATA[{{ i.content | strip | escape_xml }}]]></content:encoded>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>
