@@ -27,6 +27,7 @@ advanced customisations.
 Since August 2020, the Modus themes (`modus-operandi`, `modus-vivendi`)
 are built into Emacs version 28 or higher.
 
++ Package name (GNU ELPA): `modus-themes`
 + Official manual: <https://protesilaos.com/emacs/modus-themes>
 + Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
 + Sample pictures: <https://protesilaos.com/emacs/modus-themes-pictures>
@@ -41,6 +42,7 @@ third-party options.
 
 Requires Emacs version 28 or higher.
 
++ Package name (GNU ELPA): `mct`
 + Official manual: <https://protesilaos.com/emacs/mct>
 + Git repo: <https://gitlab.com/protesilaos/mct>
 
