@@ -24,13 +24,13 @@ pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2021-10-22.  Any reference to a newer
+0.2.0, released on 2021-11-12.  Any reference to a newer
 feature which does not yet form part of the latest tagged commit, is
 explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.2.0-dev.
+Current development target is 0.3.0-dev.
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -124,21 +124,44 @@ a blocklist and a passlist for commands are on offer:
 
 <ul class="org-ul">
 <li>The blocklist (<code>mct-completion-blocklist</code>) disables the live-updating
-functionality for the commands specified therein.</li>
+functionality for the functions specified therein.</li>
 </ul>
 
 <ul class="org-ul">
 <li>The passlist (<code>mct-completion-passlist</code>) always shows the Completions&rsquo;
-buffer for the designated command without accounting for the minimum
+buffer for the designated function without accounting for the minimum
 input threshold.</li>
 </ul>
 
 <p>
-To inhibit live completion in the first place, <code>mct-live-completion</code>
-can be set to nil.  Given this customization, the Completions&rsquo; buffern
-is only displayed when requested manually.  <code>mct-completion-passlist</code>
-takes precedence over this option.
+The user option <code>mct-live-completion</code> controls the overall behaviour of
+the Completions&rsquo; buffer:
 </p>
+
+<ul class="org-ul">
+<li>When nil, the user has to manually request completions, using the
+regular activating commands.  The Completions&rsquo; buffer is never updated
+live to match user input.  Updating has to be handled manually.  This
+is like the out-of-the-box minibuffer completion experience.</li>
+
+<li>When set to the value <code>visible</code>, the Completions&rsquo; buffer is live
+updated only if it is visible.  The actual display of the completions
+is still handled manually.  For this reason, the <code>visible</code> style does
+not read the <code>mct-minimum-input</code>, meaning that it will always try to
+live update the visible completions, regardless of input length.</li>
+
+<li>When non-nil (the default), the Completions&rsquo; buffer is automatically
+displayed once the <code>mct-minimum-input</code> is met and is hidden once the
+input drops below that threshold.  While visible, the buffer is
+updated live to match the user input.</li>
+
+<li>Note that every function in the <code>mct-completion-passlist</code> ignores this
+option altogether.  This means that every such command will always
+show the Completions&rsquo; buffer automatically and will always update its
+contents live.  Same principle for every function declared in the
+<code>mct-completion-blocklist</code>, which will always disable both the automatic
+display and live updating of the Completions&rsquo; buffer.</li>
+</ul>
 
 <p>
 Other customisations:
@@ -193,7 +216,7 @@ commands for cycling between the minibuffer and the completions.
 Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orge932516">
+<pre class="example" id="orgc685c2e">
 -----------------
 |               |
 |               |
@@ -664,9 +687,9 @@ to extend local keymaps by studying <code>icomplete.el</code>.
 </p>
 
 <p>
-I used Icomplete for several months prior to switching to what would
-eventually become <code>mct.el</code>.  I think it is excellent at providing a thin
-layer over the built-in infrastructure.
+I had used Icomplete for several months before moving to what now has
+become <code>mct.el</code>.  I think it is excellent at providing a thin layer over
+the built-in infrastructure.
 </p></dd>
 </dl>
 </div>
@@ -685,8 +708,8 @@ MCT is meant to be a collective effort.  Every bit of help matters.
 <dt>Contributions to code or documentation</dt><dd>James Norman Vladimir Cash,
 Philip Kaludercic.</dd>
 
-<dt>Ideas and user feedback</dt><dd>Kostadin Ninev, Manuel Uberti, Philip
-Kaludercic.</dd>
+<dt>Ideas and user feedback</dt><dd>Jonathan Irving, Kostadin Ninev, Manuel
+Uberti, Philip Kaludercic.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
