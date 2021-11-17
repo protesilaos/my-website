@@ -38,7 +38,7 @@ Current development target is 0.3.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:efc32d6b-9405-4f3c-9560-3229b3ce3866">1. COPYING</a></li>
-<li><a href="#h:ba224631-618c-4e52-b373-e46970cb2242">2. Overview of mct.el</a></li>
+<li><a href="#h:ba224631-618c-4e52-b373-e46970cb2242">2. Overview of MCT</a></li>
 <li><a href="#h:884d6702-8666-4d89-87a2-7d74843653f3">3. Usage</a>
 <ul>
 <li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">3.1. Cyclic behaviour</a></li>
@@ -49,7 +49,11 @@ Current development target is 0.3.0-dev.
 <li><a href="#h:1b501ed4-f16c-4118-9a4a-7a5e29143077">4. Installation</a></li>
 <li><a href="#h:318ba6f8-2909-44b0-9bed-558552722667">5. Sample setup</a></li>
 <li><a href="#h:b3178edd-f340-444c-8426-fe84f23ac9ea">6. Keymaps</a></li>
-<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">7. Extensions</a></li>
+<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">7. Extensions</a>
+<ul>
+<li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">7.1. Enable Consult previews</a></li>
+</ul>
+</li>
 <li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">8. Alternatives</a></li>
 <li><a href="#h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">9. Acknowledgements</a></li>
 <li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">10. GNU Free Documentation License</a></li>
@@ -90,12 +94,12 @@ modify this GNU manual.”
 </div>
 
 <div id="outline-container-h:ba224631-618c-4e52-b373-e46970cb2242" class="outline-2">
-<h2 id="h:ba224631-618c-4e52-b373-e46970cb2242"><span class="section-number-2">2.</span> Overview of mct.el</h2>
+<h2 id="h:ba224631-618c-4e52-b373-e46970cb2242"><span class="section-number-2">2.</span> Overview of MCT</h2>
 <div class="outline-text-2" id="text-h:ba224631-618c-4e52-b373-e46970cb2242">
 <p>
 Minibuffer and Completions in Tandem, also known as &ldquo;MCT&rdquo;, &ldquo;Mct&rdquo;, <code>mct</code>,
 or <code>mct.el</code>, is a package that enhances the default minibuffer and
-<code>*Completions*</code> buffer of Emacs 28 (or higher) so that they work together
+<code>*Completions*</code> buffer of Emacs 27 (or higher) so that they work together
 as part of a unified framework.  The idea is to make the presentation
 and overall functionality be consistent with other popular, vertically
 aligned completion UIs while leveraging built-in functionality.
@@ -216,7 +220,7 @@ commands for cycling between the minibuffer and the completions.
 Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orgc685c2e">
+<pre class="example" id="org48ab4a9">
 -----------------
 |               |
 |               |
@@ -342,7 +346,8 @@ its default value of <code>one-column</code>.  The other formats show completion
 in a grid view, which makes navigation based on line numbers
 imprecise.
 </p></li>
-<li>In prompts that allow the selection of multiple candidates
+<li><p>
+In prompts that allow the selection of multiple candidates
 (internally via the <code>completing-read-multiple</code> function) a <code>[CRM]</code> label
 is added to the text of the prompt.  The user thus knows that
 pressing <code>M-RET</code> (<code>mct-choose-completion-dwim</code>) in the <code>*Completions*</code> will
@@ -352,7 +357,13 @@ the aforementioned applicable methods can confirm the final
 selection.  If, say, you want to pick a total of three candidates, do
 <code>M-RET</code> for the first two and <code>RET</code> (<code>mct-choose-completion-exit</code>) for the
 last one.  In contexts that are not CRM-powered, the <code>M-RET</code> has the
-same effect as <code>TAB</code> (<code>mct-choose-completion-no-exit</code>).</li>
+same effect as <code>TAB</code> (<code>mct-choose-completion-no-exit</code>).
+</p></li>
+<li>When point is at the minibuffer, select the current candidate in
+the completions buffer with <code>C-RET</code> (<code>mct-complete-and-exit</code>), which
+has the same effect as first completing with <code>TAB</code> and then
+immediately exit the minibuffer with the completed candidate as the
+selected one.</li>
 </ol>
 </div>
 </div>
@@ -363,11 +374,15 @@ same effect as <code>TAB</code> (<code>mct-choose-completion-no-exit</code>).</l
 <ul class="org-ul">
 <li><p>
 Emacs 28 has the ability to group candidates inside the completions&rsquo;
-buffer under headings.  MCT provides motions that jump between such
-heading, placing the point at the first candidate right below the
-heading&rsquo;s text.  Use <code>M-n</code> (<code>mct-next-completion-group</code>) and <code>M-p</code>
+buffer under headings.  For example, the Consult package makes good
+use of those (<a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).  MCT provides motions that jump between
+such headings, placing the point at the first candidate right below
+the heading&rsquo;s text.  Use <code>M-n</code> (<code>mct-next-completion-group</code>) and <code>M-p</code>
 (<code>mct-previous-completion-group</code>) to move to the next or previous one,
-respectively.  Both commands accept an optional numeric argument.
+respectively.  Both commands accept an optional numeric argument.  For
+the sake of avoiding surprises, these commands do not cycle between
+the completions and the minibuffer: they stop at the first or last
+heading.
 </p></li>
 <li>When using completion categories that involve file paths, such as
 <code>find-file</code>, the backspace key (<code>DEL</code>) goes up a directory if point is
@@ -496,14 +511,15 @@ Other useful extras from the Emacs source code (read their doc strings):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Add `orderless' to the completion styles, if you have it installed.
-(setq completion-styles
+<pre class="src src-emacs-lisp">(setq completion-styles
       '(basic substring initials flex partial-completion))
 (setq completion-category-overrides
-        '((file (styles . (basic partial-completion initials substring)))))
+      '((file (styles . (basic partial-completion initials substring)))))
 
 (setq completion-cycle-threshold 2)
 (setq completion-ignore-case t)
+(setq completion-show-inline-help nil)
+
 (setq completions-detailed t)
 
 (setq enable-recursive-minibuffers t)
@@ -526,6 +542,29 @@ Other useful extras from the Emacs source code (read their doc strings):
 (setq history-delete-duplicates t)
 (setq savehist-save-minibuffer-history t)
 (add-hook 'after-init-hook #'savehist-mode)
+
+;;; Extensions
+
+;;;; Enable Consult previews in the Completions buffer.
+;; Requires the Consult package.
+(add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
+
+;;;; Setup for Orderless
+;; Requires the Orderless package
+
+;; We make the SPC key insert a literal space and the same for the
+;; question mark.  Spaces are used to delimit orderless groups, while
+;; the quedtion mark is a valid regexp character.
+(let ((map minibuffer-local-completion-map))
+  (define-key map (kbd "SPC") nil)
+  (define-key map (kbd "?") nil))
+
+;; Because SPC works for Orderless and is trivial to activate, I like to
+;; put `orderless' at the end of my `completion-styles'.  Like this:
+(setq completion-styles
+      '(basic substring initials flex partial-completion orderless))
+(setq completion-category-overrides
+      '((file (styles . (basic partial-completion orderless)))))
 </pre>
 </div>
 </div>
@@ -582,6 +621,22 @@ all known types of completion candidates.</dd>
 patterns (regexp, flex, initialism, etc.) regardless of the order they
 appear in.</dd>
 </dl>
+</div>
+
+<div id="outline-container-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62" class="outline-3">
+<h3 id="h:85268cb1-9d49-452c-ba5f-c9215d4b8b62"><span class="section-number-3">7.1.</span> Enable Consult previews</h3>
+<div class="outline-text-3" id="text-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">
+<p>
+One of the nice features of the Consult package is the ability to
+preview the candidate at point.  All we need to enable it in the
+<code>*Completions*</code> buffer is the following snippet:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
+</pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -660,8 +715,10 @@ the generic <code>*Completions*</code> buffer.
 </p>
 
 <p>
-For users who are on Emacs 27, Elmo is a better choice because MCT
-only works as intended with Emacs 28 or higher.
+For users who are on Emacs 27 and who need a single-column view, Elmo
+is a better choice because MCT can only display such a view on Emacs
+28 or higher (though it has been meticulously tested with the grid
+views of Emacs 27 and should work perfectly fine with them).
 </p></dd>
 
 <dt>Icomplete and fido-mode (built-in, multiple authors)</dt><dd><p>
@@ -706,10 +763,10 @@ MCT is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or documentation</dt><dd>James Norman Vladimir Cash,
-Philip Kaludercic.</dd>
+José Antonio Ortega Ruiz, Philip Kaludercic.</dd>
 
-<dt>Ideas and user feedback</dt><dd>Jonathan Irving, Kostadin Ninev, Manuel
-Uberti, Philip Kaludercic.</dd>
+<dt>Ideas and user feedback</dt><dd>Jonathan Irving, José Antonio Ortega Ruiz,
+Kostadin Ninev, Manuel Uberti, Philip Kaludercic.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
