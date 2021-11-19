@@ -40,10 +40,11 @@ essence, MCT is glue code that combines built-in functionalities to make
 the default completion framework work like that of more featureful
 third-party options.
 
-Requires Emacs version 28 or higher.
+Requires Emacs version 27 or higher.
 
 + Package name (GNU ELPA): `mct`
 + Official manual: <https://protesilaos.com/emacs/mct>
++ Change log: <https://protesilaos.com/emacs/mct-changelog>
 + Git repo: <https://gitlab.com/protesilaos/mct>
 
 ## LIN Is Noticeable
