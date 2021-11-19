@@ -1,0 +1,365 @@
+---
+layout: page
+title: 'Change Log of the Minibuffer and Completions in Tandem (MCT)'
+excerpt: "The Minibuffer and Completions in Tandem (MCT) package provides enhancements to the default minibuffer completion UI."
+permalink: /emacs/mct-changelog
+---
+
+<p>
+This document contains the release notes that are included in each
+tagged commit on the project's main git repository:
+<a href="https://gitlab.com/protesilaos/mct">https://gitlab.com/protesilaos/mct</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.
+</p>
+
+<div id="outline-container-h:902574cf-edf0-4182-9d34-5e8e28730193" class="outline-2">
+<h2 id="h:902574cf-edf0-4182-9d34-5e8e28730193">Version 0.3.0 on 2021-11-19</h2>
+<div class="outline-text-2" id="text-h:902574cf-edf0-4182-9d34-5e8e28730193">
+<p>
+This entry describes the changes to Minibuffer and Completions in Tandem
+(mct) since the release of <a href="#h:4fab7648-d672-4af3-90b5-74242292f633">version 0.2.0 on 2021-11-12</a>.  There have been
+more than 40 commits since then.  For further details, please consult
+the manual online: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.  Or evaluate
+the following expression if you have the <code>mct</code> package installed:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(info "(mct) Top")
+</pre>
+</div>
+
+<p>
+As this release is a continuation of version <code>0.2.0</code>, the changelog for
+that version is also provided below (I released version <code>0.2.0</code> earlier
+than anticipated so that users could get a stable package on GNU ELPA).
+Here is a brief description of what has been achieved in <code>0.3.0</code>.
+</p>
+</div>
+
+<div id="outline-container-org21dd9a4" class="outline-3">
+<h3 id="org21dd9a4">MCT on Emacs 27</h3>
+<div class="outline-text-3" id="text-org21dd9a4">
+<ul class="org-ul">
+<li>MCT now works on Emacs 27.  This was not possible in the past because
+<code>mct-mode</code> was originally designed to operate with the <code>one-column</code> style
+of the <code>completions-format</code>, which was added in Emacs 28.  To make
+everything behave intuitively, several parts had to be abstracted and
+refactored (the changelog of version <code>0.2.0</code> (further below) covers
+everything not mentioned here).</li>
+
+<li>The scenaria where the functionality was thoroughly tested involve all
+the available formats and cover commands that fulfil the following
+criteria:
+
+<ul class="org-ul">
+<li>Plain completion candidates, as in <code>switch-to-buffer</code>.</li>
+<li>Dynamic completion like that of <code>find-file</code>.</li>
+<li>Annotated candidates, as seen in <code>describe-symbol</code> for versions of
+Emacs 28 or higher.</li>
+<li>Commands where candidates are grouped by heading, as done by various
+extensions of the <code>consult</code> package, such as <code>consult-imenu</code>.</li>
+<li>Commands where no completion category is associated with them.</li>
+</ul></li>
+
+<li>The only change which is visible to the user is the implementation
+of a bespoke overlay to highlight the current candidate.  In
+previous versions, this was provided by the built-in <code>hl-line-mode</code>,
+though that does not work as intended with either the <code>vertical</code> or
+<code>horizontal</code> layouts of the <code>completions-format</code> as it covers the whole
+line instead of the candidate at point.</li>
+
+<li>The highlight extends to the edge of the window when the <code>one-column</code>
+format is used for the <code>completions-format</code> (Emacs 28 or higher).  In
+the other views it stretches from the beginning to the end of the
+completion candidate.</li>
+
+<li>Thanks to Case Duckworth for the initial request and subsequent
+testing in issue 1: <a href="https://gitlab.com/protesilaos/mct/-/issues/1">https://gitlab.com/protesilaos/mct/-/issues/1</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdaad555" class="outline-3">
+<h3 id="orgdaad555">Miscellaneous changes</h3>
+<div class="outline-text-3" id="text-orgdaad555">
+<ul class="org-ul">
+<li>There is a new command that is active in the minibuffer which allows
+to complete and exit immediately: <code>C-RET</code> (<code>mct-complete-and-exit</code>).  This
+economises on key presses when all the user wants is to select the
+top-most candidate (or last highlighted one) without first switching
+to the Completions' buffer and then confirming it from there (<code>RET</code> in
+the <code>*Completions*</code> buffer completes and exits directly).
+
+<ul class="org-ul">
+<li>Thanks to José Antonio Ortega Ruiz for the contribution in merge
+requests 3 and 4 as discussed in issue 8:
+
+<ul class="org-ul">
+<li><a href="https://gitlab.com/protesilaos/mct/-/merge_requests/3">https://gitlab.com/protesilaos/mct/-/merge_requests/3</a></li>
+<li><a href="https://gitlab.com/protesilaos/mct/-/merge_requests/4">https://gitlab.com/protesilaos/mct/-/merge_requests/4</a></li>
+<li><a href="https://gitlab.com/protesilaos/mct/-/issues/8">https://gitlab.com/protesilaos/mct/-/issues/8</a></li>
+</ul></li>
+
+<li>Note that "exit" in this context denotes the process of terminating
+the session while accepting the current input.  The term used to
+quit without accepting the input is "abort".</li>
+</ul></li>
+
+<li>The <code>mct-mode</code> does not get activated in contexts where (i) the
+minibuffer is involved but (ii) no completion takes place.  For
+example, the <code>eval-expression</code> command (bound to <code>M-:</code> by default).</li>
+
+<li><code>mct-mode</code> no longer remaps the faces of the <code>display-line-numbers-mode</code>.
+This was a useful experiment from the early days of the code base,
+although it is bad practice for a user-facing package.</li>
+
+<li>Various tweaks and refinements to the manual.</li>
+
+<li>Retroactive introduction of a CHANGELOG.org file and coverage of all
+noteworthy changes hitherto.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:4fab7648-d672-4af3-90b5-74242292f633" class="outline-2">
+<h2 id="h:4fab7648-d672-4af3-90b5-74242292f633">Version 0.2.0 on 2021-11-12</h2>
+<div class="outline-text-2" id="text-h:4fab7648-d672-4af3-90b5-74242292f633">
+<p>
+This entry describes the changes to Minibuffer and Completions in Tandem
+(mct) since the release of <a href="#h:a4b2152a-96e2-46fc-b9e0-ba223028118f">version 0.1.0 on 2021-10-22</a>.  There have been
+70 commits since then.  For further details, please consult the manual
+online: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.  Or evaluate the following
+expression if you have the <code>mct</code> package installed:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(info "(mct) Top")
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:0fb1fb23-636f-41f3-97bf-880d83ac42e0" class="outline-3">
+<h3 id="h:0fb1fb23-636f-41f3-97bf-880d83ac42e0">Packaged version of MCT</h3>
+<div class="outline-text-3" id="text-h:0fb1fb23-636f-41f3-97bf-880d83ac42e0">
+<p>
+<code>mct</code> is now available on the official GNU ELPA archive for users of Emacs
+version 28 or higher.  One can install the package without any further
+configuration.  The following commands shall suffice:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install RET mct
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:97eba994-45ad-4f86-945f-a60772f764b5" class="outline-3">
+<h3 id="h:97eba994-45ad-4f86-945f-a60772f764b5">Changes to the format and placement of the Completions</h3>
+<div class="outline-text-3" id="text-h:97eba994-45ad-4f86-945f-a60772f764b5">
+<ul class="org-ul">
+<li><p>
+The user option <code>mct-live-completion</code> controls how and when the
+Completions' buffer should be placed in a window and be updated live
+in response to user feedback.  Copying from the doc string:
+</p>
+
+<blockquote>
+<p>
+mct-live-completion is a variable defined in ‘mct.el’.
+</p>
+
+<p>
+Its value is t
+</p>
+
+<p>
+Control auto-display and live-update of Completions' buffer.
+</p>
+
+<p>
+When nil, the user has to manually request completions, using the
+regular activating commands.  The Completions' buffer is never updated
+live to match user input.  Updating has to be handled manually.  This
+is like the out-of-the-box minibuffer completion experience.
+</p>
+
+<p>
+When set to the value <code>visible</code>, the Completions' buffer is live
+updated only if it is visible.  The actual display of the completions
+is still handled manually.  For this reason, the <code>visible</code> style does
+not read the <code>mct-minimum-input</code>, meaning that it will always try to
+live update the visible completions, regardless of input length.
+</p>
+
+<p>
+When non-nil (the default), the Completions' buffer is automatically
+displayed once the <code>mct-minimum-input</code> is met and is hidden if the
+input drops below that threshold.  While visible, the buffer is
+updated live to match the user input.
+</p>
+
+<p>
+Note that every function in the <code>mct-completion-passlist</code> ignores this
+option altogether.  This means that every such command will always
+show the Completions' buffer automatically and will always update its
+contents live.  Same principle for every function declared in the
+<code>mct-completion-blocklist</code>, which will always disable both the
+automatic display and live updating of the Completions' buffer.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Thanks to Jonathan Irving for the feedback in issue 4:
+<a href="https://gitlab.com/protesilaos/mct/-/issues/4">https://gitlab.com/protesilaos/mct/-/issues/4</a>.</li>
+</ul></li>
+
+<li>As with all buffers, the placement of the <code>*Completions*</code> can be
+controlled with the <code>display-buffer</code> machinery.  The default is to show
+the completions at the bottom of the frame, though users can easily
+move it to, say, the left side window.  The doc string of the user
+option <code>mct-display-buffer-action</code> explains how to do so.
+
+<ul class="org-ul">
+<li>Thanks to Philip Kaludercic for the initial implementation in commit
+<code>436b24e</code> (was sent via email as a patch).</li>
+
+<li>Thanks to Kostadin Ninev for reporting a bug where the Completions'
+buffer would proliferate during completion:
+<a href="https://gitlab.com/protesilaos/mct/-/issues/3">https://gitlab.com/protesilaos/mct/-/issues/3</a>.  It was fixed by
+Philip Kaludercic in commit <code>51c1e17</code>.</li>
+</ul></li>
+
+<li>MCT now supports all the available styles of the <code>completions-format</code>,
+whereas the original design was only meant to work with the value
+<code>one-column</code>, which was introduced in Emacs 28.  The user option is
+<code>mct-completions-format</code>.  If that variable is set with <code>setq</code>, the
+<code>mct-mode</code> has to be restarted manually for changes to take effect
+(setting the variable through <code>customize-set-variable</code> (and related)
+handles the mode reloading automatically).
+
+<ul class="org-ul">
+<li>Thanks to Philip Kaludercic for the patch in commit <code>b392b0b</code>.</li>
+
+<li>Several changes were then made to ensure that the cyclic motions
+that move between the <code>*Completions*</code> and the minibuffer work
+intuitively in a grid view.  In short: <code>C-n</code>, <code>C-p</code> or the down/up arrow
+keys, perform a vertical motion, while the left/right arrow keys
+move laterally.  Prior to those changes, <code>C-n</code> or down arrow as well
+as <code>C-p</code> or up arrow, would perform a lateral motion as that is
+internally the meaning of the next/previous completion candidate.</li>
+
+<li>The command <code>mct-choose-completion-number</code> was updated to throw a user
+error when a grid view is active.  That is because it is designed to
+jump to a given line number, which only works as intended when there
+is only one candidate per line. (Perhaps a future release should
+overlay characters over candidates in the grid view to select them
+directly.)</li>
+</ul></li>
+
+<li>The <code>mct-mode</code> no longer sets the <code>completions-detailed</code> variable.  That
+is a matter of user preference.  It is not integral to the
+functionality of MCT.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org707fa9d" class="outline-3">
+<h3 id="org707fa9d">Group motions</h3>
+<div class="outline-text-3" id="text-org707fa9d">
+<ul class="org-ul">
+<li>Emacs 28 provides infrastructure for commands to group candidates
+based on their contents.  These groups can have their own heading in
+the Completions' buffer, as well as a separator.  Overall, it makes
+things look more organised.  The commands <code>mct-next-completion-group</code>
+and <code>mct-previous-completion-group</code> move between those headings.  While
+in the <code>*Completions*</code> buffer, they are bound to <code>M-n</code> and <code>M-p</code>,
+respectively.  Thanks to James Norman Vladimir Cash for the
+contribution in merge request 2:
+<a href="https://gitlab.com/protesilaos/mct/-/merge_requests/2">https://gitlab.com/protesilaos/mct/-/merge_requests/2</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaab4b0f" class="outline-3">
+<h3 id="orgaab4b0f">Miscellaneous changes</h3>
+<div class="outline-text-3" id="text-orgaab4b0f">
+<ul class="org-ul">
+<li><p>
+The <code>TAB</code> key in the Completions' buffer never exits the minibuffer (the
+command is <code>mct-choose-completion-no-exit</code>).  Instead, it expands the
+current candidate in the minibuffer and switches focus to it.  Before,
+this behaviour would only happen in <code>find-file</code> and related prompts, but
+consistency/predictability is better.
+</p>
+
+<p>
+[ By contrast, <code>RET</code> (<code>mct-choose-completion-exit</code>) in the Completions
+  buffer always exits with the candidate at point. ]
+</p>
+
+<p>
+Note that in this context "exit" means to close the session and accept
+the current input.
+</p></li>
+
+<li>There is a new heuristic to deal with commands that <code>let</code> bind the
+<code>crm-separator</code> (e.g. <code>org-set-tags-command</code> sets the separator to <code>:</code>).
+This is used to make <code>M-RET</code> (<code>mct-choose-completion-dwim</code>) in the
+Completions buffer work in all <code>completing-read-multiple</code> contexts.
+Thanks to James Norman Vladimir Cash for contributing the heuristic in
+merge request 1:
+<a href="https://gitlab.com/protesilaos/mct/-/merge_requests/1">https://gitlab.com/protesilaos/mct/-/merge_requests/1</a>.</li>
+
+<li>The aforementioned <code>M-RET</code> command used to have the same effect as <code>RET</code>
+when not in a <code>completing-read-multiple</code> prompt ("CRM prompt").  This
+has now been revised to behave like <code>TAB</code> instead (as described further
+above), which is consistent with the ordinary behaviour of <code>M-RET</code> in
+CRM prompts where it appends the candidate at point to the minibuffer
+without exiting.</li>
+
+<li>The check for <code>display-line-numbers-mode</code> tests whether it is bound,
+thus avoiding possible errors.  Thanks to Philip Kaludercic for the
+patch in commit <code>6bd2457</code>.</li>
+
+<li>Made several improvements to doc strings and various snippets of code.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7caef0" class="outline-3">
+<h3 id="orgf7caef0">Updates to the manual</h3>
+<div class="outline-text-3" id="text-orgf7caef0">
+<ul class="org-ul">
+<li>All of the aforementioned were documented, where appropriate.</li>
+<li>A Makefile is now on offer, which is used to generate the mct.info and
+mct.texi files.  Thanks to Philip Kaludercic for the patch in commit
+<code>295bac0</code>.</li>
+<li>A sample setup is available for <code>mct</code> as well as several built-in
+options pertaining to the minibuffer.</li>
+<li>There are sections about third-party extensions as well as one that
+describes alternatives to MCT.  Thanks to Manuel Uberti for the
+feedback in issue 5: <a href="https://gitlab.com/protesilaos/mct/-/issues/5">https://gitlab.com/protesilaos/mct/-/issues/5</a>.</li>
+<li>The "Acknowledgements" section includes the names of people who have
+contributed to the project in one way or another (code, ideas, user
+feedback, &#x2026;).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:a4b2152a-96e2-46fc-b9e0-ba223028118f" class="outline-2">
+<h2 id="h:a4b2152a-96e2-46fc-b9e0-ba223028118f">Version 0.1.0 on 2021-10-22</h2>
+<div class="outline-text-2" id="text-h:a4b2152a-96e2-46fc-b9e0-ba223028118f">
+<p>
+Initial release.  The mct.el file derived from the now-deprecated
+prot-minibuffer.el (part of <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles</a>), which I had been using for
+more than six months full time.
+</p>
+</div>
+</div>
