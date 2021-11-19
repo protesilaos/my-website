@@ -36,9 +36,10 @@ are built into Emacs version 28 or higher.
 ## Minibuffer and Completions in Tandem (mct.el)
 
 Enhancements for the default minibuffer completion UI of Emacs.  In
-essence, MCT is glue code that combines built-in functionalities to make
-the default completion framework work like that of more featureful
-third-party options.
+essence, MCT is (i) a very thin layer of interactivity on top of the
+out-of-the-box completion experience, and (ii) glue code that combines
+built-in functionalities to make the default completion framework work
+like that of more featureful third-party options.
 
 Requires Emacs version 27 or higher.
 
