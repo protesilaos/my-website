@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-11-18 07:52 +0200</b>.</li>
+<li>Updated: <b>2021-11-25 09:58 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -83,7 +83,7 @@ redirect_from:
 <li><a href="#h:5723c4bb-ff6c-449f-bb60-be66fab3f137">3.1.7. Completion for recent files and directories (prot-recentf.el)</a></li>
 <li><a href="#h:98876022-57cc-40de-936e-4ee42cefd69a">3.1.8. In-buffer completions</a>
 <ul>
-<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.8.1. Corfu (Completion Overlay Region FUnction)</a></li>
+<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.8.1. Corfu (Completion Overlay Region FUnction) and CAPE</a></li>
 <li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.8.2. Dabbrev (dynamic word completion)</a></li>
 <li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.8.3. Skeletons and abbreviations</a></li>
 </ul>
@@ -2457,12 +2457,12 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;;
   ;; NOTE: these are not my preferences!  I am always testing various
   ;; configurations.  Though I still like what I have here.
-  (setq modus-themes-italic-constructs t
+  (setq modus-themes-italic-constructs nil
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts t
-        modus-themes-subtle-line-numbers t
-        modus-themes-intense-markup nil
-        modus-themes-success-deuteranopia t
+        modus-themes-subtle-line-numbers nil
+        modus-themes-intense-markup t
+        modus-themes-success-deuteranopia nil
         modus-themes-tabs-accented nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
@@ -2472,12 +2472,12 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; default), or a list of properties that may include any of those
         ;; symbols: `straight-underline', `text-also', `background',
         ;; `intense' OR `faint'.
-        modus-themes-lang-checkers nil
+        modus-themes-lang-checkers '(text-also straight-underline)
 
         ;; Options for `modus-themes-mode-line' are either nil, or a
         ;; list that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', `padded'.
-        modus-themes-mode-line '(3d) ; For Moody, also check `prot-moody'
+        modus-themes-mode-line nil ; For Moody, also check `prot-moody'
 
         ;; This one only works when `modus-themes-mode-line' (above) has
         ;; the `padded' property.  It takes a positive integer.
@@ -2486,7 +2486,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax nil
+        modus-themes-syntax '(yellow-comments green-strings)
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2508,11 +2508,11 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; default), or a list of properties that may include any of
         ;; those symbols: `background', `bold', `gray', `intense',
         ;; `italic'
-        modus-themes-prompts '(background bold)
+        modus-themes-prompts '(background gray intense)
 
         modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
 
-        modus-themes-mail-citations 'monochrome ; {nil,'faint,'monochrome}
+        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -3143,7 +3143,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org643b326">
+<pre class="example" id="org6448f67">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3210,7 +3210,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org0dbc67d">
+<pre class="example" id="org09f53eb">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6290,7 +6290,7 @@ Add this function to `recentf-keep'."
 <div class="outline-text-4" id="text-h:98876022-57cc-40de-936e-4ee42cefd69a">
 </div>
 <div id="outline-container-h:675ebef4-d74d-41af-808d-f9579c2a5ec4" class="outline-5">
-<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.8.1.</span> Corfu (Completion Overlay Region FUnction)</h5>
+<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.8.1.</span> Corfu (Completion Overlay Region FUnction) and CAPE</h5>
 <div class="outline-text-5" id="text-h:675ebef4-d74d-41af-808d-f9579c2a5ec4">
 <p>
 <code>corfu</code> is another nimble package by Daniel Mendler (author of Consult and
@@ -6349,6 +6349,13 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
+<p>
+Finally, the <code>cape</code> package, also by Daniel, adds some more backends for
+the aforementioned CAPF facility.  They make Corfu work in more
+contexts.  Basically, this is the sort of thing that you set up and it
+"just works".
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
@@ -6356,6 +6363,12 @@ read that variable's doc string).
                    shell-mode-hook eshell-mode-hook))
     (add-hook mode #'corfu-mode))
   (define-key corfu-map (kbd "&lt;tab&gt;") #'corfu-complete))
+
+(prot-emacs-elpa-package 'cape
+  (dolist (backend '( cape-abbrev-capf cape-keyword-capf
+                      cape-dict-capf cape-ispell-capf cape-file-capf
+                      cape-dabbrev-capf))
+    (add-to-list 'completion-at-point-functions backend)))
 </pre>
 </div>
 </div>
@@ -14184,7 +14197,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgbda31af">
+<pre class="example" id="orgc1adb03">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14196,7 +14209,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org97bcfa3">
+<pre class="example" id="org992010a">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14211,7 +14224,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgdba616e">
+<pre class="example" id="orge95585c">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14229,7 +14242,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgec317f5">
+<pre class="example" id="org1f72150">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14258,7 +14271,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgda530b2">
+<pre class="example" id="orgf8ce388">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14422,7 +14435,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org6212550">
+<pre class="example" id="org9837f99">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15150,7 +15163,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org8885bec">
+<pre class="example" id="org3b6beae">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15184,7 +15197,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org804429b">
+<pre class="example" id="orgad72fac">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15348,7 +15361,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgcac3f3d">
+<pre class="example" id="orgdff32be">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15543,7 +15556,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org99dd1fa">
+<pre class="example" id="org24de74f">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16779,7 +16792,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgf24b3c9">
+<pre class="example" id="org9d2a520">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17751,7 +17764,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org514ce4f">
+<pre class="example" id="org307649f">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18450,7 +18463,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgcddbaf6">
+<pre class="example" id="org9981838">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21624,7 +21637,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org45849da">
+<pre class="example" id="orge57ebab">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23378,7 +23391,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orge0e6167">
+<pre class="example" id="orga733db2">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23800,7 +23813,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org733bdfc">
+<pre class="example" id="orgb85c18a">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23809,7 +23822,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org7aba4ea">
+<pre class="example" id="orgc652f0f">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23834,7 +23847,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orga932a61">
+<pre class="example" id="org58e27db">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -23894,7 +23907,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org09f8109">
+<pre class="example" id="orge168970">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23919,7 +23932,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgfca73a9">
+<pre class="example" id="orgbde0eb5">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23928,7 +23941,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orga656e87">
+<pre class="example" id="org5c1ee51">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -23947,7 +23960,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgbcf93cd">
+<pre class="example" id="orgac2e298">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
