@@ -37,10 +37,14 @@ Current development target is 0.2.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:33b423a6-1b89-40a3-bbbc-1524138be3a4">1. COPYING</a></li>
-<li><a href="#h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">2. Overview LIN (lin.el)</a></li>
+<li><a href="#h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">2. Overview LIN</a></li>
 <li><a href="#h:7b68abd3-a854-4b72-b704-05ca013dfa7f">3. Installation</a></li>
 <li><a href="#h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">4. Sample usage</a></li>
-<li><a href="#h:4598ee11-bd6d-4ed4-baca-883b896ac3d6">5. Customize LIN faces</a></li>
+<li><a href="#h:4598ee11-bd6d-4ed4-baca-883b896ac3d6">5. Customize LIN faces</a>
+<ul>
+<li><a href="#h:6bb11a50-cca9-49ca-9ea0-9d26c9324068">5.1. Use system colors on macOS</a></li>
+</ul>
+</li>
 <li><a href="#h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">6. Acknowledgements</a></li>
 <li><a href="#h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">7. GNU Free Documentation License</a></li>
 <li><a href="#h:129e593a-a85a-4616-bc18-c58a83d05b88">8. Indices</a>
@@ -80,7 +84,7 @@ modify this GNU manual.”
 </div>
 
 <div id="outline-container-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87" class="outline-2">
-<h2 id="h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87"><span class="section-number-2">2.</span> Overview LIN (lin.el)</h2>
+<h2 id="h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87"><span class="section-number-2">2.</span> Overview LIN</h2>
 <div class="outline-text-2" id="text-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">
 <p>
 LIN locally remaps the <code>hl-line</code> face to a style that is optimal for major
@@ -164,16 +168,19 @@ Everything is in place to set up the package.
 </div>
 
 <p>
-Or for more mode hooks:
+To activate <code>lin-mode</code> on all modes where it makes sense:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'lin)
-
-(dolist (hook '(elfeed-search-mode-hook notmuch-search-mode-hook))
-  (add-hook hook #'lin-mode))
+(lin-add-to-many-modes)
 </pre>
 </div>
+
+<p>
+The customization option <code>lin-foreign-hooks</code> lets you configure the
+list of hooks affected by <code>lin-add-to-many-modes</code>.
+</p>
 
 <p>
 Else invoke <code>lin-mode</code> interactively.
@@ -229,6 +236,89 @@ switching between Modus Operandi and Vivendi):
 </pre>
 </div>
 </div>
+
+<div id="outline-container-h:6bb11a50-cca9-49ca-9ea0-9d26c9324068" class="outline-3">
+<h3 id="h:6bb11a50-cca9-49ca-9ea0-9d26c9324068"><span class="section-number-3">5.1.</span> Use system colors on macOS</h3>
+<div class="outline-text-3" id="text-h:6bb11a50-cca9-49ca-9ea0-9d26c9324068">
+<p>
+On macOS, it is possible to use named system colors. For a list of
+available colors, see <a href="https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/">Apple&rsquo;s Human Interface Guidelines</a>.
+</p>
+
+<p>
+To use macOS&rsquo;s named colors for selections as LIN&rsquo;s background and
+foreground instead of specifying color values directly, tweak the two
+LIN faces:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(when (memq window-system '(mac ns))
+  (set-face-attribute 'lin-hl nil
+                      :background "selectedContentBackgroundColor")
+
+  ;; To also override the foreground (see `lin-override-foreground'):
+  (set-face-attribute 'lin-hl-override-fg nil
+                      :foreground "alternateSelectedControlTextColor"
+                      :background "selectedContentBackgroundColor"))
+</pre>
+</div>
+
+<p>
+Note that these named colors are &ldquo;Dynamic System Colors&rdquo;: in dark
+mode, they produce a different value than in light mode. That means
+you don&rsquo;t need to pick dark and light colors individually. The same
+color names will work.
+</p>
+
+<p>
+However, you need to trigger an update of LIN&rsquo;s faces to pick up the
+color values if you change the appearance from dark to light, or light
+to dark. macOS builds of Emacs have a hook for this, and you can
+perform a color update by adding a function to
+<code>ns-system-appearance-change-functions</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-lin-macos-system-colors ()
+  (when (memq window-system '(mac ns))
+    (set-face-attribute 'lin-hl nil
+                        :background "selectedContentBackgroundColor")
+
+    ;; To also override the foreground (see `lin-override-foreground'):
+    (set-face-attribute 'lin-hl-override-fg nil
+                        :foreground "alternateSelectedControlTextColor"
+                        :background "selectedContentBackgroundColor")))
+
+(when (memq window-system '(mac ns))
+  (add-hook 'ns-system-appearance-change-functions #'my-lin-macos-system-colors))
+</pre>
+</div>
+
+<p>
+If you want to use a different color than the macOS selection colors
+in dark mode, you can tweak this approach:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-lin--macos-mode-color (light dark)
+  "Use LIGHT or DARK color value, depending on macOS mode."
+  (if (eq ns-system-appearance 'light)
+      light
+    dark))
+
+(defun my-lin-custom-faces ()
+  (when (memq window-system '(mac ns))
+    (let ((bg (my-lin--macos-mode-color "selectedContentBackgroundColor" "#2a40b8"))
+          (fg (my-lin--macos-mode-color "alternateSelectedControlTextColor" "#ffffff")))
+      (set-face-attribute 'lin-hl nil :background bg)
+      (set-face-attribute 'lin-hl-override-fg nil :background bg :foreground fg))))
+
+(when (memq window-system '(mac ns))
+  (add-hook 'ns-system-appearance-change-functions #'my-lin-custom-faces))
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96" class="outline-2">
@@ -241,9 +331,8 @@ LIN is meant to be a collective effort.  Every bit of help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or documentation</dt><dd>Nicolas De Jaeghere.</dd>
-
-<dt>Ideas and user feedback</dt><dd>Nicolas De Jaeghere.</dd>
+<dt>Contributions to code or documentation</dt><dd>Christian Tietze, Damien
+Cassou, Nicolas De Jaeghere.</dd>
 </dl>
 </div>
 </div>
