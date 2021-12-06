@@ -81,11 +81,7 @@ Current development target is 2.0.0-dev.
 <li><a href="#h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b">5.6. Mixed fonts</a></li>
 <li><a href="#h:c119d7b2-fcd4-4e44-890e-5e25733d5e52">5.7. Link styles</a></li>
 <li><a href="#h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1">5.8. Command prompts</a></li>
-<li><a href="#h:27943af6-d950-42d0-bc23-106e43f50a24">5.9. Mode line</a>
-<ul>
-<li><a href="#h:a12b4d3c-e66b-42ed-99ab-4ea039b69e2e">5.9.1. Option for mode line padding</a></li>
-</ul>
-</li>
+<li><a href="#h:27943af6-d950-42d0-bc23-106e43f50a24">5.9. Mode line</a></li>
 <li><a href="#h:27cef8f5-dc4e-4c93-ba41-b899e650d936">5.10. Tab style</a></li>
 <li><a href="#h:f1c20c02-7b34-4c35-9c65-99170efb2882">5.11. Completion UIs</a></li>
 <li><a href="#h:5a12765d-0ba0-4a75-ab11-e35d3bbb317d">5.12. Mail citations</a></li>
@@ -100,13 +96,7 @@ Current development target is 2.0.0-dev.
 <li><a href="#h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">5.21. Org mode blocks</a></li>
 <li><a href="#h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc">5.22. Org agenda</a></li>
 <li><a href="#h:271eff19-97aa-4090-9415-a6463c2f9ae1">5.23. Heading styles</a></li>
-<li><a href="#h:075eb022-37a6-41a4-a040-cc189f6bfa1f">5.24. Scaled headings</a>
-<ul>
-<li><a href="#h:6868baa1-beba-45ed-baa5-5fd68322ccb3">5.24.1. Scaled heading sizes</a></li>
-</ul>
-</li>
-<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.25. UI typeface</a></li>
-<li><a href="#h:97caca76-fa13-456c-aef1-a2aa165ea274">5.26. Headings' typeface</a></li>
+<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.24. UI typeface</a></li>
 </ul>
 </li>
 <li><a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">6. Advanced customization</a>
@@ -680,6 +670,7 @@ this manual.
       modus-themes-intense-markup t
       modus-themes-deuteranopia t
       modus-themes-tabs-accented t
+      modus-themes-variable-pitch-ui nil
       modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
       modus-themes-fringes nil ; {nil,'subtle,'intense}
@@ -692,12 +683,8 @@ this manual.
 
       ;; Options for `modus-themes-mode-line' are either nil, or a list
       ;; that can combine any of `3d' OR `moody', `borderless',
-      ;; `accented', `padded'.
-      modus-themes-mode-line '(padded accented borderless)
-
-      ;; This one only works when `modus-themes-mode-line' (above) has
-      ;; the `padded' property.  It takes a positive integer.
-      modus-themes-mode-line-padding 3
+      ;; `accented', and a natural number for extra padding
+      modus-themes-mode-line '(4 accented borderless)
 
       ;; Options for `modus-themes-syntax' are either nil (the default),
       ;; or a list of properties that may include any of those symbols:
@@ -740,25 +727,16 @@ this manual.
       modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
 
       modus-themes-org-agenda ; this is an alist: read the manual or its doc string
-      '((header-block . (variable-pitch scale-title))
-        (header-date . (grayscale workaholic bold-today))
-        (event . (accented scale-small))
+      '((header-block . (variable-pitch 1.3))
+        (header-date . (grayscale workaholic bold-today 1.1))
+        (event . (accented varied))
         (scheduled . uniform)
         (habit . traffic-light))
 
       modus-themes-headings ; this is an alist: read the manual or its doc string
-      '((1 . (overline background))
-        (2 . (rainbow overline))
-        (t . (semibold)))
-
-      modus-themes-variable-pitch-ui nil
-      modus-themes-variable-pitch-headings t
-      modus-themes-scale-headings t
-      modus-themes-scale-1 1.1
-      modus-themes-scale-2 1.15
-      modus-themes-scale-3 1.21
-      modus-themes-scale-4 1.27
-      modus-themes-scale-title 1.33)
+      '((1 . (overline background variable-pitch 1.3))
+        (2 . (rainbow overline 1.1))
+        (t . (semibold))))
 </pre>
 </div>
 </div>
@@ -1271,6 +1249,10 @@ In user configuration files the form may look like this:
 <h3 id="h:27943af6-d950-42d0-bc23-106e43f50a24"><span class="section-number-3">5.9.</span> Option for mode line presentation</h3>
 <div class="outline-text-3" id="text-h:27943af6-d950-42d0-bc23-106e43f50a24">
 <p>
+[ Changed as part of 2.0.0-dev ]
+</p>
+
+<p>
 Brief: Control the style of the mode lines.
 </p>
 
@@ -1291,61 +1273,56 @@ effect, color, and border visibility:
 </ul></li>
 <li><code>accented</code></li>
 <li><code>borderless</code></li>
-<li><code>padded</code></li>
+<li>A natural number &gt; 1 for extra padding</li>
 </ul>
 
 <p>
 The default (a nil value or an empty list) is a two-dimensional
-rectangle with a border around it.  The active and the inactive
-mode lines use different shades of grayscale values for the
-background, foreground, border.
+rectangle with a border around it.  The active and the inactive mode
+lines use different shades of grayscale values for the background,
+foreground, border.
 </p>
 
 <p>
-The <code>3d</code> property applies a three-dimensional effect to the
-active mode line.  The inactive mode lines remain two-dimensional
-and are toned down a bit, relative to the default style.
+The <code>3d</code> property applies a three-dimensional effect to the active mode
+line.  The inactive mode lines remain two-dimensional and are toned down
+a bit, relative to the default style.
 </p>
 
 <p>
-The <code>moody</code> property optimizes the mode line for use with the
-library of the same name (hereinafter referred to as &rsquo;Moody&rsquo;).
-In practice, it removes the box effect and replaces it with
-underline and overline properties.  It also tones down the
-inactive mode lines.  Despite its intended purpose, this option
-can also be used without the Moody library (please consult the
-themes&rsquo; manual on this point for more details).  If both <code>3d</code> and
-<code>moody</code> properties are set, the latter takes precedence.
+The <code>moody</code> property optimizes the mode line for use with the library of
+the same name (hereinafter referred to as &rsquo;Moody&rsquo;).  In practice, it
+removes the box effect and replaces it with underline and overline
+properties.  It also tones down the inactive mode lines.  Despite its
+intended purpose, this option can also be used without the Moody library
+(please consult the themes&rsquo; manual on this point for more details).  If
+both <code>3d</code> and <code>moody</code> properties are set, the latter takes precedence.
 </p>
 
 <p>
-The <code>borderless</code> property removes the color of the borders.  It
-does not actually remove the borders, but only makes their color
-the same as the background, effectively creating some padding.
+The <code>borderless</code> property removes the color of the borders.  It does not
+actually remove the borders, but only makes their color the same as the
+background, effectively creating some padding.
 </p>
 
 <p>
-The <code>accented</code> property ensures that the active mode line uses a
-colored background instead of the standard shade of gray.
+The <code>accented</code> property ensures that the active mode line uses a colored
+background instead of the standard shade of gray.
 </p>
 
 <p>
-The <code>padded</code> property increases the apparent height of the mode line.
-This is done by applying box effects and combining them with an
-underline and overline.  To ensure that the underline is placed at the
-bottom, set <code>x-underline-at-descent-line</code> to non-nil.  The <code>padded</code> property
-has no effect when the <code>moody</code> property is also used, because Moody
-already applies its own padding.  The exact value of the padding is
-controlled by the variable <code>modus-themes-mode-line-padding</code>.
+A positive integer (natural number or natnum) applies a padding effect
+of NATNUM pixels at the boundaries of the mode lines.  The default value
+is 1 and does not need to be specified explicitly.  The padding has no
+effect when the <code>moody</code> property is also used, because Moody already
+applies its own tweaks.  To ensure that the underline is placed at the
+bottom of the mode line, set <code>x-underline-at-descent-line</code> to non-nil
+(this is not needed when the <code>borderless</code> property is also set).
 </p>
 
 <p>
-<a href="#h:a12b4d3c-e66b-42ed-99ab-4ea039b69e2e">Option for mode line padding</a>.
-</p>
-
-<p>
-Combinations of any of those properties are expressed as a list,
-like in these examples:
+Combinations of any of those properties are expressed as a list, like in
+these examples:
 </p>
 
 <div class="org-src-container">
@@ -1390,8 +1367,8 @@ colors (which have been carefully designed to be highly accessible).
 
 <p>
 Furthermore, because Moody expects an underline and overline instead of
-a box style, it is advised to set <code>x-underline-at-descent-line</code> to a
-non-nil value.
+a box style, it is strongly advised to set <code>x-underline-at-descent-line</code>
+to a non-nil value.
 </p>
 
 <p>
@@ -1399,33 +1376,6 @@ Finally, note that various packages which heavily modify the mode line,
 such as <code>doom-modeline</code>, <code>nano-modeline</code>, <code>powerline</code>, <code>spaceline</code> may not look
 as intended with all possible combinations of this user option.
 </p>
-</div>
-
-<div id="outline-container-h:a12b4d3c-e66b-42ed-99ab-4ea039b69e2e" class="outline-4">
-<h4 id="h:a12b4d3c-e66b-42ed-99ab-4ea039b69e2e"><span class="section-number-4">5.9.1.</span> Option for mode line padding</h4>
-<div class="outline-text-4" id="text-h:a12b4d3c-e66b-42ed-99ab-4ea039b69e2e">
-<p>
-Brief: Set the padding of the mode lines.
-</p>
-
-<p>
-Symbol: <code>modus-themes-mode-line-padding</code> (<code>natnum</code> type)
-</p>
-
-<p>
-Controls the exact width of the mode line&rsquo;s padding.  Possible values
-are positive integers.  The default value is <code>6</code>.
-</p>
-
-<p>
-This customization option applies only when <code>modus-themes-mode-line</code> is
-configured with the <code>padded</code> property.
-</p>
-
-<p>
-<a href="#h:27943af6-d950-42d0-bc23-106e43f50a24">Option for mode line presentation</a>.
-</p>
-</div>
 </div>
 </div>
 
@@ -2151,8 +2101,8 @@ all possible combinations:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq modus-themes-org-agenda
-      '((header-block . (variable-pitch scale-title))
-        (header-date . (grayscale workaholic bold-today))
+      '((header-block . (variable-pitch 1.5))
+        (header-date . (grayscale workaholic bold-today 1.2))
         (event . (accented italic varied))
         (scheduled . uniform)
         (habit . traffic-light)))
@@ -2170,9 +2120,12 @@ properties:
 
 <ul class="org-ul">
 <li><code>variable-pitch</code> to use a proportionately spaced typeface;</li>
-<li><code>scale-title</code> to increase the size to the number assigned to
-<code>modus-themes-scale-title</code> (<a href="#h:6868baa1-beba-45ed-baa5-5fd68322ccb3">Control the scale of headings</a>) or <code>no-scale</code>
-to make the font use the same height as the rest of the buffer.</li>
+<li>A number as a floating point (e.g. 1.5) to set the height of the text
+to that many times the default font height.  A float of 1.0 or the
+symbol <code>no-scale</code> have the same effect of making the font to the same
+height as the rest of the buffer.  When neither a number nor <code>no-scale</code>
+are present, the default is a small increase in height (a value of
+1.15).</li>
 </ul>
 
 <p>
@@ -2207,12 +2160,12 @@ weekends a more subtle gray;</li>
 terms of color;</li>
 <li><code>bold-today</code> to apply a bold typographic weight to the current
 date;</li>
-<li><code>bold-all</code> to render all date headings in a bold weight.</li>
-<li><code>scale-heading</code> increases the height of the date headings to the value
-of <code>modus-themes-scale-1</code> (which is the first step in the scale for
-regular headings).</li>
+<li><code>bold-all</code> to render all date headings in a bold weight;</li>
 <li><code>underline-today</code> applies an underline to the current date while
-removing the background it has by default.</li>
+removing the background it has by default;</li>
+<li>A number as a floating point (e.g. 1.2) to set the height of the text
+to that many times the default font height.  The default is the same
+as the base font height (the equivalent of 1.0).</li>
 </ul>
 
 <p>
@@ -2239,12 +2192,6 @@ or an empty list).  This key accepts a list of properties.  Those are:
 </p>
 
 <ul class="org-ul">
-<li><code>scale-small</code> reduces the height of the entries to the value of
-the user option <code>modus-themes-scale-small</code> (0.9 the height of
-the main font size by default).  This work best when the
-relevant entries have no tags associated with them and when the
-user is interested in reducing their presence in the agenda
-view.</li>
 <li><code>accented</code> applies an accent value to the event&rsquo;s foreground,
 replacing the original gray.  It makes all entries stand out more.</li>
 <li><code>italic</code> adds a slant to the font&rsquo;s forms (italic or oblique forms,
@@ -2353,7 +2300,7 @@ Putting it all together, the alist can look like this:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">'((header-block . (scale-title variable-pitch))
   (header-date . (grayscale workaholic bold-today))
-  (event . (accented scale-small))
+  (event . (accented varied))
   (scheduled . uniform)
   (habit . traffic-light))
 
@@ -2361,7 +2308,7 @@ Putting it all together, the alist can look like this:
 (setq modus-themes-org-agenda
       '((header-block . (scale-title variable-pitch))
         (header-date . (grayscale workaholic bold-today))
-        (event . (accented scale-small))
+        (event . (accented varied))
         (scheduled . uniform)
         (habit . traffic-light)))
 </pre>
@@ -2372,6 +2319,10 @@ Putting it all together, the alist can look like this:
 <div id="outline-container-h:271eff19-97aa-4090-9415-a6463c2f9ae1" class="outline-3">
 <h3 id="h:271eff19-97aa-4090-9415-a6463c2f9ae1"><span class="section-number-3">5.23.</span> Option for the headings' overall style</h3>
 <div class="outline-text-3" id="text-h:271eff19-97aa-4090-9415-a6463c2f9ae1">
+<p>
+[ Changed as part of 2.0.0-dev ]
+</p>
+
 <p>
 Brief: Control the style of headings.  This can be particularised for
 each level of heading (e.g. Org has eight levels).
@@ -2391,8 +2342,9 @@ a presentation of all available properties:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq modus-themes-headings
-      '((1 . (background overline))
-        (2 . (overline rainbow))
+      '((1 . (background overline variable-pitch 1.5))
+        (2 . (overline rainbow 1.3))
+        (3 . (overline 1.1))
         (t . (monochrome))))
 </pre>
 </div>
@@ -2421,7 +2373,8 @@ Properties:
 <li><code>extrabold</code></li>
 <li><code>ultrabold</code></li>
 </ul></li>
-<li><code>no-bold</code></li>
+<li><code>no-bold</code> (deprecated alias of a <code>regular</code> weight)</li>
+<li>A floating point as a height multiple of the default</li>
 </ul>
 
 <p>
@@ -2443,10 +2396,15 @@ the heading.
 </p>
 
 <p>
-A <code>monochrome</code> property makes all headings the same base color, which is
-that of the default for the active theme (black/white).  When <code>background</code>
-is also set, <code>monochrome</code> changes its color to gray.  If both <code>monochrome</code>
-and <code>rainbow</code> are set, the former takes precedence.
+A <code>monochrome</code> property makes the heading the same as the base color,
+which is that of the <code>default</code> face&rsquo;s foreground.  When <code>background</code> is also
+set, <code>monochrome</code> changes its color to gray.  If both <code>monochrome</code> and
+<code>rainbow</code> are set, the former takes precedence.
+</p>
+
+<p>
+A <code>variable-pitch</code> property changes the font family of the heading to that
+of the <code>variable-pitch</code> face (normally a proportionately spaced typeface).
 </p>
 
 <p>
@@ -2463,6 +2421,12 @@ users are encouraged to specify a <code>regular</code> weight instead.
 </p>
 
 <p>
+A number, expressed as a floating point (e.g. 1.5), adjusts the height
+of the heading to that many times the base font size.  The default
+height is the same as 1.0, though it need not be explicitly stated.
+</p>
+
+<p>
 Combinations of any of those properties are expressed as a list, like in
 these examples:
 </p>
@@ -2470,7 +2434,7 @@ these examples:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(semibold)
 (rainbow background)
-(overline monochrome semibold)
+(overline monochrome semibold 1.3)
 </pre>
 </div>
 
@@ -2484,8 +2448,8 @@ In user configuration files the form may look like this:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq modus-themes-headings
-      '((1 . (background overline rainbow))
-        (2 . (background overline))
+      '((1 . (background overline rainbow 1.5))
+        (2 . (background overline 1.3))
         (t . (overline semibold))))
 </pre>
 </div>
@@ -2515,152 +2479,11 @@ For Org users, the extent of the heading depends on the variable
 <code>background</code> properties.  Depending on the version of Org, there may be
 others, such as <code>org-fontify-done-headline</code>.
 </p>
-
-<p>
-<a href="#h:075eb022-37a6-41a4-a040-cc189f6bfa1f">Option for scaled headings</a>.
-</p>
-
-<p>
-<a href="#h:97caca76-fa13-456c-aef1-a2aa165ea274">Option for variable-pitch font in headings</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:075eb022-37a6-41a4-a040-cc189f6bfa1f" class="outline-3">
-<h3 id="h:075eb022-37a6-41a4-a040-cc189f6bfa1f"><span class="section-number-3">5.24.</span> Option for scaled headings</h3>
-<div class="outline-text-3" id="text-h:075eb022-37a6-41a4-a040-cc189f6bfa1f">
-<p>
-Brief: Toggle the scaling of headings.
-</p>
-
-<p>
-Symbol: <code>modus-themes-scale-headings</code> (<code>boolean</code> type)
-</p>
-
-<p>
-Possible values:
-</p>
-
-<ol class="org-ol">
-<li><code>nil</code> (default)</li>
-<li><code>t</code></li>
-</ol>
-
-<p>
-The default is to use the same size for headings and paragraph text.
-</p>
-
-<p>
-With a non-nil value (<code>t</code>) make headings larger in height relative to the
-main text.  This is noticeable in modes like Org, Markdown, and Info.
-</p>
-</div>
-
-<div id="outline-container-h:6868baa1-beba-45ed-baa5-5fd68322ccb3" class="outline-4">
-<h4 id="h:6868baa1-beba-45ed-baa5-5fd68322ccb3"><span class="section-number-4">5.24.1.</span> Control the scale of headings</h4>
-<div class="outline-text-4" id="text-h:6868baa1-beba-45ed-baa5-5fd68322ccb3">
-<p>
-Brief: Specify the height for individual heading scales.
-</p>
-
-<p>
-Symbols (all are <code>number</code> type):
-</p>
-
-<ul class="org-ul">
-<li><code>modus-themes-scale-1</code></li>
-<li><code>modus-themes-scale-2</code></li>
-<li><code>modus-themes-scale-3</code></li>
-<li><code>modus-themes-scale-4</code></li>
-<li><code>modus-themes-scale-title</code></li>
-<li><code>modus-themes-scale-small</code></li>
-</ul>
-
-<p>
-In addition to the toggle for enabling scaled headings, users can also
-specify a number of their own.
-</p>
-
-<ul class="org-ul">
-<li>If it is a floating point, say, <code>1.5</code>, it is interpreted as a multiple
-of the base font size.  This is the recommended method, because it
-will always adapt to changes in the base font size, such as while
-using the <code>text-scale-adjust</code> command.</li>
-
-<li>If it is an integer, it is read as an absolute font height that is
-1/10 of the typographic point size.  Thus a value of <code>18pt</code> must be
-expressed as <code>180</code>.  Setting an absolute value is discouraged, as it
-will break the layout in cases where the base font size must change,
-such as with the <code>text-scale-adjust</code> command (<a href="#h:defcf4fc-8fa8-4c29-b12e-7119582cc929">Font configurations</a>).
-While we discourage using absolute values, we still provide for this
-option for users who do not need to perform text-scaling operations or
-who are content with whatever discrepancies in height.</li>
-</ul>
-
-<p>
-Below are the variables in their default values, using the floating
-point paradigm.  The numbers are very conservative, but one is free to
-change them to their liking, such as <code>1.2</code>, <code>1.4</code>, <code>1.6</code>, <code>1.8</code>, <code>2.0</code>&#x2014;or use a
-resource for finding a consistent scale:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq modus-themes-scale-1 1.05
-      modus-themes-scale-2 1.1
-      modus-themes-scale-3 1.15
-      modus-themes-scale-4 1.2
-      modus-themes-scale-title 1.3
-      modus-themes-scale-small 0.9)
-</pre>
-</div>
-
-<p>
-As for the application of that scale, the variables that range from
-<code>modus-themes-scale-1</code> up to <code>modus-themes-scale-4</code> apply to regular
-headings within the context of the given major mode.  The former is the
-smallest, while the latter is the largest.  &ldquo;Regular headings&rdquo; are those
-that have a standard syntax for their scale, such as Org mode&rsquo;s eight
-levels of asterisks or Markdown&rsquo;s six columns.
-</p>
-
-<p>
-Whereas <code>modus-themes-scale-title</code> is applied to special headings that do
-not conform with the aforementioned syntax, yet which are expected to be
-larger than the largest value on that implied scale or at least have
-some unique purpose in the buffer.  Put concretely, Org&rsquo;s <code>#+title</code> meta
-datum is not part of the eight levels of headings in an Org file, yet is
-supposed to signify the primary header.  Similarly, the Org Agenda&rsquo;s
-structure headings are not part of a recognisable scale and so they also
-get <code>modus-themes-scale-title</code> (<a href="#h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc">Option for Org agenda constructs</a>).
-</p>
-
-<p>
-Similarly <code>modus-themes-scale-small</code> is not applied to regular headings,
-but reserved for special contexts where the user is presented with an
-option to use a smaller font height than the base size.  It is only
-implemented for the Org agenda.
-</p>
-
-<p>
-Users who wish to maintain scaled headings for the normal syntax while
-preventing special headings from standing out, can assign a value of <code>1.0</code>
-to <code>modus-themes-scale-title</code> to make it the same as body text (or
-whatever value would render it indistinguishable from the desired point
-of reference).
-</p>
-
-<p>
-Note that in earlier versions of Org, scaling would only increase the
-size of the heading, but not of keywords that were added to it, like
-&ldquo;TODO&rdquo;.  The issue has been fixed upstream:
-<a href="https://protesilaos.com/codelog/2020-09-24-org-headings-adapt/">https://protesilaos.com/codelog/2020-09-24-org-headings-adapt/</a>.
-</p>
-</div>
 </div>
 </div>
 
 <div id="outline-container-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac" class="outline-3">
-<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.25.</span> Option for variable-pitch font in UI elements</h3>
+<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.24.</span> Option for variable-pitch font in UI elements</h3>
 <div class="outline-text-3" id="text-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">
 <p>
 Brief: Toggle the use of proportionately spaced (<code>variable-pitch</code>) fonts
@@ -2694,43 +2517,6 @@ is a monospaced family.
 <p>
 With a non-nil value (<code>t</code>) apply a proportionately spaced typeface.  This
 is done by assigning the <code>variable-pitch</code> face to the relevant items.
-</p>
-
-<p>
-<a href="#h:defcf4fc-8fa8-4c29-b12e-7119582cc929">Font configurations for Org and others</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:97caca76-fa13-456c-aef1-a2aa165ea274" class="outline-3">
-<h3 id="h:97caca76-fa13-456c-aef1-a2aa165ea274"><span class="section-number-3">5.26.</span> Option for variable-pitch font in headings</h3>
-<div class="outline-text-3" id="text-h:97caca76-fa13-456c-aef1-a2aa165ea274">
-<p>
-Brief: Toggle the use of proportionately spaced (<code>variable-pitch</code>) fonts
-in headings.
-</p>
-
-<p>
-Symbol: <code>modus-themes-variable-pitch-headings</code> (<code>boolean</code> type)
-</p>
-
-<p>
-Possible values:
-</p>
-
-<ol class="org-ol">
-<li><code>nil</code> (default)</li>
-<li><code>t</code></li>
-</ol>
-
-<p>
-The default is to use the main font family, which typically is
-monospaced.
-</p>
-
-<p>
-With a non-nil value (<code>t</code>) apply a proportionately spaced typeface, else
-&ldquo;variable-pitch&rdquo;, to headings (such as in Org mode).
 </p>
 
 <p>
@@ -4042,7 +3828,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org60988b4">
+<pre class="example" id="org209144f">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5724,7 +5510,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org6b94c74">
+<pre class="example" id="orgee3ad4d">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5769,7 +5555,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org2dae8b0">
+<pre class="example" id="org6e55904">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -5960,7 +5746,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org1b604f3">
+<pre class="example" id="org4c00655">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
