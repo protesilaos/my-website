@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-04 10:34 +0200</b>.</li>
+<li>Updated: <b>2021-12-09 14:29 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -2460,29 +2460,26 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;; configurations.  Though I still like what I have here.
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil
-        modus-themes-mixed-fonts t
+        modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers nil
         modus-themes-intense-markup nil
         modus-themes-deuteranopia nil
         modus-themes-tabs-accented nil
+        modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
-        modus-themes-fringes nil ; {nil,'subtle,'intense}
+        modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
 
         ;; Options for `modus-themes-lang-checkers' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `straight-underline', `text-also', `background',
         ;; `intense' OR `faint'.
-        modus-themes-lang-checkers '(text-also straight-underline)
+        modus-themes-lang-checkers nil
 
-        ;; Options for `modus-themes-mode-line' are either nil, or a
-        ;; list that can combine any of `3d' OR `moody', `borderless',
-        ;; `accented', `padded'.
-        modus-themes-mode-line nil ; For Moody, also check `prot-moody'
-
-        ;; This one only works when `modus-themes-mode-line' (above) has
-        ;; the `padded' property.  It takes a positive integer.
-        modus-themes-mode-line-padding 2
+        ;; Options for `modus-themes-mode-line' are either nil, or a list
+        ;; that can combine any of `3d' OR `moody', `borderless',
+        ;; `accented', and a natural number for extra padding
+        modus-themes-mode-line '(4 borderless accented)
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2492,7 +2489,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `accented', `underline', `intense'
-        modus-themes-hl-line nil
+        modus-themes-hl-line '(intense)
 
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
@@ -2506,49 +2503,35 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-links nil
 
         ;; Options for `modus-themes-prompts' are either nil (the
-        ;; default), or a list of properties that may include any of
-        ;; those symbols: `background', `bold', `gray', `intense',
-        ;; `italic'
-        modus-themes-prompts nil
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `background', `bold', `gray', `intense', `italic'
+        modus-themes-prompts '(intense italic bold)
 
-        modus-themes-completions nil ; {nil,'moderate,'opinionated}
+        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
 
-        modus-themes-mail-citations 'faint ; {nil,'faint,'monochrome}
+        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend bg-only)
+        modus-themes-region '(accented no-extend)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs nil
 
-        modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background} (also read doc string)
+        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
 
-        ;; This is an alist: read the manual or its doc string.
-        modus-themes-org-agenda
-        '((header-block . (variable-pitch scale-title))
-          (header-date . (bold-today grayscale workaholic))
-          (event . (accented varied italic))
-          (scheduled . uniform)
-          (habit . nil))
+        modus-themes-org-agenda ; this is an alist: read the manual or its doc string
+        '((header-block . (variable-pitch regular 1.4))
+          (header-date . (bold-today underline-today 1.2))
+          (event . (accented varied))
+          (scheduled . nil)
+          (habit . traffic-light))
 
-        ;; This is an alist: read the manual or its doc string.
-        modus-themes-headings nil
-        ;; '((1 . (background overline))
-        ;;   (2 . (background overline))
-        ;;   (3 . (background rainbow overline))
-        ;;   (t . (background rainbow no-bold overline)))
-
-        modus-themes-variable-pitch-ui nil
-        modus-themes-variable-pitch-headings nil
-        modus-themes-scale-headings nil
-        modus-themes-scale-1 1.1
-        modus-themes-scale-2 1.15
-        modus-themes-scale-3 1.21
-        modus-themes-scale-4 1.27
-        modus-themes-scale-title 1.33
-        modus-themes-scale-small 0.9)
+        modus-themes-headings ; this is an alist: read the manual or its doc string
+        '((1 . (variable-pitch regular 1.4))
+          (2 . (1.2))
+          (t . (rainbow 1.05))))
 
   ;; Load the theme files before enabling a theme (else you get an error).
   (modus-themes-load-themes)
@@ -3140,7 +3123,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgc6f949d">
+<pre class="example" id="org2141e7d">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3207,7 +3190,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org90a6679">
+<pre class="example" id="org61840c8">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4100,17 +4083,16 @@ Apply APP by first setting up the minibuffer to work with Mct."
             (forward-line 1)
           (user-error (goto-char (point-max))))
         (unless (eobp)
-          (let ((pt (point))
-                (overlay))
+          (let ((pt (point)))
             (condition-case nil
                 (forward-line 1)
               (user-error (goto-char (point-max))))
             ;; We set the overlay this way and give it a low priority so
             ;; that `mct--highlight-overlay' and/or the active region
             ;; can override it.
-            (setq overlay (make-overlay pt (point)))
-            (overlay-put overlay 'face 'mct-stripe)
-            (overlay-put overlay 'priority -100)))))))
+            (let ((stripe (make-overlay pt (point))))
+              (overlay-put stripe 'priority -100)
+              (overlay-put stripe 'face 'mct-stripe))))))))
 
 ;;;; Commands and helper functions
 
@@ -4158,7 +4140,11 @@ Apply APP by first setting up the minibuffer to work with Mct."
          (cons (cons mct-completion-windows-regexp mct-display-buffer-action)
                display-buffer-alist)))
     (save-excursion (minibuffer-completion-help)))
-  (mct--fit-completions-window))
+  ;; ;; NOTE 2021-12-09: We should no longer have a need for this, as we
+  ;; ;; pass an after advice to `minibuffer-completion-help'.
+  ;;
+  ;; (mct--fit-completions-window)
+  )
 
 ;;;###autoload
 (defun mct-focus-mini-or-completions ()
@@ -4725,6 +4711,7 @@ region.")
     (define-key map (kbd "M-p") #'mct-previous-completion-group)
     (define-key map (kbd "M-n") #'mct-next-completion-group)
     (define-key map (kbd "p") #'mct-previous-completion-or-mini)
+    (define-key map (kbd "e") #'mct-focus-minibuffer)
     (define-key map (kbd "M-e") #'mct-edit-completion)
     (define-key map (kbd "&lt;tab&gt;") #'mct-choose-completion-no-exit)
     (define-key map (kbd "&lt;return&gt;") #'mct-choose-completion-exit)
@@ -4760,7 +4747,7 @@ region.")
                          (current-local-map))))
 
 (defun mct--setup-keymap ()
-  "Setup minibuffer keymaps."
+  "Set up minibuffer keymaps."
   (use-local-map
    (make-composed-keymap mct-minibuffer-local-completion-map
                          (current-local-map)))
@@ -4803,6 +4790,7 @@ region.")
         (advice-add #'completing-read-multiple :around #'mct--completing-read-advice)
         (advice-add #'completing-read-multiple :filter-args #'mct--crm-indicator)
         (advice-add #'display-completion-list :around #'mct--display-completion-list-advice)
+        (advice-add #'minibuffer-completion-help :after #'mct--fit-completions-window)
         (advice-add #'minibuffer-message :around #'mct--honor-inhibit-message)
         (advice-add #'minibuf-eldef-setup-minibuffer :around #'mct--stealthily))
     (remove-hook 'completion-list-mode-hook #'mct--setup-completion-list)
@@ -4816,6 +4804,7 @@ region.")
     (advice-remove #'completing-read-multiple #'mct--completing-read-advice)
     (advice-remove #'completing-read-multiple #'mct--crm-indicator)
     (advice-remove #'display-completion-list #'mct--display-completion-list-advice)
+    (advice-remove #'minibuffer-completion-help #'mct--fit-completions-window)
     (advice-remove #'minibuffer-message #'mct--honor-inhibit-message)
     (advice-remove #'minibuf-eldef-setup-minibuffer #'mct--stealthily)))
 
@@ -13566,7 +13555,10 @@ information on how to do that.</li>
 above.</li>
 
 <li>Those granted, I prefer to just use the Diary and Calendar for my
-simple needs: <a href="#h:b4040bc0-7a2a-4f17-824d-42de621bd1b9">Calendar and Diary (and prot-diary.el)</a>.</li>
+simple needs: <a href="#h:b4040bc0-7a2a-4f17-824d-42de621bd1b9">Calendar and Diary (and prot-diary.el)</a>.  Though this
+may change going forward, as I am starting to experiment with more
+advanced workflows, including the creation of bespoke "block agenda"
+views (watch my <a href="https://protesilaos.com/codelog/2021-12-09-emacs-org-block-agenda/">Demo of my custom Org block agenda</a> (2021-12-09)).</li>
 </ul></dd>
 
 <dt>Org export</dt><dd>I do not have much to offer here, apart from the setup
@@ -13600,6 +13592,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-hide-emphasis-markers t)
   (setq org-hide-macro-markers t)
   (setq org-hide-leading-stars nil)
+  (setq org-cycle-separator-lines 0)
   (setq org-structure-template-alist    ; CHANGED in Org 9.3, Emacs 27.1
         '(("s" . "src")
           ("E" . "src emacs-lisp")
@@ -13734,11 +13727,14 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-agenda-max-tags nil)
   (setq org-agenda-max-effort nil)
 
-  ;; TODO 2021-08-27: Does this work?
+  ;; NOTE 2021-12-07: In my `prot-org.el' (see further below), I add
+  ;; `org-agenda-to-appt' to various relevant hooks.
+  ;;
   ;; Create reminders for tasks with a due date when this file is read.
   (run-at-time (* 60 5) nil #'org-agenda-to-appt)
 
 ;;;;; General agenda view options
+  ;; NOTE 2021-12-07: Check further below my `org-agenda-custom-commands'
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
           (todo . " %i %-12:c")
@@ -13765,7 +13761,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
 ;;;;; Agenda diary entries
   (setq org-agenda-insert-diary-strategy 'date-tree)
   (setq org-agenda-insert-diary-extract-time nil)
-  (setq org-agenda-include-diary t)
+  (setq org-agenda-include-diary nil)
 
 ;;;;; Agenda follow mode
   (setq org-agenda-start-with-follow-mode nil)
@@ -13790,7 +13786,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-agenda-skip-scheduled-delay-if-deadline nil)
   (setq org-agenda-skip-additional-timestamps-same-entry nil)
   (setq org-agenda-skip-timestamp-if-done nil)
-  (setq org-agenda-search-headline-for-time t)
+  (setq org-agenda-search-headline-for-time nil)
   (setq org-scheduled-past-days 365)
   (setq org-deadline-past-days 365)
   (setq org-agenda-move-date-from-past-immediately-to-today t)
@@ -13809,7 +13805,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-agenda-use-time-grid t)
   (setq org-agenda-show-current-time-in-grid t)
   (setq org-agenda-current-time-string
-        (concat "Now " (make-string 36 ?—)))
+        (concat "Now " (make-string 70 ?-)))
   (setq org-agenda-time-grid
         '((daily today require-timed)
           (0600 0700 0800 0900 1000 1100
@@ -13918,6 +13914,19 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
 (prot-emacs-builtin-package 'prot-org
   (setq org-agenda-format-date #'prot-org-agenda-format-date-aligned)
 
+  ;; Check the variable `prot-org-custom-daily-agenda' in prot-org.el
+  (setq org-agenda-custom-commands
+        `(("A" "Daily agenda and top priority tasks"
+           ,prot-org-custom-daily-agenda)
+          ("P" "Plain text daily agenda and top priorities"
+           ,prot-org-custom-daily-agenda
+           ((org-agenda-with-colors nil)
+            (org-agenda-prefix-format "%t %s")
+            (org-agenda-current-time-string ,(car (last org-agenda-time-grid)))
+            (org-agenda-fontify-priorities nil)
+            (org-agenda-remove-tags t))
+           ("agenda.txt"))))
+
   (add-to-list 'org-capture-templates
                '("j" "Music suggestion (jukebox)" entry
                  (file+headline "tasks.org" "Music suggestions")
@@ -14016,8 +14025,8 @@ To be used with `advice-add'.")
   (advice-add fn :after #'prot-org--agenda-after-edit))
 
 (dolist (hook '(org-capture-after-finalize-hook
-                  org-agenda-after-show-hook
-                  prot-org-agenda-after-edit-hook))
+                org-agenda-after-show-hook
+                prot-org-agenda-after-edit-hook))
   (add-hook hook #'org-agenda-to-appt))
 
 (declare-function cl-letf "cl-lib")
@@ -14067,6 +14076,55 @@ produces dates with a fixed length."
                        "")))
     (format "%s %2d %s %4d%s"
             dayname day monthname year weekstring)))
+
+(defvar org-priority-highest)
+
+(defvar prot-org-custom-daily-agenda
+  ;; NOTE 2021-12-08: Specifying a match like the following does not
+  ;; work.
+  ;;
+  ;; tags-todo "+PRIORITY=\"A\""
+  ;;
+  ;; So we match everything and then skip entries with
+  ;; `org-agenda-skip-function'.
+  `((tags-todo "*"
+               ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
+                (org-agenda-skip-function
+                 `(org-agenda-skip-entry-if
+                   'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
+                (org-agenda-block-separator nil)
+                (org-agenda-overriding-header "Important tasks without a date\n")))
+    (agenda "" ((org-agenda-span 1)
+                (org-deadline-warning-days 0)
+                (org-agenda-block-separator nil)
+                (org-scheduled-past-days 0)
+                ;; We don't need the `org-agenda-date-today'
+                ;; highlight because that only has a practical
+                ;; utility in multi-day views.
+                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                (org-agenda-format-date "%A %-e %B %Y")
+                (org-agenda-overriding-header "\nToday's agenda\n")))
+    (agenda "" ((org-agenda-start-on-weekday nil)
+                (org-agenda-start-day "+1d")
+                (org-agenda-span 3)
+                (org-deadline-warning-days 0)
+                (org-agenda-block-separator nil)
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                (org-agenda-overriding-header "\nNext three days\n")))
+    (agenda "" ((org-agenda-time-grid nil)
+                (org-agenda-start-on-weekday nil)
+                ;; We don't want to replicate the previous section's
+                ;; three days, so we start counting from the day after.
+                (org-agenda-start-day "+3d")
+                (org-agenda-span 14)
+                (org-agenda-show-all-dates nil)
+                (org-agenda-time-grid nil)
+                (org-deadline-warning-days 0)
+                (org-agenda-block-separator nil)
+                (org-agenda-entry-types '(:deadline))
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                (org-agenda-overriding-header "\nUpcoming deadlines (+14d)\n"))))
+  "Custom agenda for use in `org-agenda-custom-commands'.")
 
 ;;;; org-export
 
@@ -14191,7 +14249,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgbf30bba">
+<pre class="example" id="org13ab0de">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14203,7 +14261,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org5e10785">
+<pre class="example" id="orgdc4ad6f">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14218,7 +14276,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgb6db308">
+<pre class="example" id="org4b0009b">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14236,7 +14294,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orga3de7e3">
+<pre class="example" id="orgf2b0896">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14265,7 +14323,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org4a3b7a2">
+<pre class="example" id="orgce9e313">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14429,7 +14487,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org74da2a9">
+<pre class="example" id="orgbcf2d61">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15156,7 +15214,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgbcb8ee0">
+<pre class="example" id="org91bc102">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15190,7 +15248,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgb195ec9">
+<pre class="example" id="org502fe1c">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15354,7 +15412,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org6d31413">
+<pre class="example" id="org77475d0">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15549,7 +15607,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org196622b">
+<pre class="example" id="orge22fcec">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16785,7 +16843,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orga7c09e3">
+<pre class="example" id="org6558b8c">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17841,7 +17899,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgc4e2754">
+<pre class="example" id="org1d19ac3">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18540,7 +18598,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgfc1e36a">
+<pre class="example" id="org995393e">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21714,7 +21772,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org75d715a">
+<pre class="example" id="org31e3002">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23440,7 +23498,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgf483c04">
+<pre class="example" id="orgaaac45d">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23862,7 +23920,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org1a59e85">
+<pre class="example" id="orgb7a9bdd">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23871,7 +23929,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgcd624c4">
+<pre class="example" id="org70c97dc">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23896,7 +23954,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orge9bb2bb">
+<pre class="example" id="org89fe441">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -23956,7 +24014,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org6d1ff74">
+<pre class="example" id="orgfbb4468">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23981,7 +24039,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org452b79b">
+<pre class="example" id="orgea1f547">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23990,7 +24048,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org89cede6">
+<pre class="example" id="org47e3855">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24009,7 +24067,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org3679bba">
+<pre class="example" id="org469dd67">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
