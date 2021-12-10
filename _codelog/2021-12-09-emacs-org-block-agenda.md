@@ -56,7 +56,7 @@ change it afterwards):
                       (org-agenda-start-on-weekday nil)
                       ;; We don't want to replicate the previous section's
                       ;; three days, so we start counting from the day after.
-                      (org-agenda-start-day "+3d")
+                      (org-agenda-start-day "+4d")
                       (org-agenda-span 14)
                       (org-agenda-show-all-dates nil)
                       (org-deadline-warning-days 0)
@@ -93,7 +93,7 @@ change it afterwards):
                       (org-agenda-start-on-weekday nil)
                       ;; We don't want to replicate the previous section's
                       ;; three days, so we start counting from the day after.
-                      (org-agenda-start-day "+3d")
+                      (org-agenda-start-day "+4d")
                       (org-agenda-span 14)
                       (org-agenda-show-all-dates nil)
                       (org-deadline-warning-days 0)
@@ -149,7 +149,7 @@ change it afterwards):
                 (org-agenda-start-on-weekday nil)
                 ;; We don't want to replicate the previous section's
                 ;; three days, so we start counting from the day after.
-                (org-agenda-start-day "+3d")
+                (org-agenda-start-day "+4d")
                 (org-agenda-span 14)
                 (org-agenda-show-all-dates nil)
                 (org-deadline-warning-days 0)
