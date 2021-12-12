@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-10 10:47 +0200</b>.</li>
+<li>Updated: <b>2021-12-12 08:28 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -2468,7 +2468,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
-        modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
+        modus-themes-fringes nil ; {nil,'subtle,'intense}
 
         ;; Options for `modus-themes-lang-checkers' are either nil (the
         ;; default), or a list of properties that may include any of those
@@ -2479,7 +2479,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', and a natural number for extra padding
-        modus-themes-mode-line '(4 borderless accented)
+        modus-themes-mode-line nil
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2494,7 +2494,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match nil
+        modus-themes-paren-match '(intense bold)
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -3123,7 +3123,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgc1d38ab">
+<pre class="example" id="orgc62ac9c">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3190,7 +3190,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgb8e11af">
+<pre class="example" id="org02c2072">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -14096,6 +14096,19 @@ produces dates with a fixed length."
                    'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                 (org-agenda-block-separator nil)
                 (org-agenda-overriding-header "Important tasks without a date\n")))
+    (agenda "" ((org-agenda-time-grid nil)
+                (org-agenda-start-on-weekday nil)
+                (org-agenda-span 1)
+                (org-agenda-show-all-dates nil)
+                (org-scheduled-past-days 365)
+                ;; Excludes today's scheduled items
+                (org-scheduled-delay-days 1)
+                (org-agenda-block-separator nil)
+                (org-agenda-entry-types '(:scheduled))
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                (org-agenda-format-date "")
+                (org-agenda-overriding-header "\nPending scheduled tasks")))
     (agenda "" ((org-agenda-span 1)
                 (org-deadline-warning-days 0)
                 (org-agenda-block-separator nil)
@@ -14250,7 +14263,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org0dab90e">
+<pre class="example" id="orgc17c2f9">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14262,7 +14275,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org7376ac3">
+<pre class="example" id="org1d10aad">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14277,7 +14290,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org15450e6">
+<pre class="example" id="org8b6c38a">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14295,7 +14308,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgc8807bc">
+<pre class="example" id="org5792174">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14324,7 +14337,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org2a895fc">
+<pre class="example" id="orgfdf266d">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14488,7 +14501,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org98558ee">
+<pre class="example" id="org2285455">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15215,7 +15228,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgf926cde">
+<pre class="example" id="org862546d">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15249,7 +15262,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org6927491">
+<pre class="example" id="orgc0a2be4">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15413,7 +15426,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org7375f0d">
+<pre class="example" id="org149c912">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15608,7 +15621,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org2e18ac3">
+<pre class="example" id="org7fbd6fc">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16844,7 +16857,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org0764166">
+<pre class="example" id="orgc1d6857">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17900,7 +17913,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgceebce8">
+<pre class="example" id="orgb666a0e">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18599,7 +18612,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org67686bc">
+<pre class="example" id="orgb42eec2">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21773,7 +21786,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orga1e703b">
+<pre class="example" id="org5417d81">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23499,7 +23512,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgd15a2d3">
+<pre class="example" id="org075cdfa">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23921,7 +23934,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org38ef07e">
+<pre class="example" id="orgfc59765">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23930,7 +23943,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgc2e8817">
+<pre class="example" id="org8072acd">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23955,7 +23968,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgaaa0602">
+<pre class="example" id="org718ab25">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -24015,7 +24028,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgc1bfd28">
+<pre class="example" id="org4c84d43">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24040,7 +24053,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgdc88a3c">
+<pre class="example" id="org8aa239d">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24049,7 +24062,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org74b4ac9">
+<pre class="example" id="org1a345eb">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24068,7 +24081,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd924a34">
+<pre class="example" id="org8229c17">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
