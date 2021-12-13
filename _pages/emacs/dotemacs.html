@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-12 08:28 +0200</b>.</li>
+<li>Updated: <b>2021-12-13 11:35 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -217,15 +217,14 @@ redirect_from:
 </ul>
 </li>
 <li><a href="#h:aad79917-cd80-491b-9020-db27867ab132">6.11. Dired-like list for registers (rlist)</a></li>
-<li><a href="#h:01a73b02-ea7f-453d-854a-11eb79da6d1d">6.12. Alternating background highlights (stripes.el)</a></li>
-<li><a href="#h:271c9122-280b-424e-98f0-af9e4f09bbdb">6.13. Conveniences and minor extras</a>
+<li><a href="#h:271c9122-280b-424e-98f0-af9e4f09bbdb">6.12. Conveniences and minor extras</a>
 <ul>
-<li><a href="#h:24c2ac42-a537-4658-8a08-9aebb0de1a73">6.13.1. Automatic time stamps for files (time-stamp.el)</a></li>
-<li><a href="#h:7a8422e6-86d1-40f3-add4-0a1c826e44a3">6.13.2. Auto revert mode</a></li>
-<li><a href="#h:9eae0d2a-eef1-4b14-b883-39094be4de71">6.13.3. Preserve contents of system clipboard</a></li>
-<li><a href="#h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874">6.13.4. Newline characters for file ending</a></li>
-<li><a href="#h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00">6.13.5. Zap characters</a></li>
-<li><a href="#h:0d36996d-c12d-42e6-a388-b67c548c4a4b">6.13.6. Package lists</a></li>
+<li><a href="#h:24c2ac42-a537-4658-8a08-9aebb0de1a73">6.12.1. Automatic time stamps for files (time-stamp.el)</a></li>
+<li><a href="#h:7a8422e6-86d1-40f3-add4-0a1c826e44a3">6.12.2. Auto revert mode</a></li>
+<li><a href="#h:9eae0d2a-eef1-4b14-b883-39094be4de71">6.12.3. Preserve contents of system clipboard</a></li>
+<li><a href="#h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874">6.12.4. Newline characters for file ending</a></li>
+<li><a href="#h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00">6.12.5. Zap characters</a></li>
+<li><a href="#h:0d36996d-c12d-42e6-a388-b67c548c4a4b">6.12.6. Package lists</a></li>
 </ul>
 </li>
 </ul>
@@ -2523,9 +2522,9 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
 
         modus-themes-org-agenda ; this is an alist: read the manual or its doc string
         '((header-block . (variable-pitch regular 1.4))
-          (header-date . (bold-today underline-today 1.2))
+          (header-date . (bold-today grayscale underline-today 1.2))
           (event . (accented varied))
-          (scheduled . nil)
+          (scheduled . uniform)
           (habit . traffic-light))
 
         modus-themes-headings ; this is an alist: read the manual or its doc string
@@ -3123,7 +3122,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgc62ac9c">
+<pre class="example" id="orgba9d240">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3190,7 +3189,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org02c2072">
+<pre class="example" id="orgd68467a">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3958,7 +3957,7 @@ See `completions-format' for possible values."
                                (goto-char prev))))))
       (put-text-property (point-min) (point) 'invisible t))))
 
-(defun mct--fit-completions-window ()
+(defun mct--fit-completions-window (&amp;rest _args)
   "Fit Completions' buffer to its window."
   (when-let ((window (mct--get-completion-window)))
     (with-current-buffer (window-buffer window)
@@ -4005,16 +4004,20 @@ Meant to be added to `after-change-functions'."
   (when (window-live-p (mct--get-completion-window))
     (mct--live-completions-timer)))
 
+(defun mct--this-command ()
+  "Return this command."
+  (or (bound-and-true-p current-minibuffer-command) this-command))
+
 (defun mct--setup-live-completions ()
   "Set up the completions' buffer."
   (cond
-   ((memq this-command mct-completion-passlist)
+   ((memq (mct--this-command) mct-completion-passlist)
     (setq-local mct-minimum-input 0)
     (setq-local mct-live-update-delay 0)
     (mct--show-completions)
     (add-hook 'after-change-functions #'mct--live-completions nil t))
    ((null mct-live-completion))
-   ((not (memq this-command mct-completion-blocklist))
+   ((not (memq (mct--this-command) mct-completion-blocklist))
     (if (eq mct-live-completion 'visible)
         (add-hook 'after-change-functions #'mct--live-completions-visible-timer nil t)
       (add-hook 'after-change-functions #'mct--live-completions-timer nil t)))))
@@ -4627,7 +4630,7 @@ Apply APP while inhibiting modification hooks."
            mct-remove-shadowed-file-names
            (eq (mct--completion-category) 'file)
            rfn-eshadow-overlay (overlay-buffer rfn-eshadow-overlay)
-           (eq this-command 'self-insert-command)
+           (eq (mct--this-command) 'self-insert-command)
            (= saved-point (point-max))
            (or (&gt;= (- (point) (overlay-end rfn-eshadow-overlay)) 2)
                (eq ?/ (char-before (- (point) 2)))))
@@ -5285,6 +5288,7 @@ that populate the original prompt.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Switch to directories (consult-dir.el)
 (prot-emacs-elpa-package 'consult-dir
+  (setq consult-dir-shadow-filenames nil)
   (setq consult-dir-sources '( consult-dir--source-bookmark
                                consult-dir--source-default
                                consult-dir--source-project
@@ -5484,12 +5488,6 @@ a correct export buffer while using relevant Consult commands, such as
   ;;  `display-buffer-alist' (search this document) because it is easier
   ;;  to keep track of all my rules in one place.
   (setq embark-verbose-indicator-display-action nil)
-
-  ;; Use alternating backgrounds, if `stripes' is available.
-  (with-eval-after-load 'stripes
-    (let ((hook 'embark-collect-mode-hook))
-      (add-hook hook #'stripes-mode)
-      (add-hook hook #'hl-line-mode)))
 
   (define-key global-map (kbd "C-,") #'embark-act)
   (let ((map minibuffer-local-completion-map))
@@ -13929,6 +13927,10 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
             (org-agenda-remove-tags t))
            ("agenda.txt"))))
 
+  ;; I bind `org-agenda' to C-c a, so this one puts me straight into my
+  ;; custom block agenda.
+  (define-key global-map (kbd "C-c A") (lambda () (interactive) (org-agenda nil "A")))
+
   (add-to-list 'org-capture-templates
                '("j" "Music suggestion (jukebox)" entry
                  (file+headline "tasks.org" "Music suggestions")
@@ -14263,7 +14265,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgc17c2f9">
+<pre class="example" id="org4792048">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14275,7 +14277,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org1d10aad">
+<pre class="example" id="orga8a76ee">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14290,7 +14292,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org8b6c38a">
+<pre class="example" id="org703c553">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14308,7 +14310,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org5792174">
+<pre class="example" id="orgf73a1a7">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14337,7 +14339,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgfdf266d">
+<pre class="example" id="orga5fd7a0">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14501,7 +14503,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org2285455">
+<pre class="example" id="orgedf8fb1">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -14599,7 +14601,7 @@ Finally, note that I control the placement of those buffers in the
   (setq appt-display-interval 3)
   (setq appt-audible nil)
   (setq appt-warning-time-regexp "appt \\([0-9]+\\)")
-  (setq appt-message-warning-time 15)
+  (setq appt-message-warning-time 6)
 
   (run-at-time 10 nil #'appt-activate 1))
 
@@ -15228,7 +15230,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org862546d">
+<pre class="example" id="orge4a13d9">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15262,7 +15264,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgc0a2be4">
+<pre class="example" id="orgaf6a946">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15426,7 +15428,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org149c912">
+<pre class="example" id="org59a2108">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15621,7 +15623,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7fbd6fc">
+<pre class="example" id="org7fa52dc">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -15735,14 +15737,14 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
         '(("date" . "%12s  ")
           ("count" . "%-7s  ")
           ("authors" . "%-20s  ")
-          ("subject" . "%-120s  ")
+          ("subject" . "%-80s  ")
           ("tags" . "(%s)")))
   (setq notmuch-tree-result-format
         '(("date" . "%12s  ")
           ("authors" . "%-20s  ")
           ((("tree" . "%s")
             ("subject" . "%s"))
-           . " %-120s  ")
+           . " %-80s  ")
           ("tags" . "(%s)")))
   (setq notmuch-search-line-faces
         '(("unread" . notmuch-search-unread-face)
@@ -15858,14 +15860,6 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
   (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
   (remove-hook 'notmuch-show-hook #'notmuch-show-turn-on-visual-line-mode)
   (add-hook 'notmuch-show-hook (lambda () (setq-local header-line-format nil)))
-
-  ;; Use alternating backgrounds, if `stripes' is available.
-  (with-eval-after-load 'stripes
-    (add-hook 'notmuch-search-hook #'stripes-mode)
-    ;; ;; To disable `hl-line-mode':
-    ;; (setq notmuch-search-hook nil)
-    ;; (add-hook 'notmuch-search-hook #'prot-common-disable-hl-line)
-    )
 
   (let ((map global-map))
     (define-key map (kbd "C-c m") #'notmuch)
@@ -16857,7 +16851,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgc1d6857">
+<pre class="example" id="org365c935">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17913,7 +17907,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgb666a0e">
+<pre class="example" id="org23c7292">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18041,7 +18035,7 @@ Also see: <a href="#h:aa64c61e-49b5-41b0-b1fe-10bbe3be661f">Sample configuration
   (setq elfeed-search-filter "@4-months-ago +unread")
   (setq elfeed-sort-order 'descending)
   (setq elfeed-search-clipboard-type 'CLIPBOARD)
-  (setq elfeed-search-title-max-width 160)
+  (setq elfeed-search-title-max-width 100)
   (setq elfeed-search-title-min-width 30)
   (setq elfeed-search-trailing-width 25)
   (setq elfeed-show-truncate-long-urls t)
@@ -18071,13 +18065,6 @@ Also see: <a href="#h:aa64c61e-49b5-41b0-b1fe-10bbe3be661f">Sample configuration
     (setq prot-elfeed-tag-faces t)
     (prot-elfeed-fontify-tags)
     (add-hook 'elfeed-search-mode-hook #'prot-elfeed-load-feeds)
-
-    ;; Use alternating backgrounds, if `stripes' is available.
-    (with-eval-after-load 'stripes
-      (add-hook 'elfeed-search-mode-hook #'stripes-mode)
-      ;; ;; To disable `hl-line-mode':
-      ;; (advice-add #'elfeed-search-mode :after #'prot-common-disable-hl-line)
-      )
 
     (let ((map elfeed-search-mode-map))
       (define-key map (kbd "s") #'prot-elfeed-search-tag-filter)
@@ -18612,7 +18599,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgb42eec2">
+<pre class="example" id="org01ddba4">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -18641,10 +18628,7 @@ to keep track of the information on display.
   (setq proced-auto-update-flag t)
   (setq proced-auto-update-interval 5)
   (setq proced-descend t)
-  (setq proced-filter 'user)
-
-  (with-eval-after-load 'stripes
-    (add-hook 'proced-mode-hook #'stripes-mode)))
+  (setq proced-filter 'user))
 
 (prot-emacs-builtin-package 'prot-proced
   (prot-proced-extra-keywords 1))
@@ -21741,34 +21725,12 @@ likely to change over the near term.
 </div>
 </div>
 
-<div id="outline-container-h:01a73b02-ea7f-453d-854a-11eb79da6d1d" class="outline-3">
-<h3 id="h:01a73b02-ea7f-453d-854a-11eb79da6d1d"><span class="section-number-3">6.12.</span> Alternating background highlights (stripes.el)</h3>
-<div class="outline-text-3" id="text-h:01a73b02-ea7f-453d-854a-11eb79da6d1d">
-<p>
-With <code>stripes-mode</code> enabled, we get alternating backgrounds across the
-buffer.  Those do not override the foreground colours, so they are easy
-to integrate with other parts of Emacs.  Stripes are useful in long,
-text-heavy listings, such as those produced by the Elfeed package
-(<a href="#h:0cd8ddab-55d1-40df-b3db-1234850792ba">Elfeed feed reader, prot-elfeed.el and prot-elfeed-bongo.el</a>) or Notmuch
-(<a href="#h:a196812e-1644-4536-84ba-687366867def">Notmuch (mail indexer and mail user agent (MUA))</a>).  Search this
-document for places where I enable <code>stripes-mode</code>.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Alternating background highlights (stripes.el)
-(prot-emacs-elpa-package 'stripes
-  (setq stripes-unit 1))
-</pre>
-</div>
-</div>
-</div>
-
 <div id="outline-container-h:271c9122-280b-424e-98f0-af9e4f09bbdb" class="outline-3">
-<h3 id="h:271c9122-280b-424e-98f0-af9e4f09bbdb"><span class="section-number-3">6.13.</span> Conveniences and minor extras</h3>
+<h3 id="h:271c9122-280b-424e-98f0-af9e4f09bbdb"><span class="section-number-3">6.12.</span> Conveniences and minor extras</h3>
 <div class="outline-text-3" id="text-h:271c9122-280b-424e-98f0-af9e4f09bbdb">
 </div>
 <div id="outline-container-h:24c2ac42-a537-4658-8a08-9aebb0de1a73" class="outline-4">
-<h4 id="h:24c2ac42-a537-4658-8a08-9aebb0de1a73"><span class="section-number-4">6.13.1.</span> Automatic time stamps for files (time-stamp.el)</h4>
+<h4 id="h:24c2ac42-a537-4658-8a08-9aebb0de1a73"><span class="section-number-4">6.12.1.</span> Automatic time stamps for files (time-stamp.el)</h4>
 <div class="outline-text-4" id="text-h:24c2ac42-a537-4658-8a08-9aebb0de1a73">
 <p>
 The built-in <code>time-stamp.el</code> provides the means to automatically update a
@@ -21786,7 +21748,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org5417d81">
+<pre class="example" id="orgc574f4f">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -21814,7 +21776,7 @@ stamp upon save, where relevant.  It works seamlessly.
 </div>
 
 <div id="outline-container-h:7a8422e6-86d1-40f3-add4-0a1c826e44a3" class="outline-4">
-<h4 id="h:7a8422e6-86d1-40f3-add4-0a1c826e44a3"><span class="section-number-4">6.13.2.</span> Auto revert mode</h4>
+<h4 id="h:7a8422e6-86d1-40f3-add4-0a1c826e44a3"><span class="section-number-4">6.12.2.</span> Auto revert mode</h4>
 <div class="outline-text-4" id="text-h:7a8422e6-86d1-40f3-add4-0a1c826e44a3">
 <p>
 This mode ensures that the buffer is updated whenever the file changes.
@@ -21833,7 +21795,7 @@ A change can happen externally or by some other tool inside of Emacs
 </div>
 
 <div id="outline-container-h:9eae0d2a-eef1-4b14-b883-39094be4de71" class="outline-4">
-<h4 id="h:9eae0d2a-eef1-4b14-b883-39094be4de71"><span class="section-number-4">6.13.3.</span> Preserve contents of system clipboard</h4>
+<h4 id="h:9eae0d2a-eef1-4b14-b883-39094be4de71"><span class="section-number-4">6.12.3.</span> Preserve contents of system clipboard</h4>
 <div class="outline-text-4" id="text-h:9eae0d2a-eef1-4b14-b883-39094be4de71">
 <p>
 Say you copied a link from your web browser, then switched to Emacs to
@@ -21857,7 +21819,7 @@ be retrieved from there (e.g. with <code>M-y</code>).
 </div>
 
 <div id="outline-container-h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874" class="outline-4">
-<h4 id="h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874"><span class="section-number-4">6.13.4.</span> Newline characters for file ending</h4>
+<h4 id="h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874"><span class="section-number-4">6.12.4.</span> Newline characters for file ending</h4>
 <div class="outline-text-4" id="text-h:c0f0a2c1-1920-4bcf-8eb4-45f80cf1b874">
 <p>
 For some major modes, such as <code>diff-mode</code>, a final newline is of paramount
@@ -21875,7 +21837,7 @@ when visiting or saving a buffer of relevance.
 </div>
 
 <div id="outline-container-h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00" class="outline-4">
-<h4 id="h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00"><span class="section-number-4">6.13.5.</span> Zap characters</h4>
+<h4 id="h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00"><span class="section-number-4">6.12.5.</span> Zap characters</h4>
 <div class="outline-text-4" id="text-h:5f6ffe61-f0cc-41ad-9d2f-46ad181c3a00">
 <p>
 There are two kinds of "zap" functionality:
@@ -21906,7 +21868,7 @@ counterpart on <code>M-Z</code> (<code>M-S-z</code>).
 </div>
 
 <div id="outline-container-h:0d36996d-c12d-42e6-a388-b67c548c4a4b" class="outline-4">
-<h4 id="h:0d36996d-c12d-42e6-a388-b67c548c4a4b"><span class="section-number-4">6.13.6.</span> Package lists</h4>
+<h4 id="h:0d36996d-c12d-42e6-a388-b67c548c4a4b"><span class="section-number-4">6.12.6.</span> Package lists</h4>
 <div class="outline-text-4" id="text-h:0d36996d-c12d-42e6-a388-b67c548c4a4b">
 <p>
 With this I just want to enable line highlighting when browsing the list
@@ -23512,7 +23474,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org075cdfa">
+<pre class="example" id="org7aafccd">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23934,7 +23896,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgfc59765">
+<pre class="example" id="orge89a3c8">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23943,7 +23905,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org8072acd">
+<pre class="example" id="orgf4f3366">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23968,7 +23930,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org718ab25">
+<pre class="example" id="orgb48a636">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -24028,7 +23990,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org4c84d43">
+<pre class="example" id="orgdacdc9d">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24053,7 +24015,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org8aa239d">
+<pre class="example" id="org701fdd8">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24062,7 +24024,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org1a345eb">
+<pre class="example" id="org8eb7fea">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24081,7 +24043,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org8229c17">
+<pre class="example" id="org50fed3e">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
