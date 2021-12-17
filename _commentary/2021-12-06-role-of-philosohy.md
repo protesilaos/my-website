@@ -281,3 +281,37 @@ science-as-technical-expertise where it is essentially decoupled from
 the ethos of science-as-philosophy.  In such a case, the role of the
 philosopher would be to nudge things towards the direction of
 science-as-philosophy (and become irrelevant after the job's done).
+
+* * *
+
+> My comment about conversation was just an observation about how a
+> different format would have turned out differently.  There are pros
+> and cons of each option, and I'm satisfied with the efficiency of this
+> one.  I wasn't asking to turn this into a conversation, apart from the
+> reply I posted.  I've already said almost all I wanted to on the
+> topic.  I wouldn't mind if my posts are deleted because they've
+> already served their purpose in my own thinking process.  It would be
+> a bonus if anyone else finds them interesting so feel free to use my
+> posts as you please.  I'll just briefly respond to your last comments.
+> 
+> I know that there is a real science of economics, but I said that
+> economics doesn't deserve to be called a science because it is riddled
+> with ideology, cargo cult science, yes men and a lack of will to
+> improve.  Even if you could raise every great philosopher from the
+> dead, I don't think they would change the situation until the perverse
+> incentives for poor scientific standards were changed.  That's a job
+> for educators and policy makers, not philosophers;-- unless the
+> resurrected philosophers became educators or policy makers.
+> 
+> For example, I studied philosophy during my batchelor's degree with
+> career academics, but during my masters degree I did introductory
+> coursework in ethics for ICT professionals, taught brilliantly by a
+> professor relatively new to academia with about 40 years experience as
+> a programmer.  He simply introduced a set of ethical frameworks (and
+> relevant laws), and spent most of the time discussing practical
+> applications of these frameworks in various workplace scenarios.  My
+> undergraduate philosophy education was far more advanced
+> theoretically, but if I had to choose just one unit to make the
+> greatest impact in the world on the ethical behaviour of ICT
+> employees, I'd choose that introductory ethics unit taught by an
+> experienced programmer.
