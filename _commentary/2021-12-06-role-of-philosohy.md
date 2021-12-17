@@ -5,6 +5,8 @@ redirect_from:
   - /advice/2021-12-06-role-of-philosohy/
 ---
 
+**UPDATE 2021-12-17 17:41 +0200:** Included the full exchange.
+
 I received the following question in response to an older publication of
 mine.  I asked for permission to reproduce the exchange, while omitting
 any potentially personally identifying information.
@@ -151,3 +153,131 @@ scientist or expert and the philosopher is no longer meaningful.  Are we
 there yet?  I don't know.  My encounters with experts of all sorts tell
 me that we probably have ways to go, though that may not be the case or
 general trend.
+
+* * *
+
+**[EDIT 2021-12-17]** The response I received:
+
+> Thanks for sharing your thoughts on the topic.  If this was a natural
+> conversation I would have responded to in each paragraph, and I think
+> the end result would be very different.  This exchange has prompted me
+> to wish I had time to set up my own website like yours.  Maybe next
+> year.  For now, I'll just post my response here.  Sorry it's so long;
+> it would be shorter if I had more time.
+> 
+> You rightly distinguished between philosophers and philosophy, and I
+> noticed ambiguity in how I used the word "philosophy".  To clarify, I
+> was not questioning whether the traditionally philosophical activities
+> you listed (clarifying concepts, big picture thinking, finding
+> patterns, etc.)  are still important; they undoubtedly are.  What I
+> was asking was what you think the specific role is for philosophers to
+> do those activities.
+> 
+> You suggested a symbiotic relationship between polymathic tendencies
+> and philosophising.  I agree, and this is confirmed in my own
+> experience, but I don't think this indicates a contemporary role for
+> philosophers.  Multidisciplinary work is increasingly common nowadays.
+> It often involves experts from a variety of fields communicating among
+> themselves for the kinds of benefits you mentioned, such as pattern
+> finding, cross-fertilization and bigger picture thinking.  I
+> especially enjoy reading books in which each chapter is written by an
+> expert from different field.  There are many conferences involving a
+> variety of speakers.  A recent trend is for the architecture of many
+> organisations to be intentionally desiged to encourage interaction
+> between people from diverse fields.
+> 
+> You gave an example: "The notion of free software is not inherent to
+> programming, engineering or computer science, even though people in
+> those disciplines may conceive of it and reason about it."
+> 
+> This further confirms my original statement and doubts about the role
+> of philosophers.  Ethics is part of standard training for many
+> professions nowadays.  Software freedom arose as an effort to preserve
+> freedoms that were previously the norm, but which were being taken
+> away as part of the increasingly aggressive commercialisation of
+> software.  It's not hard to imagine how frustrating it must have been
+> for this freedom to be denied.  It would have been very natural for a
+> programmer with a moral compass and a well-rounded education to make
+> an ethical case and develop a counter-strategy in that situation.
+> 
+> You stated that: "Contrary to science, whose positive claims are meant
+> to be put to the test and ultimately verified, philosophy's
+> description of how things stand is speculative, filled with doubt and
+> subject to reconsideration.  At least as far as I am concerned, the
+> philosopher does not hide the fact that their role is not to make a
+> discovery down to the last detail but simply point toward a direction
+> that might hold mysteries yet to be revealed."
+> 
+> Each of these roles: speculative description of how things stand,
+> every level of doubt, keeping everything open to reconsideration, and
+> speculative pointing to potential future directions, are essential to
+> science, inherited from philosophy.  In a typical research article,
+> these are often found in the standard sections: Introduction,
+> Discussion, Future directions, and Conclusion; and scattered
+> throughout literature reviews and books.
+> 
+> You stated: "We will be better off once the distinction between
+> scientist or expert and the philosopher is no longer meaningful.
+> [...]  My encounters with experts of all sorts tell me that we
+> probably have a long way to go."
+> 
+> Is there a specific way in which you think scientists should be more
+> like philosophers?  In any field, not every person with a PhD lives up
+> to their title "Doctor of Philosophy", and not every field meets the
+> same epistemological standards in its models, literature or methods.
+> For example, I agree with your criticisms of economists and economics.
+> Its moniker "the dismal science" rightly labels it as dismal, but
+> calling it a science gives it too much credit.  Does this suggest a
+> role for philosophers, or is it rather a case for policy reform to
+> enforce ethical conduct and improve scientific standards?
+> 
+> I noticed that you implied that you were "defending philosophy".  My
+> question was not an attack on philosophy, and neither are my
+> refutations.  I believe that philosophy is one of the highest
+> achievements of humanity.  I cherish my own philosophy education, both
+> formal and autodidactic, and hold it in the highest esteem.  It
+> informs my life decisions and daily thinking and it enriches my inner
+> life.  Although I struggle to find a meaningful role for philosophers
+> in today's world, I firmly believe there is a crucial need in the
+> world for more widespread philosophy education, especially in ethics
+> and critical thinking skills, so people are better equipped to think
+> for themselves.
+
+* * *
+
+About turning this into a conversation: I am happy to do so and, if you
+want, publish the whole thing.  Eponymously (with links to your web
+presence) or anonymously---whatever you prefer **[EDIT 2021-12-17:
+Keeping it anonymous for now]**.  I just try to avoid long exchanges
+here **[EDIT 2021-12-17: meaning on Youtube]** because (i) they are
+virtually impossible to archive, (ii) they might be deleted at any time
+(it has happened before, including in a recent video about the Emacs VS
+Unix theme).  In case you want to do so, email would be my preferred
+medium and once we have put everything together we can agree on the
+details pertaining to its publication.
+
+About the role of philosophers: as I already wrote, if we reach a point
+where experts have ethics training, where their institutions implement
+the teachings of such training, where interdisciplinarity is the norm,
+where no school of thought gains prominence on the basis of social
+status or state/corporate funding or anything other than its own merits,
+and so on, then I believe there would no longer be a role for
+philosophers.  They would become irrelevant, at best echoing what would
+already be standard practice.
+
+For the rest of your post, I think we are on the same page though you
+seem to have a slightly higher standard of what qualifies as "science"
+than I do (given your point on economics that calling it a science gives
+it too much credit).  Maybe you focus on the "hard" sciences or
+something along those lines?  Fine by me, though then we need to make
+the qualification clear.  Because most scientists (in the banal sense of
+"science" which includes economists) that influence our daily life seem
+to not be involved in this sort of "hard science" (or however your
+standard is formulated): think about all the different and conflicting
+guidelines on diet, exercise, etc.  as well as what happens in the
+worlds of finance, politics, business, and so on.  Maybe in those cases
+we do not have science-as-philosophy (in the way you have outlined), but
+science-as-technical-expertise where it is essentially decoupled from
+the ethos of science-as-philosophy.  In such a case, the role of the
+philosopher would be to nudge things towards the direction of
+science-as-philosophy (and become irrelevant after the job's done).
