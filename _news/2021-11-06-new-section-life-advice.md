@@ -3,6 +3,12 @@ title: 'New section on the website about "life advice"'
 excerpt: "Announcement about a new section on my website, which contains my answers to questions about general life issues."
 ---
 
+**UPDATE 2021-12-17 10:29 +0200:** The section is now called "General
+commentary on life".  Please refer to [the
+announcement](https://protesilaos.com/news/2021-12-17-rename-advice-section-commentary/)
+
+* * *
+
 I just created a new section on my website, which contains my answers to
 questions I received about general life issues:
 <https://protesilaos.com/advice>.  It also has a [dedicated RSS

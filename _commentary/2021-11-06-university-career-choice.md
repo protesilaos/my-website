@@ -1,6 +1,8 @@
 ---
 title: "On the frame of mind for university and career choices"
 excerpt: "My reply on how to approach the complex issue of university studies followed by career decisions."
+redirect_from:
+  - /advice/2021-11-06-university-career-choice/
 ---
 
 I recently received an email where the person asked me about how to

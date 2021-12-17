@@ -1,6 +1,8 @@
 ---
 title: "On picking a pronoun and avoiding indecision"
 excerpt: "My reply on how to make queer friends without worrying too much about gender pronouns."
+redirect_from:
+  - /advice/2021-11-13-pronouns-indecision/
 ---
 
 These are entries where I publish an excerpt of a private exchange while

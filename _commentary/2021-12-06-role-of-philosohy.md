@@ -1,6 +1,8 @@
 ---
 title: "On the role of philosophy in the modern world"
 excerpt: "My reply to a question about the utility of philosophy in the modern world of science and widespread expertise."
+redirect_from:
+  - /advice/2021-12-06-role-of-philosohy/
 ---
 
 I received the following question in response to an older publication of

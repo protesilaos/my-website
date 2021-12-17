@@ -1,6 +1,8 @@
 ---
 title: "How (not) to be opinionated about art"
 excerpt: "My reply on how to deal with a situation of judging works of art and handling relevant heated arguments."
+redirect_from:
+  - /advice/2021-11-07-art-opinions/
 ---
 
 As with every other entry in this section, I publish an excerpt of an
