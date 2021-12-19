@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-13 11:35 +0200</b>.</li>
+<li>Updated: <b>2021-12-19 13:41 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -3122,7 +3122,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgba9d240">
+<pre class="example" id="org3624c57">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3189,7 +3189,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgd68467a">
+<pre class="example" id="org91aaf61">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3699,7 +3699,8 @@ results I am most likely interested in, based on previous selections.
         '( embark-prefix-help-command Info-goto-node
            Info-index Info-menu vc-retrieve-tag
            prot-bookmark-cd-bookmark
-           prot-bongo-playlist-insert-playlist-file))
+           prot-bongo-playlist-insert-playlist-file
+           project-switch-to-buffer))
 
   ;; You can place the Completions' buffer wherever you want, by
   ;; following the syntax of `display-buffer-alist' (check elsewhere in
@@ -13682,6 +13683,14 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
                     ":END:\n\n"
                     "%i%l")
            :empty-lines-after 1)
+          ("m" "Memorandum of conversation" entry
+           (file+headline "tasks.org" "Tasks to be reviewed")
+           ,(concat "* Memorandum of conversation with %^{Person}\n"
+                    ":PROPERTIES:\n"
+                    ":CAPTURED: %U\n"
+                    ":END:\n\n"
+                    "%i%?")
+           :empty-lines-after 1)
           ("t" "Task with a due date" entry
            (file+headline "tasks.org" "Tasks with a date")
            ,(concat "* TODO %^{Title} %^g\n"
@@ -13691,17 +13700,17 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
                     ":END:\n\n"
                     "%i%?")
            :empty-lines-after 1)
-          ("m" "Make email note" entry
-           (file+headline "tasks.org" "Tasks with a date")
-           ,(concat "* TODO %:subject :mail:\n"
-                    "SCHEDULED: %t\n:"
+          ("e" "Email note" entry
+           (file+headline "tasks.org" "Tasks to be reviewed")
+           ,(concat "* MAYBE %:subject :mail:\n"
                     "PROPERTIES:\n"
                     ":CAPTURED: %U\n"
                     ":END:\n\n"
-                    "%a\n%i%?"))))
+                    "%a\n%i%?")
+           :empty-lines-after 1)))
 
   (setq org-capture-templates-contexts
-        '(("m" ((in-mode . "notmuch-search-mode")
+        '(("e" ((in-mode . "notmuch-search-mode")
                 (in-mode . "notmuch-show-mode")
                 (in-mode . "notmuch-tree-mode")))))
 
@@ -14265,7 +14274,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org4792048">
+<pre class="example" id="orgf232c15">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14277,7 +14286,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orga8a76ee">
+<pre class="example" id="orgfb5e1d3">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14292,7 +14301,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org703c553">
+<pre class="example" id="orgfd16e74">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14310,7 +14319,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgf73a1a7">
+<pre class="example" id="org294ba01">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14339,7 +14348,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orga5fd7a0">
+<pre class="example" id="org8c85b5a">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14503,7 +14512,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgedf8fb1">
+<pre class="example" id="orgdff93e1">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15230,7 +15239,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orge4a13d9">
+<pre class="example" id="org46fcdc2">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15264,7 +15273,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgaf6a946">
+<pre class="example" id="orgd1787c6">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15428,7 +15437,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org59a2108">
+<pre class="example" id="orge3b6ea7">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15623,7 +15632,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7fa52dc">
+<pre class="example" id="org7cd7b0c">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16851,7 +16860,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org365c935">
+<pre class="example" id="orgc8d1d27">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17907,7 +17916,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org23c7292">
+<pre class="example" id="org360bb0f">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18599,7 +18608,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org01ddba4">
+<pre class="example" id="org45075a9">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21748,7 +21757,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgc574f4f">
+<pre class="example" id="org0dbbdf8">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23474,7 +23483,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org7aafccd">
+<pre class="example" id="org5e7661b">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23896,7 +23905,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orge89a3c8">
+<pre class="example" id="orga816152">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23905,7 +23914,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgf4f3366">
+<pre class="example" id="org5de6f68">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23930,7 +23939,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgb48a636">
+<pre class="example" id="org95a8771">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -23990,7 +23999,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgdacdc9d">
+<pre class="example" id="org22ab21a">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24015,7 +24024,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org701fdd8">
+<pre class="example" id="org91eba02">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24024,7 +24033,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org8eb7fea">
+<pre class="example" id="org9b54aa1">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24043,7 +24052,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org50fed3e">
+<pre class="example" id="orga588440">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
