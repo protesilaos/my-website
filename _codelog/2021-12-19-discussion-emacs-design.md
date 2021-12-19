@@ -5,7 +5,7 @@ excerpt: "A comment thread involving Emacs and modern app design."
 
 What follows is an exchange with [Karolus, Frontend developer & UI/UX
 designer](https://podzerek.pl/).  I am sharing it with permission, in
-the hope that others find it interesting.
+the hope that others will find it interesting.
 
 * * *
 
