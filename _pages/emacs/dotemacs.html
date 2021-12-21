@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-19 13:41 +0200</b>.</li>
+<li>Updated: <b>2021-12-21 09:24 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -3122,7 +3122,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org3624c57">
+<pre class="example" id="orgb06623a">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3189,7 +3189,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org91aaf61">
+<pre class="example" id="orgeabcc0d">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -9481,7 +9481,7 @@ The default workflow of USLS is to maintain a flat directory
 where all the notes are stored in.  This allows us to omit the
 common filesystem path and only show file names.
 
-When set to non-nil, the usls workflow can handle subdirectories
+When set to non-nil, the USLS workflow can handle subdirectories
 at the expense of making all file names more verbose, as it needs
 to include the complete path.
 
@@ -9550,7 +9550,7 @@ option `usls-file-region-separator-heading-level' and defaults to
 
 (defcustom usls-file-region-separator-heading-level 1
   "Heading level for `usls-file-region-separator'.
-Has effect when `usls-file-type-extension' is either that for
+Has effect when `usls-file-type-extension' is either that of
 Markdown or Org types."
   :group 'usls
   :type 'integer)
@@ -9575,7 +9575,7 @@ use-case is to `let' bind it in wrapper functions around
 `usls-new-note'.  In that scenario, it could be desirable to also
 set the value of `usls-file-type-extension', so as to generate a
 different type of note than the default: such as to write
-something in '.tex' while the default extension remains in tact.
+something in '.tex' while the default extension remains intact.
 In this case, users are expected to define a wrapper for
 `usls-new-note' like this (without the backslashes that appear in
 the source of this docstring):
@@ -9595,7 +9595,7 @@ the source of this docstring):
 (defconst usls-id-regexp "\\([0-9_]+\\{15\\}\\)"
   "Regular expression to match `usls-id'.")
 
-(defconst usls-category-regexp "\\(--\\)\\([0-9A-Za-z_-]*\\)\\(--\\)"
+(defconst usls-category-regexp "\\(--\\)\\([0-9A-Za-z_+]*\\)\\(--\\)"
   "Regular expression to match `usls-categories'.")
 
 (defconst usls-file-regexp
@@ -9771,7 +9771,7 @@ trailing hyphen."
 
 (defun usls--categories-in-files ()
   "Produce list of categories in `usls--directory-files'."
-  (cl-remove-if nil
+  (delq nil
    (mapcar (lambda (x)
              (usls--extract usls-category-regexp x 2))
            (usls--directory-files))))
@@ -10095,7 +10095,7 @@ When called interactively use completion."
 
 (defun usls--window-buffer-file-names-list ()
   "Return file names in `usls--window-buffer-list'."
-  (cl-remove-if nil
+  (delq nil
    (mapcar (lambda (x)
              (buffer-file-name x))
            (usls--window-buffer-list))))
@@ -10104,7 +10104,7 @@ When called interactively use completion."
   "Return USLS files in `usls--window-buffer-file-names-list'."
   (let ((files (usls--directory-files-recursive))
         (buf-files (mapcar #'abbreviate-file-name (usls--window-buffer-file-names-list))))
-    (cl-remove-if nil
+    (delq nil
      (mapcar (lambda (x)
                (when (member x files)
                  x))
@@ -13703,7 +13703,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
           ("e" "Email note" entry
            (file+headline "tasks.org" "Tasks to be reviewed")
            ,(concat "* MAYBE %:subject :mail:\n"
-                    "PROPERTIES:\n"
+                    ":PROPERTIES:\n"
                     ":CAPTURED: %U\n"
                     ":END:\n\n"
                     "%a\n%i%?")
@@ -14274,7 +14274,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf232c15">
+<pre class="example" id="orgb929e0c">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14286,7 +14286,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgfb5e1d3">
+<pre class="example" id="org4709188">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14301,7 +14301,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgfd16e74">
+<pre class="example" id="orgcaf2f8d">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14319,7 +14319,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org294ba01">
+<pre class="example" id="org499a276">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14348,7 +14348,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org8c85b5a">
+<pre class="example" id="orgef724b8">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14512,7 +14512,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgdff93e1">
+<pre class="example" id="org41e993f">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15239,7 +15239,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org46fcdc2">
+<pre class="example" id="orged86dc7">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15273,7 +15273,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgd1787c6">
+<pre class="example" id="orgd2eb971">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15437,7 +15437,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orge3b6ea7">
+<pre class="example" id="orgc187e2e">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15632,7 +15632,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7cd7b0c">
+<pre class="example" id="org86b2108">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16860,7 +16860,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgc8d1d27">
+<pre class="example" id="orgef46671">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17916,7 +17916,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org360bb0f">
+<pre class="example" id="org25538b7">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18608,7 +18608,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org45075a9">
+<pre class="example" id="org53cda8a">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21757,7 +21757,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org0dbbdf8">
+<pre class="example" id="orgf7bc17e">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23483,7 +23483,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org5e7661b">
+<pre class="example" id="org42925aa">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23905,7 +23905,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orga816152">
+<pre class="example" id="org154cb89">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23914,7 +23914,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org5de6f68">
+<pre class="example" id="orgcde36d2">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23939,7 +23939,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org95a8771">
+<pre class="example" id="org1b801c0">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -23999,7 +23999,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org22ab21a">
+<pre class="example" id="org0c9a444">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24024,7 +24024,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org91eba02">
+<pre class="example" id="org476aa46">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24033,7 +24033,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9b54aa1">
+<pre class="example" id="org6538db2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24052,7 +24052,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orga588440">
+<pre class="example" id="orgd8b42b6">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
