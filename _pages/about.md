@@ -94,7 +94,7 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [Blog on politics](https://protesilaos.com/politics/) (supersedes my old EU-focused blog)
 * [Blog archive](https://protesilaos.com/blog-archive/) (mostly political writings about the EU)
 * [Coding blog](https://protesilaos.com/codelog/) (posts about free/libre software---mostly Emacs)
-* [General commentary on life](https://protesilaos.com/commentary/) (comments or discusssions on how to approach complex life issues)
+* [General commentary on life](https://protesilaos.com/commentary/) (comments or discussions on how to approach complex life issues)
 * [My packages for GNU Emacs](https://protesilaos.com/emacs/) (index with all my packages---lots of code!)
 
 ### In Greek
