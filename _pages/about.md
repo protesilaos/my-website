@@ -60,9 +60,15 @@ but I actually talk philosophy, such as:
 + [Live stream: Emacs and the Unix
   philosophy](https://protesilaos.com/codelog/2021-09-22-live-stream-emacs-unix/)
   (2021-09-22).
++ [EmacsConf 2021: How Emacs made me appreciate software
+  freedom](https://protesilaos.com/codelog/2021-12-21-emacsconf2021-freedom/)
+  (2021-12-21).
 
 In a manner of speaking, I just talk to programmers about philosophy and
-to philosophers about programming.
+to philosophers about programming.  Another relevant introduction is [My
+'Brown University Interviews' on Emacs and
+life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
+(2021-10-29).
 
 ## protesilaos.com
 
@@ -88,7 +94,7 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [Blog on politics](https://protesilaos.com/politics/) (supersedes my old EU-focused blog)
 * [Blog archive](https://protesilaos.com/blog-archive/) (mostly political writings about the EU)
 * [Coding blog](https://protesilaos.com/codelog/) (posts about free/libre software---mostly Emacs)
-* [Life advice](https://protesilaos.com/advice/) (comments on how to approach complex life issues)
+* [General commentary on life](https://protesilaos.com/commentary/) (comments or discusssions on how to approach complex life issues)
 * [My packages for GNU Emacs](https://protesilaos.com/emacs/) (index with all my packages---lots of code!)
 
 ### In Greek
