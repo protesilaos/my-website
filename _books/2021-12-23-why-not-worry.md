@@ -82,7 +82,7 @@ cherished.  Just as you once assigned significance to a job or certain
 social connections; a value that has since been lost though it might be
 established once more.  What is value then?  It cannot be intrinsic to
 those magnitudes, as then it would be impossible to alter it by merely
-thinking of them in a different way, sme with how you cannot make a dog
+thinking of them in a different way, same with how you cannot make a dog
 a biped by virtue of a newfound opinion.  Value of this kind is a human
 construct.  It is always extrinsic.
 
