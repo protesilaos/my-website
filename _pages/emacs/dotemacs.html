@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-26 16:38 +0200</b>.</li>
+<li>Updated: <b>2021-12-27 07:57 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -745,7 +745,7 @@ with greater precision.  My code is as follows:
 (setq use-dialog-box t)                 ; only for mouse events
 (setq use-file-dialog nil)
 
-(setq inhibit-startup-echo-area-message (user-login-name)) ; read the docstring
+(setq inhibit-startup-echo-area-message user-login-name) ; read the docstring
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-buffer-menu t)
 
@@ -3156,7 +3156,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org2eb256a">
+<pre class="example" id="org66f2f49">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3223,7 +3223,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org7806f02">
+<pre class="example" id="org1db4a6b">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6498,7 +6498,6 @@ abbrevs.  I have no real use for them right now.
 
   (let ((table text-mode-abbrev-table))
     (define-abbrev table "latex" "LaTeX")
-    (define-abbrev table "latex" "LaTeX")
     (define-abbrev table "github" "GitHub")
     (define-abbrev table "gitlab" "GitLab")
     (define-abbrev table "sourcehut" "SourceHut")
@@ -6508,12 +6507,13 @@ abbrevs.  I have no real use for them right now.
     (define-abbrev table "Emacs29" "Emacs 29")
     (define-abbrev table "asciidoc" "AsciiDoc"))
 
-  (let ((table message-mode-abbrev-table)
-        (name "Protesilaos (or simply \"Prot\")"))
-    (define-abbrev table "bestregards" (format "Best regards,\n%s" name))
-    (define-abbrev table "allthebest" (format "All the best,\n%s" name))
-    (define-abbrev table "abest" "All the best,\nProt")
-    (define-abbrev table "aregards" "Best regards,\nProt"))
+  (with-eval-after-load 'message
+    (let ((table message-mode-abbrev-table)
+          (name "Protesilaos (or simply \"Prot\")"))
+      (define-abbrev table "bestregards" (format "Best regards,\n%s" name))
+      (define-abbrev table "allthebest" (format "All the best,\n%s" name))
+      (define-abbrev table "abest" "All the best,\nProt")
+      (define-abbrev table "bregards" "Best regards,\nProt")))
 
   (let ((map global-map))
     (define-key map (kbd "C-x a e") #'expand-abbrev) ; default, just here for visibility
@@ -14060,10 +14060,6 @@ hook `modus-themes-after-load-theme-hook'."
 
 ;;;; org-capture
 
-(defvar prot-org-agenda-after-edit-hook nil
-  "Hook that runs after select Org commands.
-To be used with `advice-add'.")
-
 (declare-function prot-bongo-show "prot-bongo")
 
 (defun prot-org-capture-jukebox ()
@@ -14072,18 +14068,6 @@ To be used with `advice-add'.")
           ":PROPERTIES:\n"
           ":CAPTURED: %U\n"
           ":END:\n\n"))
-
-(defun prot-org--agenda-after-edit (&amp;rest _)
-  "Run `prot-org-agenda-after-edit-hook'."
-  (run-hooks 'prot-org-agenda-after-edit-hook))
-
-(dolist (fn '(org-agenda-archive org-archive-subtree org-agenda-todo org-todo))
-  (advice-add fn :after #'prot-org--agenda-after-edit))
-
-(dolist (hook '(org-capture-after-finalize-hook
-                org-agenda-after-show-hook
-                prot-org-agenda-after-edit-hook))
-  (add-hook hook #'org-agenda-to-appt))
 
 (declare-function cl-letf "cl-lib")
 
@@ -14193,6 +14177,48 @@ produces dates with a fixed length."
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                 (org-agenda-overriding-header "\nUpcoming deadlines (+14d)\n"))))
   "Custom agenda for use in `org-agenda-custom-commands'.")
+
+;;;;; agenda appointments
+
+(defvar prot-org-agenda-after-edit-hook nil
+  "Hook that runs after select Org commands.
+To be used with `advice-add'.")
+
+(defun prot-org--agenda-after-edit (&amp;rest _)
+  "Run `prot-org-agenda-after-edit-hook'."
+  (run-hooks 'prot-org-agenda-after-edit-hook))
+
+(defvar prot-org-after-deadline-or-schedule-hook nil
+  "Hook that runs after `org--deadline-or-schedule'.
+To be used with `advice-add'.")
+
+(defvar prot-org--appt-agenda-commands
+  '( org-agenda-archive org-agenda-deadline org-agenda-schedule
+     org-agenda-todo org-archive-subtree)
+  "List of commands that run `prot-org-agenda-after-edit-hook'.")
+
+(dolist (fn prot-org--appt-agenda-commands)
+  (advice-add fn :after #'prot-org--agenda-after-edit))
+
+(defun prot-org--after-deadline-or-schedule (&amp;rest _)
+  "Run `prot-org-after-deadline-or-schedule-hook'."
+  (run-hooks 'prot-org-after-deadline-or-schedule-hook))
+
+(defun prot-org-org-agenda-to-appt ()
+  "Make `org-agenda-to-appt' always refresh appointment list."
+  (org-agenda-to-appt :refresh))
+
+(dolist (hook '(org-capture-after-finalize-hook
+                org-after-todo-state-change-hook
+                org-agenda-after-show-hook
+                prot-org-agenda-after-edit-hook))
+  (add-hook hook #'prot-org-org-agenda-to-appt))
+
+(declare-function org--deadline-or-schedule "org" (arg type time))
+
+(advice-add #'org--deadline-or-schedule :after #'prot-org--after-deadline-or-schedule)
+
+(add-hook 'prot-org-after-deadline-or-schedule-hook #'prot-org-org-agenda-to-appt)
 
 ;;;; org-export
 
@@ -14317,7 +14343,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgd02f904">
+<pre class="example" id="org4185bb1">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14329,7 +14355,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgb3b4811">
+<pre class="example" id="orgcc2e254">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14344,7 +14370,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org82b8d05">
+<pre class="example" id="org3d651b0">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14362,7 +14388,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org8f0df53">
+<pre class="example" id="org849afd7">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14391,7 +14417,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd4b2d5f">
+<pre class="example" id="orgb66cc09">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14555,7 +14581,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgbe8f05a">
+<pre class="example" id="org8b9b48a">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15282,7 +15308,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org947bb2a">
+<pre class="example" id="orgada249f">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15316,7 +15342,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org4cc2ca7">
+<pre class="example" id="org58efcd7">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15480,7 +15506,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org3a00e4b">
+<pre class="example" id="org76d6332">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15675,7 +15701,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org5386632">
+<pre class="example" id="orgb491068">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16903,7 +16929,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgd5c2e56">
+<pre class="example" id="orgae15c36">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17959,7 +17985,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgfdf6a6b">
+<pre class="example" id="orgb92866c">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18651,7 +18677,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orge921443">
+<pre class="example" id="org67f85fa">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21800,7 +21826,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org8374659">
+<pre class="example" id="org72c3163">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23526,7 +23552,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org5d65c47">
+<pre class="example" id="org74d6403">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23948,7 +23974,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org759fcd1">
+<pre class="example" id="org0e7310f">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23957,7 +23983,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org3b8674a">
+<pre class="example" id="org9f85746">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23982,7 +24008,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgb9e23fa">
+<pre class="example" id="org2074902">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -24042,7 +24068,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgff2d77a">
+<pre class="example" id="org86aa5e6">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24067,7 +24093,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org3ad9cec">
+<pre class="example" id="org9560043">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24076,7 +24102,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org2b0580a">
+<pre class="example" id="orgf893f7b">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24095,7 +24121,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org019d055">
+<pre class="example" id="orgd94d948">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
