@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-27 07:57 +0200</b>.</li>
+<li>Updated: <b>2021-12-29 11:30 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -2494,9 +2494,9 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts nil
-        modus-themes-subtle-line-numbers nil
-        modus-themes-intense-markup nil
-        modus-themes-deuteranopia t
+        modus-themes-subtle-line-numbers t
+        modus-themes-intense-markup t
+        modus-themes-deuteranopia nil
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
@@ -2512,12 +2512,12 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', and a natural number for extra padding
-        modus-themes-mode-line nil
+        modus-themes-mode-line '(borderless 4)
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax nil
+        modus-themes-syntax '(yellow-comments alt-syntax green-strings)
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2527,7 +2527,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match '(intense bold)
+        modus-themes-paren-match '(intense underline bold)
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2538,21 +2538,21 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts '(intense gray background)
+        modus-themes-prompts nil
 
-        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
+        modus-themes-completions nil ; {nil,'moderate,'opinionated}
 
         modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(accented no-extend)
+        modus-themes-region '(no-extend)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs nil
 
-        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+        modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background}
 
         modus-themes-org-agenda ; this is an alist: read the manual or its doc string
         '((header-block . (variable-pitch regular 1.4))
@@ -2562,8 +2562,11 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
           (habit . traffic-light))
 
         modus-themes-headings ; this is an alist: read the manual or its doc string
-        '((1 . (variable-pitch regular 1.4))
-          (2 . (1.2))
+        '((1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.6))
+          (3 . (variable-pitch regular 1.3))
+          (4 . (monochrome 1.2))
+          (5 . (1.1))
           (t . (rainbow 1.05))))
 
   ;; Load the theme files before enabling a theme (else you get an error).
@@ -3156,7 +3159,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org66f2f49">
+<pre class="example" id="orgcd4935d">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3223,7 +3226,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org1db4a6b">
+<pre class="example" id="org0afa3e8">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -9748,15 +9751,18 @@ trailing hyphen."
 
 ;;;; Files in directory
 
-(defun usls--directory-files-flat ()
-  "List `usls-directory' files, assuming flat directory."
-  (let ((dotless directory-files-no-dot-files-regexp))
+(defun usls--directory-files-flat (&amp;optional directory)
+  "List `usls-directory' files, assuming flat directory.
+With optional DIRECTORY, find files there, else use
+`usls--directory'."
+  (let ((dotless directory-files-no-dot-files-regexp)
+        (dir (or directory (usls--directory))))
     (cl-remove-if
      (lambda (x)
        ;; TODO: generalise this for all VC backends?  Which ones?
        (or (string-match-p "\\.git" x)
            (file-directory-p x)))
-     (directory-files (usls--directory) nil dotless t))))
+     (directory-files dir nil dotless t))))
 
 (defun usls--directory-files-recursive ()
   "List `usls-directory' files, assuming directory tree."
@@ -9766,14 +9772,20 @@ trailing hyphen."
        (string-match-p "\\.git" x))
      (directory-files-recursively (usls--directory) ".*" nil t)))
 
-(defun usls--directory-files ()
-  "List directory files."
-  (let ((path (usls--directory)))
+(defun usls--make-directory (directory)
+  "Make DIRECTORY, if missing."
+  (let ((path directory))
     (unless (file-directory-p path)
-      (make-directory path t))
-    (if usls-subdir-support
-        (usls--directory-files-recursive)
-      (usls--directory-files-flat))))
+      (make-directory path t))))
+
+(defun usls--directory-files (&amp;optional directory)
+  "List directory files.
+With optional DIRECTORY, specify path for
+`usls--directory-files-flat'."
+  (usls--make-directory (usls--directory))
+  (if usls-subdir-support
+      (usls--directory-files-recursive)
+    (usls--directory-files-flat directory)))
 
 (defun usls--directory-subdirs ()
   "Return list of subdirectories in `usls-directory'."
@@ -9816,14 +9828,14 @@ trailing hyphen."
   "Produce list of categories in `usls--directory-files'."
   (delq nil
    (mapcar (lambda (x)
-             (usls--extract usls-category-regexp x 2))
+             (usls--extract (concat usls-id-regexp usls-category-regexp) x 3))
            (usls--directory-files))))
 
 (defun usls--inferred-categories ()
   "Extract categories from `usls--directory-files'."
   (let ((sequence (usls--categories-in-files)))
     (mapcan (lambda (s)
-              (split-string s "-" t))
+              (split-string s "+" t))
             sequence)))
 
 (defun usls-categories ()
@@ -14343,7 +14355,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org4185bb1">
+<pre class="example" id="orgd211e25">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14355,7 +14367,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgcc2e254">
+<pre class="example" id="org1c9c9c6">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14370,7 +14382,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org3d651b0">
+<pre class="example" id="org1b2429a">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14388,7 +14400,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org849afd7">
+<pre class="example" id="orgfc89927">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14417,7 +14429,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgb66cc09">
+<pre class="example" id="org81218e3">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14581,7 +14593,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org8b9b48a">
+<pre class="example" id="org65568e4">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15308,7 +15320,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgada249f">
+<pre class="example" id="org299c8d0">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15342,7 +15354,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org58efcd7">
+<pre class="example" id="org9609d16">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15506,7 +15518,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org76d6332">
+<pre class="example" id="orgcf7f678">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15701,7 +15713,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgb491068">
+<pre class="example" id="org860eb89">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16929,7 +16941,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgae15c36">
+<pre class="example" id="orgadea508">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17985,7 +17997,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgb92866c">
+<pre class="example" id="orge05dc75">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18677,7 +18689,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org67f85fa">
+<pre class="example" id="org9043112">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21826,7 +21838,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org72c3163">
+<pre class="example" id="org38b31c3">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23552,7 +23564,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org74d6403">
+<pre class="example" id="orgb57573e">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23974,7 +23986,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org0e7310f">
+<pre class="example" id="orgdc4f711">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23983,7 +23995,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org9f85746">
+<pre class="example" id="orge8a2a18">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24008,7 +24020,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org2074902">
+<pre class="example" id="orgd339206">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -24068,7 +24080,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org86aa5e6">
+<pre class="example" id="orgd9cee03">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24093,7 +24105,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org9560043">
+<pre class="example" id="org71abe4e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24102,7 +24114,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgf893f7b">
+<pre class="example" id="orga4d6132">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24121,7 +24133,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd94d948">
+<pre class="example" id="orgd1bcb96">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
