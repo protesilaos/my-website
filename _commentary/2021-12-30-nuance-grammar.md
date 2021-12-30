@@ -7,7 +7,7 @@ The following is an excerpt of an exchange that initially was about the
 capitalisation of proper nouns but ultimately developed into a
 commentary on matters of style and grammar.  I have omitted the
 personally identifying information and am sharing this with permission
-in the hope that others may find it useful.
+in the hope that others will find it useful.
 
 * * *
 
