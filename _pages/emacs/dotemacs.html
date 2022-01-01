@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2021-12-31 21:36 +0200</b>.</li>
+<li>Updated: <b>2022-01-01 12:43 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -135,7 +135,7 @@ redirect_from:
 </li>
 <li><a href="#h:77d14350-978d-4820-ab7f-4641706c445a">5.2. Custom extensions for "focus mode" (prot-logos.el)</a></li>
 <li><a href="#h:787df548-0d95-4512-a61d-27852198f561">5.3. USLS &#x2014; Unassuming Sidenotes of Little Significance</a></li>
-<li><a href="#orgce6e714">5.4. INVTR (toy inventory and client manager)</a></li>
+<li><a href="#org66a00ba">5.4. INVTR (toy inventory and client manager)</a></li>
 <li><a href="#h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa">5.5. tmr.el (TMR Must Recur)</a></li>
 <li><a href="#h:0e2fe4c7-9d4b-4570-a293-9a9629021ff7">5.6. Version control tools</a>
 <ul>
@@ -3164,7 +3164,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org9ad2103">
+<pre class="example" id="orgf87f113">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3231,7 +3231,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org0a0f7d6">
+<pre class="example" id="orgd1f7475">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -9665,7 +9665,7 @@ Only tested with the Modus themes.")
 NOTE 2021-12-29: USLS is subject to a rewrite.  I have been using it
 daily since its inception, though the code needs to be refactored.  As a
 proof-of-concept of its utility, check out my <code>invtr</code> (only for curious
-hackers, not actual users): <a href="#orgce6e714">INVTR (toy inventory and client manager)</a>.
+hackers, not actual users): <a href="#org66a00ba">INVTR (toy inventory and client manager)</a>.
 </p>
 
 <p>
@@ -10689,8 +10689,8 @@ directory will be directly displayed instead."
 </div>
 </div>
 
-<div id="outline-container-orgce6e714" class="outline-3">
-<h3 id="orgce6e714"><span class="section-number-3">5.4.</span> INVTR (toy inventory and client manager)</h3>
+<div id="outline-container-org66a00ba" class="outline-3">
+<h3 id="org66a00ba"><span class="section-number-3">5.4.</span> INVTR (toy inventory and client manager)</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 I am intentionally not documenting this because it is not intended for
@@ -13977,7 +13977,7 @@ switcher.</li>
     (define-key map (kbd "C-c C-r") #'prot-eshell-root-dir))
   (let ((map eshell-cmpl-mode-map))
     (define-key map (kbd "C-c TAB") #'prot-eshell-ffap-insert) ; C-c C-i
-    (define-key map (kbd "C-c M-h") #'prot-eshell-narrow-output-highlight-regexp))
+    (define-key map (kbd "C-c C-h") #'prot-eshell-narrow-output-highlight-regexp))
   (let ((map eshell-hist-mode-map))
     (define-key map (kbd "M-s") #'nil) ; I use this prefix for lots of more useful commands
     (define-key map (kbd "M-r") #'prot-eshell-complete-history)
@@ -14063,10 +14063,9 @@ documentation string.  BODY is the set of arguments passed to the
   `(defun ,name ()
      ,doc
      (interactive)
-     (let ((file (ffap-file-at-point)))
-       (if file
-           ,@body
-         (user-error "No file at point")))))
+     (if-let ((file (ffap-file-at-point)))
+         ,@body
+       (user-error "No file at point"))))
 
 (prot-eshell-ffap
  prot-eshell-ffap-insert
@@ -14124,19 +14123,48 @@ append to it, while separating multiple outputs with
   "Complete the syntax for appending Eshell output to BUFFER."
   (interactive
    (list (read-buffer "Redirect to buffer: ")))
-  (insert
-   (format " &gt;&gt;&gt; #&lt;%s&gt;" buffer)))
+  (insert (format " &gt;&gt;&gt; #&lt;%s&gt;" buffer)))
+
+(defconst prot-eshell--highlight-faces
+  '(hi-yellow hi-blue hi-pink hi-green hi-salmon hi-aquamarine)
+  "List of faces to highlight output.")
+
+(defvar prot-eshell--highlight-last-face nil
+  "Last used face used for highlighting output.")
+
+(defun prot-eshell--highlight-random-face ()
+  "Return random face except last used.
+For use in `prot-eshell-narrow-output-highlight-regexp'."
+  (let* ((faces prot-eshell--highlight-faces)
+         (last prot-eshell--highlight-last-face)
+         (remaining (when last (remove last faces)))
+         (length (1- (length faces)))
+         (n (random length))
+         (face (nth n remaining)))
+    (cond
+     ((null face)
+      (setq face (car faces)))
+     ((eq face last)
+      (setq remaining (remove face remaining))
+      (setq face (car remaining))))
+    (setq prot-eshell--highlight-last-face face)
+    face))
+
+(defvar prot-eshell--output-highlight-history '()
+  "History of `prot-eshell-narrow-output-highlight-regexp'.")
 
 ;;;###autoload
 (defun prot-eshell-narrow-output-highlight-regexp (regexp)
   "Narrow to last command output and highlight REGEXP."
   (interactive
-   (list (read-regexp "Regexp to highlight")))
+   (list (read-regexp "Regexp to highlight" nil 'prot-eshell--output-highlight-history)))
   (narrow-to-region (eshell-beginning-of-output)
                     (eshell-end-of-output))
   (goto-char (point-min))
-  (highlight-regexp regexp 'hi-yellow)
-  (message "Narrowed to last output and highlighted &lt; %s &gt;" regexp))
+  (highlight-regexp regexp (prot-eshell--highlight-random-face))
+  (message "%s to last output and highlighted '%s'"
+           (propertize "Narrowed" 'face 'bold)
+           (propertize regexp 'face 'italic)))
 
 ;;;###autoload
 (defun prot-eshell-complete-recent-dir (&amp;optional arg)
@@ -14151,16 +14179,29 @@ open the directory in a `dired' buffer."
     (when arg
       (dired dir))))
 
+(defvar prot-eshell--complete-history-prompt-history '()
+  "History of `prot-eshell-narrow-output-highlight-regexp'.")
+
+(defun prot-eshell--complete-history-prompt ()
+  "Prompt with completion for history element.
+Helper function for `prot-eshell-complete-history'."
+  (if-let ((hist (ring-elements eshell-history-ring)))
+      (completing-read "Input from history: "
+                       hist nil t nil
+                       'prot-eshell--complete-history-prompt-history)
+    (user-error "There is no Eshell history")))
+
 ;;;###autoload
-(defun prot-eshell-complete-history ()
-  "Insert element from Eshell history using completion."
-  (interactive)
-  (let ((hist (ring-elements eshell-history-ring)))
-    (insert
-     (completing-read "Input from history: " hist nil t))))
+(defun prot-eshell-complete-history (elt)
+  "Insert ELT from Eshell history using completion."
+  (interactive
+   (list (prot-eshell--complete-history-prompt)))
+  (insert elt))
 
 (autoload 'cl-remove-if-not "cl-seq")
 
+;; TODO 2022-01-01: Maybe we can rewrite this using `find' and then
+;; processing the output.
 ;;;###autoload
 (defun prot-eshell-find-subdirectory-recursive ()
   "Recursive `eshell/cd' to subdirectory.
@@ -14184,13 +14225,9 @@ wisely or prepare to call `eshell-interrupt-process'."
 (defun prot-eshell-root-dir ()
   "Switch to the root directory of the present project."
   (interactive)
-  (let ((root (or (vc-root-dir)
-                  (locate-dominating-file "." ".git"))))
-    (if root
-        (progn
-          (insert root)
-          (eshell-send-input))
-      (user-error "Cannot find a project root here"))))
+  (if-let ((root (or (vc-root-dir) (locate-dominating-file "." ".git"))))
+      (progn (insert root) (eshell-send-input))
+    (user-error "Cannot find a project root here")))
 
 ;;;; Bookmark handler for bookmark.el
 ;; The default pops up an existing Eshell buffer instead of creating a
@@ -15250,7 +15287,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org163c6b3">
+<pre class="example" id="org5e820f2">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15262,7 +15299,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org874d64a">
+<pre class="example" id="org01acaed">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15277,7 +15314,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org7d07309">
+<pre class="example" id="orgc1434e2">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15295,7 +15332,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org5060bc4">
+<pre class="example" id="org2b740bf">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15324,7 +15361,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd8fa11c">
+<pre class="example" id="org598edfd">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15488,7 +15525,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org47bfd29">
+<pre class="example" id="org7e3efce">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16215,7 +16252,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgb02e360">
+<pre class="example" id="org63b0d4e">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16249,7 +16286,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org94af781">
+<pre class="example" id="orgff801c8">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16413,7 +16450,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orge656131">
+<pre class="example" id="org99b4bfe">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16608,7 +16645,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org95f4bbe">
+<pre class="example" id="orgf40985a">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17836,7 +17873,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org69290a0">
+<pre class="example" id="org63ef6cb">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18892,7 +18929,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org3812a88">
+<pre class="example" id="orgfc83d77">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19584,7 +19621,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org2cb079c">
+<pre class="example" id="org0e8d375">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22733,7 +22770,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org567a0a8">
+<pre class="example" id="org5ce8df4">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24456,7 +24493,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org3d5993a">
+<pre class="example" id="org7da8878">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24878,7 +24915,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgecd1117">
+<pre class="example" id="orgcf2c1da">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24887,7 +24924,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org95a9e0b">
+<pre class="example" id="org8eed26e">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24912,7 +24949,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org90cdc56">
+<pre class="example" id="org04eed15">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -24972,7 +25009,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org38f1599">
+<pre class="example" id="org2dfd0f6">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24997,7 +25034,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org7bd12a8">
+<pre class="example" id="orgbc088d0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25006,7 +25043,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org330bce2">
+<pre class="example" id="org4ca5e3f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25025,7 +25062,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org53f4242">
+<pre class="example" id="org6fe31e4">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
