@@ -42,12 +42,17 @@ Current development target is 0.4.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:efc32d6b-9405-4f3c-9560-3229b3ce3866">1. COPYING</a></li>
-<li><a href="#h:ba224631-618c-4e52-b373-e46970cb2242">2. Overview of MCT</a></li>
+<li><a href="#h:ba224631-618c-4e52-b373-e46970cb2242">2. Overview of MCT</a>
+<ul>
+<li><a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">2.1. MCT in the minibuffer and in regular buffers</a></li>
+</ul>
+</li>
 <li><a href="#h:884d6702-8666-4d89-87a2-7d74843653f3">3. Usage</a>
 <ul>
-<li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">3.1. Cyclic behaviour</a></li>
-<li><a href="#h:bb445062-2e39-4082-a868-2123bfb793cc">3.2. Selecting candidates</a></li>
-<li><a href="#h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">3.3. Other commands</a></li>
+<li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">3.1. Cyclic behaviour in the minibuffer</a></li>
+<li><a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">3.2. Cyclic behaviour for in-buffer completion</a></li>
+<li><a href="#h:bb445062-2e39-4082-a868-2123bfb793cc">3.3. Selecting candidates</a></li>
+<li><a href="#h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">3.4. Other commands</a></li>
 </ul>
 </li>
 <li><a href="#h:1b501ed4-f16c-4118-9a4a-7a5e29143077">4. Installation</a>
@@ -58,20 +63,25 @@ Current development target is 0.4.0-dev.
 </li>
 <li><a href="#h:318ba6f8-2909-44b0-9bed-558552722667">5. Sample setup</a></li>
 <li><a href="#h:b3178edd-f340-444c-8426-fe84f23ac9ea">6. Keymaps</a></li>
-<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">7. Extensions</a>
+<li><a href="#h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">7. User-level tweaks or custom code</a>
 <ul>
-<li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">7.1. Enable Consult previews</a></li>
+<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">7.1. MCT in the current or the other window</a></li>
 </ul>
 </li>
-<li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">8. Alternatives</a></li>
-<li><a href="#h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">9. Acknowledgements</a></li>
-<li><a href="#h:32f474f2-f596-4a7e-a0da-023344136be1">10. Official sources</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">11. GNU Free Documentation License</a></li>
-<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">12. Indices</a>
+<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">8. Extensions</a>
 <ul>
-<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">12.1. Function index</a></li>
-<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">12.2. Variable index</a></li>
-<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">12.3. Concept index</a></li>
+<li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">8.1. Enable Consult previews</a></li>
+</ul>
+</li>
+<li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">9. Alternatives</a></li>
+<li><a href="#h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">10. Acknowledgements</a></li>
+<li><a href="#h:32f474f2-f596-4a7e-a0da-023344136be1">11. Official sources</a></li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">12. GNU Free Documentation License</a></li>
+<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">13. Indices</a>
+<ul>
+<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">13.1. Function index</a></li>
+<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">13.2. Variable index</a></li>
+<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">13.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -210,23 +220,75 @@ white&#x2014;other themes would need to add support for the faces we define
 or, at least, users must modify the <code>mct-stripe</code> face.</li>
 </ul>
 </div>
+
+<div id="outline-container-h:8109fe09-fcce-4212-88eb-943cc72f2c75" class="outline-3">
+<h3 id="h:8109fe09-fcce-4212-88eb-943cc72f2c75"><span class="section-number-3">2.1.</span> MCT in the minibuffer and in regular buffers</h3>
+<div class="outline-text-3" id="text-h:8109fe09-fcce-4212-88eb-943cc72f2c75">
+<p>
+Emacs draws a distinction between two types of completion sessions:
+</p>
+
+<ul class="org-ul">
+<li>Completion where the minibuffer is involved (such as to switch buffers
+or find a file).</li>
+<li>Completion in a regular buffer to expand the text before point.  The
+minibuffer is not active.  We call this &ldquo;in-buffer completion&rdquo; or
+allude to the underlying function: <code>completion-in-region</code>.</li>
+</ul>
+
+<p>
+The former scenario is what MCT has supported since its inception.
+Starting with version <code>0.4.0</code> it also covers the latter case, thoughly
+only experimentally (please report any bugs or point towards areas of
+possible improvement).
+</p>
+
+<p>
+To let users fine-tune their setup, MCT provides the <code>mct-minibuffer-mode</code>
+(formerly <code>mct-mode</code>) as well as local and global variants of
+<code>mct-region-mode</code> (<code>mct-region-global-mode</code>).
+</p>
+
+<p>
+The decoupling between the two modes makes it possible to configure
+interchangeable components in a variety of combinations, such as MCT for
+the minibuffer and the Corfu package for completion-in-region
+(<a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).  Or the Vertico package for the minibuffer and MCT for
+in-buffer completion (<a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">Alternatives</a>).  Same principle for the local
+variant of MCT&rsquo;s in-buffer completion mode: Corfu has the same
+capability, so the two can be used as part of a single setup.
+</p>
+
+<p>
+We jokingly say that since the introduction of <code>mct-region-mode</code> the
+acronym &ldquo;MCT&rdquo; now stands for &ldquo;Minibuffer Confines Transcended&rdquo;&#x2014;the
+original was &ldquo;Minibuffer and Completions in Tandem&rdquo;.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:884d6702-8666-4d89-87a2-7d74843653f3" class="outline-2">
 <h2 id="h:884d6702-8666-4d89-87a2-7d74843653f3"><span class="section-number-2">3.</span> Usage</h2>
 <div class="outline-text-2" id="text-h:884d6702-8666-4d89-87a2-7d74843653f3">
+<p>
+This section outlines the various patterns of interaction that MCT
+establishes.  Note that completion covers two distinct cases, which are
+reflected in the design of MCT: (i) in the minibuffer and (ii) for
+in-buffer completion (<a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">MCT in the minibuffer and in regular buffers</a>).
+</p>
 </div>
 
 <div id="outline-container-h:68c61a76-1d64-4f62-a77a-52e7b66a68fe" class="outline-3">
-<h3 id="h:68c61a76-1d64-4f62-a77a-52e7b66a68fe"><span class="section-number-3">3.1.</span> Cyclic behaviour</h3>
+<h3 id="h:68c61a76-1d64-4f62-a77a-52e7b66a68fe"><span class="section-number-3">3.1.</span> Cyclic behaviour in the minibuffer</h3>
 <div class="outline-text-3" id="text-h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">
 <p>
-When <code>mct-mode</code> is enabled, some new keymaps are activated which add
-commands for cycling between the minibuffer and the completions.
-Suppose the following standard layout:
+When <code>mct-minibuffer-mode</code> is enabled, some new keymaps are activated
+which add commands for cycling between the minibuffer and the
+completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="org48cabf1">
+<pre class="example" id="orga752def">
 -----------------
 |               |
 |               |
@@ -260,10 +322,12 @@ Similarly, while inside the <code>*Completions*</code> buffer, <code>C-p</code> 
 the top of the buffer switches to the minibuffer, while <code>C-n</code> (or down
 arrow) at the bottom of the buffer also goes to the minibuffer.  If
 point is anywhere else inside the buffer, those key bindings perform a
-regular line motion.  The commands are <code>mct-previous-completion-or-mini</code>
-and <code>mct-next-completion-or-mini</code>.  Both accept an optional numeric
-argument.  If the Nth line lies outside the boundaries of the
-completions&rsquo; buffer, they move the point to the minibuffer.
+regular line motion (if the <code>*Completions*</code> are set to a grid view, then
+the left and right arrow keys perform the corresponding lateral
+motions).  The commands are <code>mct-previous-completion-or-mini</code> and
+<code>mct-next-completion-or-mini</code>.  Both accept an optional numeric argument.
+If the Nth line lies outside the boundaries of the completions&rsquo; buffer,
+they move the point to the minibuffer.
 </p>
 
 <p>
@@ -281,11 +345,49 @@ provides sample code).
 </div>
 </div>
 
+<div id="outline-container-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3" class="outline-3">
+<h3 id="h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3"><span class="section-number-3">3.2.</span> Cyclic behaviour for in-buffer completion</h3>
+<div class="outline-text-3" id="text-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">
+<p>
+When <code>mct-region-mode</code> (or <code>mct-region-global-mode</code>) is enabled, MCT is used
+for in-buffer completion.  In this scenario, the cyclic behaviour is
+simpler than when the minibuffer is active, so we will mostly cover the
+differences (<a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">Cyclic behaviour in the minibuffer</a>).
+</p>
+
+<p>
+Once <code>completion-in-region</code> is triggered (such as by typing <code>C-M-i</code> in Elisp
+buffers to expand the text before point), the key bindings <code>C-n</code> and <code>C-p</code>
+switch focus to the <code>*Completions*</code> buffer: <code>C-n</code> moves to the top, while
+<code>C-p</code> goes to the bottom.  This only happens while the in-buffer
+completion session is active: it becomes inactive if, say, one switches
+to another window other than the one with the completions.
+</p>
+
+<p>
+While inside the Completions&rsquo; buffer, <code>C-n</code> and <code>C-p</code> move to the next and
+previous line, respectively.  When they reach the top/bottom boundaries
+of the Completions&rsquo; buffer, they switch focus back to the buffer that
+started the completion.  However, and unlike <code>mct-minibuffer-mode</code>, they
+do not keep the <code>*Completions*</code> window around.  This is because we cannot
+tell whether the user wanted to continue with a new completion upon
+returning to the buffer of origin or perform some other motion/command
+(in the minibuffer we can make that assumption because the minibuffer is
+purpose-specific, so for as long as it is active, the completion session
+goes on).  As such, <code>completion-in-region</code> must be restarted after cycling
+out of the <code>*Completions*</code>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:bb445062-2e39-4082-a868-2123bfb793cc" class="outline-3">
-<h3 id="h:bb445062-2e39-4082-a868-2123bfb793cc"><span class="section-number-3">3.2.</span> Selecting candidates</h3>
+<h3 id="h:bb445062-2e39-4082-a868-2123bfb793cc"><span class="section-number-3">3.3.</span> Selecting candidates</h3>
 <div class="outline-text-3" id="text-h:bb445062-2e39-4082-a868-2123bfb793cc">
 <p>
-There are several ways to select a completion candidate.
+There are several ways to select a completion candidate.  These pertain
+to <code>mct-minibuffer-mode</code>, as <code>mct-region-mode</code> only has the meaningful
+action of expanding the given candidate (with <code>RET</code> or <code>TAB</code> in the
+Completions&rsquo; buffer (<a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">Cyclic behaviour for in-buffer completion</a>)).
 </p>
 
 <ol class="org-ol">
@@ -336,6 +438,15 @@ known position is reset when the window is deleted).  Internally,
 <code>mct-edit-completion</code> uses <code>mct-choose-completion-no-exit</code> to expand the
 completion candidate, so it retains its behaviour (as explained right
 above).
+</p>
+
+<p>
+Sometimes there is a need to switch to the minibuffer without
+selecting the candidate at point, such as to retype some part of the
+input.  In those cases, type <code>e</code> in the completions&rsquo; buffer to move to
+the minibuffer.  The command is called <code>mct-focus-minibuffer</code>, which
+can also be assigned to the global keymap, though MCT leaves such a
+decision up to the user (same for <code>mct-focus-mini-or-completions</code>).
 </p></li>
 <li><p>
 Select a candidate by its line number by typing <code>M-g M-g</code> in either the
@@ -374,7 +485,7 @@ selected one.</li>
 </div>
 
 <div id="outline-container-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9" class="outline-3">
-<h3 id="h:b46a3366-6a7a-49ed-8caa-693d6ee437e9"><span class="section-number-3">3.3.</span> Other commands</h3>
+<h3 id="h:b46a3366-6a7a-49ed-8caa-693d6ee437e9"><span class="section-number-3">3.4.</span> Other commands</h3>
 <div class="outline-text-3" id="text-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">
 <ul class="org-ul">
 <li><p>
@@ -469,7 +580,7 @@ Minimal setup:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'mct)
-(mct-mode 1)
+(mct-minibuffer-mode 1)
 </pre>
 </div>
 
@@ -519,7 +630,11 @@ And with more options:
 ;;               (slot . 99)
 ;;               (window-width . 0.3))))
 
-(mct-mode 1)
+(mct-minibuffer-mode 1)
+
+;; Optionally add `mct-region-mode' to the major mode hooks you want it
+;; to be active in, or just use `mct-region-global-mode'.
+(mct-region-global-mode 1)
 </pre>
 </div>
 
@@ -605,6 +720,8 @@ minibuffer and the <code>*Completions*</code> buffer, respectively:
 <li><code>mct-completion-list-mode-map</code></li>
 <li><code>mct-minibuffer-local-completion-map</code></li>
 <li><code>mct-minibuffer-local-filename-completion-map</code></li>
+<li><code>mct-region-buffer-map</code></li>
+<li><code>mct-region-completion-list-map</code></li>
 </ul>
 
 <p>
@@ -619,8 +736,94 @@ same as above, minus the <code>mct-</code> prefix).
 </div>
 </div>
 
+<div id="outline-container-h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b" class="outline-2">
+<h2 id="h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b"><span class="section-number-2">7.</span> User-level tweaks or custom code</h2>
+<div class="outline-text-2" id="text-h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">
+<p>
+In this section we cover custom code that builds on what MCT offers.
+</p>
+</div>
+
+<div id="outline-container-h:891c7841-9cdc-42df-bba9-45f7409b807c" class="outline-3">
+<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">7.1.</span> MCT in the current or the other window</h3>
+<div class="outline-text-3" id="text-h:891c7841-9cdc-42df-bba9-45f7409b807c">
+<p>
+Over at the <a href="https://git.sr.ht/~abcdw/rde">rde project</a>, Andrew Tropin configures MCT to display the
+Completions&rsquo; buffer in either of two places:
+</p>
+
+<dl class="org-dl">
+<dt>Current window</dt><dd>This is the default behaviour.  It means that
+completions are presented where the user is already focused on,
+instead of the bottom of the display or some side window.</dd>
+
+<dt>Other window</dt><dd>The least recently used window when the command that
+performs completion matches certain categories whose candidates are
+best shown next to the current window/context.  For example, Imenu
+(and extensions like <code>consult-imenu</code>) creates a dynamically generated
+index of &ldquo;points of interest&rdquo; in the current buffer, so it is useful
+to have this displayed in the other window.</dd>
+</dl>
+
+<p>
+Implementation details and particular preferences aside, this is a great
+example of using the various <code>display-buffer</code> functions to control the
+placement of the <code>*Completions*</code> buffer.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar rde-completion-categories-other-window
+  '(imenu)
+  "Completion categories that has to be in other window than
+current, otherwise preview functionallity will fail the party.")
+
+(defvar rde-completion-categories-not-show-candidates-on-setup
+  '(command variable function)
+  "Completion categories that has to be in other window than
+current, otherwise preview functionallity will fail the party.")
+
+(defun rde-display-mct-buffer-pop-up-if-apropriate (buffer alist)
+  "Call `display-buffer-pop-up-window' if the completion category
+one of `rde-completion-categories-other-window', it will make
+sure that we don't use same window for completions, which should
+be in separate window."
+  (if (memq (mct--completion-category)
+            rde-completion-categories-other-window)
+      (display-buffer-pop-up-window buffer alist)
+    nil))
+
+(defun rde-display-mct-buffer-apropriate-window (buffer alist)
+  "Displays completion buffer in the same window, where completion
+was initiated (most recent one), but in case, when compeltion
+buffer should be displayed in other window use least recent one."
+  (let* ((window (if (memq (mct--completion-category)
+                           rde-completion-categories-other-window)
+                     (get-lru-window (selected-frame) nil nil)
+                   (get-mru-window (selected-frame) nil nil))))
+    (window--display-buffer buffer window 'reuse alist)))
+
+(setq mct-display-buffer-action
+      (quote ((display-buffer-reuse-window
+               rde-display-mct-buffer-pop-up-if-apropriate
+               rde-display-mct-buffer-apropriate-window))))
+
+(defun rde-mct-show-completions ()
+  "Instantly shows completion candidates for categories listed in
+`rde-completion-categories-show-candidates-on-setup'."
+  (unless (memq (mct--completion-category)
+                rde-completion-categories-not-show-candidates-on-setup)
+    (setq-local mct-minimum-input 0)
+    (mct--live-completions)))
+
+(add-hook 'minibuffer-setup-hook 'rde-mct-show-completions)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:03227254-d467-4147-b8cf-2fe05a2e279b" class="outline-2">
-<h2 id="h:03227254-d467-4147-b8cf-2fe05a2e279b"><span class="section-number-2">7.</span> Extensions</h2>
+<h2 id="h:03227254-d467-4147-b8cf-2fe05a2e279b"><span class="section-number-2">8.</span> Extensions</h2>
 <div class="outline-text-2" id="text-h:03227254-d467-4147-b8cf-2fe05a2e279b">
 <p>
 MCT only tweaks the default minibuffer.  To get more out of it, consider
@@ -651,9 +854,9 @@ combined with Marginalia.</dd>
 </dl>
 
 <p>
-MCT does not support the use-case of <code>completion-in-region</code>.  This is the
-kind of completion session that does not involve the minibuffer and is
-instead about in-buffer text expansion.  Consider these packages:
+MCT does support the use-case of <code>completion-in-region</code>.  This is the kind
+of completion session that does not involve the minibuffer and is
+instead about in-buffer text expansion.  However, you may prefer:
 </p>
 
 <dl class="org-dl">
@@ -665,14 +868,12 @@ consistent with core Emacs mechanisms.</dd>
 
 <dt><a href="https://github.com/minad/cape">Cape</a> also by Daniel</dt><dd>Additional <code>completion-at-point-functions</code>
 (CAPFs) that extend those of core Emacs.  These backends can be used
-by Corfu, though their modular nature makes them suitable for use by
-other compliant packages (e.g. a potential minimalist package that is
-cleanly designed like Corfu but has a different interface).</dd>
+by packages that visualise <code>completion-in-region</code> such as Corfu and MCT.</dd>
 </dl>
 </div>
 
 <div id="outline-container-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62" class="outline-3">
-<h3 id="h:85268cb1-9d49-452c-ba5f-c9215d4b8b62"><span class="section-number-3">7.1.</span> Enable Consult previews</h3>
+<h3 id="h:85268cb1-9d49-452c-ba5f-c9215d4b8b62"><span class="section-number-3">8.1.</span> Enable Consult previews</h3>
 <div class="outline-text-3" id="text-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">
 <p>
 One of the nice features of the Consult package is the ability to
@@ -689,7 +890,7 @@ preview the candidate at point.  All we need to enable it in the
 </div>
 
 <div id="outline-container-h:c9ddedea-e279-4233-94dc-f8d32367a954" class="outline-2">
-<h2 id="h:c9ddedea-e279-4233-94dc-f8d32367a954"><span class="section-number-2">8.</span> Alternatives</h2>
+<h2 id="h:c9ddedea-e279-4233-94dc-f8d32367a954"><span class="section-number-2">9.</span> Alternatives</h2>
 <div class="outline-text-2" id="text-h:c9ddedea-e279-4233-94dc-f8d32367a954">
 <p>
 Like MCT, these alternatives provide a thin layer of functionality over
@@ -801,7 +1002,7 @@ the built-in infrastructure.
 </div>
 
 <div id="outline-container-h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192" class="outline-2">
-<h2 id="h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192"><span class="section-number-2">9.</span> Acknowledgements</h2>
+<h2 id="h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192"><span class="section-number-2">10.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">
 <p>
 MCT is meant to be a collective effort.  Every bit of help matters.
@@ -811,11 +1012,12 @@ MCT is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or documentation</dt><dd>Daniel Mendler, James Norman
-Vladimir Cash, José Antonio Ortega Ruiz, Philip Kaludercic.</dd>
+Vladimir Cash, José Antonio Ortega Ruiz, Juri Linkov, Philip
+Kaludercic.</dd>
 
-<dt>Ideas and user feedback</dt><dd>Case Duckworth, Jonathan Irving, José
-Antonio Ortega Ruiz, Kostadin Ninev, Manuel Uberti, Philip Kaludercic,
-Theodor Thornhill.</dd>
+<dt>Ideas and user feedback</dt><dd>Andrew Tropin, Benjamin (@zealotrush), Case
+Duckworth, Jonathan Irving, José Antonio Ortega Ruiz, Kostadin Ninev,
+Manuel Uberti, Philip Kaludercic, Theodor Thornhill.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
@@ -825,7 +1027,7 @@ authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>e
 </div>
 
 <div id="outline-container-h:32f474f2-f596-4a7e-a0da-023344136be1" class="outline-2">
-<h2 id="h:32f474f2-f596-4a7e-a0da-023344136be1"><span class="section-number-2">10.</span> Official sources</h2>
+<h2 id="h:32f474f2-f596-4a7e-a0da-023344136be1"><span class="section-number-2">11.</span> Official sources</h2>
 <div class="outline-text-2" id="text-h:32f474f2-f596-4a7e-a0da-023344136be1">
 <dl class="org-dl">
 <dt>Manual</dt><dd><a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a></dd>
@@ -836,7 +1038,7 @@ authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>e
 </div>
 
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">11.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">12.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -1297,24 +1499,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
-<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">12.</span> Indices</h2>
+<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">13.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
 
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
-<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">12.1.</span> Function index</h3>
+<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">13.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
 
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
-<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">12.2.</span> Variable index</h3>
+<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">13.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
 
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
-<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">12.3.</span> Concept index</h3>
+<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">13.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
 -->
 </div>
