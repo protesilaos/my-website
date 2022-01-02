@@ -24,7 +24,7 @@ always influence one's disposition.
 or some phase you went through.
 
 **B.:** Maybe you expected a different reply?  I suppose you had some
-other topic in mind that you intended to elaborate on?  I can hear at.
+other topic in mind that you intended to elaborate on?  I can hear it.
 
 **A.:** Sorry for making this awkward...  It's just that I have been
 depressed for about a month now.  Ever since my pet died.  I had to quit
