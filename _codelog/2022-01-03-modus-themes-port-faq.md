@@ -62,7 +62,7 @@ things in life, when in doubt, do not cling on to the letter of the law
 but try to understand its spirit.
 
 For a trivial example: the curly underline that Emacs draws for spelling
-errors is thinner than, e.g., what Firefox/Chromium has, so if I were to
+errors is thinner than, e.g., what Firefox/Chromium has, so if I was to
 design for an editor than has a thicker curly underline I would make the
 applicable colours less intense to counterbalance the typographic
 intensity of the added thickness.
