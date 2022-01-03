@@ -357,7 +357,8 @@ difficult to relate to the various data points without visualising them
 and comparing the before and after states.  Furthermore, data can be
 deceptive and I have always maintained that theme development stands at
 the intersection of science and art (at least for the purposes of
-conforming to the rigorous accessibility standards of the Modus themes).
+conforming with the rigorous accessibility standards of the Modus
+themes).
 
 That granted, I wanted to shed light on the "behind the scenes" work
 that is not immediately obvious when one checks a diff that introduces
