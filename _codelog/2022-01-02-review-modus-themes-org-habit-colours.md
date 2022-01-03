@@ -340,7 +340,7 @@ to each other to avoid exaggerations in intensity.  Remember that
 `modus-vivendi` has a black background, so any extra intensity is
 immediately noticeable.
 
-Modus Operandi select graph (org-habit) colour pairs distance in hueness:
+Modus Vivendi select graph (org-habit) colour pairs distance in hueness:
 
 |                                 |         |         | Distance |
 |---------------------------------+---------+---------+----------|
