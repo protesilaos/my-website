@@ -24,8 +24,8 @@ There is no plan to do this in the foreseeable future because I only use
 Emacs and cannot maintain ports for other editors.  I can provide a
 quick-and-dirty simulacrum if you give me a template, but that is not
 how I maintain the project: the details matter greatly (I can elaborate
-at great length if you need specific examples, but I won't do that here
-in the interest of brevity).
+at length if you need specific examples, but I won't do that here in the
+interest of brevity).
 
 Each program has its own requirements so it won't always be
 possible---or indeed desirable---to have 1:1 correspondence between what
