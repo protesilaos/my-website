@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-01 12:43 +0200</b>.</li>
+<li>Updated: <b>2022-01-04 11:30 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -135,7 +135,7 @@ redirect_from:
 </li>
 <li><a href="#h:77d14350-978d-4820-ab7f-4641706c445a">5.2. Custom extensions for "focus mode" (prot-logos.el)</a></li>
 <li><a href="#h:787df548-0d95-4512-a61d-27852198f561">5.3. USLS &#x2014; Unassuming Sidenotes of Little Significance</a></li>
-<li><a href="#org66a00ba">5.4. INVTR (toy inventory and client manager)</a></li>
+<li><a href="#orgf7e1f32">5.4. INVTR (toy inventory and client manager)</a></li>
 <li><a href="#h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa">5.5. tmr.el (TMR Must Recur)</a></li>
 <li><a href="#h:0e2fe4c7-9d4b-4570-a293-9a9629021ff7">5.6. Version control tools</a>
 <ul>
@@ -2191,7 +2191,15 @@ point an arbitrary distance.
           move-to-window-line-top-bottom
           reposition-window
           bookmark-jump
-          other-window))
+          other-window
+          scroll-up-command
+          scroll-down-command
+          org-next-visible-heading
+          org-previous-visible-heading
+          org-forward-heading-same-level
+          org-backward-heading-same-level
+          org-tree-slide-move-next-tree
+          org-tree-slide-move-previous-tree))
   (prot-pulse-advice-commands-mode 1)
   (define-key global-map (kbd "C-x l") #'prot-pulse-pulse-line)) ; override `count-lines-page'
 </pre>
@@ -3164,7 +3172,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgf87f113">
+<pre class="example" id="orgbdf530a">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3231,7 +3239,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgd1f7475">
+<pre class="example" id="org5c5d8ad">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -9665,7 +9673,7 @@ Only tested with the Modus themes.")
 NOTE 2021-12-29: USLS is subject to a rewrite.  I have been using it
 daily since its inception, though the code needs to be refactored.  As a
 proof-of-concept of its utility, check out my <code>invtr</code> (only for curious
-hackers, not actual users): <a href="#org66a00ba">INVTR (toy inventory and client manager)</a>.
+hackers, not actual users): <a href="#orgf7e1f32">INVTR (toy inventory and client manager)</a>.
 </p>
 
 <p>
@@ -10689,8 +10697,8 @@ directory will be directly displayed instead."
 </div>
 </div>
 
-<div id="outline-container-org66a00ba" class="outline-3">
-<h3 id="org66a00ba"><span class="section-number-3">5.4.</span> INVTR (toy inventory and client manager)</h3>
+<div id="outline-container-orgf7e1f32" class="outline-3">
+<h3 id="orgf7e1f32"><span class="section-number-3">5.4.</span> INVTR (toy inventory and client manager)</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 I am intentionally not documenting this because it is not intended for
@@ -11009,7 +11017,7 @@ With optional ARG, produce a receipt buffer."
 
 (defun invtr--reset-cost (cost)
   "Reset file's cost entry to COST.
-Helper for `invtr-reset-price-discount'."
+Helper for `invtr-reset-cost-discount'."
   (let* ((regexp "^\\(#\\+cost:\\)\s+\\([0-9a-z.,]+\\)$")
          (datum (invtr--find-key-value-pair regexp))
          (key (car datum))
@@ -11019,7 +11027,7 @@ Helper for `invtr-reset-price-discount'."
 
 (defun invtr--reset-discount (discount)
   "Reset file's discount entry to DISCOUNT.
-Helper for `invtr-reset-price-discount'."
+Helper for `invtr-reset-cost-discount'."
   (let* ((regexp "^\\(#\\+discount:\\)\s+\\([0-9a-z.,]+\\)%$")
          (datum (invtr--find-key-value-pair regexp))
          (key (car datum))
@@ -11029,7 +11037,7 @@ Helper for `invtr-reset-price-discount'."
 
 (defun invtr--reset-truecost (truecost)
   "Reset file's truecost entry to TRUECOST.
-Helper for `invtr-reset-price-discount'."
+Helper for `invtr-reset-cost-discount'."
   (let* ((regexp "^\\(#\\+truecost:\\)\s+\\([0-9a-z.,]+\\)$")
          (datum (invtr--find-key-value-pair regexp))
          (key (car datum))
@@ -11037,13 +11045,16 @@ Helper for `invtr-reset-price-discount'."
     (invtr--make-replacement regexp old-truecost truecost :float-p)
     (cons old-truecost truecost)))
 
+(defvar invtr--reset-cost-history '())
+(defvar invtr--reset-cost-discount-history '())
+
 ;;;###autoload
-(defun invtr-reset-price-discount (cost discount)
+(defun invtr-reset-cost-discount (cost discount)
   "Write COST and recalculate true cost given DISCOUNT."
   (interactive
    (list
-    (read-string "New cost: " nil 'invtr--add-acquisition-quantity-history)
-    (read-string "New discount (number without %): " nil 'invtr--add-acquisition-invoice-history)))
+    (read-string "New cost: " nil 'invtr--reset-cost-history)
+    (read-string "New discount (number without %): " nil 'invtr--reset-cost-discount-history)))
   (let* ((costs (invtr--reset-cost cost))
          (old-cost (car costs))
          (new-cost (cdr costs))
@@ -11061,6 +11072,56 @@ Helper for `invtr-reset-price-discount'."
      (format "#+calc: %s      (%% %s %s) =&gt; %s :: Old cost, discount, true cost: (%% %s %s) =&gt; %s\n"
              (format-time-string "%F") cost discount truecost
              old-cost old-discount old-truecost))))
+
+(defvar invtr--reset-price-history '())
+
+(defun invtr--reset-price (price)
+  "Reset file's price entry to PRICE.
+Helper for `invtr-reset-price'."
+  (let* ((regexp "^\\(#\\+price:\\)\s+\\([0-9,.]+\\)$")
+         (datum (invtr--find-key-value-pair regexp))
+         (key (car datum))
+         (old-price (cdr datum)))
+    (cons old-price price)))
+
+(defun invtr--reset-price-rename (price)
+  "Update file's PRICE component (rename the file accordingly).
+Helper for `invtr-reset-price'."
+  (let* ((file (buffer-file-name))
+         ;; We are hardcoding the file extension here, which is
+         ;; technically wrong, though I do not mind since I am only
+         ;; including prices for org-mode files.
+         (name (replace-regexp-in-string "--[0-9,.]+\\.org" (format "--%s.org" price) file)))
+    (if (vc-registered file)
+        (vc-rename-file file name)
+      (rename-file file name))
+    (set-visited-file-name name t t)))
+
+;;;###autoload
+(defun invtr-reset-price (price)
+  "Change PRICE of item."
+  (interactive
+   (list
+    (format "%.2f" (read-number "New price: " nil 'invtr--reset-price-history))))
+  (let* ((price-regexp "^\\(#\\+price:\\)\s+\\([0-9,.]+\\)$")
+         (datum (invtr--find-key-value-pair price-regexp))
+         (key (car datum))
+         (old-price (cdr datum))
+         (cost-regexp "^\\(#\\+cost:\\)\s+\\([0-9,.]+\\)$")
+         (datum (invtr--find-key-value-pair cost-regexp))
+         (key (car datum))
+         (cost (cdr datum))
+         (profit-regexp "^\\(#\\+profit:\\)\s+\\([0-9,.]+\\)%$")
+         (datum (invtr--find-key-value-pair profit-regexp))
+         (key (car datum))
+         (old-profit (cdr datum))
+         (profit (format "%.2f" (invtr-percentage-change (string-to-number cost) (string-to-number price)))))
+    (invtr--reset-price-rename price)
+    (invtr--make-replacement price-regexp old-price price :float-p)
+    (invtr--make-replacement profit-regexp old-profit profit :float-p)
+    (insert
+     (format "#+markup: %s    (€ %s %s%%) :: Old cost and profit: (€ %s %s%%)\n"
+             (format-time-string "%F") price profit old-price old-profit))))
 
 ;; TODO 2021-12-28: The receipt's template should be a defcustom.
 (defvar invtr-receipt-template-function #'invtr--single-item-receipt
@@ -13922,7 +13983,8 @@ showcases older code than what I have here.
 </p>
 
 <p>
-Also check these valuable resources:
+For further inspiration, check these valuable resources (in no
+particular order):
 </p>
 
 <ul class="org-ul">
@@ -13930,6 +13992,10 @@ Also check these valuable resources:
 switcher.</li>
 <li><a href="https://www.youtube.com/watch?v=RhYNu6i_uY4">Howard Abrahams' video</a> that covers the features of Eshell.</li>
 <li><a href="https://ambrevar.xyz/emacs-eshell/">Pierre Neidhardt's detailed blog post</a> on the pros and cons of Eshell.</li>
+<li><a href="https://git.spwhitton.name/dotfiles">Sean Whitton's comprehensive dotfiles repository</a> which includes lots
+of useful snippets, including for Eshell.  Some commands/functions of
+mine are either copied or adapted from Sean's implementation,
+following the review that was done on 2022-01-04.</li>
 </ul>
 
 <div class="org-src-container">
@@ -14166,18 +14232,38 @@ For use in `prot-eshell-narrow-output-highlight-regexp'."
            (propertize "Narrowed" 'face 'bold)
            (propertize regexp 'face 'italic)))
 
+;; Copied on 2022-01-04 10:32 +0200 from Sean Whitton's `spw/eshell-cd'.
+;; I had to change the symbol to use the prot-eshell prefix for lexical
+;; binding.  Sean's dotfiles: &lt;https://git.spwhitton.name/dotfiles&gt;.
+(defun prot-eshell--cd (dir)
+  "Routine to cd into DIR."
+  (delete-region eshell-last-output-end (point-max))
+  (when (&gt; eshell-last-output-end (point))
+    (goto-char eshell-last-output-end))
+  (insert-and-inherit "cd " (eshell-quote-argument dir))
+  (eshell-send-input))
+
 ;;;###autoload
-(defun prot-eshell-complete-recent-dir (&amp;optional arg)
-  "Switch to a recent Eshell directory using completion.
+(defun prot-eshell-complete-recent-dir (dir &amp;optional arg)
+  "Switch to a recent Eshell directory.
+
+When called interactively, DIR is selected with completion from
+the elements of `eshell-last-dir-ring'.
+
 With optional ARG prefix argument (\\[universal-argument]) also
 open the directory in a `dired' buffer."
-  (interactive "P")
-  (let* ((dirs (ring-elements eshell-last-dir-ring))
-         (dir (completing-read "Switch to recent dir: " dirs nil t)))
-    (insert dir)
-    (eshell-send-input)
-    (when arg
-      (dired dir))))
+  (interactive
+   (list
+    (if-let ((dirs (ring-elements eshell-last-dir-ring)))
+        (completing-read "Switch to recent dir: " dirs nil t)
+      (user-error "There is no Eshell history for recent directories"))
+    current-prefix-arg))
+  (prot-eshell--cd dir)
+  ;; UPDATE 2022-01-04 10:48 +0200: The idea for `dired-other-window'
+  ;; was taken from Sean Whitton's `spw/eshell-cd-recent-dir'.  Check
+  ;; Sean's dotfiles: &lt;https://git.spwhitton.name/dotfiles&gt;.
+  (when arg
+    (dired-other-window dir)))
 
 (defvar prot-eshell--complete-history-prompt-history '()
   "History of `prot-eshell-narrow-output-highlight-regexp'.")
@@ -14218,15 +14304,14 @@ wisely or prepare to call `eshell-interrupt-process'."
                      (format "Find sub-dir from %s: "
                              (propertize dir 'face 'success))
                      dirs nil t)))
-    (insert selection)
-    (eshell-send-input)))
+    (prot-eshell--cd selection)))
 
 ;;;###autoload
 (defun prot-eshell-root-dir ()
   "Switch to the root directory of the present project."
   (interactive)
   (if-let ((root (or (vc-root-dir) (locate-dominating-file "." ".git"))))
-      (progn (insert root) (eshell-send-input))
+      (prot-eshell--cd root)
     (user-error "Cannot find a project root here")))
 
 ;;;; Bookmark handler for bookmark.el
@@ -14865,6 +14950,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
 ;;;;; Agenda habits
   (require 'org-habit)
   (setq org-habit-graph-column 50)
+  (setq org-habit-preceding-days 9)
 
 ;;;; code blocks
   (setq org-confirm-babel-evaluate nil)
@@ -15287,7 +15373,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org5e820f2">
+<pre class="example" id="org55744fa">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15299,7 +15385,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org01acaed">
+<pre class="example" id="orga223cd1">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15314,7 +15400,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgc1434e2">
+<pre class="example" id="orgfa2a7cf">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15332,7 +15418,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org2b740bf">
+<pre class="example" id="org8b31c8b">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15361,7 +15447,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org598edfd">
+<pre class="example" id="orgefd8be6">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15525,7 +15611,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org7e3efce">
+<pre class="example" id="org76777af">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16252,7 +16338,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org63b0d4e">
+<pre class="example" id="org42451af">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16286,7 +16372,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgff801c8">
+<pre class="example" id="org6c597c2">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16450,7 +16536,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org99b4bfe">
+<pre class="example" id="org4d9b980">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16645,7 +16731,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgf40985a">
+<pre class="example" id="orgf7a536b">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17873,7 +17959,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org63ef6cb">
+<pre class="example" id="org8a38421">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18234,7 +18320,15 @@ demonstrated back then (as of 2021-01-18).
     (define-key map (kbd "&lt;C-M-XF86AudioPlay&gt;") #'bongo-play-random)
     (define-key map (kbd "&lt;M-XF86AudioPlay&gt;") #'bongo-show)
     (define-key map (kbd "&lt;S-XF86AudioNext&gt;") #'bongo-seek-forward-10)
-    (define-key map (kbd "&lt;S-XF86AudioPrev&gt;") #'bongo-seek-backward-10))
+    (define-key map (kbd "&lt;S-XF86AudioPrev&gt;") #'bongo-seek-backward-10)
+    ;; Same as above for the pgtk build of Emacs 29.
+    (define-key map (kbd "C-&lt;269025044&gt;") #'bongo-pause/resume)
+    (define-key map (kbd "C-&lt;269025047&gt;") #'bongo-next)
+    (define-key map (kbd "C-&lt;269025046&gt;") #'bongo-previous)
+    (define-key map (kbd "C-M-&lt;269025044&gt;") #'bongo-play-random)
+    (define-key map (kbd "M-&lt;269025044&gt;") #'bongo-show)
+    (define-key map (kbd "S-&lt;269025047&gt;") #'bongo-seek-forward-10)
+    (define-key map (kbd "S-&lt;269025046&gt;") #'bongo-seek-backward-10))
   (let ((map bongo-playlist-mode-map))
     (define-key map (kbd "n") #'bongo-next-object)
     (define-key map (kbd "p") #'bongo-previous-object)
@@ -18929,7 +19023,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgfc83d77">
+<pre class="example" id="orgaa10fd7">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19621,7 +19715,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org0e8d375">
+<pre class="example" id="org353f8b5">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22770,7 +22864,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org5ce8df4">
+<pre class="example" id="orgd0acb32">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24493,7 +24587,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org7da8878">
+<pre class="example" id="org2591ea7">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24915,7 +25009,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgcf2c1da">
+<pre class="example" id="org265588e">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24924,7 +25018,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org8eed26e">
+<pre class="example" id="org6cfd215">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24949,7 +25043,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org04eed15">
+<pre class="example" id="org7e8a3fb">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25009,7 +25103,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org2dfd0f6">
+<pre class="example" id="org0a76a18">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25034,7 +25128,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgbc088d0">
+<pre class="example" id="org83c5d5c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25043,7 +25137,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org4ca5e3f">
+<pre class="example" id="org1eb61dd">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25062,7 +25156,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org6fe31e4">
+<pre class="example" id="org6af950e">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
