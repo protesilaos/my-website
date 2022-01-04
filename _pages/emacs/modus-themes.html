@@ -108,16 +108,18 @@ Current development target is 2.1.0-dev.
 <li><a href="#h:77dc4a30-b96a-4849-85a8-fee3c2995305">6.5. Cycle through arbitrary colors</a></li>
 <li><a href="#h:307d95dd-8dbd-4ece-a543-10ae86f155a6">6.6. Override colors</a></li>
 <li><a href="#h:4589acdc-2505-41fc-9f5e-699cfc45ab00">6.7. Override color saturation</a></li>
-<li><a href="#h:defcf4fc-8fa8-4c29-b12e-7119582cc929">6.8. Font configurations for Org and others</a></li>
-<li><a href="#h:2793a224-2109-4f61-a106-721c57c01375">6.9. Configure bold and italic faces</a></li>
-<li><a href="#h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad">6.10. Custom Org user faces</a></li>
-<li><a href="#h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50">6.11. Update Org block delimiter fontification</a></li>
-<li><a href="#h:02e25930-e71a-493d-828a-8907fc80f874">6.12. Measure color contrast</a></li>
-<li><a href="#h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26">6.13. Load theme depending on time of day</a></li>
-<li><a href="#h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">6.14. Backdrop for pdf-tools</a></li>
-<li><a href="#h:03be4438-dae1-4961-9596-60a307c070b5">6.15. Decrease mode line height</a></li>
-<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.16. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.17. Diffs with only the foreground</a></li>
+<li><a href="#h:80c326bf-fe32-47b2-8c59-58022256fd6e">6.8. Override colors through blending</a></li>
+<li><a href="#h:defcf4fc-8fa8-4c29-b12e-7119582cc929">6.9. Font configurations for Org and others</a></li>
+<li><a href="#h:2793a224-2109-4f61-a106-721c57c01375">6.10. Configure bold and italic faces</a></li>
+<li><a href="#h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad">6.11. Custom Org todo keyword and priority faces</a></li>
+<li><a href="#h:26026302-47f4-4471-9004-9665470e7029">6.12. Custom Org emphasis faces</a></li>
+<li><a href="#h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50">6.13. Update Org block delimiter fontification</a></li>
+<li><a href="#h:02e25930-e71a-493d-828a-8907fc80f874">6.14. Measure color contrast</a></li>
+<li><a href="#h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26">6.15. Load theme depending on time of day</a></li>
+<li><a href="#h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">6.16. Backdrop for pdf-tools</a></li>
+<li><a href="#h:03be4438-dae1-4961-9596-60a307c070b5">6.17. Decrease mode line height</a></li>
+<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.18. A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.19. Diffs with only the foreground</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -1443,17 +1445,17 @@ completion framework.
 Option <code>moderate</code> applies a combination of background and foreground that
 is fairly subtle.  For Icomplete and friends this constitutes a
 departure from their default aesthetics, however the difference is
-small.  While Helm, Ivy et al appear slightly different than their
-original looks, as they are toned down a bit.
+small.  While Helm, Ivy et al.appear slightly different than
+their original looks, as they are toned down a bit.
 </p>
 
 <p>
 Option <code>opinionated</code> uses color combinations that refashion the completion
 UI.  For the Icomplete camp this means that intense background and
 foreground combinations are used: in effect their looks emulate those of
-Helm, Ivy and co. in their original style.  Whereas the other group of
-packages will revert to an even more nuanced aesthetic with some
-additional changes to the choice of hues.
+Helm, Ivy and co.in their original style.  Whereas the other
+group of packages will revert to an even more nuanced aesthetic with
+some additional changes to the choice of hues.
 </p>
 
 <p>
@@ -2026,16 +2028,19 @@ Possible values:
 </ol>
 
 <p>
-The default means that the block has no distinct background of its own
-and uses the one that applies to the rest of the buffer.
+Nil (the default) means that the block has no background of its own: it
+uses the one that applies to the rest of the buffer.  In this case, the
+delimiter lines have a gray color for their text, making them look
+exactly like all other Org properties.
 </p>
 
 <p>
 Option <code>gray-background</code> applies a subtle gray background to the block&rsquo;s
-contents.  It also affects the begin and end lines of the block: their
-background extends to the edge of the window for Emacs version &gt;= 27
-where the <code>:extend</code> keyword is recognized by <code>set-face-attribute</code> (this is
-contingent on the variable <code>org-fontify-whole-block-delimiter-line</code>).
+contents.  It also affects the begin and end lines of the block as they
+get another shade of gray as their background, which differentiates them
+from the contents of the block.  All background colors extend to the
+edge of the window, giving the area a rectangular, &ldquo;blocky&rdquo;
+presentation.
 </p>
 
 <p>
@@ -2043,7 +2048,12 @@ Option <code>tinted-background</code> uses a slightly colored background for the
 contents of the block.  The exact color will depend on the programming
 language and is controlled by the variable <code>org-src-block-faces</code> (refer to
 the theme&rsquo;s source code for the current association list).  For this to
-take effect, Org must be restarted with M-x org-mode-restart.
+take effect, the Org buffer needs to be restarted with <code>org-mode-restart</code>.
+In this scenario, it may be better to inhibit the extension of the
+delimiter lines&rsquo; background to the edge of the window because Org does
+not provide a mechanism to update their colors depending on the contents
+of the block.  Disable the extension of such backgrounds by setting
+<code>org-fontify-whole-block-delimiter-line</code> to nil.
 </p>
 
 <p>
@@ -2265,10 +2275,10 @@ use-case where a habit task being too early is less important than it
 being too late.  The difference between ready and clear states is
 attenuated by painting both of them using shades of green.  This
 option thus highlights the alert and overdue states.</li>
-<li>When <code>modus-themes-deuteranopia</code> is non-nil the habit graph uses a
-three-color style like the aforementioned <code>traffic-light</code> variant,
-except that shades of blue are applied instead of green.  This is
-suitable for users with red-green color deficiency (deuteranopia).</li>
+<li>When <code>modus-themes-deuteranopia</code> is non-nil the exact style of the habit
+graph adapts to the needs of users with red-green colour deficiency by
+substituting every instance of green with blue or cyan (depending on
+the specifics).</li>
 </ul>
 
 <p>
@@ -3378,8 +3388,81 @@ inspiration from the <code>modus-themes-toggle</code> we already provide:
 </div>
 </div>
 
+<div id="outline-container-h:80c326bf-fe32-47b2-8c59-58022256fd6e" class="outline-3">
+<h3 id="h:80c326bf-fe32-47b2-8c59-58022256fd6e"><span class="section-number-3">6.8.</span> Override colors through blending</h3>
+<div class="outline-text-3" id="text-h:80c326bf-fe32-47b2-8c59-58022256fd6e">
+<p>
+This is yet another method of overriding color values.
+</p>
+
+<p>
+<a href="#h:307d95dd-8dbd-4ece-a543-10ae86f155a6">Override colors</a>.
+</p>
+
+<p>
+<a href="#h:4589acdc-2505-41fc-9f5e-699cfc45ab00">Override color saturation</a>.
+</p>
+
+<p>
+Building on ideas and concepts from the previous sections, this method
+blends the entire palette at once with the chosen colors.  The function
+<code>my-modus-themes-interpolate</code> blends two colors, taking a value from the
+themes and mixing it with a user-defined color to arrive at a midpoint.
+This scales to all background and foreground colors with the help of the
+<code>my-modus-themes-tint-palette</code> function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq my-modus-operandi-bg-blend "#fbf1c7"
+      my-modus-operandi-fg-blend "#3a4042"
+      my-modus-vivendi-bg-blend "#3a4042"
+      my-modus-vivendi-fg-blend "#d7b765")
+
+;; Adapted from the `kurecolor-interpolate' function of kurecolor.el
+(defun my-modus-themes-interpolate (color1 color2)
+  (cl-destructuring-bind (r g b)
+      (mapcar #'(lambda (n) (* (/ n 2) 255.0))
+              (cl-mapcar '+ (color-name-to-rgb color1) (color-name-to-rgb color2)))
+    (format "#%02X%02X%02X" r g b)))
+
+(defun my-modus-themes-tint-palette (palette bg-blend fg-blend)
+  "Modify Modus PALETTE programmatically and return a new palette.
+Blend background colors with BG-BLEND and foreground colors with FG-BLEND."
+  (let (name cons colors)
+    (dolist (cons palette)
+      (let ((blend (if (string-match "bg" (symbol-name (car cons)))
+                       bg-blend
+                     fg-blend)))
+        (setq name (my-modus-themes-interpolate (cdr cons) blend)))
+      (setq name (format "%s" name))
+      (setq cons `(,(car cons) . ,name))
+      (push cons colors))
+    colors))
+
+(define-minor-mode modus-themes-tinted-mode
+  "Tweak some Modus themes colors."
+  :init-value nil
+  :global t
+  (if modus-themes-tinted-mode
+      (setq modus-themes-operandi-color-overrides
+            (my-modus-themes-tint-palette modus-themes-operandi-colors
+                                          my-modus-operandi-bg-blend
+                                          my-modus-operandi-fg-blend)
+            modus-themes-vivendi-color-overrides
+            (my-modus-themes-tint-palette modus-themes-vivendi-colors
+                                          my-modus-vivendi-bg-blend
+                                          my-modus-vivendi-fg-blend))
+    (setq modus-themes-operandi-color-overrides nil
+          modus-themes-vivendi-color-overrides nil)))
+
+(modus-themes-tinted-mode 1)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:defcf4fc-8fa8-4c29-b12e-7119582cc929" class="outline-3">
-<h3 id="h:defcf4fc-8fa8-4c29-b12e-7119582cc929"><span class="section-number-3">6.8.</span> Font configurations for Org and others</h3>
+<h3 id="h:defcf4fc-8fa8-4c29-b12e-7119582cc929"><span class="section-number-3">6.9.</span> Font configurations for Org and others</h3>
 <div class="outline-text-3" id="text-h:defcf4fc-8fa8-4c29-b12e-7119582cc929">
 <p>
 The themes are designed to optionally cope well with mixed font
@@ -3465,7 +3548,7 @@ absolute height).
 </div>
 
 <div id="outline-container-h:2793a224-2109-4f61-a106-721c57c01375" class="outline-3">
-<h3 id="h:2793a224-2109-4f61-a106-721c57c01375"><span class="section-number-3">6.9.</span> Configure bold and italic faces</h3>
+<h3 id="h:2793a224-2109-4f61-a106-721c57c01375"><span class="section-number-3">6.10.</span> Configure bold and italic faces</h3>
 <div class="outline-text-3" id="text-h:2793a224-2109-4f61-a106-721c57c01375">
 <p>
 The Modus themes do not hardcode a <code>:weight</code> or <code>:slant</code> attribute in the
@@ -3587,7 +3670,7 @@ of the themes, which can make it easier to redefine faces in bulk).
 </div>
 
 <div id="outline-container-h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad" class="outline-3">
-<h3 id="h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad"><span class="section-number-3">6.10.</span> Custom Org user faces</h3>
+<h3 id="h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad"><span class="section-number-3">6.11.</span> Custom Org todo keyword and priority faces</h3>
 <div class="outline-text-3" id="text-h:89f0678d-c5c3-4a57-a526-668b2bb2d7ad">
 <p>
 Users of <code>org-mode</code> have the option to configure various keywords and
@@ -3703,8 +3786,169 @@ it if you plan to control face attributes.
 </div>
 </div>
 
+<div id="outline-container-h:26026302-47f4-4471-9004-9665470e7029" class="outline-3">
+<h3 id="h:26026302-47f4-4471-9004-9665470e7029"><span class="section-number-3">6.12.</span> Custom Org emphasis faces</h3>
+<div class="outline-text-3" id="text-h:26026302-47f4-4471-9004-9665470e7029">
+<p>
+Org provides the user option <code>org-emphasis-alist</code> which assosiates a
+character with a face, list of faces, or face attributes.  The default
+specification of that variable looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-emphasis-alist
+      '(("*" bold)
+        ("/" italic)
+        ("_" underline)
+        ("=" org-verbatim verbatim)
+        ("~" org-code verbatim)
+        ("+" (:strike-through t))))
+</pre>
+</div>
+
+<p>
+With the exception of <code>org-verbatim</code> and <code>org-code</code> faces, everything else
+uses the corresponding type of emphasis: a bold typographic weight, or
+italicised, underlined, and struck through text.
+</p>
+
+<p>
+The best way for users to add some extra attributes, such as a
+foreground color, is to define their own faces and assign them to the
+given emphasis marker/character.
+</p>
+
+<p>
+This is a custom face that extends the standard <code>bold</code> face with a red
+foreground value (so it colorises the text in addition to the bold
+weight):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defface my-org-emphasis-bold
+  '((default :inherit bold)
+    (((class color) (min-colors 88) (background light))
+     :foreground "#a60000")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#ff8059"))
+  "My bold emphasis for Org.")
+</pre>
+</div>
+
+<p>
+This face definition reads as follows:
+</p>
+
+<ul class="org-ul">
+<li>Always inherit the <code>bold</code> face (<a href="#h:2793a224-2109-4f61-a106-721c57c01375">Configure bold and italic faces</a>).</li>
+<li>For versions of Emacs that support at least 88 colors (graphical
+Emacs, for example) and use a light background, apply the <code>#a60000</code>
+value.</li>
+<li>For the same kind of Emacs that has a dark background use the <code>#ff8059</code>
+color instead.</li>
+</ul>
+
+<p>
+Same principle for how to extend <code>italic</code> and <code>underline</code> with, for example,
+green and yellow hues, respectively:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defface my-org-emphasis-italic
+  '((default :inherit italic)
+    (((class color) (min-colors 88) (background light))
+     :foreground "#005e00")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#44bc44"))
+  "My italic emphasis for Org.")
+
+(defface my-org-emphasis-underline
+  '((default :inherit underline)
+    (((class color) (min-colors 88) (background light))
+     :foreground "#813e00")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#d0bc00"))
+  "My underline emphasis for Org.")
+</pre>
+</div>
+
+<p>
+In the case of a strike-through effect, we have no generic face to
+inherit from, so we can write it as follows to also change the
+foreground to a more subtle gray:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defface my-org-emphasis-strike-through
+  '((default :strike-through t)
+    (((class color) (min-colors 88) (background light))
+     :foreground "#505050")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#a8a8a8"))
+  "My strike-through emphasis for Org.")
+</pre>
+</div>
+
+<p>
+Or we can just change the color of the line that strikes through the
+text to, for example, a shade of red:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defface my-org-emphasis-strike-through
+  '((((class color) (min-colors 88) (background light))
+     :strike-through "#972500")
+    (((class color) (min-colors 88) (background dark))
+     :strike-through "#ef8b50"))
+  "My strike-through emphasis for Org.")
+</pre>
+</div>
+
+<p>
+It is possible to combine those effects:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defface my-org-emphasis-strike-through
+  '((((class color) (min-colors 88) (background light))
+     :strike-through "#972500" :foreground "#505050")
+    (((class color) (min-colors 88) (background dark))
+     :strike-through "#ef8b50" :foreground "#a8a8a8"))
+  "My strike-through emphasis for Org.")
+</pre>
+</div>
+
+<p>
+One may inspect the variables <code>modus-themes-operandi-colors</code> and
+<code>modus-themes-vivendi-colors</code> for possible color values.
+</p>
+
+<p>
+Once we have defined the faces we need, we must update the
+<code>org-emphasis-alist</code>.  Given that <code>org-verbatim</code> and <code>org-code</code> are already
+styled by the themes, it probably is best not to edit them:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-emphasis-alist
+      '(("*" my-org-emphasis-bold)
+        ("/" my-org-emphasis-italic)
+        ("_" my-org-emphasis-underline)
+        ("=" org-verbatim verbatim)
+        ("~" org-code verbatim)
+        ("+" my-org-emphasis-strike-through)))
+</pre>
+</div>
+
+<p>
+That&rsquo;s it!  For changes to take effect in already visited Org files,
+invoke M-x org-mode-restart.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50" class="outline-3">
-<h3 id="h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50"><span class="section-number-3">6.11.</span> Update Org block delimiter fontification</h3>
+<h3 id="h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50"><span class="section-number-3">6.13.</span> Update Org block delimiter fontification</h3>
 <div class="outline-text-3" id="text-h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50">
 <p>
 As noted in the section about <code>modus-themes-org-blocks</code>, Org contains a
@@ -3754,7 +3998,7 @@ Run this function at the post theme load phase, such as with the
 </div>
 
 <div id="outline-container-h:02e25930-e71a-493d-828a-8907fc80f874" class="outline-3">
-<h3 id="h:02e25930-e71a-493d-828a-8907fc80f874"><span class="section-number-3">6.12.</span> Measure color contrast</h3>
+<h3 id="h:02e25930-e71a-493d-828a-8907fc80f874"><span class="section-number-3">6.14.</span> Measure color contrast</h3>
 <div class="outline-text-3" id="text-h:02e25930-e71a-493d-828a-8907fc80f874">
 <p>
 The themes provide the functions <code>modus-themes-wcag-formula</code> and
@@ -3817,7 +4061,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orga138951">
+<pre class="example" id="org1417710">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -3842,7 +4086,7 @@ the themes&rsquo; colors: <a href="#h:307d95dd-8dbd-4ece-a543-10ae86f155a6">Over
 </div>
 
 <div id="outline-container-h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26" class="outline-3">
-<h3 id="h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26"><span class="section-number-3">6.13.</span> Load theme depending on time of day</h3>
+<h3 id="h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26"><span class="section-number-3">6.15.</span> Load theme depending on time of day</h3>
 <div class="outline-text-3" id="text-h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26">
 <p>
 While we do provide <code>modus-themes-toggle</code> to manually switch between the
@@ -3874,7 +4118,7 @@ package:
 </div>
 
 <div id="outline-container-h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd" class="outline-3">
-<h3 id="h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd"><span class="section-number-3">6.14.</span> Backdrop for pdf-tools</h3>
+<h3 id="h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd"><span class="section-number-3">6.16.</span> Backdrop for pdf-tools</h3>
 <div class="outline-text-3" id="text-h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">
 <p>
 Most PDF files use a white background for their page, making it
@@ -3949,7 +4193,7 @@ called from inside a buffer whose major-mode is <code>pdf-view-mode</code>.
 </div>
 
 <div id="outline-container-h:03be4438-dae1-4961-9596-60a307c070b5" class="outline-3">
-<h3 id="h:03be4438-dae1-4961-9596-60a307c070b5"><span class="section-number-3">6.15.</span> Decrease mode line height</h3>
+<h3 id="h:03be4438-dae1-4961-9596-60a307c070b5"><span class="section-number-3">6.17.</span> Decrease mode line height</h3>
 <div class="outline-text-3" id="text-h:03be4438-dae1-4961-9596-60a307c070b5">
 <p>
 By default, the mode line of the Modus themes is set to 1 pixel width
@@ -4071,7 +4315,7 @@ to be specified as well:
 </div>
 
 <div id="outline-container-h:86f6906b-f090-46cc-9816-1fe8aeb38776" class="outline-3">
-<h3 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-3">6.16.</span> A theme-agnostic hook for theme loading</h3>
+<h3 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-3">6.18.</span> A theme-agnostic hook for theme loading</h3>
 <div class="outline-text-3" id="text-h:86f6906b-f090-46cc-9816-1fe8aeb38776">
 <p>
 The themes are designed with the intent to be useful to Emacs users of
@@ -4133,7 +4377,7 @@ what the implications are of advising a function).
 </div>
 
 <div id="outline-container-h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236" class="outline-3">
-<h3 id="h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236"><span class="section-number-3">6.17.</span> Diffs with only the foreground</h3>
+<h3 id="h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236"><span class="section-number-3">6.19.</span> Diffs with only the foreground</h3>
 <div class="outline-text-3" id="text-h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">
 <p>
 Buffers that show differences between versions of a file or buffer, such
@@ -4531,6 +4775,7 @@ supported by the themes.
 <li>counsel-org-capture-string</li>
 <li>define-word</li>
 <li>disk-usage</li>
+<li>dtache</li>
 <li>easy-kill</li>
 <li>edit-indirect</li>
 <li>evil-owl</li>
@@ -5499,7 +5744,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orge320e04">
+<pre class="example" id="orgfc6fbc7">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5544,7 +5789,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org3e68e00">
+<pre class="example" id="orgcbae04a">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -5735,7 +5980,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgc487c63">
+<pre class="example" id="org9c982a8">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5792,13 +6037,13 @@ The Modus themes are a collective effort.  Every bit of work matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or documentation</dt><dd>Anders Johansson, Basil
-L. Contovounesios, Björn Lindström, Carlo Zancanaro, Christian
-Tietze, Daniel Mendler, Eli Zaretskii, Fritz Grabo, Illia Ostapyshyn,
-Kévin Le Gouguec, Kostadin Ninev, Madhavan Krishnan, Markus Beppler,
-Matthew Stevenson, Mauro Aranda, Nicolas De Jaeghere, Philip
-Kaludercic, Rudolf Adamkovič, Stephen Gildea, Shreyas Ragavan, Stefan
-Kangas, Vincent Murphy, Xinglu Chen.</dd>
+<dt>Contributions to code or documentation</dt><dd>Alex Griffin, Anders
+Johansson, Basil L. Contovounesios, Björn Lindström, Carlo
+Zancanaro, Christian Tietze, Daniel Mendler, Eli Zaretskii, Fritz
+Grabo, Illia Ostapyshyn, Kévin Le Gouguec, Kostadin Ninev, Madhavan
+Krishnan, Markus Beppler, Matthew Stevenson, Mauro Aranda, Nicolas De
+Jaeghere, Philip Kaludercic, Rudolf Adamkovič, Stephen Gildea, Shreyas
+Ragavan, Stefan Kangas, Vincent Murphy, Xinglu Chen.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Aaron Jensen, Adam Porter, Adam Spiers,
 Adrian Manea, Alex Griffin, Alex Peitsinis, Alexey Shmalko, Alok
@@ -5819,8 +6064,8 @@ Sam Kleinman, Shreyas Ragavan, Simon Pugnet, Tassilo Horn, Thibaut
 Verron, Thomas Heartman, Trey Merkley, Togan Muftuoglu, Toon Claes,
 Uri Sharf, Utkarsh Singh, Vincent Foley.  As well as users: Ben,
 CsBigDataHub1, Emacs Contrib, Eugene, Fourchaux, Fredrik, Moesasji,
-Nick, TheBlob42, Trey, bepolymathe, doolio, fleimgruber, iSeeU,
-jixiuf, okamsn, pRot0ta1p.</dd>
+Nick, TheBlob42, Trey, bepolymathe, bit9tream, doolio, fleimgruber,
+iSeeU, jixiuf, okamsn, pRot0ta1p.</dd>
 
 <dt>Packaging</dt><dd>Basil L. Contovounesios, Eli Zaretskii, Glenn
 Morris, Mauro Aranda, Richard Stallman, Stefan Kangas (core Emacs),
@@ -5865,6 +6110,7 @@ of this sort):
 <li><a href="https://protesilaos.com/codelog/2021-01-11-modus-themes-review-select-faint-colours/">Modus themes: review of select &ldquo;faint&rdquo; colours</a> (2021-01-11)</li>
 <li><a href="https://protesilaos.com/codelog/2021-02-25-modus-themes-diffs-deuteranopia/">The Modus themes now cover deuteranopia in diffs</a> (2021-02-25)</li>
 <li><a href="https://protesilaos.com/codelog/2021-06-02-modus-themes-org-agenda/">Introducing the variable modus-themes-org-agenda</a> (2021-06-02)</li>
+<li><a href="https://protesilaos.com/codelog/2022-01-02-review-modus-themes-org-habit-colours/">Modus themes: review of the org-habit graph colours</a> (2022-01-02)</li>
 </ul>
 
 <p>
