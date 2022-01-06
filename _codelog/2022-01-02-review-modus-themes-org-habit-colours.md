@@ -4,6 +4,13 @@ subtitle: "Overview of a tricky exercise in recalibrating colour values for opti
 excerpt: "Report on the review of the colours used in the modus-operandi and modus-vivendi Emacs themes for the org-habit graph."
 ---
 
+**UPDATE 2022-01-06 08:09 +0200:** I discovered a combination that I had
+not considered before (light blue next to intense green followed by more
+light blue), so I tweaked things further.  The tables have been updated
+accordingly.
+
+* * *
+
 I spent this afternoon reviewing the subset of the Modus themes' colour
 palette that is used in the `org-habit` graph.  In this post I present
 the technicalities of the endeavour.  The gist of this publication is
@@ -47,7 +54,7 @@ Now on to the minutia of picking colour values.  Since I have started
 clocking my time with Org, I am informed that the edits in
 `modus-themes.el` took me 3 hours and 16 minutes.  (This does not
 include the time required to compile the data and write this entry.)
-All those hours to produce this diff:
+All those hours to produce this sort of diff:
 
 ```diff
 diff --git a/modus-themes.el b/modus-themes.el
@@ -71,13 +78,13 @@ index 7767acf..17f3362 100644
 -    (cyan-graph-0-bg . "#30d3f0")
 -    (cyan-graph-1-bg . "#6fefff")
 +    (red-graph-0-bg . "#ef7969")
-+    (red-graph-1-bg . "#ffafa0")
-+    (green-graph-0-bg . "#49c029")
++    (red-graph-1-bg . "#ffaab4")
++    (green-graph-0-bg . "#4faa09")
 +    (green-graph-1-bg . "#8fef00")
 +    (yellow-graph-0-bg . "#ffcf00")
 +    (yellow-graph-1-bg . "#f9ff00")
 +    (blue-graph-0-bg . "#7090ff")
-+    (blue-graph-1-bg . "#8fbfff")
++    (blue-graph-1-bg . "#9fc6ff")
 +    (magenta-graph-0-bg . "#e07fff")
 +    (magenta-graph-1-bg . "#fad0ff")
 +    (cyan-graph-0-bg . "#70d3f0")
@@ -105,7 +112,7 @@ index 7767acf..17f3362 100644
 +    (red-graph-1-bg . "#6f1f1f")
 +    (green-graph-0-bg . "#24ba0f")
 +    (green-graph-1-bg . "#1f6f00")
-+    (yellow-graph-0-bg . "#f7ef00")
++    (yellow-graph-0-bg . "#f1e00a")
 +    (yellow-graph-1-bg . "#b08600")
 +    (blue-graph-0-bg . "#2fafef")
 +    (blue-graph-1-bg . "#1f2f8f")
@@ -195,20 +202,20 @@ OLD Modus Operandi graph (org-habit) colour distance in hueness:
 
 NEW Modus Operandi graph (org-habit) colour distance in hueness:
 
-|         | #ef7969 | #ffafa0 | #49c029 | #8fef00 | #ffcf00 | #f9ff00 | #7090ff | #8fbfff | #e07fff | #fad0ff | #70d3f0 | #afefff |
+|         | #ef7969 | #ffaab4 | #4faa09 | #8fef00 | #ffcf00 | #f9ff00 | #7090ff | #9fc6ff | #e07fff | #fad0ff | #70d3f0 | #afefff |
 |---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
-| #ef7969 |       0 |   18714 |  102713 |  106676 |   53152 |   95386 |   98252 |   96330 |   48246 |   77159 |  118813 |  117359 |
-| #ffafa0 |   18714 |       0 |  123038 |  108929 |   55728 |   77813 |   80663 |   56370 |   30879 |   22745 |   75981 |   54468 |
-| #49c029 |  102713 |  123038 |       0 |   25238 |   93136 |  102160 |  134631 |  130887 |  187958 |  193409 |  110332 |  150994 |
-| #8fef00 |  106676 |  108929 |   25238 |       0 |   39278 |   32383 |  202638 |  169139 |  217995 |  181945 |  150709 |  158446 |
-| #ffcf00 |   53152 |   55728 |   93136 |   39278 |       0 |    9396 |  221491 |  181641 |  163698 |  131790 |  188491 |  163814 |
-| #f9ff00 |   95386 |   77813 |  102160 |   32383 |    9396 |       0 |  251105 |  194094 |  203715 |  141390 |  192087 |  158776 |
-| #7090ff |   98252 |   80663 |  134631 |  202638 |  221491 |  251105 |       0 |   11326 |   34778 |   68521 |   18677 |   46633 |
-| #8fbfff |   96330 |   56370 |  130887 |  169139 |  181641 |  194094 |   11326 |       0 |   34495 |   33133 |    4600 |   11995 |
-| #e07fff |   48246 |   30879 |  187958 |  217995 |  163698 |  203715 |   34778 |   34495 |       0 |   28445 |   62589 |   57301 |
-| #fad0ff |   77159 |   22745 |  193409 |  181945 |  131790 |  141390 |   68521 |   33133 |   28445 |       0 |   52564 |   19936 |
-| #70d3f0 |  118813 |   75981 |  110332 |  150709 |  188491 |  192087 |   18677 |    4600 |   62589 |   52564 |       0 |   13964 |
-| #afefff |  117359 |   54468 |  150994 |  158446 |  163814 |  158776 |   46633 |   11995 |   57301 |   19936 |   13964 |       0 |
+| #ef7969 |       0 |   21961 |   99439 |  106676 |   53152 |   95386 |   98252 |   92167 |   48246 |   77159 |  118813 |  117359 |
+| #ffaab4 |   21961 |       0 |  151991 |  126821 |   70826 |   94926 |   71701 |   41681 |   21983 |   17290 |   71098 |   49758 |
+| #4faa09 |   99439 |  151991 |       0 |   29455 |   88591 |  106302 |  165458 |  173577 |  209155 |  227396 |  150578 |  194988 |
+| #8fef00 |  106676 |  126821 |   29455 |       0 |   39278 |   32383 |  202638 |  165240 |  217995 |  181945 |  150709 |  158446 |
+| #ffcf00 |   53152 |   70826 |   88591 |   39278 |       0 |    9396 |  221491 |  169846 |  163698 |  131790 |  188491 |  163814 |
+| #f9ff00 |   95386 |   94926 |  106302 |   32383 |    9396 |       0 |  251105 |  180129 |  203715 |  141390 |  192087 |  158776 |
+| #7090ff |   98252 |   71701 |  165458 |  202638 |  221491 |  251105 |       0 |   17390 |   34778 |   68521 |   18677 |   46633 |
+| #9fc6ff |   92167 |   41681 |  173577 |  165240 |  169846 |  180129 |   17390 |       0 |   32035 |   23787 |    6876 |    7461 |
+| #e07fff |   48246 |   21983 |  209155 |  217995 |  163698 |  203715 |   34778 |   32035 |       0 |   28445 |   62589 |   57301 |
+| #fad0ff |   77159 |   17290 |  227396 |  181945 |  131790 |  141390 |   68521 |   23787 |   28445 |       0 |   52564 |   19936 |
+| #70d3f0 |  118813 |   71098 |  150578 |  150709 |  188491 |  192087 |   18677 |    6876 |   62589 |   52564 |       0 |   13964 |
+| #afefff |  117359 |   49758 |  194988 |  158446 |  163814 |  158776 |   46633 |    7461 |   57301 |   19936 |   13964 |       0 |
 
 OLD Modus Vivendi graph (org-habit) colour distance in hueness:
 
@@ -229,20 +236,20 @@ OLD Modus Vivendi graph (org-habit) colour distance in hueness:
 
 NEW Modus Vivendi graph (org-habit) colour distance in hueness:
 
-|         | #b52c2c | #702020 | #24bf00 | #007800 | #f7ef00 | #b08600 | #2fafef | #1f2f8f | #bf94fe | #5f509f | #47dfea | #00808f |
+|         | #b52c2c | #702020 | #4fd100 | #007800 | #f1e00a | #b08600 | #2fafef | #1f2f8f | #bf94fe | #5f509f | #47dfea | #00808f |
 |---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
-| #b52c2c |       0 |   13285 |  143530 |  106198 |  169970 |   37209 |  211299 |   80341 |  144794 |   56938 |  250752 |  132324 |
-| #702020 |   13285 |       0 |  118043 |   62148 |  224771 |   55042 |  208369 |   49756 |  190061 |   52156 |  259676 |   99738 |
-| #24bf00 |  143530 |  118043 |       0 |   23026 |  123924 |   60815 |  164630 |  142766 |  232779 |  127479 |  160831 |   79076 |
-| #007800 |  106198 |   62148 |   23026 |       0 |  209838 |   74000 |  184251 |   84053 |  261174 |   98026 |  211507 |   62084 |
-| #f7ef00 |  169970 |  224771 |  123924 |  209838 |       0 |   58819 |  259895 |  318876 |  181640 |  223450 |  214078 |  254266 |
-| #b08600 |   37209 |   55042 |   60815 |   74000 |   58819 |       0 |  195184 |  134954 |  149680 |   91391 |  198362 |  128070 |
-| #2fafef |  211299 |  208369 |  164630 |  184251 |  259895 |  195184 |       0 |   93048 |   55062 |   59227 |   10653 |   40571 |
-| #1f2f8f |   80341 |   49756 |  142766 |   84053 |  318876 |  134954 |   93048 |       0 |  135801 |   14376 |  151789 |   28445 |
-| #bf94fe |  144794 |  190061 |  232779 |  261174 |  181640 |  149680 |   55062 |  135801 |       0 |   64611 |   60159 |  121516 |
-| #5f509f |   56938 |   52156 |  127479 |   98026 |  223450 |   91391 |   59227 |   14376 |   64611 |       0 |   98948 |   29899 |
-| #47dfea |  250752 |  259676 |  160831 |  211507 |  214078 |  198362 |   10653 |  151789 |   60159 |   98948 |       0 |   71126 |
-| #00808f |  132324 |   99738 |   79076 |   62084 |  254266 |  128070 |   40571 |   28445 |  121516 |   29899 |   71126 |       0 |
+| #b52c2c |       0 |   13285 |  140927 |  106198 |  143404 |   37209 |  211299 |   80341 |  144794 |   56938 |  250752 |  132324 |
+| #702020 |   13285 |       0 |  131612 |   62148 |  194886 |   55042 |  208369 |   49756 |  190061 |   52156 |  259676 |   99738 |
+| #4fd100 |  140927 |  131612 |       0 |   45485 |   70640 |   46382 |  165460 |  168324 |  207617 |  135432 |  150260 |   98638 |
+| #007800 |  106198 |   62148 |   45485 |       0 |  188588 |   74000 |  184251 |   84053 |  261174 |   98026 |  211507 |   62084 |
+| #f1e00a |  143404 |  194886 |   70640 |  188588 |       0 |   44871 |  235668 |  282865 |  159638 |  193095 |  196844 |  226941 |
+| #b08600 |   37209 |   55042 |   46382 |   74000 |   44871 |       0 |  195184 |  134954 |  149680 |   91391 |  198362 |  128070 |
+| #2fafef |  211299 |  208369 |  165460 |  184251 |  235668 |  195184 |       0 |   93048 |   55062 |   59227 |   10653 |   40571 |
+| #1f2f8f |   80341 |   49756 |  168324 |   84053 |  282865 |  134954 |   93048 |       0 |  135801 |   14376 |  151789 |   28445 |
+| #bf94fe |  144794 |  190061 |  207617 |  261174 |  159638 |  149680 |   55062 |  135801 |       0 |   64611 |   60159 |  121516 |
+| #5f509f |   56938 |   52156 |  135432 |   98026 |  193095 |   91391 |   59227 |   14376 |   64611 |       0 |   98948 |   29899 |
+| #47dfea |  250752 |  259676 |  150260 |  211507 |  196844 |  198362 |   10653 |  151789 |   60159 |   98948 |       0 |   71126 |
+| #00808f |  132324 |   99738 |   98638 |   62084 |  226941 |  128070 |   40571 |   28445 |  121516 |   29899 |   71126 |       0 |
 
 
 ## Particular requirements for each theme
@@ -257,16 +264,16 @@ Modus Operandi graph (org-habit) colour pair distance in hueness:
 |              |         |         | Distance |
 |--------------+---------+---------+----------|
 | Old reds     | #ef6f79 | #ff9f9f |    13010 |
-| New reds     | #ef7969 | #ffafa0 |    18714 |
+| New reds     | #ef7969 | #ffaab4 |    21961 |
 |--------------+---------+---------+----------|
 | Old greens   | #49d239 | #6dec6d |    13006 |
-| New greens   | #49c029 | #8fef00 |    25238 |
+| New greens   | #4faa09 | #8fef00 |    29455 |
 |--------------+---------+---------+----------|
 | Old yellows  | #efec08 | #dbff4e |    13003 |
 | New yellows  | #ffcf00 | #f9ff00 |     9396 |
 |--------------+---------+---------+----------|
 | Old blues    | #55a2f0 | #7fcfff |    13044 |
-| New blues    | #7090ff | #8fbfff |    11326 |
+| New blues    | #7090ff | #9fc6ff |    17390 |
 |--------------+---------+---------+----------|
 | Old magentas | #ba86ef | #e7afff |    13090 |
 | New magentas | #e07fff | #fad0ff |    28445 |
@@ -274,28 +281,32 @@ Modus Operandi graph (org-habit) colour pair distance in hueness:
 | Old cyans    | #30d3f0 | #6fefff |    13017 |
 | New cyans    | #70d3f0 | #afefff |    13964 |
 
-Notice that yellow and blue pairs have been brought closer, despite the
+Notice that the yellow pair have been brought closer, despite the
 general trend to amplify the distinction between the values in each pair
 (well "amplify" may give the wrong impression as these are subtle
 tweaks---check again the first screenshot).  This reduction may seem
 like an error, though it is part of the design (and why we must look at
 things holistically without following every rule to the letter while
 remaining oblivious to its spirit).  Consider that the old subtle yellow
-(#dbff4e) was too close to the subtle red (#ff9f9f), while the old
-subtle green (#6dec6d) was far closer to its corresponding blue
-(#7fcfff) than what it should have been.  Those combinations appear next
-to each other and thus need to be accounted for.  The following table
+(#dbff4e) was too close to the subtle red (#ff9f9f).  Same for the
+subtle yellow next to the intense red.  Those combinations appear next
+to each other and thus need to be accounted for.  The compromise we had
+to make was to marginally reduce the distance betweent the new subtle
+red (#ffaab4) and the new intense yellow (#ffcf00).  The following table
 illustrates this point:
 
 Modus Operandi select graph (org-habit) colour pairs distance in hueness:
 
-|                                 |         |         | Distance |
-|---------------------------------+---------+---------+----------|
-| Old subtle yellow vs subtle red | #dbff4e | #ff9f9f |    54670 |
-| New subtle yellow vs subtle red | #f9ff00 | #ffafa0 |    77813 |
-|---------------------------------+---------+---------+----------|
-| Old subtle green vs subtle blue | #6dec6d | #7fcfff |    58701 |
-| New subtle green vs subtle blue | #8fef00 | #8fbfff |   169139 |
+|                                  |         |         | Distance |
+|----------------------------------+---------+---------+----------|
+| Old subtle yellow vs subtle red  | #dbff4e | #ff9f9f |    54670 |
+| New subtle yellow vs subtle red  | #f9ff00 | #ffaab4 |    94926 |
+|----------------------------------+---------+---------+----------|
+| Old subtle yellow vs intense red | #dbff4e | #ef6f79 |    88678 |
+| New subtle yellow vs intense red | #f9ff00 | #ef7969 |    95386 |
+|----------------------------------+---------+---------+----------|
+| Old subtle red vs intense yellow | #ff9f9f | #efec08 |    71347 |
+| New subtle red vs intense yellow | #ffaab4 | #ffcf00 |    70826 |
 
 The new colours work better in general, but let us not belabour the
 point.
@@ -334,11 +345,10 @@ Modus Vivendi graph (org-habit) colour pair distance in hueness:
 | New cyans    | #47dfea | #00808f |    71126 |
 
 Now here comes the counter-intuitive part.  For `modus-operandi` the
-yellow+red as well as green+blue combinations had to be rendered more
-clear.  Whereas for `modus-vivendi` we had to bring those colours closer
-to each other to avoid exaggerations in intensity.  Remember that
-`modus-vivendi` has a black background, so any extra intensity is
-immediately noticeable.
+yellow+red combinations had to be rendered more clear.  Whereas for
+`modus-vivendi` we had to bring colours closer to each other to avoid
+exaggerations in intensity.  Remember that `modus-vivendi` has a black
+background, so any extra intensity is immediately noticeable.
 
 Modus Vivendi select graph (org-habit) colour pairs distance in hueness:
 
