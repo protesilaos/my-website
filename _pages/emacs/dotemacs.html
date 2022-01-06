@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-04 14:26 +0200</b>.</li>
+<li>Updated: <b>2022-01-06 13:16 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -427,7 +427,7 @@ page).  Either way, it load my configurations.</li>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; init.el --- Personal configuration file -*- lexical-binding: t -*-
 
-;; Copyright (c) 2019-2021  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Copyright (c) 2019-2022  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -598,10 +598,10 @@ expressions."
 (setq use-short-answers t)    ; for Emacs28, replaces the defalias below
 ;; (defalias 'yes-or-no-p 'y-or-n-p)
 
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
+(dolist (c '( narrow-to-region narrow-to-page upcase-region
+              downcase-region dired-find-alternate-file))
+  (put c 'disabled nil))
+
 (put 'overwrite-mode 'disabled t)
 
 (setq initial-buffer-choice t)			; always start with *scratch*
@@ -693,7 +693,7 @@ with greater precision.  My code is as follows:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; early-init.el --- Early Init File -*- lexical-binding: t -*-
 
-;; Copyright (c) 2020-2021  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Copyright (c) 2020-2022  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -809,7 +809,7 @@ Consult the section on <a href="#h:4e8347de-415e-4804-b383-d61499e05ca1">Org-mod
 <h3 id="h:1b9e6455-ba10-4683-88d4-738ecc41cdf6"><span class="section-number-3">1.3.</span> COPYING</h3>
 <div class="outline-text-3" id="text-h:1b9e6455-ba10-4683-88d4-738ecc41cdf6">
 <p>
-Copyright (c) 2019-2021  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+Copyright (c) 2019-2022  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 </p>
 
 <p>
@@ -867,7 +867,7 @@ in <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a> (same
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-common.el --- Common functions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -970,6 +970,20 @@ floating points: 16.666666666666664 =&gt; 16.667."
          (round (floor n)))
     ;; FIXME 2021-12-21: Any way to avoid the `string-to-number'?
     (if (&gt; n round) (string-to-number (format "%0.4f" n)) round)))
+
+;;;###autoload
+(defun prot-common-rotate-list-of-symbol (symbol)
+  "Rotate list value of SYMBOL by moving its car to the end.
+Return the first element before performing the rotation.
+
+This means that if `sample-list' has an initial value of `(one
+two three)', this function will first return `one' and update the
+value of `sample-list' to `(two three one)'.  Subsequent calls
+will continue rotating accordingly."
+  (let* ((list (symbol-value symbol))
+         (first (car list)))
+    (set symbol (append (cdr list) (list first)))
+    first))
 
 ;;;###autoload
 (defun prot-common-empty-buffer-p ()
@@ -1294,6 +1308,8 @@ use elsewhere.
     ;; Commands for windows
     (define-key map (kbd "C-x n n") #'prot-simple-narrow-dwim) ; replaces `narrow-to-region'
     (define-key map (kbd "C-x M") #'prot-simple-monocle)
+    (define-key map [remap forward-page] #'prot-simple-forward-page-dwim)
+    (define-key map [remap backward-page] #'prot-simple-backward-page-dwim)
     ;; Commands for buffers
     (define-key map (kbd "M-=") #'count-words)
     (define-key map (kbd "&lt;C-f2&gt;") #'prot-simple-rename-file-and-buffer)
@@ -1309,7 +1325,7 @@ These are the contents of the <code>prot-simple.el</code> library (find the file
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-simple.el --- Common commands for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -2102,6 +2118,26 @@ If narrowing is in effect, widen the view."
     (widen)
     (recenter))))
 
+;;;###autoload
+(defun prot-simple-forward-page-dwim (&amp;optional count)
+  "Move to next or COUNTth page forward.
+If buffer is narrowed to the page, keep the effect while
+performing the motion."
+  (interactive "p")
+  (if (buffer-narrowed-p)
+      (narrow-to-page (or (abs count) 1))
+    (forward-page count)))
+
+;;;###autoload
+(defun prot-simple-backward-page-dwim (&amp;optional count)
+  "Move to previous or COUNTth page backward.
+If buffer is narrowed to the page, keep the effect while
+performing the motion."
+  (interactive "p")
+  (if (buffer-narrowed-p)
+      (narrow-to-page (or (- count) -1))
+    (backward-page count)))
+
 ;; Inspired by Pierre Neidhardt's windower:
 ;; https://gitlab.com/ambrevar/emacs-windower/-/blob/master/windower.el
 (defvar prot-simple--windows-current nil
@@ -2213,7 +2249,7 @@ you wish to get the file):
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-pulse.el --- Extend pulse.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -2486,6 +2522,8 @@ and wish to get a glimpse of how much work goes into this project:
 <li><a href="https://protesilaos.com/codelog/2021-02-25-modus-themes-diffs-deuteranopia/">The Modus themes now cover deuteranopia in diffs</a> (2021-02-25)</li>
 <li><a href="https://protesilaos.com/codelog/2021-05-19-modus-themes-status-update/">Status update on the Modus themes for Emacs</a> (2021-05-19)</li>
 <li><a href="https://protesilaos.com/codelog/2021-06-02-modus-themes-org-agenda/">Introducing the variable modus-themes-org-agenda</a> (2021-06-02)</li>
+<li><a href="https://protesilaos.com/codelog/2022-01-02-review-modus-themes-org-habit-colours/">Modus themes: review of the org-habit graph colours</a> (2022-01-02)</li>
+<li><a href="https://protesilaos.com/codelog/2022-01-03-modus-themes-port-faq/">Re: VSCode or Vim ports of the Emacs modus-themes?</a> (2022-01-03)</li>
 </ul>
 
 <p>
@@ -2536,7 +2574,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match '(intense underline bold)
+        modus-themes-paren-match nil
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2895,7 +2933,7 @@ if you directly clone <a href="https://gitlab.com/protesilaos/dotfiles">my dotfi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-fonts.el --- Font configurations for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -3172,7 +3210,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org323db54">
+<pre class="example" id="org391e063">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3239,7 +3277,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orge9137b0">
+<pre class="example" id="orga1094ca">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3446,7 +3484,7 @@ from <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a> (as
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-orderless.el --- Extensions for Orderless -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -3783,7 +3821,7 @@ And here is <code>mct.el</code> (from <a href="https://gitlab.com/protesilaos/do
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; mct.el --- Minibuffer and Completions in Tandem -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Free Software Foundation, Inc.
+;; Copyright (C) 2021-2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://gitlab.com/protesilaos/mct
@@ -5310,6 +5348,7 @@ try.
     (define-key map (kbd "M-s M-b") #'consult-buffer)
     (define-key map (kbd "M-s M-f") #'consult-find)
     (define-key map (kbd "M-s M-g") #'consult-grep)
+    (define-key map (kbd "M-s M-h") #'consult-history)
     (define-key map (kbd "M-s M-m") #'consult-mark)
     (define-key map (kbd "C-x r r") #'consult-register)) ; Use the register's prefix
   (define-key consult-narrow-map (kbd "?") #'consult-narrow-help))
@@ -5341,7 +5380,7 @@ Here is <code>prot-consult.el</code> (part of <a href="https://gitlab.com/protes
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-consult.el --- Tweak consult.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -5764,7 +5803,7 @@ This is <code>prot-embark.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-embark.el --- Extensions to embark.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -6026,7 +6065,7 @@ This is <code>prot-project.el</code> (part of <a href="https://gitlab.com/protes
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-project.el --- Extensions to project.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -6392,7 +6431,7 @@ This is a copy of <code>prot-recentf.el</code> (part of <a href="https://gitlab.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-recentf.el --- Extensions to recentf.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -7029,7 +7068,7 @@ Here is <code>prot-search.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-search.el --- Extensions to isearch, replace, grep for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -7692,7 +7731,7 @@ These are the contents of <code>prot-dired.el</code> (part of <a href="https://g
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-dired.el --- Extensions to dired.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -7858,29 +7897,33 @@ running find+grep on its contents.  Visit it and call `occur' or
 run grep directly on it without the whole find part."
   (interactive
    (list
-    (read-string "grep for PATTERN in marked files: " nil 'prot-dired--find-grep-hist)
+    (read-string "grep for PATTERN (marked files OR current directory): " nil 'prot-dired--find-grep-hist)
     current-prefix-arg)
    dired-mode)
   (when-let* ((marks (dired-get-marked-files 'no-dir))
-              (files (mapconcat #'identity marks " -o -name "))
+              (files (mapconcat #'identity marks " "))
               (args (if (or arg (length&gt; marks 1))
-                        (concat
-                         "find . -type f "
-                         (shell-quote-argument "(")
-                         " -name " files " "
-                         (shell-quote-argument ")")
-                         " -exec grep -nH --color=auto " regexp " "
-                         (shell-quote-argument "{}")
-                         " " (shell-quote-argument ";") " ")
+                        ;; Thanks to Sean Whitton for pointing out an
+                        ;; earlier superfluity of mine: we do not need
+                        ;; to call grep through find when we already
+                        ;; know the files we want to search in.  Check
+                        ;; Sean's dotfiles:
+                        ;; &lt;https://git.spwhitton.name/dotfiles&gt;.
+                        ;;
+                        ;; Any other errors or omissions are my own.
+                        (format "grep -nH --color=auto %s %s" (shell-quote-argument regexp) files)
                       (concat
-                       "find . -type f "
-                       " -exec grep -nH --color=auto " regexp " "
+                       "find . -not " (shell-quote-argument "(")
+                       " -wholename " (shell-quote-argument "*/.git*")
+                       " -prune " (shell-quote-argument ")")
+                       " -type f"
+                       " -exec grep -nHE --color=auto " regexp " "
                        (shell-quote-argument "{}")
                        " " (shell-quote-argument ";") " "))))
     (compilation-start
      args
      'grep-mode
-     (lambda (mode) (format "*prot-dired-find-%s '%s'" mode regexp))
+     (lambda (mode) (format "*prot-dired-find-%s for '%s'" mode regexp))
      t)))
 
 ;;;; Subdir extras and Imenu setup
@@ -8228,7 +8271,7 @@ Here is <code>prot-ibuffer.el</code> (find everything in <a href="https://gitlab
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-ibuffer.el --- Extensions to ibuffer.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -8734,7 +8777,7 @@ The <code>prot-tab.el</code> code, which is in <a href="https://gitlab.com/prote
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-tab.el --- Tab bar (tab-bar.el) extras for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -9131,7 +9174,7 @@ Here is <code>prot-bookmark.el</code> (from <a href="https://gitlab.com/protesil
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-bookmark.el --- Bookmark extras for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -9445,7 +9488,7 @@ And here is <code>prot-logos.el</code> in its totality.  It is available as a fi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-logos.el --- Extensions for my dotemacs to help read, write, present -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -9735,7 +9778,7 @@ with all my Elisp code):
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; usls.el --- Unassuming Sidenotes of Little Significance -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://gitlab.com/protesilaos/usls
@@ -10717,7 +10760,7 @@ my USLS (see <a href="#h:787df548-0d95-4512-a61d-27852198f561">USLS &#x2014; Una
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; invtr.el --- INVTR Needn't Vindicate Thorough Rationalists -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos/emacs/invtr
@@ -11472,7 +11515,7 @@ This is its code (from <a href="https://gitlab.com/protesilaos/dotfiles">my dotf
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; tmr.el --- TMR Must Recur -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -11807,7 +11850,7 @@ This is <code>prot-diff.el</code> (part of <a href="https://gitlab.com/protesila
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-diff.el --- Extensions to diff-mode.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -12586,7 +12629,7 @@ And here is <code>prot-vc.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-vc.el --- Extensions to vc.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -12620,6 +12663,14 @@ And here is <code>prot-vc.el</code> (part of <a href="https://gitlab.com/protesi
 ;; educational and recreational purposes.  I am not a programmer and I
 ;; do not recommend that you copy any of this if you are not certain of
 ;; what it does.
+
+
+
+;; NOTE 2022-01-05: I plan to rewrite the whole file to bring it up to
+;; my current standard (don't forget what the Commentary of every such
+;; files explains: I do all this for educational or recreational
+;; purposes).  The overall functionality will stay in place.
+
 
 ;;; Code:
 
@@ -14059,7 +14110,7 @@ This is <code>prot-eshell.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-eshell.el --- Extensions to Eshell for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -14097,6 +14148,7 @@ This is <code>prot-eshell.el</code> (part of <a href="https://gitlab.com/protesi
 (require 'esh-mode)
 (require 'em-dirs)
 (require 'em-hist)
+(require 'prot-common)
 
 ;;;; Customisation options
 
@@ -14195,26 +14247,33 @@ append to it, while separating multiple outputs with
   '(hi-yellow hi-blue hi-pink hi-green hi-salmon hi-aquamarine)
   "List of faces to highlight output.")
 
-(defvar prot-eshell--highlight-last-face nil
-  "Last used face used for highlighting output.")
-
-(defun prot-eshell--highlight-random-face ()
-  "Return random face except last used.
-For use in `prot-eshell-narrow-output-highlight-regexp'."
-  (let* ((faces prot-eshell--highlight-faces)
-         (last prot-eshell--highlight-last-face)
-         (remaining (when last (remove last faces)))
-         (length (1- (length faces)))
-         (n (random length))
-         (face (nth n remaining)))
-    (cond
-     ((null face)
-      (setq face (car faces)))
-     ((eq face last)
-      (setq remaining (remove face remaining))
-      (setq face (car remaining))))
-    (setq prot-eshell--highlight-last-face face)
-    face))
+;; ;; NOTE 2022-01-06: Deprecated in favour of the simpler method of
+;; ;; rotating the list: `prot-common-rotate-list-of-symbol'.  Try it with:
+;; ;;
+;; ;; (format "%s -- %s"
+;; ;;         (prot-common-rotate-list-of-symbol 'prot-eshell--highlight-faces)
+;; ;;         prot-eshell--highlight-faces)
+;;
+;; (defvar prot-eshell--highlight-last-face nil
+;;   "Last used face used for highlighting output.")
+;; 
+;; (defun prot-eshell--highlight-random-face ()
+;;   "Return random face except last used.
+;; For use in `prot-eshell-narrow-output-highlight-regexp'."
+;;   (let* ((faces prot-eshell--highlight-faces)
+;;          (last prot-eshell--highlight-last-face)
+;;          (remaining (when last (remove last faces)))
+;;          (length (1- (length faces)))
+;;          (n (random length))
+;;          (face (nth n remaining)))
+;;     (cond
+;;      ((null face)
+;;       (setq face (car faces)))
+;;      ((eq face last)
+;;       (setq remaining (remove face remaining))
+;;       (setq face (car remaining))))
+;;     (setq prot-eshell--highlight-last-face face)
+;;     face))
 
 (defvar prot-eshell--output-highlight-history '()
   "History of `prot-eshell-narrow-output-highlight-regexp'.")
@@ -14227,7 +14286,7 @@ For use in `prot-eshell-narrow-output-highlight-regexp'."
   (narrow-to-region (eshell-beginning-of-output)
                     (eshell-end-of-output))
   (goto-char (point-min))
-  (highlight-regexp regexp (prot-eshell--highlight-random-face))
+  (highlight-regexp regexp (prot-common-rotate-list-of-symbol 'prot-eshell--highlight-faces))
   (message "%s to last output and highlighted '%s'"
            (propertize "Narrowed" 'face 'bold)
            (propertize regexp 'face 'italic)))
@@ -15030,7 +15089,7 @@ Here are my few extras for Org (from <a href="https://gitlab.com/protesilaos/dot
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-org.el --- Tweaks for my org-mode configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -15374,7 +15433,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org9888205">
+<pre class="example" id="orgdea18c4">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15386,7 +15445,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org7881fc6">
+<pre class="example" id="org4c8e7f7">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15401,7 +15460,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org0b17c2f">
+<pre class="example" id="org99b07df">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15419,7 +15478,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgd259585">
+<pre class="example" id="org3b21d53">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15448,7 +15507,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgc148b79">
+<pre class="example" id="org3976612">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15612,7 +15671,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org5e2f163">
+<pre class="example" id="org55e80c0">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15750,7 +15809,7 @@ code in <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a> 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-diary.el --- Extensions for the diary and calendar -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16161,7 +16220,7 @@ And here is <code>prot-mail.el</code> (part of <a href="https://gitlab.com/prote
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-mail.el --- Mail tweaks for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16339,7 +16398,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org752306c">
+<pre class="example" id="orge69f452">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16373,7 +16432,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgfbdf540">
+<pre class="example" id="org60efaa9">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16537,7 +16596,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgb79fb26">
+<pre class="example" id="org90362d6">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16732,7 +16791,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgcf78d38">
+<pre class="example" id="orgfeb4ad7">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17047,7 +17106,7 @@ And here is <code>prot-notmuch.el</code> (part of <a href="https://gitlab.com/pr
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-notmuch.el --- Tweaks for my notmuch.el configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -17666,7 +17725,7 @@ The Emacs configs: <a href="#h:a196812e-1644-4536-84ba-687366867def">Notmuch (ma
 
 # post-new --- Notmuch rules that run after notmuch new
 #
-# Copyright (c) 2021  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+# Copyright (c) 2021-2022  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17960,7 +18019,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org4997f4e">
+<pre class="example" id="orgdd217b1">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18380,7 +18439,7 @@ Here is my <code>prot-bongo.el</code> library (part of <a href="https://gitlab.c
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-bongo.el --- Bongo extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -19024,7 +19083,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org55ccae3">
+<pre class="example" id="org87983fd">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19205,7 +19264,7 @@ This is <code>prot-elfeed.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-elfeed.el --- Elfeed extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -19592,7 +19651,7 @@ And here is <code>prot-elfeed-bongo.el</code> (part of <a href="https://gitlab.c
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-elfeed-bongo.el --- Bongo+Elfeed integration for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -19716,7 +19775,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgc636e1b">
+<pre class="example" id="orgffa4c89">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -19759,7 +19818,7 @@ Here is <code>prot-proced.el</code> (from <a href="https://gitlab.com/protesilao
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-proced.el --- Extras for proced -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -20200,7 +20259,7 @@ And here is <code>prot-eww.el</code> in its entirety.  It is available as a file
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-eww.el --- Extensions for EWW -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou, Abhiseck Paira
+;; Copyright (C) 2021-2022  Protesilaos Stavrou, Abhiseck Paira
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;;         Abhiseck Paira &lt;abhiseckpaira@disroot.org&gt;
@@ -21458,7 +21517,7 @@ Here are my tweaks (from <a href="https://gitlab.com/protesilaos/dotfiles">my do
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-moody.el --- Extensions to moody.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -21924,7 +21983,7 @@ Here are my tweaks (from <a href="https://gitlab.com/protesilaos/dotfiles">my do
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-prism.el --- Tweaks for prism.el -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -22131,7 +22190,7 @@ This is <code>prot-sideline.el</code> (part of <a href="https://gitlab.com/prote
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-sideline.el --- Extensions for line numbers and relevant indicators -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -22336,7 +22395,7 @@ These are the contents of the <code>prot-outline.el</code> library (find the fil
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-outline.el --- Extend outline.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -22520,7 +22579,7 @@ This is <code>prot-cursor.el</code> (part of <a href="https://gitlab.com/protesi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-cursor.el --- Extensions for the cursor -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -22865,7 +22924,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgccd1429">
+<pre class="example" id="org4ace398">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23073,7 +23132,7 @@ Elisp code)):
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-text.el --- Extensions to text-mode.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2021  Protesilaos Stavrou
+;; Copyright (C) 2020-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -23309,7 +23368,7 @@ These are the contents of <code>prot-fill.el</code> (part of <a href="https://gi
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-fill.el --- Minor fill-mode tweaks for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -23438,7 +23497,7 @@ And here is <code>prot-comment.el</code> (part of <a href="https://gitlab.com/pr
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-comment.el --- Extensions newcomment.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -23799,7 +23858,7 @@ This is <code>prot-spell.el</code> (part of <a href="https://gitlab.com/protesil
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-spell.el --- Spelling-related extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021  Protesilaos Stavrou
+;; Copyright (C) 2021-2022  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -24588,7 +24647,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org86fef6a">
+<pre class="example" id="org45a2ca0">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25010,7 +25069,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org0c7d436">
+<pre class="example" id="orgf117ed3">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25019,7 +25078,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgde723cc">
+<pre class="example" id="org90900f2">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25044,7 +25103,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgc9bd377">
+<pre class="example" id="orgb44f757">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25104,7 +25163,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org8153b2e">
+<pre class="example" id="orgd85ac1b">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25129,7 +25188,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orge0bcc2d">
+<pre class="example" id="org7c9eea5">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25138,7 +25197,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org5ba62fd">
+<pre class="example" id="orga18992e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25157,7 +25216,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd8440ee">
+<pre class="example" id="orgbf0ac43">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
