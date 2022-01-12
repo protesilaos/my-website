@@ -156,6 +156,8 @@ Current development target is 2.1.0-dev.
 <li><a href="#h:44284e1f-fab8-4c4f-92f0-544728a7c91e">9.2. What does it mean to avoid exaggerations?</a></li>
 <li><a href="#h:0b26cb47-9733-4cb1-87d9-50850cb0386e">9.3. Why are colors mostly variants of blue, magenta, cyan?</a></li>
 <li><a href="#h:f60cc2ae-129d-47c0-9849-4f6bbd87d8be">9.4. What is the best setup for legibility?</a></li>
+<li><a href="#h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b">9.5. Are these color schemes?</a></li>
+<li><a href="#h:7156b949-917d-488e-9a72-59f70d80729c">9.6. Port the Modus themes to other platforms?</a></li>
 </ul>
 </li>
 <li><a href="#h:9c3cd842-14b7-44d7-84b2-a5c8bc3fc3b1">10. Contributing</a>
@@ -183,7 +185,7 @@ Current development target is 2.1.0-dev.
 <h2 id="h:b14c3fcb-13dd-4144-9d92-2c58b3ed16d3"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:b14c3fcb-13dd-4144-9d92-2c58b3ed16d3">
 <p>
-Copyright (C) 2020-2021  Free Software Foundation, Inc.
+Copyright (C) 2020-2022  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -4061,7 +4063,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org1417710">
+<pre class="example" id="org92fb3b4">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5744,7 +5746,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgfc6fbc7">
+<pre class="example" id="org25d83db">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5789,7 +5791,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgcbae04a">
+<pre class="example" id="orgbe09107">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -5892,6 +5894,185 @@ full.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b" class="outline-3">
+<h3 id="h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b"><span class="section-number-3">9.5.</span> Are these color schemes?</h3>
+<div class="outline-text-3" id="text-h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b">
+<p>
+No, the Modus themes are not color schemes.
+</p>
+
+<p>
+A color scheme is a collection of colors.  A good color scheme is a
+combination of colors with an inner logic or abstract structure.
+</p>
+
+<p>
+A theme is a set of patterns that are applied across different contexts.
+A good theme is one that does so with consistency, though not
+uniformity.
+</p>
+
+<p>
+In practical terms, a color scheme is what one uses when, for example,
+they edit the first sixteen escape sequences of a terminal emulator to
+the hues of their preference.  The terminal offers the option to choose,
+say, the exact value of what counts as &ldquo;red&rdquo;, but does not provide the
+means to control where that is mapped to and whether it should also have
+other qualities such as a bold weight for the underlying text or an
+added background color.  In contradistinction, Emacs uses constructs
+known as &ldquo;faces&rdquo; which allow the user/developer to specify where a given
+color will be used and whether it should be accompanied by other
+typographic or stylistic attributes.
+</p>
+
+<p>
+By configuring the multitude of faces on offer we thus control both
+which colors are applied and how they appear in their context.  When a
+package wants to render each instance of &ldquo;foo&rdquo; with the &ldquo;bar&rdquo; face, it
+is not requesting a specific color, which makes things considerably more
+flexible as we can treat &ldquo;bar&rdquo; in its own right without necessarily
+having to use some color value that we hardcoded somewhere.
+</p>
+
+<p>
+Which brings us to the distinction between consistency and uniformity
+where our goal is always the former: we want things to look similar
+across all interfaces, but we must never force a visual identity where
+that runs contrary to the functionality of the given interface.  For
+instance, all links are underlined by default yet there are cases such
+as when viewing listings of emails in Gnus (and Mu4e, Notmuch) where (i)
+it is already understood that one must follow the indicator or headline
+to view its contents and (ii) underlining everything would make the
+interface virtually unusable.
+</p>
+
+<p>
+<a href="#h:c119d7b2-fcd4-4e44-890e-5e25733d5e52">Option for links</a>.
+</p>
+
+<p>
+Again, one must exercise judgement in order to avoid discrimination,
+where &ldquo;discrimination&rdquo; refers to:
+</p>
+
+<ul class="org-ul">
+<li>The treatment of substantially different magnitudes as if they were of
+the same class.</li>
+<li>Or the treatment of the same class of magnitudes as if they were of a
+different class.</li>
+</ul>
+
+<p>
+(To treat similar things differently; to treat dissimilar things alike.)
+</p>
+
+<p>
+If, in other words, one were to enforce uniformity without accounting
+for the particular requirements of each case&#x2014;the contextual demands
+for usability beyond matters of color&#x2014;they would be making a
+not-so-obvious error of treating different cases as if they were the
+same.
+</p>
+
+<p>
+The Modus themes prioritise &ldquo;thematic consistency&rdquo; over abstract harmony
+or regularity among their applicable colors.  In concrete terms, we do
+not claim that, say, our yellows are the best complements for our blues
+because we generally avoid using complementary colors side-by-side, so
+it is wrong to optimise for a decontextualised blue+yellow combination.
+Not to imply that our colors do not work well together because they do,
+just to clarify that consistency of context is what themes must strive
+for, and that requires widening the scope of the design beyond the
+particularities of a color scheme.
+</p>
+
+<p>
+Long story short: color schemes and themes have different requirements.
+Please do not conflate the two.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:7156b949-917d-488e-9a72-59f70d80729c" class="outline-3">
+<h3 id="h:7156b949-917d-488e-9a72-59f70d80729c"><span class="section-number-3">9.6.</span> Port the Modus themes to other platforms?</h3>
+<div class="outline-text-3" id="text-h:7156b949-917d-488e-9a72-59f70d80729c">
+<p>
+There is no plan to port the themes to other platforms or text editors.
+I (Protesilaos) only use GNU Emacs and thus cannot maintain code that
+targets software I am either not familiar with or am not using on a
+daily basis.
+</p>
+
+<p>
+While it is possible to produce a simulacrum based on a given template,
+doing so would run contrary to how this project is maintained where
+details matter greatly.
+</p>
+
+<p>
+Each program has its own requirements so it won&rsquo;t always be
+possible&#x2014;or indeed desirable&#x2014;to have 1:1 correspondence between what
+applies to Emacs and what should be done elsewhere.  No port should ever
+strive to be a faithful copy of the Emacs implementation, as no other
+program is an Emacs equivalent, but instead try to follow the spirit of
+the design.  For example, some of the customization options accept a
+list as their value, or an alist, which may not be possible to reproduce
+on other platforms.
+</p>
+
+<p>
+<a href="#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f">Customization options</a>.
+</p>
+
+<p>
+In other words, if something must be done differently on a certain
+editor then that is acceptable so long as (i) the accessibility
+standards are not compromised and (ii) the overall character of the
+themes remains consistent.
+</p>
+
+<p>
+The former criterion should be crystal clear as it pertains to the
+scientific foundations of the themes: high legibility and taking care of
+the needs of users with red-green colour deficiency (deuteranopia) by
+avoiding red+green colour coding paradigms and/or by providing red+blue
+variants.
+</p>
+
+<p>
+The latter criterion is the &ldquo;je ne sais quoi&rdquo; of the artistic aspect of
+the themes, which is partially fleshed out in this manual.
+</p>
+
+<p>
+<a href="#h:b3384767-30d3-4484-ba7f-081729f03a47">Frequently Asked Questions</a>.
+</p>
+
+<p>
+With regard to the artistic aspect (where &ldquo;art&rdquo; qua skill may amount to
+an imprecise science), there is no hard-and-fast rule in effect as it
+requires one to exercise discretion and make decisions based on
+context-dependent information or constraints.  As is true with most
+things in life, when in doubt, do not cling on to the letter of the law
+but try to understand its spirit.
+</p>
+
+<p>
+For a trivial example: the curly underline that Emacs draws for spelling
+errors is thinner than, e.g., what a graphical web browser has, so if I
+was to design for an editor than has a thicker curly underline I would
+make the applicable colours less intense to counterbalance the
+typographic intensity of the added thickness.
+</p>
+
+<p>
+With those granted, if anyone is willing to develop a port of the
+themes, they are welcome to contact me and I will do my best to help
+them in their efforts.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:9c3cd842-14b7-44d7-84b2-a5c8bc3fc3b1" class="outline-2">
@@ -5980,7 +6161,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org9c982a8">
+<pre class="example" id="orgb7e0803">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6111,6 +6292,7 @@ of this sort):
 <li><a href="https://protesilaos.com/codelog/2021-02-25-modus-themes-diffs-deuteranopia/">The Modus themes now cover deuteranopia in diffs</a> (2021-02-25)</li>
 <li><a href="https://protesilaos.com/codelog/2021-06-02-modus-themes-org-agenda/">Introducing the variable modus-themes-org-agenda</a> (2021-06-02)</li>
 <li><a href="https://protesilaos.com/codelog/2022-01-02-review-modus-themes-org-habit-colours/">Modus themes: review of the org-habit graph colours</a> (2022-01-02)</li>
+<li><a href="https://protesilaos.com/codelog/2022-01-03-modus-themes-port-faq/">Re: VSCode or Vim ports of the Emacs modus-themes?</a> (2022-01-03)</li>
 </ul>
 
 <p>
