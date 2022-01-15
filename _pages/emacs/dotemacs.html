@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-06 13:16 +0200</b>.</li>
+<li>Updated: <b>2022-01-15 10:48 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -84,9 +84,10 @@ redirect_from:
 <li><a href="#h:5723c4bb-ff6c-449f-bb60-be66fab3f137">3.1.8. Completion for recent files and directories (prot-recentf.el)</a></li>
 <li><a href="#h:98876022-57cc-40de-936e-4ee42cefd69a">3.1.9. In-buffer completions</a>
 <ul>
-<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.9.1. Corfu (Completion Overlay Region FUnction) and CAPE</a></li>
-<li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.9.2. Dabbrev (dynamic word completion)</a></li>
-<li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.9.3. Abbreviations or Abbrevs</a></li>
+<li><a href="#org481ebec">3.1.9.1. CAPE (extra completion-at-point backends)</a></li>
+<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.9.2. Corfu (Completion Overlay Region FUnction)</a></li>
+<li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.9.3. Dabbrev (dynamic word completion)</a></li>
+<li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.9.4. Abbreviations or Abbrevs</a></li>
 </ul>
 </li>
 </ul>
@@ -980,8 +981,11 @@ This means that if `sample-list' has an initial value of `(one
 two three)', this function will first return `one' and update the
 value of `sample-list' to `(two three one)'.  Subsequent calls
 will continue rotating accordingly."
-  (let* ((list (symbol-value symbol))
-         (first (car list)))
+  (unless (symbolp symbol)
+    (user-error "%s is not a symbol" symbol))
+  (when-let* ((value (symbol-value symbol))
+              (list (and (listp value) value))
+              (first (car list)))
     (set symbol (append (cdr list) (list first)))
     first))
 
@@ -2236,6 +2240,7 @@ point an arbitrary distance.
           org-backward-heading-same-level
           org-tree-slide-move-next-tree
           org-tree-slide-move-previous-tree))
+  (setq prot-pulse-delay 0.06)
   (prot-pulse-advice-commands-mode 1)
   (define-key global-map (kbd "C-x l") #'prot-pulse-pulse-line)) ; override `count-lines-page'
 </pre>
@@ -2297,6 +2302,11 @@ changes to take effect."
   :type 'list
   :group 'prot-pulse)
 
+(defcustom prot-pulse-delay 0.05
+  "Duration in seconds of pulse delay."
+  :type 'list
+  :group 'prot-pulse)
+
 (defface prot-pulse-line
   '((default :extend t)
     (((class color) (min-colors 88) (background light))
@@ -2315,7 +2325,7 @@ changes to take effect."
                    (line-beginning-position 0)
                  (line-beginning-position)))
         (end (line-beginning-position 2))
-        (pulse-delay .04)
+        (pulse-delay prot-pulse-delay)
         (face (or face 'prot-pulse-line)))
     (pulse-momentary-highlight-region start end face)))
 
@@ -2323,7 +2333,7 @@ changes to take effect."
 (defun prot-pulse-recentre-top ()
   "Reposition at the top and pulse line.
 Add this to a hook, such as `imenu-after-jump-hook'."
-  (let ((pulse-delay .05))
+  (let ((pulse-delay prot-pulse-delay))
     (recenter 0)
     (prot-pulse-pulse-line)))
 
@@ -2331,7 +2341,7 @@ Add this to a hook, such as `imenu-after-jump-hook'."
 (defun prot-pulse-recentre-centre ()
   "Recentre and pulse line.
 Add this to a hook, such as `imenu-after-jump-hook'."
-  (let ((pulse-delay .05))
+  (let ((pulse-delay prot-pulse-delay))
     (recenter nil)
     (prot-pulse-pulse-line)))
 
@@ -2539,10 +2549,10 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;; NOTE: these are not my preferences!  I am always testing various
   ;; configurations.  Though I still like what I have here.
   (setq modus-themes-italic-constructs nil
-        modus-themes-bold-constructs nil
+        modus-themes-bold-constructs t
         modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers t
-        modus-themes-intense-markup t
+        modus-themes-intense-markup nil
         modus-themes-deuteranopia nil
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui nil
@@ -2559,7 +2569,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', and a natural number for extra padding
-        modus-themes-mode-line '(borderless 4)
+        modus-themes-mode-line '(4 borderless)
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2574,7 +2584,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match nil
+        modus-themes-paren-match '(bold intense)
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2585,7 +2595,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts nil
+        modus-themes-prompts '(background gray intense)
 
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
 
@@ -2594,7 +2604,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend)
+        modus-themes-region '(no-extend accented)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs nil
@@ -3210,7 +3220,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org391e063">
+<pre class="example" id="org4e546f9">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3277,7 +3287,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orga1094ca">
+<pre class="example" id="org1f4910c">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3613,12 +3623,6 @@ visualising the standard minibuffer completion candidates&#x2014;refer to
 <h4 id="h:c110e399-3f43-4555-8427-b1afe44c0779"><span class="section-number-4">3.1.3.</span> Minibuffer configurations and my extras (mct.el)</h4>
 <div class="outline-text-4" id="text-h:c110e399-3f43-4555-8427-b1afe44c0779">
 <p>
-NOTE 2021-12-29: There are experiments to make MCT perform completion in
-region (the job that Corfu handles).  The feature is not fully fleshed
-out and there will be changes over the coming days and weeks.
-</p>
-
-<p>
 UPDATE 2021-10-23: Watch my video demonstration of the package I wrote
 <a href="https://protesilaos.com/codelog/2021-10-22-emacs-mct-demo/">Minibuffer and Completions in Tandem (mct.el)</a>.
 </p>
@@ -3660,12 +3664,13 @@ of <a href="#h:d67ed8d0-d711-48b0-9f40-f88ae2e5c984">Extended minibuffer actions
 <p>
 I have used Ivy and Icomplete in the past, though I felt that the best
 experience was with Embark.  However, as of 2021-04-02 I realised that
-Emacs version 28 comes with a built-in way to render <code>*Completions*</code> in a
-vertical list, one item per line.  So equipped with my knowledge of
+Emacs version 28 comes with a built-in way to render the <code>*Completions*</code>
+in a vertical list, one item per line.  So equipped with my knowledge of
 extending Embark, I implemented a layer of interactivity that, I feel,
-is just as good as what other frameworks provide.  As of 2021-10-22 this
-is its own package, called "Minibuffer and Completions in Tandem", else
-MCT (or variants).  The technicalities are in the <code>mct.el</code> file, which is
+is "good enough" to approximate what other frameworks provide while
+simply reusing built-in mechanisms.  As of 2021-10-22 this is its own
+package, called "Minibuffer and Completions in Tandem", else MCT (or
+variants).  The technicalities are in the <code>mct.el</code> file, which is
 reproduced after the following code block.
 </p>
 
@@ -3806,8 +3811,8 @@ results I am most likely interested in, based on previous selections.
   ;;               (slot . 99)
   ;;               (window-width . 0.3))))
 
-  (mct-region-global-mode 1) ; Or use `mct-region-mode' per major-mode
   (mct-minibuffer-mode 1)
+  (mct-region-mode 1) ; NOTE 2022-01-15: This is new and remains experimental
 
   (define-key minibuffer-local-completion-map (kbd "&lt;tab&gt;") #'minibuffer-force-complete)
   (define-key global-map (kbd "C-x :") #'mct-focus-mini-or-completions))
@@ -3989,14 +3994,22 @@ and/or the documentation string of `display-buffer'."
   :group 'mct)
 
 (defcustom mct-completions-format 'one-column
-  "The appearance and sorting used by `mct-minibuffer-mode'.
+  "The Completions' appearance used by `mct-minibuffer-mode'.
 See `completions-format' for possible values."
   :type '(choice (const horizontal) (const vertical) (const one-column))
   :group 'mct)
 
-(defcustom mct-region-excluded-modes nil
-  "List of modes excluded by `mct-region-global-mode'."
-  :type '(repeat symbol))
+(defcustom mct-region-completions-format mct-completions-format
+  "The Completions' appearance used by `mct-region-mode'.
+See `completions-format' for possible values.
+
+This is like `mct-completions-format' when performing in-buffer
+completion."
+  :type '(choice (variable :tag "Inherit value of `mct-completions-format'" mct-completions-format)
+                 (const horizontal)
+                 (const vertical)
+                 (const one-column))
+  :group 'mct)
 
 ;;;; Completion metadata
 
@@ -4095,9 +4108,9 @@ Meant to be added to `after-change-functions'."
 
 (defun mct--live-completions-timer (&amp;rest _)
   "Update Completions with `mct-live-update-delay'."
-  (let ((delay mct-live-update-delay))
-    (when (&gt;= delay 0)
-      (run-with-idle-timer delay nil #'mct--live-completions))))
+  (when-let* ((delay mct-live-update-delay)
+              ((&gt;= delay 0)))
+    (run-with-idle-timer delay nil #'mct--live-completions)))
 
 (defun mct--live-completions-visible-timer (&amp;rest _)
   "Update visible Completions' buffer."
@@ -4125,7 +4138,7 @@ Meant to be added to `after-change-functions'."
 (defvar-local mct--active nil
   "Minibuffer local variable, t if Mct is active.")
 
-(defun mct--active-p ()
+(defun mct--minibuffer-p ()
   "Return t if Mct is active."
   (when-let* ((win (active-minibuffer-window))
               (buf (window-buffer win)))
@@ -4134,16 +4147,26 @@ Meant to be added to `after-change-functions'."
 (defun mct--region-p ()
   "Return non-nil if Mct is completing in region."
   (when-let ((buf (mct--region-current-buffer)))
-    (with-current-buffer buf
-      (bound-and-true-p mct-region-mode))))
+    (buffer-local-value 'mct-region-mode buf)))
 
-(defun mct--display-completion-list-advice (&amp;rest app)
+(defun mct--minibuffer-completion-help-advice (&amp;rest app)
   "Prepare advice around `display-completion-list'.
 Apply APP by first let binding the `completions-format' to
 `mct-completions-format'."
-  (if (or (mct--active-p) (mct--region-p))
+  (if (mct--minibuffer-p)
       (let ((completions-format mct-completions-format))
-        (apply app))
+        (apply app)
+        (mct--fit-completions-window))
+    (apply app)))
+
+(defun mct--region-completion-help-advice (&amp;rest app)
+  "Prepare advice around `display-completion-list'.
+Apply APP by first let binding the `completions-format' to
+`mct-completions-format'."
+  (if (mct--region-p)
+      (let ((completions-format mct-region-completions-format))
+        (apply app)
+        (mct--fit-completions-window))
     (apply app)))
 
 (defun mct--completing-read-advice (&amp;rest app)
@@ -4668,7 +4691,7 @@ last character."
 (defun mct-complete-and-exit ()
   "Complete current input and exit.
 
-This is the same as with
+This has the same effect as with
 \\&lt;mct-minibuffer-local-completion-map&gt;\\[mct-edit-completion],
 followed by exiting the minibuffer with that candidate."
   (interactive nil mct-minibuffer-mode)
@@ -4702,28 +4725,9 @@ this command is then required to abort the session."
 
 ;;;;; Stylistic tweaks and refinements
 
-;; Thanks to Omar Antolín Camarena for providing the messageless and
-;; stealthily.  Source: &lt;https://github.com/oantolin/emacs-config&gt;.
-(defun mct--messageless (&amp;rest app)
-  "Set `minibuffer-message-timeout' to 0 while applying APP."
-  (let ((minibuffer-message-timeout 0))
-    (apply app)))
-
-;; Copied from Daniel Mendler's `vertico' library:
-;; &lt;https://github.com/minad/vertico&gt;.
-(defun mct--crm-indicator (args)
-  "Add prompt indicator to `completing-read-multiple' filter ARGS."
-  (cons (concat "[CRM] " (car args)) (cdr args)))
-
-;; Adapted from Omar Antolín Camarena's live-completions library:
-;; &lt;https://github.com/oantolin/live-completions&gt;.
-(defun mct--honor-inhibit-message (&amp;rest app)
-  "Honor `inhibit-message' while applying APP."
-  (unless inhibit-message
-    (apply app)))
-
 ;; Note that this solves bug#45686:
 ;; &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=45686&gt;
+;; TODO review that stealthily does not affect the region mode, it seems intrusive.
 (defun mct--stealthily (&amp;rest app)
   "Prevent minibuffer default from counting as a modification.
 Apply APP while inhibiting modification hooks."
@@ -4737,6 +4741,12 @@ Apply APP while inhibiting modification hooks."
   (if mct-apply-completion-stripes
       (mct--add-stripes)
     (mct--remove-stripes)))
+
+;; Copied from Daniel Mendler's `vertico' library:
+;; &lt;https://github.com/minad/vertico&gt;.
+(defun mct--crm-indicator (args)
+  "Add prompt indicator to `completing-read-multiple' filter ARGS."
+  (cons (concat "[CRM] " (car args)) (cdr args)))
 
 ;;;;; Shadowed path
 
@@ -4831,6 +4841,8 @@ region.")
     (define-key map (kbd "p") #'mct-previous-completion-or-mini)
     (define-key map [remap backward-paragraph] #'mct-previous-completion-group)
     (define-key map [remap forward-paragraph] #'mct-next-completion-group)
+    (define-key map (kbd "M-p") #'mct-previous-completion-group)
+    (define-key map (kbd "M-n") #'mct-next-completion-group)
     (define-key map (kbd "e") #'mct-focus-minibuffer)
     (define-key map (kbd "M-e") #'mct-edit-completion)
     (define-key map (kbd "TAB") #'mct-choose-completion-no-exit)
@@ -4878,7 +4890,7 @@ region.")
 
 (defun mct--setup-completion-list ()
   "Set up the completion-list for Mct."
-  (when (mct--active-p)
+  (when (mct--minibuffer-p)
     (setq-local completion-show-help nil
                 truncate-lines t)
     (mct--setup-clean-completions)
@@ -4900,33 +4912,18 @@ region.")
   (if mct-minibuffer-mode
       (progn
         (add-hook 'completion-list-mode-hook #'mct--setup-completion-list)
-        (dolist (fn '(exit-minibuffer
-                      choose-completion
-                      minibuffer-force-complete
-                      minibuffer-complete-and-exit
-                      minibuffer-force-complete-and-exit))
-          (advice-add fn :around #'mct--messageless))
         (advice-add #'completing-read-default :around #'mct--completing-read-advice)
         (advice-add #'completing-read-multiple :around #'mct--completing-read-advice)
+        (advice-add #'minibuffer-completion-help :around #'mct--minibuffer-completion-help-advice)
         (advice-add #'completing-read-multiple :filter-args #'mct--crm-indicator)
-        (advice-add #'display-completion-list :around #'mct--display-completion-list-advice)
-        (advice-add #'minibuffer-completion-help :after #'mct--fit-completions-window)
-        (advice-add #'minibuffer-message :around #'mct--honor-inhibit-message)
         (advice-add #'minibuf-eldef-setup-minibuffer :around #'mct--stealthily))
     (remove-hook 'completion-list-mode-hook #'mct--setup-completion-list)
-    (dolist (fn '(exit-minibuffer
-                  choose-completion
-                  minibuffer-force-complete
-                  minibuffer-complete-and-exit
-                  minibuffer-force-complete-and-exit))
-      (advice-remove fn #'mct--messageless))
     (advice-remove #'completing-read-default #'mct--completing-read-advice)
     (advice-remove #'completing-read-multiple #'mct--completing-read-advice)
+    (advice-remove #'minibuffer-completion-help #'mct--minibuffer-completion-help-advice)
     (advice-remove #'completing-read-multiple #'mct--crm-indicator)
-    (advice-remove #'display-completion-list #'mct--display-completion-list-advice)
-    (advice-remove #'minibuffer-completion-help #'mct--fit-completions-window)
-    (advice-remove #'minibuffer-message #'mct--honor-inhibit-message)
-    (advice-remove #'minibuf-eldef-setup-minibuffer #'mct--stealthily)))
+    (advice-remove #'minibuf-eldef-setup-minibuffer #'mct--stealthily))
+  (mct--setup-shared))
 
 (define-obsolete-function-alias 'mct-mode 'mct-minibuffer-mode "0.4.0")
 
@@ -5018,13 +5015,12 @@ minibuffer)."
 
 (defvar mct-region-completion-list-map
   (let ((map (make-sparse-keymap)))
-    ;; TODO 2021-12-29: Maybe we can make this work in this context as
-    ;; well.
-    ;; (define-key map [remap goto-line] #'mct-choose-completion-number)
     (define-key map [remap next-line] #'mct-next-completion-or-quit)
     (define-key map [remap previous-line] #'mct-previous-completion-or-quit)
     (define-key map (kbd "n") #'mct-next-completion-or-quit)
     (define-key map (kbd "p") #'mct-previous-completion-or-quit)
+    (define-key map [remap backward-paragraph] #'mct-previous-completion-group)
+    (define-key map [remap forward-paragraph] #'mct-next-completion-group)
     (define-key map (kbd "M-n") #'mct-next-completion-group)
     (define-key map (kbd "M-p") #'mct-previous-completion-group)
     (define-key map (kbd "TAB") #'choose-completion)
@@ -5056,38 +5052,82 @@ minibuffer)."
   (apply app)
   (completion-in-region-mode -1))
 
+;; UPDATE 2022-01-01 13:12 +0200: Actually this is not related to mct.
+;; I can reproduce it in emacs -Q with just those:
+;;
+;; (electric-indent-mode 1)
+;; (setq-default tab-always-indent 'complete)
+;;
+;; FIXME 2022-01-01: I experienced a bug which is as follows:
+;;
+;; + (electric-indent-mode 1)
+;; + (setq-default tab-always-indent 'complete)
+;; + visit an Org file with an elisp src block that includes comments
+;; + go to the end of a comment's line and hit RET
+;; + the block temporarily changes background to secondary-selection
+;;   (same as when you type C-c '), seems to be trying to perform
+;;   completion, and then ultimately does what RET is supposed to do.
+;;
+;; Disabling electric-indent-mode fixes the issue, though that is beside
+;; the point.
+
+;; FIXME 2022-01-03: This does not work with either M-x shell or M-x
+;; eshell.  Not on Emacs 29, not on Emacs 27.  Try to tab-complete with
+;; 'cd' and it will not be possible to switch to the Completions'
+;; buffer, even if it works the first time.
+
 ;;;###autoload
 (define-minor-mode mct-region-mode
   "Set up interactivity over the default `completion-in-region'."
-  :global nil
+  :global t
   (if mct-region-mode
       (progn
         (advice-add #'completion--done :around #'mct--region-completion-done)
+        (advice-add #'minibuffer-completion-help :around #'mct--region-completion-help-advice)
         (add-hook 'completion-list-mode-hook #'mct--region-setup-completion-list)
-        (add-hook 'completion-in-region-mode-hook #'mct--region-setup-completion-in-region)
-        (advice-add #'minibuffer-completion-help :after #'mct--fit-completions-window)
-        (advice-add #'display-completion-list :around #'mct--display-completion-list-advice)
-        (advice-add #'minibuffer-message :around #'mct--honor-inhibit-message))
+        (add-hook 'completion-in-region-mode-hook #'mct--region-setup-completion-in-region))
     (advice-remove #'completion--done #'mct--region-completion-done)
+    (advice-remove #'minibuffer-completion-help #'mct--region-completion-help-advice)
     (remove-hook 'completion-list-mode-hook #'mct--region-setup-completion-list)
-    (remove-hook 'completion-in-region-mode-hook #'mct--region-setup-completion-in-region)
-    (advice-remove #'minibuffer-completion-help #'mct--fit-completions-window)
-    (advice-remove #'display-completion-list #'mct--display-completion-list-advice)
-    (advice-remove #'minibuffer-message #'mct--honor-inhibit-message)))
+    (remove-hook 'completion-in-region-mode-hook #'mct--region-setup-completion-in-region))
+  (mct--setup-shared))
 
-;; The `mct-region-global-mode', `mct-region--on', and
-;; `mct-region-excluded-modes' are adapted from the corfu.el library of
-;; Daniel Mendler.
+;; Adapted from Omar Antolín Camarena's live-completions library:
+;; &lt;https://github.com/oantolin/live-completions&gt;.
+(defun mct--shared-honor-inhibit-message (&amp;rest app)
+  "Honor `inhibit-message' while applying APP."
+  (unless (and (or (mct--region-p) (mct--minibuffer-p)) inhibit-message)
+    (apply app)))
 
-;;;###autoload
-(define-globalized-minor-mode mct-region-global-mode mct-region-mode mct-region--on)
+;; Thanks to Omar Antolín Camarena for providing the messageless and
+;; stealthily.  Source: &lt;https://github.com/oantolin/emacs-config&gt;.
+(defun mct--shared-messageless (&amp;rest app)
+  "Set `minibuffer-message-timeout' to 0 while applying APP."
+  (if (or (mct--region-p) (mct--minibuffer-p))
+      (let ((minibuffer-message-timeout 0))
+        (apply app))
+    (apply app)))
 
-(defun mct-region--on ()
-  "Turn `mct-region-mode' on."
-  (unless (or noninteractive
-              (eq (aref (buffer-name) 0) ?\s)
-              (memq major-mode mct-region-excluded-modes))
-    (mct-region-mode 1)))
+(defun mct--setup-shared ()
+  "Silence the minibuffer and the Completions."
+  (if (or mct-region-mode mct-minibuffer-mode)
+      (progn
+        ;; NOTE 2022-01-09: Only `choose-completion' is relevant for
+        ;; completion-in-region.
+        (dolist (fn '(exit-minibuffer
+                      choose-completion
+                      minibuffer-force-complete
+                      minibuffer-complete-and-exit
+                      minibuffer-force-complete-and-exit))
+          (advice-add fn :around #'mct--shared-messageless))
+        (advice-add #'minibuffer-message :around #'mct--shared-honor-inhibit-message))
+    (dolist (fn '(exit-minibuffer
+                  choose-completion
+                  minibuffer-force-complete
+                  minibuffer-complete-and-exit
+                  minibuffer-force-complete-and-exit))
+      (advice-add fn :around #'mct--shared-messageless))
+    (advice-add #'minibuffer-message :around #'mct--shared-honor-inhibit-message)))
 
 (provide 'mct)
 ;;; mct.el ends here
@@ -5613,9 +5653,8 @@ minibuffer.</li>
 <li>"Targets" are semantically sensitive constructs, such as the symbol at
 point, a URL, a file name, the active region, or the current
 completion candidate in the minibuffer (or the completions'
-buffer&#x2014;more on that in the next section).  Embark has so-called
-"clasifiers" which help it determine the category that the target
-belongs to.</li>
+buffer&#x2014;more on that in the next section).  Embark has mechanisms
+which help it determine the category that the target belongs to.</li>
 
 <li>The "contextually relevant [actions]" are defined in keymaps whose
 scope matches the category of the target.  So <code>embark-file-map</code> holds
@@ -5666,13 +5705,13 @@ either of <code>embark-act</code> (most cases), or <code>embark-become</code> (w
 <li>Embark has two ways to help you learn about its actions, though you
 will probably only ever need one of them.  The first one, which is the
 default, is to display a detailed buffer when the variable
-<code>embark-indicator</code> is set to a value of <code>embark-mixed-indicator</code> or
-<code>embark-verbose-indicator</code>.  Those will produce a buffer that shows the
-available actions, the keys they are bound to, and a description of
-what each action does.  The other method, which is only really useful
-if <code>embark-indicator</code> is set to <code>embark-minimal-indicator</code> is to follow up
-the <code>embark-act</code> with <code>C-h</code>.  That will produce a minibuffer prompt
-showing all available key bindings.
+<code>embark-indicators</code> includes the symbol <code>embark-mixed-indicator</code> or
+<code>embark-verbose-indicator</code>.  Either of those will produce a buffer that
+shows the available actions, the keys they are bound to, and a
+description of what each action does.  The other method, which is only
+really useful if <code>embark-indicator</code> is set to <code>embark-minimal-indicator</code>
+is to follow up the <code>embark-act</code> with <code>C-h</code>.  That will produce a
+minibuffer prompt showing all available key bindings.
 
 <ul class="org-ul">
 <li>Keymaps aside, you can call <i>any command</i> after invoking <code>embark-act</code>.
@@ -5750,7 +5789,9 @@ a correct export buffer while using relevant Consult commands, such as
   (setq embark-cycle-key (kbd "C-."))   ; see the `embark-act' key
   (setq embark-collect-live-update-delay 0.5)
   (setq embark-collect-live-initial-delay 0.8)
-  (setq embark-indicator #'embark-mixed-indicator)
+  (setq embark-indicators
+        '(embark-mixed-indicator
+          embark-highlight-indicator))
   ;; NOTE 2021-07-31: The mixed indicator starts out with a minimal view
   ;; and then pops up the verbose buffer, so those variables matter.
   (setq embark-verbose-indicator-excluded-actions
@@ -6548,14 +6589,49 @@ Add this function to `recentf-keep'."
 <h4 id="h:98876022-57cc-40de-936e-4ee42cefd69a"><span class="section-number-4">3.1.9.</span> In-buffer completions</h4>
 <div class="outline-text-4" id="text-h:98876022-57cc-40de-936e-4ee42cefd69a">
 </div>
+<div id="outline-container-org481ebec" class="outline-5">
+<h5 id="org481ebec"><span class="section-number-5">3.1.9.1.</span> CAPE (extra completion-at-point backends)</h5>
+<div class="outline-text-5" id="text-3-1-9-1">
+<p>
+The <code>cape</code> package, by Daniel Mendler (developer of Consult, Vertico,
+Corfu, &#x2026;), adds more backends to the <code>completion-at-point-functions</code>
+(CAPF) facility.  This practically means that you can use in-buffer
+completion in more scenaria and with relevant candidates.
+</p>
+
+<p>
+A package such as Daniel's own Corfu is used to visualise in-buffer
+completion.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; CAPE (extra completion-at-point backends)
+(prot-emacs-elpa-package 'cape
+  (setq cape-dabbrev-min-length 3)
+  (dolist (backend '( cape-symbol cape-keyword-capf cape-file-capf
+                      cape-abbrev cape-ispell cape-dabbrev-capf))
+    (add-to-list 'completion-at-point-functions backend)))
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:675ebef4-d74d-41af-808d-f9579c2a5ec4" class="outline-5">
-<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.9.1.</span> Corfu (Completion Overlay Region FUnction) and CAPE</h5>
+<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.9.2.</span> Corfu (Completion Overlay Region FUnction)</h5>
 <div class="outline-text-5" id="text-h:675ebef4-d74d-41af-808d-f9579c2a5ec4">
 <p>
-NOTE 2021-12-29: There are experiments to make MCT to the job that
-Corfu does.  As such, I am disabling this for the time being, though I
-strongly encourage you to stick with Corfu.
+NOTE 2022-01-15: My <code>mct.el</code> package which originally handled completion
+only inside the minibuffer now also provides the <code>mct-region-mode</code> which
+performs the task of in-buffer completion.  Daniel Mendler (the author
+of Corfu) was instrumental in developing this capability.  Thus, I
+personally no longer use Corfu because I must be testing the code I
+maintain.  Still, I think Corfu is a better option because of its
+overall polish and the fact that it uses an intuitive popup near point
+to display candidates, as opposed to MCT which produces a <code>*Completions*</code>
+buffer below the current one.
 </p>
+
+<hr />
 
 <p>
 <code>corfu</code> is another nimble package by Daniel Mendler (author of Consult and
@@ -6614,33 +6690,19 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<p>
-Finally, the <code>cape</code> package, also by Daniel, adds some more backends for
-the aforementioned CAPF facility.  They make Corfu work in more
-contexts.  Basically, this is the sort of thing that you set up and it
-"just works".
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Corfu (Completion Overlay Region FUnction)
-;; (prot-emacs-elpa-package 'corfu
-;;   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
-;;   ;;                  shell-mode-hook eshell-mode-hook))
-;;   ;;   (add-hook mode #'corfu-mode))
-;;   (corfu-global-mode 1)
-;;   (define-key corfu-map (kbd "&lt;tab&gt;") #'corfu-complete))
-;;
-;; (prot-emacs-elpa-package 'cape
-;;   (setq cape-dabbrev-min-length 2)
-;;   (dolist (backend '( cape-keyword-capf cape-file-capf cape-dabbrev-capf))
-;;     (add-to-list 'completion-at-point-functions backend)))
+<pre class="example" id="orgb2afcbe">
+;;; Corfu (Completion Overlay Region FUnction)
+(prot-emacs-elpa-package 'corfu
+  ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
+  ;;                  shell-mode-hook eshell-mode-hook))
+  ;;   (add-hook mode #'corfu-mode))
+  (corfu-global-mode 1)
+  (define-key corfu-map (kbd "&lt;tab&gt;") #'corfu-complete))
 </pre>
 </div>
 </div>
-</div>
-
 <div id="outline-container-h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84" class="outline-5">
-<h5 id="h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84"><span class="section-number-5">3.1.9.2.</span> Dabbrev (dynamic word completion)</h5>
+<h5 id="h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84"><span class="section-number-5">3.1.9.3.</span> Dabbrev (dynamic word completion)</h5>
 <div class="outline-text-5" id="text-h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">
 <p>
 This is Emacs' own approach to dynamic/arbitrary text completion inside
@@ -6711,7 +6773,7 @@ configurations and documentation for <a href="#h:6c6759c8-3ae3-40b0-8356-05cc097
 </div>
 
 <div id="outline-container-h:33cd69cc-1a50-4abb-9f09-cae98dc8998b" class="outline-5">
-<h5 id="h:33cd69cc-1a50-4abb-9f09-cae98dc8998b"><span class="section-number-5">3.1.9.3.</span> Abbreviations or Abbrevs</h5>
+<h5 id="h:33cd69cc-1a50-4abb-9f09-cae98dc8998b"><span class="section-number-5">3.1.9.4.</span> Abbreviations or Abbrevs</h5>
 <div class="outline-text-5" id="text-h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">
 <p>
 The <code>abbrev</code> library provides an easy way to automatically correct some of
@@ -15433,7 +15495,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgdea18c4">
+<pre class="example" id="orgeb93bfc">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15445,7 +15507,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org4c8e7f7">
+<pre class="example" id="orga814675">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15460,7 +15522,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org99b07df">
+<pre class="example" id="org707dd68">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15478,7 +15540,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org3b21d53">
+<pre class="example" id="org1892404">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15507,7 +15569,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org3976612">
+<pre class="example" id="org7cfd0c3">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15671,7 +15733,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org55e80c0">
+<pre class="example" id="orge01af06">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16398,7 +16460,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orge69f452">
+<pre class="example" id="orgd26a0ed">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16432,7 +16494,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org60efaa9">
+<pre class="example" id="orga5e5810">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16596,7 +16658,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org90362d6">
+<pre class="example" id="org56f8153">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16791,7 +16853,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgfeb4ad7">
+<pre class="example" id="org32b124b">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18019,7 +18081,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgdd217b1">
+<pre class="example" id="org6b04159">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19083,7 +19145,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org87983fd">
+<pre class="example" id="orge7dd30c">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19775,7 +19837,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgffa4c89">
+<pre class="example" id="org4ff4fea">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22924,7 +22986,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org4ace398">
+<pre class="example" id="orgee3fc5f">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24647,7 +24709,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org45a2ca0">
+<pre class="example" id="org3ed94c7">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25069,7 +25131,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgf117ed3">
+<pre class="example" id="orga42610b">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25078,7 +25140,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org90900f2">
+<pre class="example" id="org53481b7">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25103,7 +25165,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgb44f757">
+<pre class="example" id="org548e7e4">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25163,7 +25225,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgd85ac1b">
+<pre class="example" id="orgbbb7243">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25188,7 +25250,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org7c9eea5">
+<pre class="example" id="org66684c3">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25197,7 +25259,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orga18992e">
+<pre class="example" id="org9a76efd">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25216,7 +25278,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgbf0ac43">
+<pre class="example" id="orgf6e0f87">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
