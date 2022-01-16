@@ -6,7 +6,7 @@ layout: none
      xmlns:atom="http://www.w3.org/2005/Atom"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>{{ site.title | smartify | strip_html | normalize_whitespace | xml_escape }}: Books and Essays</title>
+    <title>{{ site.title | smartify | strip_html | normalize_whitespace | escape_xml }}: Books and Essays</title>
     <description>Books and standalone publications</description>
     <link>{{ "books" | absolute_url }}</link>
     <atom:link href="{{ page.url | absolute_url }}" rel="self" type="application/rss+xml"/>
@@ -14,12 +14,12 @@ layout: none
     {% assign books = site.books | sort: 'date' | reverse %}
     {% for i in books %}
     <item>
-      <title>{{ i.title | smartify | strip_html | normalize_whitespace | xml_escape }}</title>
-      <description>{{ i.excerpt | xml_escape }}</description>
+      <title>{{ i.title | smartify | strip_html | normalize_whitespace | escape_xml }}</title>
+      <description>{{ i.excerpt | escape_xml }}</description>
       <pubDate>{{ i.date | date_to_rfc822 }}</pubDate>
       <link>{{ i.url | prepend: site.baseurl | prepend: site.url }}</link>
       <guid isPermaLink="true">{{ i.url | prepend: site.baseurl | prepend: site.url }}</guid>
-      <content:encoded><![CDATA[{{ i.content | strip | xml_escape }}]]></content:encoded>
+      <content:encoded><![CDATA[{{ i.content | strip | escape_xml }}]]></content:encoded>
     </item>
     {% endfor %}
   </channel>

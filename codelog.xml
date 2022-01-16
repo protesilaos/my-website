@@ -6,7 +6,7 @@ layout: none
      xmlns:atom="http://www.w3.org/2005/Atom"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>{{ site.title | smartify | strip_html | normalize_whitespace | xml_escape }}: Coding blog</title>
+    <title>{{ site.title | smartify | strip_html | normalize_whitespace | escape_xml }}: Coding blog</title>
     <description>Coding blog</description>
     <link>{{ "codelog" | absolute_url }}</link>
     <atom:link href="{{ page.url | absolute_url }}" rel="self" type="application/rss+xml"/>
@@ -14,8 +14,8 @@ layout: none
     {% assign codelog = site.codelog | sort: 'date' | reverse %}
     {% for i in codelog %}
     <item>
-      <title>{{ i.title | smartify | strip_html | normalize_whitespace | xml_escape }}</title>
-      <description>{{ i.excerpt | xml_escape }}</description>
+      <title>{{ i.title | smartify | strip_html | normalize_whitespace | escape_xml }}</title>
+      <description>{{ i.excerpt | escape_xml }}</description>
       <pubDate>{{ i.date | date_to_rfc822 }}</pubDate>
       <link>{{ i.url | prepend: site.baseurl | prepend: site.url }}</link>
       <guid isPermaLink="true">{{ i.url | prepend: site.baseurl | prepend: site.url }}</guid>
@@ -24,7 +24,7 @@ layout: none
          {% if i.mediaid %}
          <p>Raw link: <a href="https://www.youtube.com/watch?v={{ i.mediaid }}">https://www.youtube.com/watch?v={{ i.mediaid }}</a></p>
          {% endif %}
-         {{ i.content | strip | xml_escape }}
+         {{ i.content | strip | escape_xml }}
         ]]>
       </content:encoded>
     </item>
