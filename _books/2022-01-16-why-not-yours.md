@@ -43,7 +43,7 @@ the history of the country, but the history of this country's overlords.
 
 **A.:** Not that radical democratic argumentation again!  I have to be
 honest: I don't understand how someone as smart as you is in favour of
-the many being involved in deciding matters of grave import.  Don't you
+the many being involved in deciding matters of grave importance.  Don't you
 understand that the average opinion represents an average level of
 intelligence; intelligence well below yours?  Why would you have idiots
 decide on your behalf?
