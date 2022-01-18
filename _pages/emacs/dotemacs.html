@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-15 10:48 +0200</b>.</li>
+<li>Updated: <b>2022-01-18 15:47 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -84,7 +84,7 @@ redirect_from:
 <li><a href="#h:5723c4bb-ff6c-449f-bb60-be66fab3f137">3.1.8. Completion for recent files and directories (prot-recentf.el)</a></li>
 <li><a href="#h:98876022-57cc-40de-936e-4ee42cefd69a">3.1.9. In-buffer completions</a>
 <ul>
-<li><a href="#org481ebec">3.1.9.1. CAPE (extra completion-at-point backends)</a></li>
+<li><a href="#orgf16a309">3.1.9.1. CAPE (extra completion-at-point backends)</a></li>
 <li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.9.2. Corfu (Completion Overlay Region FUnction)</a></li>
 <li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.9.3. Dabbrev (dynamic word completion)</a></li>
 <li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.9.4. Abbreviations or Abbrevs</a></li>
@@ -1317,7 +1317,9 @@ use elsewhere.
     ;; Commands for buffers
     (define-key map (kbd "M-=") #'count-words)
     (define-key map (kbd "&lt;C-f2&gt;") #'prot-simple-rename-file-and-buffer)
-    (define-key map (kbd "C-x K") #'prot-simple-kill-buffer-current)))
+    (define-key map (kbd "C-x K") #'prot-simple-kill-buffer-current)
+    (define-key map (kbd "M-s b") #'prot-simple-buffers-major-mode)
+    (define-key map (kbd "M-s v") #'prot-simple-buffers-vc-root)))
 </pre>
 </div>
 
@@ -2198,6 +2200,40 @@ Do not try to make a new directory or anything fancy."
       (rename-file file name))
     (set-visited-file-name name t t)))
 
+(defun prot-simple--buffer-major-mode-prompt ()
+  "Prompt of `prot-simple-buffers-major-mode'."
+  (let ((major major-mode))
+    (read-buffer
+     (format "Buffer for %s: " major)
+     nil t
+     (lambda (pair) ; pair is (name-string . buffer-object)
+       (with-current-buffer (cdr pair) (derived-mode-p major))))))
+
+;;;###autoload
+(defun prot-simple-buffers-major-mode (buffer)
+  "Select BUFFER matching the current one's major mode."
+  (interactive
+   (list (prot-simple--buffer-major-mode-prompt)))
+  (switch-to-buffer buffer))
+
+
+(defun prot-simple--buffer-vc-root-prompt ()
+  "Prompt of `prot-simple-buffers-vc-root'."
+  (let ((root (or (vc-root-dir)
+                   (locate-dominating-file "." ".git"))))
+    (read-buffer
+     (format "Buffers in %s: " root)
+     nil t
+     (lambda (pair) ; pair is (name-string . buffer-object)
+       (with-current-buffer (cdr pair) (string-match-p root default-directory))))))
+
+;;;###autoload
+(defun prot-simple-buffers-vc-root (buffer)
+  "Select BUFFER matching the current one's VC root."
+  (interactive
+   (list (prot-simple--buffer-vc-root-prompt)))
+  (switch-to-buffer buffer))
+
 (provide 'prot-simple)
 ;;; prot-simple.el ends here
 </pre>
@@ -2552,7 +2588,6 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers t
-        modus-themes-intense-markup nil
         modus-themes-deuteranopia nil
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui nil
@@ -2569,12 +2604,17 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', and a natural number for extra padding
-        modus-themes-mode-line '(4 borderless)
+        modus-themes-mode-line '(3d)
+
+        ;; Options for `modus-themes-markup' are either nil, or a list
+        ;; that can combine any of `bold', `italic', `background',
+        ;; `intense'.
+        modus-themes-markup '(background italic)
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax nil
+        modus-themes-syntax '(yellow-comments green-strings)
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -2595,7 +2635,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts '(background gray intense)
+        modus-themes-prompts '(bold italic intense)
 
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
 
@@ -2604,7 +2644,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend accented)
+        modus-themes-region '(no-extend accented bg-only)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs nil
@@ -3220,7 +3260,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org4e546f9">
+<pre class="example" id="org9c62822">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3287,7 +3327,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org1f4910c">
+<pre class="example" id="org91431ee">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3479,10 +3519,56 @@ variables are designed for this particular task.</li>
         '(prot-orderless-literal-dispatcher
           prot-orderless-initialism-dispatcher
           prot-orderless-flex-dispatcher))
+
   ;; SPC should never complete: use it for `orderless' groups.
   (let ((map minibuffer-local-completion-map))
     (define-key map (kbd "SPC") nil)
-    (define-key map (kbd "?") nil)))
+    (define-key map (kbd "?") nil))
+
+  ;;;; Initialisms
+
+  ;; All of the following is a copy of code that was removed from
+  ;; orderless.el.  I was using it, so I want to keep it, at least until
+  ;; some new version is provided upstream.
+
+  (defun orderless--strict-*-initialism (component &amp;optional anchored)
+    "Match a COMPONENT as a strict initialism, optionally ANCHORED.
+The characters in COMPONENT must occur in the candidate in that
+order at the beginning of subsequent words comprised of letters.
+Only non-letters can be in between the words that start with the
+initials.
+
+If ANCHORED is `start' require that the first initial appear in
+the first word of the candidate.  If ANCHORED is `both' require
+that the first and last initials appear in the first and last
+words of the candidate, respectively."
+    (orderless--separated-by
+     '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
+     (cl-loop for char across component collect `(seq word-start ,char))
+     (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
+     (when (eq anchored 'both)
+       '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+
+  (defun orderless-strict-initialism (component)
+    "Match a COMPONENT as a strict initialism.
+This means the characters in COMPONENT must occur in the
+candidate in that order at the beginning of subsequent words
+comprised of letters.  Only non-letters can be in between the
+words that start with the initials."
+    (orderless--strict-*-initialism component))
+
+  (defun orderless-strict-leading-initialism (component)
+    "Match a COMPONENT as a strict initialism, anchored at start.
+See `orderless-strict-initialism'.  Additionally require that the
+first initial appear in the first word of the candidate."
+    (orderless--strict-*-initialism component 'start))
+
+  (defun orderless-strict-full-initialism (component)
+    "Match a COMPONENT as a strict initialism, anchored at both ends.
+See `orderless-strict-initialism'.  Additionally require that the
+first and last initials appear in the first and last words of the
+candidate, respectively."
+    (orderless--strict-*-initialism component 'both)))
 </pre>
 </div>
 
@@ -6589,8 +6675,8 @@ Add this function to `recentf-keep'."
 <h4 id="h:98876022-57cc-40de-936e-4ee42cefd69a"><span class="section-number-4">3.1.9.</span> In-buffer completions</h4>
 <div class="outline-text-4" id="text-h:98876022-57cc-40de-936e-4ee42cefd69a">
 </div>
-<div id="outline-container-org481ebec" class="outline-5">
-<h5 id="org481ebec"><span class="section-number-5">3.1.9.1.</span> CAPE (extra completion-at-point backends)</h5>
+<div id="outline-container-orgf16a309" class="outline-5">
+<h5 id="orgf16a309"><span class="section-number-5">3.1.9.1.</span> CAPE (extra completion-at-point backends)</h5>
 <div class="outline-text-5" id="text-3-1-9-1">
 <p>
 The <code>cape</code> package, by Daniel Mendler (developer of Consult, Vertico,
@@ -6690,7 +6776,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orgb2afcbe">
+<pre class="example" id="org92f03c6">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -8257,33 +8343,12 @@ Also watch my <a href="https://protesilaos.com/codelog/2020-04-02-emacs-intro-ib
 </p>
 
 <p>
-Now some extras that I introduced after I published that video, which
-pertain to my <code>prot-ibuffer.el</code> library (copied in its entirety below the
-package configurations):
-</p>
-
-<ul class="org-ul">
-<li><code>prot-ibuffer-buffers-major-mode</code> produces a filtered list of buffers
-that match the major mode of the current buffer and lets you pick one
-using minibuffer completion.  With an optional prefix argument (<code>C-u</code>)
-it places the results in an Ibuffer list.</li>
-
-<li><code>prot-ibuffer-buffers-vc-root</code> filters the list to items that match the
-current buffer's version-controlled directory.  In practice, this
-fills the same niche as the built-in <code>project-switch-to-buffer</code> (for
-Emacs 28+), with the crucial difference that it neither reads from nor
-writes to the list of known projects (also check my configurations for
-<a href="#h:7862f39e-aed0-4d02-9f1e-60c4601a9734">Projects (project.el and prot-project.el)</a>).  When called with an
-optional prefix argument, this command puts its matching candidates in
-an Ibuffer view.</li>
-</ul>
-
-<p>
-For those two I received guidance from Omar Antolín Camarena with regard
-to the use of <code>read-buffer</code> and the <code>lambda</code> passed to it (any errors are my
-own).  This method informs other tools that this type of completion
-pertains to buffers, so they can adapt accordingly.  See, in particular,
-<a href="#h:d67ed8d0-d711-48b0-9f40-f88ae2e5c984">Extended minibuffer actions and more (embark.el and prot-embark.el)</a>.
+Finally, note that my <code>prot-simple.el</code> library includes a few commands for
+switching buffers based on their current major mode or VC root
+directory.  Search for <code>prot-simple-buffers-major-mode</code> and
+<code>prot-simple-buffers-vc-root</code>.  It is trivial to produce a filtered
+Ibuffer out of them with the help of Embark's export facility (see
+<a href="#h:d67ed8d0-d711-48b0-9f40-f88ae2e5c984">Embark</a>).
 </p>
 
 <div class="org-src-container">
@@ -8318,96 +8383,6 @@ pertains to buffers, so they can adapt accordingly.  See, in particular,
     (define-key map (kbd "* n") #'ibuffer-mark-by-name-regexp)
     (define-key map (kbd "s n") #'ibuffer-do-sort-by-alphabetic)  ; "sort name" mnemonic
     (define-key map (kbd "/ g") #'ibuffer-filter-by-content)))
-
-(prot-emacs-builtin-package 'prot-ibuffer
-  (let ((map global-map))
-    (define-key map (kbd "M-s b") #'prot-ibuffer-buffers-major-mode)
-    (define-key map (kbd "M-s v") #'prot-ibuffer-buffers-vc-root)))
-</pre>
-</div>
-
-<p>
-Here is <code>prot-ibuffer.el</code> (find everything in <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a>):
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; prot-ibuffer.el --- Extensions to ibuffer.el for my dotemacs -*- lexical-binding: t -*-
-
-;; Copyright (C) 2020-2022  Protesilaos Stavrou
-
-;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
-;; URL: https://protesilaos.com/emacs/dotemacs
-;; Version: 0.1.0
-;; Package-Requires: ((emacs "27.1"))
-
-;; This file is NOT part of GNU Emacs.
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
-
-;;; Commentary:
-;;
-;; This covers my ibuffer.el extensions, for use in my Emacs setup:
-;; https://protesilaos.com/emacs/dotemacs.
-;;
-;; Remember that every piece of Elisp that I write is for my own
-;; educational and recreational purposes.  I am not a programmer and I
-;; do not recommend that you copy any of this if you are not certain of
-;; what it does.
-
-;;; Code:
-
-(require 'ibuffer)
-
-;;;###autoload
-(defun prot-ibuffer-buffers-major-mode (&amp;optional arg)
-  "Select buffers that match the current buffer's major mode.
-With optional prefix ARG (\\[universal-argument]) produce an
-`ibuffer' filtered accordingly.  Else use standard completion."
-  (interactive "P")
-  (let* ((major major-mode)
-         (prompt "Buffers for"))
-    (if arg
-        (ibuffer t (format "*%s %s*" prompt major)
-                 (list (cons 'used-mode major)))
-      (switch-to-buffer
-       (read-buffer
-        (format "%s %s:" prompt major) nil t
-        (lambda (pair) ; pair is (name-string . buffer-object)
-          (with-current-buffer (cdr pair) (derived-mode-p major))))))))
-
-;;;###autoload
-(defun prot-ibuffer-buffers-vc-root (&amp;optional arg)
-  "Select buffers that belong to the version controlled directory.
-With optional prefix ARG (\\[universal-argument]) produce an
-`ibuffer' filtered accordingly.  Else use standard completion."
-  (interactive "P")
-  (let* ((root (or (vc-root-dir)
-                   (locate-dominating-file "." ".git")))
-         (prompt "Buffers for VC"))
-    (if root
-        (if arg
-            (ibuffer t (format "*%s %s*" prompt root)
-                     (list (cons 'filename (expand-file-name root))))
-          (switch-to-buffer
-           (read-buffer
-            (format "%s %s:" prompt root) nil t
-            (lambda (pair) ; pair is (name-string . buffer-object)
-              (with-current-buffer (cdr pair) (string= (vc-root-dir) root))))))
-      (user-error "Not in a version-controlled directory"))))
-
-(provide 'prot-ibuffer)
-;;; prot-ibuffer.el ends here
 </pre>
 </div>
 </div>
@@ -15495,7 +15470,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgeb93bfc">
+<pre class="example" id="org5b1f04c">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15507,7 +15482,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orga814675">
+<pre class="example" id="org5be0026">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15522,7 +15497,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org707dd68">
+<pre class="example" id="orga1c10d0">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15540,7 +15515,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org1892404">
+<pre class="example" id="org9af4a86">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15569,7 +15544,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org7cfd0c3">
+<pre class="example" id="org27dad45">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15733,7 +15708,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orge01af06">
+<pre class="example" id="org19970a2">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16460,7 +16435,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgd26a0ed">
+<pre class="example" id="org09f4a3a">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16494,7 +16469,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orga5e5810">
+<pre class="example" id="org06800c6">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16658,7 +16633,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org56f8153">
+<pre class="example" id="org43114bf">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16853,7 +16828,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org32b124b">
+<pre class="example" id="org5aaa82c">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18081,7 +18056,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org6b04159">
+<pre class="example" id="org6602d13">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19145,7 +19120,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orge7dd30c">
+<pre class="example" id="org6dc33ff">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19837,7 +19812,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org4ff4fea">
+<pre class="example" id="orgad9b67c">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22986,7 +22961,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgee3fc5f">
+<pre class="example" id="org3a63352">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24709,7 +24684,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org3ed94c7">
+<pre class="example" id="org683c156">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25131,7 +25106,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orga42610b">
+<pre class="example" id="orgfbd9e99">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25140,7 +25115,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org53481b7">
+<pre class="example" id="org5232856">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25165,7 +25140,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org548e7e4">
+<pre class="example" id="org6f2172a">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25225,7 +25200,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgbbb7243">
+<pre class="example" id="org7466083">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25250,7 +25225,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org66684c3">
+<pre class="example" id="org003d3a2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25259,7 +25234,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9a76efd">
+<pre class="example" id="org9be110c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25278,7 +25253,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgf6e0f87">
+<pre class="example" id="orgd7473f5">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
