@@ -139,7 +139,7 @@ Rules](https://protesilaos.com/books/2020-07-01-notes-on-rules/)
 **B.:** An ancient philosopher called Protagoras (did his friends also
 call him "Prot"?) said that "human is the measure of all things".  This
 is a mistranslation that does not communicate the subtlety of the sage's
-meaning.  What he really said is this:
+proposition.  What he really said is this:
 
 > πάντων χρημάτων μέτρον ἐστὶν ἄνθρωπος, τῶν μὲν ὄντων ὡς ἔστιν, τῶν δὲ
 > οὐκ ὄντων ὡς οὐκ ἔστιν
@@ -149,7 +149,7 @@ meaning.  What he really said is this:
 
 Protagoras was speaking about _chrēmata_ (simplified as "chremata"), not
 _pragmata_, and was saying that human is their measure both in terms of
-their being and, by extrension, their modal features: both that they are
+their being and, by extension, their modal features: both that they are
 and how they are.  As you may know, _chremata_ is a word we find in
 modern Greek as well.  It means "money", which is the perfect example to
 help us understand this phrase.  As we know from economics, value is
