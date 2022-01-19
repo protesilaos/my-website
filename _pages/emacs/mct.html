@@ -22,8 +22,8 @@ permalink: /emacs/mct
 
 <p>
 This manual, written by Protesilaos Stavrou, describes the customization
-options for <code>mct.el</code>, and provides every other piece of information
-pertinent to it.
+options for <code>mct</code> (or <code>mct.el</code> and variants), and provides every other piece
+of information pertinent to it.
 </p>
 
 <p>
@@ -49,10 +49,10 @@ Current development target is 0.4.0-dev.
 </li>
 <li><a href="#h:884d6702-8666-4d89-87a2-7d74843653f3">3. Usage</a>
 <ul>
-<li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">3.1. Cyclic behaviour in the minibuffer</a></li>
-<li><a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">3.2. Cyclic behaviour for in-buffer completion</a></li>
-<li><a href="#h:bb445062-2e39-4082-a868-2123bfb793cc">3.3. Selecting candidates</a></li>
-<li><a href="#h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">3.4. Other commands</a></li>
+<li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">3.1. Cyclic behaviour for mct-minibuffer-mode</a></li>
+<li><a href="#h:bb445062-2e39-4082-a868-2123bfb793cc">3.2. Selecting candidates with mct-minibuffer-mode</a></li>
+<li><a href="#h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">3.3. Other commands for mct-minibuffer-mode</a></li>
+<li><a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">3.4. Interaction model of mct-region-mode</a></li>
 </ul>
 </li>
 <li><a href="#h:1b501ed4-f16c-4118-9a4a-7a5e29143077">4. Installation</a>
@@ -141,7 +141,7 @@ input threshold as well as a slight delay before it pops up the
 </p>
 
 <p>
-Customisation options control the input threshold (<code>mct-minimum-input</code>)
+Customization options control the input threshold (<code>mct-minimum-input</code>)
 and the delay between live updates (<code>mct-live-update-delay</code>).  Similarly,
 a blocklist and a passlist for commands are on offer:
 </p>
@@ -174,9 +174,9 @@ not read the <code>mct-minimum-input</code>, meaning that it will always try to
 live update the visible completions, regardless of input length.</li>
 
 <li>When non-nil (the default), the Completions&rsquo; buffer is automatically
-displayed once the <code>mct-minimum-input</code> is met and is hidden once the
-input drops below that threshold.  While visible, the buffer is
-updated live to match the user input.</li>
+displayed once the <code>mct-minimum-input</code> is met and is hidden if the input
+drops below that threshold.  While visible, the buffer is updated live
+to match the user&rsquo;s input.</li>
 
 <li>Note that every function in the <code>mct-completion-passlist</code> ignores this
 option altogether.  This means that every such command will always
@@ -187,7 +187,7 @@ display and live updating of the Completions&rsquo; buffer.</li>
 </ul>
 
 <p>
-Other customisations:
+Other customizations:
 </p>
 
 <ul class="org-ul">
@@ -203,7 +203,7 @@ between the two.
 file paths (such as <code>find-file</code>) when you start in, say, <code>~/Git/mct.el</code>
 and type <code>~/</code> the previous file path is removed and only the new one is
 inserted.  Whereas the default is to keep the original file name
-visible yet &ldquo;shadowed&rdquo; by a different colour.
+visible yet &ldquo;shadowed&rdquo; by a different color.
 </p></li>
 <li><p>
 <code>mct-show-completion-line-numbers</code> to always display line numbers in the
@@ -213,7 +213,7 @@ displayed ephemerally while using the <code>mct-choose-completion-number</code>
 command, which is bound to <code>M-g M-g</code> in either the minibuffer or the
 <code>*Completions*</code> buffer.
 </p></li>
-<li><code>mct-apply-completion-stripes</code> applies alternative background colours in
+<li><code>mct-apply-completion-stripes</code> applies alternating background colors in
 the Completions&rsquo; buffer.  This is only tested with the <code>modus-themes</code>
 and will only work nicely if the main background is pure black or
 white&#x2014;other themes would need to add support for the faces we define
@@ -231,6 +231,7 @@ Emacs draws a distinction between two types of completion sessions:
 <ul class="org-ul">
 <li>Completion where the minibuffer is involved (such as to switch buffers
 or find a file).</li>
+
 <li>Completion in a regular buffer to expand the text before point.  The
 minibuffer is not active.  We call this &ldquo;in-buffer completion&rdquo; or
 allude to the underlying function: <code>completion-in-region</code>.</li>
@@ -238,15 +239,14 @@ allude to the underlying function: <code>completion-in-region</code>.</li>
 
 <p>
 The former scenario is what MCT has supported since its inception.
-Starting with version <code>0.4.0</code> it also covers the latter case, thoughly
-only experimentally (please report any bugs or point towards areas of
+Starting with version <code>0.4.0</code> it also covers the latter case, though only
+experimentally (please report any bugs or point towards areas of
 possible improvement).
 </p>
 
 <p>
 To let users fine-tune their setup, MCT provides the <code>mct-minibuffer-mode</code>
-(formerly <code>mct-mode</code>) as well as local and global variants of
-<code>mct-region-mode</code> (<code>mct-region-global-mode</code>).
+(formerly <code>mct-mode</code>) as well as the global <code>mct-region-mode</code>.
 </p>
 
 <p>
@@ -254,15 +254,17 @@ The decoupling between the two modes makes it possible to configure
 interchangeable components in a variety of combinations, such as MCT for
 the minibuffer and the Corfu package for completion-in-region
 (<a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).  Or the Vertico package for the minibuffer and MCT for
-in-buffer completion (<a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">Alternatives</a>).  Same principle for the local
-variant of MCT&rsquo;s in-buffer completion mode: Corfu has the same
-capability, so the two can be used as part of a single setup.
+in-buffer completion (<a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">Alternatives</a>).
 </p>
 
 <p>
 We jokingly say that since the introduction of <code>mct-region-mode</code> the
 acronym &ldquo;MCT&rdquo; now stands for &ldquo;Minibuffer Confines Transcended&rdquo;&#x2014;the
 original was &ldquo;Minibuffer and Completions in Tandem&rdquo;.
+</p>
+
+<p>
+<a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">Interaction model of mct-region-mode</a>.
 </p>
 </div>
 </div>
@@ -276,11 +278,14 @@ This section outlines the various patterns of interaction that MCT
 establishes.  Note that completion covers two distinct cases, which are
 reflected in the design of MCT: (i) in the minibuffer and (ii) for
 in-buffer completion (<a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">MCT in the minibuffer and in regular buffers</a>).
+Most of this section is about the former scenario, which uses the
+<code>mct-minibuffer-mode</code>.  The <code>mct-region-mode</code> is less featureful by
+comparison.
 </p>
 </div>
 
 <div id="outline-container-h:68c61a76-1d64-4f62-a77a-52e7b66a68fe" class="outline-3">
-<h3 id="h:68c61a76-1d64-4f62-a77a-52e7b66a68fe"><span class="section-number-3">3.1.</span> Cyclic behaviour in the minibuffer</h3>
+<h3 id="h:68c61a76-1d64-4f62-a77a-52e7b66a68fe"><span class="section-number-3">3.1.</span> Cyclic behaviour for mct-minibuffer-mode</h3>
 <div class="outline-text-3" id="text-h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">
 <p>
 When <code>mct-minibuffer-mode</code> is enabled, some new keymaps are activated
@@ -288,15 +293,15 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orga752def">
+<pre class="example" id="orgea7070c">
 -----------------
-|               |
-|               |
-|               |
-|  Buffer       |
-|               |
-|               |
-|               |
+|        |      |
+| Buffers| Buf  |
+|        |      |
+-----------------
+|        |      |
+| Buf    | Buf  |
+|        |      |
 -----------------
 -----------------
 |               |
@@ -342,46 +347,16 @@ of the frame.  Users can change its placement by configuring the
 variable <code>mct-display-buffer-action</code> (its doc string explains how and
 provides sample code).
 </p>
-</div>
-</div>
-
-<div id="outline-container-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3" class="outline-3">
-<h3 id="h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3"><span class="section-number-3">3.2.</span> Cyclic behaviour for in-buffer completion</h3>
-<div class="outline-text-3" id="text-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">
-<p>
-When <code>mct-region-mode</code> (or <code>mct-region-global-mode</code>) is enabled, MCT is used
-for in-buffer completion.  In this scenario, the cyclic behaviour is
-simpler than when the minibuffer is active, so we will mostly cover the
-differences (<a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">Cyclic behaviour in the minibuffer</a>).
-</p>
 
 <p>
-Once <code>completion-in-region</code> is triggered (such as by typing <code>C-M-i</code> in Elisp
-buffers to expand the text before point), the key bindings <code>C-n</code> and <code>C-p</code>
-switch focus to the <code>*Completions*</code> buffer: <code>C-n</code> moves to the top, while
-<code>C-p</code> goes to the bottom.  This only happens while the in-buffer
-completion session is active: it becomes inactive if, say, one switches
-to another window other than the one with the completions.
-</p>
-
-<p>
-While inside the Completions&rsquo; buffer, <code>C-n</code> and <code>C-p</code> move to the next and
-previous line, respectively.  When they reach the top/bottom boundaries
-of the Completions&rsquo; buffer, they switch focus back to the buffer that
-started the completion.  However, and unlike <code>mct-minibuffer-mode</code>, they
-do not keep the <code>*Completions*</code> window around.  This is because we cannot
-tell whether the user wanted to continue with a new completion upon
-returning to the buffer of origin or perform some other motion/command
-(in the minibuffer we can make that assumption because the minibuffer is
-purpose-specific, so for as long as it is active, the completion session
-goes on).  As such, <code>completion-in-region</code> must be restarted after cycling
-out of the <code>*Completions*</code>.
+This is not the same for in-buffer completion performed by
+<code>mct-region-mode</code> (<a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">Interaction model of mct-region-mode</a>).
 </p>
 </div>
 </div>
 
 <div id="outline-container-h:bb445062-2e39-4082-a868-2123bfb793cc" class="outline-3">
-<h3 id="h:bb445062-2e39-4082-a868-2123bfb793cc"><span class="section-number-3">3.3.</span> Selecting candidates</h3>
+<h3 id="h:bb445062-2e39-4082-a868-2123bfb793cc"><span class="section-number-3">3.2.</span> Selecting candidates with mct-minibuffer-mode</h3>
 <div class="outline-text-3" id="text-h:bb445062-2e39-4082-a868-2123bfb793cc">
 <p>
 There are several ways to select a completion candidate.  These pertain
@@ -485,7 +460,7 @@ selected one.</li>
 </div>
 
 <div id="outline-container-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9" class="outline-3">
-<h3 id="h:b46a3366-6a7a-49ed-8caa-693d6ee437e9"><span class="section-number-3">3.4.</span> Other commands</h3>
+<h3 id="h:b46a3366-6a7a-49ed-8caa-693d6ee437e9"><span class="section-number-3">3.3.</span> Other commands for mct-minibuffer-mode</h3>
 <div class="outline-text-3" id="text-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">
 <ul class="org-ul">
 <li><p>
@@ -506,6 +481,88 @@ right after a path&rsquo;s directory delimiter (a forward slash).  Otherwise
 it deletes a single character backwards.  The command&rsquo;s symbol is
 <code>mct-backward-updir</code>.</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3" class="outline-3">
+<h3 id="h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3"><span class="section-number-3">3.4.</span> Interaction model of mct-region-mode</h3>
+<div class="outline-text-3" id="text-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">
+<p>
+When <code>mct-region-mode</code> is enabled, MCT is used for in-buffer completion.
+In this scenario, the cyclic behaviour is less featureful than when the
+minibuffer is active (due to the specifics of the underlying commands),
+so we cover the differences (<a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">Cyclic behaviour in the minibuffer</a>).
+</p>
+
+<p>
+In terms of its interaction model, <code>mct-region-mode</code> only gets enabled
+manually either by pressing <code>TAB</code> or <code>C-M-i</code> (<code>complete-symbol</code>) in supporting
+major modes.  The <code>*Completions*</code> buffer pops up and is narrowed live to
+match any subsequent user input.  While the buffer is visible, we are
+performing <code>completion-in-region</code>, which means that the Completions can be
+narrowed live by typing further.  Furthermore, <code>C-n</code> or <code>C-p</code> will move the
+point to the top/bottom of the Completions&rsquo; buffer from where the user
+can select a candidate with <code>RET</code>.
+</p>
+
+<p>
+In-buffer completion is always invoked manually.  There is no minimum
+input threshold and no delay between updates while live-updating of the
+<code>*Completions*</code> buffer is performed.  If the Completions are not visible,
+then no <code>completion-in-region</code> takes place and thus <code>mct-region-mode</code> should
+have no effect.
+</p>
+
+<p>
+By default, the placement of the Completions for this type of
+interaction is below the current buffer (as opposed to the bottom of the
+frame for <code>mct-minibuffer-mode</code>).  It looks like this:
+</p>
+
+<pre class="example" id="org8e5ac8a">
+------------------------
+|               |      |
+| Current buffer| Buf  |
+|               |      |
+------------------------
+|               |      |
+|  Completions  | Buf  |
+|               |      |
+------------------------
+|        |      |      |
+|  Buf   | Buf  | Buf  |
+|        |      |      |
+------------------------
+</pre>
+
+<p>
+While inside the Completions&rsquo; buffer, <code>C-n</code> and <code>C-p</code> move to the next and
+previous line, respectively.  When they reach the top/bottom boundaries
+of the Completions&rsquo; buffer, they switch focus back to the buffer that
+started the completion.  However, and unlike <code>mct-minibuffer-mode</code>, they
+do not keep the <code>*Completions*</code> window around.  This is because we cannot
+tell whether the user wanted to continue with a new completion upon
+returning to the buffer of origin or perform some other motion/command
+(in the minibuffer we can make that assumption because the minibuffer is
+purpose-specific, so for as long as it is active, the completion session
+goes on).  As such, <code>completion-in-region</code> must be restarted after cycling
+out of the <code>*Completions*</code>.
+</p>
+
+<p>
+To cancel in-buffer completion, type <code>C-g</code> either before switching to the
+Completions&rsquo; buffer or while inside of it.
+</p>
+
+<p>
+The only customization option for <code>mct-region-mode</code> pertains to the
+presentation of the <code>*Completions*</code>: <code>mct-region-completions-format</code>.  By
+default, it uses the same style as <code>mct-completions-format</code>, though it can
+be configured to, for example, display candidates in a grid with either
+of the <code>horizontal</code> or <code>vertical</code> values (on Emacs 27, candidates are always
+displayed in a grid, as the <code>one-column</code> layout was introduced in Emacs
+28).
+</p>
 </div>
 </div>
 </div>
@@ -575,12 +632,13 @@ Everything is in place to set up the package.
 <h2 id="h:318ba6f8-2909-44b0-9bed-558552722667"><span class="section-number-2">5.</span> Sample setup</h2>
 <div class="outline-text-2" id="text-h:318ba6f8-2909-44b0-9bed-558552722667">
 <p>
-Minimal setup:
+Minimal setup for the minibuffer and in-buffer completion:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'mct)
 (mct-minibuffer-mode 1)
+(mct-region-mode 1)
 </pre>
 </div>
 
@@ -632,9 +690,9 @@ And with more options:
 
 (mct-minibuffer-mode 1)
 
-;; Optionally add `mct-region-mode' to the major mode hooks you want it
-;; to be active in, or just use `mct-region-global-mode'.
-(mct-region-global-mode 1)
+;; Optionally use MCT for in-buffer completion (though `corfu' is a
+;; better option).
+(mct-region-mode 1)
 </pre>
 </div>
 
@@ -681,14 +739,18 @@ Other useful extras from the Emacs source code (read their doc strings):
 (setq savehist-save-minibuffer-history t)
 (add-hook 'after-init-hook #'savehist-mode)
 
+;;; Indentation and the TAB key
+(setq-default tab-always-indent 'complete) ; useful for `mct-region-mode'
+(setq-default tab-first-completion 'word-or-paren-or-punct) ; Emacs 27
+
 ;;; Extensions
 
 ;;;; Enable Consult previews in the Completions buffer.
-;; Requires the Consult package.
+;; Requires the `consult' package.
 (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
 
 ;;;; Setup for Orderless
-;; Requires the Orderless package
+;; Requires the `orderless' package
 
 ;; We make the SPC key insert a literal space and the same for the
 ;; question mark.  Spaces are used to delimit orderless groups, while
@@ -893,9 +955,24 @@ preview the candidate at point.  All we need to enable it in the
 <h2 id="h:c9ddedea-e279-4233-94dc-f8d32367a954"><span class="section-number-2">9.</span> Alternatives</h2>
 <div class="outline-text-2" id="text-h:c9ddedea-e279-4233-94dc-f8d32367a954">
 <p>
+In the grand scheme of things, it may be helpful to think of MCT as
+proof-of-concept on how the default Emacs completion can become more
+expressive.  MCT&rsquo;s value rests in its potential to inspire developers to
+(i) patch Emacs so that its out-of-the-box completion is more
+interactive, and (ii) expose the shortcomings in the current
+implementation of the <code>*Completions*</code> buffer, which should again provide
+an impetus for further changes to Emacs.  Otherwise, MCT is meant for
+users who can tolerate the status quo and simply want a thin layer of
+interactivity for minibuffer completion, in-buffer completion, and their
+intersection with the Completions&rsquo; buffer.
+</p>
+
+<p>
 Like MCT, these alternatives provide a thin layer of functionality over
-the built-in infrastructure.  They all make for a natural complement to
-the standard Emacs experience (also <a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).
+the built-in infrastructure.  Unlike MCT, they are not constrained by
+the design of the <code>*Completions*</code> buffer and concomitant functionality.
+They all make for a natural complement to the standard Emacs experience
+(also <a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).
 </p>
 
 <dl class="org-dl">
@@ -905,17 +982,17 @@ package with a large user base and a highly competent maintainer.
 </p>
 
 <p>
-Vertico has some performance optimisations on how candidates are
+Vertico has some performance optimizations on how candidates are
 sorted and presented, which means that it displays results right away
 without any noticeable performance penalty.  Whereas MCT does not
 change the underlying behaviour of how candidates are displayed.  As
 such, MCT will be slower in scenaria where there are lots of
-candidates because core Emacs lacks those optimisations.  One such
+candidates because core Emacs lacks those optimizations.  One such
 case is with the <code>describe-symbol</code> (<code>C-h o</code>) prompt.  If the user asks for
 the completions&rsquo; buffer without inputting any character (so without
 narrowing the list), there will be a noticeable delay before the
 buffer is rendered.  This is mitigated in MCT by the requirement for
-<code>mct-minimum-input</code>, though the underlying mechanics remain in tact.
+<code>mct-minimum-input</code>, though the underlying mechanics remain intact.
 </p>
 
 <p>
@@ -937,12 +1014,19 @@ particular, to <code>mct-display-buffer-action</code>).
 </p>
 
 <p>
-Vertico also supports buffer display, though only for the placement of
-the buffer.  There is an extension for that in the git repository
-called <code>vertico-buffer.el</code>.  Note, however, that the common combination
-of Vertico and Embark means that users can always place the list of
-completion candidates in a standalone buffer by means of Embark&rsquo;s
-collect/export facilities.
+Vertico has official extensions which can make it work exactly like
+MCT without any of MCT&rsquo;s drawbacks.  These extensions can also expand
+Vertico&rsquo;s powers such as by providing granular control over the exact
+style of presentation for any given completion category (e.g. display
+Imenu in a separate buffer, show the <code>switch-to-buffer</code> list
+horizontally in the minibuffer, and present <code>find-file</code> in a vertical
+list&#x2014;whatever the user wants).
+</p>
+
+<p>
+All things considered, there is no compelling reason why one may
+prefer MCT over Vertico in terms of the available functionality:
+Vertico is better.
 </p></dd>
 
 <dt><a href="https://github.com/karthink/elmo">Elmo - Embark Live MOde for Emacs</a> by Karthik Chikmagalur</dt><dd><p>
