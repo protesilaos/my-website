@@ -338,7 +338,8 @@ already told you going into this discussion that you might figure out
 something about yourself and your initial reaction was that I was
 playing tricks and being cryptic.  No problem, I get that a lot.
 
-[ Read: [On role and actuality](2021-04-15 On role and actuality)
+[ Read: [On role and
+actuality](https://protesilaos.com/books/2021-04-15-role-actuality/)
 (2021-04-15) ]
 
 **A.:** I now realise that.  And I can clearly tell that you are not the
