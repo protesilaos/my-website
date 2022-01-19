@@ -16,6 +16,84 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.
 </p>
 
+<div id="outline-container-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c" class="outline-2">
+<h2 id="h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">Version 0.4.0 on 2022-01-19</h2>
+<div class="outline-text-2" id="text-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">
+<p>
+This entry outlines the changes to the "Minibuffer and Completions in
+Tandem" (<code>mct</code> package) since the release of <a href="#h:902574cf-edf0-4182-9d34-5e8e28730193">version 0.3.0 on 2021-11-19</a>.
+There have been more than 120 commits in the meantime.
+</p>
+
+<p>
+For further details, please consult the manual online:
+<a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.  Or evaluate the following
+expression if you already have <code>mct</code> installed:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(info "(mct) Top")
+</pre>
+</div>
+
+<p>
+As most changes pertain to optimisations in the code base, we limit this
+log to what is of interest to the end-user.
+</p>
+</div>
+
+<div id="outline-container-org093cb3c" class="outline-3">
+<h3 id="org093cb3c">Minibuffer Confines Transcended (aka mct-region-mode)</h3>
+<div class="outline-text-3" id="text-org093cb3c">
+<p>
+Emacs distinguishes between two types of completion: one that involves
+the minibuffer and another for text expansion inside regular buffers.
+MCT has supported the former case since its inception, as hinted by its
+original name ("Minibuffer and Completions in Tandem"), but would not
+work as intended for in-buffer completion.
+</p>
+
+<p>
+This changes with the introduction of a new global minor mode:
+<code>mct-region-mode</code>.  What once was <code>mct-mode</code> is now defined as
+<code>mct-minibuffer-mode</code> to better denote the scope of the given
+functionality.
+</p>
+
+<p>
+With <code>mct-region-mode</code> enabled, users get a simplified subset of the
+familiar MCT functionality when typing <code>TAB</code> or <code>C-M-i</code> to complete the
+text-at-point in any major-mode that supports
+<code>completion-at-point-functions</code> (e.g. programming modes or Org).
+</p>
+
+<p>
+<code>mct-region-mode</code> is considered experimental and unstable.  Users are
+encouraged to report any bugs as well as recommend ways to improve its
+functionality or interaction model.  The manual has been updated to
+cover all the relevant details.
+</p>
+
+<p>
+Daniel Mendler, who is the developer of the <code>vertico</code> and <code>corfu</code> packages
+(alternatives to <code>mct-minibuffer-mode</code> and <code>mct-region-mode</code>, respectively),
+was intstrumental in making <code>mct-region-mode</code> happen.  Daniel's patches
+helped with everything from (i) the proper functioning of
+<code>mct-region-mode</code>, (ii) the separation between <code>mct-minibuffer-mode</code> and
+<code>mct-region-mode</code>, (iii) the overall setup of the minor modes, and (iv)
+lots of other crucial details of the overall design of MCT.  In short:
+there would be no <code>mct-region-mode</code> without Daniel's contributions.  Any
+remaining errors or omissions are my own.
+</p>
+
+<p>
+Given this new functionality, we can now joke that "MCT" stands for
+"Minibuffer Confines Transcended".
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:902574cf-edf0-4182-9d34-5e8e28730193" class="outline-2">
 <h2 id="h:902574cf-edf0-4182-9d34-5e8e28730193">Version 0.3.0 on 2021-11-19</h2>
 <div class="outline-text-2" id="text-h:902574cf-edf0-4182-9d34-5e8e28730193">
@@ -40,9 +118,9 @@ Here is a brief description of what has been achieved in <code>0.3.0</code>.
 </p>
 </div>
 
-<div id="outline-container-org21dd9a4" class="outline-3">
-<h3 id="org21dd9a4">MCT on Emacs 27</h3>
-<div class="outline-text-3" id="text-org21dd9a4">
+<div id="outline-container-h:c05100f7-a525-4d76-8f88-8de4cfe69e67" class="outline-3">
+<h3 id="h:c05100f7-a525-4d76-8f88-8de4cfe69e67">MCT on Emacs 27</h3>
+<div class="outline-text-3" id="text-h:c05100f7-a525-4d76-8f88-8de4cfe69e67">
 <ul class="org-ul">
 <li>MCT now works on Emacs 27.  This was not possible in the past because
 <code>mct-mode</code> was originally designed to operate with the <code>one-column</code> style
@@ -83,9 +161,9 @@ testing in issue 1: <a href="https://gitlab.com/protesilaos/mct/-/issues/1">http
 </div>
 </div>
 
-<div id="outline-container-orgdaad555" class="outline-3">
-<h3 id="orgdaad555">Miscellaneous changes</h3>
-<div class="outline-text-3" id="text-orgdaad555">
+<div id="outline-container-h:db448e8b-5416-4561-993a-4f5f3a8ad7e4" class="outline-3">
+<h3 id="h:db448e8b-5416-4561-993a-4f5f3a8ad7e4">Miscellaneous changes</h3>
+<div class="outline-text-3" id="text-h:db448e8b-5416-4561-993a-4f5f3a8ad7e4">
 <ul class="org-ul">
 <li>There is a new command that is active in the minibuffer which allows
 to complete and exit immediately: <code>C-RET</code> (<code>mct-complete-and-exit</code>).  This
@@ -269,9 +347,9 @@ functionality of MCT.</li>
 </div>
 </div>
 
-<div id="outline-container-org707fa9d" class="outline-3">
-<h3 id="org707fa9d">Group motions</h3>
-<div class="outline-text-3" id="text-org707fa9d">
+<div id="outline-container-h:5f9027f9-fad0-4c03-8269-60eb670d0b38" class="outline-3">
+<h3 id="h:5f9027f9-fad0-4c03-8269-60eb670d0b38">Group motions</h3>
+<div class="outline-text-3" id="text-h:5f9027f9-fad0-4c03-8269-60eb670d0b38">
 <ul class="org-ul">
 <li>Emacs 28 provides infrastructure for commands to group candidates
 based on their contents.  These groups can have their own heading in
@@ -286,9 +364,9 @@ contribution in merge request 2:
 </div>
 </div>
 
-<div id="outline-container-orgaab4b0f" class="outline-3">
-<h3 id="orgaab4b0f">Miscellaneous changes</h3>
-<div class="outline-text-3" id="text-orgaab4b0f">
+<div id="outline-container-h:ed67abef-dad3-4620-bc70-1c3dc268db59" class="outline-3">
+<h3 id="h:ed67abef-dad3-4620-bc70-1c3dc268db59">Miscellaneous changes</h3>
+<div class="outline-text-3" id="text-h:ed67abef-dad3-4620-bc70-1c3dc268db59">
 <ul class="org-ul">
 <li><p>
 The <code>TAB</code> key in the Completions' buffer never exits the minibuffer (the
@@ -332,9 +410,9 @@ patch in commit <code>6bd2457</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-orgf7caef0" class="outline-3">
-<h3 id="orgf7caef0">Updates to the manual</h3>
-<div class="outline-text-3" id="text-orgf7caef0">
+<div id="outline-container-h:19c69838-c480-4b98-80e3-da25642a2c23" class="outline-3">
+<h3 id="h:19c69838-c480-4b98-80e3-da25642a2c23">Updates to the manual</h3>
+<div class="outline-text-3" id="text-h:19c69838-c480-4b98-80e3-da25642a2c23">
 <ul class="org-ul">
 <li>All of the aforementioned were documented, where appropriate.</li>
 <li>A Makefile is now on offer, which is used to generate the mct.info and
