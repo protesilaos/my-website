@@ -128,7 +128,7 @@ index 7767acf..17f3362 100644
 To be clear, these are very subtle differences in some cases.  Consider,
 for instance a visualisation of one of the tables presented below with
 `rainbow-mode` enabled (check [my
-dotemacs](protesilaos.com/emacs/dotemacs) for relevant configs):
+dotemacs](https://protesilaos.com/emacs/dotemacs) for relevant configs):
 
 <a href="{{'/assets/images/attachments/2022-01-02-modus-themes-org-habit-table-sample.png' | absolute_url }}"><img alt="Modus Operandi sample visualisation of table" src="{{ '/assets/images/attachments/2022-01-02-modus-themes-org-habit-table-sample.png' | absolute_url }}"/></a>
 
