@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-19 12:32 +0200</b>.</li>
+<li>Updated: <b>2022-01-20 17:44 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -84,7 +84,7 @@ redirect_from:
 <li><a href="#h:5723c4bb-ff6c-449f-bb60-be66fab3f137">3.1.8. Completion for recent files and directories (prot-recentf.el)</a></li>
 <li><a href="#h:98876022-57cc-40de-936e-4ee42cefd69a">3.1.9. In-buffer completions</a>
 <ul>
-<li><a href="#orgc96c8e4">3.1.9.1. CAPE (extra completion-at-point backends)</a></li>
+<li><a href="#org59ff05d">3.1.9.1. CAPE (extra completion-at-point backends)</a></li>
 <li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.9.2. Corfu (Completion Overlay Region FUnction)</a></li>
 <li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.9.3. Dabbrev (dynamic word completion)</a></li>
 <li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.9.4. Abbreviations or Abbrevs</a></li>
@@ -1261,7 +1261,9 @@ use elsewhere.
   ;;          view-lossage))
   ;; (prot-simple-focus-help-buffers 1)
 
-  (prot-simple-rename-help-buffers 1)
+  ;; ;; NOTE 2022-01-20: The idea is good, but the implementation needs
+  ;; ;; to be refined.
+  ;; (prot-simple-rename-help-buffers 1)
 
   ;; General commands
   (let ((map global-map))
@@ -1490,7 +1492,7 @@ buffer."
 ;; ;; DEPRECATED 2021-10-15: Just set `help-window-select' to non-nil.
 ;;
 ;; ;;;; Focus auxiliary buffers
-;; 
+;;
 ;; ;; TODO 2021-08-27: Is there a more general way to do this without
 ;; ;; specifying the BUF?  That way we would only need one function.
 ;; (defmacro prot-simple--auto-focus-buffer (fn doc buf)
@@ -1499,19 +1501,19 @@ buffer."
 ;;     ,doc
 ;;     (when-let ((window (get-buffer-window ,buf)))
 ;;       (select-window window))))
-;; 
+;;
 ;; (prot-simple--auto-focus-buffer
 ;;  prot-simple--help-focus
 ;;   "Select window with Help buffer.
 ;; Intended as :after advice for `describe-symbol' and friends."
 ;;   (help-buffer))
-;; 
+;;
 ;; (prot-simple--auto-focus-buffer
 ;;  prot-simple--messages-focus
 ;;   "Select window with Help buffer.
 ;; Intended as :after advice for `view-echo-area-messages'."
 ;;   (messages-buffer))
-;; 
+;;
 ;; ;;;###autoload
 ;; (define-minor-mode prot-simple-focus-help-buffers
 ;;   "Add advice to focus `prot-simple-focusable-help-commands'."
@@ -1525,58 +1527,58 @@ buffer."
 ;;       (advice-remove fn 'prot-simple--help-focus))
 ;;     (advice-remove 'view-echo-area-messages 'prot-simple--messages-focus)))
 
-;;;; Rename Help buffers (EXPERIMENTAL)
-
-(defvar prot-simple-help-mode-post-render-hook nil
-  "Hook that runs after Help is rendered (via `advice-add').")
-
-(defun prot-simple--help-mode-post-render (&amp;rest _)
-  "Run `prot-simple-help-mode-post-render-hook'."
-  (run-hooks 'prot-simple-help-mode-post-render-hook))
-
-(defconst prot-simple--help-symbol-regexp
-  ;; TODO 2021-10-12: Avoid duplication in regexp.
-  (concat
-   "^\\(.*?\\)\s\\(is an?\\|runs the\\)\s\\(command\\|function\\|variable\\|keymap variable"
-   "\\|native compiled Lisp function\\|interactive native compiled Lisp function"
-   "\\|built-in function\\|interactive built-in function\\|Lisp closure\\)\s"
-   "\\(\\_&lt;.*?\\_&gt;\\)\\( (found in .*)\\)?")
-  "Regexp to match Help buffer description.")
-
-(defconst prot-simple--help-symbol-false-positives
-  "\\(in\\|defined\\)"
-  "False positives for `prot-simple--help-symbol-regexp'.")
-
-(defun prot-simple--rename-help-buffer ()
-  "Rename the current Help buffer."
-  (with-current-buffer (help-buffer)
-    (goto-char (point-min))
-    (when (re-search-forward prot-simple--help-symbol-regexp nil t)
-      (let* ((thing (match-string 1))
-             (symbol (match-string 4))
-             (scope (match-string 5))
-             (description (cond
-                           (scope
-                            (concat symbol scope))
-                           ((and (not (string-match-p prot-simple--help-symbol-false-positives symbol))
-                                 (symbolp (intern symbol)))
-                            symbol)
-                           ((match-string 3)))))
-        (rename-buffer
-         (format "*%s (%s) # Help*" thing description)
-         t)))))
-
-;;;###autoload
-(define-minor-mode prot-simple-rename-help-buffers
-  "Rename Help buffers based on their contents."
-  :init-value nil
-  :global t
-  (if prot-simple-rename-help-buffers
-      (progn
-        (advice-add #'help-window-setup :after #'prot-simple--help-mode-post-render)
-        (add-hook 'prot-simple-help-mode-post-render-hook #'prot-simple--rename-help-buffer))
-    (advice-remove #'help-window-setup #'prot-simple--help-mode-post-render)
-    (remove-hook 'prot-simple-help-mode-post-render-hook #'prot-simple--rename-help-buffer)))
+;; ;;;; Rename Help buffers (EXPERIMENTAL)
+;;
+;; (defvar prot-simple-help-mode-post-render-hook nil
+;;   "Hook that runs after Help is rendered (via `advice-add').")
+;;
+;; (defun prot-simple--help-mode-post-render (&amp;rest _)
+;;   "Run `prot-simple-help-mode-post-render-hook'."
+;;   (run-hooks 'prot-simple-help-mode-post-render-hook))
+;;
+;; (defconst prot-simple--help-symbol-regexp
+;;   ;; TODO 2021-10-12: Avoid duplication in regexp.
+;;   (concat
+;;    "^\\(.*?\\)\s\\(is an?\\|runs the\\)\s\\(command\\|function\\|variable\\|keymap variable"
+;;    "\\|native compiled Lisp function\\|interactive native compiled Lisp function"
+;;    "\\|built-in function\\|interactive built-in function\\|Lisp closure\\)\s"
+;;    "\\(\\_&lt;.*?\\_&gt;\\)\\( (found in .*)\\)?")
+;;   "Regexp to match Help buffer description.")
+;;
+;; (defconst prot-simple--help-symbol-false-positives
+;;   "\\(in\\|defined\\)"
+;;   "False positives for `prot-simple--help-symbol-regexp'.")
+;;
+;; (defun prot-simple--rename-help-buffer ()
+;;   "Rename the current Help buffer."
+;;   (with-current-buffer (help-buffer)
+;;     (goto-char (point-min))
+;;     (when (re-search-forward prot-simple--help-symbol-regexp nil t)
+;;       (let* ((thing (match-string 1))
+;;              (symbol (match-string 4))
+;;              (scope (match-string 5))
+;;              (description (cond
+;;                            (scope
+;;                             (concat symbol scope))
+;;                            ((and (not (string-match-p prot-simple--help-symbol-false-positives symbol))
+;;                                  (symbolp (intern symbol)))
+;;                             symbol)
+;;                            ((match-string 3)))))
+;;         (rename-buffer
+;;          (format "*%s (%s) # Help*" thing description)
+;;          t)))))
+;;
+;; ;;;###autoload
+;; (define-minor-mode prot-simple-rename-help-buffers
+;;   "Rename Help buffers based on their contents."
+;;   :init-value nil
+;;   :global t
+;;   (if prot-simple-rename-help-buffers
+;;       (progn
+;;         (advice-add #'help-window-setup :after #'prot-simple--help-mode-post-render)
+;;         (add-hook 'prot-simple-help-mode-post-render-hook #'prot-simple--rename-help-buffer))
+;;     (advice-remove #'help-window-setup #'prot-simple--help-mode-post-render)
+;;     (remove-hook 'prot-simple-help-mode-post-render-hook #'prot-simple--rename-help-buffer)))
 
 ;;; Commands
 
@@ -3260,7 +3262,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org9fa5edc">
+<pre class="example" id="org934b348">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3327,7 +3329,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgb4324d3">
+<pre class="example" id="orgbe02186">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3885,6 +3887,8 @@ results I am most likely interested in, based on previous selections.
            prot-bookmark-cd-bookmark
            prot-bongo-playlist-insert-playlist-file
            project-switch-to-buffer))
+  (setq mct-completions-format 'one-column)
+  (setq mct-region-completions-format 'vertical)
 
   ;; You can place the Completions' buffer wherever you want, by
   ;; following the syntax of `display-buffer-alist' (check elsewhere in
@@ -3916,7 +3920,7 @@ And here is <code>mct.el</code> (from <a href="https://gitlab.com/protesilaos/do
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://gitlab.com/protesilaos/mct
-;; Version: 0.3.0
+;; Version: 0.4.0
 ;; Package-Requires: ((emacs "27.1"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -4002,7 +4006,7 @@ regardless of input length.
 When non-nil (the default), the Completions' buffer is
 automatically displayed once the `mct-minimum-input' is met and
 is hidden if the input drops below that threshold.  While
-visible, the buffer is updated live to match the user input.
+visible, the buffer is updated live to match the user's input.
 
 Note that every function in the `mct-completion-passlist' ignores
 this option altogether.  This means that every such command will
@@ -4332,8 +4336,14 @@ Apply APP by first setting up the minibuffer to work with Mct."
 ;; We need this to make things work on Emacs 27.
 (defun mct--one-column-p ()
   "Test if we have a one-column view available."
-  (and (eq mct-completions-format 'one-column)
-       (&gt;= emacs-major-version 28)))
+  (cond
+   ;; FIXME 2022-01-19: Avoid duplication?
+   ((mct--region-p) 
+    (and (eq mct-region-completions-format 'one-column)
+         (&gt;= emacs-major-version 28)))
+   ((mct--minibuffer-p) 
+    (and (eq mct-completions-format 'one-column)
+         (&gt;= emacs-major-version 28)))))
 
 ;;;;; Focus minibuffer and/or show completions
 
@@ -5025,12 +5035,15 @@ region.")
 (defun mct--region-live-completions (&amp;rest _)
   "Update the *Completions* buffer.
 Meant to be added to `after-change-functions'."
-  (when (mct--region-current-buffer)
-    (while-no-input
-      (condition-case nil
-          (save-match-data
-            (mct--show-completions))
-        (quit (keyboard-quit))))))
+  (when-let (buf (mct--region-current-buffer))
+    ;; TODO 2022-01-18: Do the same for company-mode, but we need to
+    ;; test it as well.
+    (when (null (buffer-local-value 'corfu-mode buf))
+      (while-no-input
+        (condition-case nil
+            (save-match-data
+              (mct--show-completions))
+          (quit (keyboard-quit)))))))
 
 (defun mct--region-live-update ()
   "Hook up `mct--region-live-completions'."
@@ -6675,8 +6688,8 @@ Add this function to `recentf-keep'."
 <h4 id="h:98876022-57cc-40de-936e-4ee42cefd69a"><span class="section-number-4">3.1.9.</span> In-buffer completions</h4>
 <div class="outline-text-4" id="text-h:98876022-57cc-40de-936e-4ee42cefd69a">
 </div>
-<div id="outline-container-orgc96c8e4" class="outline-5">
-<h5 id="orgc96c8e4"><span class="section-number-5">3.1.9.1.</span> CAPE (extra completion-at-point backends)</h5>
+<div id="outline-container-org59ff05d" class="outline-5">
+<h5 id="org59ff05d"><span class="section-number-5">3.1.9.1.</span> CAPE (extra completion-at-point backends)</h5>
 <div class="outline-text-5" id="text-3-1-9-1">
 <p>
 The <code>cape</code> package, by Daniel Mendler (developer of Consult, Vertico,
@@ -6776,7 +6789,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org9caccea">
+<pre class="example" id="org9161807">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15471,7 +15484,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org9825814">
+<pre class="example" id="orgf544ac8">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15483,7 +15496,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgcac5b97">
+<pre class="example" id="org2c091fa">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15498,7 +15511,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgbb970d9">
+<pre class="example" id="org3f273f2">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15516,7 +15529,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgb9bd447">
+<pre class="example" id="orgb85229c">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15545,7 +15558,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org81a8387">
+<pre class="example" id="org9e6cbd3">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15709,7 +15722,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgfc0001d">
+<pre class="example" id="orge7ae420">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16436,7 +16449,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgcd671bc">
+<pre class="example" id="org0b80191">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16470,7 +16483,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgd463830">
+<pre class="example" id="org93fc2e2">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16634,7 +16647,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgef83bb3">
+<pre class="example" id="orgd661c98">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16829,7 +16842,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org4a237de">
+<pre class="example" id="org33156b9">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18057,7 +18070,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org3697a90">
+<pre class="example" id="orge21f567">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19121,7 +19134,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org5502bbe">
+<pre class="example" id="org67061a9">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19813,7 +19826,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgea4c2cf">
+<pre class="example" id="orgc17e34c">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22962,7 +22975,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org3d41520">
+<pre class="example" id="org65753dd">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24685,7 +24698,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orga087de2">
+<pre class="example" id="org0402ba3">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25107,7 +25120,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgc22b932">
+<pre class="example" id="orgbf63582">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25116,7 +25129,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org18997a2">
+<pre class="example" id="org3858dc8">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25141,7 +25154,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgdd05ebf">
+<pre class="example" id="org35d824b">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25201,7 +25214,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgbc87cdf">
+<pre class="example" id="org6c97726">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25226,7 +25239,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org86886f4">
+<pre class="example" id="orgd724cb2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25235,7 +25248,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgbb4b92b">
+<pre class="example" id="org98c11c2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25254,7 +25267,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org78f8579">
+<pre class="example" id="orgcaab093">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
