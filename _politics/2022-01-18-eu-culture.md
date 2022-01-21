@@ -91,19 +91,20 @@ businesses in an uneven playing field that favours large multinationals
 and those who have the resources as well as lack of scruples to engage
 in cross-border tax avoidance or unethical fiscal engineering.
 
-Meanwhile, disposable incomes are being eroded by galloping inflation.
-The European Central Bank has been happily pumping oodles of liquidity
-in the system through a policy that favours those who are closer to the
-origin of the new money; a policy that contributes to greater inequality
-and higher concentration of wealth in fewer hands.  What is the ECB
-expecting when it is engendering or reinforcing inflationary pressures
-on a monumental scale?  Liquidity does not simply evaporate.  After it
-creates bubbles in markets that are not tracked by the nominal inflation
-target (e.g. fine art), it inevitably finds its way to the real economy.
-We thus suffer the chilling effects of a programme with far-reaching
-fiscal ramifications that did not spring from a position of widespread
-popular consensus but was instead devised in the upper echelons of a
-technocratic power structure.
+Meanwhile, disposable incomes are being eroded by galloping inflation
+(including core inflation).  The European Central Bank has been happily
+pumping oodles of liquidity in the system through a policy that favours
+those who are closer to the origin of the new money; a policy that
+contributes to greater inequality and higher concentration of wealth in
+fewer hands.  What is the ECB expecting when it is engendering or
+reinforcing inflationary pressures on a monumental scale?  Liquidity
+does not simply evaporate.  After it creates bubbles in markets that are
+not tracked by the nominal inflation target (e.g. fine art), it
+inevitably finds its way to the real economy.  We thus suffer the
+chilling effects of a programme with far-reaching fiscal ramifications
+that did not spring from a position of widespread popular consensus but
+was instead devised in the upper echelons of a technocratic power
+structure.
 
 To the point of leveraging "culture", we are again presented with the
 potential praxis of consolidating resources at the supranational level.
