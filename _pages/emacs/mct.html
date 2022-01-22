@@ -28,13 +28,13 @@ of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.3.0, released on 2021-11-19.  Any reference to a newer
+0.4.0, released on 2022-01-19.  Any reference to a newer
 feature which does not yet form part of the latest tagged commit, is
 explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.4.0-dev.
+Current development target is 0.5.0-dev.
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -71,6 +71,7 @@ Current development target is 0.4.0-dev.
 <li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">8. Extensions</a>
 <ul>
 <li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">8.1. Enable Consult previews</a></li>
+<li><a href="#h:9b19911c-1dd7-4d4c-b513-feb77237e156">8.2. Avoid conflict between MCT and Corfu</a></li>
 </ul>
 </li>
 <li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">9. Alternatives</a></li>
@@ -293,7 +294,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orgea7070c">
+<pre class="example" id="orgfa7432d">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -519,7 +520,7 @@ interaction is below the current buffer (as opposed to the bottom of the
 frame for <code>mct-minibuffer-mode</code>).  It looks like this:
 </p>
 
-<pre class="example" id="org8e5ac8a">
+<pre class="example" id="org9ec51bd">
 ------------------------
 |               |      |
 | Current buffer| Buf  |
@@ -949,6 +950,31 @@ preview the candidate at point.  All we need to enable it in the
 </div>
 </div>
 </div>
+
+<div id="outline-container-h:9b19911c-1dd7-4d4c-b513-feb77237e156" class="outline-3">
+<h3 id="h:9b19911c-1dd7-4d4c-b513-feb77237e156"><span class="section-number-3">8.2.</span> Avoid conflict between MCT and Corfu</h3>
+<div class="outline-text-3" id="text-h:9b19911c-1dd7-4d4c-b513-feb77237e156">
+<p>
+Daniel Mendler&rsquo;s <code>corfu</code> package provides an alternative to the
+<code>mct-region-mode</code> (<a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">MCT in the minibuffer and in regular buffers</a>).  Given
+that MCT&rsquo;s implementation is a global minor-mode, chances are that users
+of both will run into weird issues with conflicting functionality.  The
+following snippet from Corfu&rsquo;s README can be added to user configuration
+files to avoid any potential trouble when using commands such as
+<code>eval-expression</code> (bound to <code>M-:</code> by default):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun corfu-in-minibuffer ()
+  "Enable Corfu in the minibuffer only if Mct/Vertico are not active."
+  (unless (or (mct--minibuffer-p) vertico--input)
+    (corfu-mode 1)))
+
+(add-hook 'minibuffer-setup-hook #'corfu-in-minibuffer 1)
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:c9ddedea-e279-4233-94dc-f8d32367a954" class="outline-2">
@@ -1101,7 +1127,7 @@ Kaludercic.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Andrew Tropin, Benjamin (@zealotrush), Case
 Duckworth, Jonathan Irving, José Antonio Ortega Ruiz, Kostadin Ninev,
-Manuel Uberti, Philip Kaludercic, Theodor Thornhill.</dd>
+Manuel Uberti, Philip Kaludercic, Theodor Thornhill, Z.Du.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
