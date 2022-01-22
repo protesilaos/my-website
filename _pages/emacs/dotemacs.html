@@ -10,7 +10,7 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-22 07:24 +0200</b>.</li>
+<li>Updated: <b>2022-01-22 13:00 +0200</b>.</li>
 <li>Emacs Version: GNU Emacs 29.0.50.</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a>.</li>
@@ -2255,10 +2255,10 @@ example, <code>M-.</code> (<code>xref-find-definitions</code>).
 <p>
 While <code>prot-pulse.el</code> (complete code further below) is a thin wrapper that
 provides some extensions that are useful to my workflow.  Specifically,
-it declares a new face and defines a command that implements it:
-<code>prot-pulse-pulse-line</code>.  This is useful to quickly highlight the line and
-buffer I am on, but can also be utilised by other tools that move the
-point an arbitrary distance.
+it declares a couple of new face and defines a command that implements
+them: <code>prot-pulse-pulse-line</code>.  This is useful to quickly highlight the
+line and buffer I am on, but can also be utilised by other tools that
+move the point an arbitrary distance.
 </p>
 
 <div class="org-src-container">
@@ -2279,6 +2279,7 @@ point an arbitrary distance.
           org-tree-slide-move-next-tree
           org-tree-slide-move-previous-tree))
   (setq prot-pulse-delay 0.06)
+  (setq prot-pulse-line-face 'prot-pulse-line) ; or specify `prot-pulse-line-intense'
   (prot-pulse-advice-commands-mode 1)
   (define-key global-map (kbd "C-x l") #'prot-pulse-pulse-line)) ; override `count-lines-page'
 </pre>
@@ -2340,6 +2341,13 @@ changes to take effect."
   :type 'list
   :group 'prot-pulse)
 
+(defcustom prot-pulse-line-face 'prot-pulse-line
+  "Face to use for the pulse line."
+  :type '(choice (face :tag "Subtle style" 'prot-pulse-line)
+                 (face :tag "Intense style" 'prot-pulse-line-intense)
+                 (face :tag "Other face"))
+  :group 'prot-pulse)
+
 (defcustom prot-pulse-delay 0.05
   "Duration in seconds of pulse delay."
   :type 'list
@@ -2355,6 +2363,16 @@ changes to take effect."
   "Default face for `prot-pulse-pulse-line'."
   :group 'prot-pulse)
 
+(defface prot-pulse-line-intense
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#f5df23")
+    (((class color) (min-colors 88) (background dark))
+     :background "#874900")
+    (t :inverse-video t))
+  "Intense variant face for `prot-pulse-pulse-line'."
+  :group 'prot-pulse)
+
 ;;;###autoload
 (defun prot-pulse-pulse-line (&amp;optional face)
   "Temporarily highlight the current line with optional FACE."
@@ -2364,7 +2382,7 @@ changes to take effect."
                  (line-beginning-position)))
         (end (line-beginning-position 2))
         (pulse-delay prot-pulse-delay)
-        (face (or face 'prot-pulse-line)))
+        (face (or face prot-pulse-line-face)))
     (pulse-momentary-highlight-region start end face)))
 
 ;;;###autoload
@@ -2641,7 +2659,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
 
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
 
-        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
+        modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -3262,7 +3280,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org4f87c8f">
+<pre class="example" id="org2505514">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3329,7 +3347,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgbe6cbea">
+<pre class="example" id="orgb885c65">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6804,7 +6822,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orgf4d9f78">
+<pre class="example" id="org7ad494c">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15500,7 +15518,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgcae01f7">
+<pre class="example" id="org2c026fc">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15512,7 +15530,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org2d9719c">
+<pre class="example" id="org781b2fe">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15527,7 +15545,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org392f736">
+<pre class="example" id="org8495d2e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15545,7 +15563,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org0be26a8">
+<pre class="example" id="orgbeeef8b">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15574,7 +15592,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orga7fbc95">
+<pre class="example" id="orgb7f6a36">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15738,7 +15756,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org3000653">
+<pre class="example" id="org8182c50">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16465,7 +16483,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgac73f18">
+<pre class="example" id="org594391b">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16499,7 +16517,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgc62d11a">
+<pre class="example" id="org3cbfb82">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16663,7 +16681,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgc92f4fc">
+<pre class="example" id="orgffde7ec">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16858,7 +16876,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org0cd9358">
+<pre class="example" id="org2d7b2e4">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18086,7 +18104,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org0f72f19">
+<pre class="example" id="orgcb03686">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19150,7 +19168,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org6e63e45">
+<pre class="example" id="orgc4119cb">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19842,7 +19860,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org8bdc6b7">
+<pre class="example" id="orgbf96f98">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22991,7 +23009,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgda8f4c8">
+<pre class="example" id="org41954c8">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24714,7 +24732,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orga51461c">
+<pre class="example" id="org60a554e">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25136,7 +25154,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgfceaaa7">
+<pre class="example" id="orgac6b15b">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25145,7 +25163,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orge04db0e">
+<pre class="example" id="org65f34a4">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25170,7 +25188,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org58aec6a">
+<pre class="example" id="org84109c0">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25230,7 +25248,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orge9fb9a3">
+<pre class="example" id="orgdbda4c6">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25255,7 +25273,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgdd0193d">
+<pre class="example" id="orgfcff8d0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25264,7 +25282,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org01717f2">
+<pre class="example" id="org62882b1">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25283,7 +25301,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org4d9ceb2">
+<pre class="example" id="org7cedd0d">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
