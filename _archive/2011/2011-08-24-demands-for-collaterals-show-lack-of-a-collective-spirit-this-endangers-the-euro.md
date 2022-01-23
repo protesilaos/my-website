@@ -44,7 +44,7 @@ I shall repeat that I too agree with protesting European taxpayers who see their
 
 There certainly needs to be a fundamental change of approach in the way the EU is dealing with the crisis, so that taxpayer money is not wasted. At the same time some politicians need to change their mode of thinking and focus on how to solve the real problems instead of how to draw votes.
 
-_Below is a <a href="" name="chart">chart</a> [from The Economist](http://www.economist.com/blogs/dailychart/2011/05/europes_economies), which shows how almost all euro member states fail to meet the SGP criteria:_
+_Below is a <a name="chart">chart</a> [from The Economist](http://www.economist.com/blogs/dailychart/2011/05/europes_economies), which shows how almost all euro member states fail to meet the SGP criteria:_
 
 <center>
   http://media.economist.com/sites/default/files/media/2011InfoG/Interactive/EuroGuide_20110725/main.swf

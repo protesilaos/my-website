@@ -30,7 +30,7 @@ I. Financialization and the perverse Basel Accords
 II. The collusion between banks and regulators in the Eurozone  
 III. My objection to the Financial Transactions Tax
 
-#### <a href="" name="financialization">I. Financialization and the perverse Basel Accords</a>
+#### I. Financialization and the perverse Basel Accords
 
 The _financialization_ of the world economy was accelerated the last couple of decades largely due to the perverse incentives that the Basel Accords produced. What are the Basel Accords? In 1974 the governors of the central banks of the G10 of the time, established the _Basel Committee on Banking Regulation_. The purpose of this body was to provide guidelines on banking regulations. These sets of regulations are the Basel Accords and currently authorities are in the process of implementing the Basel III.
 
@@ -44,7 +44,7 @@ And this is exactly where the perverse incentives of the Basel Accords come into
 
 As such the last decades the world economy transmogrified from the standard capitalist system were growth was inseparably attached to the **production and consumption of real goods and services**, into a financialized system, in which the &#8220;investments&#8221; in sovereign bonds, credit default swaps (CDS), collateralized debt obligations (CDO), special purpose vehicles and other forms of &#8220;paper&#8221; and financial derivatives, are the main driving forces to &#8220;growth&#8221; &#8212; to large scale bubbles! The perverse incentives of the Basel Accords, the machinations of the Credit Rating Agencies and the ill advised policies of central bankers that exacerbated the negative effects of this process of financialization, all prepared the grounds for the crisis we are experiencing today and all are responsible for the ongoing misallocation of resources that will again bring us into another much more severe crisis, as the bubbles that are now being inflated are much bigger in scale.
 
-#### <a href="" name="collusion">II. The collusion between banks and regulators in the Eurozone</a>
+#### II. The collusion between banks and regulators in the Eurozone
 
 In his <a href="http://europa.eu/rapid/pressReleasesAction.do?reference=SPEECH/11/607" target="_blank">State of the Union speech</a> in front of the European Parliament on September 28, 2011, European Commission President Jose Manuel Barroso said the following:
   
@@ -65,7 +65,7 @@ The mechanics of these three have created artificial short-term demand for certa
 
 It is crystal clear that regulators have been well aware of this rather perverse situation, since the ultimate goal is to buy additional time for the hardly-pressed euro edifice, so that the latest political decisions (fiscal compact) can be incorporated into the law; and to create the illusion that Italy&#8217;s and Spain&#8217;s new governments are doing such a great job that confidence in their capacity to deal with the challenges of the crisis, is restored. The incrementalism of European decision-making has won a few more months before it again falls into trouble, largely thanks to the aligned interests of regulators and financiers. The former will implement a very bad treaty (by all means), while the latter will carry on with their highly speculative behavior.
 
-#### <a href="" name="FTT">III. My objection to the Financial Transactions Tax</a>
+#### III. My objection to the Financial Transactions Tax
 
 The collusion between regulators and financiers is quite apparent. This has so far led to many policies that have been in favor of the financial establishment and to the detriment of the real economy, the average worker, consumer, entrepreneur and citizen. So what would a Financial Transactions Tax achieve, while this coalition of states and financiers remains in tact? **It would sugar the poisonous pill** electorates have to take, by presenting artificial tax revenues which were actually taken from the pockets of taxpayers to be returned back to them _as a fraction_ of the original amount. In my value system it is completely hypocritical to use one hand to support the financial system with trillions of euro and with the other take back from them a tiny amount of their earnings by means of taxation, to present it as &#8220;social policy&#8221;.
 

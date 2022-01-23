@@ -8,8 +8,8 @@ Almost all of the colour schemes in my [Prot16 collection](https://protesilaos.c
 
 #### Demo of the old module
 
-- Light variant: [Atom](#) - [GitHub](#)
-- Dark variant: [Atom](#) - [GitHub](#)
+- Light variant: Atom - GitHub
+- Dark variant: Atom - GitHub
 
 #### Demo of the new module
 

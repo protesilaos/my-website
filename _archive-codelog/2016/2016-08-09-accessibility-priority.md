@@ -55,7 +55,7 @@ Understandably, accessibility is not limited to a handful of neat tricks, even t
 
 Time frame and technicalities aside, the intention is to incorporate accessibility into the broader code structure. The cummulative result of individually minor refinements will be better browsing for an ever larger group of users. The ultimate objective is to broaden the membership of that group to encompass 100% of the people accessing the Internet. There is absolutely no reason to maintain barriers to entry. A better web is one that is open to all.
 
-[^GitHubArticleSVG]: [Delivering Octicons with SVG]( https://github.com/blog/2112-delivering-octicons-with-svg). Posted on February 23, 2016.
+[^GitHubArticleSVG]: [Delivering Octicons with SVG](https://github.com/blog/2112-delivering-octicons-with-svg). Posted on February 23, 2016.
 
 [^WPTwentySixteen]: The GitHub repo of [Twenty Sixteen](https://github.com/WordPress/twentysixteen). I recall from my time in the WordPress milieu that the developers committed to making this a fully accessible theme.
 

@@ -30,9 +30,7 @@ II. The politics of the Eurocore
 III. Germany in the context of an asymmetric Europe  
 IV. Of the organic democracy and its tension with the heteronomy of the existing nation-state
 
-### <a name="democracy">I. &#8220;Postponing democracy is a rather dangerous move&#8221;</a>
-
-<span class="noprint">Permalink | <a href="#">Top ▴</a></span>
+### I. &#8220;Postponing democracy is a rather dangerous move&#8221;
 
 On the tension between technocracy and democracy that is inherent in European integration and especially on <a rel="nofollow" target="_blank" href="http://ec.europa.eu/commission_2010-2014/president/news/archives/2012/11/pdf/blueprint_en.pdf">the Blueprint</a> towards a Deep and Genuine Economic Monetary Union that was put forth by the Commission in late 2012, Habermas spoke thus:
 
@@ -54,9 +52,7 @@ Alas, if one is to read through the aforementioned Commission Blueprint for the 
 
 I am afraid to point out that such Olympian pronouncements have nothing to do with reality and as a matter of fact they are a panoply of misinformation and falsehoods. The EU&#8217;s democratic legitimacy is largely inadequate and if there is no Treaty change, ideally a true European constitution, or at least a proto-contistution, it will be impossible to remain silent to the accountability and power asymmetries that will arise or be aggrandized and the problems resulting from them be exacerbated. Professor Habermas is certainly correct in saying that postponing democracy is a rather dangerous move, especially in these times where people across the land are becoming ever more loud and vociferous in asking for justice and democratic legitimacy, properly understood.
 
-### <a name="eurocore">II. The politics of the Eurocore</a>
-
-<span class="noprint">Permalink | <a href="#">Top ▴</a></span>
+### II. The politics of the Eurocore
 
 Habermas clearly is in favor of a European democracy and he believes that this can or must emerge _within_ the EU rather than being a democracy _of_ the EU. He stated the following:
 
@@ -85,9 +81,7 @@ In contrast the euro area, for it to be economically but mostly socially and pol
 
 With the above in mind, it is crystal clear that what Habermas suggests, is but a re-affirmation of the principle that has been carefully and consistently applied over the last two decades or so. The politics of the Eurocore are the standard of our time, be it a desirable one or not, thus the _problématique_ which arises, at least for those willing to remain open to the greater picture, is to make them as workable as possible, so that they do not end up being divisive and to result in the kind of fission that characterizes European political history. Understandably the implicit &#8220;we-they&#8221; approach to integration and the accompanying introduction of _ad hoc_ opt-outs or other institutional arrangements that compound the complexity of the broader edifice, shall place a time bomb at the foundations of the European polity, by producing varying and inconsistent classes of states and of citizens.
 
-### <a name="germany">III. Germany in the context of an asymmetric Europe</a>
-
-<span class="noprint">Permalink | <a href="#">Top ▴</a></span>
+### III. Germany in the context of an asymmetric Europe
 
 Habermas also elaborated on his views about solidarity and the role of Germany in the present European context, saying that:
 
@@ -113,9 +107,7 @@ That granted, it is not enough to speak of the need for Germany to proceed with 
 
 As such, the idea of a presumably enlightened &#8220;leadership role&#8221; for Germany is a pernicious folly, as it places the seeds of hegemonism at the heart of the European project, even if the intention is towards the opposite direction. The role Germany and all others need to conform with, is that of members of a community of equals, at the governmental and citizen level; as a collective of people who ought to define mutually beneficial ends, freed from national prejudices and stereotypical perceptions of policy and polity. This differs fundamentally from what we are currently witnessing or from what may be furnished upon us in the years ahead, should a state or group of states decide to impose upon the rest _their_ understanding of &#8220;the good&#8221;, in the name or under the pretense of some mystical &#8220;historical&#8221; responsibility of theirs to act with an iron will (and fist).
 
-### <a name="organicdemocracy">IV. Of the organic democracy and its tension with the heteronomy of the existing nation-state</a>
-
-<span class="noprint">Permalink | <a href="#">Top ▴</a></span>
+### IV. Of the organic democracy and its tension with the heteronomy of the existing nation-state
 
 Habermas also touched upon the presumed function of the nation-state in the supranational structure of a European democracy and suggested something which appears to be very similar, in terms of substance, to a position that moderately conservative leaders such as Herman Van Rompuy and José Manuel Barroso have put forth before. The following quote is one that I, a libertarian federalist, will subject to criticism:
 
