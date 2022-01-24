@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-24 08:37 +0200</b>.</li>
-<li>Word count: <b>143841</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-01-24 08:46 +0200</b>.</li>
+<li>Word count: <b>144509</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2996,12 +2996,12 @@ Relevant publications of mine that are not part of this document:
   ;; TODO 2021-08-27: I no longer have a laptop.  Those configurations
   ;; are not relevant, but I keep them around as the idea is still good.
 
-  ;; The value of `prot-fonts-laptop-desktop-keys-list' becomes '(small
+  ;; The value of `prot-fonts--laptop-desktop-keys-list' becomes '(small
   ;; regular) based on the car of the first two cons cells found in
   ;; `prot-fonts-typeface-sets-alist'.  The assumption is that those
   ;; contain sets from smaller to larger display types.
-  (setq prot-fonts-laptop-desktop-keys-list
-        (prot-fonts-laptop-desktop-keys))
+  (setq prot-fonts--laptop-desktop-keys-list
+        (prot-fonts--laptop-desktop-keys))
 
   ;; This is the breakpoint, in pixels, for determining whether we are
   ;; on the small or large screen layout.  The number here is my
@@ -3076,32 +3076,41 @@ if you directly clone <a href="https://gitlab.com/protesilaos/dotfiles">my dotfi
 ;; 1. https://gitlab.com/protesilaos/hack-font-mod
 ;; 2. https://gitlab.com/protesilaos/iosevka-comfy
 (defcustom prot-fonts-typeface-sets-alist
-  '((laptop  . ( :fixed-pitch-family "Hack"
-                 :fixed-pitch-regular-weight normal
+  '((small . ( :fixed-pitch-family "Hack"
+               :fixed-pitch-regular-weight regular
+               :fixed-pitch-heavy-weight bold
+               :fixed-pitch-height 75
+               :fixed-pitch-line-spacing 1
+               :variable-pitch-family "FiraGO"
+               :variable-pitch-height 1.05
+               :variable-pitch-regular-weight normal))
+
+    (regular . ( :fixed-pitch-family "Hack"
+                 :fixed-pitch-regular-weight regular
                  :fixed-pitch-heavy-weight bold
                  :fixed-pitch-height 90
-                 :fixed-pitch-line-spacing 1
-                 :variable-pitch-family "DejaVu Sans"
-                 :variable-pitch-height 1.0
-                 :variable-pitch-regular-weight normal))
-
-    (desktop . ( :fixed-pitch-family "Iosevka Comfy"
-                 :fixed-pitch-regular-weight book
-                 :fixed-pitch-heavy-weight extrabold
-                 :fixed-pitch-height 105
                  :fixed-pitch-line-spacing nil
                  :variable-pitch-family "FiraGO"
-                 :variable-pitch-height 0.95
+                 :variable-pitch-height 1.05
                  :variable-pitch-regular-weight normal))
 
-    (video   . ( :fixed-pitch-family "Iosevka Comfy"
-                 :fixed-pitch-regular-weight normal
-                 :fixed-pitch-heavy-weight bold
-                 :fixed-pitch-height 135
-                 :fixed-pitch-line-spacing nil
-                 :variable-pitch-family "Source Sans Pro"
-                 :variable-pitch-height 1.0
-                 :variable-pitch-regular-weight normal)))
+    (large . ( :fixed-pitch-family "Source Code Pro"
+               :fixed-pitch-regular-weight normal
+               :fixed-pitch-heavy-weight bold
+               :fixed-pitch-height 130
+               :fixed-pitch-line-spacing nil
+               :variable-pitch-family "Noto Serif"
+               :variable-pitch-height 1.0
+               :variable-pitch-regular-weight normal))
+
+    (large-alt . ( :fixed-pitch-family "Iosevka Comfy"
+                   :fixed-pitch-regular-weight book
+                   :fixed-pitch-heavy-weight extrabold
+                   :fixed-pitch-height 135
+                   :fixed-pitch-line-spacing nil
+                   :variable-pitch-family "Noto Sans"
+                   :variable-pitch-height 1.0
+                   :variable-pitch-regular-weight normal)))
   "Alist of desired typeface properties.
 
 The car of each cons cell is an arbitrary key that broadly
@@ -3147,8 +3156,15 @@ respectively (see code of `prot-fonts--laptop-desktop-keys')."
   :group 'prot-fonts
   :type 'alist)
 
+(defun prot-fonts--laptop-desktop-keys ()
+  "List laptop and desktop fontsets.
+The elements of the list are the cars of the first two cons cells
+of `prot-fonts-laptop-desktop-keys-list'"
+  (let ((sets (mapcar #'car prot-fonts-typeface-sets-alist)))
+    (list (nth 0 sets) (nth 1 sets))))
+
 (defcustom prot-fonts-laptop-desktop-keys-list
-  (prot-fonts--laptop-desktop-keys) ; '(laptop desktop)
+  (prot-fonts--laptop-desktop-keys)
   "Symbols for `prot-fonts-fonts-per-monitor'.
 This is a list whose first item denotes the smallest desirable
 entry in `prot-fonts-typeface-sets-alist' for use on a laptop or
@@ -3170,13 +3186,6 @@ fonts, else nth 0, are applied."
   :type 'integer)
 
 ;;;; Helper functions
-
-(defun prot-fonts--laptop-desktop-keys ()
-  "List laptop and desktop fontsets.
-The elements of the list are the cars of the first two cons cells
-of `prot-fonts-laptop-desktop-keys-list'"
-  (let ((sets (mapcar #'car prot-fonts-typeface-sets-alist)))
-    (list (nth 0 sets) (nth 1 sets))))
 
 (defun prot-fonts--set-face-attribute (face family &amp;optional weight height)
   "Set FACE font to FAMILY, with optional HEIGHT and WEIGHT."
@@ -3375,7 +3384,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgd2d4da4">
+<pre class="example" id="orgb8aa1ce">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3458,7 +3467,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org6983f2e">
+<pre class="example" id="orgad70dc3">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6933,7 +6942,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org06f1bab">
+<pre class="example" id="org25c606c">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15629,7 +15638,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgb77fee3">
+<pre class="example" id="org4d274a5">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15641,7 +15650,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org5f2c1f4">
+<pre class="example" id="org10bb65b">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15656,7 +15665,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org75a974f">
+<pre class="example" id="org3703afb">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15674,7 +15683,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org3ffbcba">
+<pre class="example" id="org0df4d6b">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15703,7 +15712,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgf86f36a">
+<pre class="example" id="orgfbdbf49">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15867,7 +15876,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org8528d53">
+<pre class="example" id="org12bebd4">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16594,7 +16603,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org081ba78">
+<pre class="example" id="org17a25f8">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16628,7 +16637,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org01536af">
+<pre class="example" id="orgee6647c">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16792,7 +16801,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgcca6a59">
+<pre class="example" id="orgc5466a9">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16987,7 +16996,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org4e84bb7">
+<pre class="example" id="orgba1d94b">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18215,7 +18224,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org08bd8fb">
+<pre class="example" id="org5529536">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19279,7 +19288,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org9dfe3e1">
+<pre class="example" id="org3265f62">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19971,7 +19980,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org5d4be74">
+<pre class="example" id="org7995123">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23120,7 +23129,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org6101f95">
+<pre class="example" id="orgc4d35fd">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24840,7 +24849,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org128ed33">
+<pre class="example" id="org13c6937">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25262,7 +25271,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org0fb67b7">
+<pre class="example" id="org159577c">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25271,7 +25280,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgbe8e49c">
+<pre class="example" id="org49f230c">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25296,7 +25305,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org6c2766a">
+<pre class="example" id="org8211326">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25356,7 +25365,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org3338060">
+<pre class="example" id="orgb0f8b5c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25381,7 +25390,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org008cdef">
+<pre class="example" id="org7dd8a79">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25390,7 +25399,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9a83f44">
+<pre class="example" id="orge3855b8">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25409,7 +25418,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org9193ce2">
+<pre class="example" id="orga3bd794">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
