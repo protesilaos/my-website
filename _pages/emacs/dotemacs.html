@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-22 21:52 +0200</b>.</li>
-<li>Word count: <b>143453</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-01-24 08:37 +0200</b>.</li>
+<li>Word count: <b>143841</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2863,7 +2863,9 @@ type.  It gives options like <code>small</code>, <code>regular</code>, <code>lar
 the <code>prot-fonts-typeface-sets-alist</code> (more on completion in the section
 <a href="#h:98d3abcc-f34e-4029-aabc-740f0b6421f8">Completion framework and extras</a>).  When called from Lisp it expects a
 <code>DISPLAY</code> argument, which is a symbol that matches the car of a cons cell
-in the aforementioned alist.
+in the aforementioned alist.  While the <code>prot-fonts-set-default-font</code> only
+operates on the <code>default</code> face: it uses minibuffer completion to select
+the font family, weight, and height.
 </p>
 
 <p>
@@ -3015,7 +3017,9 @@ Relevant publications of mine that are not part of this document:
   ;; `prot-fonts-restore-last'.
   (add-hook 'modus-themes-after-load-theme-hook #'prot-fonts-restore-last)
 
-  (define-key global-map (kbd "C-c f") #'prot-fonts-set-fonts))
+  (let ((map global-map))
+    (define-key map (kbd "C-c f") #'prot-fonts-set-fonts)
+    (define-key map (kbd "C-c F") #'prot-fonts-set-default-font)))
 </pre>
 </div>
 
@@ -3139,26 +3143,19 @@ properties:
 It is recommended that the order of the cons cells follows from
 the smallest to largest font heights, to simplify the process of
 identifying the set that belongs to the small and larger display
-respectively (see code of `prot-fonts-laptop-desktop-keys')."
+respectively (see code of `prot-fonts--laptop-desktop-keys')."
   :group 'prot-fonts
   :type 'alist)
 
-(defun prot-fonts-laptop-desktop-keys ()
-  "List laptop and desktop fontsets.
-The elements of the list are the cars of the first two cons cells
-of `prot-fonts-laptop-desktop-keys-list'"
-  (let ((sets (mapcar #'car prot-fonts-typeface-sets-alist)))
-    (list (nth 0 sets) (nth 1 sets))))
-
 (defcustom prot-fonts-laptop-desktop-keys-list
-  (prot-fonts-laptop-desktop-keys) ; '(laptop desktop)
+  (prot-fonts--laptop-desktop-keys) ; '(laptop desktop)
   "Symbols for `prot-fonts-fonts-per-monitor'.
 This is a list whose first item denotes the smallest desirable
 entry in `prot-fonts-typeface-sets-alist' for use on a laptop or
 just smaller monitor, while the second points to a larger
 display's key in that same alist.
 
-The helper function `prot-fonts-laptop-desktop-keys' picks the
+The helper function `prot-fonts--laptop-desktop-keys' picks the
 first two entries in `prot-fonts-typeface-sets-alist'."
   :group 'prot-fonts
   :type 'list)
@@ -3172,8 +3169,14 @@ fonts, else nth 0, are applied."
   :group 'prot-fonts
   :type 'integer)
 
-(defvar prot-fonts--font-display-hist '()
-  "History of inputs for display-related font associations.")
+;;;; Helper functions
+
+(defun prot-fonts--laptop-desktop-keys ()
+  "List laptop and desktop fontsets.
+The elements of the list are the cars of the first two cons cells
+of `prot-fonts-laptop-desktop-keys-list'"
+  (let ((sets (mapcar #'car prot-fonts-typeface-sets-alist)))
+    (list (nth 0 sets) (nth 1 sets))))
 
 (defun prot-fonts--set-face-attribute (face family &amp;optional weight height)
   "Set FACE font to FAMILY, with optional HEIGHT and WEIGHT."
@@ -3190,6 +3193,11 @@ fonts, else nth 0, are applied."
       (internal-set-lisp-face-attribute face :weight w 0))
     (internal-set-lisp-face-attribute face :height h 0)))
 
+;;;; Set preset families
+
+(defvar prot-fonts--font-display-hist '()
+  "History of inputs for display-related font associations.")
+
 (defun prot-fonts--set-fonts-prompt ()
   "Promp for font set (used by `prot-fonts-set-fonts')."
   (let ((def (nth 1 prot-fonts--font-display-hist)))
@@ -3199,7 +3207,7 @@ fonts, else nth 0, are applied."
      nil t nil 'prot-fonts--font-display-hist def)))
 
 (defvar prot-fonts-set-typeface-hook nil
-  "Hook that runs after `prot-fonts-set-fonts'.")
+  "Hook that runs after setting fonts.")
 
 (defvar prot-fonts--current-spec nil
   "Current font set in `prot-fonts-typeface-sets-alist'.")
@@ -3234,6 +3242,69 @@ DISPLAY is a symbol that represents the car of a cons cell in
         (setq prot-fonts--current-spec (format "%s" display))
         (run-hooks 'prot-fonts-set-typeface-hook))
     (error "Not running a graphical Emacs; cannot set fonts")))
+
+;;;; Set default only
+
+(defvar prot-fonts--system-typeface-hist ()
+  "Minibuffer history for `prot-fonts--system-typefaces-prompt'.")
+
+(defun prot-fonts--system-typefaces-prompt ()
+  "Select font from installed typefaces."
+  (let ((def (or (nth 1 prot-fonts--system-typeface-hist) "Monospace")))
+    (completing-read
+     (format "Select typeface [%s]: " def)
+     (font-family-list)
+     nil t nil 'prot-fonts--system-typeface-hist def)))
+
+(defvar prot-fonts--font-weights
+  '( thin ultralight extralight light semilight regular medium
+     semibold bold heavy extrabold ultrabold)
+  "List of font weights.")
+
+(defvar prot-fonts--font-weight-hist ()
+  "Minibuffer history for `prot-fonts--font-weight-prompt'.")
+
+(defun prot-fonts--font-weight-prompt ()
+  "Select weight from `prot-fonts--font-weights'."
+  (let ((def (or (car prot-fonts--font-weight-hist) 'regular)))
+    (intern
+     (completing-read
+      (format "Select font weight [%s]: " def)
+      prot-fonts--font-weights
+      nil t nil 'prot-fonts--font-weight-hist def))))
+
+(defvar prot-fonts--font-height-hist ()
+  "Minibuffer history for `prot-fonts--font-weight-prompt'.")
+
+(defvar prot-fonts--font-heights
+  '(80 85 90 95 100 105 110 120 130 140 150 160 170 180)
+  "Non-exhuastive list of font heights.")
+
+(defun prot-fonts--font-height-prompt ()
+  "Select height from `prot-fonts--font-heights'."
+  (let ((def (or (car prot-fonts--font-height-hist) 100)))
+    ;; FIXME 2022-01-24: the `string-to-number' and `number-to-string'
+    ;; roundabout feels wrong.  Can't we complete against numbers
+    ;; directly?
+    (string-to-number
+     ;; `read-number' does not support completion...
+     (completing-read
+      (format "Select font height [%s]: " def)
+      (mapcar #'number-to-string prot-fonts--font-heights)
+      nil nil nil 'prot-fonts--font-height-hist def))))
+
+;;;###autoload
+(defun prot-fonts-set-default-font (font weight height)
+  "Change `default' face family to FONT with WEIGHT and HEIGHT.
+To pick a preset, use `prot-fonts-set-fonts' instead."
+  (interactive
+   (list (prot-fonts--system-typefaces-prompt)
+         (prot-fonts--font-weight-prompt)
+         (prot-fonts--font-height-prompt)))
+  (prot-fonts--set-face-attribute 'default font weight height)
+  (run-hooks 'prot-fonts-set-typeface-hook))
+
+;;;; Automatic font adjustments
 
 (defun prot-fonts-restore-last ()
   "Restore last fontset.
@@ -3304,7 +3375,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org19a783c">
+<pre class="example" id="orgd2d4da4">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3324,6 +3395,7 @@ x×X
 …⋯
 ...
 
+
 Sample character set
 Check for monospacing and Greek glyphs
 
@@ -3336,17 +3408,32 @@ abcdefghijklmnopqrstuvwxyz
 ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ
 αβγδεζηθικλμνξοπρστυφχψω
 
-// NOTE that I got this from Hack's website:
-// https://source-foundry.github.io/Hack/font-specimen.html
-//  The four boxing wizards jump
-#include &lt;stdio.h&gt; // &lt;= quickly.
-int main(int argc, char **argv) {
-  long il1[]={1-2/3.4,5+6==7/8};
-  int OxFaced=0xBAD||"[{(CQUINE";
-  unsigned O0,l1,Z2,S5,G6,B8__XY;
-  printf("@$Hamburgefo%c`",'\n');
-  return ~7&amp;8^9?0:l1|!"j-&gt;k+=*w";
-}
+
+Unambiguous characters
+
+()[]{}&lt;&gt;«»‹› 6bB8&amp;0ODdoa 1tiIlL|
+
+!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
+
+x×X .,·°;:¡!¿?`'‘’
+
+
+Words that show different character combinations
+
+because  illicit  mnemonic  gimmicky  query  incandescent  transcendental
+gymnasium  interoperability  bifurcation  amphibian  quixotic  verboten
+incongruous  malfeasance  syntax  hitherto  yesterday  paramilitary
+coagulation  acerbic  admiration  juxtapose  superjacent  tequila
+hyperion  scholarch  industrious  quotidian  caffeine  intergovernmentalism
+obfuscate  liaison  voyage  reify  antipode  heteroclite  sovereignty
+
+
+Code sample
+
+(defvar prot-eww--occur-feed-regexp
+  (concat "\\(rss\\|atom\\)\\+xml.\\(.\\|\n\\)"
+          ".*href=[\"']\\(.*?\\)[\"']")
+  "Regular expression to match web feeds in HTML source.")
 </pre>
 </div>
 </div>
@@ -3371,7 +3458,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org0e5edbc">
+<pre class="example" id="org6983f2e">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4722,7 +4809,7 @@ If ARG is supplied, move that many completion groups at a time."
   "Select completion on Nth line."
   (with-current-buffer (window-buffer (mct--get-completion-window))
     (goto-char (point-min))
-    (forward-line (1- n))
+    (next-completion n)
     (mct-choose-completion-exit)))
 
 (defun mct--line-bounds (n)
@@ -6846,7 +6933,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orgfc189d2">
+<pre class="example" id="org06f1bab">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15542,7 +15629,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgcece69f">
+<pre class="example" id="orgb77fee3">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15554,7 +15641,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org547b22f">
+<pre class="example" id="org5f2c1f4">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15569,7 +15656,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgc50db3a">
+<pre class="example" id="org75a974f">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15587,7 +15674,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org0fcc97f">
+<pre class="example" id="org3ffbcba">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15616,7 +15703,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org43624a6">
+<pre class="example" id="orgf86f36a">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15780,7 +15867,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org1ba8e7e">
+<pre class="example" id="org8528d53">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16507,7 +16594,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org597e622">
+<pre class="example" id="org081ba78">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16541,7 +16628,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org6c17ad3">
+<pre class="example" id="org01536af">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16705,7 +16792,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org12d3cce">
+<pre class="example" id="orgcca6a59">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16900,7 +16987,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgb2d98f5">
+<pre class="example" id="org4e84bb7">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18128,7 +18215,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgbf62b31">
+<pre class="example" id="org08bd8fb">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19192,7 +19279,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org6384f4d">
+<pre class="example" id="org9dfe3e1">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19884,7 +19971,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgf37be55">
+<pre class="example" id="org5d4be74">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23033,7 +23120,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgc8e0176">
+<pre class="example" id="org6101f95">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24303,16 +24390,13 @@ want to send patches to.
 <h3 id="h:d0f76937-4f54-401c-aae8-ffadf8697357"><span class="section-number-3">7.9.</span> Eldoc (elisp live documentation feedback)</h3>
 <div class="outline-text-3" id="text-h:d0f76937-4f54-401c-aae8-ffadf8697357">
 <p>
-When editing elisp, this mode will display useful information about the
-construct at point in the echo area.  For functions it will display the
-list of arguments they accept.  While it will show the the first
-sentence of a variable's documentation string.
-</p>
-
-<p>
-At first, I dismissed this package.  Upon closer inspection, it does
-offer a lightweight complementary facility to that of the standard help
-commands: <code>C-h f FUNCTION</code>, <code>C-h v VARIABLE</code>.
+When editing Elisp and other supported major-modes, Eldoc will display
+useful information about the construct at point in the echo area.  I
+only work with Elisp, so in my case it will display the list of a
+function's arguments or the first sentence of a variable's documentation
+string.  In that regard, it offers a lightweight complementary facility
+to that of the standard help commands: <code>C-h f FUNCTION</code>, <code>C-h v VARIABLE</code>,
+<code>C-h o SYMBOL</code>.
 </p>
 
 <div class="org-src-container">
@@ -24756,7 +24840,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org5fc2dd6">
+<pre class="example" id="org128ed33">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25178,7 +25262,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org8dff1d7">
+<pre class="example" id="org0fb67b7">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25187,7 +25271,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgea48829">
+<pre class="example" id="orgbe8e49c">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25212,7 +25296,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org27c6312">
+<pre class="example" id="org6c2766a">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25272,7 +25356,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orged95523">
+<pre class="example" id="org3338060">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25297,7 +25381,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org18783b5">
+<pre class="example" id="org008cdef">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25306,7 +25390,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org4f41260">
+<pre class="example" id="org9a83f44">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25325,7 +25409,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org46d1647">
+<pre class="example" id="org9193ce2">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
