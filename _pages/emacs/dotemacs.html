@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-24 08:46 +0200</b>.</li>
-<li>Word count: <b>144509</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-01-25 15:26 +0200</b>.</li>
+<li>Word count: <b>144748</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2809,7 +2809,8 @@ Any font I choose must conform with the following:
 
 <ul class="org-ul">
 <li>support Latin and Greek character sets;</li>
-<li>be readable at small sizes and look okay at large sizes;</li>
+<li>be readable at small sizes and look decent at large sizes (the smaller
+ones take precedence);</li>
 <li>offer both roman and italic variants, preferably with corresponding
 bold weights;</li>
 <li>not be too thin or at least have multiple weights from which to choose
@@ -2823,8 +2824,8 @@ identified with it; but "CORPORATION Sans" is not);</li>
 details or by exaggerating some glyph shapes;</li>
 <li>be equally readable against light and dark backdrops (for instance,
 bitmap fonts are not legible on a white background&#x2014;too bad because I
-really like Terminus);</li>
-<li>use the <code>*.ttf</code> spec which yields the best results on GNU/Linux.</li>
+really like what Terminus is trying to achieve);</li>
+<li>use the <code>*.ttf</code> spec which seems to yield the best results on GNU/Linux.</li>
 </ul>
 
 <p>
@@ -2836,17 +2837,49 @@ Getting it right is very difficult.
 
 <p>
 The only font I could use over the years was Hack, which builds on the
-skeleton of DejaVu Sans Mono.  Though there are issues with the default
-version of Hack which I do not like, such as the default shape of the
-zero and one numbers, the small shape of the backtick character&#x2026;
-Little things which keep annoying me.  My <a href="https://gitlab.com/protesilaos/hack-font-mod">custom build of Hack</a> uses some
-alternative glyphs from a variety of sources that alleviate most of
-those problems (though it obviously cannot alter the overall character
-of the typeface).
+skeleton of DejaVu Sans Mono.  Though there are issues with the upstream
+version of Hack which I do not like, such as the elongated mid dot
+inside the <code>0</code> and the pronounced hook at the top of the <code>1</code>, the small
+shape of the backtick character&#x2026;  Little things which keep annoying
+me.  My <a href="https://gitlab.com/protesilaos/hack-font-mod">custom build of Hack</a> uses some alternative glyphs from a variety
+of sources that alleviate most of those problems (though it obviously
+cannot alter the overall character of the typeface).
 </p>
 
 <p>
-Moving on to my configurations, <code>prot-fonts.el</code> covers my elaborate
+Another custom font of mine that you will find below is <a href="https://github.com/protesilaos/iosevka-comfy">Iosevka Comfy</a>
+which builds on top of the highly customisable Iosevka typeface.  My
+project's README delves into the differences between it and the base
+font:
+</p>
+
+<blockquote>
+<p>
+Iosevka Comfy is wider and more vertically compact than the standard
+upstream configuration.  Glyphs are rounder and have tailed ends or
+serifs wherever those are required to both impose an aesthetic rhythm
+and keep characters distinct from each other.  Roman and italic variants
+are made to look more consistent while retaining their stylistic
+features (e.g. the italics do not have calligraphic tendencies that
+greatly contrast with more rigid or straight roman shapes&#x2014;they still
+use carefully selected glyphs that are distinct from their roman
+counterparts albeit in more nuanced ways).
+</p>
+
+<p>
+The overall appearance of the typeface is optimised for small point
+sizes.  This informs the choice of certain glyphs such as 'D' with a top
+and bottom serif and a curved body to clearly differentiate it from the
+capital 'O', or an 'm' with a short middle leg to prevent the letter's
+lines from visually blending into a box-like shape (always referring to
+small point sizes).  For larger sizes, these details are not strictly
+necessary, though Iosevka Comfy should still look decent despite their
+presence.
+</p>
+</blockquote>
+
+<p>
+Moving on to my Elisp configurations, <code>prot-fonts.el</code> covers my advanced
 typeface requirements.  At its heart is <code>prot-fonts-typeface-sets-alist</code>.
 It contains associations of property lists (an alist of plists), each of
 which pertains to a give display type.  For example, when I am doing a
@@ -2870,7 +2903,7 @@ the font family, weight, and height.
 
 <p>
 <code>prot-fonts-fonts-per-monitor</code> is not useful with my current hardware, as
-I had designed it when I had a laptop (see <a href="#h:e134a8b2-224e-4383-bf03-b080ab6659c7">What hardware do you use?</a>).
+I designed it when I had a laptop (see <a href="#h:e134a8b2-224e-4383-bf03-b080ab6659c7">What hardware do you use?</a>).
 Still, the idea is interesting and I keep it around in case someone has
 a need for it.  It sets the appropriate font family and size depending
 on whether the maximum width of the monitor is below a certain threshold
@@ -2884,11 +2917,12 @@ As noted above, <code>prot-fonts-typeface-sets-alist</code> associates a list of
 typefaces with desired weights, including for their bold variation.
 This is useful when the active theme (e.g. <a href="#h:b7444e76-75d4-4ae6-a9d6-96ff9408efe6">my Modus themes</a>) is designed
 in a way that parameterises or abstracts the exact value of a bold
-weight, by calling <code>:inherit bold</code> instead of specifying <code>:weight bold</code>.
-The former applies the attributes of the <code>bold</code> face, whereas the latter
-sets the weight at a constant value.  When the theme is designed that
-way, we can configure the <code>:weight</code> of the <code>bold</code> face to, e.g., <code>extrabold</code>
-and have that propagate across all the faces that the theme defines.
+weight, by calling <code>:inherit bold</code> instead of specifying <code>:weight bold</code> for
+each face it controls.  The former applies the attributes of the <code>bold</code>
+face, whereas the latter sets the weight at a constant value.  When the
+theme is designed that way, we can configure the <code>:weight</code> of the <code>bold</code>
+face to, e.g., <code>extrabold</code> and have that propagate across all the
+supported faces at once.
 </p>
 
 <p>
@@ -2955,7 +2989,7 @@ Relevant publications of mine that are not part of this document:
   ;;
   ;; The version of "Hack" that I custom is a custom build on mine:
   ;; &lt;https://gitlab.com/protesilaos/hack-font-mod&gt;.  Same principle for
-  ;; Iosevka: &lt;https://gitlab.com/protesilaos/iosevka-comfy&gt;.
+  ;; Iosevka Comfy: &lt;https://gitlab.com/protesilaos/iosevka-comfy&gt;.
   (setq prot-fonts-typeface-sets-alist
         '((small . ( :fixed-pitch-family "Hack"
                      :fixed-pitch-regular-weight regular
@@ -2966,31 +3000,31 @@ Relevant publications of mine that are not part of this document:
                      :variable-pitch-height 1.05
                      :variable-pitch-regular-weight normal))
 
-          (regular . ( :fixed-pitch-family "Hack"
+          (regular . ( :fixed-pitch-family "Iosevka Comfy"
                        :fixed-pitch-regular-weight regular
-                       :fixed-pitch-heavy-weight bold
-                       :fixed-pitch-height 90
+                       :fixed-pitch-heavy-weight extrabold
+                       :fixed-pitch-height 100
                        :fixed-pitch-line-spacing nil
                        :variable-pitch-family "FiraGO"
-                       :variable-pitch-height 1.05
+                       :variable-pitch-height 1.0
                        :variable-pitch-regular-weight normal))
 
-          (large . ( :fixed-pitch-family "Hack"
-                     :fixed-pitch-regular-weight normal
-                     :fixed-pitch-heavy-weight bold
-                     :fixed-pitch-height 130
+          (large . ( :fixed-pitch-family "Iosevka Comfy"
+                     :fixed-pitch-regular-weight regular
+                     :fixed-pitch-heavy-weight extrabold
+                     :fixed-pitch-height 135
                      :fixed-pitch-line-spacing nil
                      :variable-pitch-family "FiraGO"
-                     :variable-pitch-height 1.05
+                     :variable-pitch-height 1.0
                      :variable-pitch-regular-weight normal))
 
-          (large-alt . ( :fixed-pitch-family "Iosevka Comfy"
-                         :fixed-pitch-regular-weight book
-                         :fixed-pitch-heavy-weight extrabold
-                         :fixed-pitch-height 135
+          (large-alt . ( :fixed-pitch-family "Hack"
+                         :fixed-pitch-regular-weight normal
+                         :fixed-pitch-heavy-weight bold
+                         :fixed-pitch-height 130
                          :fixed-pitch-line-spacing nil
-                         :variable-pitch-family "Noto Sans"
-                         :variable-pitch-height 1.0
+                         :variable-pitch-family "FiraGO"
+                         :variable-pitch-height 1.05
                          :variable-pitch-regular-weight normal))))
 
   ;; TODO 2021-08-27: I no longer have a laptop.  Those configurations
@@ -3208,7 +3242,7 @@ fonts, else nth 0, are applied."
   "History of inputs for display-related font associations.")
 
 (defun prot-fonts--set-fonts-prompt ()
-  "Promp for font set (used by `prot-fonts-set-fonts')."
+  "Prompt for font set (used by `prot-fonts-set-fonts')."
   (let ((def (nth 1 prot-fonts--font-display-hist)))
     (completing-read
      (format "Select font set for DISPLAY [%s]: " def)
@@ -3228,7 +3262,7 @@ fonts, else nth 0, are applied."
 DISPLAY is a symbol that represents the car of a cons cell in
 `prot-fonts-typeface-sets-alist'."
   (interactive (list (prot-fonts--set-fonts-prompt)))
-  (if window-system
+  (when window-system
       (let* ((fonts (if (stringp display) (intern display) display))
              (properties (alist-get fonts prot-fonts-typeface-sets-alist))
              (fixed-pitch-family (plist-get properties :fixed-pitch-family))
@@ -3249,8 +3283,7 @@ DISPLAY is a symbol that represents the car of a cons cell in
         (setq-default line-spacing fixed-pitch-line-spacing)
         (add-to-history 'prot-fonts--font-display-hist (format "%s" display))
         (setq prot-fonts--current-spec (format "%s" display))
-        (run-hooks 'prot-fonts-set-typeface-hook))
-    (error "Not running a graphical Emacs; cannot set fonts")))
+        (run-hooks 'prot-fonts-set-typeface-hook))))
 
 ;;;; Set default only
 
@@ -3384,7 +3417,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgb8aa1ce">
+<pre class="example" id="orge7e64d0">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3467,7 +3500,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgad70dc3">
+<pre class="example" id="org422e031">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6942,7 +6975,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org25c606c">
+<pre class="example" id="org4276979">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15638,7 +15671,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org4d274a5">
+<pre class="example" id="orgba37eac">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15650,7 +15683,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org10bb65b">
+<pre class="example" id="orgf6dc1fc">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15665,7 +15698,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org3703afb">
+<pre class="example" id="orgd18c4ac">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15683,7 +15716,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org0df4d6b">
+<pre class="example" id="orge30d5e3">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15712,7 +15745,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgfbdbf49">
+<pre class="example" id="org7c3400c">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15876,7 +15909,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org12bebd4">
+<pre class="example" id="orgd0ee4b0">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16603,7 +16636,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org17a25f8">
+<pre class="example" id="org97e7616">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16637,7 +16670,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgee6647c">
+<pre class="example" id="org0a866c1">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16801,7 +16834,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgc5466a9">
+<pre class="example" id="org60940ae">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16996,7 +17029,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgba1d94b">
+<pre class="example" id="org178f22d">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18224,7 +18257,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org5529536">
+<pre class="example" id="org4907ea6">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19288,7 +19321,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org3265f62">
+<pre class="example" id="orgfbbffc6">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19980,7 +20013,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org7995123">
+<pre class="example" id="org2a80822">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23129,7 +23162,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgc4d35fd">
+<pre class="example" id="orgc8e52eb">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24849,7 +24882,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org13c6937">
+<pre class="example" id="org6f1dd49">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25271,7 +25304,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org159577c">
+<pre class="example" id="org1d2298c">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25280,7 +25313,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org49f230c">
+<pre class="example" id="orgd53a4fd">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25305,7 +25338,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org8211326">
+<pre class="example" id="org6ab6dec">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25365,7 +25398,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgb0f8b5c">
+<pre class="example" id="orgd5d7bde">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25390,7 +25423,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org7dd8a79">
+<pre class="example" id="org4dc3c4f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25399,7 +25432,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orge3855b8">
+<pre class="example" id="orgbbc01e0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25418,7 +25451,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orga3bd794">
+<pre class="example" id="org53201d8">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
