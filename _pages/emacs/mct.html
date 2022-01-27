@@ -28,7 +28,7 @@ of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.4.0, released on 2022-01-19.  Any reference to a newer
+0.4.2, released on 2022-01-21.  Any reference to a newer
 feature which does not yet form part of the latest tagged commit, is
 explicitly marked as such.
 </p>
@@ -62,31 +62,36 @@ Current development target is 0.5.0-dev.
 </ul>
 </li>
 <li><a href="#h:318ba6f8-2909-44b0-9bed-558552722667">5. Sample setup</a></li>
-<li><a href="#h:b3178edd-f340-444c-8426-fe84f23ac9ea">6. Keymaps</a>
+<li><a href="#h:acfb63f4-c2ae-46ff-a840-9c9a6350e567">6. Known issues and workarounds</a>
 <ul>
-<li><a href="#h:de19a74f-e305-4311-a9fe-2905bc5e06a0">6.1. The use of remap for key bindings</a></li>
+<li><a href="#h:ee6aa793-3129-4cf0-8138-1224b6052546">6.1. Avoid global-hl-line-mode in the Completions</a></li>
 </ul>
 </li>
-<li><a href="#h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">7. User-level tweaks or custom code</a>
+<li><a href="#h:b3178edd-f340-444c-8426-fe84f23ac9ea">7. Keymaps</a>
 <ul>
-<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">7.1. MCT in the current or the other window</a></li>
+<li><a href="#h:de19a74f-e305-4311-a9fe-2905bc5e06a0">7.1. The use of remap for key bindings</a></li>
 </ul>
 </li>
-<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">8. Extensions</a>
+<li><a href="#h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">8. User-level tweaks or custom code</a>
 <ul>
-<li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">8.1. Enable Consult previews</a></li>
-<li><a href="#h:9b19911c-1dd7-4d4c-b513-feb77237e156">8.2. Avoid conflict between MCT and Corfu</a></li>
+<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">8.1. MCT in the current or the other window</a></li>
 </ul>
 </li>
-<li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">9. Alternatives</a></li>
-<li><a href="#h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">10. Acknowledgements</a></li>
-<li><a href="#h:32f474f2-f596-4a7e-a0da-023344136be1">11. Official sources</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">12. GNU Free Documentation License</a></li>
-<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">13. Indices</a>
+<li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">9. Extensions</a>
 <ul>
-<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">13.1. Function index</a></li>
-<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">13.2. Variable index</a></li>
-<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">13.3. Concept index</a></li>
+<li><a href="#h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">9.1. Enable Consult previews</a></li>
+<li><a href="#h:9b19911c-1dd7-4d4c-b513-feb77237e156">9.2. Avoid conflict between MCT and Corfu</a></li>
+</ul>
+</li>
+<li><a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">10. Alternatives</a></li>
+<li><a href="#h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">11. Acknowledgements</a></li>
+<li><a href="#h:32f474f2-f596-4a7e-a0da-023344136be1">12. Official sources</a></li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">13. GNU Free Documentation License</a></li>
+<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">14. Indices</a>
+<ul>
+<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">14.1. Function index</a></li>
+<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">14.2. Variable index</a></li>
+<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">14.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -298,7 +303,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orge88552b">
+<pre class="example" id="org8249587">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -524,7 +529,7 @@ interaction is below the current buffer (as opposed to the bottom of the
 frame for <code>mct-minibuffer-mode</code>).  It looks like this:
 </p>
 
-<pre class="example" id="orgce7504d">
+<pre class="example" id="org5cc81be">
 ------------------------
 |               |      |
 | Current buffer| Buf  |
@@ -557,16 +562,6 @@ out of the <code>*Completions*</code>.
 <p>
 To cancel in-buffer completion, type <code>C-g</code> either before switching to the
 Completions&rsquo; buffer or while inside of it.
-</p>
-
-<p>
-The only customization option for <code>mct-region-mode</code> pertains to the
-presentation of the <code>*Completions*</code>: <code>mct-region-completions-format</code>.  By
-default, it uses the same style as <code>mct-completions-format</code>, though it can
-be configured to, for example, display candidates in a grid with either
-of the <code>horizontal</code> or <code>vertical</code> values (on Emacs 27, candidates are always
-displayed in a grid, as the <code>one-column</code> layout was introduced in Emacs
-28).
 </p>
 </div>
 </div>
@@ -775,8 +770,37 @@ Other useful extras from the Emacs source code (read their doc strings):
 </div>
 </div>
 
+<div id="outline-container-h:acfb63f4-c2ae-46ff-a840-9c9a6350e567" class="outline-2">
+<h2 id="h:acfb63f4-c2ae-46ff-a840-9c9a6350e567"><span class="section-number-2">6.</span> Known issues and workarounds</h2>
+<div class="outline-text-2" id="text-h:acfb63f4-c2ae-46ff-a840-9c9a6350e567">
+<p>
+This section documents known issues and how to address them.
+</p>
+</div>
+
+<div id="outline-container-h:ee6aa793-3129-4cf0-8138-1224b6052546" class="outline-3">
+<h3 id="h:ee6aa793-3129-4cf0-8138-1224b6052546"><span class="section-number-3">6.1.</span> Avoid global-hl-line-mode in the Completions</h3>
+<div class="outline-text-3" id="text-h:ee6aa793-3129-4cf0-8138-1224b6052546">
+<p>
+MCT uses its own overlay to highlight the candidate at point.  To ensure
+that it does not interfere with the optional stripes (provided by the
+user option <code>mct-apply-completion-stripes</code>) the highlight&rsquo;s priority is
+set to a custom value.  This, in turn, means that when the user enables
+<code>global-hl-line-mode</code>, its highlighted line takes precedence over the MCT
+highlight.  The solution to this conflict is to disable the hl-line
+locally for the <code>*Completions*</code> buffer like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'completion-list-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:b3178edd-f340-444c-8426-fe84f23ac9ea" class="outline-2">
-<h2 id="h:b3178edd-f340-444c-8426-fe84f23ac9ea"><span class="section-number-2">6.</span> Keymaps</h2>
+<h2 id="h:b3178edd-f340-444c-8426-fe84f23ac9ea"><span class="section-number-2">7.</span> Keymaps</h2>
 <div class="outline-text-2" id="text-h:b3178edd-f340-444c-8426-fe84f23ac9ea">
 <p>
 MCT defines its own keymaps, which extend those that are active in the
@@ -803,7 +827,7 @@ same as above, minus the <code>mct-</code> prefix).
 </div>
 
 <div id="outline-container-h:de19a74f-e305-4311-a9fe-2905bc5e06a0" class="outline-3">
-<h3 id="h:de19a74f-e305-4311-a9fe-2905bc5e06a0"><span class="section-number-3">6.1.</span> The use of remap for key bindings</h3>
+<h3 id="h:de19a74f-e305-4311-a9fe-2905bc5e06a0"><span class="section-number-3">7.1.</span> The use of remap for key bindings</h3>
 <div class="outline-text-3" id="text-h:de19a74f-e305-4311-a9fe-2905bc5e06a0">
 <p>
 MCT tries not to hardcode key bindings in order to respect user
@@ -877,7 +901,7 @@ explicit key binding:
 </div>
 
 <div id="outline-container-h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b" class="outline-2">
-<h2 id="h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b"><span class="section-number-2">7.</span> User-level tweaks or custom code</h2>
+<h2 id="h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b"><span class="section-number-2">8.</span> User-level tweaks or custom code</h2>
 <div class="outline-text-2" id="text-h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">
 <p>
 In this section we cover custom code that builds on what MCT offers.
@@ -885,7 +909,7 @@ In this section we cover custom code that builds on what MCT offers.
 </div>
 
 <div id="outline-container-h:891c7841-9cdc-42df-bba9-45f7409b807c" class="outline-3">
-<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">7.1.</span> MCT in the current or the other window</h3>
+<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">8.1.</span> MCT in the current or the other window</h3>
 <div class="outline-text-3" id="text-h:891c7841-9cdc-42df-bba9-45f7409b807c">
 <p>
 Over at the <a href="https://git.sr.ht/~abcdw/rde">rde project</a>, Andrew Tropin configures MCT to display the
@@ -963,7 +987,7 @@ buffer should be displayed in other window use least recent one."
 </div>
 
 <div id="outline-container-h:03227254-d467-4147-b8cf-2fe05a2e279b" class="outline-2">
-<h2 id="h:03227254-d467-4147-b8cf-2fe05a2e279b"><span class="section-number-2">8.</span> Extensions</h2>
+<h2 id="h:03227254-d467-4147-b8cf-2fe05a2e279b"><span class="section-number-2">9.</span> Extensions</h2>
 <div class="outline-text-2" id="text-h:03227254-d467-4147-b8cf-2fe05a2e279b">
 <p>
 MCT only tweaks the default minibuffer.  To get more out of it, consider
@@ -1013,7 +1037,7 @@ by packages that visualise <code>completion-in-region</code> such as Corfu and M
 </div>
 
 <div id="outline-container-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62" class="outline-3">
-<h3 id="h:85268cb1-9d49-452c-ba5f-c9215d4b8b62"><span class="section-number-3">8.1.</span> Enable Consult previews</h3>
+<h3 id="h:85268cb1-9d49-452c-ba5f-c9215d4b8b62"><span class="section-number-3">9.1.</span> Enable Consult previews</h3>
 <div class="outline-text-3" id="text-h:85268cb1-9d49-452c-ba5f-c9215d4b8b62">
 <p>
 One of the nice features of the Consult package is the ability to
@@ -1029,7 +1053,7 @@ preview the candidate at point.  All we need to enable it in the
 </div>
 
 <div id="outline-container-h:9b19911c-1dd7-4d4c-b513-feb77237e156" class="outline-3">
-<h3 id="h:9b19911c-1dd7-4d4c-b513-feb77237e156"><span class="section-number-3">8.2.</span> Avoid conflict between MCT and Corfu</h3>
+<h3 id="h:9b19911c-1dd7-4d4c-b513-feb77237e156"><span class="section-number-3">9.2.</span> Avoid conflict between MCT and Corfu</h3>
 <div class="outline-text-3" id="text-h:9b19911c-1dd7-4d4c-b513-feb77237e156">
 <p>
 Daniel Mendler&rsquo;s <code>corfu</code> package provides an alternative to the
@@ -1055,7 +1079,7 @@ files to avoid any potential trouble when using commands such as
 </div>
 
 <div id="outline-container-h:c9ddedea-e279-4233-94dc-f8d32367a954" class="outline-2">
-<h2 id="h:c9ddedea-e279-4233-94dc-f8d32367a954"><span class="section-number-2">9.</span> Alternatives</h2>
+<h2 id="h:c9ddedea-e279-4233-94dc-f8d32367a954"><span class="section-number-2">10.</span> Alternatives</h2>
 <div class="outline-text-2" id="text-h:c9ddedea-e279-4233-94dc-f8d32367a954">
 <p>
 In the grand scheme of things, it may be helpful to think of MCT as
@@ -1189,7 +1213,7 @@ the built-in infrastructure.
 </div>
 
 <div id="outline-container-h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192" class="outline-2">
-<h2 id="h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192"><span class="section-number-2">10.</span> Acknowledgements</h2>
+<h2 id="h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192"><span class="section-number-2">11.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:e2f73255-55f1-4f4c-8d8b-99c9a4a83192">
 <p>
 MCT is meant to be a collective effort.  Every bit of help matters.
@@ -1204,7 +1228,8 @@ Kaludercic.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Andrew Tropin, Benjamin (@zealotrush), Case
 Duckworth, Jonathan Irving, José Antonio Ortega Ruiz, Kostadin Ninev,
-Manuel Uberti, Philip Kaludercic, Theodor Thornhill, Z.Du.</dd>
+Manuel Uberti, Philip Kaludercic, Theodor Thornhill, Tomasz
+Hołubowicz, Z.Du.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
@@ -1214,7 +1239,7 @@ authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>e
 </div>
 
 <div id="outline-container-h:32f474f2-f596-4a7e-a0da-023344136be1" class="outline-2">
-<h2 id="h:32f474f2-f596-4a7e-a0da-023344136be1"><span class="section-number-2">11.</span> Official sources</h2>
+<h2 id="h:32f474f2-f596-4a7e-a0da-023344136be1"><span class="section-number-2">12.</span> Official sources</h2>
 <div class="outline-text-2" id="text-h:32f474f2-f596-4a7e-a0da-023344136be1">
 <dl class="org-dl">
 <dt>Manual</dt><dd><a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a></dd>
@@ -1225,7 +1250,7 @@ authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>e
 </div>
 
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">12.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">13.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -1686,24 +1711,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
-<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">13.</span> Indices</h2>
+<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">14.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
 
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
-<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">13.1.</span> Function index</h3>
+<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">14.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
 
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
-<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">13.2.</span> Variable index</h3>
+<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">14.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
 
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
-<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">13.3.</span> Concept index</h3>
+<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">14.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
 -->
 </div>
