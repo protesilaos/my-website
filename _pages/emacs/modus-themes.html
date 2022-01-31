@@ -1438,13 +1438,13 @@ completion UI.  The interfaces can be grouped in two categories, based
 on their default aesthetics: (i) those that only or mostly use
 foreground colors for their interaction model, and (ii) those that
 combine background and foreground values for some of their metaphors.
-The former category encompasses Icomplete, Ido, Selectrum, Vertico, as
-well as pattern matching styles like Orderless and Flx.  The latter
+The former category encompasses Icomplete, Ido, Selectrum, Vertico, Mct,
+as well as pattern matching styles like Orderless and Flx.  The latter
 covers Helm and Ivy.
 </p>
 
 <p>
-A value of <code>nil</code> (the default) will simply respect the metaphors of each
+A value of nil (the default) will simply respect the metaphors of each
 completion framework.
 </p>
 
@@ -1452,22 +1452,22 @@ completion framework.
 Option <code>moderate</code> applies a combination of background and foreground that
 is fairly subtle.  For Icomplete and friends this constitutes a
 departure from their default aesthetics, however the difference is
-small.  While Helm, Ivy et al.appear slightly different than
-their original looks, as they are toned down a bit.
+small.  While Helm and Ivy appear slightly different than their original
+looks, as they are toned down a bit.
 </p>
 
 <p>
 Option <code>opinionated</code> uses color combinations that refashion the completion
 UI.  For the Icomplete camp this means that intense background and
-foreground combinations are used: in effect their looks emulate those of
-Helm, Ivy and co.in their original style.  Whereas the other
-group of packages will revert to an even more nuanced aesthetic with
-some additional changes to the choice of hues.
+foreground combinations are used: in effect their looks approximate
+those of Helm and Ivy in their original style.  Whereas the other group
+of packages will revert to an even more nuanced aesthetic with some
+additional changes to the choice of hues.
 </p>
 
 <p>
 To appreciate the scope of this customization option, you should spend
-some time with every one of the <code>nil</code> (default), <code>moderate</code>, and <code>opinionated</code>
+some time with every one of the nil (default), <code>moderate</code>, and <code>opinionated</code>
 possibilities.
 </p>
 </div>
@@ -4174,7 +4174,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgd274a11">
+<pre class="example" id="org42a6c45">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4292,15 +4292,22 @@ at something like the following, which builds on the above example:
       (pdf-view-midnight-minor-mode -1))
     (my-pdf-tools-backdrop)))
 
+(defun my-pdf-tools-themes-toggle ()
+  (mapc
+   (lambda (buf)
+     (with-current-buffer buf
+       (my-pdf-tools-midnight-mode-toggle)))
+   (buffer-list)))
+
 (add-hook 'pdf-tools-enabled-hook #'my-pdf-tools-midnight-mode-toggle)
-(add-hook 'modus-themes-after-load-theme-hook #'my-pdf-tools-midnight-mode-toggle)
+(add-hook 'modus-themes-after-load-theme-hook #'my-pdf-tools-themes-toggle)
 </pre>
 </div>
 
 <p>
 With those in place, PDFs have a distinct backdrop for their page, while
-they automatically switch to their dark mode when <code>modus-themes-toggle</code> is
-called from inside a buffer whose major-mode is <code>pdf-view-mode</code>.
+buffers with major-mode as <code>pdf-view-mode</code> automatically switches to dark
+mode when <code>modus-themes-toggle</code> is called.
 </p>
 </div>
 </div>
@@ -4741,6 +4748,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>marginalia</li>
 <li>markdown-mode</li>
 <li>markup-faces (<code>adoc-mode</code>)</li>
+<li>mct</li>
 <li>mentor</li>
 <li>messages</li>
 <li>minimap</li>
@@ -5861,7 +5869,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgc7a159f">
+<pre class="example" id="orgfa28b48">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5906,7 +5914,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org8d9d626">
+<pre class="example" id="org8bb2a10">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6276,7 +6284,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org77ab912">
+<pre class="example" id="org1f414a2">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6339,7 +6347,7 @@ Zancanaro, Christian Tietze, Daniel Mendler, Eli Zaretskii, Fritz
 Grabo, Illia Ostapyshyn, Kévin Le Gouguec, Kostadin Ninev, Madhavan
 Krishnan, Markus Beppler, Matthew Stevenson, Mauro Aranda, Nicolas De
 Jaeghere, Philip Kaludercic, Rudolf Adamkovič, Stephen Gildea, Shreyas
-Ragavan, Stefan Kangas, Vincent Murphy, Xinglu Chen.</dd>
+Ragavan, Stefan Kangas, Utkarsh Singh, Vincent Murphy, Xinglu Chen.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Aaron Jensen, Adam Porter, Adam Spiers,
 Adrian Manea, Alex Griffin, Alex Koen, Alex Peitsinis, Alexey Shmalko,
@@ -6352,16 +6360,17 @@ Agbobada, Gianluca Recchia, Guilherme Semente, Gustavo Barros,
 Hörmetjan Yiltiz, Ilja Kocken, Iris Garcia, Jeremy Friesen, Jerry
 Zhang, Johannes Grødem, John Haman, Joshua O&rsquo;Connor, Kevin Fleming,
 Kévin Le Gouguec, Kostadin Ninev, Len Trigg, Magne Hov, Manuel Uberti,
-Mark Burton, Markus Beppler, Mauro Aranda, Michael Goldenberg, Morgan
-Smith, Murilo Pereira, Nicky van Foreest, Nicolas De Jaeghere, Paul
-Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic,
-Pierre Téchoueyres, Roman Rudakov, Ryan Phillips, Rudolf Adamkovič,
-Sam Kleinman, Shreyas Ragavan, Simon Pugnet, Tassilo Horn, Thibaut
-Verron, Thomas Heartman, Togan Muftuoglu, Trey Merkley, Tomasz
-Hołubowicz, Toon Claes, Uri Sharf, Utkarsh Singh, Vincent Foley.  As
-well as users: Ben, CsBigDataHub1, Emacs Contrib, Eugene, Fourchaux,
-Fredrik, Moesasji, Nick, TheBlob42, Trey, bepolymathe, bit9tream,
-doolio, fleimgruber, iSeeU, jixiuf, okamsn, pRot0ta1p.</dd>
+Mark Bestley, Mark Burton, Markus Beppler, Mauro Aranda, Michael
+Goldenberg, Morgan Smith, Murilo Pereira, Nicky van Foreest, Nicolas
+De Jaeghere, Paul Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu,
+Philip Kaludercic, Pierre Téchoueyres, Roman Rudakov, Ryan Phillips,
+Rudolf Adamkovič, Saša Janiška, Sam Kleinman, Shreyas Ragavan, Simon
+Pugnet, Tassilo Horn, Thibaut Verron, Thomas Heartman, Togan
+Muftuoglu, Trey Merkley, Tomasz Hołubowicz, Toon Claes, Uri Sharf,
+Utkarsh Singh, Vincent Foley.  As well as users: Ben, CsBigDataHub1,
+Emacs Contrib, Eugene, Fourchaux, Fredrik, Moesasji, Nick, TheBlob42,
+Trey, bepolymathe, bit9tream, doolio, fleimgruber, iSeeU, jixiuf,
+okamsn, pRot0ta1p.</dd>
 
 <dt>Packaging</dt><dd>Basil L. Contovounesios, Eli Zaretskii, Glenn
 Morris, Mauro Aranda, Richard Stallman, Stefan Kangas (core Emacs),
