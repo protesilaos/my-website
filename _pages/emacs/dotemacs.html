@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-26 09:56 +0200</b>.</li>
-<li>Word count: <b>144114</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-01-31 16:11 +0200</b>.</li>
+<li>Word count: <b>146235</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2679,9 +2679,9 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts '(bold italic)
+        modus-themes-prompts '(background)
 
-        modus-themes-completions nil ; {nil,'moderate,'opinionated}
+        modus-themes-completions 'opinionated ; {nil,'moderate,'opinionated}
 
         modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
@@ -3427,7 +3427,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org692160f">
+<pre class="example" id="org316c8f2">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3510,7 +3510,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org410711c">
+<pre class="example" id="org1f313dd">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4055,21 +4055,23 @@ results I am most likely interested in, based on previous selections.
 ;; Source: &lt;https://gitlab.com/protesilaos/mct.el&gt;.
 ;; Manual: &lt;https://protesilaos.com/emacs/mct&gt;.
 (prot-emacs-builtin-package 'mct
+  (setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
   (setq mct-remove-shadowed-file-names t) ; when `file-name-shadow-mode' is enabled
   (setq mct-hide-completion-mode-line t)
   (setq mct-show-completion-line-numbers nil)
   (setq mct-apply-completion-stripes nil)
   (setq mct-minimum-input 3)
   (setq mct-live-update-delay 0.6)
-  (setq mct-completion-blocklist nil)
   (setq mct-completion-passlist
-        '( embark-prefix-help-command Info-goto-node
-           Info-index Info-menu vc-retrieve-tag
-           prot-bookmark-cd-bookmark
-           prot-bongo-playlist-insert-playlist-file
-           project-switch-to-buffer))
+        '(;; Accepts symbols of commands like these:
+          embark-prefix-help-command vc-retrieve-tag
+          prot-bongo-playlist-insert-playlist-file
+          Info-goto-node
+          ;; Or completion categories:
+          kill-ring bookmark buffer consult-location
+          info-menu file imenu))
+  (setq mct-completion-blocklist nil) ; Same principle as `mct-completion-passlist'
   (setq mct-completions-format 'one-column)
-  (setq mct-region-completions-format mct-completions-format)
 
   ;; You can place the Completions' buffer wherever you want, by
   ;; following the syntax of `display-buffer-alist' (check elsewhere in
@@ -4135,15 +4137,36 @@ And here is <code>mct.el</code> (from <a href="https://gitlab.com/protesilaos/do
   "Extensions for the minibuffer."
   :group 'minibuffer)
 
-(defcustom mct-completion-windows-regexp
-  "\\`\\*Completions.*\\*\\'"
-  "Regexp to match window names with completion candidates.
-Used by `mct--get-completion-window'."
-  :type 'string
+(make-obsolete 'mct-completion-windows-regexp 'mct--completions-window-name "0.5.0")
+
+(defcustom mct-completion-window-size (cons #'mct--frame-height-fraction 1)
+  "Set the maximum and minimum height of the Completions' buffer.
+
+The value is a cons cell in the form of (max-height . min-height)
+where each value is either a natural number or a function which
+returns such a number.
+
+The default maximum height of the window is calculated by the
+function `mct--frame-height-fraction', which finds the closest
+round number to 1/3 of the frame's height.  While the default
+minimum height is 1.  This means that during live completions the
+Completions' window will shrink or grow to show candidates within
+the specified boundaries.  To disable this bouncing effect, set
+both max-height and min-height to the same number.
+
+If nil, do not try to fit the Completions' buffer to its window.
+
+Also see `mct-live-completion'."
+  :type '(choice (const :tag "Disable size constraints" nil)
+                 (cons
+                  (choice (function :tag "Function to determine maximum height")
+                          (natnum :tag "Maximum height in number of lines"))
+                  (choice (function :tag "Function to determine minimum height")
+                          (natnum :tag "Minimum height in number of lines"))))
   :group 'mct)
 
 (defcustom mct-remove-shadowed-file-names nil
-  "Delete shadowed parts of file names.
+  "Delete shadowed parts of file names from the minibuffer.
 
 For example, if the user types ~/ after a long path name,
 everything preceding the ~/ is removed so the interactive
@@ -4154,7 +4177,7 @@ Only works when variable `file-name-shadow-mode' is non-nil."
   :group 'mct)
 
 (defcustom mct-hide-completion-mode-line nil
-  "Do not show a mode line in the Completions' buffer."
+  "When non-nil, do not show the Completions' buffer mode line."
   :type 'boolean
   :group 'mct)
 
@@ -4164,7 +4187,7 @@ Only works when variable `file-name-shadow-mode' is non-nil."
   :group 'mct)
 
 (defcustom mct-apply-completion-stripes nil
-  "Display alternating backgrounds the Completions' buffer."
+  "When non-nil, use alternating backgrounds in the Completions."
   :type 'boolean
   :group 'mct)
 
@@ -4189,13 +4212,15 @@ automatically displayed once the `mct-minimum-input' is met and
 is hidden if the input drops below that threshold.  While
 visible, the buffer is updated live to match the user's input.
 
-Note that every function in the `mct-completion-passlist' ignores
-this option altogether.  This means that every such command will
-always show the Completions' buffer automatically and will always
-update its contents live.  Same principle for every function
-declared in the `mct-completion-blocklist', which will always
+Note that every command or completion category in the
+`mct-completion-passlist' ignores this option altogether.  This
+means that every such symbol will always show the Completions'
+buffer automatically and will always update its contents live.
+Same principle for `mct-completion-blocklist', which will always
 disable both the automatic display and live updating of the
-Completions' buffer."
+Completions' buffer.
+
+Also see `mct-completion-window-size'."
   :type '(choice
           (const :tag "Disable live-updating" nil)
           (const :tag "Enable live-updating" t)
@@ -4212,13 +4237,20 @@ number of candidates that are being computed."
 
 (defcustom mct-live-update-delay 0.3
   "Delay in seconds before updating the Completions' buffer.
+Set this to 0 to disable the delay.
 
-Set this to 0 to disable the delay."
+This applies in all cases covered by `mct-live-completion'."
   :type 'number
   :group 'mct)
 
 (defcustom mct-completion-blocklist nil
-  "Functions that disable live completions.
+  "List of symbols where live completions are outright disabled.
+
+The value of this user option is a list of symbols.  Those can
+refer to commands like `find-file' or completion categories such
+as `file', `buffer', or what other packages define like Consult's
+`consult-location' category.
+
 This means that they ignore `mct-live-completion'.  They do not
 automatically display the Completions' buffer, nor do they update
 it to match user input.
@@ -4227,16 +4259,26 @@ The Completions' buffer can still be accessed with commands that
 place it in a window (such as `mct-list-completions-toggle',
 `mct-switch-to-completions-top').
 
-A less drastic measure is to set `mct-minimum-input' to an
-appropriate value."
+Perhaps a less drastic measure is to set `mct-minimum-input' to
+an appropriate value.  Or better use `mct-completion-passlist'.
+
+Read the manual for known completion categories."
   :type '(repeat symbol)
   :group 'mct)
 
 (defcustom mct-completion-passlist nil
-  "Functions that do live updating of completions from the start.
+  "List of symbols where live completions are always enabled.
+
+The value of this user option is a list of symbols.  Those can
+refer to commands like `find-file' or completion categories such
+as `file', `buffer', or what other packages define like Consult's
+`consult-location' category.
+
 This means that they ignore the value of `mct-live-completion'
 and the `mct-minimum-input'.  They also bypass any possible delay
-introduced by `mct-live-update-delay'."
+introduced by `mct-live-update-delay'.
+
+Read the manual for known completion categories."
   :type '(repeat symbol)
   :group 'mct)
 
@@ -4265,24 +4307,61 @@ and/or the documentation string of `display-buffer'."
   :group 'mct)
 
 (defcustom mct-completions-format 'one-column
-  "The Completions' appearance used by `mct-minibuffer-mode'.
+  "Set the presentation of candidates in the Completions' buffer.
 See `completions-format' for possible values."
   :type '(choice (const horizontal) (const vertical) (const one-column))
   :group 'mct)
 
-(defcustom mct-region-completions-format mct-completions-format
-  "The Completions' appearance used by `mct-region-mode'.
-See `completions-format' for possible values.
+(make-obsolete 'mct-region-completions-format 'mct-completions-format "0.5.0")
 
-This is like `mct-completions-format' when performing in-buffer
-completion."
-  :type '(choice (variable :tag "Inherit value of `mct-completions-format'" mct-completions-format)
-                 (const horizontal)
-                 (const vertical)
-                 (const one-column))
+(defcustom mct-persist-dynamic-completion t
+  "When non-nil, keep dynamic completion live.
+
+Without any intervention from MCT, the default Emacs behavior for
+commands such as `find-file' or for a `file' completion category
+is to hide the `*Completions*' buffer after updating the list of
+candidates in a non-exiting fashion (e.g. select a directory and
+expect to continue typing the path).  This, however, runs
+contrary to the interaction model of MCT when it performs live
+completions, because the user expects the Completions' buffer to
+remain visible while typing out the path to the file.
+
+When this user option is non-nil (the default) it makes all
+non-exiting commands keep the `*Completions*' visible when
+updating the list of candidates.
+
+This applies to prompts in the `file' completion category
+whenever the user selects a candidate with
+`mct-choose-completion-no-exit', `mct-edit-completion',
+`minibuffer-complete', `minibuffer-force-complete' (i.e. any
+command that does not exit the minibuffer).
+
+The two exceptions are (i) when the current completion session
+runs a command or category that is blocked by the
+`mct-completion-blocklist' or (ii) the user option
+`mct-live-completion' is nil.
+
+The underlying rationale:
+
+Most completion commands present a flat list of candidates to
+choose from.  Picking a candidate concludes the session.  Some
+prompts, however, can recalculate the list of completions based
+on the selected candidate.  A case in point is `find-file' (or
+any command with the `file' completion category) which
+dynamically adjusts the completions to show only the elements
+which extend the given file system path.  We call such cases
+\"dynamic completion\".  Due to their particular nature, these
+need to be handled explicitly.  The present user option is
+provided primarily to raise awareness about this state of
+affairs."
+  :type 'boolean
   :group 'mct)
 
 ;;;; Completion metadata
+
+(defun mct--this-command ()
+  "Return this command."
+  (or (bound-and-true-p current-minibuffer-command) this-command))
 
 (defun mct--completion-category ()
   "Return completion category."
@@ -4296,18 +4375,36 @@ completion."
                             minibuffer-completion-predicate)
        'category))))
 
+(defun mct--symbol-in-list (list)
+  "Test if command or category is in LIST."
+  (or (memq (mct--this-command) list)
+      (memq (mct--completion-category) list)))
+
+(defun mct--passlist-p ()
+  "Return non-nil if symbol is in the `mct-completion-passlist'."
+  (or (memq (mct--this-command) mct-completion-passlist)
+      (memq (mct--completion-category) mct-completion-passlist)))
+
+(defun mct--blocklist-p ()
+  "Return non-nil if symbol is in the `mct-completion-blocklist'."
+  (or (memq (mct--this-command) mct-completion-blocklist)
+      (memq (mct--completion-category) mct-completion-blocklist)))
+
+;; Normally we would also include `imenu', but it has its own defcustom
+;; for popping up the Completions eagerly...  Let's not interfere with
+;; that.
+;;
+;; See bug#52389: &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=52389&gt;.
+(defvar mct--dynamic-completion-categories '(file)
+  "Completion categories that perform dynamic completion.")
+
 ;;;; Basics of intersection between minibuffer and Completions' buffer
 
 (define-obsolete-variable-alias
   'mct-hl-line 'mct-highlight-candidate "0.3.0")
 
 (defface mct-highlight-candidate
-  '((default :extend t)
-    (((class color) (min-colors 88) (background light))
-     :background "#b0d8ff" :foreground "#000000")
-    (((class color) (min-colors 88) (background dark))
-     :background "#103265" :foreground "#ffffff")
-    (t :inherit highlight))
+  '((t :inherit highlight :extend t))
   "Face for current candidate in the completions' buffer."
   :group 'mct)
 
@@ -4326,7 +4423,7 @@ completion."
 
 ;; Thanks to Omar Antolín Camarena for recommending the use of
 ;; `cursor-sensor-functions' and the concomitant hook with
-;; `cursor-censor-mode' instead of the dirty hacks I had before to
+;; `cursor-sensor-mode' instead of the dirty hacks I had before to
 ;; prevent the cursor from moving to that position where no completion
 ;; candidates could be found at point (e.g. it would break `embark-act'
 ;; as it could not read the topmost candidate when point was at the
@@ -4346,12 +4443,27 @@ completion."
                                  (goto-char prev))))))
         (put-text-property (point-min) (point) 'invisible t)))))
 
+(defun mct--frame-height-fraction ()
+  "Return round number of 1/3 of `frame-height'.
+Can be used in `mct-completion-window-size'."
+  (floor (frame-height) 3))
+
+(defun mct--height (param)
+  "Return height of PARAM in number of lines."
+  (cond
+   ((natnump param) param)
+   ((functionp param) (funcall param))
+   ;; There is no compelling reason to fall back to 5.  It just feels
+   ;; like a reasonable small value...
+   (t 5)))
+
 (defun mct--fit-completions-window (&amp;rest _args)
   "Fit Completions' buffer to its window."
-  (when-let ((window (mct--get-completion-window)))
-    (with-current-buffer (window-buffer window)
-      (setq-local window-resize-pixelwise t))
-    (fit-window-to-buffer window (floor (frame-height) 2) 1)))
+  (when-let* ((window (mct--get-completion-window))
+              (size mct-completion-window-size)
+              (max (car size))
+              (min (cdr size)))
+    (fit-window-to-buffer window (mct--height max) (mct--height min))))
 
 (defun mct--minimum-input ()
   "Test for minimum requisite input for live completions.
@@ -4359,6 +4471,9 @@ See `mct-minimum-input'."
   (&gt;= (- (point-max) (minibuffer-prompt-end)) mct-minimum-input))
 
 ;;;;; Live-updating Completions' buffer
+
+(defvar mct--completions-window-name "\\`\\*Completions.*\\*\\'"
+  "Regexp to match window names with completion candidates.")
 
 ;; Adapted from Omar Antolín Camarena's live-completions library:
 ;; &lt;https://github.com/oantolin/live-completions&gt;.
@@ -4399,20 +4514,16 @@ Meant to be added to `after-change-functions'."
                           nil #'mct--live-completions-refresh-immediately))
       (mct--live-completions-refresh-immediately))))
 
-(defun mct--this-command ()
-  "Return this command."
-  (or (bound-and-true-p current-minibuffer-command) this-command))
-
 (defun mct--setup-live-completions ()
   "Set up the completions' buffer."
   (cond
    ((null mct-live-completion))
-   ((memq (mct--this-command) mct-completion-passlist)
+   ((mct--passlist-p)
     (setq-local mct-minimum-input 0)
     (setq-local mct-live-update-delay 0)
     (mct--show-completions)
     (add-hook 'after-change-functions #'mct--live-completions-refresh nil t))
-   ((not (memq (mct--this-command) mct-completion-blocklist))
+   ((not (mct--blocklist-p))
     (add-hook 'after-change-functions #'mct--live-completions-refresh nil t))))
 
 (defvar-local mct--active nil
@@ -4444,7 +4555,7 @@ Apply APP by first let binding the `completions-format' to
 Apply APP by first let binding the `completions-format' to
 `mct-completions-format'."
   (if (mct--region-p)
-      (let ((completions-format mct-region-completions-format))
+      (let ((completions-format mct-completions-format))
         (apply app)
         (mct--fit-completions-window))
     (apply app)))
@@ -4523,20 +4634,11 @@ Apply APP by first setting up the minibuffer to work with Mct."
 ;; (declare-function prop-match-beginning "text-property-search" (cl-x))
 ;; (declare-function prop-match-end "text-property-search" (cl-x))
 
-
-
-;; FIXME 2022-01-21: The line highlight does not :extend for
-;; mct-region-mode when using the one-column style.
-
 ;; We need this to make things work on Emacs 27.
 (defun mct--one-column-p ()
   "Test if we have a one-column view available."
-  (when (&gt;= emacs-major-version 28)
-    (cond
-     ((mct--region-p)
-      (eq mct-region-completions-format 'one-column))
-     ((mct--minibuffer-p)
-      (eq mct-completions-format 'one-column)))))
+  (and (eq mct-completions-format 'one-column)
+       (&gt;= emacs-major-version 28)))
 
 ;;;;; Focus minibuffer and/or show completions
 
@@ -4552,13 +4654,13 @@ Apply APP by first setting up the minibuffer to work with Mct."
   (get-window-with-predicate
    (lambda (window)
      (string-match-p
-      mct-completion-windows-regexp
+      mct--completions-window-name
       (buffer-name (window-buffer window))))))
 
 (defun mct--show-completions ()
   "Show the completions' buffer."
   (let ((display-buffer-alist
-         (cons (cons mct-completion-windows-regexp mct-display-buffer-action)
+         (cons (cons mct--completions-window-name mct-display-buffer-action)
                display-buffer-alist))
         ;; don't ring the bell in `minibuffer-completion-help'
         ;; when &lt;= 1 completion exists.
@@ -4587,7 +4689,7 @@ The continuous switch is essentially the same as running
 succession.
 
 What constitutes a completions' window is ultimately determined
-by `mct-completion-windows-regexp'."
+by `mct--completions-window-name'."
   (interactive nil mct-minibuffer-mode)
   (let* ((mini (active-minibuffer-window))
          (completions (mct--get-completion-window)))
@@ -4620,19 +4722,25 @@ by `mct-completion-windows-regexp'."
       (goto-char (line-end-position)))
     (save-excursion
       (goto-char (1- (point)))
-      (when (search-backward "/" (point-min) t)
+      (when (search-backward "/" (minibuffer-prompt-end) t)
         (delete-region (1+ (point)) (point-max)))))
    (t (call-interactively 'backward-delete-char))))
 
 ;;;;; Cyclic motions between minibuffer and completions' buffer
 
-(defun mct--completions-completion-p ()
+(defun mct--completion-at-point-p ()
   "Return non-nil if there is a completion at point."
   (let ((point (point)))
-    ;; The `or' is for Emacs 27 where there were no completion--string
+    ;; The `or' is for Emacs 27 where there are no completion--string
     ;; properties.
     (or (get-text-property point 'completion--string)
         (get-text-property point 'mouse-face))))
+
+(defun mct--arg-completion-point-p (arg)
+  "Return non-nil if ARGth next completion exists."
+  (save-excursion
+    (mct--next-completion arg)
+    (mct--completion-at-point-p)))
 
 (defun mct--first-completion-point ()
   "Return the `point' of the first completion."
@@ -4663,7 +4771,7 @@ a `one-column' value."
   "Check if ARGth line has a completion candidate."
   (save-excursion
     (vertical-motion arg)
-    (null (mct--completions-completion-p))))
+    (null (mct--completion-at-point-p))))
 
 (defun mct--switch-to-completions ()
   "Subroutine for switching to the completions' buffer."
@@ -4697,7 +4805,7 @@ a `one-column' value."
   (goto-char (point-max))
   (next-completion -1)
   (goto-char (point-at-bol))
-  (unless (mct--completions-completion-p)
+  (unless (mct--completion-at-point-p)
     (next-completion 1))
   (mct--restore-old-point-in-grid (point))
   (recenter
@@ -4706,6 +4814,16 @@ a `one-column' value."
            (truncate (/ (window-body-height) 4.0))))
    t))
 
+(defun mct--empty-line-p (arg)
+  "Return non-nil if ARGth line is empty."
+  (unless (mct--arg-completion-point-p arg)
+    (save-excursion
+      (goto-char (point-at-bol))
+      (and (not (bobp))
+	       (or (beginning-of-line (1+ arg)) t)
+	       (save-match-data
+	         (looking-at "[\s\t]*$"))))))
+
 (defun mct--bottom-of-completions-p (arg)
   "Test if point is at the notional bottom of the Completions.
 ARG is a numeric argument for `next-completion', as described in
@@ -4713,13 +4831,9 @@ ARG is a numeric argument for `next-completion', as described in
   (or (eobp)
       (mct--completions-line-boundary (mct--last-completion-point))
       (= (save-excursion (next-completion arg) (point)) (point-max))
-      ;; The empty final line case...
-      (save-excursion
-        (goto-char (point-at-bol))
-        (and (not (bobp))
-	         (or (beginning-of-line (1+ arg)) t)
-	         (save-match-data
-	           (looking-at "[\s\t]*$"))))))
+      ;; The empty final line case which should avoid candidates with
+      ;; spaces or line breaks...
+      (mct--empty-line-p arg)))
 
 (defun mct--next-completion (arg)
   "Routine to move to the next ARGth completion candidate."
@@ -4738,7 +4852,7 @@ ARG is a numeric argument for `next-completion', as described in
         (unless (eq col (save-excursion (goto-char (point-at-bol)) (current-column)))
           (line-move-to-column col))
         (when (or (&gt; (current-column) col)
-                  (not (mct--completions-completion-p)))
+                  (not (mct--completion-at-point-p)))
           (next-completion -1)))
     (next-completion (or arg 1))))
 
@@ -4789,7 +4903,7 @@ ARG is a numeric argument for `previous-completion', as described in
         (unless (eq col (save-excursion (goto-char (point-at-bol)) (current-column)))
           (line-move-to-column col))
         (when (or (&gt; (current-column) col)
-                  (not (mct--completions-completion-p)))
+                  (not (mct--completion-at-point-p)))
           (next-completion -1)))
     (previous-completion (or (abs arg) 1))))
 
@@ -4997,7 +5111,7 @@ followed by exiting the minibuffer with that candidate."
 ;; `cursor-sensor-functions'.
 (defun mct-beginning-of-buffer ()
   "Go to the top of the Completions buffer."
-  (interactive nil mct-minibuffer-mode)
+  (interactive nil mct-minibuffer-mode mct-region-mode)
   (goto-char (mct--first-completion-point)))
 
 (defun mct-keyboard-quit-dwim ()
@@ -5008,11 +5122,13 @@ If in a completions' buffer and unless the region is active, run
 
 If the region is active, deactivate it.  A second invocation of
 this command is then required to abort the session."
-  (interactive nil mct-minibuffer-mode)
+  (interactive nil mct-minibuffer-mode mct-region-mode)
   (when (derived-mode-p 'completion-list-mode)
-    (if (use-region-p)
-        (keyboard-quit)
-      (abort-recursive-edit))))
+    (cond
+     ((null (active-minibuffer-window))
+      (minibuffer-hide-completions))
+     ((use-region-p) (keyboard-quit))
+     (t (abort-recursive-edit)))))
 
 ;;;; Global minor mode setup
 
@@ -5084,7 +5200,7 @@ region.")
 ;; clicking on it with the mouse.
 (defun mct--completions-completion-beg ()
   "Return point of completion candidate at START and END."
-  (if-let ((string (mct--completions-completion-p)))
+  (if-let ((string (mct--completion-at-point-p)))
       (save-excursion
         (prop-match-beginning (mct--completions-text-property-search)))
     (point)))
@@ -5092,7 +5208,7 @@ region.")
 ;; Same as above for the `if-let'.
 (defun mct--completions-completion-end ()
   "Return end of completion candidate."
-  (if-let ((string (mct--completions-completion-p)))
+  (if-let ((string (mct--completion-at-point-p)))
       (save-excursion
         (if (mct--one-column-p)
             (1+ (point-at-eol))
@@ -5194,6 +5310,28 @@ region.")
     (mct--setup-line-numbers)
     (cursor-sensor-mode)))
 
+;;;;; Dynamic completion
+
+;; TODO 2022-01-29: Research how things work for relevant cases in
+;; completion-in-region and adapt accordingly.
+(defun mct--persist-dynamic-completion (&amp;rest _)
+  "Persist completion, per `mct-persist-dynamic-completion'."
+  (when (and (not (mct--symbol-in-list mct-completion-blocklist))
+             mct-persist-dynamic-completion
+             (memq (mct--completion-category) mct--dynamic-completion-categories)
+             mct-live-completion)
+    (mct-focus-minibuffer)
+    (mct--show-completions)))
+
+(defun mct--setup-dynamic-completion-persist ()
+  "Set up `mct-persist-dynamic-completion'."
+  (let ((commands '(choose-completion minibuffer-complete minibuffer-force-complete)))
+    (if mct-minibuffer-mode
+        (dolist (fn commands)
+          (advice-add fn :after #'mct--persist-dynamic-completion))
+      (dolist (fn commands)
+        (advice-remove fn #'mct--persist-dynamic-completion)))))
+
 ;;;;; mct-minibuffer-mode declaration
 
 (declare-function minibuf-eldef-setup-minibuffer "minibuf-eldef")
@@ -5217,6 +5355,7 @@ region.")
     (advice-remove #'minibuffer-completion-help #'mct--minibuffer-completion-help-advice)
     (advice-remove #'completing-read-multiple #'mct--crm-indicator)
     (advice-remove #'minibuf-eldef-setup-minibuffer #'mct--stealthily))
+  (mct--setup-dynamic-completion-persist)
   (mct--setup-shared))
 
 (define-obsolete-function-alias 'mct-mode 'mct-minibuffer-mode "0.4.0")
@@ -6903,8 +7042,7 @@ completion.
 <pre class="src src-emacs-lisp">;;; CAPE (extra completion-at-point backends)
 (prot-emacs-elpa-package 'cape
   (setq cape-dabbrev-min-length 3)
-  (dolist (backend '( cape-symbol cape-keyword cape-file
-                      cape-abbrev cape-ispell cape-dabbrev))
+  (dolist (backend '( cape-symbol cape-keyword cape-file cape-dabbrev))
     (add-to-list 'completion-at-point-functions backend)))
 </pre>
 </div>
@@ -6985,7 +7123,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orgee28440">
+<pre class="example" id="orgdb585cc">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -7341,6 +7479,10 @@ they interpret as an offset.  In practice, this is the same as running
 places them in an Occur buffer <i>without their context</i> while also making
 them clickable (we say that it "buttonises" them).</li>
 
+<li><code>prot-search-occur-browse-url</code> gathers all URLs in the buffer and
+prompts you to select one with completion.  It then browses that item
+using whatever browser you have for <code>browse-url-browser-function</code>.</li>
+
 <li><code>prot-search-occur-outline</code> produces an outline of the buffer based on a
 configurable association of major mode and regular expression.  Check
 the variable <code>prot-search-outline-regexp-alist</code>.  The command can prompt
@@ -7348,21 +7490,30 @@ for a regexp style to use, defaulting to the current major mode if an
 outline regexp exists for it.  An arbitrary regexp can also be
 inserted either through interactive use or from Lisp code.</li>
 
-<li><code>prot-search-occur-browse-url</code> gathers all URLs in the buffer and
-prompts you to select one with completion.  It then browses that item
-using whatever browser you have for <code>browse-url-browser-function</code>.</li>
-
-<li><code>prot-search-grep</code> runs a local grep in the current directory.  With a
-prefix argument, it runs recursively instead.  This is a thin wrapper
-around the built-in <code>lgrep</code> and <code>rgrep</code> commands: it makes the process
-faster by not asking for a directory and file extension pattern.  All
-output is placed in a separate buffer.  Note that I also have a
-variant for git-controlled projects: it is <code>prot-vc-git-grep</code> from
+<li><code>prot-search-grep</code> runs grep in the current directory (a "local grep").
+With a prefix argument, it uses grep recursively starting from the
+current directory.  This is a thin wrapper around the built-in <code>lgrep</code>
+and <code>rgrep</code> commands: it makes the process faster by not asking for a
+directory and file extension pattern.  Note that I also have a variant
+for git-controlled projects: it is <code>prot-vc-git-grep</code> from the section
 <a href="#h:31deeff4-dfae-48d9-a906-1f3272f29bc9">Version control framework (vc.el and prot-vc.el)</a>.  Also note that
 Consult provides a live version: refer to the <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">section on consult.el</a>.
 (I normally use Consult and export the results with Embark, except for
 when I know exactly what I am looking for and want it in a buffer, so
 the added features are not needed).</li>
+
+<li><code>prot-search-occur-keywords</code> runs the equivalent of <code>M-x occur</code> in the
+current buffer for all words like "TODO" and "FIXME".  The regular
+expression is stored in the user option <code>prot-search-todo-keywords</code>.
+When called with a numeric prefix argument, the command displays that
+many lines of context.</li>
+
+<li><code>prot-search-grep-todo-keywords</code> is like the above, except it uses grep
+for a directory-wide search.  With a prefix argument, it invokes the
+command <code>prot-search-git-grep-todo-keywords</code> which applies Git's own
+variant of grep to the entire project.  If Git is not installed on the
+system and a prefix argument is supplied, then regular grep is used
+recursively starting from the current directory.</li>
 </ul>
 
 <div class="org-src-container">
@@ -7402,6 +7553,9 @@ the added features are not needed).</li>
   (setq prot-search-outline-regexp-alist
         '((emacs-lisp-mode . "^\\((\\|;;;+ \\)")
           (org-mode . "^\\(\\*+ +\\|#\\+[Tt][Ii][Tt][Ll][Ee]:\\)")))
+  (setq prot-search-todo-keywords
+        (concat "TODO\\|FIXME\\|NOTE\\|REVIEW\\|XXX\\|KLUDGE"
+                "\\|HACK\\|WARN\\|WARNING\\|DEPRECATED\\|BUG"))
 
   (let ((map global-map))
     (define-key map (kbd "M-s %") #'prot-search-isearch-replace-symbol)
@@ -7409,6 +7563,8 @@ the added features are not needed).</li>
     (define-key map (kbd "M-s M-&gt;") #'prot-search-isearch-end-of-buffer)
     (define-key map (kbd "M-s g") #'prot-search-grep)
     (define-key map (kbd "M-s u") #'prot-search-occur-urls)
+    (define-key map (kbd "M-s t") #'prot-search-occur-todo-keywords)
+    (define-key map (kbd "M-s M-t") #'prot-search-grep-todo-keywords) ; With C-u it runs `prot-search-git-grep-todo-keywords'
     (define-key map (kbd "M-s M-o") #'prot-search-occur-outline)
     (define-key map (kbd "M-s M-u") #'prot-search-occur-browse-url))
   (let ((map isearch-mode-map))
@@ -7481,6 +7637,13 @@ major mode.
 
 To be used by `prot-search-occur-outline'."
   :type 'alist
+  :group 'prot-search)
+
+(defcustom prot-search-todo-keywords
+  (concat "TODO\\|FIXME\\|NOTE\\|REVIEW\\|XXX\\|KLUDGE"
+          "\\|HACK\\|WARN\\|WARNING\\|DEPRECATED\\|BUG")
+  "Regexp with search to-do keywords."
+  :type 'string
   :group 'prot-search)
 
 ;;;; Isearch
@@ -7607,6 +7770,18 @@ Also see `prot-search-occur-urls'."
      (mapcar #'car alist)
      nil nil nil 'prot-search--occur-outline-hist default)))
 
+(defvar-local prot-search--remap-cookie nil
+  "Current local value of `prot-search--remap-match-face'.")
+
+(defface prot-search-match '((t :inherit default))
+  "Face intended to override `match' buffer-locally.")
+
+(defun prot-search--remap-match-face (buf)
+  "Remap `match' to `prot-search-match' in BUF."
+  (with-current-buffer buf
+    (setq prot-search--remap-cookie
+          (face-remap-add-relative 'match 'prot-search-match))))
+
 ;;;###autoload
 (defun prot-search-occur-outline (&amp;optional arg)
   "Produce buffer outline from `prot-search-outline-regexp-alist'.
@@ -7623,13 +7798,35 @@ Lisp."
               ((stringp arg)
                arg)
               ((and arg (string= major-mode regexp))
-               (cdr (assoc regexp prot-search-outline-regexp-alist)))
+               (alist-get regexp prot-search-outline-regexp-alist))
               ((assoc major-mode prot-search-outline-regexp-alist)
-               (cdr (assoc major-mode prot-search-outline-regexp-alist)))
+               (alist-get major-mode prot-search-outline-regexp-alist))
               (t (user-error "Unknown outline style"))))
          (buf-name (format "*outline of &lt;%s&gt;*" (buffer-name))))
     (occur-1 rx nil (list (current-buffer)) buf-name)
+    ;; Because we are producing an outline, we do not need to know what
+    ;; the exact matches are.
+    (prot-search--remap-match-face buf-name)
     (add-to-history 'prot-search--occur-outline-hist regexp)))
+
+;;;###autoload
+(defun prot-search-occur-todo-keywords (&amp;optional context)
+  "Produce Occur buffer with `prot-search-todo-keywords'.
+With optional numeric prefix argument for CONTEXT, show as many
+lines before and after each match.
+
+When called from Lisp CONTEXT must satisfy `natnump'.  A faulty
+value is read as 0.
+
+Also see `prot-search-grep-todo-keywords'."
+  (interactive "P")
+  (let* ((case-fold-search nil)
+         (num (cond
+               (current-prefix-arg
+	            (prefix-numeric-value current-prefix-arg))
+               (t (if (natnump context) context 0))))
+         (buf-name (format "*keywords in &lt;%s&gt;*" (buffer-name))))
+    (occur-1 prot-search-todo-keywords num (list (current-buffer)) buf-name)))
 
 ;;;; Grep
 
@@ -7657,6 +7854,42 @@ search starting from the current directory with `rgrep'."
       (rgrep regexp "*" default-directory)
     (lgrep regexp "*" default-directory)
     (add-to-history 'prot-search--grep-hist regexp)))
+
+;;;###autoload
+(defun prot-search-grep-todo-keywords (&amp;optional arg)
+  "Use `prot-search-grep' to find `prot-search-todo-keywords'.
+
+With optional prefix ARG use git-grep instead for the entire
+repository (runs `prot-search-git-grep-todo-keywords').  If Git
+is not available on the system, run `prot-search-grep'
+recursively, starting from the current directory.
+
+Also see `prot-search-occur-todo-keywords'."
+  (interactive "P")
+  (cond
+   (arg
+    (if (executable-find "git")
+        (prot-search-git-grep-todo-keywords)
+      (prot-search-grep prot-search-todo-keywords t)))
+   (t
+    (prot-search-grep prot-search-todo-keywords))))
+
+;; NOTE 2022-01-30: We could use `project-find-regexp' but I prefer
+;; grep's editable buffers.  Besides, where is the fun in that when we
+;; can use `compilation-start' instead?
+;;;###autoload
+(defun prot-search-git-grep-todo-keywords ()
+  "Use the git-grep mechanism for `prot-search-todo-keywords'."
+  (interactive)
+  (let ((regexp prot-search-todo-keywords)
+        (default-directory (or (vc-root-dir)
+                               (locate-dominating-file "." ".git")
+                               default-directory)))
+    (compilation-start
+     (format "git --no-pager grep -n --color=auto -r -I -E -e %s" regexp)
+     'grep-mode
+     (lambda (mode) (format "*prot-search-git-%s for '%s'" mode regexp))
+     t)))
 
 (provide 'prot-search)
 ;;; prot-search.el ends here
@@ -15681,7 +15914,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org1e761a8">
+<pre class="example" id="orga47e0e3">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15693,7 +15926,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orged8e9aa">
+<pre class="example" id="orge89e7c8">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15708,7 +15941,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org7336b01">
+<pre class="example" id="org42f52ba">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15726,7 +15959,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org7ee2b11">
+<pre class="example" id="orgc8462c2">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15755,7 +15988,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org7787767">
+<pre class="example" id="orgc15a4bb">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15919,7 +16152,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org8753c69">
+<pre class="example" id="orga6e337e">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16646,7 +16879,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org7289c9e">
+<pre class="example" id="orgfd85ac5">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16680,7 +16913,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org47921f5">
+<pre class="example" id="org1e078df">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16844,7 +17077,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgfaca0c1">
+<pre class="example" id="orgc4145cf">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17039,7 +17272,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org77a10cb">
+<pre class="example" id="orge634048">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18267,7 +18500,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org5f50d7e">
+<pre class="example" id="org86a2447">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19331,7 +19564,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org672a0c8">
+<pre class="example" id="orge031f35">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20023,7 +20256,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org74a16d6">
+<pre class="example" id="org0432bac">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23172,7 +23405,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org78b84a1">
+<pre class="example" id="org2e3bab2">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23961,7 +24194,9 @@ key and then an angled bracket (<code>&lt;</code> or <code>&gt;</code>) followed
   (setq electric-quote-replace-double t)
   (electric-pair-mode -1)
   (electric-quote-mode -1)
-  ;; I don't like auto indents in Org and related.
+  ;; I don't like auto indents in Org and related.  They are okay for
+  ;; programming.
+  (electric-indent-mode -1)
   (add-hook 'prog-mode-hook #'electric-indent-local-mode))
 </pre>
 </div>
@@ -24892,7 +25127,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org64c2a06">
+<pre class="example" id="orgc0091e6">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25314,7 +25549,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgeb660fe">
+<pre class="example" id="orgb560b7d">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25323,7 +25558,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org8a6a948">
+<pre class="example" id="org4d734da">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25348,7 +25583,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org0288de4">
+<pre class="example" id="orgc7a55ef">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25408,7 +25643,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org83165f7">
+<pre class="example" id="orga516255">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25433,7 +25668,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org40e0fcb">
+<pre class="example" id="orgda3d283">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25442,7 +25677,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org190cf71">
+<pre class="example" id="org7b70af5">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25461,7 +25696,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgaf0af55">
+<pre class="example" id="org4102c1a">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
