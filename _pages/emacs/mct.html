@@ -91,7 +91,8 @@ Current development target is 0.5.0-dev.
 </li>
 <li><a href="#h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">9. User-level tweaks or custom code</a>
 <ul>
-<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.1. MCT in the current or the other window</a></li>
+<li><a href="#h:493922c7-efdc-4b63-aa96-b31c684eb4fa">9.1. Sort completion candidates on Emacs 29</a></li>
+<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.2. MCT in the current or the other window</a></li>
 </ul>
 </li>
 <li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">10. Extensions</a>
@@ -453,8 +454,9 @@ appropriate value.  Or better use <code>mct-completion-passlist</code>.
 <div class="outline-text-4" id="text-h:1f42c4e6-53c1-4e8a-81ef-deab70822fa4">
 <p>
 Below are the known completion categories that can be added to the
-<code>mct-completion-passlist</code> and <code>mct-completion-blocklist</code>.  This resource is
-non-exhuastive and will be updated to match available information.
+<code>mct-completion-passlist</code> and <code>mct-completion-blocklist</code> (and relevant
+custom code).  This resource is non-exhaustive and will be updated to
+match available information.
 </p>
 
 <ul class="org-ul">
@@ -781,7 +783,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="org1b768a4">
+<pre class="example" id="org7d4e322">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -1007,7 +1009,7 @@ interaction is below the current buffer (as opposed to the bottom of the
 frame for <code>mct-minibuffer-mode</code>).  It looks like this:
 </p>
 
-<pre class="example" id="org312bd61">
+<pre class="example" id="org8e04904">
 ------------------------
 |               |      |
 | Current buffer| Buf  |
@@ -1389,8 +1391,47 @@ In this section we cover custom code that builds on what MCT offers.
 </p>
 </div>
 
+<div id="outline-container-h:493922c7-efdc-4b63-aa96-b31c684eb4fa" class="outline-3">
+<h3 id="h:493922c7-efdc-4b63-aa96-b31c684eb4fa"><span class="section-number-3">9.1.</span> Sort completion candidates on Emacs 29</h3>
+<div class="outline-text-3" id="text-h:493922c7-efdc-4b63-aa96-b31c684eb4fa">
+<p>
+Starting with Emacs 29 (current development target), the user option
+<code>completions-sort</code> controls the sorting method of candidates in the
+<code>*Completions*</code> buffer.  Beside the default of using <code>string-lessp</code>, it
+accepts a custom function.  Consider any of the following examples:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-sort-by-alpha-length (elems)
+  "Sort ELEMS first alphabetically, then by length."
+  (sort elems (lambda (c1 c2)
+                (and (string-version-lessp c1 c2)
+                     (&lt; (length c1) (length c2))))))
+
+(defun my-sort-by-history (elems)
+  "Sort ELEMS by minibuffer history.
+Use `mct-sort-sort-by-alpha-length' if no history is available."
+  (if-let ((hist (and (not (eq minibuffer-history-variable t))
+                      (symbol-value minibuffer-history-variable))))
+      (minibuffer--sort-by-position hist elems)
+    (mct-sort-sort-by-alpha-length elems)))
+
+(defun my-sort-multi-category (elems)
+  "Sort ELEMS per completion category."
+  (pcase (mct--completion-category)
+    ('nil (my-sort-by-alpha-length elems))
+    (_ (my-sort-by-history elems))))
+</pre>
+</div>
+
+<p>
+<a href="#h:1f42c4e6-53c1-4e8a-81ef-deab70822fa4">Known completion categories</a>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:891c7841-9cdc-42df-bba9-45f7409b807c" class="outline-3">
-<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.1.</span> MCT in the current or the other window</h3>
+<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.2.</span> MCT in the current or the other window</h3>
 <div class="outline-text-3" id="text-h:891c7841-9cdc-42df-bba9-45f7409b807c">
 <p>
 Over at the <a href="https://git.sr.ht/~abcdw/rde">rde project</a>, Andrew Tropin configures MCT to display the
@@ -1710,7 +1751,7 @@ Kaludercic.</dd>
 <dt>Ideas and user feedback</dt><dd>Andrew Tropin, Benjamin (@zealotrush), Case
 Duckworth, Jonathan Irving, José Antonio Ortega Ruiz, Kostadin Ninev,
 Manuel Uberti, Philip Kaludercic, Theodor Thornhill, Tomasz
-Hołubowicz, Z.Du.</dd>
+Hołubowicz, Z.Du.  As well as users: danrobi11.</dd>
 
 <dt>Inspiration for certain features</dt><dd><code>icomplete.el</code> (built-in&#x2014;multiple
 authors), Daniel Mendler (<code>vertico</code>), Omar Antolín Camarena (<code>embark</code>,
