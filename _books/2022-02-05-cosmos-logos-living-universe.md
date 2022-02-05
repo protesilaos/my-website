@@ -12,12 +12,12 @@ mediaid: "rJIVTjUqrgo"
 
 ## Table of Contents
 
-1.  [Definitions](#org0390775)
-2.  [Universal interconnectedness and the constitution of the case](#orgafb1b18)
-3.  [The immanence of Logos and universal language](#orgba9aad2)
-4.  [The Cosmos and the Cosmétor](#orga887681)
-5.  [On Being and modality](#org0d71e44)
-6.  [The significance of metaphysics](#orgf22d8da)
+1.  Definitions
+2.  Universal interconnectedness and the constitution of the case
+3.  The immanence of Logos and universal language
+4.  The Cosmos and the Cosmétor
+5.  On Being and modality
+6.  The significance of metaphysics
 
 Hello everyone!  My name is Protesilaos, also known as "Prot".  In this
 video I will talk to you about the philosophical underpinnings of the
@@ -29,11 +29,6 @@ study of metaphysics.
 The text of this presentation is available on my website.  If you are
 watching this on the video hosting platform, please follow the link in
 the description.
-
-
-
-
-<a id="org0390775"></a>
 
 ## Definitions
 
@@ -80,11 +75,6 @@ of the presentation.
     absolute terms, any process of disintegration exhibits Logos.  As
     such, Chaos is an analytical construct which is conceived as the
     opposite of Cosmos.
-
-
-
-
-<a id="orgafb1b18"></a>
 
 ## Universal interconnectedness and the constitution of the case
 
@@ -135,11 +125,6 @@ inquisitive and dubitative disposition.  To that end, we are sceptics in
 the original sense of being contemplative: we keep examining the subject
 matter as well as the mode of thinking that engendered it.
 
-
-
-
-<a id="orgba9aad2"></a>
-
 ## The immanence of Logos and universal language
 
 [ Shows pine cone ] I gathered this earlier while walking in the forest.
@@ -189,8 +174,6 @@ the view of my webcam, and also captures my voice.
 For as long as there are feedback loops&#x2014;and the universe is all about
 them&#x2014;there is language.
 
-
-
 Whatever differences are of degree, not substance.
 
 How about reason?  Is it immanent as well?  Think again about language
@@ -237,11 +220,6 @@ What I am trying to suggest, then, is that the answer is contingent on
 the constitution of the case.  It can be affirmative if we are to
 consider another set of factors in their interplay; a set which captures
 this reality of the immanent Logos.
-
-
-
-
-<a id="orga887681"></a>
 
 ## The Cosmos and the Cosmétor
 
@@ -292,8 +270,6 @@ nothing" because God is not nothing.  Whatever name we may pick for the
 prime cause of what we may describe as creation, we cannot avoid
 recognising it as *something*, as "being there" so to speak.
 
-
-
 Which brings us back to the idea of a Cosmos everlasting with Logos
 being immanent.  It is always present, with no beginning, middle, or
 end.  This might be interpreted as pantheism which, perhaps
@@ -338,11 +314,6 @@ Three being One, All is One: consubstantiality on a universal scale.
 
 Again, the Symban, the immanent Logos, the everlasting Cosmos.
 
-
-
-
-<a id="org0d71e44"></a>
-
 ## On Being and modality
 
 Let's continue scrutinising the notion of an anthropomorphic divine and
@@ -385,8 +356,6 @@ certainty whether gods exist simply by deducing Being from the Cosmos
 and the Logos.  All we can say is that gods may only exist as presences,
 i.e. they will have modality and be of the same substance&#x2014;Being&#x2014;as
 everything else.  Otherwise our appeals to them are pointless.
-
-
 
 This raises questions about life and death.  If the Cosmos is
 everlasting, then what exactly is the birth of some form of being and
@@ -434,11 +403,6 @@ may search for proof of extraterrestrial life have another mode of
 application.  Their case is constituted differently, as they equate life
 with known organisms, not with the very possibility of there being such
 organisms, which pertains to the abstract structure of the universe.
-
-
-
-
-<a id="orgf22d8da"></a>
 
 ## The significance of metaphysics
 
