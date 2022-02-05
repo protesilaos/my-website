@@ -20,8 +20,6 @@ about the frequently asked question _How do you learn Emacs?_.
 #+AUTHOR: Protesilaos Stavrou (https://protesilaos.com)
 #+DATE: 2022-01-31
 
-
-
 * Use a decent interface for completions
 
 The best thing you can do to upgrade your Emacs setup is to use an
@@ -44,8 +42,6 @@ evaluate it:
 #+begin_src emacs-lisp
 (vertico-mode 1)
 #+end_src
-
-
 
 * The Help system is your best friend
 
@@ -72,8 +68,6 @@ Note that when the symbol of a function or variable contains two dashes
 =--= then it means that it is intended for use inside the file/package
 that defines it.  Exercise caution if you plan to incorporate those in
 your setup, as they might change without prior notice.
-
-
 
 * The C-h as a prefix and as a suffix
 
@@ -103,8 +97,6 @@ Though make a habit to always learn the defaults before making sweeping
 changes.  Otherwise you may not appreciate what is on offer and might
 not fully understand how your system is pieced together.
 
-
-
 * How to read manuals (they are not novels!)
 
 Emacs is a powerful piece of software.  Its potential is unlocked only
@@ -124,8 +116,6 @@ As with all technical documentation, you do not read them in one go.
 They are not stories.  Instead, you study them one snippet at a time.
 Once you learn about it, you move to the next one, gradually broadening
 your knowledge (and/or refining your setup).
-
-
 
 * Tinker with Emacs Lisp (Elisp)
 
@@ -155,8 +145,6 @@ days with Emacs.
   time.  And it also includes a direct link to the source code.  By
   looking at source code you will eventually infer that functions are
   declared with the ~defun~ keyword (technically a Lisp macro).
-
-
 
 With those in mind, you switch to the =*scratch*= buffer and start
 experimenting:
@@ -204,8 +192,6 @@ Notice that the =global-map= applies to all major modes.  Many commands
 apply only to specific modes and thus have their own keymaps.  The =C-h k=
 buffer informs you accordingly.
 
-
-
 * Experiment with Elisp conditionality
 
 Building on the previous example, let's add some variables and
@@ -251,8 +237,6 @@ The motion depends on the value of `my-first-toggle'."
     (my-previous-15-lines)))
 #+end_src
 
-
-
 A more realistic scenario in this case is to let your command accept
 arguments (i.e. parameters that govern its behaviour).  The simplest one
 is the =C-u= prefix argument, which you type before the key of the
@@ -277,8 +261,6 @@ Notice the use of the =&optional= type.  Without it, the command would
 return an error if it where not called with the prefix argument.  That
 would, in turn, make the ~if~ meaningless, because it would always be
 true.
-
-
 
 * Practice and be patient
 
