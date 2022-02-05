@@ -4,12 +4,12 @@ excerpt: "Options to donate to Protesilaos Stavrou."
 permalink: /donations/
 ---
 
-If you want to make a donation, you can use any of the following
-platforms:
+If you want to make a donation, use any of the following platforms:
 
-* Liberapay <https://liberapay.com/protesilaos/>
 * GitHub <https://github.com/sponsors/protesilaos>
+* Liberapay <https://liberapay.com/protesilaos/>
 * PayPal <https://www.paypal.me/protesilaos>
 
-The content on this website will always be free/libre and I shall never
-put anything behind a paywall.
+All my publications are free/libre and I shall never put anything behind
+a paywall.  This also means that donations will not give you any special
+perks or some kind of privilege.
