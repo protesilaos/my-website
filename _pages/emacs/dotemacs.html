@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-01-31 16:11 +0200</b>.</li>
-<li>Word count: <b>146235</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-02-05 19:33 +0200</b>.</li>
+<li>Word count: <b>146557</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2150,24 +2150,34 @@ If narrowing is in effect, widen the view."
     (widen)
     (recenter))))
 
+(defun prot-simple--narrow-to-page (count &amp;optional back)
+  "Narrow to COUNTth page with optional BACK motion."
+  (if back
+      (narrow-to-page (or (- count) -1))
+    (narrow-to-page (or (abs count) 1)))
+  ;; Avoids the problem of skiping pages while cycling back and forth.
+  (goto-char (point-min)))
+
 ;;;###autoload
 (defun prot-simple-forward-page-dwim (&amp;optional count)
   "Move to next or COUNTth page forward.
 If buffer is narrowed to the page, keep the effect while
-performing the motion."
+performing the motion.  Always move point to the beginning of the
+narrowed page."
   (interactive "p")
   (if (buffer-narrowed-p)
-      (narrow-to-page (or (abs count) 1))
+      (prot-simple--narrow-to-page count)
     (forward-page count)))
 
 ;;;###autoload
 (defun prot-simple-backward-page-dwim (&amp;optional count)
   "Move to previous or COUNTth page backward.
 If buffer is narrowed to the page, keep the effect while
-performing the motion."
+performing the motion.  Always move point to the beginning of the
+narrowed page."
   (interactive "p")
   (if (buffer-narrowed-p)
-      (narrow-to-page (or (- count) -1))
+      (prot-simple--narrow-to-page count t)
     (backward-page count)))
 
 ;; Inspired by Pierre Neidhardt's windower:
@@ -3020,8 +3030,8 @@ Relevant publications of mine that are not part of this document:
                        :variable-pitch-regular-weight normal))
 
           (large . ( :fixed-pitch-family "Iosevka Comfy"
-                     :fixed-pitch-regular-weight regular
-                     :fixed-pitch-heavy-weight extrabold
+                     :fixed-pitch-regular-weight semilight
+                     :fixed-pitch-heavy-weight bold
                      :fixed-pitch-height 135
                      :fixed-pitch-line-spacing nil
                      :variable-pitch-family "FiraGO"
@@ -3427,7 +3437,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org316c8f2">
+<pre class="example" id="org97fb02c">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3510,7 +3520,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org1f313dd">
+<pre class="example" id="org62ed364">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -7123,7 +7133,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orgdb585cc">
+<pre class="example" id="org024e69e">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -9895,6 +9905,12 @@ area and any indicators that may be placed on it while entering the
 focus state (refer to <a href="#h:26a4fac6-33e2-4f6c-8589-9463df8525c9">Fringe mode</a> for the relevant configurations,
 while their overall presentation is controlled by the active theme).</dd>
 
+<dt>Line breaks</dt><dd>The user option <code>prot-logos-prettify-line-breaks</code>
+determines whether page breaks (the <code>^L</code> character which can be inserted
+with <code>C-q C-l</code>) should be prettified or not.  The prettification
+basically is a <code>* * *</code> that appear almost centred when the text is kept
+at my desired <code>fill-column</code> of 72.</dd>
+
 <dt>Cursor</dt><dd>My <code>prot-cursor.el</code> defines some convenient extras for setting
 the overall style of the cursor: the shape and the blink rate.  When
 in a "focus mode" we may want to have one particular style available,
@@ -9929,6 +9945,10 @@ these:
   (setq olivetti-minimum-body-width 80)
   (setq olivetti-recall-visual-line-mode-entry-state t))
 
+;; NOTE 2022-02-05: `org-tree-slide' may be removed, as I simplified how
+;; I handle presentations by using narrowing and page breaks.  See the
+;; commands `prot-simple-forward-page-dwim' and
+;; `prot-simple-backward-page-dwim'.
 (prot-emacs-elpa-package 'org-tree-slide
   (setq org-tree-slide-breadcrumbs nil)
   (setq org-tree-slide-header nil)
@@ -9955,7 +9975,8 @@ these:
   (setq prot-logos-variable-pitch nil)
   (setq prot-logos-scroll-lock nil)
   (setq prot-logos-hidden-modeline t)
-  (setq prot-logos-affect-prot-cursor t)
+  (setq prot-logos-prettify-line-breaks t)
+  (setq prot-logos-affect-prot-cursor nil)
   (define-key global-map (kbd "&lt;f9&gt;") #'prot-logos-focus-mode))
 </pre>
 </div>
@@ -10038,6 +10059,17 @@ This expects the `prot-cursor.el' library."
   :type 'boolean
   :group 'prot-logos)
 
+(defcustom prot-logos-prettify-line-breaks nil
+  "Change ^L to `prot-logos-line-break'."
+  :type 'boolean
+  :group 'prot-logos)
+
+;; Based on Paul W. Rankin's idea that was shared on the
+;; emacs-humanities mailing list:
+;; &lt;https://lists.gnu.org/archive/html/emacs-humanities/2021-01/msg00011.html&gt;.
+(defvar prot-logos-line-break (vconcat (make-string 30 ?\s) "* * *")
+  "Style for line break override.")
+
 (defvar prot-logos--focus-mode-hook nil
   "Hook that runs from function `prot-logos-focus-mode'.")
 
@@ -10076,6 +10108,19 @@ on its own."
     (olivetti-mode 1)))
 
 (add-hook 'prot-logos--focus-mode-hook #'prot-logos--olivetti-toggle)
+
+(defun prot-logos--line-break ()
+  "Make ^L use `prot-logos-line-break'."
+  (if (and (bound-and-true-p prot-logos-focus-mode)
+           prot-logos-prettify-line-breaks)
+      ;; TODO 2022-02-05: Maybe setq-local is better?  If yes, we need a
+      ;; `defvar' cookie to store its value.
+      (aset (or standard-display-table
+                (setq standard-display-table (make-display-table)))
+            ?\^L prot-logos-line-break)
+    (setq standard-display-table nil)))
+
+(add-hook 'prot-logos--focus-mode-hook #'prot-logos--line-break)
 
 (defface prot-logos-fringe
   `((((class color) (background light))
@@ -15914,7 +15959,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orga47e0e3">
+<pre class="example" id="org04ac083">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15926,7 +15971,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orge89e7c8">
+<pre class="example" id="org0d8f2c1">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15941,7 +15986,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org42f52ba">
+<pre class="example" id="orgfd234bc">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15959,7 +16004,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgc8462c2">
+<pre class="example" id="orga7ca804">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15988,7 +16033,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgc15a4bb">
+<pre class="example" id="orgd26dcd8">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16152,7 +16197,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orga6e337e">
+<pre class="example" id="org3b88b6f">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16879,7 +16924,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgfd85ac5">
+<pre class="example" id="org37c9706">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16913,7 +16958,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org1e078df">
+<pre class="example" id="org2eccb06">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17077,7 +17122,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgc4145cf">
+<pre class="example" id="org59b5856">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17272,7 +17317,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orge634048">
+<pre class="example" id="org3b10cd5">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18500,7 +18545,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org86a2447">
+<pre class="example" id="org6874e51">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19564,7 +19609,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orge031f35">
+<pre class="example" id="org7145924">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20256,7 +20301,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org0432bac">
+<pre class="example" id="orge547253">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23405,7 +23450,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org2e3bab2">
+<pre class="example" id="org0e76f17">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24886,6 +24931,10 @@ I thought I would cover them all in this section.
 <h3 id="h:83730fe8-d917-4d94-96f4-bbc5c900fe38"><span class="section-number-3">9.1.</span> How do you learn Emacs?</h3>
 <div class="outline-text-3" id="text-h:83730fe8-d917-4d94-96f4-bbc5c900fe38">
 <p>
+Also watch: <a href="https://protesilaos.com/codelog/2022-01-31-learning-emacs/">Learning Emacs and Elisp</a> (2022-01-31).
+</p>
+
+<p>
 There is no one-size-fits-all approach to learning.  What one finds
 satisfactory, another may consider insufficient.  In my opinion, the
 best way to learn Emacs is to start small, be patient, and brace
@@ -25127,7 +25176,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgc0091e6">
+<pre class="example" id="org8afc334">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25549,7 +25598,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgb560b7d">
+<pre class="example" id="orgd526fa3">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25558,7 +25607,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org4d734da">
+<pre class="example" id="org7cb5d2b">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25583,7 +25632,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgc7a55ef">
+<pre class="example" id="org3b78802">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25643,7 +25692,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orga516255">
+<pre class="example" id="orgc3af8f4">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25668,7 +25717,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgda3d283">
+<pre class="example" id="orgde88815">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25677,7 +25726,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org7b70af5">
+<pre class="example" id="orgab9e047">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25696,7 +25745,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org4102c1a">
+<pre class="example" id="org7fbe57a">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
