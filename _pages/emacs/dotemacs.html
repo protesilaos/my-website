@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-02-05 19:33 +0200</b>.</li>
-<li>Word count: <b>146557</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-02-06 09:13 +0200</b>.</li>
+<li>Word count: <b>145651</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -94,7 +94,7 @@ GNU Emacs 29.0.50 (build 3, x86_64-pc-linux-gnu, GTK+ Version 3.24.31, cairo ver
 <li><a href="#h:09d657c7-eb4d-4fe3-987a-4a2cf419bb40">3.1.2. Completion annotations (marginalia)</a></li>
 <li><a href="#h:c110e399-3f43-4555-8427-b1afe44c0779">3.1.3. Minibuffer configurations and my extras (mct.el)</a></li>
 <li><a href="#h:2733674b-51f9-494e-b34d-e8842ac4ef96">3.1.4. Minibuffer history (savehist-mode)</a></li>
-<li><a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">3.1.5. Enhanced minibuffer commands (consult.el and prot-consult.el)</a>
+<li><a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">3.1.5. Enhanced minibuffer commands (consult.el)</a>
 <ul>
 <li><a href="#h:4c41ab10-9533-40b2-8c0a-e38b5f0194f6">3.1.5.1. Switch to directories (consult-dir.el)</a></li>
 </ul>
@@ -2155,7 +2155,7 @@ If narrowing is in effect, widen the view."
   (if back
       (narrow-to-page (or (- count) -1))
     (narrow-to-page (or (abs count) 1)))
-  ;; Avoids the problem of skiping pages while cycling back and forth.
+  ;; Avoids the problem of skipping pages while cycling back and forth.
   (goto-char (point-min)))
 
 ;;;###autoload
@@ -2299,7 +2299,8 @@ move the point an arbitrary distance.
 <pre class="src src-emacs-lisp">;;; prot-pulse.el (highlight cursor position)
 (prot-emacs-builtin-package 'prot-pulse
   (setq prot-pulse-pulse-command-list
-        '(recenter-top-bottom
+        '(recenter
+          recenter-top-bottom
           move-to-window-line-top-bottom
           reposition-window
           bookmark-jump
@@ -2411,7 +2412,9 @@ changes to take effect."
 (defun prot-pulse-pulse-line (&amp;optional face)
   "Temporarily highlight the current line with optional FACE."
   (interactive)
-  (let ((start (if (eobp)
+  (let ((start (if (or (eobp)
+                       (eq (line-number-at-pos)
+                           (line-number-at-pos (point-max))))
                    (line-beginning-position 0)
                  (line-beginning-position)))
         (end (line-beginning-position 2))
@@ -2419,21 +2422,28 @@ changes to take effect."
         (face (or face prot-pulse-line-face)))
     (pulse-momentary-highlight-region start end face)))
 
+(defun prot-pulse--recentre (&amp;optional position)
+  "Recentre the window with optional POSITION.
+POSITION is an argument passed to `recenter'."
+  (let ((pulse-delay prot-pulse-delay))
+    (recenter position)
+    ;; ;; NOTE 2022-02-06: we do not need this if we add `recenter' to
+    ;; ;; the `prot-pulse-pulse-command-list'.  See my prot-emacs.org
+    ;; ;; for the relevant configuration.
+    ;; (prot-pulse-pulse-line)
+    (prot-pulse-show-entry)))
+
 ;;;###autoload
 (defun prot-pulse-recentre-top ()
   "Reposition at the top and pulse line.
 Add this to a hook, such as `imenu-after-jump-hook'."
-  (let ((pulse-delay prot-pulse-delay))
-    (recenter 0)
-    (prot-pulse-pulse-line)))
+  (prot-pulse--recentre 0))
 
 ;;;###autoload
 (defun prot-pulse-recentre-centre ()
   "Recentre and pulse line.
 Add this to a hook, such as `imenu-after-jump-hook'."
-  (let ((pulse-delay prot-pulse-delay))
-    (recenter nil)
-    (prot-pulse-pulse-line)))
+  (prot-pulse--recentre))
 
 (autoload 'org-at-heading-p "org")
 (autoload 'org-show-entry "org")
@@ -2449,7 +2459,8 @@ To be used with a hook such as `imenu-after-jump-hook'."
          (org-at-heading-p))
     (org-show-entry)
     (org-reveal t))
-   ((bound-and-true-p prot-outline-minor-mode)
+   ((or (bound-and-true-p prot-outline-minor-mode)
+        (bound-and-true-p outline-minor-mode))
     (outline-show-entry))))
 
 (defvar prot-pulse-after-command-hook nil
@@ -3437,7 +3448,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org97fb02c">
+<pre class="example" id="orga91fa80">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3520,7 +3531,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org62ed364">
+<pre class="example" id="orgbb7dd5c">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3651,8 +3662,8 @@ determined using several styles, such as regexp, flex, prefix,
 initialism (check its README because there are lots of variations).
 Delimiters are literal spaces by default, but can be configured to match
 other characters, with hyphens and slashes being likely choices.  As
-such, Orderless can supersede&#x2014;and for most part improve upon&#x2014;the
-completion styles that come built into Emacs, adding to them the
+such, Orderless can supersede&#x2014;and for most part improve upon&#x2014;many of
+the completion styles that come built into Emacs, adding to them the
 powerful out-of-order capability.
 </p>
 
@@ -3664,12 +3675,10 @@ That is defined in <a href="#h:c110e399-3f43-4555-8427-b1afe44c0779">Minibuffer 
 
 <p>
 My <code>prot-orderless.el</code> contains the few minor tweaks I introduce (full
-code further below).
+code further below).  It defines three style dispatchers. Those are
+single characters that acquire a special meaning while at the end of a
+given input:
 </p>
-
-<ol class="org-ol">
-<li>It defines three style dispatchers. Those are single characters that
-acquire a special meaning while at the end of a given input:
 
 <ul class="org-ul">
 <li>With the equals sign appended to a sequence of characters, we call
@@ -3679,89 +3688,31 @@ that sequence as a literal string.</li>
 <li>A comma at the end of a string of characters treats that group as
 an initialism, per <code>prot-orderless-initialism-dispatcher</code>.</li>
 
-<li>While a tilde (<code>prot-orderless-flex-dispatcher</code>) makes it makes it a
-flex match.</li>
-</ul></li>
-
-<li><code>prot-orderless-with-styles</code> is a function that changes the default
-pattern-matching styles on a per-command basis.  The idea is to use a
-certain style for most completion sessions, but prioritise an
-alternative when needed.  I use this with some Consult commands
-(<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).  The
-<code>prot-orderless-default-styles</code> and <code>prot-orderless-alternative-styles</code>
-variables are designed for this particular task.</li>
-</ol>
+<li>While a tilde (<code>prot-orderless-flex-dispatcher</code>) makes it a flex match.</li>
+</ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Orderless completion style (and prot-orderless.el)
-(prot-emacs-builtin-package 'prot-orderless
-  (setq prot-orderless-default-styles
-        '(orderless-prefixes
-          orderless-strict-leading-initialism
-          orderless-regexp))
-  (setq prot-orderless-alternative-styles
-        '(orderless-literal
-          orderless-prefixes
-          orderless-strict-leading-initialism
-          orderless-regexp)))
+<pre class="src src-emacs-lisp">  ;;; Orderless completion style (and prot-orderless.el)
+  (prot-emacs-elpa-package 'orderless
+    (setq orderless-component-separator " +")
+    ;; NOTE 2022-02-06: I made some major changes and this list may need
+    ;; to be refined further.  Remember to check my `completion-styles'
+    ;; and the `completion-category-overrides'.
+    (setq orderless-matching-styles
+          '( orderless-prefixes orderless-strict-leading-initialism
+             orderless-flex orderless-regexp))
+    (setq orderless-style-dispatchers
+          '(prot-orderless-literal-dispatcher
+            prot-orderless-initialism-dispatcher
+            prot-orderless-flex-dispatcher))
 
-(prot-emacs-elpa-package 'orderless
-  (setq orderless-component-separator " +")
-  (setq orderless-matching-styles prot-orderless-default-styles)
-  (setq orderless-style-dispatchers
-        '(prot-orderless-literal-dispatcher
-          prot-orderless-initialism-dispatcher
-          prot-orderless-flex-dispatcher))
+    ;; SPC should never complete: use it for `orderless' groups.
+    ;; The `?' is a regexp construct.
+    (let ((map minibuffer-local-completion-map))
+      (define-key map (kbd "SPC") nil)
+      (define-key map (kbd "?") nil)))
 
-  ;; SPC should never complete: use it for `orderless' groups.
-  (let ((map minibuffer-local-completion-map))
-    (define-key map (kbd "SPC") nil)
-    (define-key map (kbd "?") nil))
-
-  ;;;; Initialisms
-
-  ;; All of the following is a copy of code that was removed from
-  ;; orderless.el.  I was using it, so I want to keep it, at least until
-  ;; some new version is provided upstream.
-
-  (defun orderless--strict-*-initialism (component &amp;optional anchored)
-    "Match a COMPONENT as a strict initialism, optionally ANCHORED.
-The characters in COMPONENT must occur in the candidate in that
-order at the beginning of subsequent words comprised of letters.
-Only non-letters can be in between the words that start with the
-initials.
-
-If ANCHORED is `start' require that the first initial appear in
-the first word of the candidate.  If ANCHORED is `both' require
-that the first and last initials appear in the first and last
-words of the candidate, respectively."
-    (orderless--separated-by
-     '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
-     (cl-loop for char across component collect `(seq word-start ,char))
-     (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
-     (when (eq anchored 'both)
-       '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
-
-  (defun orderless-strict-initialism (component)
-    "Match a COMPONENT as a strict initialism.
-This means the characters in COMPONENT must occur in the
-candidate in that order at the beginning of subsequent words
-comprised of letters.  Only non-letters can be in between the
-words that start with the initials."
-    (orderless--strict-*-initialism component))
-
-  (defun orderless-strict-leading-initialism (component)
-    "Match a COMPONENT as a strict initialism, anchored at start.
-See `orderless-strict-initialism'.  Additionally require that the
-first initial appear in the first word of the candidate."
-    (orderless--strict-*-initialism component 'start))
-
-  (defun orderless-strict-full-initialism (component)
-    "Match a COMPONENT as a strict initialism, anchored at both ends.
-See `orderless-strict-initialism'.  Additionally require that the
-first and last initials appear in the first and last words of the
-candidate, respectively."
-    (orderless--strict-*-initialism component 'both)))
+  (prot-emacs-builtin-package 'prot-orderless)
 </pre>
 </div>
 
@@ -3807,33 +3758,9 @@ from <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a> (as
 
 ;;; Code:
 
-(defgroup prot-orderless ()
-  "Tweaks for the Orderless completion style."
-  :group 'minibuffer)
+;;;; Style dispatchers
 
-(defcustom prot-orderless-default-styles
-  '(orderless-flex
-    orderless-strict-leading-initialism
-    orderless-regexp
-    orderless-prefixes
-    orderless-literal)
-  "List that should be assigned to `orderless-matching-styles'."
-  :type 'list
-  :group 'prot-orderless)
-
-(defcustom prot-orderless-alternative-styles
-  '(orderless-literal
-    orderless-prefixes
-    orderless-strict-leading-initialism
-    orderless-regexp)
-  "Alternative list for `orderless-matching-styles'.
-
-Unlike `prot-orderless-default-styles', this variable is intended
-for use on a case-by-case basis, with the help of the function
-`prot-orderless-with-styles'."
-  :type 'list
-  :group 'prot-orderless)
-
+;;;###autoload
 (defun prot-orderless-literal-dispatcher (pattern _index _total)
   "Literal style dispatcher using the equals sign as a suffix.
 It matches PATTERN _INDEX and _TOTAL according to how Orderless
@@ -3841,6 +3768,7 @@ parses its input."
   (when (string-suffix-p "=" pattern)
     `(orderless-literal . ,(substring pattern 0 -1))))
 
+;;;###autoload
 (defun prot-orderless-initialism-dispatcher (pattern _index _total)
   "Leading initialism  dispatcher using the comma suffix.
 It matches PATTERN _INDEX and _TOTAL according to how Orderless
@@ -3848,6 +3776,7 @@ parses its input."
   (when (string-suffix-p "," pattern)
     `(orderless-strict-leading-initialism . ,(substring pattern 0 -1))))
 
+;;;###autoload
 (defun prot-orderless-flex-dispatcher (pattern _index _total)
   "Flex  dispatcher using the tilde suffix.
 It matches PATTERN _INDEX and _TOTAL according to how Orderless
@@ -3855,18 +3784,50 @@ parses its input."
   (when (string-suffix-p "~" pattern)
     `(orderless-flex . ,(substring pattern 0 -1))))
 
-(defvar orderless-matching-styles)
+;;;; Initialisms
 
-;;;###autoload
-(defun prot-orderless-with-styles (cmd &amp;optional styles)
-  "Call CMD with optional orderless STYLES.
+;; All of the following are a copy of code that was removed from
+;; orderless.el.  I was using it, so I want to keep it, at least until
+;; some new version is provided upstream.
 
-STYLES is a list of pattern matching methods that is passed to
-`orderless-matching-styles'.  Its fallback value is that of
-`prot-orderless-alternative-styles'."
-  (let ((orderless-matching-styles (or styles prot-orderless-alternative-styles))
-        (this-command cmd))
-    (call-interactively cmd)))
+(defun orderless--strict-*-initialism (component &amp;optional anchored)
+  "Match a COMPONENT as a strict initialism, optionally ANCHORED.
+The characters in COMPONENT must occur in the candidate in that
+order at the beginning of subsequent words comprised of letters.
+Only non-letters can be in between the words that start with the
+initials.
+
+If ANCHORED is `start' require that the first initial appear in
+the first word of the candidate.  If ANCHORED is `both' require
+that the first and last initials appear in the first and last
+words of the candidate, respectively."
+  (orderless--separated-by
+   '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
+   (cl-loop for char across component collect `(seq word-start ,char))
+   (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
+   (when (eq anchored 'both)
+     '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+
+(defun orderless-strict-initialism (component)
+  "Match a COMPONENT as a strict initialism.
+This means the characters in COMPONENT must occur in the
+candidate in that order at the beginning of subsequent words
+comprised of letters.  Only non-letters can be in between the
+words that start with the initials."
+  (orderless--strict-*-initialism component))
+
+(defun orderless-strict-leading-initialism (component)
+  "Match a COMPONENT as a strict initialism, anchored at start.
+See `orderless-strict-initialism'.  Additionally require that the
+first initial appear in the first word of the candidate."
+  (orderless--strict-*-initialism component 'start))
+
+(defun orderless-strict-full-initialism (component)
+  "Match a COMPONENT as a strict initialism, anchored at both ends.
+See `orderless-strict-initialism'.  Additionally require that the
+first and last initials appear in the first and last words of the
+candidate, respectively."
+  (orderless--strict-*-initialism component 'both))
 
 (provide 'prot-orderless)
 ;;; prot-orderless.el ends here
@@ -3966,23 +3927,23 @@ Finally, here is an overview of the settings covered herein:
 <dt>Completion styles</dt><dd><p>
 I rely on a mixture of built-in styles as well as
 the external <code>orderless</code> package by Omar Antolín Camarena.  Orderless is
-placed last on the list because simpler searches work fine with the
-other styles.  Orderless is better suited for complex pattern
-matching.  The way completion styles work, when one style cannot match
-anything, Emacs tries the next one on the list, until one of them
-yields results.  As such, it is easy to activate Orderless on demand,
-either by separate input groups by spaces or passing one of the style
-dispatchers that are acceptable (read <a href="#h:7b1374dd-6b1f-4548-8fbf-1034230c80e0">the Orderless completion style</a>).
+placed last on some lists because simpler searches work fine with the
+other styles.  My ordering goes from least to most powerful.
+Orderless is better suited for complex pattern matching.  The way
+completion styles work, when one style cannot match anything, Emacs
+tries the next one on the list, until one of them yields results.  As
+such, it is easy to activate Orderless on demand, either by separating
+input groups with spaces or passing one of the style dispatchers that
+are acceptable (read <a href="#h:7b1374dd-6b1f-4548-8fbf-1034230c80e0">the Orderless completion style</a>).
 </p>
 
 <p>
 For file queries in particular, there exists a niche functionality in
 the built-in <code>initials</code> and <code>partial-completion</code> styles to navigate
 abbreviated paths.  Here is an example with the latter: you can type
-<code>~/.l/s/fo</code> which will match <code>~/.local/share/fonts</code> (combine that with the
-file shadowing mentioned above, for a minimalist, decluttered flow).
-The variable <code>completion-category-overrides</code> can control the standard
-option of <code>completion-styles</code> on a per-category basis.
+<code>~/.l/s/fo</code> which will match <code>~/.local/share/fonts</code>.  The variable
+<code>completion-category-overrides</code> can control the standard option of
+<code>completion-styles</code> on a per-category basis.
 </p></dd>
 
 <dt>Recursive minibuffers</dt><dd><p>
@@ -4012,15 +3973,24 @@ results I am most likely interested in, based on previous selections.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Minibuffer configurations and my extras (mct.el)
 (prot-emacs-builtin-package 'minibuffer
-  ;; NOTE 2021-10-25: I am adding `basic' because it works better as a
-  ;; default for some contexts.  Read:
-  ;; &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=50387&gt;.
-  (setq completion-styles
-        '(basic substring initials flex partial-completion orderless))
+  (setq completion-styles '(orderless)) ; also see `completion-category-overrides'
+  (setq completion-category-defaults nil)
+  ;; For a list of known completion categories, check the MCT manual's
+  ;; section on the matter:
+  ;; &lt;https://protesilaos.com/emacs/mct#h:1f42c4e6-53c1-4e8a-81ef-deab70822fa4&gt;
   (setq completion-category-overrides
-        '((file (styles . (basic partial-completion orderless)))))
+        ;; NOTE 2021-10-25: I am adding `basic' because it works better as a
+        ;; default for some contexts.  Read:
+        ;; &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=50387&gt;.
+        ;;
+        ;; `partial-completion' is a killer app for files, because it
+        ;; can expand ~/.l/s/fo to ~/.local/share/fonts.
+        '((file (styles . (basic partial-completion orderless)))
+          (imenu (styles . (basic substring orderless)))
+          (consult-location (styles . (basic substring orderless)))))
+
   (setq completion-cycle-threshold 2)
-  (setq completion-flex-nospace nil)
+  (setq completion-flex-nospace nil) ; though I don't use the built-in `flex' style...
   (setq completion-pcm-complete-word-inserts-delimiters nil)
   (setq completion-pcm-word-delimiters "-_./:| ")
   (setq completion-ignore-case t)
@@ -4065,7 +4035,6 @@ results I am most likely interested in, based on previous selections.
 ;; Source: &lt;https://gitlab.com/protesilaos/mct.el&gt;.
 ;; Manual: &lt;https://protesilaos.com/emacs/mct&gt;.
 (prot-emacs-builtin-package 'mct
-  (setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
   (setq mct-remove-shadowed-file-names t) ; when `file-name-shadow-mode' is enabled
   (setq mct-hide-completion-mode-line t)
   (setq mct-show-completion-line-numbers nil)
@@ -4082,6 +4051,9 @@ results I am most likely interested in, based on previous selections.
           info-menu file imenu))
   (setq mct-completion-blocklist nil) ; Same principle as `mct-completion-passlist'
   (setq mct-completions-format 'one-column)
+
+  ;; Check its doc string to keep its size fixed.
+  (setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
 
   ;; You can place the Completions' buffer wherever you want, by
   ;; following the syntax of `display-buffer-alist' (check elsewhere in
@@ -5618,7 +5590,7 @@ the minibuffer-specific setup.
 </div>
 
 <div id="outline-container-h:9c9401d6-8c53-4276-be4c-3bff345d3eeb" class="outline-4">
-<h4 id="h:9c9401d6-8c53-4276-be4c-3bff345d3eeb"><span class="section-number-4">3.1.5.</span> Enhanced minibuffer commands (consult.el and prot-consult.el)</h4>
+<h4 id="h:9c9401d6-8c53-4276-be4c-3bff345d3eeb"><span class="section-number-4">3.1.5.</span> Enhanced minibuffer commands (consult.el)</h4>
 <div class="outline-text-4" id="text-h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">
 <p>
 Daniel Mendler's Consult is a welcome addition to the ecosystem of
@@ -5779,16 +5751,8 @@ developed muscle memory for the register-related actions.  Though using
 all three of the above is easier to learn and more consistent overall.
 </p>
 
-<p>
-Note that my <code>prot-consult.el</code> (reproduced after the following package
-configurations) defines some <i>quick and dirty</i> extensions or thin wrappers
-around Consult commands.  The former <b>will be reviewed</b> in favour of
-better alternatives, even though they "simply work" with everything I
-try.
-</p>
-
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Enhanced minibuffer commands (consult.el and prot-consult.el)
+<pre class="src src-emacs-lisp">;;; Enhanced minibuffer commands (consult.el)
 (prot-emacs-elpa-package 'consult
   (setq consult-line-numbers-widen t)
   ;; (setq completion-in-region-function #'consult-completion-in-region)
@@ -5819,6 +5783,9 @@ try.
   (setq consult-find-args "find . -not ( -wholename */.* -prune )")
   (setq consult-preview-key 'any)
 
+  (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
+  (add-hook 'consult-after-jump-hook #'prot-pulse-recentre-top) ; see `prot-pulse.el'
+
   (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
 
   (let ((map global-map))
@@ -5833,175 +5800,13 @@ try.
     (define-key map (kbd "M-s M-f") #'consult-find)
     (define-key map (kbd "M-s M-g") #'consult-grep)
     (define-key map (kbd "M-s M-h") #'consult-history)
+    (define-key map (kbd "M-s M-i") #'consult-imenu)
+    (define-key map (kbd "M-s M-l") #'consult-line)
     (define-key map (kbd "M-s M-m") #'consult-mark)
+    (define-key map (kbd "M-s M-s") #'consult-outline)
+    (define-key map (kbd "M-s M-y") #'consult-yank-pop)
     (define-key map (kbd "C-x r r") #'consult-register)) ; Use the register's prefix
   (define-key consult-narrow-map (kbd "?") #'consult-narrow-help))
-
-(prot-emacs-builtin-package 'prot-consult
-  (setq consult-project-root-function #'prot-consult-project-root)
-  (setq prot-consult-command-centre-list
-        '(consult-line
-          prot-consult-line
-          consult-mark))
-  (setq prot-consult-command-top-list
-        '(consult-outline
-          consult-imenu
-          prot-consult-outline
-          prot-consult-imenu))
-  (prot-consult-set-up-hooks-mode 1)
-  (let ((map global-map))
-    (define-key map (kbd "M-s M-i") #'prot-consult-imenu)
-    (define-key map (kbd "M-s M-s") #'prot-consult-outline)
-    (define-key map (kbd "M-s M-y") #'prot-consult-yank)
-    (define-key map (kbd "M-s M-l") #'prot-consult-line)))
-</pre>
-</div>
-
-<p>
-Here is <code>prot-consult.el</code> (part of <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a>):
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; prot-consult.el --- Tweak consult.el for my dotemacs -*- lexical-binding: t -*-
-
-;; Copyright (C) 2020-2022  Protesilaos Stavrou
-
-;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
-;; URL: https://protesilaos.com/emacs/dotemacs
-;; Version: 0.1.0
-;; Package-Requires: ((emacs "27.1"))
-
-;; This file is NOT part of GNU Emacs.
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or (at
-;; your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
-
-;;; Commentary:
-;;
-;; Tweaks for `consult.el' intended for my Emacs configuration:
-;; &lt;https://protesilaos.com/emacs/dotemacs/&gt;.
-;;
-;; Remember that every piece of Elisp that I write is for my own
-;; educational and recreational purposes.  I am not a programmer and I
-;; do not recommend that you copy any of this if you are not certain of
-;; what it does.
-
-;;; Code:
-
-(require 'consult nil t)
-(require 'consult-imenu nil t)
-(require 'prot-pulse)
-
-(defgroup prot-consult ()
-  "Tweaks for consult.el."
-  :group 'minibuffer)
-
-(defcustom prot-consult-command-centre-list '(consult-line consult-mark)
-  "Commands to run `prot-consult-jump-recentre-hook'.
-You must restart function `prot-consult-set-up-hooks-mode' for
-changes to take effect."
-  :group 'prot-consult
-  :type 'list)
-
-(defcustom prot-consult-command-top-list '(consult-outline)
-  "Commands to run `prot-consult-jump-top-hook'.
-You must restart function `prot-consult-set-up-hooks-mode' for
-changes to take effect."
-  :group 'prot-consult
-  :type 'list)
-
-;;;; Setup for some consult commands (TODO: needs review)
-
-(defvar prot-consult-jump-recentre-hook nil
-  "Hook that runs after select Consult commands.
-To be used with `advice-add'.")
-
-(defun prot-consult-after-jump-recentre (&amp;rest _)
-  "Run `prot-consult-jump-recentre-hook'."
-  (run-hooks 'prot-consult-jump-recentre-hook))
-
-(defvar prot-consult-jump-top-hook nil
-  "Hook that runs after select Consult commands.
-To be used with `advice-add'.")
-
-(defun prot-consult-after-jump-top (&amp;rest _)
-  "Run `prot-consult-jump-top-hook'."
-  (run-hooks 'prot-consult-jump-top-hook))
-
-;;;###autoload
-(define-minor-mode prot-consult-set-up-hooks-mode
-  "Set up hooks for Consult."
-  :init-value nil
-  :global t
-  (if prot-consult-set-up-hooks-mode
-      (progn
-        (dolist (fn prot-consult-command-centre-list)
-          (advice-add fn :after #'prot-consult-after-jump-recentre))
-        (dolist (fn prot-consult-command-top-list)
-          (advice-add fn :after #'prot-consult-after-jump-top))
-        (add-hook 'prot-consult-jump-recentre-hook #'prot-pulse-recentre-centre)
-        (add-hook 'prot-consult-jump-top-hook #'prot-pulse-recentre-top)
-        (add-hook 'prot-consult-jump-top-hook #'prot-pulse-show-entry))
-    (dolist (fn prot-consult-command-centre-list)
-      (advice-remove fn #'prot-consult-after-jump-recentre))
-    (dolist (fn prot-consult-command-top-list)
-      (advice-remove fn #'prot-consult-after-jump-top))
-    (remove-hook 'prot-consult-jump-recentre-hook #'prot-pulse-recentre-centre)
-    (remove-hook 'prot-consult-jump-top-hook #'prot-pulse-recentre-top)
-    (remove-hook 'prot-consult-jump-top-hook #'prot-pulse-show-entry)))
-
-;;;; Commands
-
-(defvar consult--find-cmd)
-(defvar consult--directory-prompt)
-(declare-function consult--find "consult")
-(autoload 'prot-orderless-with-styles "prot-orderless")
-
-;;;###autoload
-(defun prot-consult-project-root ()
-  "Return path to project or `default-directory'.
-Intended to be assigned to `consult-project-root-function'."
-  (or (vc-root-dir)
-      (locate-dominating-file "." ".git")
-      default-directory))
-
-;;;###autoload
-(defun prot-consult-outline ()
-  "Run `consult-outline' through `prot-orderless-with-styles'."
-  (interactive)
-  (prot-orderless-with-styles 'consult-outline))
-
-;;;###autoload
-(defun prot-consult-imenu ()
-  "Run `consult-imenu' through `prot-orderless-with-styles'."
-  (interactive)
-  (prot-orderless-with-styles 'consult-imenu))
-
-;;;###autoload
-(defun prot-consult-line ()
-  "Run `consult-line' through `prot-orderless-with-styles'."
-  (interactive)
-  (prot-orderless-with-styles 'consult-line))
-
-;;;###autoload
-(defun prot-consult-yank ()
-  "Run Consult yank through `prot-orderless-with-styles'.
-Wraps around the `consult-yank-from-kill-ring' command."
-  (interactive)
-  (prot-orderless-with-styles 'consult-yank-from-kill-ring))
-
-(provide 'prot-consult)
-;;; prot-consult.el ends here
 </pre>
 </div>
 </div>
@@ -6217,10 +6022,9 @@ buffer, and so on.</li>
 <p>
 Finally, the <code>prot-embark.el</code> that is reproduced after the following block
 contains a few keymaps that integrate Embark with packages like <code>consult</code>
-(<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).  The
-<code>embark-consult</code> package provides glue code that allows Embark to produce
-a correct export buffer while using relevant Consult commands, such as
-<code>consult-grep</code>.
+(<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).  The <code>embark-consult</code> package
+provides glue code that allows Embark to produce a correct export buffer
+while using relevant Consult commands, such as <code>consult-grep</code>.
 </p>
 
 <div class="org-src-container">
@@ -6891,7 +6695,7 @@ no use for it.
 Also note that the Consult package provides its own <code>recentf</code> command as
 well as the <code>consult-buffer</code> which combines candidates from multiple
 sources, including bookmarks, recent files, and buffers (check more in
-<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).
+<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).
 </p>
 
 <div class="org-src-container">
@@ -7133,7 +6937,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org024e69e">
+<pre class="example" id="orgf524376">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -9578,11 +9382,11 @@ To access bookmarks with minibuffer completion, invoke the command
 <p>
 If you would like to browse bookmarks (and other sources such as recent
 files) through an all-in-one interface, use the <code>consult-buffer</code> command
-(see <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).
-Consult also offers the command <code>consult-bookmark</code> which is like the
-standard <code>bookmark-jump</code> except that it also has support for group
-headings (so all files are under one heading, all Info nodes in
-another).  I thus consider it a drop-in replacement for <code>C-x r b</code>.
+(see <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).  Consult also offers
+the command <code>consult-bookmark</code> which is like the standard <code>bookmark-jump</code>
+except that it also has support for group headings (so all files are
+under one heading, all Info nodes in another).  I thus consider it a
+drop-in replacement for <code>C-x r b</code>.
 </p>
 
 <p>
@@ -15959,7 +15763,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org04ac083">
+<pre class="example" id="org8e2e2fc">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15971,7 +15775,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org0d8f2c1">
+<pre class="example" id="org03ad78d">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15986,7 +15790,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgfd234bc">
+<pre class="example" id="orgd1fb479">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16004,7 +15808,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orga7ca804">
+<pre class="example" id="org490464a">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16033,7 +15837,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd26dcd8">
+<pre class="example" id="orga9ee23c">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16197,7 +16001,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org3b88b6f">
+<pre class="example" id="org8985435">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16924,7 +16728,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org37c9706">
+<pre class="example" id="org5fb6656">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16958,7 +16762,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org2eccb06">
+<pre class="example" id="org4c025d2">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17122,7 +16926,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org59b5856">
+<pre class="example" id="org5c30fd3">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17317,7 +17121,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org3b10cd5">
+<pre class="example" id="orgebde759">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18545,7 +18349,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org6874e51">
+<pre class="example" id="org0113cbb">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19609,7 +19413,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org7145924">
+<pre class="example" id="org070e2c8">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20301,7 +20105,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orge547253">
+<pre class="example" id="org001efae">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21848,7 +21652,7 @@ means of <code>pdf-outline-minor-mode</code>.  Simply hit <code>o</code> while v
 produce an outline of the document and then, optionally, <code>M-x imenu</code> to
 navigate it using minibuffer completion (though for the latter task you
 may prefer something like <code>consult-outline</code>, which is part of the Consult
-package: <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).
+package: <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).
 </p>
 
 <p>
@@ -22876,8 +22680,11 @@ particular, older versions of my code would establish bindings for
 <code>imenu.el</code>.  This was done via bespoke entry and exit hooks and was
 intended to complement the standard Imenu headings with those of the
 Outline.  This is no longer needed because <code>consult-outline</code> does exactly
-that (<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el and prot-consult.el)</a>).  A
-quick reminder of why this matters: you can navigate the outline using
+that (<a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).
+</p>
+
+<p>
+A quick reminder of why this matters: you can navigate the outline using
 minibuffer completion, which is my favourite way to browse a file.  You
 can, in the same spirit, use Embark to produce a buffer with the
 completion candidates, i.e. the headings, or a subset you have narrowed
@@ -23450,7 +23257,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org0e76f17">
+<pre class="example" id="org411eb74">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25176,7 +24983,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org8afc334">
+<pre class="example" id="org774b7ae">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25598,7 +25405,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgd526fa3">
+<pre class="example" id="org60f7f51">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25607,7 +25414,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org7cb5d2b">
+<pre class="example" id="orgfafbc67">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25632,7 +25439,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org3b78802">
+<pre class="example" id="org6ae62e3">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25692,7 +25499,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgc3af8f4">
+<pre class="example" id="org7bb4ed9">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25717,7 +25524,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgde88815">
+<pre class="example" id="orgce8fa65">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25726,7 +25533,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgab9e047">
+<pre class="example" id="orgd759426">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25745,7 +25552,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org7fbe57a">
+<pre class="example" id="org06be9b0">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
