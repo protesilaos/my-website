@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-02-07 06:33 +0200</b>.</li>
-<li>Word count: <b>145670</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-02-07 10:04 +0200</b>.</li>
+<li>Word count: <b>145866</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2167,7 +2167,8 @@ narrowed page."
   (interactive "p")
   (if (buffer-narrowed-p)
       (prot-simple--narrow-to-page count)
-    (forward-page count)))
+    (forward-page count)
+    (setq this-command 'forward-page)))
 
 ;;;###autoload
 (defun prot-simple-backward-page-dwim (&amp;optional count)
@@ -2178,7 +2179,8 @@ narrowed page."
   (interactive "p")
   (if (buffer-narrowed-p)
       (prot-simple--narrow-to-page count t)
-    (backward-page count)))
+    (backward-page count)
+    (setq this-command 'backward-page)))
 
 ;; Inspired by Pierre Neidhardt's windower:
 ;; https://gitlab.com/ambrevar/emacs-windower/-/blob/master/windower.el
@@ -2298,6 +2300,7 @@ move the point an arbitrary distance.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-pulse.el (highlight cursor position)
 (prot-emacs-builtin-package 'prot-pulse
+  ;; Restart `prot-pulse-advice-commands-mode' after updating this list.
   (setq prot-pulse-pulse-command-list
         '(recenter
           recenter-top-bottom
@@ -2305,6 +2308,8 @@ move the point an arbitrary distance.
           reposition-window
           bookmark-jump
           other-window
+          forward-page
+          backward-page
           scroll-up-command
           scroll-down-command
           org-next-visible-heading
@@ -3448,7 +3453,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org685fae6">
+<pre class="example" id="org94ed084">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3531,7 +3536,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgb841767">
+<pre class="example" id="org5369f78">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -3988,6 +3993,7 @@ results I am most likely interested in, based on previous selections.
         '((file (styles . (basic partial-completion orderless)))
           (project-file (styles . (basic substring partial-completion orderless)))
           (imenu (styles . (basic substring orderless)))
+          (kill-ring (styles . (basic substring orderless)))
           (consult-location (styles . (basic substring orderless)))))
 
   (setq completion-cycle-threshold 2)
@@ -4017,6 +4023,7 @@ results I am most likely interested in, based on previous selections.
   (setq minibuffer-eldef-shorten-default t)
 
   (setq echo-keystrokes 0.25)           ; from the C source code
+  (setq kill-ring-max 60)               ; Keep it small
 
   ;; Do not allow the cursor to move inside the minibuffer prompt.  I
   ;; got this from the documentation of Daniel Mendler's Vertico
@@ -4071,7 +4078,36 @@ results I am most likely interested in, based on previous selections.
   (mct-region-mode 1) ; NOTE 2022-01-15: This is new and remains experimental
 
   (define-key minibuffer-local-completion-map (kbd "&lt;tab&gt;") #'minibuffer-force-complete)
-  (define-key global-map (kbd "C-x :") #'mct-focus-mini-or-completions))
+  (define-key global-map (kbd "C-x :") #'mct-focus-mini-or-completions)
+
+  ;;;; Sorting completion candidates
+  ;; Only works on Emacs 29 due to a patch of mine that was merged
+  ;; upstream.  A variant of this is in the MCT manual.
+
+  ;; Some sorting functions...
+  (defun prot/mct-sort-by-alpha-length (elems)
+    "Sort ELEMS first alphabetically, then by length."
+    (sort elems (lambda (c1 c2)
+                  (and (string-version-lessp c1 c2)
+                       (&lt; (length c1) (length c2))))))
+
+  (defun prot/mct-sort-by-history (elems)
+    "Sort ELEMS by minibuffer history.
+Use `prot/mct-sort-sort-by-alpha-length' if no history is available."
+    (if-let ((hist (and (not (eq minibuffer-history-variable t))
+                        (symbol-value minibuffer-history-variable))))
+        (minibuffer--sort-by-position hist elems)
+      (prot/mct-sort-sort-by-alpha-length elems)))
+
+  (defun prot/mct-sort-multi-category (elems)
+    "Sort ELEMS per completion category."
+    (pcase (mct--completion-category)
+      ('nil elems) ; no sorting
+      ('kill-ring elems)
+      (_ (prot/mct-sort-by-history elems))))
+
+  ;; Specify the sorting function on Emacs 29.
+  (setq completions-sort #'prot/mct-sort-multi-category))
 </pre>
 </div>
 
@@ -6940,7 +6976,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org51f56bf">
+<pre class="example" id="orgd4d89f0">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -9236,7 +9272,7 @@ otherwise."
   `((global menu-item ,(string-trim-right (format-mode-line mode-line-modes)) ignore)))
 
 ;; FIXME 2021-07-30: This does not update unless some other event takes
-;; place, such as an ELDOC update.  Otherwise it updates every second.
+;; place, such as an ELDOC update.  Otherwise it updates every minute.
 (defun prot-tab-format-position ()
   "Format `mode-line-position' for the tab bar."
   `((global menu-item ,(string-trim-right (format-mode-line mode-line-position)) ignore)))
@@ -15766,7 +15802,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org5f6e049">
+<pre class="example" id="orgc47fe18">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15778,7 +15814,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org4e8ba71">
+<pre class="example" id="org95ed1a7">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15793,7 +15829,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org5d1891d">
+<pre class="example" id="org0418995">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15811,7 +15847,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgb2d4b33">
+<pre class="example" id="orge0e755f">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15840,7 +15876,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org0a9c1b1">
+<pre class="example" id="orga7d0554">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16004,7 +16040,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgeb537eb">
+<pre class="example" id="org4061979">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16731,7 +16767,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgac0890c">
+<pre class="example" id="org4e1ac60">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16765,7 +16801,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgfa126c2">
+<pre class="example" id="orga6eb98b">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16929,7 +16965,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgd62fffa">
+<pre class="example" id="org02285f8">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17124,7 +17160,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org320ba8c">
+<pre class="example" id="orgbf26bb3">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18352,7 +18388,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org1b98b45">
+<pre class="example" id="orge0f085e">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19416,7 +19452,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org6a1e2f1">
+<pre class="example" id="org68da0ce">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20108,7 +20144,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org58aa310">
+<pre class="example" id="org8ecaaa9">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -20950,19 +20986,19 @@ in the strings too, so strings take the form
 LABEL @ URL ~ POSITION."
   (let (links match)
     (save-excursion
-      (goto-char (point-min))
+      (goto-char (point-max))
       ;; NOTE 2021-07-25: The first clause in the `or' is meant to
       ;; address a bug where if a URL is in `point-min' it does not get
       ;; captured.
-      (while (setq match (text-property-search-forward 'shr-url))
+      (while (setq match (text-property-search-backward 'shr-url))
         (let* ((raw-url (prop-match-value match))
                (start-point-prop (prop-match-beginning match))
                (end-point-prop (prop-match-end match))
                (url (when (stringp raw-url)
                       (propertize raw-url 'face 'link)))
                (label (replace-regexp-in-string "\n" " " ; NOTE 2021-07-25: newlines break completion
-                       (buffer-substring-no-properties
-                       start-point-prop end-point-prop)))
+                                                (buffer-substring-no-properties
+                                                 start-point-prop end-point-prop)))
                (point start-point-prop)
                (line (line-number-at-pos point t))
                (column (save-excursion (goto-char point) (current-column)))
@@ -23260,7 +23296,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org683d238">
+<pre class="example" id="orgf409272">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -24986,7 +25022,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org76b82f8">
+<pre class="example" id="org010264a">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25408,7 +25444,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org621acf1">
+<pre class="example" id="org0315406">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25417,7 +25453,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org42f8988">
+<pre class="example" id="org7bb1b2f">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25442,7 +25478,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org3c80abd">
+<pre class="example" id="org6f6f442">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25502,7 +25538,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org73d986d">
+<pre class="example" id="org6c6a63f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25527,7 +25563,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org3d0b093">
+<pre class="example" id="orge921b6f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25536,7 +25572,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9a2ad42">
+<pre class="example" id="org725334d">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25555,7 +25591,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org1c4995f">
+<pre class="example" id="org980b69a">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
