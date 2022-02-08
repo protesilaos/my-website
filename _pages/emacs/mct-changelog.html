@@ -16,6 +16,357 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.
 </p>
 
+<div id="outline-container-h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1" class="outline-2">
+<h2 id="h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1">Version 0.5.0 on 2022-02-08</h2>
+<div class="outline-text-2" id="text-h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1">
+<p>
+This entry covers the changes made to the "Minibuffer and Completions in
+Tandem" (<code>mct</code> package) since the release of <a href="#h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">version 0.4.0 on 2022-01-19</a>.
+There have been about 60 commits in the meantime.
+</p>
+
+<p>
+For further details on the user-facing options covered herein, please
+read the manual: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.  Or evaluate the
+following expression if you already have <code>mct</code> installed:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(info "(mct) Top")
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:95aca1ab-ce8a-4187-94ee-430d44a321b1" class="outline-3">
+<h3 id="h:95aca1ab-ce8a-4187-94ee-430d44a321b1">Customisation options</h3>
+<div class="outline-text-3" id="text-h:95aca1ab-ce8a-4187-94ee-430d44a321b1">
+</div>
+
+<div id="outline-container-h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611" class="outline-4">
+<h4 id="h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611">Size of the Completions buffer</h4>
+<div class="outline-text-4" id="text-h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611">
+<p>
+The user option <code>mct-completion-window-size</code> controls the maximum and
+minimum height of the window where the <code>*Completions*</code> buffer is shown.
+It accepts a cons cell in the form of <code>(MAX-HEIGHT . MIN-HEIGHT)</code>.  Valid
+values are natural numbers (positive integers) or functions which return
+such numbers.  The default is a combination of the two for the sake of
+illustration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
+</pre>
+</div>
+
+<p>
+With this in place, mct will let the <code>*Completions*</code> grow up to 1/3 of the
+frame's height (per the <code>mct--frame-height-fraction</code>).  When live
+completion is performed (see the user option <code>mct-live-completion</code>), the
+window will shrink to fit the candidates.
+</p>
+
+<p>
+To make the <code>*Completions*</code> have a fixed height instead, simply set the
+same number/function twice.
+</p>
+
+<p>
+If set to nil, mct will simply not try to fit the Completions' buffer to
+its window.
+</p>
+
+<p>
+Thanks to Daniel Mendler for the feedback in issue 14:
+<a href="https://gitlab.com/protesilaos/mct/-/issues/14">https://gitlab.com/protesilaos/mct/-/issues/14</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e" class="outline-4">
+<h4 id="h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e">Passlist and blocklist accept completion categories</h4>
+<div class="outline-text-4" id="text-h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e">
+<p>
+The user options <code>mct-completion-passlist</code> and <code>mct-completion-blocklist</code>
+used to only match symbols of commands like <code>find-file</code>, whereas now they
+can affect any completion category such as <code>file</code>, <code>kill-ring</code>, et cetera.
+</p>
+
+<p>
+Sample code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; This is for commands or completion categories that should always pop
+;; up the completions' buffer.  It circumvents the default method of
+;; waiting for some user input (see `mct-minimum-input') before
+;; displaying and updating the completions' buffer.
+(setq mct-completion-passlist
+      '(;; Some commands
+        Info-goto-node
+        Info-index
+        Info-menu
+        vc-retrieve-tag
+        ;; Some completion categories
+        imenu
+        file
+        buffer
+        kill-ring
+        consult-location))
+</pre>
+</div>
+
+<p>
+The manual provides a comprehensive list of known completion categories:
+<a href="https://protesilaos.com/emacs/mct#h:1f42c4e6-53c1-4e8a-81ef-deab70822fa4">https://protesilaos.com/emacs/mct#h:1f42c4e6-53c1-4e8a-81ef-deab70822fa4</a>.
+</p>
+
+<p>
+Or evaluate:
+</p>
+
+<pre class="example">
+(info "(mct) Known completion categories")
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:21788d38-c916-4a36-93fd-6695776d954f" class="outline-4">
+<h4 id="h:21788d38-c916-4a36-93fd-6695776d954f">Persist live completion for dynamic completion tables</h4>
+<div class="outline-text-4" id="text-h:21788d38-c916-4a36-93fd-6695776d954f">
+<p>
+Quoting from the documentation of the <code>mct-persist-dynamic-completion</code>
+user option:
+</p>
+
+<blockquote>
+<p>
+When non-nil, keep dynamic completion live.
+</p>
+
+<p>
+Without any intervention from MCT, the default Emacs behavior for
+commands such as <code>find-file</code> or for a <code>file</code> completion category is to hide
+the <code>*Completions*</code> buffer after updating the list of candidates in a
+non-exiting fashion (e.g. select a directory and expect to continue
+typing the path).  This, however, runs contrary to the interaction model
+of MCT when it performs live completions, because the user expects the
+Completions' buffer to remain visible while typing out the path to the
+file.
+</p>
+
+<p>
+When this user option is non-nil (the default) it makes all non-exiting
+commands keep the <code>*Completions*</code> visible when updating the list of
+candidates.
+</p>
+
+<p>
+This applies to prompts in the <code>file</code> completion category whenever the
+user selects a candidate with <code>mct-choose-completion-no-exit</code>,
+<code>mct-edit-completion</code>, <code>minibuffer-complete</code>, <code>minibuffer-force-complete</code>
+(i.e. any command that does not exit the minibuffer).
+</p>
+
+<p>
+The two exceptions are (i) when the current completion session runs a
+command or category that is blocked by the <code>mct-completion-blocklist</code> or
+(ii) the user option <code>mct-live-completion</code> is nil.
+</p>
+
+<p>
+The underlying rationale:
+</p>
+
+<p>
+Most completion commands present a flat list of candidates to choose
+from.  Picking a candidate concludes the session.  Some prompts,
+however, can recalculate the list of completions based on the selected
+candidate.  A case in point is <code>find-file</code> (or any command with the <code>file</code>
+completion category) which dynamically adjusts the completions to show
+only the elements which extend the given file system path.  We call such
+cases "dynamic completion".  Due to their particular nature, these need
+to be handled explicitly.  The present user option is provided primarily
+to raise awareness about this state of affairs.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-h:3f04e53d-c0bf-481e-861d-46511ef37265" class="outline-4">
+<h4 id="h:3f04e53d-c0bf-481e-861d-46511ef37265">Deprecation of mct-region-completions-format</h4>
+<div class="outline-text-4" id="text-h:3f04e53d-c0bf-481e-861d-46511ef37265">
+<p>
+The <code>mct-region-completions-format</code> used to be the only user option that
+affected the <code>mct-region-mode</code>.  It was removed in the interest of
+simplicity and to avoid potential complications or bugs.  Having
+separate user options for <code>mct-minibuffer-mode</code> and <code>mct-region-mode</code> would
+inevitably lead to duplication and a considerable expansion of the code
+base with all sorts of exceptions and checks.
+</p>
+
+<p>
+In-buffer completion now uses the same <code>mct-completions-format</code> as its
+minibuffer-based counterpart.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e40c90cc-3d65-4623-80fc-160df5cb540b" class="outline-4">
+<h4 id="h:e40c90cc-3d65-4623-80fc-160df5cb540b">Deprecation of regexp for name of Completions</h4>
+<div class="outline-text-4" id="text-h:e40c90cc-3d65-4623-80fc-160df5cb540b">
+<p>
+There used to be a user option <code>mct-completion-windows-regexp</code> which
+targeted the name of the <code>*Completions*</code> buffer.  This was legacy code
+from the early days of the code base: there is no reason to provide a
+customisation of this sort.  The <code>defcustom</code> has been converted into a
+<code>defvar</code> so anyone who still needs the feature can access it:
+<code>mct--completions-window-name</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531" class="outline-3">
+<h3 id="h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531">Sorting the completions on Emacs 29</h3>
+<div class="outline-text-3" id="text-h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531">
+<p>
+Starting with commit <code>a46421446f</code> to emacs.git (by me) users have the
+option to control how the completions are sorted: the variable is
+<code>completions-sort</code>.  Its default value is the same as before, namely, a
+lexicographic order, though it accepts an arbitrary function.
+</p>
+
+<p>
+The mct manual provides samples of such functions (improvements are
+always welcome):
+<a href="https://protesilaos.com/emacs/mct#h:493922c7-efdc-4b63-aa96-b31c684eb4fa">https://protesilaos.com/emacs/mct#h:493922c7-efdc-4b63-aa96-b31c684eb4fa</a>.
+</p>
+
+<p>
+Or evaluate:
+</p>
+
+<pre class="example">
+(info "(mct) Sort completion candidates on Emacs 29")
+</pre>
+
+
+<p>
+For your convenience:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Some sorting functions...
+(defun my-sort-by-alpha-length (elems)
+  "Sort ELEMS first alphabetically, then by length."
+  (sort elems (lambda (c1 c2)
+                (or (string-version-lessp c1 c2)
+                    (&lt; (length c1) (length c2)))))))
+
+(defun my-sort-by-history (elems)
+  "Sort ELEMS by minibuffer history.
+Use `mct-sort-sort-by-alpha-length' if no history is available."
+  (if-let ((hist (and (not (eq minibuffer-history-variable t))
+                      (symbol-value minibuffer-history-variable))))
+      (minibuffer--sort-by-position hist elems)
+    (my-sort-by-alpha-length elems)))
+
+(defun my-sort-multi-category (elems)
+  "Sort ELEMS per completion category."
+  (pcase (mct--completion-category)
+    ('nil elems) ; no sorting
+    ('kill-ring elems)
+    ('project-file (my-sort-by-alpha-length elems))
+    (_ (my-sort-by-history elems))))
+
+;; Specify the sorting function.
+(setq completions-sort #'my-sort-multi-category)
+</pre>
+</div>
+
+<p>
+Remember to check the manual for all known completion categories.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e0a18893-eaa7-4805-baa4-b238ac80f2ad" class="outline-3">
+<h3 id="h:e0a18893-eaa7-4805-baa4-b238ac80f2ad">Changes to the manual</h3>
+<div class="outline-text-3" id="text-h:e0a18893-eaa7-4805-baa4-b238ac80f2ad">
+<ul class="org-ul">
+<li>The documentation has been overhauled to better present its
+contents. User options now have a parent section while each of them
+occupies its own node, making it easier to find exactly what one
+needs.</li>
+
+<li>There is a workaround on how to circumvent the known issue where
+<code>global-hl-line-mode</code> overrides the mct highlight.  Thanks to Tomasz
+Hołubowicz for the feedback in issue 1 over at the GitHub mirror:
+<a href="https://github.com/protesilaos/mct/issues/1">https://github.com/protesilaos/mct/issues/1</a>.</li>
+
+<li>A node is included which explains that mct uses the remap mechanism
+for specifying key bindings when it is appropriate.  As this can lead
+to unexpected issues in certain user configurations, the manual
+explains how to resolve any conflict.  Thanks to Daniel Mendler for
+the feedback on the matter (done in various threads).</li>
+
+<li>Users of both <code>mct</code> and <code>corfu</code> packages may experience a conflict.
+Daniel Mendler (Corfu's developer) provided a snippet which is covered
+in the Corfu's README as well as the mct manual on how to address the
+potential issue: <a href="https://gitlab.com/protesilaos/mct/-/issues/16">https://gitlab.com/protesilaos/mct/-/issues/16</a>.</li>
+
+<li>The <code>emacs-mct</code> package for Guix is now covered in the section about
+installing mct.  Thanks to Andrew Tropin and Nicolas Goaziou for
+making it happen: <a href="https://issues.guix.gnu.org/53812">https://issues.guix.gnu.org/53812</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:688a7b6e-683c-4687-b6b7-2f7227eee1fb" class="outline-3">
+<h3 id="h:688a7b6e-683c-4687-b6b7-2f7227eee1fb">Bug fixes and other refinements</h3>
+<div class="outline-text-3" id="text-h:688a7b6e-683c-4687-b6b7-2f7227eee1fb">
+<ul class="org-ul">
+<li>The timer which controls when the Completions' buffer is displayed or
+updated now cancels any outdated constructs instead of creating new
+ones.  In other words, it is optimised.  Thanks to Daniel Mendler for
+the patch which was sent via email and is recorded as commit <code>4ce1004</code>.</li>
+
+<li>Version <code>0.4.1</code> fixed a regression with an out-of-bounds motion when
+performing certain motions in the <code>*Completions*</code> with a numeric
+argument.</li>
+
+<li>Version <code>0.4.2</code> addressed a regression where <code>mct-region-mode</code> would fail
+to perform live updates.  Thanks to Z.Du for reporting the bug in
+issue 17: <a href="https://gitlab.com/protesilaos/mct/-/issues/17">https://gitlab.com/protesilaos/mct/-/issues/17</a>.</li>
+
+<li>Motions in the Completions buffer are now always based on the
+candidate rather than the line.  The old design would fail to identify
+the first (topmost) candidate if its text was prefixed by entries that
+were not part of the completion table, such as icons provided by the
+<code>all-the-icons-completion</code> package.</li>
+
+<li>The command <code>mct-keyboard-quit-dwim</code> (bound to <code>C-g</code> by default) now works
+properly with the <code>mct-region-mode</code>.  Thanks to James Norman Vladimir
+Cash for the contribution in merge request 5:
+<a href="https://gitlab.com/protesilaos/mct/-/merge_requests/5">https://gitlab.com/protesilaos/mct/-/merge_requests/5</a>.</li>
+
+<li>The <code>mct-highlight-candidate</code> no longer hardcodes colour values and
+instead inherits from the <code>highlight</code> face.  This makes things easier
+for themes (if you use the <code>modus-themes</code> package (by me), mct is now
+affected by the option <code>modus-themes-completions</code>).  Thanks to Tomasz
+Hołubowicz for the side note about this face in issue 1 over at the
+GitHub mirror: <a href="https://github.com/protesilaos/mct/issues/1">https://github.com/protesilaos/mct/issues/1</a>.</li>
+
+<li>Cycling the completion candidates no longer fails when the one at
+point consists of empty spaces and/or newlines.  Thanks to Tomasz
+Hołubowicz for reporting the bug in issue 2 over at the GitHub mirror:
+<a href="https://github.com/protesilaos/mct/issues/2">https://github.com/protesilaos/mct/issues/2</a>.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c" class="outline-2">
 <h2 id="h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">Version 0.4.0 on 2022-01-19</h2>
 <div class="outline-text-2" id="text-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">
@@ -42,9 +393,9 @@ log to what is of interest to the end-user.
 </p>
 </div>
 
-<div id="outline-container-org093cb3c" class="outline-3">
-<h3 id="org093cb3c">Minibuffer Confines Transcended (aka mct-region-mode)</h3>
-<div class="outline-text-3" id="text-org093cb3c">
+<div id="outline-container-h:6ee71a37-cada-43af-93b3-a1d65e2be4a8" class="outline-3">
+<h3 id="h:6ee71a37-cada-43af-93b3-a1d65e2be4a8">Minibuffer Confines Transcended (aka mct-region-mode)</h3>
+<div class="outline-text-3" id="text-h:6ee71a37-cada-43af-93b3-a1d65e2be4a8">
 <p>
 Emacs distinguishes between two types of completion: one that involves
 the minibuffer and another for text expansion inside regular buffers.
