@@ -122,6 +122,7 @@ Current development target is 2.1.0-dev.
 <li><a href="#h:03be4438-dae1-4961-9596-60a307c070b5">6.19. Decrease mode line height</a></li>
 <li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.20. A theme-agnostic hook for theme loading</a></li>
 <li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.21. Diffs with only the foreground</a></li>
+<li><a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">6.22. Ediff without diff color-coding</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -2068,6 +2069,10 @@ contrast threshold.
 
 <p>
 <a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">Diffs with only the foreground</a>.
+</p>
+
+<p>
+<a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">Ediff without diff color-coding</a>.
 </p>
 </div>
 </div>
@@ -4214,7 +4219,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orge0bd02e">
+<pre class="example" id="org028266e">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4595,6 +4600,56 @@ macro (<a href="#h:51ba3547-b8c8-40d6-ba5a-4586477fd4ae">Face specs at scale usi
 This used to be an optional style of <code>modus-themes-diffs</code>, but has been
 removed since version <code>2.0.0</code> to ensure that the accessibility standard
 and aesthetic quality of the themes is not compromised.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:b0b31802-0216-427e-b071-1a47adcfe608" class="outline-3">
+<h3 id="h:b0b31802-0216-427e-b071-1a47adcfe608"><span class="section-number-3">6.22.</span> Ediff without diff color-coding</h3>
+<div class="outline-text-3" id="text-h:b0b31802-0216-427e-b071-1a47adcfe608">
+<p>
+Ediff uses the same color-coding as ordinary diffs in <code>diff-mode</code>, Magit,
+etc. (<a href="#h:ea7ac54f-5827-49bd-b09f-62424b3b6427">Option for diff buffer looks</a>).  This is consistent with the
+principle of least surprise.
+</p>
+
+<p>
+Users may, however, prefer to treat Ediff differently on the premise
+that it does not need any particular color-coding to show added or
+removed lines/words: it does not use the <code>+</code> or <code>-</code> markers, after all.
+</p>
+
+<p>
+This can be achieved by customizing the Ediff faces with color
+combinations that do not carry the same connotations as those of diffs.
+Consider this example, which leverages the <code>modus-themes-with-colors</code>
+macro (<a href="#h:51ba3547-b8c8-40d6-ba5a-4586477fd4ae">Face specs at scale using the themes&rsquo; palette</a>):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-custom-faces ()
+  (modus-themes-with-colors
+    (custom-set-faces
+     `(ediff-current-diff-A ((,class :inherit 'unspecified :background ,bg-special-faint-cold :foreground ,fg-special-cold)))
+     `(ediff-current-diff-B ((,class :inherit 'unspecified :background ,bg-special-faint-warm :foreground ,fg-special-warm)))
+     `(ediff-current-diff-C ((,class :inherit 'unspecified :background ,bg-special-faint-calm :foreground ,fg-special-calm)))
+     `(ediff-fine-diff-A ((,class :inherit 'unspecified :background ,bg-special-cold :foreground ,fg-special-cold)))
+     `(ediff-fine-diff-B ((,class :inherit 'unspecified :background ,bg-special-warm :foreground ,fg-special-warm)))
+     `(ediff-fine-diff-C ((,class :inherit 'unspecified :background ,bg-special-calm :foreground ,fg-special-calm))))))
+
+;; This is so that the changes persist when switching between
+;; `modus-operandi' and `modus-vivendi'.
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+Remove the <code>:foreground</code> and its value to preserve the underlying
+coloration.
+</p>
+
+<p>
+<a href="#h:f4d4b71b-2ca5-4c3d-b0b4-9bfd7aa7fb4d">Visualize the active Modus theme&rsquo;s palette</a>.
 </p>
 </div>
 </div>
@@ -5911,7 +5966,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgdf81114">
+<pre class="example" id="orgc4ad3a4">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5956,7 +6011,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org7cbc99e">
+<pre class="example" id="org2439168">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6326,7 +6381,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org3253b37">
+<pre class="example" id="org752ff91">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
