@@ -68,8 +68,7 @@ Current development target is 0.6.0-dev.
 <ul>
 <li><a href="#h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">4.1. Cyclic behaviour for mct-minibuffer-mode</a></li>
 <li><a href="#h:bb445062-2e39-4082-a868-2123bfb793cc">4.2. Selecting candidates with mct-minibuffer-mode</a></li>
-<li><a href="#h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">4.3. Other commands for mct-minibuffer-mode</a></li>
-<li><a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">4.4. Interaction model of mct-region-mode</a></li>
+<li><a href="#h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">4.3. Interaction model of mct-region-mode</a></li>
 </ul>
 </li>
 <li><a href="#h:1b501ed4-f16c-4118-9a4a-7a5e29143077">5. Installation</a>
@@ -92,7 +91,9 @@ Current development target is 0.6.0-dev.
 <li><a href="#h:2630a7a3-1b11-4e9d-8282-0ea3bf9e2a5b">9. User-level tweaks or custom code</a>
 <ul>
 <li><a href="#h:493922c7-efdc-4b63-aa96-b31c684eb4fa">9.1. Sort completion candidates on Emacs 29</a></li>
-<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.2. MCT in the current or the other window</a></li>
+<li><a href="#h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef">9.2. Indicator for completing-read-multiple</a></li>
+<li><a href="#h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">9.3. Ido-style navigation through directories</a></li>
+<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.4. MCT in the current or the other window</a></li>
 </ul>
 </li>
 <li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">10. Extensions</a>
@@ -771,7 +772,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="orgded00fa">
+<pre class="example" id="org5ce77c7">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -917,53 +918,44 @@ imprecise.
 </p></li>
 <li><p>
 In prompts that allow the selection of multiple candidates
-(internally via the <code>completing-read-multiple</code> function) a <code>[CRM]</code> label
-is added to the text of the prompt.  The user thus knows that
-pressing <code>M-RET</code> (<code>mct-choose-completion-dwim</code>) in the <code>*Completions*</code> will
-append the candidate at point to the list of selections and keep the
-completions available so that another item may be selected.  Any of
-the aforementioned applicable methods can confirm the final
-selection.  If, say, you want to pick a total of three candidates, do
-<code>M-RET</code> for the first two and <code>RET</code> (<code>mct-choose-completion-exit</code>) for the
-last one.  In contexts that are not CRM-powered, the <code>M-RET</code> has the
-same effect as <code>TAB</code> (<code>mct-choose-completion-no-exit</code>).
+(internally via the <code>completing-read-multiple</code> function) using <code>M-RET</code>
+(<code>mct-choose-completion-dwim</code>) in the <code>*Completions*</code> will append the
+candidate at point to the list of selections and keep the completions
+available so that another item may be selected.  Any of the
+aforementioned applicable methods can confirm the final selection.
+If, say, you want to pick a total of three candidates, do <code>M-RET</code> for
+the first two and <code>RET</code> (<code>mct-choose-completion-exit</code>) for the last one.
+In contexts that are not CRM-powered, the <code>M-RET</code> has the same effect
+as <code>TAB</code> (<code>mct-choose-completion-no-exit</code>).
+</p>
+
+<p>
+<a href="#h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef">Indicator for completing-read-multiple</a>.
 </p></li>
-<li>When point is at the minibuffer, select the current candidate in
+<li><p>
+When point is at the minibuffer, select the current candidate in
 the completions buffer with <code>C-RET</code> (<code>mct-complete-and-exit</code>), which
 has the same effect as first completing with <code>TAB</code> and then
 immediately exit the minibuffer with the completed candidate as the
-selected one.</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9" class="outline-3">
-<h3 id="h:b46a3366-6a7a-49ed-8caa-693d6ee437e9"><span class="section-number-3">4.3.</span> Other commands for mct-minibuffer-mode</h3>
-<div class="outline-text-3" id="text-h:b46a3366-6a7a-49ed-8caa-693d6ee437e9">
-<ul class="org-ul">
-<li><p>
-Emacs 28 has the ability to group candidates inside the completions&rsquo;
+selected one.
+</p></li>
+<li>Emacs 28 has the ability to group candidates inside the completions&rsquo;
 buffer under headings.  For example, the Consult package makes good
 use of those (<a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">Extensions</a>).  MCT provides motions that jump between
 such headings, placing the point at the first candidate right below
 the heading&rsquo;s text.  Use <code>M-n</code> (<code>mct-next-completion-group</code>) and <code>M-p</code>
 (<code>mct-previous-completion-group</code>) to move to the next or previous one,
-respectively.  Both commands accept an optional numeric argument.  For
-the sake of avoiding surprises, these commands do not cycle between
-the completions and the minibuffer: they stop at the first or last
-heading.
-</p></li>
-<li>When using completion categories that involve file paths, such as
-<code>find-file</code>, the backspace key (<code>DEL</code>) goes up a directory if point is
-right after a path&rsquo;s directory delimiter (a forward slash).  Otherwise
-it deletes a single character backwards.  The command&rsquo;s symbol is
-<code>mct-backward-updir</code>.</li>
-</ul>
+respectively (also work with they keys for <code>forward-paragraph</code> and
+<code>backward-paragraph</code>).  Both commands accept an optional numeric
+argument.  For the sake of avoiding surprises, these commands do not
+cycle between the completions and the minibuffer: they stop at the
+first or last heading.</li>
+</ol>
 </div>
 </div>
 
 <div id="outline-container-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3" class="outline-3">
-<h3 id="h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3"><span class="section-number-3">4.4.</span> Interaction model of mct-region-mode</h3>
+<h3 id="h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3"><span class="section-number-3">4.3.</span> Interaction model of mct-region-mode</h3>
 <div class="outline-text-3" id="text-h:97eb5898-1e52-4338-bd55-8c52f9d8ccd3">
 <p>
 When <code>mct-region-mode</code> is enabled, MCT is used for in-buffer completion.
@@ -997,7 +989,7 @@ interaction is below the current buffer (as opposed to the bottom of the
 frame for <code>mct-minibuffer-mode</code>).  It looks like this:
 </p>
 
-<pre class="example" id="orgb3f1f7e">
+<pre class="example" id="org7bfd29d">
 ------------------------
 |               |      |
 | Current buffer| Buf  |
@@ -1433,8 +1425,74 @@ Use `mct-sort-sort-by-alpha-length' if no history is available."
 </div>
 </div>
 
+<div id="outline-container-h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef" class="outline-3">
+<h3 id="h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef"><span class="section-number-3">9.2.</span> Indicator for completing-read-multiple</h3>
+<div class="outline-text-3" id="text-h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef">
+<p>
+[ Part of 0.6.0-dev ]
+</p>
+
+<p>
+Previous versions of MCT would prepend a <code>[CRM]</code> tag to the minibuffer
+prompt of commands powered by <code>completing-read-multiple</code>.  While this is a
+nice usability enhancement, it is not specific to MCT and thus should
+not be part of <code>mct.el</code>.  Use this in your init file instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Copied from Daniel Mendler's `vertico' library:
+;; &lt;https://github.com/minad/vertico&gt;.
+(defun my-crm-indicator (args)
+  "Add prompt indicator to `completing-read-multiple' filter ARGS."
+  (cons (concat "[CRM] " (car args)) (cdr args)))
+
+(advice-add #'completing-read-multiple :filter-args #'my-crm-indicator)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2" class="outline-3">
+<h3 id="h:9a6746dd-0be9-4e29-ac40-0af9612d05a2"><span class="section-number-3">9.3.</span> Ido-style navigation through directories</h3>
+<div class="outline-text-3" id="text-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">
+<p>
+[ Part of 0.6.0-dev ]
+</p>
+
+<p>
+Older versions of MCT had a command for file navigation that would
+delete the whole directory component before point, effectively going
+back up one directory.  While the functionality can be useful, it is not
+integral to the MCT experience and thus should not belong in <code>mct.el</code>.
+Add this to your own configuration file instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Adaptation of `icomplete-fido-backward-updir'.
+(defun my-backward-updir ()
+  "Delete char before point or go up a directory."
+  (interactive nil mct-minibuffer-mode)
+  (cond
+   ((and (eq (char-before) ?/)
+         (eq (mct--completion-category) 'file))
+    (when (string-equal (minibuffer-contents) "~/")
+      (delete-minibuffer-contents)
+      (insert (expand-file-name "~/"))
+      (goto-char (line-end-position)))
+    (save-excursion
+      (goto-char (1- (point)))
+      (when (search-backward "/" (minibuffer-prompt-end) t)
+        (delete-region (1+ (point)) (point-max)))))
+   (t (call-interactively 'backward-delete-char))))
+
+(define-key minibuffer-local-filename-completion-map (kbd "DEL") #'my-backward-updir)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:891c7841-9cdc-42df-bba9-45f7409b807c" class="outline-3">
-<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.2.</span> MCT in the current or the other window</h3>
+<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.4.</span> MCT in the current or the other window</h3>
 <div class="outline-text-3" id="text-h:891c7841-9cdc-42df-bba9-45f7409b807c">
 <p>
 Over at the <a href="https://git.sr.ht/~abcdw/rde">rde project</a>, Andrew Tropin configures MCT to display the
@@ -1722,10 +1780,9 @@ of the end-user.  <code>fido-mode</code> and its accoutrements are defined in
 </p>
 
 <p>
-What MCT borrows from Icomplete is the <code>mct-backward-updir</code> command, the
-tidying of the shadowed file paths, and ideas for the input delay
-(explained elsewhere in this document).  Internally, I also learnt how
-to extend local keymaps by studying <code>icomplete.el</code>.
+What MCT borrows from Icomplete is for the input delay (explained
+elsewhere in this document).  Internally, I also learnt how to extend
+local keymaps by studying <code>icomplete.el</code>.
 </p>
 
 <p>
@@ -1752,9 +1809,9 @@ Vladimir Cash, José Antonio Ortega Ruiz, Juri Linkov, Philip
 Kaludercic.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Andrew Tropin, Benjamin (@zealotrush), Case
-Duckworth, Jonathan Irving, José Antonio Ortega Ruiz, Kostadin Ninev,
-Manuel Uberti, Philip Kaludercic, Theodor Thornhill, Tomasz
-Hołubowicz, Z.Du.  As well as users: danrobi11.</dd>
+Duckworth, Chris Burroughs, Jonathan Irving, José Antonio Ortega Ruiz,
+Kostadin Ninev, Manuel Uberti, Philip Kaludercic, Theodor Thornhill,
+Tomasz Hołubowicz, Z.Du.  As well as users: danrobi11.</dd>
 
 <dt>Packaging</dt><dd>Andrew Tropin and Nicolas Goaziou (Guix).</dd>
 
