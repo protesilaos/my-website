@@ -93,8 +93,9 @@ Current development target is 0.6.0-dev.
 <ul>
 <li><a href="#h:493922c7-efdc-4b63-aa96-b31c684eb4fa">9.1. Sort completion candidates on Emacs 29</a></li>
 <li><a href="#h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef">9.2. Indicator for completing-read-multiple</a></li>
-<li><a href="#h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">9.3. Ido-style navigation through directories</a></li>
-<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.4. MCT in the current or the other window</a></li>
+<li><a href="#h:18a2a223-8544-4294-b847-012c99003de4">9.3. Select completion with Avy</a></li>
+<li><a href="#h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">9.4. Ido-style navigation through directories</a></li>
+<li><a href="#h:891c7841-9cdc-42df-bba9-45f7409b807c">9.5. MCT in the current or the other window</a></li>
 </ul>
 </li>
 <li><a href="#h:03227254-d467-4147-b8cf-2fe05a2e279b">10. Extensions</a>
@@ -797,7 +798,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="org442d694">
+<pre class="example" id="orga79d781">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -1014,7 +1015,7 @@ interaction is below the current buffer (as opposed to the bottom of the
 frame for <code>mct-minibuffer-mode</code>).  It looks like this:
 </p>
 
-<pre class="example" id="orgc6b1814">
+<pre class="example" id="org59a316b">
 ------------------------
 |               |      |
 | Current buffer| Buf  |
@@ -1307,7 +1308,6 @@ minibuffer and the <code>*Completions*</code> buffer, respectively:
 <ul class="org-ul">
 <li><code>mct-completion-list-mode-map</code></li>
 <li><code>mct-minibuffer-local-completion-map</code></li>
-<li><code>mct-minibuffer-local-filename-completion-map</code></li>
 <li><code>mct-region-buffer-map</code></li>
 <li><code>mct-region-completion-list-map</code></li>
 </ul>
@@ -1477,8 +1477,50 @@ not be part of <code>mct.el</code>.  Use this in your init file instead:
 </div>
 </div>
 
+<div id="outline-container-h:18a2a223-8544-4294-b847-012c99003de4" class="outline-3">
+<h3 id="h:18a2a223-8544-4294-b847-012c99003de4"><span class="section-number-3">9.3.</span> Select completion with Avy</h3>
+<div class="outline-text-3" id="text-h:18a2a223-8544-4294-b847-012c99003de4">
+<p>
+The <code>avy</code> package by Oleh Krehel can be used to quickly select a candidate
+from a visible <code>*Completions*</code> buffer.  In the following example, we
+activate it with the <code>C-.</code> key.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Adapted from Omar Antolín Camarena's `avy-embark-collect.el'.
+(defun my-avy--choose (pt)
+  "Choose completion at PT."
+  (goto-char pt)
+  (mct-choose-completion-exit))
+
+(defun my-avy-completions-select ()
+  "Choose completion and exit using Avy."
+  (interactive)
+  (when (mct--get-completion-window)
+    (mct--switch-to-completions)
+    (avy-with avy-completion
+      (let ((avy-action 'my-avy--choose))
+        (avy-process
+         (save-excursion
+           (let (completions)
+             (goto-char (mct--first-completion-point))
+             (while (not (eobp))
+               (push (point) completions)
+               (next-completion 1))
+             (nreverse completions))))))))
+
+(dolist (map (list mct-minibuffer-local-completion-map
+                   mct-minibuffer-completion-list-map
+                   mct-region-completion-list-map
+                   mct-region-buffer-map))
+  (define-key map (kbd "C-.") #'my-avy-completions-select))
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2" class="outline-3">
-<h3 id="h:9a6746dd-0be9-4e29-ac40-0af9612d05a2"><span class="section-number-3">9.3.</span> Ido-style navigation through directories</h3>
+<h3 id="h:9a6746dd-0be9-4e29-ac40-0af9612d05a2"><span class="section-number-3">9.4.</span> Ido-style navigation through directories</h3>
 <div class="outline-text-3" id="text-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">
 <p>
 [ Part of 0.6.0-dev ]
@@ -1517,7 +1559,7 @@ Add this to your own configuration file instead:
 </div>
 
 <div id="outline-container-h:891c7841-9cdc-42df-bba9-45f7409b807c" class="outline-3">
-<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.4.</span> MCT in the current or the other window</h3>
+<h3 id="h:891c7841-9cdc-42df-bba9-45f7409b807c"><span class="section-number-3">9.5.</span> MCT in the current or the other window</h3>
 <div class="outline-text-3" id="text-h:891c7841-9cdc-42df-bba9-45f7409b807c">
 <p>
 Over at the <a href="https://git.sr.ht/~abcdw/rde">rde project</a>, Andrew Tropin configures MCT to display the
