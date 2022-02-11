@@ -147,10 +147,11 @@ Current development target is 2.1.0-dev.
 <li><a href="#h:98bdf319-1e32-4469-8a01-771200fba65c">8.12. Note on ERC escaped color sequences</a></li>
 <li><a href="#h:9130a8ba-d8e3-41be-a58b-3cb1eb7b6d17">8.13. Note on powerline or spaceline</a></li>
 <li><a href="#h:4cc767dc-ffef-4c5c-9f10-82eb7b8921bf">8.14. Note on SHR colors</a></li>
-<li><a href="#h:e6c5451f-6763-4be7-8fdb-b4706a422a4c">8.15. Note on EWW and Elfeed fonts</a></li>
-<li><a href="#h:d28879a2-8e4b-4525-986e-14c0f873d229">8.16. Note on Helm grep</a></li>
-<li><a href="#h:5095cbd1-e17a-419c-93e8-951c186362a3">8.17. Note on vc-annotate-background-mode</a></li>
-<li><a href="#h:2659d13e-b1a5-416c-9a89-7c3ce3a76574">8.18. Note on pdf-tools link hints</a></li>
+<li><a href="#h:e6c5451f-6763-4be7-8fdb-b4706a422a4c">8.15. Note on SHR fonts</a></li>
+<li><a href="#h:8e636056-356c-4ca7-bc78-ebe61031f585">8.16. Note on Ement colors and fonts</a></li>
+<li><a href="#h:d28879a2-8e4b-4525-986e-14c0f873d229">8.17. Note on Helm grep</a></li>
+<li><a href="#h:5095cbd1-e17a-419c-93e8-951c186362a3">8.18. Note on vc-annotate-background-mode</a></li>
+<li><a href="#h:2659d13e-b1a5-416c-9a89-7c3ce3a76574">8.19. Note on pdf-tools link hints</a></li>
 </ul>
 </li>
 <li><a href="#h:b3384767-30d3-4484-ba7f-081729f03a47">9. Frequently Asked Questions</a>
@@ -4225,7 +4226,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org45520d2">
+<pre class="example" id="org72e2afb">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4758,6 +4759,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>elfeed-score</li>
 <li>elpher</li>
 <li>embark</li>
+<li>ement [ part of 2.1.0-dev ]</li>
 <li>emms</li>
 <li>enh-ruby-mode (enhanced-ruby-mode)</li>
 <li>epa</li>
@@ -5701,25 +5703,93 @@ Consult C-h v shr-use-colors.
 </div>
 
 <div id="outline-container-h:e6c5451f-6763-4be7-8fdb-b4706a422a4c" class="outline-3">
-<h3 id="h:e6c5451f-6763-4be7-8fdb-b4706a422a4c"><span class="section-number-3">8.15.</span> Note on EWW and Elfeed fonts</h3>
+<h3 id="h:e6c5451f-6763-4be7-8fdb-b4706a422a4c"><span class="section-number-3">8.15.</span> Note on SHR fonts</h3>
 <div class="outline-text-3" id="text-h:e6c5451f-6763-4be7-8fdb-b4706a422a4c">
 <p>
-EWW and Elfeed rely on the Simple HTML Renderer to display their
-content.  The shr.el library contains the variable <code>shr-use-fonts</code>
-that controls whether the text in the buffer is set to a <code>variable-pitch</code>
-typeface (proportionately spaced) or if just retains whatever the
-default font family is.  Its default value is non-nil, which means that
-<code>variable-pitch</code> is applied.
+By default, packages that build on top of the Simple HTML Remember (<code>shr</code>)
+use proportionately spaced fonts.  This is controlled by the user option
+<code>shr-use-fonts</code>, which is set to non-nil by default.  To use the standard
+font instead, set that variable to nil.
 </p>
 
 <p>
 <a href="#h:defcf4fc-8fa8-4c29-b12e-7119582cc929">Font configurations for Org and others</a>.
 </p>
+
+<p>
+Packages affected by this are:
+</p>
+
+<ul class="org-ul">
+<li>elfeed</li>
+<li>ement</li>
+<li>eww</li>
+</ul>
+
+<p>
+This is a non-exhaustive list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:8e636056-356c-4ca7-bc78-ebe61031f585" class="outline-3">
+<h3 id="h:8e636056-356c-4ca7-bc78-ebe61031f585"><span class="section-number-3">8.16.</span> Note on Ement colors and fonts</h3>
+<div class="outline-text-3" id="text-h:8e636056-356c-4ca7-bc78-ebe61031f585">
+<p>
+[ Part of 2.1.0-dev ]
+</p>
+
+<p>
+The <code>ement.el</code> library by Adam Porter (also known as &ldquo;alphapapa&rdquo;) defaults
+to a method of colorizing usernames in a rainbow style.  This is
+controlled by the user option <code>ement-room-prism</code> and can be disabled with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq ement-room-prism nil)
+</pre>
+</div>
+
+<p>
+The contrast ratio of these colors is governed by another user option:
+<code>ement-room-prism-minimum-contrast</code>.  By default, it is set to 6 which is
+slightly below our nominal target.  Try this instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq ement-room-prism-minimum-contrast 7)
+</pre>
+</div>
+
+<p>
+With regard to fonts, Ement depends on <code>shr</code> (<a href="#h:e6c5451f-6763-4be7-8fdb-b4706a422a4c">Note on SHR fonts</a>).
+</p>
+
+<p>
+Since we are here, here is an excerpt from Ement&rsquo;s source code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defcustom ement-room-prism-minimum-contrast 6
+  "Attempt to enforce this minimum contrast ratio for user faces.
+This should be a reasonable number from, e.g. 0-7 or so."
+  ;; Prot would almost approve of this default.  :) I would go all the way
+  ;; to 7, but 6 already significantly dilutes the colors in some cases.
+  :type 'number)
+</pre>
+</div>
+
+<p>
+Yes, I do approve of that default.  Even a 4.5 (the WCAG AA rating)
+would be a good baseline for many themes and/or user configurations.
+Our target is the highest of the sort, though we do not demand that
+everyone conforms with it.
+</p>
 </div>
 </div>
 
 <div id="outline-container-h:d28879a2-8e4b-4525-986e-14c0f873d229" class="outline-3">
-<h3 id="h:d28879a2-8e4b-4525-986e-14c0f873d229"><span class="section-number-3">8.16.</span> Note on Helm grep</h3>
+<h3 id="h:d28879a2-8e4b-4525-986e-14c0f873d229"><span class="section-number-3">8.17.</span> Note on Helm grep</h3>
 <div class="outline-text-3" id="text-h:d28879a2-8e4b-4525-986e-14c0f873d229">
 <p>
 There is one face from the Helm package that is meant to highlight the
@@ -5761,7 +5831,7 @@ ANSI color number 1 (red) from the already-supported array of
 </div>
 
 <div id="outline-container-h:5095cbd1-e17a-419c-93e8-951c186362a3" class="outline-3">
-<h3 id="h:5095cbd1-e17a-419c-93e8-951c186362a3"><span class="section-number-3">8.17.</span> Note on vc-annotate-background-mode</h3>
+<h3 id="h:5095cbd1-e17a-419c-93e8-951c186362a3"><span class="section-number-3">8.18.</span> Note on vc-annotate-background-mode</h3>
 <div class="outline-text-3" id="text-h:5095cbd1-e17a-419c-93e8-951c186362a3">
 <p>
 Due to the unique way <code>vc-annotate</code> (C-x v g) applies colors, support
@@ -5785,7 +5855,7 @@ report as much or send patches (<a href="#h:9c3cd842-14b7-44d7-84b2-a5c8bc3fc3b1
 </div>
 
 <div id="outline-container-h:2659d13e-b1a5-416c-9a89-7c3ce3a76574" class="outline-3">
-<h3 id="h:2659d13e-b1a5-416c-9a89-7c3ce3a76574"><span class="section-number-3">8.18.</span> Note on pdf-tools link hints</h3>
+<h3 id="h:2659d13e-b1a5-416c-9a89-7c3ce3a76574"><span class="section-number-3">8.19.</span> Note on pdf-tools link hints</h3>
 <div class="outline-text-3" id="text-h:2659d13e-b1a5-416c-9a89-7c3ce3a76574">
 <p>
 Hints are drawn by <a href="https://imagemagick.org/">ImageMagick</a>, not Emacs, i.e., ImageMagick doesn&rsquo;t
@@ -5955,7 +6025,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgb152932">
+<pre class="example" id="orgbedae6c">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6000,7 +6070,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgfb0f7fc">
+<pre class="example" id="org3932e2d">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6370,7 +6440,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org5959d55">
+<pre class="example" id="org14288fe">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6451,13 +6521,13 @@ Mark Bestley, Mark Burton, Markus Beppler, Mauro Aranda, Michael
 Goldenberg, Morgan Smith, Murilo Pereira, Nicky van Foreest, Nicolas
 De Jaeghere, Paul Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu,
 Philip Kaludercic, Pierre Téchoueyres, Roman Rudakov, Ryan Phillips,
-Rudolf Adamkovič, Saša Janiška, Sam Kleinman, Shreyas Ragavan, Simon
-Pugnet, Tassilo Horn, Thibaut Verron, Thomas Heartman, Togan
-Muftuoglu, Trey Merkley, Tomasz Hołubowicz, Toon Claes, Uri Sharf,
-Utkarsh Singh, Vincent Foley.  As well as users: Ben, CsBigDataHub1,
-Emacs Contrib, Eugene, Fourchaux, Fredrik, Moesasji, Nick, TheBlob42,
-Trey, bepolymathe, bit9tream, derek-upham, doolio, fleimgruber, iSeeU,
-jixiuf, okamsn, pRot0ta1p.</dd>
+Rudolf Adamkovič, Sam Kleinman, Samuel Culpepper, Saša Janiška,
+Shreyas Ragavan, Simon Pugnet, Tassilo Horn, Thibaut Verron, Thomas
+Heartman, Togan Muftuoglu, Trey Merkley, Tomasz Hołubowicz, Toon
+Claes, Uri Sharf, Utkarsh Singh, Vincent Foley.  As well as users:
+Ben, CsBigDataHub1, Emacs Contrib, Eugene, Fourchaux, Fredrik,
+Moesasji, Nick, TheBlob42, Trey, bepolymathe, bit9tream, derek-upham,
+doolio, fleimgruber, iSeeU, jixiuf, okamsn, pRot0ta1p.</dd>
 
 <dt>Packaging</dt><dd>Basil L. Contovounesios, Eli Zaretskii, Glenn
 Morris, Mauro Aranda, Richard Stallman, Stefan Kangas (core Emacs),
