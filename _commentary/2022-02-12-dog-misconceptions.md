@@ -65,7 +65,7 @@ on](https://3.bp.blogspot.com/-v1HCSn5GHQY/VNQ41sdwhDI/AAAAAAAAACY/sI04b6Bn80g/s
 
 To our point though: yes, dogs can bite.  Do not ever make the mistake
 of thinking otherwise.  Dogs are not toys.  You don't get one as the
-animate equivalent of your child's "teddy bear", or as a fashion
+animate equivalent of your child's teddy bear, or as a fashion
 accessory, or even to show your social status and how much of a badass
 you think you are.  If you want a toy, buy a toy.  If you need some
 fashion accessory---which you don't---acquire one.  And if you really
@@ -112,8 +112,8 @@ If the dog is not well trained, it likely is not properly socialised
 either.  Which implies that it lacks confidence in its own means and
 will be anxious and/or aggressive in various circumstances.  For small
 dogs, this may not pose a problem.  The dog is still a threat, though a
-minor one given its relative lack of sheer strength.  Whereas a powerful
-breed with the same maladjusted behaviour is a potent threat and, by
+minor one given its lack of sheer strength.  Whereas a powerful breed
+with the same maladjusted behaviour is a potent threat and, by
 extension, its human is, perhaps unwillingly, a menace to society.
 
 To summarise:
@@ -150,13 +150,13 @@ truth:
    are a clear sign of failure to train the dog and tend to its needs.
 
 Now a few words about pitbulls in particular.  Most dogs that are
-described in those terms have little in common with the bull and
-terriers that were used for bull baiting and dog fighting in yester
-centuries (cruelty writ large!).  There are differences in breeding
-practices though the single most important change is with how [most]
-humans treat these animals: a canine that is perennially abused for the
-sole purpose of a blood "sport" will always be lethal compared to a dog
-that is raised in a loving and stable household.
+described in those terms have little in common with the bull-and-terrier
+that were used for bull baiting and dog fighting in yester centuries
+(cruelty writ large!).  There are differences in breeding practices
+though the single most important change is with how [most] humans treat
+these animals: a canine that is perennially abused for the sole purpose
+of a blood "sport" will always be lethal compared to a dog that is
+raised in a loving and stable household.
 
 Modern day pitbulls retain aggressiveness towards other animals, such as
 cats, but are not human-aggressive.  If your dog is animal-aggressive,
@@ -174,7 +174,7 @@ feed it a bone?
 In case you wonder, the answer is negative.  This is yet another one of
 those persistent lies...  Raw meat does not turn dogs into wild beasts.
 What is actually happening is that the dog has a latent prey drive that
-went unnoticed.
+may go unnoticed.
 
 Even dogs with a high prey drive will not exhibit it from day one.  A
 puppy may have to grow up to 5-9 months old before it starts showing its
@@ -290,7 +290,7 @@ professionals as a personal guardian, I think the answer is nuanced.  A
 dog can indeed deter opportunistic aggressors and a highly trained dog
 will do so effectively.  However, no dog will ever stand a chance
 against a determined, concerted attack against you.  As such, I suggest
-you spend your money in some other way.
+you spend your money some other way.
 
 For us ordinary folk who can't approximate such levels of expenditure,
 it is better to think of protection training as yet another kind of
