@@ -270,8 +270,8 @@ Before getting any kind of dog, consider the following:
   afford that kind of availability?
 * Are you willing to commit a great deal of time to learn the fine
   details that are essential to your life with a dog?  Such as why it
-  wants to chew on your shoe all of a sudden? (It asks to go out for a
-  piss or to defecate.  No worries though: it will eventually learn to
+  wants to chew on your shoe all of a sudden? (It asks to go out to
+  urinate or defecate.  No worries though: it will eventually learn to
   communicate without becoming destructive.)
 
 You get the idea: a dog is not a toy, as noted further above.  The
