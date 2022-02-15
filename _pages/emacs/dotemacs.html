@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-02-15 07:32 +0200</b>.</li>
-<li>Word count: <b>146394</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-02-15 18:35 +0200</b>.</li>
+<li>Word count: <b>146467</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -1049,6 +1049,12 @@ will continue rotating accordingly."
 (defun prot-common-window-bounds ()
   "Determine start and end points in the window."
   (list (window-start) (window-end)))
+
+;;;###autoload
+(defun prot-common-page-p ()
+  "Return non-nil if there is a `page-delimiter' in the buffer."
+  (or (save-excursion (re-search-forward page-delimiter nil t))
+      (save-excursion (re-search-backward page-delimiter nil t))))
 
 ;;;###autoload
 (defun prot-common-read-data (file)
@@ -2132,8 +2138,11 @@ Also check `prot-simple-narrow-dwim'."
 If region is active, narrow the buffer to the region's
 boundaries.
 
-If no region is active, narrow to the visible portion of the
-window.
+If pages are defined by virtues of `prot-common-page-p' narrow to
+the current page boundaries.
+
+If no region is active and no pages exist, narrow to the visible
+portion of the window.
 
 If narrowing is in effect, widen the view."
   (interactive)
@@ -2145,11 +2154,11 @@ If narrowing is in effect, widen the view."
     (let ((beg (region-beginning))
           (end (region-end)))
       (narrow-to-region beg end)))
+   ((prot-common-page-p)
+    (narrow-to-page))
    ((null (buffer-narrowed-p))
     (prot-simple-narrow-visible-window))
-   (t
-    (widen)
-    (recenter))))
+   ((widen))))
 
 (defun prot-simple--narrow-to-page (count &amp;optional back)
   "Narrow to COUNTth page with optional BACK motion."
@@ -3478,7 +3487,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org4a22097">
+<pre class="example" id="org03b1324">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3561,7 +3570,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgdfc57f8">
+<pre class="example" id="org2098218">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -7009,7 +7018,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org105291b">
+<pre class="example" id="org294a1ff">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15835,7 +15844,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgdbc3a09">
+<pre class="example" id="org7bce142">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15847,7 +15856,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgdb4dc94">
+<pre class="example" id="org87fc383">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15862,7 +15871,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org0be9f2d">
+<pre class="example" id="orgdbdcbfa">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15880,7 +15889,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org55cbf92">
+<pre class="example" id="org23c1c4f">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15909,7 +15918,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgcfc8970">
+<pre class="example" id="orgf1cf9a1">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16073,7 +16082,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orge766908">
+<pre class="example" id="org8e8f869">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16800,7 +16809,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgf3296b8">
+<pre class="example" id="org23ecb01">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16834,7 +16843,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org8c7d612">
+<pre class="example" id="org51f53fd">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16998,7 +17007,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgc663b9e">
+<pre class="example" id="orgf2f5b6e">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17193,7 +17202,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org6409d6d">
+<pre class="example" id="org6341f8c">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18421,7 +18430,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org4f41384">
+<pre class="example" id="org8bea873">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19485,7 +19494,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgc12c376">
+<pre class="example" id="org839ecf4">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20177,7 +20186,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org69a744d">
+<pre class="example" id="org3e99d1a">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23379,7 +23388,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org67b3e70">
+<pre class="example" id="orga1767b2">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -23572,7 +23581,7 @@ Refer to the source code in <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Co
 (prot-emacs-builtin-package 'text-mode)
 
 (prot-emacs-builtin-package 'prot-text
-  (add-to-list 'auto-mode-alist '("\\`\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'" . text-mode))
+  (add-to-list 'auto-mode-alist '("\\(README\\|CHANGELOG\\|COPYING\\|LICENSE\\)\\'" . text-mode))
   (define-key text-mode-map (kbd "&lt;M-return&gt;") #'prot-text-insert-heading)
   (define-key org-mode-map (kbd "&lt;M-return&gt;") #'org-meta-return) ; don't override M-RET here
   (define-key org-mode-map (kbd "M-;") nil))
@@ -24212,6 +24221,7 @@ parenthesis.</li>
   (setq show-paren-style 'parenthesis)
   (setq show-paren-when-point-in-periphery nil)
   (setq show-paren-when-point-inside-paren nil)
+  (setq show-paren-context-when-offscreen 'child-frame) ; Emacs 29
   (add-hook 'after-init-hook #'show-paren-mode))
 </pre>
 </div>
@@ -25105,7 +25115,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgc691b46">
+<pre class="example" id="org28ee4be">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25527,7 +25537,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgf048e4f">
+<pre class="example" id="org83f33ab">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25536,7 +25546,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgc4a1964">
+<pre class="example" id="orgef2387e">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25561,7 +25571,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org8b57005">
+<pre class="example" id="orgcc1fe2e">
 ~/Git/prot-dotfiles $ tree -aF --dirsfirst emacs
 emacs
 └── .emacs.d/
@@ -25621,7 +25631,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org1b22292">
+<pre class="example" id="org01116b2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25646,7 +25656,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgbcb7082">
+<pre class="example" id="org621901e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25655,7 +25665,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgc02cc02">
+<pre class="example" id="org54e823e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25674,7 +25684,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org1663beb">
+<pre class="example" id="orgc0e5049">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
