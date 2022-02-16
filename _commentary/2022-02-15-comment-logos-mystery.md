@@ -3,6 +3,10 @@ title: "Comments on universal logos and mystery"
 excerpt: "An exchange of views on my presentation about Cosmos and Logos."
 ---
 
+**UPDATE 2022-02-16 13:41 +0200:** Watch the new video on [Ataraxia,
+moderation, and
+mysticism](https://protesilaos.com/books/2022-02-16-ataraxia-moderation-mysticism/).
+
 The following is an exchange of views with Dragos Iorgulescu which took
 place in the comments' section of my video about [Cosmos and
 Logos](https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/)
