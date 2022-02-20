@@ -5,8 +5,9 @@ layout: vlog
 mediaid: "pKnKDJqI3Ro"
 ---
 
-On Saturday 2022-02-19 at 12:30 +0200 I will hold a live stream.  The
-text of the presentation (`org-mode` notation):
+On Saturday 2022-02-19 at 12:30 +0200 I held a live stream.  The
+recording of the video is available.  Below is the text of the
+presentation (`org-mode` notation):
 
 ```org
 #+TITLE: Live: Emacs videos, LibrePlanet 2022, philosophy presentations
@@ -24,7 +25,6 @@ the chat for any questions.  I posted the schedule for this stream about
 30 minutes ago, so I don't expect anyone to show up.  No worries!  You
 will get the recorded version.
 
-
 
 * Completion UIs in the modus-themes
 
@@ -58,7 +58,6 @@ month or so.
 The change log entry will explain the details.  Thank you for your
 understanding!
 
-
 
 * My talk at LibrePlanet 2022
 
@@ -74,7 +73,6 @@ I still cannot be more specific about the event.  This will change in
 the coming days or weeks.  Please stay tuned on my website's code blog
 section: https://protesilaos.com/codelog.
 
-
 
 * No more Emacs tutorials/demos
 
@@ -93,7 +91,6 @@ something you just plug-n-play, but here we are...  This is consistent
 with my position against spoon-feeding new users---and you already know
 I take documentation very seriously, which is not the same thing.
 
-
 
 * Philosophy videos
 
@@ -111,7 +108,6 @@ way.
 I understand no-one necessarily signed up to this channel for that type
 of content.  Now is a good time to search for alternatives.
 
-
 
 * Moving to the live chat
 
