@@ -1,5 +1,5 @@
 ---
-title: "On Cosmos and Logos"
+title: "Cosmos, Logos, and the living universe"
 excerpt: "A work on philosophy by Protesilaos Stavrou about the metaphysics of Cosmos and Logos."
 layout: vlog
 mediaid: "rJIVTjUqrgo"
