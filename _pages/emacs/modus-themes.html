@@ -121,9 +121,10 @@ Current development target is 2.2.0-dev.
 <li><a href="#h:1d1ef4b4-8600-4a09-993c-6de3af0ddd26">6.17. Load theme depending on time of day</a></li>
 <li><a href="#h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">6.18. Backdrop for pdf-tools</a></li>
 <li><a href="#h:03be4438-dae1-4961-9596-60a307c070b5">6.19. Decrease mode line height</a></li>
-<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.20. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.21. Diffs with only the foreground</a></li>
-<li><a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">6.22. Ediff without diff color-coding</a></li>
+<li><a href="#h:b40aca50-a3b2-4c43-be58-2c26fcd14237">6.20. Toggle themes without reloading them</a></li>
+<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.21. A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.22. Diffs with only the foreground</a></li>
+<li><a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">6.23. Ediff without diff color-coding</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -482,9 +483,9 @@ a theme with either of the following expressions:
 Changes to the available customization options must always be evaluated
 before loading a theme (<a href="#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f">Customization Options</a>).  An exception to this
 norm is when using the various Custom interfaces or with commands like
-M-x customize-set-variable, which automatically reload the theme by
-default (<a href="#h:9001527a-4e2c-43e0-98e8-3ef72d770639">Option for inhibiting theme reload</a>).  This is how a basic setup
-could look like:
+M-x customize-set-variable, which can automatically reload
+the theme (<a href="#h:9001527a-4e2c-43e0-98e8-3ef72d770639">Option for inhibiting theme reload</a>).  This is how a basic
+setup could look like:
 </p>
 
 <div class="org-src-container">
@@ -615,9 +616,9 @@ or some face.
 </p>
 
 <p>
-This &ldquo;reset&rdquo; that <code>load-theme</code> conducts does, however, come at the cost
-of being somewhat slower than <code>enable-theme</code>.  Users who have a stable
-setup and who seldom update their variables during a given Emacs
+This &ldquo;reset&rdquo; that <code>load-theme</code> brings about does, however, come at the
+cost of being somewhat slower than <code>enable-theme</code>.  Users who have a
+stable setup and who seldom update their variables during a given Emacs
 session, are better off using something like this:
 </p>
 
@@ -629,6 +630,10 @@ session, are better off using something like this:
 (enable-theme 'modus-operandi) ;; OR (enable-theme 'modus-vivendi)
 </pre>
 </div>
+
+<p>
+<a href="#h:b40aca50-a3b2-4c43-be58-2c26fcd14237">Toggle themes without reloading them</a>.
+</p>
 
 <p>
 <a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">Sample configuration with and without use-package</a>.
@@ -732,7 +737,22 @@ this manual.
       ;; symbols: `background', `bold', `gray', `intense', `italic'
       modus-themes-prompts '(intense bold)
 
-      modus-themes-completions 'moderate ; {nil,'moderate,'opinionated,'super-opinionated}
+      ;; The `modus-themes-completions' is an alist that reads three
+      ;; keys: `matches', `selection', `popup'.  Each accepts a nil
+      ;; value (or empty list) or a list of properties that can include
+      ;; any of the following (for WEIGHT read further below):
+      ;;
+      ;; `key' - `background', `intense', `underline', `italic', WEIGHT
+      ;; `selection' - `accented', `intense', `underline', `italic', WEIGHT
+      ;; `popup' - same as `selected'
+      ;; `t' - applies to any key not explicitly referenced (check docs)
+      ;;
+      ;; WEIGHT is a symbol such as `semibold', `light', or anything
+      ;; covered in `modus-themes-weights'.  Bold is used in the absence
+      ;; of an explicit WEIGHT.
+      modus-themes-completions '((matches . (extrabold))
+                                 (selection . (semibold accented))
+                                 (popup . (accented intense)))
 
       modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
@@ -1544,66 +1564,132 @@ Centaur tabs package.
 <h3 id="h:f1c20c02-7b34-4c35-9c65-99170efb2882"><span class="section-number-3">5.12.</span> Option for completion framework aesthetics</h3>
 <div class="outline-text-3" id="text-h:f1c20c02-7b34-4c35-9c65-99170efb2882">
 <p>
+[ Refactored as part of 2.2.0-dev ]
+</p>
+
+<p>
 Brief: Set the overall style of completion framework interfaces.
 </p>
 
 <p>
-Symbol: <code>modus-themes-completions</code> (<code>choice</code> type)
+Symbol: <code>modus-themes-completions</code> (<code>alist</code> type properties)
 </p>
 
 <p>
-Possible values:
+This affects Company, Corfu, Flx, Helm, Icomplete/Fido, Ido, Ivy, Mct,
+Orderless, Selectrum, Vertico.  The value is an alist that takes the
+form of a <code>(key . properties)</code> combination.  Here is a sample, followed
+by a description of the particularities:
 </p>
 
-<ol class="org-ol">
-<li><code>nil</code> (default)</li>
-<li><code>moderate</code></li>
-<li><code>opinionated</code></li>
-<li><code>super-opinionated</code></li>
-</ol>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq modus-themes-completions
+      '((matches . (extrabold background intense))
+        (selection . (semibold accented intense))
+        (popup . (accented))))
+</pre>
+</div>
 
 <p>
-This is a special option that has different effects depending on the
-completion UI.  The interfaces can be grouped in two categories, based
-on their default aesthetics: (i) those that only or mostly use
-foreground colors for their interaction model, and (ii) those that
-combine background and foreground values for some of their metaphors.
-The former category encompasses Icomplete, Ido, Selectrum, Vertico, Mct,
-as well as pattern matching styles like Orderless and Flx.  The latter
-covers Helm and Ivy.
+The <code>matches</code> key refers to the highlighted characters that correspond
+to the user&rsquo;s input.  By default (nil or an empty list), they have a
+bold weight and a colored foreground.  The list of properties may
+include any of the following symbols regardless of the order they may
+appear in:
+</p>
+
+<ul class="org-ul">
+<li><code>background</code> to add a background color;</li>
+
+<li><code>intense</code> to increase the overall coloration (also amplifies
+the <code>background</code>, if present);</li>
+
+<li><code>underline</code> to draw a line below the characters;</li>
+
+<li><code>italic</code> to use a slanted font (italic or oblique forms);</li>
+
+<li>The symbol of a font weight attribute such as <code>light</code>, <code>semibold</code>, et
+cetera.  Valid symbols are defined in the <code>modus-themes-weights</code>
+variable.  The absence of a weight means that bold will be used.</li>
+</ul>
+
+<p>
+The <code>selection</code> key applies to the current line or currently matched
+candidate, depending on the specifics of the User Interface.  By default
+(nil or an empty list), it has a subtle gray background and a bold
+weight.  The list of properties it accepts is as follows (order is not
+significant):
+</p>
+
+<ul class="org-ul">
+<li><code>accented</code> to make the background colorful instead of gray;</li>
+
+<li><code>intense</code> to increase the overall coloration;</li>
+
+<li><code>underline</code> to draw a line below the characters;</li>
+
+<li><code>italic</code> to use a slanted font (italic or oblique forms);</li>
+
+<li>The symbol of a font weight attribute such as <code>light</code>, <code>semibold</code>, et
+cetera.  Valid symbols are defined in the <code>modus-themes-weights</code>
+variable.  The absence of a weight means that bold will be used.</li>
+</ul>
+
+<p>
+The <code>popup</code> key takes the same values as <code>selection</code>.
 </p>
 
 <p>
-A value of nil (the default) will simply respect the metaphors of each
-completion framework.
+Apart from specfying each key separately, a fallback list is accepted.
+This is only useful when the desired aesthetic is the same across all
+keys that are not explicitly referenced.  For example, this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq modus-themes-completions
+      '((t . (extrabold intense))))
+</pre>
+</div>
+
+<p>
+Is the same as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq modus-themes-completions
+      '((matches . (extrabold intense))
+        (selection . (extrabold intense))
+        (popup . (extrabold intense))))
+</pre>
+</div>
+
+<p>
+In the case of the fallback, any property that does not apply to the
+corresponding key is simply ignored (<code>matches</code> does not have <code>accented</code>,
+<code>selection</code> and <code>popup</code> do not have <code>background</code>).
 </p>
 
 <p>
-Option <code>moderate</code> applies a combination of background and foreground that
-is fairly subtle.  For Icomplete and friends this constitutes a
-departure from their default aesthetics, however the difference is
-small.  While Helm and Ivy appear slightly different than their original
-looks, as they are toned down a bit.
+A concise expression of those associations can be written as follows,
+where the <code>car</code> is always the key and the <code>cdr</code> is the list of
+properties (whatever order they may appear in):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq modus-themes-completions
+      '((matches extrabold background intense)
+        (selection semibold accented intense)
+        (popup accented)))
+</pre>
+</div>
+
+<p>
+<a href="#h:2793a224-2109-4f61-a106-721c57c01375">Configure bold and italic faces</a>.
 </p>
 
 <p>
-Option <code>opinionated</code> uses color combinations that refashion the completion
-UI.  For the Icomplete camp this means that intense background and
-foreground combinations are used: in effect their looks approximate
-those of Helm and Ivy in their original style.  Whereas the other group
-of packages will revert to an even more nuanced aesthetic with some
-additional changes to the choice of hues.
-</p>
-
-<p>
-Option <code>super-opinionated</code> is like the <code>opinionated</code> though it has a more
-pronounced effect, especially on the color of the current
-line/candidate.
-</p>
-
-<p>
-To appreciate the scope of this customization option, you should spend
-some time with every one of those presets.
+Also refer to the Orderless documentation for its intersection with
+Company (if you choose to use those in tandem).
 </p>
 </div>
 </div>
@@ -4347,7 +4433,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org4c302d6">
+<pre class="example" id="org8b1ba64">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4607,8 +4693,43 @@ to be specified as well:
 </div>
 </div>
 
+<div id="outline-container-h:b40aca50-a3b2-4c43-be58-2c26fcd14237" class="outline-3">
+<h3 id="h:b40aca50-a3b2-4c43-be58-2c26fcd14237"><span class="section-number-3">6.20.</span> Toggle themes without reloading them</h3>
+<div class="outline-text-3" id="text-h:b40aca50-a3b2-4c43-be58-2c26fcd14237">
+<p>
+Users who have a stable setup and who only ever need to toggle between
+the themes without triggering a full reload, are better off defining
+their own command which calls <code>enable-theme</code> instead of <code>load-theme</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-toggle ()
+  "Toggle between `modus-operandi' and `modus-vivendi' themes.
+This uses `enable-theme' instead of the standard method of
+`load-theme'.  The technicalities are covered in the Modus themes
+manual."
+  (interactive)
+  (pcase (modus-themes--current-theme)
+    ('modus-operandi (progn (enable-theme 'modus-vivendi)
+                            (disable-theme 'modus-operandi)))
+    ('modus-vivendi (progn (enable-theme 'modus-operandi)
+                            (disable-theme 'modus-vivendi)))
+    (_ (error "No Modus theme is loaded; evaluate `modus-themes-load-themes' first"))))
+</pre>
+</div>
+
+<p>
+<a href="#h:e68560b3-7fb0-42bc-a151-e015948f8a35">Differences between loading and enabling</a>.
+</p>
+
+<p>
+Recall that <code>modus-themes-toggle</code> uses <code>load-theme</code>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:86f6906b-f090-46cc-9816-1fe8aeb38776" class="outline-3">
-<h3 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-3">6.20.</span> A theme-agnostic hook for theme loading</h3>
+<h3 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-3">6.21.</span> A theme-agnostic hook for theme loading</h3>
 <div class="outline-text-3" id="text-h:86f6906b-f090-46cc-9816-1fe8aeb38776">
 <p>
 The themes are designed with the intent to be useful to Emacs users of
@@ -4670,7 +4791,7 @@ what the implications are of advising a function).
 </div>
 
 <div id="outline-container-h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236" class="outline-3">
-<h3 id="h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236"><span class="section-number-3">6.21.</span> Diffs with only the foreground</h3>
+<h3 id="h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236"><span class="section-number-3">6.22.</span> Diffs with only the foreground</h3>
 <div class="outline-text-3" id="text-h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">
 <p>
 Buffers that show differences between versions of a file or buffer, such
@@ -4733,7 +4854,7 @@ and aesthetic quality of the themes is not compromised.
 </div>
 
 <div id="outline-container-h:b0b31802-0216-427e-b071-1a47adcfe608" class="outline-3">
-<h3 id="h:b0b31802-0216-427e-b071-1a47adcfe608"><span class="section-number-3">6.22.</span> Ediff without diff color-coding</h3>
+<h3 id="h:b0b31802-0216-427e-b071-1a47adcfe608"><span class="section-number-3">6.23.</span> Ediff without diff color-coding</h3>
 <div class="outline-text-3" id="text-h:b0b31802-0216-427e-b071-1a47adcfe608">
 <p>
 Ediff uses the same color-coding as ordinary diffs in <code>diff-mode</code>, Magit,
@@ -6162,7 +6283,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgce7916c">
+<pre class="example" id="org5c15024">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6207,7 +6328,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org9bbace3">
+<pre class="example" id="orga0e847a">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6577,7 +6698,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org51acbbe">
+<pre class="example" id="org69bcdc9">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
