@@ -90,14 +90,15 @@ Current development target is 2.3.0-dev.
 <li><a href="#h:4b13743a-8ebf-4d2c-a043-cceba10b1eb4">5.15. Language checkers</a></li>
 <li><a href="#h:1dba1cfe-d079-4c13-a810-f768e8789177">5.16. Line highlighting</a></li>
 <li><a href="#h:8c4a6230-2e43-4aa2-a631-3b7179392e09">5.17. Line numbers</a></li>
-<li><a href="#h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7">5.18. Markup</a></li>
-<li><a href="#h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37">5.19. Matching parentheses</a></li>
-<li><a href="#h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c">5.20. Active region</a></li>
-<li><a href="#h:ea7ac54f-5827-49bd-b09f-62424b3b6427">5.21. Diffs</a></li>
-<li><a href="#h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">5.22. Org mode blocks</a></li>
-<li><a href="#h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc">5.23. Org agenda</a></li>
-<li><a href="#h:271eff19-97aa-4090-9415-a6463c2f9ae1">5.24. Heading styles</a></li>
-<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.25. UI typeface</a></li>
+<li><a href="#h:9b869620-fcc5-4b5f-9ab8-225d73b7f22f">5.18. Mouse hover effects</a></li>
+<li><a href="#h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7">5.19. Markup</a></li>
+<li><a href="#h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37">5.20. Matching parentheses</a></li>
+<li><a href="#h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c">5.21. Active region</a></li>
+<li><a href="#h:ea7ac54f-5827-49bd-b09f-62424b3b6427">5.22. Diffs</a></li>
+<li><a href="#h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">5.23. Org mode blocks</a></li>
+<li><a href="#h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc">5.24. Org agenda</a></li>
+<li><a href="#h:271eff19-97aa-4090-9415-a6463c2f9ae1">5.25. Heading styles</a></li>
+<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.26. UI typeface</a></li>
 </ul>
 </li>
 <li><a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">6. Advanced customization</a>
@@ -681,6 +682,7 @@ this manual.
       modus-themes-bold-constructs nil
       modus-themes-mixed-fonts nil
       modus-themes-subtle-line-numbers nil
+      modus-themes-intense-mouseovers nil
       modus-themes-deuteranopia t
       modus-themes-tabs-accented t
       modus-themes-variable-pitch-ui nil
@@ -696,8 +698,14 @@ this manual.
 
       ;; Options for `modus-themes-mode-line' are either nil, or a list
       ;; that can combine any of `3d' OR `moody', `borderless',
-      ;; `accented', and a natural number for extra padding
-      modus-themes-mode-line '(4 accented borderless)
+      ;; `accented', a natural number for extra padding (or a cons cell
+      ;; of padding and NATNUM), and a floating point for the height of
+      ;; the text relative to the base font size (or a cons cell of
+      ;; height and FLOAT)
+      modus-themes-mode-line '(accented borderless (padding . 4) (height . 0.9))
+
+      ;; Same as above:
+      ;; modus-themes-mode-line '(accented borderless 4 0.9)
 
       ;; Options for `modus-themes-markup' are either nil, or a list
       ;; that can combine any of `bold', `italic', `background',
@@ -742,8 +750,8 @@ this manual.
       ;; value (or empty list) or a list of properties that can include
       ;; any of the following (for WEIGHT read further below):
       ;;
-      ;; `key' - `background', `intense', `underline', `italic', WEIGHT
-      ;; `selection' - `accented', `intense', `underline', `italic', WEIGHT
+      ;; `matches' - `background', `intense', `underline', `italic', WEIGHT
+      ;; `selection' - `accented', `intense', `underline', `italic', `text-also' WEIGHT
       ;; `popup' - same as `selected'
       ;; `t' - applies to any key not explicitly referenced (check docs)
       ;;
@@ -1233,7 +1241,9 @@ an empty list).  The list can include any of the following symbols:
 <li><code>extrabold</code></li>
 <li><code>ultrabold</code></li>
 </ul></li>
-<li>A floating point as a height multiple of the default (e.g. <code>0.9</code>)</li>
+<li>A floating point as a height multiple of the default or a cons cell in
+the form of <code>(height . FLOAT)</code> [ tweaked as part of
+2.3.0-dev ]</li>
 </ul>
 
 <p>
@@ -1285,6 +1295,9 @@ defined in the variable <code>modus-themes-weights</code>.
 A number, expressed as a floating point (e.g. <code>0.9</code>), adjusts the height
 of the button&rsquo;s text to that many times the base font size.  The default
 height is the same as <code>1.0</code>, though it need not be explicitly stated.
+Instead of a floating point, an acceptable value can be in the form of a
+cons cell like <code>(height . FLOAT)</code> or <code>(height FLOAT)</code>, where FLOAT is
+the given number.
 </p>
 
 <p>
@@ -1295,7 +1308,9 @@ like in these examples:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(flat)
 (variable-pitch flat)
-(variable-pitch flat 0.9 semibold)
+(variable-pitch flat semibold 0.9)
+(variable-pitch flat semibold (height 0.9)) ; same as above
+(variable-pitch flat semibold (height . 0.9)) ; same as above
 </pre>
 </div>
 
@@ -1651,8 +1666,8 @@ accepts is as follows (order is not significant):
 <ul class="org-ul">
 <li><code>accented</code> to make the background colorful instead of gray;</li>
 
-<li><code>text-also</code> to apply extra color to the text of the selected line; [
-part of 2.3.0-dev ]</li>
+<li><code>text-also</code> to apply extra color to the text of the selected line;
+[ part of 2.3.0-dev ]</li>
 
 <li><code>intense</code> to increase the overall coloration;</li>
 
@@ -2032,8 +2047,44 @@ updated to accommodate this aesthetic.
 </div>
 </div>
 
+<div id="outline-container-h:9b869620-fcc5-4b5f-9ab8-225d73b7f22f" class="outline-3">
+<h3 id="h:9b869620-fcc5-4b5f-9ab8-225d73b7f22f"><span class="section-number-3">5.18.</span> Option for mouseover effects</h3>
+<div class="outline-text-3" id="text-h:9b869620-fcc5-4b5f-9ab8-225d73b7f22f">
+<p>
+[ Part of 2.3.0-dev ]
+</p>
+
+<p>
+Brief: Toggle intense mouse hover effects.
+</p>
+
+<p>
+Symbol: <code>modus-themes-intense-mouseovers</code> (<code>boolean</code> type)
+</p>
+
+<p>
+Possible value:
+</p>
+
+<ol class="org-ol">
+<li><code>nil</code> (default)</li>
+<li><code>t</code></li>
+</ol>
+
+<p>
+By default all mouseover effects apply a highlight with a subtle colored
+background.  When non-nil, these have a more pronounced effect.
+</p>
+
+<p>
+Note that this affects the generic <code>highlight</code> which, strictly speaking,
+is not limited to mouse usage.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7" class="outline-3">
-<h3 id="h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7"><span class="section-number-3">5.18.</span> Option for markup style in Org and others</h3>
+<h3 id="h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7"><span class="section-number-3">5.19.</span> Option for markup style in Org and others</h3>
 <div class="outline-text-3" id="text-h:9d9a4e64-99ac-4018-8f66-3051b9c43fd7">
 <p>
 Brief: Choose style of markup in Org, Markdown, and others (affects
@@ -2113,7 +2164,7 @@ Also check the variables <code>org-hide-emphasis-markers</code>,
 </div>
 
 <div id="outline-container-h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37" class="outline-3">
-<h3 id="h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37"><span class="section-number-3">5.19.</span> Option for parenthesis matching</h3>
+<h3 id="h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37"><span class="section-number-3">5.20.</span> Option for parenthesis matching</h3>
 <div class="outline-text-3" id="text-h:e66a7e4d-a512-4bc7-9f86-fbbb5923bf37">
 <p>
 Brief: Control the style of matching delimiters produced by
@@ -2186,7 +2237,7 @@ This customization variable affects the built-in <code>show-paren-mode</code> an
 </div>
 
 <div id="outline-container-h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c" class="outline-3">
-<h3 id="h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c"><span class="section-number-3">5.20.</span> Option for active region</h3>
+<h3 id="h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c"><span class="section-number-3">5.21.</span> Option for active region</h3>
 <div class="outline-text-3" id="text-h:60798063-b4ad-45ea-b9a7-ff7b5c0ab74c">
 <p>
 Brief: Control the style of the region.
@@ -2255,7 +2306,7 @@ In user configuration files the form may look like this:
 </div>
 
 <div id="outline-container-h:ea7ac54f-5827-49bd-b09f-62424b3b6427" class="outline-3">
-<h3 id="h:ea7ac54f-5827-49bd-b09f-62424b3b6427"><span class="section-number-3">5.21.</span> Option for diff buffer looks</h3>
+<h3 id="h:ea7ac54f-5827-49bd-b09f-62424b3b6427"><span class="section-number-3">5.22.</span> Option for diff buffer looks</h3>
 <div class="outline-text-3" id="text-h:ea7ac54f-5827-49bd-b09f-62424b3b6427">
 <p>
 Brief: Set the overall style of diffs.
@@ -2323,7 +2374,7 @@ contrast threshold.
 </div>
 
 <div id="outline-container-h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2" class="outline-3">
-<h3 id="h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2"><span class="section-number-3">5.22.</span> Option for org-mode block styles</h3>
+<h3 id="h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2"><span class="section-number-3">5.23.</span> Option for org-mode block styles</h3>
 <div class="outline-text-3" id="text-h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">
 <p>
 Brief: Set the overall style of Org code blocks, quotes, and the like.
@@ -2391,8 +2442,12 @@ and <code>rainbow</code>.  Those will continue to work as they are aliases for
 </div>
 
 <div id="outline-container-h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc" class="outline-3">
-<h3 id="h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc"><span class="section-number-3">5.23.</span> Option for Org agenda constructs</h3>
+<h3 id="h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc"><span class="section-number-3">5.24.</span> Option for Org agenda constructs</h3>
 <div class="outline-text-3" id="text-h:68f481bc-5904-4725-a3e6-d7ecfa7c3dbc">
+<p>
+[ Tweaks as part of 2.3.0-dev ]
+</p>
+
 <p>
 Brief: Control the style of the Org agenda.  Multiple parameters are
 available, each with its own options.
@@ -2429,12 +2484,22 @@ properties:
 
 <ul class="org-ul">
 <li><code>variable-pitch</code> to use a proportionately spaced typeface;</li>
-<li>A number as a floating point (e.g. 1.5) to set the height of the text
+
+<li><p>
+A number as a floating point (e.g. 1.5) to set the height of the text
 to that many times the default font height.  A float of 1.0 or the
-symbol <code>no-scale</code> have the same effect of making the font to the same
-height as the rest of the buffer.  When neither a number nor <code>no-scale</code>
-are present, the default is a small increase in height (a value of
-1.15).</li>
+symbol <code>no-scale</code> have the same effect of making the font the same
+height as the rest of the buffer.  When neither a number nor
+`no-scale&rsquo; are present, the default is a small increase in height (a
+value of 1.15).
+</p>
+
+<p>
+Instead of a floating point, an acceptable value can be in the form of
+a cons cell like <code>(height . FLOAT)</code> or <code>(height FLOAT)</code>, where FLOAT
+is the given number.
+</p></li>
+
 <li>The symbol of a weight attribute adjusts the font of the heading
 accordingly, such as <code>light</code>, <code>semibold</code>, etc.  Valid symbols are
 defined in the variable <code>modus-themes-weights</code>.  The absence of a
@@ -2475,16 +2540,24 @@ the following properties:
 <ul class="org-ul">
 <li><code>grayscale</code> to make weekdays use the main foreground color and
 weekends a more subtle gray;</li>
+
 <li><code>workaholic</code> to make weekdays and weekends look the same in
 terms of color;</li>
+
 <li><code>bold-today</code> to apply a bold typographic weight to the current
 date;</li>
+
 <li><code>bold-all</code> to render all date headings in a bold weight;</li>
+
 <li><code>underline-today</code> applies an underline to the current date while
 removing the background it has by default;</li>
+
 <li>A number as a floating point (e.g. 1.2) to set the height of the text
 to that many times the default font height.  The default is the same
-as the base font height (the equivalent of 1.0).</li>
+as the base font height (the equivalent of 1.0).  Instead of a
+floating point, an acceptable value can be in the form of a cons cell
+like <code>(height . FLOAT)</code> or <code>(height FLOAT)</code>, where FLOAT is the given
+number.</li>
 </ul>
 
 <p>
@@ -2636,7 +2709,7 @@ Putting it all together, the alist can look like this:
 </div>
 
 <div id="outline-container-h:271eff19-97aa-4090-9415-a6463c2f9ae1" class="outline-3">
-<h3 id="h:271eff19-97aa-4090-9415-a6463c2f9ae1"><span class="section-number-3">5.24.</span> Option for the headings' overall style</h3>
+<h3 id="h:271eff19-97aa-4090-9415-a6463c2f9ae1"><span class="section-number-3">5.25.</span> Option for the headings' overall style</h3>
 <div class="outline-text-3" id="text-h:271eff19-97aa-4090-9415-a6463c2f9ae1">
 <p>
 Brief: Control the style of headings.  This can be particularised for
@@ -2805,7 +2878,7 @@ others, such as <code>org-fontify-done-headline</code>.
 </div>
 
 <div id="outline-container-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac" class="outline-3">
-<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.25.</span> Option for variable-pitch font in UI elements</h3>
+<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.26.</span> Option for variable-pitch font in UI elements</h3>
 <div class="outline-text-3" id="text-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">
 <p>
 Brief: Toggle the use of proportionately spaced (<code>variable-pitch</code>) fonts
@@ -4490,7 +4563,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org8c36020">
+<pre class="example" id="orgdf544a4">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -6340,7 +6413,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org9eaf562">
+<pre class="example" id="orgaa1194d">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6385,7 +6458,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgd2d81e0">
+<pre class="example" id="org8c101c0">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6755,7 +6828,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgba3e639">
+<pre class="example" id="org16ffecd">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
