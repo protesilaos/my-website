@@ -48,6 +48,17 @@ Requires Emacs version 27 or higher.
 + Change log: <https://protesilaos.com/emacs/mct-changelog>
 + Git repo: <https://gitlab.com/protesilaos/mct>
 
+## Logos
+
+This package provides a simple approach to handling presentations using
+nothing but the `page-delimiter` together with some commands to move
+between pages whether narrowing is in effect or not.  It also provides
+some optional aesthetic tweaks which come into effect when the
+buffer-local `logos-focus-mode` is enabled.
+
++ Official manual: <https://protesilaos.com/emacs/logos>
++ Git repo: <https://gitlab.com/protesilaos/logos>
+
 ## LIN Is Noticeable
 
 LIN locally remaps the `hl-line` face to a style that is optimal for
