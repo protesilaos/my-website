@@ -433,8 +433,10 @@ They are now ready to be used: <a href="#h:3f3c3728-1b34-437d-9d0c-b110f5b161a9"
 <h2 id="h:3f3c3728-1b34-437d-9d0c-b110f5b161a9"><span class="section-number-2">4.</span> Enable and load</h2>
 <div class="outline-text-2" id="text-h:3f3c3728-1b34-437d-9d0c-b110f5b161a9">
 <p>
-Users of the built-in themes can load and automatically enable the theme
-of their preference by adding either form to their init file:
+Users of the built-in themes cannot <code>require</code> the package as usual
+because there is no package to speak of.  Instead, things are simpler as
+all one needs is to load the theme of their preference by adding either
+form to their init file:
 </p>
 
 <div class="org-src-container">
@@ -442,10 +444,6 @@ of their preference by adding either form to their init file:
 (load-theme 'modus-vivendi)             ; Dark theme
 </pre>
 </div>
-
-<p>
-This is all one needs.
-</p>
 
 <p>
 Users of packaged variants of the themes must add a few more lines to
@@ -485,25 +483,42 @@ a theme with either of the following expressions:
 Changes to the available customization options must always be evaluated
 before loading a theme (<a href="#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f">Customization Options</a>).  An exception to this
 norm is when using the various Custom interfaces or with commands like
-M-x customize-set-variable, which can automatically reload
-the theme (<a href="#h:9001527a-4e2c-43e0-98e8-3ef72d770639">Option for inhibiting theme reload</a>).  This is how a basic
-setup could look like:
+M-x customize-set-variable, which can optionally
+automatically reload the theme (<a href="#h:9001527a-4e2c-43e0-98e8-3ef72d770639">Option for inhibiting theme reload</a>).
+</p>
+
+<p>
+This is how a basic setup could look like:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'modus-themes)
+<pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require':
+;; Add all your customizations prior to loading the themes
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-region '(bg-only no-extend))
 
-;; Your customisations here.  For example:
-(setq modus-themes-bold-constructs t
-      modus-themes-mode-line '3d)
+;; Load the theme of your choice:
+(load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
 
-;; Load the theme files before enabling a theme (else you get an error).
+(define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
+
+
+
+;;; For packaged versions which must use `require':
+(require 'modus-themes)
+
+;; Add all your customizations prior to loading the themes
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-region '(bg-only no-extend))
+
+;; Load the theme files before enabling a theme
 (modus-themes-load-themes)
 
-;; Enable the theme of your preference:
-(modus-themes-load-operandi)
+;; Load the theme of your choice:
+(modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
 
-;; Optionally add a key binding for the toggle between the themes:
 (define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
 </pre>
 </div>
@@ -539,15 +554,30 @@ package configurations in their setup.  We use this as an example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package modus-themes
-  :ensure                         ; omit this to use the built-in themes
+<pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require':
+(use-package emacs
+  :init
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend))
+  :config
+  ;; Load the theme of your choice:
+  (load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
+  :bind ("&lt;f5&gt;" . modus-themes-toggle)
+
+
+
+;;; For packaged versions which must use `require':
+(use-package modus-themes
+  :ensure
   :init
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil
         modus-themes-region '(bg-only no-extend))
 
-  ;; Load the theme files before enabling a theme (else you get an error).
+  ;; Load the theme files before enabling a theme
   (modus-themes-load-themes)
   :config
   ;; Load the theme of your choice:
@@ -561,7 +591,21 @@ The same without <code>use-package</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'modus-themes)
+<pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require':
+;; Add all your customizations prior to loading the themes
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-region '(bg-only no-extend))
+
+;; Load the theme of your choice:
+(load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
+
+(define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
+
+
+
+;;; For packaged versions which must use `require':
+(require 'modus-themes)
 
 ;; Add all your customizations prior to loading the themes
 (setq modus-themes-italic-constructs t
@@ -4564,7 +4608,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org206740f">
+<pre class="example" id="org2a35a65">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -6558,7 +6602,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org57b0ba9">
+<pre class="example" id="org446ff35">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6603,7 +6647,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org88dc43b">
+<pre class="example" id="orge55386f">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6973,7 +7017,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org2bb5bdf">
+<pre class="example" id="org1b8641b">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
