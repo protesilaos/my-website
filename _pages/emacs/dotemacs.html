@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-03 08:10 +0200</b>.</li>
-<li>Word count: <b>146932</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-05 08:09 +0200</b>.</li>
+<li>Word count: <b>147110</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2688,11 +2688,11 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;; NOTE: these are not my preferences!  I am always testing various
   ;; configurations.  Though I still like what I have here.
   (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
+        modus-themes-bold-constructs nil
         modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers nil
-        modus-themes-intense-mouseovers t
-        modus-themes-deuteranopia nil
+        modus-themes-intense-mouseovers nil
+        modus-themes-deuteranopia t
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
@@ -2711,7 +2711,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; of padding and NATNUM), and a floating point for the height of
         ;; the text relative to the base font size (or a cons cell of
         ;; height and FLOAT)
-        modus-themes-mode-line '(borderless (padding . 4) (height . 0.9))
+        modus-themes-mode-line '(borderless accented (padding . 4) (height . 0.9))
 
         ;; Options for `modus-themes-markup' are either nil, or a list
         ;; that can combine any of `bold', `italic', `background',
@@ -2788,13 +2788,18 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
           (scheduled . uniform)
           (habit . nil))
 
-        modus-themes-headings ; this is an alist: read the manual or its doc string
-        '((1 . (variable-pitch light 1.6))
-          (2 . (variable-pitch regular 1.4))
-          (3 . (variable-pitch regular 1.3))
-          (4 . (1.2))
-          (5 . (1.1))
-          (t . (monochrome 1.05))))
+        modus-themes-headings nil ; this is an alist: read the manual or its doc string
+
+        ;; Sample for headings:
+
+        ;; modus-themes-headings
+        ;; '((1 . (variable-pitch light 1.6))
+        ;;   (2 . (variable-pitch regular 1.4))
+        ;;   (3 . (variable-pitch regular 1.3))
+        ;;   (4 . (1.2))
+        ;;   (5 . (1.1))
+        ;;   (t . (monochrome 1.05)))
+        )
 
   ;; Load the theme files before enabling a theme (else you get an error).
   (modus-themes-load-themes)
@@ -3525,7 +3530,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org9f128aa">
+<pre class="example" id="org30cb9ad">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3608,7 +3613,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org2827bfa">
+<pre class="example" id="org2601823">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -7070,7 +7075,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org482c971">
+<pre class="example" id="orgc7523bc">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -15267,6 +15272,9 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
           ("software")
           ("website")))
 
+  (setq org-auto-align-tags nil)
+  (setq org-tags-column 0)
+
 ;;;; log
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
@@ -15884,24 +15892,28 @@ Though I am already happy with the results.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'org-modern
-  ;; NOTE 2022-03-03: These are all the user options.  Keeping them at
-  ;; their default value.
+  ;; NOTE 2022-03-05: The `org-modern-label-border' is ignored because
+  ;; of my face tweaks further below.
+  ;; (setq org-modern-label-border 0.1)
 
-  ;; (setq org-modern-label-border 'auto)
+  (setq org-modern-timestamp nil)
+  (setq org-modern-table t)
+  (setq org-modern-table-vertical 1)
+  (setq org-modern-table-horizontal 0)
+  (setq org-modern-priority ; the defaults in comments
+        '((?A . "α") ; Ⓐ
+          (?B . "β") ; Ⓑ
+          (?C . "γ"))) ; Ⓒ
+  (setq org-modern-list ; I swap the defaults for + and *
+        '((?+ . "•")
+          (?- . "–")
+          (?* . "◦")))
+
+  ;; NOTE 2022-03-05: The variables that are commented out are the
+  ;; defaults.
+
   ;; (setq org-modern-star ["◉""○""◈""◇""⁕"])
   ;; (setq org-modern-hide-stars 'leading)
-  ;; (setq org-modern-timestamp t)
-  ;; (setq org-modern-table t)
-  ;; (setq org-modern-table-vertical 3)
-  ;; (setq org-modern-table-horizontal 0.1)
-  ;; (setq org-modern-priority
-  ;;       '((?A . "🅐") ;; Ⓐ
-  ;;         (?B . "🅑") ;; Ⓑ
-  ;;         (?C . "🅒"))) ;; Ⓒ
-  ;; (setq org-modern-list
-  ;;       '((?+ . "◦")
-  ;;         (?- . "–")
-  ;;         (?* . "•")))
   ;; (setq org-modern-checkbox
   ;;       '((?X . #("▢✓" 0 2 (composition ((2)))))
   ;;         (?- . #("▢–" 0 2 (composition ((2)))))
@@ -15914,7 +15926,25 @@ Though I am already happy with the results.
   ;; (setq org-modern-statistics t)
   ;; (setq org-modern-progress ["○""◔""◐""◕""●"])
 
-  (add-hook 'org-mode-hook #'org-modern-mode))
+  (add-hook 'org-mode-hook #'org-modern-mode)
+
+  ;; Override the default use of `variable-pitch' and increase the font
+  ;; size a bit.  It works better with my font settings.  The change to
+  ;; the :box attribute is necessary to apply the appropriate colour
+  ;; when switching between `modus-operandi' and `modus-vivendi',
+  ;; otherwise the border's colour is that of the main background the
+  ;; moment the face was first evaluated (so on the other theme it would
+  ;; be visible).
+  ;;
+  ;; Note that I do not wrap this in `with-eval-after-load' because the
+  ;; `modus-themes' are always loaded first in my config.
+  (defun prot/org-modern-face-tweaks ()
+    (modus-themes-with-colors
+      (custom-set-faces
+       `(org-modern-label ((,class :inherit fixed-pitch :height 0.9
+                                   :box (:line-width -1 :color ,bg-main)))))))
+
+  (add-hook 'modus-themes-after-load-theme-hook #'prot/org-modern-face-tweaks))
 </pre>
 </div>
 </div>
@@ -15982,7 +16012,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org11cf260">
+<pre class="example" id="org7a8d243">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15994,7 +16024,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orge253a0c">
+<pre class="example" id="org0064986">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16009,7 +16039,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org704079f">
+<pre class="example" id="org1c46f2c">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16027,7 +16057,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgacae814">
+<pre class="example" id="org9bf4252">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16056,7 +16086,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org001a7a0">
+<pre class="example" id="orgd9e5f0f">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16220,7 +16250,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgfd273e0">
+<pre class="example" id="orgaf98ee5">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16947,7 +16977,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgcc345ac">
+<pre class="example" id="org28fed39">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16981,7 +17011,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org5eadb3b">
+<pre class="example" id="orgae7186f">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17145,7 +17175,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org35d4e08">
+<pre class="example" id="org9eec746">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17340,7 +17370,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org645e7f2">
+<pre class="example" id="org7e01cdc">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18568,7 +18598,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org781c15c">
+<pre class="example" id="orge06b014">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19632,7 +19662,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org6b85ce1">
+<pre class="example" id="org2d5368a">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20324,7 +20354,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org5e4ff0d">
+<pre class="example" id="org9b7303b">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23529,7 +23559,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org2c4c800">
+<pre class="example" id="orgba11d53">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25256,7 +25286,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org9383aa6">
+<pre class="example" id="org66a72d8">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25678,7 +25708,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgb119de6">
+<pre class="example" id="orgf66e328">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25687,7 +25717,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgc75b919">
+<pre class="example" id="orga64f10d">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25712,7 +25742,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgc21db8e">
+<pre class="example" id="org33dec56">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25788,7 +25818,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org7e263fe">
+<pre class="example" id="org1e7c6d2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25813,7 +25843,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgadba171">
+<pre class="example" id="org13c8d59">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25822,7 +25852,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orge2bd6b0">
+<pre class="example" id="org0819a71">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25841,7 +25871,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orge20f774">
+<pre class="example" id="orgfd138ab">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
