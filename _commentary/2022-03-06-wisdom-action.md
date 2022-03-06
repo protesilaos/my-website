@@ -1,9 +1,9 @@
 ---
 title: "On wisdom guiding the action"
-excerpt: "Excerpt from an email exchange where I explain why wisdom should guide one's actions."
+excerpt: "Excerpt of an email exchange where I explain why wisdom should guide one's actions."
 ---
 
-The following is an excerpt from an email exchange where I told the
+The following is an excerpt of an email exchange where I told the
 other person, whose identity shall remain hidden, how they should
 disinvest from their projects, commitments, desires, etc. in order to
 keep a sense of perspective and not develop tunnel vision that

@@ -7,7 +7,9 @@ I received the following via email in response to my presentation about
 [Cosmos, Logos, and the living
 universe](https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/)
 (2022-02-05).  I am sharing my reply with permission, while not
-revealing the identity of my correspondent:
+revealing the identity of my correspondent.
+
+* * *
 
 > Thanks for sharing your thoughts about the Cosmos. [...] Have you
 > heard about the theory that the universe may be a simulation?  How
