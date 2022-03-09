@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-09 06:46 +0200</b>.</li>
-<li>Word count: <b>146477</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-09 18:27 +0200</b>.</li>
+<li>Word count: <b>146716</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -215,6 +215,7 @@ GNU Emacs 29.0.50 (build 3, x86_64-pc-linux-gnu, GTK+ Version 3.24.31, cairo ver
 <li><a href="#h:6b56ce11-c84c-4b6d-98c7-bc3eefbe9325">5.14. Proced (process monitor, similar to `top')</a></li>
 <li><a href="#h:1d2bf0d0-4806-4e04-a320-7d6538ef2e78">5.15. Pass interface (password-store)</a></li>
 <li><a href="#h:524bc702-ff55-4ed9-9a38-26d30d64591d">5.16. Simple HTML Renderer (shr), Emacs Web Wowser (eww), Elpher, and prot-eww.el</a></li>
+<li><a href="#h:db40bd63-fe98-42b2-a10d-83966a59be4e">5.17. OpenStreetMap viewer (osm.el)</a></li>
 </ul>
 </li>
 <li><a href="#h:b6bd2eea-8269-4029-b446-ee340c12ebc3">6. General interface and interactions</a>
@@ -2710,7 +2711,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; of padding and NATNUM), and a floating point for the height of
         ;; the text relative to the base font size (or a cons cell of
         ;; height and FLOAT)
-        modus-themes-mode-line '(borderless (padding . 4) (height . 0.9))
+        modus-themes-mode-line '(borderless accented (padding . 4) (height . 0.9))
 
         ;; Options for `modus-themes-markup' are either nil, or a list
         ;; that can combine any of `bold', `italic', `background',
@@ -2757,23 +2758,24 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; any of the following (for WEIGHT read further below):
         ;;
         ;; `matches' - `background', `intense', `underline', `italic', WEIGHT
-        ;; `selection' - `accented', `intense', `underline', `italic', `text-also' WEIGHT
+        ;; `selection' - `accented', `intense', `underline', `italic', `text-also', WEIGHT
         ;; `popup' - same as `selected'
         ;; `t' - applies to any key not explicitly referenced (check docs)
         ;;
         ;; WEIGHT is a symbol such as `semibold', `light', or anything
         ;; covered in `modus-themes-weights'.  Bold is used in the absence
         ;; of an explicit WEIGHT.
-        modus-themes-completions '((matches . (extrabold background))
-                                   (selection . (semibold intense accented text-also))
-                                   (popup . (accented intense)))
+        modus-themes-completions
+        '((matches . (extrabold background))
+          (selection . (semibold intense accented text-also))
+          (popup . (accented intense)))
 
         modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend accented)
+        modus-themes-region '(no-extend bg-only)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs 'desaturated
@@ -2787,7 +2789,8 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
           (scheduled . uniform)
           (habit . nil))
 
-        modus-themes-headings nil ; this is an alist: read the manual or its doc string
+        modus-themes-headings ; this is an alist: read the manual or its doc string
+        '((t . (variable-pitch extrabold)))
 
         ;; Sample for headings:
 
@@ -3529,7 +3532,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org13e46b5">
+<pre class="example" id="orgf63417e">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3612,7 +3615,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org6a9130f">
+<pre class="example" id="org28ba32a">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -7074,7 +7077,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org9c521cb">
+<pre class="example" id="org63d3efc">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -16009,7 +16012,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org7420212">
+<pre class="example" id="org7e3d046">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16021,7 +16024,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgde63705">
+<pre class="example" id="org1129f06">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16036,7 +16039,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org8826aa4">
+<pre class="example" id="org4b623d3">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16054,7 +16057,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org45260ad">
+<pre class="example" id="org6466930">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16083,7 +16086,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org4038842">
+<pre class="example" id="orgcfb5361">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16247,7 +16250,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orga1b5041">
+<pre class="example" id="org4b828ca">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16974,7 +16977,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org7d57560">
+<pre class="example" id="org0b4bd4a">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17008,7 +17011,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org539cede">
+<pre class="example" id="orgb5dfa98">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17172,7 +17175,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgcff939a">
+<pre class="example" id="orgca36c19">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17367,7 +17370,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7850247">
+<pre class="example" id="org583784f">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18595,7 +18598,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org94ea7e8">
+<pre class="example" id="orgb3c9dcc">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19659,7 +19662,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orge6b72a7">
+<pre class="example" id="org1bb42f5">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20351,7 +20354,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org68837d9">
+<pre class="example" id="orgfcf0257">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21795,6 +21798,47 @@ lynx dump on that link instead."
 
 (provide 'prot-eww)
 ;;; prot-eww.el ends here
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:db40bd63-fe98-42b2-a10d-83966a59be4e" class="outline-3">
+<h3 id="h:db40bd63-fe98-42b2-a10d-83966a59be4e"><span class="section-number-3">5.17.</span> OpenStreetMap viewer (osm.el)</h3>
+<div class="outline-text-3" id="text-h:db40bd63-fe98-42b2-a10d-83966a59be4e">
+<p>
+This is yet another brilliant package by Daniel Mendler.  It uses Emacs'
+image viewing facilities in combination with asynchronous <code>curl</code> calls
+to fetch and present maps from the OpenStreetMap project.
+</p>
+
+<p>
+Viewing maps is just the beginning.  It is also possible to use the
+standard bookmark facility to store the coordinates of a location and
+visit them on demand (<a href="#h:79cd6177-a81b-420f-8759-e6927b974377">Built-in bookmarking framework</a>).  Or invoke the
+<code>org-store-link</code> command to capture the information about the current
+coordinates and produce a direct link out of them with <code>org-insert-link</code>
+(<a href="#h:4e8347de-415e-4804-b383-d61499e05ca1">Org-mode (personal information manager)</a>).
+</p>
+
+<p>
+What I like the most about <code>osm</code> is that it pushes the boundaries of
+what we can do with Emacs.  It does so in a way that feels natural and
+actually useful.  Well done, Daniel!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'osm
+  (let ((map global-map))
+    (define-key map (kbd "C-c o h") #'osm-home)
+    (define-key map (kbd "C-c o s") #'osm-search)
+    (define-key map (kbd "C-c o t") #'osm-server)
+    (define-key map (kbd "C-c o g") #'osm-goto)
+    (define-key map (kbd "C-c o j") #'osm-bookmark-jump))
+
+  ;; Load Org link support
+  (with-eval-after-load 'org
+    (require 'osm-ol)))
 </pre>
 </div>
 </div>
@@ -23404,7 +23448,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="orgcf886c4">
+<pre class="example" id="org5b395be">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25131,7 +25175,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org9bc2db3">
+<pre class="example" id="orgc58d4a7">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25553,7 +25597,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org1503c8e">
+<pre class="example" id="org101ed05">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25562,7 +25606,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org25d53c3">
+<pre class="example" id="orge0a742e">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25587,7 +25631,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgd84ccd7">
+<pre class="example" id="org1e2d766">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25663,7 +25707,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org68bbf2f">
+<pre class="example" id="org54e4ad0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25688,7 +25732,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org2243486">
+<pre class="example" id="org88c7fe1">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25697,7 +25741,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgc93bda0">
+<pre class="example" id="org45d3d32">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25716,7 +25760,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org992b9f2">
+<pre class="example" id="org19bbe12">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
