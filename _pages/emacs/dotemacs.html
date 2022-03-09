@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-07 09:27 +0200</b>.</li>
-<li>Word count: <b>146569</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-09 06:46 +0200</b>.</li>
+<li>Word count: <b>146477</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -215,7 +215,6 @@ GNU Emacs 29.0.50 (build 3, x86_64-pc-linux-gnu, GTK+ Version 3.24.31, cairo ver
 <li><a href="#h:6b56ce11-c84c-4b6d-98c7-bc3eefbe9325">5.14. Proced (process monitor, similar to `top')</a></li>
 <li><a href="#h:1d2bf0d0-4806-4e04-a320-7d6538ef2e78">5.15. Pass interface (password-store)</a></li>
 <li><a href="#h:524bc702-ff55-4ed9-9a38-26d30d64591d">5.16. Simple HTML Renderer (shr), Emacs Web Wowser (eww), Elpher, and prot-eww.el</a></li>
-<li><a href="#h:02894c1d-a739-48e7-9116-3c27a6505485">5.17. Extensions for PDFs (pdf-tools)</a></li>
 </ul>
 </li>
 <li><a href="#h:b6bd2eea-8269-4029-b446-ee340c12ebc3">6. General interface and interactions</a>
@@ -3404,7 +3403,7 @@ DISPLAY is a symbol that represents the car of a cons cell in
   (let ((def (or (nth 1 prot-fonts--system-typeface-hist) "Monospace")))
     (completing-read
      (format "Select typeface [%s]: " def)
-     (funcall family-list-func)
+     (delete-dups (funcall family-list-func))
      nil t nil 'prot-fonts--system-typeface-hist def)))
 
 (defvar prot-fonts--font-weights
@@ -3530,7 +3529,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org6925ce2">
+<pre class="example" id="org13e46b5">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3613,7 +3612,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org50cda9c">
+<pre class="example" id="org6a9130f">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -5911,7 +5910,7 @@ all three of the above is easier to learn and more consistent overall.
           (?h "Help" ,#'help-bookmark-jump)
           (?i "Info" ,#'Info-bookmark-jump)
           (?m "Man" ,#'Man-bookmark-jump)
-          (?p "PDF" ,#'pdf-view-bookmark-jump)
+          ;; (?p "PDF" ,#'pdf-view-bookmark-jump)
           (?v "VC Dir" ,#'vc-dir-bookmark-jump)
           (?w "EWW" ,#'prot-eww-bookmark-jump)))
   (setq register-preview-delay 0.8
@@ -7075,7 +7074,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org5ffe1eb">
+<pre class="example" id="org9c521cb">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -9763,16 +9762,10 @@ longer need (<a href="#h:aad79917-cd80-491b-9020-db27867ab132">Dired-like list f
     (eq (bookmark-get-handler bookmark)
         #'Info-bookmark-jump))
 
-  (with-eval-after-load 'pdf-tools
-    (blist-define-criterion "pdf" "PDF"
-      (eq (bookmark-get-handler bookmark)
-          #'pdf-view-bookmark-jump-handler)))
-
   (setq blist-filter-groups
         (list
          (cons "EWW" #'blist-eww-p)
          (cons "Eshell" #'blist-eshell-p)
-         (cons "PDF" #'blist-pdf-p)
          (cons "Info" #'blist-info-p)
          (cons "Default" #'blist-default-p)))
 
@@ -9862,12 +9855,12 @@ Other potentially relevant parts of my dotemacs:
   (setq logos-outlines-are-pages t)
   (setq logos-outline-regexp-alist
         `((emacs-lisp-mode . "^;;;+ ")
-          (org-mode . "^\\*+ +")
+          (org-mode . "^\\(\\*+ +\\|-----$\\)")
           (t . ,(or outline-regexp logos--page-delimiter))))
 
   ;; These apply when `logos-focus-mode' is enabled.  Their value is
   ;; buffer-local.
-  (setq-default logos-hide-mode-line nil)
+  (setq-default logos-hide-mode-line t)
   (setq-default logos-scroll-lock nil)
   (setq-default logos-variable-pitch nil)
 
@@ -16016,7 +16009,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf855f65">
+<pre class="example" id="org7420212">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16028,7 +16021,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org5213bef">
+<pre class="example" id="orgde63705">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16043,7 +16036,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org1490e2f">
+<pre class="example" id="org8826aa4">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16061,7 +16054,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org72c4539">
+<pre class="example" id="org45260ad">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16090,7 +16083,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org7593298">
+<pre class="example" id="org4038842">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16254,7 +16247,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgd320d65">
+<pre class="example" id="orga1b5041">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16981,7 +16974,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org2599e2b">
+<pre class="example" id="org7d57560">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17015,7 +17008,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org199fa5b">
+<pre class="example" id="org539cede">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17179,7 +17172,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org2d47dde">
+<pre class="example" id="orgcff939a">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17374,7 +17367,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7c9390a">
+<pre class="example" id="org7850247">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18602,7 +18595,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org137d3ee">
+<pre class="example" id="org94ea7e8">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19666,7 +19659,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org41abda6">
+<pre class="example" id="orge6b72a7">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20358,7 +20351,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgcd7b4d9">
+<pre class="example" id="org68837d9">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21802,158 +21795,6 @@ lynx dump on that link instead."
 
 (provide 'prot-eww)
 ;;; prot-eww.el ends here
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-h:02894c1d-a739-48e7-9116-3c27a6505485" class="outline-3">
-<h3 id="h:02894c1d-a739-48e7-9116-3c27a6505485"><span class="section-number-3">5.17.</span> Extensions for PDFs (pdf-tools)</h3>
-<div class="outline-text-3" id="text-h:02894c1d-a739-48e7-9116-3c27a6505485">
-<p>
-The <code>pdf-tools</code> package builds on top of the external libraries, <code>poppler</code>
-and <code>imagemagick</code> (if Emacs is compiled with support for it) to deliver a
-series of minor modes for reading and interacting with PDF files from
-inside of Emacs.  As it depends on those external files, it requires
-extra steps to make it work properly.  Those are documented at length in
-its README and vary depending on your operating system.
-</p>
-
-<p>
-All you need to start reading PDFs is to put the <code>pdf-loader-install</code>
-function in your configurations, which loads the tools once you open an
-appropriate file, such as through <code>dired</code> or with <code>find-file</code>.  Once inside
-the resulting buffer, do <code>C-h m</code> (<code>describe-mode</code>) to learn about the key
-bindings and the commands they call.  The basics:
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Key</th>
-<th scope="col" class="org-left">Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">+</td>
-<td class="org-left">Enlarge (zoom in)</td>
-</tr>
-
-<tr>
-<td class="org-left">-</td>
-<td class="org-left">Shrink (zoom out)</td>
-</tr>
-
-<tr>
-<td class="org-left">0</td>
-<td class="org-left">Reset zoom</td>
-</tr>
-
-<tr>
-<td class="org-left">C-n</td>
-<td class="org-left">Next line</td>
-</tr>
-
-<tr>
-<td class="org-left">C-p</td>
-<td class="org-left">Previous line</td>
-</tr>
-
-<tr>
-<td class="org-left">SPC</td>
-<td class="org-left">Scroll down</td>
-</tr>
-
-<tr>
-<td class="org-left">S-SPC</td>
-<td class="org-left">Scroll up</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-To determine which minor modes out of the entire suite are activated,
-you need to configure the variable <code>pdf-tools-enabled-modes</code>.  I reduce it
-only a subset of what is available by default because I do not need all
-the extras.  That granted, there are at least two minor modes that users
-may find helpful: <code>pdf-annot-minor-mode</code> which provides annotation
-capabilities and <code>pdf-sync-minor-mode</code> which syncs the PDF with its
-corresponding TeX file when you are running some setup that compiles the
-latter to the former.
-</p>
-
-<p>
-The value proposition of <code>pdf-tools</code> is that it works with <code>isearch</code> and
-<code>occur</code> so you can easily (i) search through the file and (ii) produce a
-buffer of locations with matching queries.  As is the norm with
-<code>pdf-tools</code>, those facilities are implemented as minor modes:
-<code>pdf-isearch-minor-mode</code>, <code>pdf-occur-global-minor-mode</code> (this also works
-with <code>ibuffer</code> and <code>dired</code>).
-</p>
-
-<p>
-Another helpful integration is with Emacs' <code>outline-mode</code> and <code>imenu</code> by
-means of <code>pdf-outline-minor-mode</code>.  Simply hit <code>o</code> while viewing a PDF to
-produce an outline of the document and then, optionally, <code>M-x imenu</code> to
-navigate it using minibuffer completion (though for the latter task you
-may prefer something like <code>consult-outline</code>, which is part of the Consult
-package: <a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>).
-</p>
-
-<p>
-Finally, I have some tweaks to change the backdrop of the buffer so that
-it is distinct from the page's background while using my light Modus
-Operandi theme (<a href="#h:b7444e76-75d4-4ae6-a9d6-96ff9408efe6">Modus themes (my highly accessible themes)</a>).  Plus, I
-make it automatically adapt to the <code>modus-themes-toggle</code> command, so that
-the PDF switches to a dark theme when it has to.  Those are documented
-in the manual of the themes.  If you are using them, evaluate this form:
-<code>(info "(modus-themes) Backdrop for pdf-tools (DIY)")</code>.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Extensions for PDFs (pdf-tools)
-(prot-emacs-elpa-package 'pdf-tools
-  (setq pdf-tools-enabled-modes         ; simplified from the defaults
-        '(pdf-history-minor-mode
-          pdf-isearch-minor-mode
-          pdf-links-minor-mode
-          pdf-outline-minor-mode
-          pdf-misc-size-indication-minor-mode
-          pdf-occur-global-minor-mode))
-  (setq pdf-view-display-size 'fit-height)
-  (setq pdf-view-continuous t)
-  (setq pdf-view-use-dedicated-register nil)
-  (setq pdf-view-max-image-width 1080)
-  (setq pdf-outline-imenu-use-flat-menus t)
-
-  (pdf-loader-install)
-
-  ;; Those functions and hooks are adapted from the manual of my
-  ;; modus-themes.  The idea is to (i) add a backdrop that is distinct
-  ;; from the background of the PDF's page and (ii) make pdf-tools adapt
-  ;; to theme switching via, e.g., `modus-themes-toggle'.
-  (defun prot/pdf-tools-backdrop ()
-    (face-remap-add-relative
-     'default
-     `(:background ,(modus-themes-color 'bg-alt))))
-
-  (defun prot/pdf-tools-midnight-mode-toggle ()
-    (when (derived-mode-p 'pdf-view-mode)
-      (if (eq (car custom-enabled-themes) 'modus-vivendi)
-          (pdf-view-midnight-minor-mode 1)
-        (pdf-view-midnight-minor-mode -1))
-      (prot/pdf-tools-backdrop)))
-
-  (add-hook 'pdf-tools-enabled-hook #'prot/pdf-tools-midnight-mode-toggle)
-  (add-hook 'modus-themes-after-load-theme-hook #'prot/pdf-tools-midnight-mode-toggle))
 </pre>
 </div>
 </div>
@@ -23563,7 +23404,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org91501dd">
+<pre class="example" id="orgcf886c4">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25290,7 +25131,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org2d58010">
+<pre class="example" id="org9bc2db3">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25712,7 +25553,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org31b5974">
+<pre class="example" id="org1503c8e">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25721,7 +25562,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org0b03e01">
+<pre class="example" id="org25d53c3">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25746,7 +25587,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org998ca8a">
+<pre class="example" id="orgd84ccd7">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25822,7 +25663,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org475b8c9">
+<pre class="example" id="org68bbf2f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25847,7 +25688,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org16031e6">
+<pre class="example" id="org2243486">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25856,7 +25697,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9c8bfb4">
+<pre class="example" id="orgc93bda0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25875,7 +25716,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org0a504e2">
+<pre class="example" id="org992b9f2">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
