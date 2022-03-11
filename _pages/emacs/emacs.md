@@ -60,6 +60,17 @@ extend the code to achieve the desired result.
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Git repo: <https://gitlab.com/protesilaos/logos>
 
+## Pulsar
+
+This is a small package that temporarily highlights the current line
+after a given function is invoked.  The affected functions are defined
+in the user option `pulsar-pulse-functions`.  What Pulsar does is set up
+an advice so that those functions run a hook after they are called.  The
+pulse effect is added there (`pulsar-after-function-hook`).
+
++ Official manual: <https://protesilaos.com/emacs/pulsar>
++ Git repo: <https://gitlab.com/protesilaos/pulsar>
+
 ## LIN Is Noticeable
 
 LIN locally remaps the `hl-line` face to a style that is optimal for
