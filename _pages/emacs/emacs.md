@@ -50,11 +50,12 @@ Requires Emacs version 27 or higher.
 
 ## Logos
 
-This package provides a simple approach to handling presentations using
-nothing but the `page-delimiter` together with some commands to move
-between pages whether narrowing is in effect or not.  It also provides
-some optional aesthetic tweaks which come into effect when the
-buffer-local `logos-focus-mode` is enabled.
+This package provides a simple approach to setting up a "focus mode".
+It uses the `page-delimiter` or the outline together with some commands
+to move between pages whether narrowing is in effect or not.  It also
+provides some optional aesthetic tweaks which come into effect when the
+buffer-local `logos-focus-mode` is enabled.  The manual shows how to
+extend the code to achieve the desired result.
 
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Git repo: <https://gitlab.com/protesilaos/logos>
