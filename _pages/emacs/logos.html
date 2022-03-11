@@ -24,13 +24,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-N/A, released on N/A.  Any reference to
+0.1.0, released on 2022-03-11.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.1.0-dev.
+Current development target is 0.2.0-dev.
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -41,12 +41,20 @@ Current development target is 0.1.0-dev.
 <li><a href="#h:77518cc5-a7f4-4c5e-9c0f-7cf0f43b6317">2. Overview</a></li>
 <li><a href="#h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0">3. Installation</a></li>
 <li><a href="#h:6ed7f2fd-faad-48c9-bdd2-7e909639128d">4. Sample configuration</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">5. GNU Free Documentation License</a></li>
-<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">6. Indices</a>
+<li><a href="#h:2bb57369-352a-43bf-afe3-0bed2fcc7359">5. Extra tweaks</a>
 <ul>
-<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">6.1. Function index</a></li>
-<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">6.2. Variable index</a></li>
-<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">6.3. Concept index</a></li>
+<li><a href="#h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">5.1. Center the buffer in its window</a></li>
+<li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.2. Automatically reveal Org or Outline heading</a></li>
+<li><a href="#h:bba965c6-7451-4c76-84d6-7e03c99ed546">5.3. Recenter at the top upon page motion</a></li>
+<li><a href="#h:3464ada8-c55d-4179-9d54-c2f87e284ac7">5.4. Use outlines and page breaks</a></li>
+</ul>
+</li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">6. GNU Free Documentation License</a></li>
+<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">7. Indices</a>
+<ul>
+<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">7.1. Function index</a></li>
+<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">7.2. Variable index</a></li>
+<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">7.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -85,7 +93,7 @@ modify this GNU manual.”
 <p>
 With all user options disabled (the out-of-the-box design), this package
 provides a simple approach to handling presentations using nothing but
-the <code>page-delimiter</code> together with some commands to move between pages
+the <code>page-delimiter</code> together with two commands to move between pages
 whether narrowing is in effect or not.
 </p>
 
@@ -110,9 +118,9 @@ want:
 </div>
 
 <p>
-By default those key bindings are: <code>C-x n n</code>, <code>C-x ]</code>, <code>C-x [</code>.  The
-<code>logos-narrow-dwim</code> is not necessary if you already know how to narrow
-effectively.
+On stanard Emacs, those key bindings are: <code>C-x n n</code>, <code>C-x ]</code>, <code>C-x [</code>.
+The <code>logos-narrow-dwim</code> is not necessary if you already know how to
+narrow effectively.
 </p>
 
 <p>
@@ -123,24 +131,6 @@ the mode line (<code>logos-hide-mode-line</code>), enable <code>scroll-lock-mode
 buffers (<code>logos-variable-pitch</code>).  All these variables are
 buffer-local.
 </p>
-
-<p>
-To position the buffer in the center of the window, use the <code>olivetti</code>
-package by Paul W. Rankin.  Sample glue code:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; glue code for `logos-focus-mode' and `olivetti-mode'
-(defun my-logos--olivetti-mode ()
-  "Toggle `olivetti-mode'."
-  (if (or (bound-and-true-p olivetti-mode)
-          (null (logos--focus-p)))
-      (olivetti-mode -1)
-    (olivetti-mode 1)))
-
-(add-hook 'logos-focus-mode-hook #'my-logos--olivetti-mode)
-</pre>
-</div>
 
 <p>
 Logos is the familiar word derived from Greek (watch my presentation on
@@ -208,7 +198,7 @@ Everything is in place to set up the package.
 <div class="outline-text-2" id="text-h:6ed7f2fd-faad-48c9-bdd2-7e909639128d">
 <p>
 Logos does not bind its own keys and does not make any opinionated
-changes out-of-the-box:
+changes out-of-the-box (<a href="#h:2bb57369-352a-43bf-afe3-0bed2fcc7359">Extra tweaks</a>):
 </p>
 
 <ul class="org-ul">
@@ -224,35 +214,23 @@ mode checks the variables <code>logos-hide-mode-line</code>, <code>logos-scroll-
 <code>logos-variable-pitch</code> and applies their effects if they are non-nil.
 Note that everything is buffer-local, so it is possible to use file
 variables as described in the Emacs manual.</li>
-
-<li>If you want to center the buffer in its window, use the <code>olivetti</code>
-package by Paul W. Rankin and simply apply some glue code to activate
-<code>olivetti-mode</code> when <code>logos-focus-mode</code> is active.</li>
 </ul>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'logos)
 
+;; If you want to use outlines instead of page breaks (the ^L)
 (setq logos-outlines-are-pages t)
 (setq logos-outline-regexp-alist
       `((emacs-lisp-mode . "^;;;+ ")
         (org-mode . "^\\*+ +")
         (t . ,(or outline-regexp logos--page-delimiter))))
 
-;; These apply when `logos-focus-mode' is enabled
-(setq logos-hide-mode-line nil)
-(setq logos-scroll-lock nil)
-(setq logos-variable-pitch nil)
-
-;; glue code for `logos-focus-mode' and `olivetti-mode'
-(defun prot/logos--olivetti-mode ()
-  "Toggle `olivetti-mode'."
-  (if (or (bound-and-true-p olivetti-mode)
-          (null (logos--focus-p)))
-      (olivetti-mode -1)
-    (olivetti-mode 1)))
-
-(add-hook 'logos-focus-mode-hook #'prot/logos--olivetti-mode)
+;; These apply when `logos-focus-mode' is enabled.  Their value is
+;; buffer-local.
+(setq-default logos-hide-mode-line nil)
+(setq-default logos-scroll-lock nil)
+(setq-default logos-variable-pitch nil)
 
 (let ((map global-map))
   (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
@@ -264,8 +242,197 @@ package by Paul W. Rankin and simply apply some glue code to activate
 </div>
 </div>
 
+<div id="outline-container-h:2bb57369-352a-43bf-afe3-0bed2fcc7359" class="outline-2">
+<h2 id="h:2bb57369-352a-43bf-afe3-0bed2fcc7359"><span class="section-number-2">5.</span> Extra tweaks</h2>
+<div class="outline-text-2" id="text-h:2bb57369-352a-43bf-afe3-0bed2fcc7359">
+<p>
+This section contains snippets of code that extend the functionality of
+<code>logos</code>.  These either apply to <code>logos-focus-mode</code> or enhance the page
+motions through the <code>logos-page-motion-hook</code>.
+</p>
+</div>
+
+<div id="outline-container-h:8864fb36-53d6-40a2-8e0a-2c609e06d70f" class="outline-3">
+<h3 id="h:8864fb36-53d6-40a2-8e0a-2c609e06d70f"><span class="section-number-3">5.1.</span> Center the buffer in its window</h3>
+<div class="outline-text-3" id="text-h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">
+<p>
+Use the excellent <code>olivetti</code> package by Paul W. Rankin.  Here we
+configure Olivetti to take effect when we enter <code>logos-focus-mode</code> and
+be disabled when we exit.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; glue code for `logos-focus-mode' and `olivetti-mode'
+(defun my-logos--olivetti-mode ()
+  "Toggle `olivetti-mode'."
+  (if (or (bound-and-true-p olivetti-mode)
+          (null (logos--focus-p)))
+      (olivetti-mode -1)
+    (olivetti-mode 1)))
+
+(add-hook 'logos-focus-mode-hook #'my-logos--olivetti-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:e18f828f-f9a8-4821-b73b-46793be57abb" class="outline-3">
+<h3 id="h:e18f828f-f9a8-4821-b73b-46793be57abb"><span class="section-number-3">5.2.</span> Automatically reveal Org or Outline heading</h3>
+<div class="outline-text-3" id="text-h:e18f828f-f9a8-4821-b73b-46793be57abb">
+<p>
+The Logos page motions simply jump between positions.  If the heading is
+folded, they will keep it that way.  To always reveal the contents use
+something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; glue code to expand an Org/Outline heading
+(defun my-logos--reveal ()
+  "Reveal Org or Outline entry."
+  (cond
+   ((and (eq major-mode 'org-mode)
+         (org-at-heading-p))
+    (org-show-subtree))
+   ((or (bound-and-true-p prot-outline-minor-mode)
+        (bound-and-true-p outline-minor-mode))
+    (outline-show-subtree))))
+
+(add-hook 'logos-page-motion-hook #'my-logos--reveal)
+</pre>
+</div>
+
+<p>
+Notice that it applies to the entire subtree (heading and subheadings).
+If the intent is to reveal just the current heading, replace
+<code>org-show-subtree</code> and <code>outline-show-subtree</code> with <code>org-show-entry</code> and
+<code>outline-show-entry</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:bba965c6-7451-4c76-84d6-7e03c99ed546" class="outline-3">
+<h3 id="h:bba965c6-7451-4c76-84d6-7e03c99ed546"><span class="section-number-3">5.3.</span> Recenter at the top upon page motion</h3>
+<div class="outline-text-3" id="text-h:bba965c6-7451-4c76-84d6-7e03c99ed546">
+<p>
+Page motions normally reposition the point at the centre of the window
+if necessary (this is standard Emacs behaviour).  To always change the
+placement invoke the <code>recenter</code> function with a numeric argument.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; place point at the top when changing pages
+(defun my-logos--recenter-top ()
+  "Use `recenter' to reposition the view at the top."
+  (recenter 0))
+
+(add-hook 'logos-page-motion-hook #'my-logos--recenter-top))
+</pre>
+</div>
+
+<p>
+The <code>0</code> argument refers to the topmost line.  So <code>1</code> points to the line
+below and so on.
+</p>
+
+<p>
+If the recentering should not affect specific modes, tweak the function
+accordingly:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar my-logos-no-recenter-top-modes 
+  '(emacs-lisp-mode lisp-interaction-mode))
+
+(defun my-logos--recenter-top ()
+  "Use `recenter' to reposition the view at the top."
+  (unless (memq major-mode my-logos-no-recenter-top-modes)
+    (recenter 0)))
+</pre>
+</div>
+
+<p>
+Or simply exclude all programming modes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-logos--recenter-top ()
+  "Use `recenter' to reposition the view at the top."
+  (unless (derived-mode-p 'prog-mode)
+    (recenter 0)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:3464ada8-c55d-4179-9d54-c2f87e284ac7" class="outline-3">
+<h3 id="h:3464ada8-c55d-4179-9d54-c2f87e284ac7"><span class="section-number-3">5.4.</span> Use outlines and page breaks</h3>
+<div class="outline-text-3" id="text-h:3464ada8-c55d-4179-9d54-c2f87e284ac7">
+<p>
+By default, the page motions only move between the <code>^L</code> delimiters.
+While the option <code>logos-outlines-are-pages</code> changes the behaviour to
+move between outline headings instead.  What constitutes an &ldquo;outline
+heading&rdquo; is determined by <code>logos-outline-regexp-alist</code>.
+</p>
+
+<p>
+Provided this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq logos-outlines-are-pages t)
+</pre>
+</div>
+
+<p>
+The default value of <code>logos-outline-regexp-alist</code> will affect <code>org-mode</code>
+and <code>emacs-lisp-mode</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
+      `((emacs-lisp-mode . "^;;;+ ")
+        (org-mode . "^\\*+ +")
+        (t . ,(or outline-regexp logos--page-delimiter))))
+</pre>
+</div>
+
+<p>
+It is possible to tweak those regular expressions to target both the
+outline and the page delimiters:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" (default-value 'page-delimiter)))
+        (org-mode . ,(format "\\(^\\*+ +\\|%s\\)" (default-value 'page-delimiter)))
+        (t . ,(or outline-regexp logos--page-delimiter))))
+</pre>
+</div>
+
+<p>
+The form <code>,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter)</code> expands
+to <code>"\\(^;;;+ \\|^\\)"</code>.
+</p>
+
+<p>
+For Org it may be better to either not target the <code>^L</code> or to also target
+the horizontal rule (five hyphens on a line, else the <code>^-\\{5\\}$</code>
+pattern).  Putting it all together:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
+        (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))
+        (t . ,(or outline-regexp logos--page-delimiter))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">5.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -726,24 +893,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
-<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">6.</span> Indices</h2>
+<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
 
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
-<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">6.1.</span> Function index</h3>
+<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
 
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
-<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">6.2.</span> Variable index</h3>
+<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
 
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
-<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">6.3.</span> Concept index</h3>
+<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
 -->
 </div>
