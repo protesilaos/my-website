@@ -44,7 +44,7 @@ Current development target is 0.2.0-dev.
 <li><a href="#h:2bb57369-352a-43bf-afe3-0bed2fcc7359">5. Extra tweaks</a>
 <ul>
 <li><a href="#h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">5.1. Center the buffer in its window</a></li>
-<li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.2. Automatically reveal Org or Outline heading</a></li>
+<li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.2. Automatically reveal Org or Outline subtree</a></li>
 <li><a href="#h:bba965c6-7451-4c76-84d6-7e03c99ed546">5.3. Recenter at the top upon page motion</a></li>
 <li><a href="#h:3464ada8-c55d-4179-9d54-c2f87e284ac7">5.4. Use outlines and page breaks</a></li>
 </ul>
@@ -277,17 +277,40 @@ be disabled when we exit.
 </div>
 
 <div id="outline-container-h:e18f828f-f9a8-4821-b73b-46793be57abb" class="outline-3">
-<h3 id="h:e18f828f-f9a8-4821-b73b-46793be57abb"><span class="section-number-3">5.2.</span> Automatically reveal Org or Outline heading</h3>
+<h3 id="h:e18f828f-f9a8-4821-b73b-46793be57abb"><span class="section-number-3">5.2.</span> Automatically reveal Org or Outline subtree</h3>
 <div class="outline-text-3" id="text-h:e18f828f-f9a8-4821-b73b-46793be57abb">
 <p>
-The Logos page motions simply jump between positions.  If the heading is
-folded, they will keep it that way.  To always reveal the contents use
-something like this:
+The Logos page motions normally jump between positions.  Though Org and
+Outline require that Logos also reveals the headings&rsquo; contents.  This is
+necessary to avoid invisible motions inside a folded heading that
+contains subheadings.  The unfolding only applies to the current entry.
+This is the relevant snippet from <code>logos.el</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun logos--reveal-entry ()
+  "Reveal Org or Outline entry."
+  (cond
+   ((and (eq major-mode 'org-mode)
+         (org-at-heading-p))
+    (org-show-entry))
+   ((or (eq major-mode 'outline-mode)
+        (bound-and-true-p outline-minor-mode))
+    (outline-show-entry))))
+
+(add-hook 'logos-page-motion-hook #'logos--reveal-entry)
+</pre>
+</div>
+
+<p>
+Users may prefer to reveal the entire subtree instead of the current
+entry: the heading at point and all of its subheadings.  In this case,
+one may override the definition of <code>logos--reveal-entry</code>:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; glue code to expand an Org/Outline heading
-(defun my-logos--reveal ()
+(defun logos--reveal-entry ()
   "Reveal Org or Outline entry."
   (cond
    ((and (eq major-mode 'org-mode)
@@ -296,17 +319,8 @@ something like this:
    ((or (eq major-mode 'outline-mode)
         (bound-and-true-p outline-minor-mode))
     (outline-show-subtree))))
-
-(add-hook 'logos-page-motion-hook #'my-logos--reveal)
 </pre>
 </div>
-
-<p>
-Notice that it applies to the entire subtree (heading and subheadings).
-If the intent is to reveal just the current heading, replace
-<code>org-show-subtree</code> and <code>outline-show-subtree</code> with <code>org-show-entry</code> and
-<code>outline-show-entry</code>.
-</p>
 </div>
 </div>
 
@@ -384,8 +398,11 @@ Provided this:
 </div>
 
 <p>
-The default value of <code>logos-outline-regexp-alist</code> will affect <code>org-mode</code>
-and <code>emacs-lisp-mode</code>.
+The default value of <code>logos-outline-regexp-alist</code> will affect
+<code>org-mode</code>, <code>emacs-lisp-mode</code>, and any of their derivatives
+(e.g. <code>lisp-interaction-mode</code> (the standard scratch buffer) is based on
+<code>emacs-lisp-mode</code>).  Its fallback value is whatever the major mode sets
+as an outline, else the standard <code>^L</code>.
 </p>
 
 <div class="org-src-container">
