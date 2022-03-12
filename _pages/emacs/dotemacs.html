@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-09 18:27 +0200</b>.</li>
-<li>Word count: <b>146716</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-12 07:22 +0200</b>.</li>
+<li>Word count: <b>146996</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -69,7 +69,7 @@ GNU Emacs 29.0.50 (build 3, x86_64-pc-linux-gnu, GTK+ Version 3.24.31, cairo ver
 <li><a href="#h:c82dcbfa-97d0-4f7c-85af-768ce90f1372">2.1. Common auxiliary functions (prot-common.el)</a></li>
 <li><a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">2.2. Common custom functions (prot-simple.el)</a>
 <ul>
-<li><a href="#h:6bbc41d6-da7c-4301-84c6-c5887c29283f">2.2.1. prot-pulse.el (highlight cursor position)</a></li>
+<li><a href="#h:6bbc41d6-da7c-4301-84c6-c5887c29283f">2.2.1. pulsar.el (highlight cursor position)</a></li>
 </ul>
 </li>
 <li><a href="#h:b24ce3fc-a12c-4d21-93d7-c1e7bd36a65d">2.3. Make Custom UI code disposable</a></li>
@@ -2312,64 +2312,64 @@ Do not try to make a new directory or anything fancy."
 </div>
 
 <div id="outline-container-h:6bbc41d6-da7c-4301-84c6-c5887c29283f" class="outline-4">
-<h4 id="h:6bbc41d6-da7c-4301-84c6-c5887c29283f"><span class="section-number-4">2.2.1.</span> prot-pulse.el (highlight cursor position)</h4>
+<h4 id="h:6bbc41d6-da7c-4301-84c6-c5887c29283f"><span class="section-number-4">2.2.1.</span> pulsar.el (highlight cursor position)</h4>
 <div class="outline-text-4" id="text-h:6bbc41d6-da7c-4301-84c6-c5887c29283f">
 <p>
-<code>pulse.el</code> is a library that provides utilities for highlighting the
-region or area around point.  It is meant to be used by other packages
-as a means of offering visual feedback, as is the case with, for
-example, <code>M-.</code> (<code>xref-find-definitions</code>).
+This is a small package of mine that highlights the current line after a
+given command is invoked.  The affected commands are defined in the user
+option <code>pulsar-pulse-functions</code>.  This is one of the few options I set
+with <code>customize-set-variable</code>.  Unlike <code>setq</code> this has the ability to
+run the custom-setter code specified in the option's definition.  Put
+concretely, it makes sure the affected functions are updated properly.
 </p>
 
 <p>
-While <code>prot-pulse.el</code> (complete code further below) is a thin wrapper that
-provides some extensions that are useful to my workflow.  Specifically,
-it declares a couple of new face and defines a command that implements
-them: <code>prot-pulse-pulse-line</code>.  This is useful to quickly highlight the
-line and buffer I am on, but can also be utilised by other tools that
-move the point an arbitrary distance.
+Pulsar builds on top of the built-in <code>pulse.el</code>.  More information in
+the official manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.com/emacs/pulsar</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; prot-pulse.el (highlight cursor position)
-(prot-emacs-builtin-package 'prot-pulse
-  ;; Restart `prot-pulse-advice-commands-mode' after updating this list.
-  (setq prot-pulse-pulse-command-list
-        '(;; recenter
-          recenter-top-bottom
-          move-to-window-line-top-bottom
-          reposition-window
-          bookmark-jump
-          other-window
-          forward-page
-          backward-page
-          scroll-up-command
-          scroll-down-command
-          org-next-visible-heading
-          org-previous-visible-heading
-          org-forward-heading-same-level
-          org-backward-heading-same-level
-          org-tree-slide-move-next-tree
-          org-tree-slide-move-previous-tree))
-  (setq prot-pulse-delay 0.06)
-  (setq prot-pulse-line-face 'prot-pulse-line) ; or specify `prot-pulse-line-intense'
-  (prot-pulse-advice-commands-mode 1)
-  (define-key global-map (kbd "C-x l") #'prot-pulse-pulse-line)) ; override `count-lines-page'
+<pre class="src src-emacs-lisp">;;; pulsar.el (highlight cursor position)
+(prot-emacs-builtin-package 'pulsar
+  (customize-set-variable
+   'pulsar-pulse-functions ; Read the doc string for why not `setq'
+   '(recenter-top-bottom
+     move-to-window-line-top-bottom
+     reposition-window
+     bookmark-jump
+     other-window
+     forward-page
+     backward-page
+     scroll-up-command
+     scroll-down-command
+     org-next-visible-heading
+     org-previous-visible-heading
+     org-forward-heading-same-level
+     org-backward-heading-same-level
+     outline-backward-same-level
+     outline-forward-same-level
+     outline-next-visible-heading
+     outline-previous-visible-heading
+     outline-up-heading))
+
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-delay 0.055)
+
+  (define-key global-map (kbd "C-x l") #'pulsar-pulse-line)) ; override `count-lines-page'
 </pre>
 </div>
 
 <p>
-This is the code for <code>prot-pulse.el</code> (part of <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a>, in case
-you wish to get the file):
+This is the code for <code>pulsar.el</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; prot-pulse.el --- Extend pulse.el for my dotemacs -*- lexical-binding: t -*-
+<pre class="src src-emacs-lisp">;;; pulsar.el --- Pulse line after running select functions -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2022  Protesilaos Stavrou
+;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
-;; URL: https://protesilaos.com/emacs/dotemacs
+;; URL: https://protesilaos.com/emacs/pulsar
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1"))
 
@@ -2390,142 +2390,217 @@ you wish to get the file):
 
 ;;; Commentary:
 ;;
-;; Extensions to the built-in `pulse.el' library for my Emacs
-;; configuration: &lt;https://protesilaos.com/emacs/dotemacs/&gt;.
+;; This is a small package that temporarily highlights the current line
+;; after a given function is invoked.  The affected functions are defined
+;; in the user option `pulsar-pulse-functions'.  What Pulsar does is set up
+;; an advice so that those functions run a hook after they are called.
+;; The pulse effect is added there (`pulsar-after-function-hook').
+;; 
+;; The duration of the highlight is determined by `pulsar-delay'.  While
+;; the applicable face is specified in `pulsar-face'.
+;; 
+;; To highlight the current line on demand, use `pulsar-pulse-line'.
+;; 
+;; Pulsar depends on the built-in `pulse.el' library.
 ;;
-;; Remember that every piece of Elisp that I write is for my own
-;; educational and recreational purposes.  I am not a programmer and I
-;; do not recommend that you copy any of this if you are not certain of
-;; what it does.
+;; Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
+;; word.  Though if you need a backronym, consider "Pulsar
+;; Unquestionably Luminates, Strictly Absent the Radiation".
 
 ;;; Code:
 
 (require 'pulse)
 
-(defgroup prot-pulse ()
+(defgroup pulsar ()
   "Extensions for `pulse.el'."
   :group 'editing)
 
-(defcustom prot-pulse-pulse-command-list
-  '(recenter-top-bottom reposition-window)
-  "Commands that should automatically `prot-pulse-pulse-line'.
-You must restart function `prot-pulse-advice-commands-mode' for
-changes to take effect."
-  :type 'list
-  :group 'prot-pulse)
+;;;; User options and faces
 
-(defcustom prot-pulse-line-face 'prot-pulse-line
-  "Face to use for the pulse line."
-  :type '(choice (face :tag "Subtle style" 'prot-pulse-line)
-                 (face :tag "Intense style" 'prot-pulse-line-intense)
-                 (face :tag "Other face"))
-  :group 'prot-pulse)
+(defcustom pulsar-pulse-functions
+  '(recenter-top-bottom
+    move-to-window-line-top-bottom
+    reposition-window
+    bookmark-jump
+    other-window
+    forward-page
+    backward-page
+    scroll-up-command
+    scroll-down-command
+    org-next-visible-heading
+    org-previous-visible-heading
+    org-forward-heading-same-level
+    org-backward-heading-same-level
+    outline-backward-same-level
+    outline-forward-same-level
+    outline-next-visible-heading
+    outline-previous-visible-heading
+    outline-up-heading)
+  "Functions that highlight the current line after invocation.
+This only takes effect when `pulsar-setup' is invoked (e.g. while
+setting up `pulsar.el').
 
-(defcustom prot-pulse-delay 0.05
-  "Duration in seconds of pulse delay."
-  :type 'list
-  :group 'prot-pulse)
+Any update to this user option outside of Custom (e.g. with
+`setq') requires a re-run of `pulsar-setup'.  Whereas functions
+such as `customize-set-variable' do that automatically."
+  :type '(repeat function)
+  :initialize #'custom-initialize-default
+  :set (lambda (symbol value)
+         (if (eq value (default-value symbol))
+             (set-default symbol value)
+           (pulsar-setup 'reverse)
+           (set-default symbol value)
+           (pulsar-setup)))
+  :group 'pulsar)
 
-(defface prot-pulse-line
+(defcustom pulsar-face 'pulse-highlight-start-face
+  "Face to use for the pulse line.
+The default is `pulse-highlight-start-face', though users can
+select one among `pulsar-red', `pulsar-green', `pulsar-yellow',
+`pulsar-blue', `pulsar-magenta', `pulsar-cyan', or any other face
+that has a background attribute."
+  :type '(radio (face :tag "Standard pulse.el face" pulse-highlight-start-face)
+                (face :tag "Red style" pulsar-red)
+                (face :tag "Green style" pulsar-green)
+                (face :tag "Yellow style" pulsar-yellow)
+                (face :tag "Blue style" pulsar-blue)
+                (face :tag "Magenta style" pulsar-magenta)
+                (face :tag "Cyan style" pulsar-cyan)
+                (face :tag "Other face (must have a background)"))
+  :group 'pulsar)
+
+(defcustom pulsar-delay 0.05
+  "Duration in seconds of the active pulse highlight."
+  :type 'number
+  :group 'pulsar)
+
+(defgroup pulsar-faces ()
+  "Faces for `pulsar.el'."
+  :group 'pulsar)
+
+(defface pulsar-red
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#ffcccc")
+    (((class color) (min-colors 88) (background dark))
+     :background "#77002a")
+    (t :inverse-video t))
+  "Alternative red face for `pulsar-face'."
+  :group 'pulsar-faces)
+
+(defface pulsar-green
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#aceaac")
+    (((class color) (min-colors 88) (background dark))
+     :background "#00422a")
+    (t :inverse-video t))
+  "Alternative green face for `pulsar-face'."
+  :group 'pulsar-faces)
+
+(defface pulsar-yellow
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#fff29a")
+    (((class color) (min-colors 88) (background dark))
+     :background "#693200")
+    (t :inverse-video t))
+  "Alternative yellow face for `pulsar-face'."
+  :group 'pulsar-faces)
+
+(defface pulsar-blue
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#8fcfff")
+    (((class color) (min-colors 88) (background dark))
+     :background "#242679")
+    (t :inverse-video t))
+  "Alternative blue face for `pulsar-face'."
+  :group 'pulsar-faces)
+
+(defface pulsar-magenta
+  '((default :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#ffccff")
+    (((class color) (min-colors 88) (background dark))
+     :background "#71206a")
+    (t :inverse-video t))
+  "Alternative magenta face for `pulsar-face'."
+  :group 'pulsar-faces)
+
+(defface pulsar-cyan
   '((default :extend t)
     (((class color) (min-colors 88) (background light))
      :background "#8eecf4")
     (((class color) (min-colors 88) (background dark))
      :background "#004065")
     (t :inverse-video t))
-  "Default face for `prot-pulse-pulse-line'."
-  :group 'prot-pulse)
+  "Alternative cyan face for `pulsar-face'."
+  :group 'pulsar-faces)
 
-(defface prot-pulse-line-intense
-  '((default :extend t)
-    (((class color) (min-colors 88) (background light))
-     :background "#f5df23")
-    (((class color) (min-colors 88) (background dark))
-     :background "#874900")
-    (t :inverse-video t))
-  "Intense variant face for `prot-pulse-pulse-line'."
-  :group 'prot-pulse)
+;;;; Functions and commands
+
+(defun pulsar--indentation-only-line-p ()
+  "Return non-nil if current line has only indentation."
+  (save-excursion
+    (goto-char (point-at-bol))
+    (and (not (bobp))
+	     (or (beginning-of-line 1) t)
+	     (save-match-data
+	       (looking-at "^[\s\t]+")))))
+
+(defun pulsar--buffer-end-p ()
+  "Return non-nil if point is at the end of the buffer."
+  (unless (pulsar--indentation-only-line-p)
+    (or (eobp) (eq (point) (point-max)))))
+
+(defun pulsar--start ()
+  "Return appropriate line start."
+  (if (pulsar--buffer-end-p)
+      (line-beginning-position 0)
+    (line-beginning-position)))
+
+(defun pulsar--end ()
+  "Return appropriate line end."
+  (if (pulsar--buffer-end-p)
+      (line-beginning-position 1)
+    (line-beginning-position 2)))
 
 ;;;###autoload
-(defun prot-pulse-pulse-line (&amp;optional face)
+(defun pulsar-pulse-line ()
   "Temporarily highlight the current line with optional FACE."
   (interactive)
-  (let ((start (if (or (eobp)
-                       (eq (line-number-at-pos)
-                           (line-number-at-pos (point-max))))
-                   (line-beginning-position 0)
-                 (line-beginning-position)))
-        (end (line-beginning-position 2))
-        (pulse-delay prot-pulse-delay)
-        (face (or face prot-pulse-line-face)))
-    (pulse-momentary-highlight-region start end face)))
+  (let ((pulse-delay pulsar-delay))
+    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) pulsar-face)))
 
-(defun prot-pulse--recentre (&amp;optional position)
-  "Recentre the window with optional POSITION.
-POSITION is an argument passed to `recenter'."
-  (let ((pulse-delay prot-pulse-delay))
-    (recenter position)
-    ;; ;; NOTE 2022-02-06: we do not need this if we add `recenter' to
-    ;; ;; the `prot-pulse-pulse-command-list'.  See my prot-emacs.org
-    ;; ;; for the relevant configuration.
-    ;; (prot-pulse-pulse-line)
-    (prot-pulse-show-entry)))
+(defvar pulsar-after-function-hook nil
+  "Hook that runs after any function in `pulsar-pulse-functions'.")
+
+(defun pulsar--add-hook (&amp;rest _)
+  "Run `pulsar-after-function-hook'."
+  (run-hooks 'pulsar-after-function-hook))
 
 ;;;###autoload
-(defun prot-pulse-recentre-top ()
-  "Reposition at the top and pulse line.
-Add this to a hook, such as `imenu-after-jump-hook'."
-  (prot-pulse--recentre 0))
+(defun pulsar-setup (&amp;optional reverse)
+  "Set up pulsar for select functions.
+This adds the `pulsar-after-function-hook' to every command listed
+in the `pulsar-pulse-functions'.  If the list is updated, this
+command needs to be invoked again.
 
-;;;###autoload
-(defun prot-pulse-recentre-centre ()
-  "Recentre and pulse line.
-Add this to a hook, such as `imenu-after-jump-hook'."
-  (prot-pulse--recentre))
-
-(autoload 'org-at-heading-p "org")
-(autoload 'org-show-entry "org")
-(autoload 'org-reveal "org")
-(autoload 'outline-show-entry "outline")
-
-;;;###autoload
-(defun prot-pulse-show-entry ()
-  "Reveal index at point in outline views.
-To be used with a hook such as `imenu-after-jump-hook'."
+With optional non-nil REVERSE argument, remove the advice that
+sets up the aforementioned hook."
   (cond
-   ((and (eq major-mode 'org-mode)
-         (org-at-heading-p))
-    (org-show-entry)
-    (org-reveal t))
-   ((or (bound-and-true-p prot-outline-minor-mode)
-        (bound-and-true-p outline-minor-mode))
-    (outline-show-entry))))
+   (reverse
+    (dolist (fn pulsar-pulse-functions)
+      (advice-remove fn #'pulsar--add-hook))
+    (remove-hook 'pulsar-after-function-hook #'pulsar-pulse-line))
+   (t
+    (dolist (fn pulsar-pulse-functions)
+      (advice-add fn :after #'pulsar--add-hook))
+    (add-hook 'pulsar-after-function-hook #'pulsar-pulse-line))))
 
-(defvar prot-pulse-after-command-hook nil
-  "Hook that runs after select commands.
-To be used with `advice-add' after those functions declared in
-`prot-pulse-pulse-command-list'.")
-
-(defun prot-pulse-after-command (&amp;rest _)
-  "Run `prot-pulse-after-command-hook'."
-  (run-hooks 'prot-pulse-after-command-hook))
-
-;;;###autoload
-(define-minor-mode prot-pulse-advice-commands-mode
-  "Set up for `prot-pulse-pulse-command-list'."
-  :init-value nil
-  :global t
-  (if prot-pulse-advice-commands-mode
-      (progn
-        (dolist (fn prot-pulse-pulse-command-list)
-          (advice-add fn :after #'prot-pulse-after-command))
-        (add-hook 'prot-pulse-after-command-hook #'prot-pulse-pulse-line))
-    (dolist (fn prot-pulse-pulse-command-list)
-      (advice-remove fn #'prot-pulse-after-command))
-    (remove-hook 'prot-pulse-after-command-hook #'prot-pulse-pulse-line)))
-
-(provide 'prot-pulse)
-;;; prot-pulse.el ends here
+(provide 'pulsar)
+;;; pulsar.el ends here
 </pre>
 </div>
 </div>
@@ -2687,14 +2762,14 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;;
   ;; NOTE: these are not my preferences!  I am always testing various
   ;; configurations.  Though I still like what I have here.
-  (setq modus-themes-italic-constructs t
+  (setq modus-themes-italic-constructs nil
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers nil
-        modus-themes-intense-mouseovers nil
+        modus-themes-intense-mouseovers t
         modus-themes-deuteranopia t
         modus-themes-tabs-accented nil
-        modus-themes-variable-pitch-ui t
+        modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
         modus-themes-fringes nil ; {nil,'subtle,'intense}
@@ -2711,7 +2786,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; of padding and NATNUM), and a floating point for the height of
         ;; the text relative to the base font size (or a cons cell of
         ;; height and FLOAT)
-        modus-themes-mode-line '(borderless accented (padding . 4) (height . 0.9))
+        modus-themes-mode-line nil
 
         ;; Options for `modus-themes-markup' are either nil, or a list
         ;; that can combine any of `bold', `italic', `background',
@@ -2775,7 +2850,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend bg-only)
+        modus-themes-region '(no-extend)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
         modus-themes-diffs 'desaturated
@@ -2785,7 +2860,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-org-agenda ; this is an alist: read the manual or its doc string
         '((header-block . (variable-pitch regular 1.4))
           (header-date . (bold-today grayscale underline-today 1.2))
-          (event . (accented varied))
+          (event . (accented italic varied))
           (scheduled . uniform)
           (habit . nil))
 
@@ -3532,7 +3607,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgf63417e">
+<pre class="example" id="org6b466dd">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3615,7 +3690,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org28ba32a">
+<pre class="example" id="org4fe8bf3">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -5922,7 +5997,6 @@ all three of the above is easier to learn and more consistent overall.
   (setq consult-preview-key 'any)
 
   (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
-  (add-hook 'consult-after-jump-hook #'prot-pulse-recentre-top) ; see `prot-pulse.el'
 
   (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
 
@@ -7077,7 +7151,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org63d3efc">
+<pre class="example" id="orgab0aafd">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -9783,6 +9857,10 @@ longer need (<a href="#h:aad79917-cd80-491b-9020-db27867ab132">Dired-like list f
 <h3 id="h:77d14350-978d-4820-ab7f-4641706c445a"><span class="section-number-3">5.2.</span> Custom extensions for "focus mode" (logos.el)</h3>
 <div class="outline-text-3" id="text-h:77d14350-978d-4820-ab7f-4641706c445a">
 <p>
+Also watch: <a href="https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/">Emacs: demonstration of logos.el</a> (2022-03-11).
+</p>
+
+<p>
 <code>logos</code> (or <code>logos.el</code>) is a new library of mine (as of 2022-03-02)
 which provides a set of utilities for handling presentations and/or
 focusing your attention on the current buffer's contents:
@@ -9857,8 +9935,8 @@ Other potentially relevant parts of my dotemacs:
 (prot-emacs-builtin-package 'logos
   (setq logos-outlines-are-pages t)
   (setq logos-outline-regexp-alist
-        `((emacs-lisp-mode . "^;;;+ ")
-          (org-mode . "^\\(\\*+ +\\|-----$\\)")
+        `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
+          (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))
           (t . ,(or outline-regexp logos--page-delimiter))))
 
   ;; These apply when `logos-focus-mode' is enabled.  Their value is
@@ -9871,7 +9949,15 @@ Other potentially relevant parts of my dotemacs:
     (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
     (define-key map [remap forward-page] #'logos-forward-page-dwim)
     (define-key map [remap backward-page] #'logos-backward-page-dwim)
+    ;; I don't think I ever saw a package bind M-] or M-[...
+    (define-key map (kbd "M-]") #'logos-forward-page-dwim)
+    (define-key map (kbd "M-[") #'logos-backward-page-dwim)
     (define-key map (kbd "&lt;f9&gt;") #'logos-focus-mode))
+
+;;;; Extra tweaks
+  ;; Read the logos manual: &lt;https://protesilaos.com/emacs/logos&gt;.
+
+;;;;; Extras for `logos-focus-mode'
 
   ;; glue code for `logos-focus-mode' and `olivetti-mode'
   (defun prot/logos--olivetti-mode ()
@@ -9883,19 +9969,15 @@ Other potentially relevant parts of my dotemacs:
 
   (add-hook 'logos-focus-mode-hook #'prot/logos--olivetti-mode)
 
-  ;; glue code to expand an Org/Outline heading
-  (defun prot/logos--reveal ()
-    "Reveal Org or Outline entry."
-    (cond
-     ((and (eq major-mode 'org-mode)
-           (org-at-heading-p))
-      (org-show-entry)
-      (org-reveal t))
-     ((or (bound-and-true-p prot-outline-minor-mode)
-          (bound-and-true-p outline-minor-mode))
-      (outline-show-entry))))
+;;;;; Extras for the DWIM page motions
 
-  (add-hook 'logos-page-motion-hook #'prot/logos--reveal))
+  ;; place point at the top when changing pages, but not in `prog-mode'
+  (defun prot/logos--recenter-top ()
+    "Use `recenter' to reposition the view at the top."
+    (unless (derived-mode-p 'prog-mode)
+      (recenter 1))) ; Use 0 for the absolute top
+
+  (add-hook 'logos-page-motion-hook #'prot/logos--recenter-top))
 </pre>
 </div>
 
@@ -9953,24 +10035,9 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;; `logos-narrow-dwim' is not necessary if you already know how to
 ;; narrow effectively.
 ;;
-;; Logos provides some optional aesthetic tweaks which come into effect
-;; when the buffer-local `logos-focus-mode' is enabled.  These will hide
-;; the mode line (`logos-hide-mode-line'), enable `scroll-lock-mode'
-;; (`logos-scroll-lock'), and use `variable-pitch-mode' in
-;; non-programming buffers (`logos-variable-pitch').  All these
-;; variables are buffer-local.
-;;
-;; To position the buffer in the center of the window, use the
-;; `olivetti' package by Paul W. Rankin.  Sample glue code:
-;;
-;;     (defun my-logos--olivetti-mode ()
-;;       "Toggle `olivetti-mode'."
-;;       (if (or (bound-and-true-p olivetti-mode)
-;;               (null (logos--focus-p)))
-;;           (olivetti-mode -1)
-;;         (olivetti-mode 1)))
-;;     
-;;     (add-hook 'logos-focus-mode-hook #'my-logos--olivetti-mode)
+;; The `logos-focus-mode' tweaks the aesthetics of the current buffer.
+;; When enabled it sets the buffer-local value of these user options:
+;; `logos-scroll-lock', `logos-variable-pitch',`logos-hide-mode-line'.
 ;;
 ;; Logos is the familiar word derived from Greek (watch my presentation
 ;; on philosophy about Cosmos, Logos, and the living universe:
@@ -9980,6 +10047,9 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;;
 ;; 1. ^L Only Generates Ostensible Slides
 ;; 2. Logos Optionally Garners Outline Sections
+;;
+;; Consult the manual for all sorts of tweaks and extras:
+;; &lt;https://protesilaos.com/emacs/logos&gt;.
 
 ;;; Code:
 
@@ -10007,7 +10077,12 @@ When this variable is nil, pages are demarcated by the
     (org-mode . "^\\*+ +")
     (t . ,(or outline-regexp logos--page-delimiter)))
   "Alist of major mode and regular expression of the outline.
-Only used when `logos-outlines-are-pages' is non-nil."
+Only used when `logos-outlines-are-pages' is non-nil.
+
+The major mode also targets any of its derivatives.  For example,
+`lisp-interaction-mode' (the standard scratch buffer) is based on
+`emacs-lisp-mode' so one only needs to set the outline regexp of
+the latter."
   :type `(alist :key-type symbol :value-type string) ; TODO 2022-03-02: ensure symbol is mode?
   :group 'logos)
 
@@ -10049,8 +10124,10 @@ This is only relevant when `logos-focus-mode' is enabled."
 
 (defun logos--outline-regexp ()
   "Return page delimiter from `logos-outline-regexp-alist'."
-  (let ((outline logos-outline-regexp-alist))
-    (or (alist-get major-mode outline)
+  (let ((outline logos-outline-regexp-alist)
+        (mode major-mode))
+    (or (alist-get mode outline)
+        (alist-get (get mode 'derived-mode-parent) outline)
         (alist-get t outline))))
 
 (defun logos--page-delimiter ()
@@ -10100,6 +10177,22 @@ motion.  Always move point to the beginning of the narrowed
 page."
   (interactive "p")
   (logos--page-motion count :back))
+
+(declare-function org-at-heading-p "org" (&amp;optional _))
+(declare-function org-show-entry "org")
+(declare-function outline-show-entry "outline")
+
+(defun logos--reveal-entry ()
+  "Reveal Org or Outline entry."
+  (cond
+   ((and (eq major-mode 'org-mode)
+         (org-at-heading-p))
+    (org-show-entry))
+   ((or (eq major-mode 'outline-mode)
+        (bound-and-true-p outline-minor-mode))
+    (outline-show-entry))))
+
+(add-hook 'logos-page-motion-hook #'logos--reveal-entry)
 
 ;;;; Narrowing
 ;; NOTE 2022-03-02: This section is most likely unnecessary, but let's
@@ -10157,10 +10250,13 @@ If narrowing is in effect, widen the view."
 ;;;; Optional "focus mode" and utilities
 
 (define-minor-mode logos-focus-mode
-  "Buffer-local mode for focused editing."
+  "Buffer-local mode for focused editing.
+When enabled it sets the buffer-local value of these user
+options: `logos-scroll-lock', `logos-variable-pitch',
+`logos-hide-mode-line'."
   :init-value nil
   :global nil
-  :lighter " Λ" ; greek lambda majuscule
+  :lighter " Λ" ; lambda majuscule
   (logos--setup))
 
 (defun logos--setup ()
@@ -15283,11 +15379,6 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-link-keep-stored-after-insertion nil)
   ;; TODO 2021-10-15 org-link-make-description-function
 
-  ;; See my prot-pulse.el for what this does.  Basically it recentres
-  ;; the window the way I like and pulse the line at point to make it
-  ;; easier to make sense of the context.
-  (add-hook 'org-follow-link-hook #'prot-pulse-recentre-top)
-
 ;;;; capture
   (setq org-capture-templates
         `(("b" "Basic task for future review" entry
@@ -15925,6 +16016,7 @@ those changes, especially since it is theme-agnostic.
   ;; (setq org-modern-progress ["○""◔""◐""◕""●"])
 
   (add-hook 'org-mode-hook #'org-modern-mode)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
 
   ;; NOTE 2022-03-06: I am experimenting with various styles here.  DO NOT COPY.
   ;;
@@ -16012,7 +16104,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org7e3d046">
+<pre class="example" id="org2785b8f">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16024,7 +16116,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org1129f06">
+<pre class="example" id="org994f318">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16039,7 +16131,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org4b623d3">
+<pre class="example" id="org9046c48">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16057,7 +16149,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org6466930">
+<pre class="example" id="org2eb6c32">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16086,7 +16178,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgcfb5361">
+<pre class="example" id="orgdf391e2">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16250,7 +16342,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org4b828ca">
+<pre class="example" id="org19c5f3f">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16977,7 +17069,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org0b4bd4a">
+<pre class="example" id="orgcc3c408">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17011,7 +17103,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgb5dfa98">
+<pre class="example" id="org136765e">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17175,7 +17267,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgca36c19">
+<pre class="example" id="org5229849">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17370,7 +17462,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org583784f">
+<pre class="example" id="org536dec4">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18598,7 +18690,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgb3c9dcc">
+<pre class="example" id="org8c8fb9e">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19662,7 +19754,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org1bb42f5">
+<pre class="example" id="orge46622b">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20354,7 +20446,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgfcf0257">
+<pre class="example" id="orgf53b292">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -20682,9 +20774,7 @@ This makes it ideal for generating an ad-hoc index of "points of
 interest" in the current buffer with the help of Embark's ability to
 collect a list of candidates into a bespoke buffer (make sure to check
 <a href="#h:d67ed8d0-d711-48b0-9f40-f88ae2e5c984">Extended minibuffer actions and more (embark.el and prot-embark.el)</a>).
-Of course, it can be used on its own to jump around the web page.
-Upon jumping, the line will pulse momentarily to help keep a sense of
-context (also read: <a href="#h:6bbc41d6-da7c-4301-84c6-c5887c29283f">prot-pulse.el (highlight cursor position)</a>).</li>
+Of course, it can be used on its own to jump around the web page.</li>
 
 <li><code>prot-eww-find-feed</code> inspects the source code of the current web page
 and produces an <code>occur</code> buffer with links that represent RSS or Atom
@@ -20888,7 +20978,6 @@ And here is <code>prot-eww.el</code> in its entirety.  It is available as a file
 (require 'elpher nil t)
 (require 'url-parse)
 (require 'prot-common)
-(require 'prot-pulse)
 
 (defgroup prot-eww ()
   "Tweaks for EWW."
@@ -21269,8 +21358,7 @@ consider whole buffer."
            (selection (completing-read prompt links nil t))
            (position (replace-regexp-in-string "^.*(\\([0-9]+\\))[\s\t]+~" "\\1" selection))
            (point (string-to-number position)))
-      (goto-char point)
-      (prot-pulse-pulse-line))))
+      (goto-char point))))
 
 (defvar prot-eww--occur-feed-regexp
   (concat "\\(rss\\|atom\\)\\+xml.\\(.\\|\n\\)"
@@ -23448,7 +23536,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org5b395be">
+<pre class="example" id="orgb3b80ea">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25175,7 +25263,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgc58d4a7">
+<pre class="example" id="org422b305">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25597,7 +25685,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org101ed05">
+<pre class="example" id="orgefe3b24">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25606,7 +25694,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orge0a742e">
+<pre class="example" id="org592a640">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25631,7 +25719,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org1e2d766">
+<pre class="example" id="org0b267e4">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25707,7 +25795,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org54e4ad0">
+<pre class="example" id="orgf8310f2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25732,7 +25820,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org88c7fe1">
+<pre class="example" id="orgd75e591">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25741,7 +25829,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org45d3d32">
+<pre class="example" id="org655cec0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25760,7 +25848,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org19bbe12">
+<pre class="example" id="orga087d3b">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
