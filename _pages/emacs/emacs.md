@@ -57,6 +57,7 @@ provides some optional aesthetic tweaks which come into effect when the
 buffer-local `logos-focus-mode` is enabled.  The manual shows how to
 extend the code to achieve the desired result.
 
++ Package name (GNU ELPA): `logos`
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Git repo: <https://gitlab.com/protesilaos/logos>
 

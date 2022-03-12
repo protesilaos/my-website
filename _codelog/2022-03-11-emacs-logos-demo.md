@@ -23,3 +23,6 @@ Quote from the manual:
 
 I have already made several presentations using this package and am
 happy with the results.
+
+**UPDATE 2022-03-12 05:36 +0200:** The package is available from GNU
+ELPA as `logos`.
