@@ -41,12 +41,13 @@ Current development target is N/A.
 <li><a href="#h:62d716b4-44f7-4078-85d2-29a7da8ca253">2. Overview</a></li>
 <li><a href="#h:812f7616-7e0f-489f-a908-1cb759ca64ce">3. Installation</a></li>
 <li><a href="#h:96289426-8480-4ea6-9053-280348adc0ed">4. Sample configuration</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">5. GNU Free Documentation License</a></li>
-<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">6. Indices</a>
+<li><a href="#h:b884f2ac-82f3-48c0-bee5-6709d6647b1d">5. Integration with other packages</a></li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">6. GNU Free Documentation License</a></li>
+<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">7. Indices</a>
 <ul>
-<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">6.1. Function index</a></li>
-<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">6.2. Variable index</a></li>
-<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">6.3. Concept index</a></li>
+<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">7.1. Function index</a></li>
+<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">7.2. Variable index</a></li>
+<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">7.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -90,12 +91,22 @@ pulse effect is added there (<code>pulsar-after-function-hook</code>).
 </p>
 
 <p>
+To remove the advice and disable Pulsar altogether, evaluate this form:
+<code>(pulsar-setup 'reverse)</code>.  The <code>pulsar-setup</code> function can be used
+manually to install the advice on the relevant functions, though it is
+strongly encouraged to use <code>customize-set-variable</code> for the user option
+<code>pulsar-pulse-functions</code> and let Emacs set up everything correctly (that
+user option has a special custom setter function).
+</p>
+
+<p>
 The duration of the highlight is determined by <code>pulsar-delay</code>.  While
 the applicable face is specified in <code>pulsar-face</code>.
 </p>
 
 <p>
-To highlight the current line on demand, use <code>pulsar-pulse-line</code>.
+To highlight the current line on demand, use the <code>pulsar-pulse-line</code>
+command.
 </p>
 
 <p>
@@ -166,23 +177,34 @@ Remember to read the doc string of each of these variables.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pulsar)
 
-(customize-set-variable 
+(customize-set-variable
  'pulsar-pulse-functions ; Read the doc string for why not `setq'
  '(recenter-top-bottom
    move-to-window-line-top-bottom
    reposition-window
    bookmark-jump
    other-window
+   delete-window
+   delete-other-windows
    forward-page
    backward-page
    scroll-up-command
    scroll-down-command
+   windmove-right
+   windmove-left
+   windmove-up
+   windmove-down
+   windmove-swap-states-right
+   windmove-swap-states-left
+   windmove-swap-states-up
+   windmove-swap-states-down
+   tab-new
+   tab-close
+   tab-next
    org-next-visible-heading
    org-previous-visible-heading
    org-forward-heading-same-level
    org-backward-heading-same-level
-   org-tree-slide-move-next-tree
-   org-tree-slide-move-previous-tree
    outline-backward-same-level
    outline-forward-same-level
    outline-next-visible-heading
@@ -196,8 +218,44 @@ Remember to read the doc string of each of these variables.
 </div>
 </div>
 
+<div id="outline-container-h:b884f2ac-82f3-48c0-bee5-6709d6647b1d" class="outline-2">
+<h2 id="h:b884f2ac-82f3-48c0-bee5-6709d6647b1d"><span class="section-number-2">5.</span> Integration with other packages</h2>
+<div class="outline-text-2" id="text-h:b884f2ac-82f3-48c0-bee5-6709d6647b1d">
+<p>
+Beside <code>pulsar-pulse-line</code>, Pulsar defines a few functions that can be
+added to hooks that are provided by other packages.
+</p>
+
+<p>
+There are two functions to recenter and then pulse the current line:
+<code>pulsar-recenter-top</code> and <code>pulsar-recenter-middle</code>.
+</p>
+
+<p>
+There also exists <code>pulsar-reveal-entry</code> which displays the hidden
+contents of an Org or Outline heading.  It can be used in tandem with
+the aforementioned recentering functions.
+</p>
+
+<p>
+Example use-cases:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; integration with the `consult' package:
+(add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+
+;; integration with the built-in `imenu':
+(add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">5.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -658,24 +716,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
-<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">6.</span> Indices</h2>
+<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
 
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
-<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">6.1.</span> Function index</h3>
+<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
 
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
-<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">6.2.</span> Variable index</h3>
+<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
 
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
-<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">6.3.</span> Concept index</h3>
+<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
 -->
 </div>
