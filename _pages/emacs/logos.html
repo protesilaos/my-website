@@ -39,7 +39,12 @@ Current development target is 0.2.0-dev.
 <ul>
 <li><a href="#h:efc32d6b-9405-4f3c-9560-3229b3ce3866">1. COPYING</a></li>
 <li><a href="#h:77518cc5-a7f4-4c5e-9c0f-7cf0f43b6317">2. Overview</a></li>
-<li><a href="#h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0">3. Installation</a></li>
+<li><a href="#h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0">3. Installation</a>
+<ul>
+<li><a href="#h:35926213-4825-4933-932c-5183628d25ac">3.1. GNU ELPA package</a></li>
+<li><a href="#h:d9184e23-5a20-4efa-a8c4-1dfdd1e23dbe">3.2. Manual installation</a></li>
+</ul>
+</li>
 <li><a href="#h:6ed7f2fd-faad-48c9-bdd2-7e909639128d">4. Sample configuration</a></li>
 <li><a href="#h:2bb57369-352a-43bf-afe3-0bed2fcc7359">5. Extra tweaks</a>
 <ul>
@@ -65,7 +70,7 @@ Current development target is 0.2.0-dev.
 <h2 id="h:efc32d6b-9405-4f3c-9560-3229b3ce3866"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:efc32d6b-9405-4f3c-9560-3229b3ce3866">
 <p>
-Copyright (C) 2021  Free Software Foundation, Inc.
+Copyright (C) 2022  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -85,7 +90,6 @@ modify this GNU manual.”
 </blockquote>
 </div>
 </div>
-
 
 <div id="outline-container-h:77518cc5-a7f4-4c5e-9c0f-7cf0f43b6317" class="outline-2">
 <h2 id="h:77518cc5-a7f4-4c5e-9c0f-7cf0f43b6317"><span class="section-number-2">2.</span> Overview</h2>
@@ -129,10 +133,13 @@ to narrow effectively.  Such users may still want to bind it to a key.
 <p>
 Logos provides some optional aesthetic tweaks which come into effect
 when the buffer-local <code>logos-focus-mode</code> is enabled.  These will hide
-the mode line (<code>logos-hide-mode-line</code>), enable <code>scroll-lock-mode</code>
-(<code>logos-scroll-lock</code>), and use <code>variable-pitch-mode</code> in non-programming
-buffers (<code>logos-variable-pitch</code>).  All these variables are
-buffer-local.
+the mode line (<code>logos-hide-mode-line</code>), disable the buffer boundary
+indicators (<code>indicate-buffer-boundaries</code>), enable <code>scroll-lock-mode</code>
+(<code>logos-scroll-lock</code>), use <code>variable-pitch-mode</code> in non-programming
+buffers (<code>logos-variable-pitch</code>), make the buffer read-only
+(<code>logos-buffer-read-only</code>), and center the buffer in its window if the
+<code>olivetti</code> package is installed (<code>logos-olivetti</code>).  All these variables
+are buffer-local.
 </p>
 
 <p>
@@ -153,14 +160,30 @@ backronyms about the mechanics of this package:
 <div id="outline-container-h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0" class="outline-2">
 <h2 id="h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0"><span class="section-number-2">3.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:b0e78fe5-4e74-4959-be6f-10f7b631d5a0">
+</div>
+
+<div id="outline-container-h:35926213-4825-4933-932c-5183628d25ac" class="outline-3">
+<h3 id="h:35926213-4825-4933-932c-5183628d25ac"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:35926213-4825-4933-932c-5183628d25ac">
 <p>
-Logos is not in any package archive for the time being, though I plan to
-submit it to GNU ELPA (as such, any non-trivial patches require
-copyright assignment to the Free Software Foundation).  Users can rely
-on <code>straight.el</code>, <code>quelpa</code>, or equivalent to fetch the source.  Below
-are the essentials for those who prefer the manual method.
+The package is available as <code>logos</code>.  Simply do:
 </p>
 
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d9184e23-5a20-4efa-a8c4-1dfdd1e23dbe" class="outline-3">
+<h3 id="h:d9184e23-5a20-4efa-a8c4-1dfdd1e23dbe"><span class="section-number-3">3.2.</span> Manual installation</h3>
+<div class="outline-text-3" id="text-h:d9184e23-5a20-4efa-a8c4-1dfdd1e23dbe">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
 following commands in a shell prompt:
@@ -195,6 +218,7 @@ Everything is in place to set up the package.
 </p>
 </div>
 </div>
+</div>
 
 <div id="outline-container-h:6ed7f2fd-faad-48c9-bdd2-7e909639128d" class="outline-2">
 <h2 id="h:6ed7f2fd-faad-48c9-bdd2-7e909639128d"><span class="section-number-2">4.</span> Sample configuration</h2>
@@ -214,9 +238,11 @@ assuming the default keys).</li>
 
 <li>To have quick access to <code>logos-focus-mode</code>, bind it to a key.  This
 mode checks the variables <code>logos-hide-mode-line</code>, <code>logos-scroll-lock</code>,
-<code>logos-variable-pitch</code> and applies their effects if they are non-nil.
-Note that everything is buffer-local, so it is possible to use file
-variables as described in the Emacs manual.</li>
+<code>logos-variable-pitch</code>, <code>logos-indicate-buffer-boundaries</code>,
+<code>logos-buffer-read-only</code>, <code>logos-olivetti</code> (requires <code>olivetti</code>
+package) and applies their effects if they are non-nil.  Note that
+everything is buffer-local, so it is possible to use file variables as
+described in the Emacs manual.</li>
 </ul>
 
 <div class="org-src-container">
@@ -231,9 +257,12 @@ variables as described in the Emacs manual.</li>
 
 ;; These apply when `logos-focus-mode' is enabled.  Their value is
 ;; buffer-local.
-(setq-default logos-hide-mode-line nil)
-(setq-default logos-scroll-lock nil)
-(setq-default logos-variable-pitch nil)
+(setq-default logos-hide-mode-line nil
+              logos-scroll-lock nil
+              logos-variable-pitch nil
+              logos-indicate-buffer-boundaries nil
+              logos-buffer-read-only nil
+              logos-olivetti nil)
 
 (let ((map global-map))
   (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
@@ -259,23 +288,26 @@ motions through the <code>logos-page-motion-hook</code>.
 <h3 id="h:8864fb36-53d6-40a2-8e0a-2c609e06d70f"><span class="section-number-3">5.1.</span> Center the buffer in its window</h3>
 <div class="outline-text-3" id="text-h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">
 <p>
-Use the excellent <code>olivetti</code> package by Paul W. Rankin.  Here we
-configure Olivetti to take effect when we enter <code>logos-focus-mode</code> and
-be disabled when we exit.
+Install the excellent <code>olivetti</code> package by Paul W. Rankin.  Then set
+<code>logos-olivetti</code> to non-nil.
+</p>
+
+<p>
+The present author&rsquo;s favourite settings given that a <code>fill-column</code> of
+<code>72</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; glue code for `logos-focus-mode' and `olivetti-mode'
-(defun my-logos--olivetti-mode ()
-  "Toggle `olivetti-mode'."
-  (if (or (bound-and-true-p olivetti-mode)
-          (null (logos--focus-p)))
-      (olivetti-mode -1)
-    (olivetti-mode 1)))
-
-(add-hook 'logos-focus-mode-hook #'my-logos--olivetti-mode)
+<pre class="src src-emacs-lisp">(setq olivetti-body-width 0.7
+      olivetti-minimum-body-width 80
+      olivetti-recall-visual-line-mode-entry-state t)
 </pre>
 </div>
+
+<p>
+Though note that Olivetti works well even without a <code>fill-column</code> and
+<code>auto-fill-mode</code> disabled.
+</p>
 </div>
 </div>
 
@@ -388,7 +420,7 @@ Or simply exclude all programming modes:
 By default, the page motions only move between the <code>^L</code> delimiters.
 While the option <code>logos-outlines-are-pages</code> changes the behaviour to
 move between outline headings instead.  What constitutes an &ldquo;outline
-heading&rdquo; is determined by <code>logos-outline-regexp-alist</code>.
+heading&rdquo; is determined by the <code>logos-outline-regexp-alist</code>.
 </p>
 
 <p>
@@ -444,6 +476,23 @@ pattern).  Putting it all together:
 <pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
       `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
         (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))
+        (t . ,(or outline-regexp logos--page-delimiter))))
+</pre>
+</div>
+
+<p>
+Another Org-specific tweak is to use heading levels up to a specific
+number.  The idea would be that anything below that number is not
+significant.  For example, <code>^\\* +</code> only applies to top-level headings,
+while <code>^\\*\\{1,3\\} +</code> covers heading levels 1 through 3.  Accounting
+for the aforementiond horizontal rle and generic page delimiter, the end
+result can look like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
+        (org-mode . ,(format "\\(^\\*\\{1,3\\} +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))
         (t . ,(or outline-regexp logos--page-delimiter))))
 </pre>
 </div>
