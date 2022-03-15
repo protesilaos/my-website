@@ -157,6 +157,7 @@ Current development target is 2.3.0-dev.
 <li><a href="#h:d28879a2-8e4b-4525-986e-14c0f873d229">8.17. Note on Helm grep</a></li>
 <li><a href="#h:5095cbd1-e17a-419c-93e8-951c186362a3">8.18. Note on vc-annotate-background-mode</a></li>
 <li><a href="#h:2659d13e-b1a5-416c-9a89-7c3ce3a76574">8.19. Note on pdf-tools link hints</a></li>
+<li><a href="#h:636af312-54a5-4918-84a6-0698e85a3c6d">8.20. Note on the Notmuch logo</a></li>
 </ul>
 </li>
 <li><a href="#h:b3384767-30d3-4484-ba7f-081729f03a47">9. Frequently Asked Questions</a>
@@ -4688,7 +4689,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org76fd34b">
+<pre class="example" id="org7f44440">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5871,34 +5872,23 @@ package: it draws too much attention to unfocused windows.
 <h3 id="h:2a602816-bc1b-45bf-9675-4cbbd7bf6cab"><span class="section-number-3">8.6.</span> Note on display-fill-column-indicator-mode</h3>
 <div class="outline-text-3" id="text-h:2a602816-bc1b-45bf-9675-4cbbd7bf6cab">
 <p>
-While designing the style for <code>display-fill-column-indicator-mode</code>, we
-stayed close to the mode&rsquo;s defaults: to apply a subtle foreground color
-to the <code>fill-column-indicator</code> face, which blends well with the rest of
-theme and is consistent with the role of that mode.  This is to not
-upset the expectations of users.
+The <code>display-fill-column-indicator-mode</code> uses a typographic character to
+draw its line.  This has the downside of creating a dashed line.  The
+dashes are further apart depending on how tall the font&rsquo;s glyph height
+is and what integer the <code>line-spacing</code> is set to.
 </p>
 
 <p>
-Nevertheless, <code>display-fill-column-indicator-mode</code> has some known
-limitations pertaining to its choice of using typographic characters to
-draw its indicator.  What should be a continuous vertical line might
-appear as a series of dashes in certain contexts or under specific
-conditions: a non-default value for <code>line-spacing</code>, scaled and/or
-variable-pitch headings have been observed to cause this effect.
-</p>
-
-<p>
-Given that we cannot control such factors, it may be better for affected
-users to deviate from the default style of the <code>fill-column-indicator</code>
-face.  Instead of setting a foreground color, one could use a background
-and have the foreground be indistinguishable from it.  For example:
+At the theme level we eliminate this effect by making the character one
+pixel tall: the line is contiguous.  Users who prefer the dashed line
+are advised to change the <code>fill-column-indicator</code> face, as explained
+elsewhere in this document.  For example:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(modus-themes-with-colors
   (custom-set-faces
-   `(fill-column-indicator ((,class :background ,bg-inactive
-                                    :foreground ,bg-inactive)))))
+   `(fill-column-indicator ((,class :foreground ,bg-active)))))
 </pre>
 </div>
 
@@ -6563,6 +6553,23 @@ you&rsquo;ve customized any faces.
 </div>
 </div>
 </div>
+
+<div id="outline-container-h:636af312-54a5-4918-84a6-0698e85a3c6d" class="outline-3">
+<h3 id="h:636af312-54a5-4918-84a6-0698e85a3c6d"><span class="section-number-3">8.20.</span> Note on the Notmuch logo</h3>
+<div class="outline-text-3" id="text-h:636af312-54a5-4918-84a6-0698e85a3c6d">
+<p>
+By default, the &ldquo;hello&rdquo; buffer of Notmuch includes a header with the
+programs&rsquo; logo and a couple of buttons.  The logo has the effect of
+enlarging the height of the line, which negatively impacts the shape of
+those buttons.  Disabling the logo fixes the problem:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq notmuch-show-logo nil)
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:b3384767-30d3-4484-ba7f-081729f03a47" class="outline-2">
@@ -6682,7 +6689,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org4674258">
+<pre class="example" id="orgcce0f6f">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6727,7 +6734,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org6b968e7">
+<pre class="example" id="org5870a79">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7097,7 +7104,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org912222c">
+<pre class="example" id="orgaa4de82">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
