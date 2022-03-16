@@ -1,8 +1,8 @@
 ---
 layout: page
 title: 'Pulsar (pulsar.el)'
-subtitle: 'Pulse line after running select functions'
-excerpt: "Pulsar (pulsar.el) temporarily highlights the current line after running select functions."
+subtitle: 'Pulse highlight line on demand or after running select functions'
+excerpt: "Pulsar (pulsar.el) temporarily highlights the current line on demand or after running select functions."
 permalink: /emacs/pulsar
 ---
 
@@ -24,13 +24,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2022-03-14.  Any reference to
+0.2.0, released on 2022-03-16.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.2.0-dev.
+Current development target is 0.3.0-dev.
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -42,12 +42,13 @@ Current development target is 0.2.0-dev.
 <li><a href="#h:812f7616-7e0f-489f-a908-1cb759ca64ce">3. Installation</a></li>
 <li><a href="#h:96289426-8480-4ea6-9053-280348adc0ed">4. Sample configuration</a></li>
 <li><a href="#h:b884f2ac-82f3-48c0-bee5-6709d6647b1d">5. Integration with other packages</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">6. GNU Free Documentation License</a></li>
-<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">7. Indices</a>
+<li><a href="#h:56577df6-49df-4204-bd85-d0c569b8edc0">6. Acknowledgements</a></li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">7. GNU Free Documentation License</a></li>
+<li><a href="#h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">8. Indices</a>
 <ul>
-<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">7.1. Function index</a></li>
-<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">7.2. Variable index</a></li>
-<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">7.3. Concept index</a></li>
+<li><a href="#h:40430725-fd7f-47ac-9a29-913942e84a57">8.1. Function index</a></li>
+<li><a href="#h:91f3c207-8149-4f9a-89cf-b8726e4e4415">8.2. Variable index</a></li>
+<li><a href="#h:2b11517a-b67f-494f-b111-1c6195e8a2fc">8.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -100,13 +101,23 @@ user option has a special custom setter function).
 </p>
 
 <p>
-The duration of the highlight is determined by <code>pulsar-delay</code>.  While
-the applicable face is specified in <code>pulsar-face</code>.
+The duration of the highlight is determined by <code>pulsar-delay</code>.  How
+smooth the effect is depends on <code>pulsar-iterations</code>.  While the
+applicable face is specified in <code>pulsar-face</code>.
+</p>
+
+<p>
+To disable the pulse but keep the highlight, set <code>pulsar-pulse</code> to nil.
+The current line will remain highlighted until another command is
+invoked.
 </p>
 
 <p>
 To highlight the current line on demand, use the <code>pulsar-pulse-line</code>
-command.
+command.  When <code>pulsar-pulse</code> is non-nil (the default), its highlight
+will pulse before fading away.  Whereas the <code>pulsar-highlight-line</code>
+command never pulses the line: the highlight stays in place as if
+<code>pulsar-pulse</code> is nil.
 </p>
 
 <p>
@@ -177,6 +188,8 @@ Remember to read the doc string of each of these variables.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pulsar)
 
+(pulsar-setup)
+
 (customize-set-variable
  'pulsar-pulse-functions ; Read the doc string for why not `setq'
  '(recenter-top-bottom
@@ -211,8 +224,21 @@ Remember to read the doc string of each of these variables.
    outline-previous-visible-heading
    outline-up-heading))
 
-(setq pulsar-face 'pulsar-magenta)
+(setq pulsar-pulse t)
 (setq pulsar-delay 0.055)
+(setq pulsar-iterations 10)
+(setq pulsar-face 'pulsar-magenta)
+
+;; pulsar does not define any key bindings.  This is just a sample that
+;; respects the key binding conventions.  Evaluate:
+;;
+;;     (info "(elisp) Key Binding Conventions")
+;;
+;; The author uses C-x l for `pulsar-pulse-line' and C-x L for
+;; `pulsar-highlight-line'.
+(let ((map global-map))
+  (define-key map (kbd "C-c h p") #'pulsar-pulse-line)
+  (define-key map (kbd "C-c h h") #'pulsar-highlight-line))
 </pre>
 </div>
 </div>
@@ -254,8 +280,23 @@ Example use-cases:
 </div>
 </div>
 
+<div id="outline-container-h:56577df6-49df-4204-bd85-d0c569b8edc0" class="outline-2">
+<h2 id="h:56577df6-49df-4204-bd85-d0c569b8edc0"><span class="section-number-2">6.</span> Acknowledgements</h2>
+<div class="outline-text-2" id="text-h:56577df6-49df-4204-bd85-d0c569b8edc0">
+<p>
+Pulsar is meant to be a collective effort.  Every bit of help matters.
+</p>
+
+<dl class="org-dl">
+<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+
+<dt>Ideas and user feedback</dt><dd>Mark Barton, Petter Storvik, and user kb.</dd>
+</dl>
+</div>
+</div>
+
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -716,24 +757,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
-<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">7.</span> Indices</h2>
+<h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">8.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
 
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
-<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">7.1.</span> Function index</h3>
+<h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">8.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
 
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
-<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">7.2.</span> Variable index</h3>
+<h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">8.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
 
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
-<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">7.3.</span> Concept index</h3>
+<h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">8.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
 -->
 </div>
