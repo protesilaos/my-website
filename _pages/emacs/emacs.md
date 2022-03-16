@@ -70,6 +70,7 @@ an advice so that those functions run a hook after they are called.  The
 pulse effect is added there (`pulsar-after-function-hook`).
 
 + Official manual: <https://protesilaos.com/emacs/pulsar>
++ Change log: <https://protesilaos.com/emacs/pulsar-changelog>
 + Git repo: <https://gitlab.com/protesilaos/pulsar>
 
 ## LIN Is Noticeable
