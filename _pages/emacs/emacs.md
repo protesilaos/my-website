@@ -59,6 +59,7 @@ extend the code to achieve the desired result.
 
 + Package name (GNU ELPA): `logos`
 + Official manual: <https://protesilaos.com/emacs/logos>
++ Change log: <https://protesilaos.com/emacs/logos-changelog>
 + Git repo: <https://gitlab.com/protesilaos/logos>
 
 ## Pulsar
