@@ -1,0 +1,89 @@
+---
+layout: page
+title: 'Change Log of lin (lin.el)'
+excerpt: "An Emacs package to make 'hl-line-mode' more suitable for selection UIs."
+permalink: /emacs/lin-changelog
+---
+
+<p>
+This document contains the release notes for each tagged commit on the
+project's main git repository: <a href="https://gitlab.com/protesilaos/lin">https://gitlab.com/protesilaos/lin</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/lin">https://protesilaos.com/emacs/lin</a>.
+</p>
+
+<div id="outline-container-orge1e3e4e" class="outline-2">
+<h2 id="orge1e3e4e">Version 0.2.0 on 2022-03-16</h2>
+<div class="outline-text-2" id="text-orge1e3e4e">
+<p>
+Rewrote the entirety of <code>lin.el</code> to make the configuration easier and
+keep the code streamlined.  The gist is that now Lin automatically
+enables <code>hl-line-mode</code> in every mode implied by <code>lin-mode-hooks</code>.  Here
+is how Lin should be set up henceforth:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'lin)
+
+(setq lin-face 'lin-blue) ; check doc string for alternative styles
+
+(lin-setup) ; Either run this or change `lin-mode-hooks'
+
+(customize-set-variable
+ 'lin-mode-hooks ; do not use `setq' with this; `customize-set-variable' runs `lin-setup' automatically
+ '(dired-mode-hook
+   elfeed-search-mode-hook
+   git-rebase-mode-hook
+   ibuffer-mode-hook
+   ilist-mode-hook
+   ledger-report-mode-hook
+   log-view-mode-hook
+   magit-log-mode-hook
+   mu4e-headers-mode
+   notmuch-search-mode-hook
+   notmuch-tree-mode-hook
+   occur-mode-hook
+   org-agenda-mode-hook
+   tabulated-list-mode-hook))
+</pre>
+</div>
+
+<p>
+The manual has been updated to reflect those changes.
+</p>
+
+<p>
+Thanks to:
+</p>
+
+<ul class="org-ul">
+<li>Christian Tietze for showing how the Lin face can use colors from the
+macOS palette.  The original contribution was in merge request 2:
+<a href="https://gitlab.com/protesilaos/lin/-/merge_requests/2">https://gitlab.com/protesilaos/lin/-/merge_requests/2</a>.  Now we
+provide the <code>lin-mac</code> and <code>lin-mac-override-fg</code> faces.  These can be
+assigned as a value to the user option <code>lin-face</code>.</li>
+
+<li>Damien Cassou for suggesting that Lin sets itself up for a list of
+mode hooks.  The original contribution was in merge request 3:
+<a href="https://gitlab.com/protesilaos/lin/-/merge_requests/3">https://gitlab.com/protesilaos/lin/-/merge_requests/3</a>.  It has now
+been rewritten as the <code>lin-mode-hooks</code> user option, though the idea is
+the same.</li>
+
+<li>Federico Stilman for adding <code>mu4e-headers-mode</code> to the list that
+Damien had provided and which now lives as <code>lin-mode-hooks</code>.
+Federico's contribution was sent as a patch via email.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2adf667" class="outline-2">
+<h2 id="org2adf667">Version 0.1.0 on 2022-03-14</h2>
+<div class="outline-text-2" id="text-org2adf667">
+<p>
+Initial release of the package.  Please read the manual.
+</p>
+</div>
+</div>
