@@ -1,8 +1,8 @@
 ---
 layout: page
 title: 'LIN Is Noticeable (lin.el)'
-subtitle: "Buffer-local remapping of Emacs' hl-line face"
-excerpt: "LIN Is Noticeable (lin.el) applies buffer-local remapping of Emacs' hl-line face."
+subtitle: "Make 'hl-line-mode' more suitable for selection UIs"
+excerpt: "LIN Is Noticeable (lin.el) makes 'hl-line-mode' more suitable for selection UIs."
 permalink: /emacs/lin
 ---
 
@@ -23,13 +23,13 @@ specifics of <code>lin.el</code>.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2021-11-01.  Any reference to a newer
+0.2.0, released on 2022-03-18.  Any reference to a newer
 feature which does not yet form part of the latest tagged commit, is
 explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.2.0-dev.
+Current development target is 0.3.0-dev.
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -39,19 +39,14 @@ Current development target is 0.2.0-dev.
 <li><a href="#h:33b423a6-1b89-40a3-bbbc-1524138be3a4">1. COPYING</a></li>
 <li><a href="#h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">2. Overview LIN</a></li>
 <li><a href="#h:7b68abd3-a854-4b72-b704-05ca013dfa7f">3. Installation</a></li>
-<li><a href="#h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">4. Sample usage</a></li>
-<li><a href="#h:4598ee11-bd6d-4ed4-baca-883b896ac3d6">5. Customize LIN faces</a>
+<li><a href="#h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">4. Sample configuration</a></li>
+<li><a href="#h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">5. Acknowledgements</a></li>
+<li><a href="#h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">6. GNU Free Documentation License</a></li>
+<li><a href="#h:129e593a-a85a-4616-bc18-c58a83d05b88">7. Indices</a>
 <ul>
-<li><a href="#h:6bb11a50-cca9-49ca-9ea0-9d26c9324068">5.1. Use system colors on macOS</a></li>
-</ul>
-</li>
-<li><a href="#h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">6. Acknowledgements</a></li>
-<li><a href="#h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">7. GNU Free Documentation License</a></li>
-<li><a href="#h:129e593a-a85a-4616-bc18-c58a83d05b88">8. Indices</a>
-<ul>
-<li><a href="#h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">8.1. Function index</a></li>
-<li><a href="#h:7be6fb0d-438b-4b05-affa-0726c0cc0359">8.2. Variable index</a></li>
-<li><a href="#h:efd61349-a45a-4d27-a000-6227374fb65d">8.3. Concept index</a></li>
+<li><a href="#h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">7.1. Function index</a></li>
+<li><a href="#h:7be6fb0d-438b-4b05-affa-0726c0cc0359">7.2. Variable index</a></li>
+<li><a href="#h:efd61349-a45a-4d27-a000-6227374fb65d">7.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -62,7 +57,7 @@ Current development target is 0.2.0-dev.
 <h2 id="h:33b423a6-1b89-40a3-bbbc-1524138be3a4"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:33b423a6-1b89-40a3-bbbc-1524138be3a4">
 <p>
-Copyright (C) 2021  Free Software Foundation, Inc.
+Copyright (C) 2021-2022  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -87,27 +82,44 @@ modify this GNU manual.”
 <h2 id="h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87"><span class="section-number-2">2.</span> Overview LIN</h2>
 <div class="outline-text-2" id="text-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">
 <p>
-LIN locally remaps the <code>hl-line</code> face to a style that is optimal for major
-modes where line selection is the primary mode of interaction.
+Lin is a stylistic enhancement for Emacs&rsquo; built-in <code>hl-line-mode</code>.  It
+remaps the <code>hl-line</code> face (or equivalent) buffer-locally to a style that
+is optimal for major modes where line selection is the primary mode of
+interaction.
 </p>
 
 <p>
-The idea is that <code>hl-line</code> cannot work equally well for contexts with
-competing priorities: (i) line selection, or (ii) simple line highlight.
-In the former case, the current line needs to be made prominent because
-it carries a specific meaning of some significance in the given context.
-Whereas in the latter case, the primary mode of interaction does not
-revolve around the line highlight itself: it may be because the focus is
-on editing text or reading through the buffer&rsquo;s contents, so the current
-line highlight is more of a gentle reminder of the point&rsquo;s location on
-the vertical axis.
+The idea is that <code>hl-line-mode</code> cannot work equally well for contexts
+with competing priorities: (i) line selection, or (ii) simple line
+highlight.  In the former case, the current line needs to be made
+prominent because it carries a specific meaning of some significance in
+the given context: the user has to select a line.  Whereas in the latter
+case, the primary mode of interaction does not revolve around the line
+highlight itself: it may be because the focus is on editing text or
+reading through the buffer&rsquo;s contents, so the current line highlight is
+more of a reminder of the point&rsquo;s location on the vertical axis.
 </p>
 
 <p>
-<code>lin-mode</code> only shows its effect when <code>hl-line-mode</code> is active or, more
-specifically, when the <code>hl-line</code> face is used in the buffer.  <code>lin-mode</code>
-DOES NOT activate <code>hl-line-mode</code> and does not do anything other than the
-aforementioned face remapping.
+<code>lin-mode</code> enables <code>hl-line-mode</code> by adding it to every hook specified
+in the user option <code>lin-mode-hooks</code>.  Users are advised to configure
+that variable with <code>customize-set-variable</code>, or the Custom UI, or
+equivalent as it has a function which automatically sets up Lin.  Those
+who prefer to set values with <code>setq</code> must handle the process manually,
+by using the <code>lin-setup</code> function.
+</p>
+
+<p>
+Users can selected their preferred style by customizing the user option
+<code>lin-face</code>.  Options include the faces <code>lin-red</code>, <code>lin-green</code>,
+<code>lin-yellow</code>, <code>lin-blue</code> (default), <code>lin-magenta</code>, <code>lin-cyan</code>,
+<code>lin-mac</code>, <code>lin-red-override-fg</code>, <code>lin-green-override-fg</code>,
+<code>lin-yellow-override-fg</code>, <code>lin-blue-override-fg</code>,
+<code>lin-magenta-override-fg</code>, <code>lin-cyan-override-fg</code>,
+<code>lin-mac-override-fg</code>, or any other face that preferably has a
+background attribute.  The Lin faces with the <code>-override-fg</code> suffix set
+a foreground value which replaces that of the underlying text.  Whereas
+the others only specify a background attribute.
 </p>
 </div>
 </div>
@@ -159,173 +171,41 @@ Everything is in place to set up the package.
 </div>
 
 <div id="outline-container-h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d" class="outline-2">
-<h2 id="h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d"><span class="section-number-2">4.</span> Sample usage</h2>
+<h2 id="h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'lin)
-(add-hook 'elfeed-search-mode-hook #'lin-mode)
+
+(setq lin-face 'lin-blue) ; check doc string for alternative styles
+
+(lin-setup) ; Either run this or change `lin-mode-hooks'
+
+(customize-set-variable
+ 'lin-mode-hooks ; do not use `setq' with this; `customize-set-variable' runs `lin-setup' automatically
+ '(dired-mode-hook
+   elfeed-search-mode-hook
+   git-rebase-mode-hook
+   ibuffer-mode-hook
+   ilist-mode-hook
+   ledger-report-mode-hook
+   log-view-mode-hook
+   magit-log-mode-hook
+   mu4e-headers-mode
+   notmuch-search-mode-hook
+   notmuch-tree-mode-hook
+   occur-mode-hook
+   org-agenda-mode-hook
+   tabulated-list-mode-hook))
 </pre>
-</div>
-
-<p>
-To activate <code>lin-mode</code> on all modes where it makes sense:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'lin)
-(lin-add-to-many-modes)
-</pre>
-</div>
-
-<p>
-The customization option <code>lin-foreign-hooks</code> lets you configure the
-list of hooks affected by <code>lin-add-to-many-modes</code>.
-</p>
-
-<p>
-Else invoke <code>lin-mode</code> interactively.
-</p>
-
-<p>
-In terms of customization options, <code>lin-foreground-override</code> determines
-whether LIN should also override the foreground colors on the current
-line.  By default, it refrains from doing so.
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:4598ee11-bd6d-4ed4-baca-883b896ac3d6" class="outline-2">
-<h2 id="h:4598ee11-bd6d-4ed4-baca-883b896ac3d6"><span class="section-number-2">5.</span> Customize LIN faces</h2>
-<div class="outline-text-2" id="text-h:4598ee11-bd6d-4ed4-baca-883b896ac3d6">
-<p>
-The two faces that LIN defines are <code>lin-hl</code> and <code>lin-hl-override-fg</code>.  The
-latter is used only when <code>lin-override-foreground</code> is non-nil.
-</p>
-
-<p>
-To change the attributes of a face, one can use <code>set-face-attribute</code>.  In
-these examples, we change the background color to a shade of magenta
-that is suitable for light themes and we also apply a colored underline:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; This changes the face that is meant NOT to override the foregrounds.
-;; Check `lin-override-foreground'.
-(set-face-attribute 'lin-hl nil :background "#f0d3ff" :underline "#e0a3ff")
-
-;; And this one is the face that DOES override the foregrounds
-(set-face-attribute 'lin-hl-override-fg nil :background "#f0d3ff" :underline "#e0a3ff")
-</pre>
-</div>
-
-<p>
-When using <a href="https://protesilaos.com/emacs/modus-themes">the Modus themes</a> (built-in to Emacs version 28 or higher), it
-is possible to retrieve values directly from the active theme&rsquo;s palette.
-And, it is possible to have different values for either <code>modus-operandi</code>
-(the light theme) or <code>modus-vivendi</code> (dark).  Here we showcase the former
-method which involves the function <code>modus-themes-color</code> (read its doc
-string for the technicalities and/or consult the themes&rsquo; manual for more
-advanced customizations, such as to make the changes adapt to theme
-switching between Modus Operandi and Vivendi):
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(set-face-attribute 'lin-hl nil
-                    :background (modus-themes-color 'green-subtle-bg)
-                    :underline (modus-themes-color 'green-intense))
-</pre>
-</div>
-</div>
-
-<div id="outline-container-h:6bb11a50-cca9-49ca-9ea0-9d26c9324068" class="outline-3">
-<h3 id="h:6bb11a50-cca9-49ca-9ea0-9d26c9324068"><span class="section-number-3">5.1.</span> Use system colors on macOS</h3>
-<div class="outline-text-3" id="text-h:6bb11a50-cca9-49ca-9ea0-9d26c9324068">
-<p>
-On macOS, it is possible to use named system colors. For a list of
-available colors, see <a href="https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/">Apple&rsquo;s Human Interface Guidelines</a>.
-</p>
-
-<p>
-To use macOS&rsquo;s named colors for selections as LIN&rsquo;s background and
-foreground instead of specifying color values directly, tweak the two
-LIN faces:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(when (memq window-system '(mac ns))
-  (set-face-attribute 'lin-hl nil
-                      :background "selectedContentBackgroundColor")
-
-  ;; To also override the foreground (see `lin-override-foreground'):
-  (set-face-attribute 'lin-hl-override-fg nil
-                      :foreground "alternateSelectedControlTextColor"
-                      :background "selectedContentBackgroundColor"))
-</pre>
-</div>
-
-<p>
-Note that these named colors are &ldquo;Dynamic System Colors&rdquo;: in dark
-mode, they produce a different value than in light mode. That means
-you don&rsquo;t need to pick dark and light colors individually. The same
-color names will work.
-</p>
-
-<p>
-However, you need to trigger an update of LIN&rsquo;s faces to pick up the
-color values if you change the appearance from dark to light, or light
-to dark. macOS builds of Emacs have a hook for this, and you can
-perform a color update by adding a function to
-<code>ns-system-appearance-change-functions</code>:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-lin-macos-system-colors ()
-  (when (memq window-system '(mac ns))
-    (set-face-attribute 'lin-hl nil
-                        :background "selectedContentBackgroundColor")
-
-    ;; To also override the foreground (see `lin-override-foreground'):
-    (set-face-attribute 'lin-hl-override-fg nil
-                        :foreground "alternateSelectedControlTextColor"
-                        :background "selectedContentBackgroundColor")))
-
-(when (memq window-system '(mac ns))
-  (add-hook 'ns-system-appearance-change-functions #'my-lin-macos-system-colors))
-</pre>
-</div>
-
-<p>
-If you want to use a different color than the macOS selection colors
-in dark mode, you can tweak this approach:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-lin--macos-mode-color (light dark)
-  "Use LIGHT or DARK color value, depending on macOS mode."
-  (if (eq ns-system-appearance 'light)
-      light
-    dark))
-
-(defun my-lin-custom-faces ()
-  (when (memq window-system '(mac ns))
-    (let ((bg (my-lin--macos-mode-color "selectedContentBackgroundColor" "#2a40b8"))
-          (fg (my-lin--macos-mode-color "alternateSelectedControlTextColor" "#ffffff")))
-      (set-face-attribute 'lin-hl nil :background bg)
-      (set-face-attribute 'lin-hl-override-fg nil :background bg :foreground fg))))
-
-(when (memq window-system '(mac ns))
-  (add-hook 'ns-system-appearance-change-functions #'my-lin-custom-faces))
-</pre>
-</div>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96" class="outline-2">
-<h2 id="h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96"><span class="section-number-2">6.</span> Acknowledgements</h2>
+<h2 id="h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96"><span class="section-number-2">5.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">
 <p>
-LIN is meant to be a collective effort.  Every bit of help matters.
+Lin is meant to be a collective effort.  Every bit of help matters.
 </p>
 
 <dl class="org-dl">
@@ -338,7 +218,7 @@ Cassou, Federico Stilman, Nicolas De Jaeghere.</dd>
 </div>
 
 <div id="outline-container-h:3cc810c3-a585-49c6-b937-f6a2ec8098d3" class="outline-2">
-<h2 id="h:3cc810c3-a585-49c6-b937-f6a2ec8098d3"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
+<h2 id="h:3cc810c3-a585-49c6-b937-f6a2ec8098d3"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">
 <pre>
 
@@ -799,24 +679,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:129e593a-a85a-4616-bc18-c58a83d05b88" class="outline-2">
-<h2 id="h:129e593a-a85a-4616-bc18-c58a83d05b88"><span class="section-number-2">8.</span> Indices</h2>
+<h2 id="h:129e593a-a85a-4616-bc18-c58a83d05b88"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:129e593a-a85a-4616-bc18-c58a83d05b88">
 </div>
 
 <div id="outline-container-h:fd9a7533-9df0-4eb9-b793-bb2ddf455605" class="outline-3">
-<h3 id="h:fd9a7533-9df0-4eb9-b793-bb2ddf455605"><span class="section-number-3">8.1.</span> Function index</h3>
+<h3 id="h:fd9a7533-9df0-4eb9-b793-bb2ddf455605"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">
 </div>
 </div>
 
 <div id="outline-container-h:7be6fb0d-438b-4b05-affa-0726c0cc0359" class="outline-3">
-<h3 id="h:7be6fb0d-438b-4b05-affa-0726c0cc0359"><span class="section-number-3">8.2.</span> Variable index</h3>
+<h3 id="h:7be6fb0d-438b-4b05-affa-0726c0cc0359"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:7be6fb0d-438b-4b05-affa-0726c0cc0359">
 </div>
 </div>
 
 <div id="outline-container-h:efd61349-a45a-4d27-a000-6227374fb65d" class="outline-3">
-<h3 id="h:efd61349-a45a-4d27-a000-6227374fb65d"><span class="section-number-3">8.3.</span> Concept index</h3>
+<h3 id="h:efd61349-a45a-4d27-a000-6227374fb65d"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:efd61349-a45a-4d27-a000-6227374fb65d">
 -->
 </div>
