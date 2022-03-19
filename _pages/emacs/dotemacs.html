@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-13 10:23 +0200</b>.</li>
-<li>Word count: <b>147463</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-19 06:19 +0200</b>.</li>
+<li>Word count: <b>149976</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -72,7 +72,7 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 <li><a href="#h:b24ce3fc-a12c-4d21-93d7-c1e7bd36a65d">2.4. Make Custom UI code disposable</a></li>
 <li><a href="#h:abe40d9f-e454-442a-9b9a-77e3b6c0b5db">2.5. Propagation of shell environment variables (exec-path-from-shell.el)</a></li>
 <li><a href="#h:b7444e76-75d4-4ae6-a9d6-96ff9408efe6">2.6. Modus themes (my highly accessible themes)</a></li>
-<li><a href="#h:601027a1-7288-4dcd-bb78-435965df27ba">2.7. LIN Is Noticeable (lin.el)</a></li>
+<li><a href="#h:601027a1-7288-4dcd-bb78-435965df27ba">2.7. Enhancements to hl-line-mode (lin.el)</a></li>
 <li><a href="#h:7a4dd5b8-724d-4f7c-b5ee-01d8ac98bda9">2.8. Typeface configurations</a>
 <ul>
 <li><a href="#h:e03b6415-a18f-4058-b9b0-5721d38c6c50">2.8.1. Font configurations (prot-fonts.el)</a></li>
@@ -2328,6 +2328,7 @@ the official manual: <a href="https://protesilaos.com/emacs/pulsar">https://prot
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; pulsar.el (highlight cursor position)
+;; Read the pulsar manual: &lt;https://protesilaos.com/emacs/pulsar&gt;.
 (prot-emacs-builtin-package 'pulsar
   (customize-set-variable
    'pulsar-pulse-functions ; Read the doc string for why not `setq'
@@ -2363,10 +2364,18 @@ the official manual: <a href="https://protesilaos.com/emacs/pulsar">https://prot
      outline-previous-visible-heading
      outline-up-heading))
 
-  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-magenta)
 
-  (define-key global-map (kbd "C-x l") #'pulsar-pulse-line)) ; override `count-lines-page'
+  ;; pulsar does not define any key bindings.  This is just my personal
+  ;; preference.  Remember to read the manual on the matter.  Evaluate:
+  ;;
+  ;; (info "(elisp) Key Binding Conventions")
+  (let ((map global-map))
+    (define-key map (kbd "C-x l") #'pulsar-pulse-line) ; override `count-lines-page'
+    (define-key map (kbd "C-x L") #'pulsar-highlight-line)))
 </pre>
 </div>
 
@@ -2375,14 +2384,15 @@ This is the code for <code>pulsar.el</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; pulsar.el --- Pulse line after running select functions -*- lexical-binding: t -*-
+<pre class="src src-emacs-lisp">;;; pulsar.el --- Pulse highlight on demand or after select functions -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/pulsar
-;; Version: 0.1.0
+;; Version: 0.2.0
 ;; Package-Requires: ((emacs "27.1"))
+;; Keywords: convenience, pulse, highlight
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -2402,15 +2412,19 @@ This is the code for <code>pulsar.el</code>:
 ;;; Commentary:
 ;;
 ;; This is a small package that temporarily highlights the current line
-;; after a given function is invoked.  The affected functions are defined
-;; in the user option `pulsar-pulse-functions'.  What Pulsar does is set up
-;; an advice so that those functions run a hook after they are called.
-;; The pulse effect is added there (`pulsar-after-function-hook').
+;; either on demand or after a given function is invoked.  The affected
+;; functions are defined in the user option `pulsar-pulse-functions'.
+;; What Pulsar does is set up an advice so that those functions run a
+;; hook after they are called.  The pulse effect is added there
+;; (`pulsar-after-function-hook').
 ;; 
-;; The duration of the highlight is determined by `pulsar-delay'.  While
-;; the applicable face is specified in `pulsar-face'.
+;; The duration of the highlight is determined by `pulsar-delay'.  The
+;; steps of the pulse effect are controlled by `pulsar-iterations'.
+;; While the applicable face is specified in `pulsar-face'.
 ;; 
-;; To highlight the current line on demand, use `pulsar-pulse-line'.
+;; To pulse highlight the current line on demand, use
+;; `pulsar-pulse-line'.  To highlight the current line without pulsing
+;; it, use `pulsar-highlight-line' instead.
 ;; 
 ;; Pulsar depends on the built-in `pulse.el' library.
 ;;
@@ -2423,7 +2437,8 @@ This is the code for <code>pulsar.el</code>:
 (require 'pulse)
 
 (defgroup pulsar ()
-  "Extensions for `pulse.el'."
+  "Pulse highlight line on demand or after running select functions.
+Extension of `pulse.el'."
   :group 'editing)
 
 ;;;; User options
@@ -2477,13 +2492,14 @@ such as `customize-set-variable' do that automatically."
            (pulsar-setup)))
   :group 'pulsar)
 
-(defcustom pulsar-face 'pulse-highlight-start-face
+(defcustom pulsar-face 'pulsar-generic
   "Face to use for the pulse line.
-The default is `pulse-highlight-start-face', though users can
-select one among `pulsar-red', `pulsar-green', `pulsar-yellow',
-`pulsar-blue', `pulsar-magenta', `pulsar-cyan', or any other face
-that has a background attribute."
-  :type '(radio (face :tag "Standard pulse.el face" pulse-highlight-start-face)
+The default is `pulsar-generic' which reuses the standard face
+from the underlying pulse library.  Users can select one among
+`pulsar-red', `pulsar-green', `pulsar-yellow', `pulsar-blue',
+`pulsar-magenta', `pulsar-cyan', or any other face that has a
+background attribute."
+  :type '(radio (face :tag "Generic pulse.el face" pulsar-generic)
                 (face :tag "Red style" pulsar-red)
                 (face :tag "Green style" pulsar-green)
                 (face :tag "Yellow style" pulsar-yellow)
@@ -2493,8 +2509,22 @@ that has a background attribute."
                 (face :tag "Other face (must have a background)"))
   :group 'pulsar)
 
+(defcustom pulsar-pulse t
+  "When non-nil enable pulsing.
+Otherwise the highlight stays on the current line until another
+command is invoked."
+  :type 'boolean
+  :group 'pulsar)
+
 (defcustom pulsar-delay 0.05
-  "Duration in seconds of the active pulse highlight."
+  "Duration in seconds of the active pulse highlight.
+Only applies when `pulsar-pulse' is non-nil."
+  :type 'number
+  :group 'pulsar)
+
+(defcustom pulsar-iterations pulse-iterations
+  "Number of iterations in a pulse highlight.
+Only applies when `pulsar-pulse' is non-nil."
   :type 'number
   :group 'pulsar)
 
@@ -2503,6 +2533,11 @@ that has a background attribute."
 (defgroup pulsar-faces ()
   "Faces for `pulsar.el'."
   :group 'pulsar)
+
+(defface pulsar-generic
+  '((t :inherit pulse-highlight-start-face :extend t))
+  "Default value of `pulsar-face'."
+  :group 'pulsar-faces)
 
 (defface pulsar-red
   '((default :extend t)
@@ -2582,22 +2617,69 @@ that has a background attribute."
 
 (defun pulsar--start ()
   "Return appropriate line start."
-  (if (pulsar--buffer-end-p)
+  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
       (line-beginning-position 0)
     (line-beginning-position)))
 
 (defun pulsar--end ()
   "Return appropriate line end."
-  (if (pulsar--buffer-end-p)
+  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
+(defun pulsar--pulse (&amp;optional no-pulse face)
+  "Highlight the current line.
+With optional NO-PULSE keep the highlight until another command
+is invoked.  Otherwise use whatever `pulsar-pulse' entails.
+
+With optional FACE, use it instead of `pulsar-face'."
+  (let ((pulse-flag (if no-pulse nil pulsar-pulse))
+        (pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations)
+        (f (if (facep face) face pulsar-face)))
+    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) f)))
+
 ;;;###autoload
 (defun pulsar-pulse-line ()
-  "Temporarily highlight the current line with optional FACE."
+  "Temporarily highlight the current line.
+When `pulsar-pulse' is non-nil (the default) make the highlight
+pulse before fading away.  The pulse effect is controlled by
+`pulsar-delay' and `pulsar-iterations'.
+
+Also see `pulsar-highlight-line' for a highlight without the
+pulse effect."
   (interactive)
-  (let ((pulse-delay pulsar-delay))
-    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) pulsar-face)))
+  (pulsar--pulse))
+
+(defvar pulsar--face-history '()
+  "Minibuffer history of `pulsar--highlight-face-prompt'.")
+
+(defvar pulsar--faces
+  '( pulsar-generic pulsar-red pulsar-green
+     pulsar-yellow pulsar-blue pulsar-magenta
+     pulsar-cyan)
+  "List of pulsar faces.")
+
+(defun pulsar--highlight-face-prompt ()
+  "Select from `pulsar--faces' with completion."
+  (let* ((history pulsar--face-history)
+         (def (format "%s" (nth 0 history)))
+         (prompt (if def
+                     (format "Select face [%s]: " def)
+                   "Select face: ")))
+    (intern (completing-read prompt pulsar--faces nil t nil history def))))
+
+;;;###autoload
+(defun pulsar-highlight-line (&amp;optional face)
+  "Temporarily highlight the current line.
+Unlike `pulsar-pulse-line', never pulse the current line.  Keep
+the highlight in place until another command is invoked.
+
+With optional FACE, use that instead of `pulsar-face'."
+  (interactive
+   (list (when current-prefix-arg (pulsar--highlight-face-prompt))))
+  (pulsar--pulse :no-pulse face)
+  (when face (add-to-history 'pulsar--face-history face)))
 
 ;;;; Advice setup
 
@@ -2956,9 +3038,8 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   (defun prot/modus-themes-custom-faces ()
     (modus-themes-with-colors
       (custom-set-faces
-       `(cursor ((,class :background ,magenta-intense)))
-       `(fill-column-indicator ((,class :background ,bg-inactive
-                                        :foreground ,bg-inactive))))))
+       ;; Here add all your face definitions.
+       `(cursor ((,class :background ,magenta-intense))))))
 
   (add-hook 'modus-themes-after-load-theme-hook #'prot/modus-themes-custom-faces)
 
@@ -2984,48 +3065,457 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
 </div>
 
 <div id="outline-container-h:601027a1-7288-4dcd-bb78-435965df27ba" class="outline-3">
-<h3 id="h:601027a1-7288-4dcd-bb78-435965df27ba"><span class="section-number-3">2.7.</span> LIN Is Noticeable (lin.el)</h3>
+<h3 id="h:601027a1-7288-4dcd-bb78-435965df27ba"><span class="section-number-3">2.7.</span> Enhancements to hl-line-mode (lin.el)</h3>
 <div class="outline-text-3" id="text-h:601027a1-7288-4dcd-bb78-435965df27ba">
 <p>
-This is another package of mine.  LIN locally remaps the <code>hl-line</code> face to
-a style that is optimal for major modes where line selection is the
-primary mode of interaction.
+This is another package of mine: <a href="https://protesilaos.com/emacs/lin">https://protesilaos.com/emacs/lin</a>.
+Lin is a stylistic enhancement for Emacs' built-in <code>hl-line-mode</code>.  It
+remaps the <code>hl-line</code> face (or equivalent) buffer-locally to a style that
+is optimal for major modes where line selection is the primary mode of
+interaction.
 </p>
 
 <p>
-The idea is that <code>hl-line</code> cannot work equally well for contexts with
-competing priorities: (i) line selection, or (ii) simple line highlight.
-In the former case, the current line needs to be made prominent because
-it carries a specific meaning of some significance in the given context.
-Whereas in the latter case, the primary mode of interaction does not
-revolve around the line highlight itself: it may be because the focus is
-on editing text or reading through the buffer's contents, so the current
-line highlight is more of a gentle reminder of the point's location on
-the vertical axis.
+The idea is that <code>hl-line-mode</code> cannot work equally well for contexts
+with competing priorities: (i) line selection, or (ii) simple line
+highlight.  In the former case, the current line needs to be made
+prominent because it carries a specific meaning of some significance in
+the given context: the user has to select a line.  Whereas in the latter
+case, the primary mode of interaction does not revolve around the line
+highlight itself: it may be because the focus is on editing text or
+reading through the buffer's contents, so the current line highlight is
+more of a reminder of the point's location on the vertical axis.
 </p>
 
 <p>
-<code>lin-mode</code> only shows its effect when <code>hl-line-mode</code> is active or, more
-specifically, when the <code>hl-line</code> face is used in the buffer.  <code>lin-mode</code>
-DOES NOT activate <code>hl-line-mode</code> and does not do anything other than the
-aforementioned face remapping.
+<code>lin-mode</code> enables <code>hl-line-mode</code> by adding it to every hook specified
+in the user option <code>lin-mode-hooks</code>.  Users are advised to configure
+that variable with <code>customize-set-variable</code>, or the Custom UI, or
+equivalent as it has a function which automatically sets up Lin.  Those
+who prefer to set values with <code>setq</code> must handle the process manually,
+by using the <code>lin-setup</code> function.
 </p>
 
 <p>
-I just enable LIN in contexts where I know it is useful (check the doc
-string o <code>lin-add-to-many-modes</code> for the details).  For example:
+Users can selected their preferred style by customizing the user option
+<code>lin-face</code>.  Options include the faces <code>lin-red</code>, <code>lin-green</code>,
+<code>lin-yellow</code>, <code>lin-blue</code> (default), <code>lin-magenta</code>, <code>lin-cyan</code>,
+<code>lin-mac</code>, <code>lin-red-override-fg</code>, <code>lin-green-override-fg</code>,
+<code>lin-yellow-override-fg</code>, <code>lin-blue-override-fg</code>,
+<code>lin-magenta-override-fg</code>, <code>lin-cyan-override-fg</code>,
+<code>lin-mac-override-fg</code>, or any other face that preferably has a
+background attribute.  The Lin faces with the <code>-override-fg</code> suffix set
+a foreground value which replaces that of the underlying text.  Whereas
+the others only specify a background attribute.
 </p>
-
-<ul class="org-ul">
-<li><a href="#h:0cd8ddab-55d1-40df-b3db-1234850792ba">Elfeed feed reader, prot-elfeed.el and prot-elfeed-bongo.el</a>.</li>
-<li><a href="#h:a196812e-1644-4536-84ba-687366867def">Notmuch (mail indexer and mail user agent (MUA))</a>.</li>
-</ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(prot-emacs-builtin-package 'lin
-  (setq lin-foreground-override nil)
-  (setq lin-foreign-hooks lin--default-foreign-hooks)
-  (lin-add-to-many-modes))
+<pre class="src src-emacs-lisp">;;; Enhancements to hl-line-mode (lin.el)
+(prot-emacs-builtin-package 'lin
+  ;; Either run `lin-setup' or change `lin-mode-hooks'.  I prefer the
+  ;; latter.
+
+  ;; (lin-setup)
+
+  ;; Do not use `setq' for `lin-mode-hooks' and `lin-face'.  Both have a
+  ;; custom setter function associated with them, which automatically
+  ;; sets things up when they are configured via Custom (with
+  ;; `custom-set-variables', `customize-set-variable', the Custom UI,
+  ;; the `:custom' keyword of `use-package', or related).  Read their
+  ;; doc strings if you still want to use `setq'.
+  (custom-set-variables
+   '(lin-mode-hooks
+     '(bongo-mode-hook
+       dired-mode-hook
+       elfeed-search-mode-hook
+       git-rebase-mode-hook
+       ibuffer-mode-hook
+       ilist-mode-hook
+       ledger-report-mode-hook
+       log-view-mode-hook
+       magit-log-mode-hook
+       mu4e-headers-mode
+       notmuch-search-mode-hook
+       notmuch-tree-mode-hook
+       occur-mode-hook
+       org-agenda-mode-hook
+       tabulated-list-mode-hook))
+   '(lin-face 'lin-blue))) ; check `lin-face' doc string for alternative styles
+</pre>
+</div>
+
+<p>
+This is the code for <code>lin.el</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; lin.el --- Make `hl-line-mode' more suitable for selection UIs -*- lexical-binding: t -*-
+
+;; Copyright (C) 2021-2022  Free Software Foundation, Inc.
+
+;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; URL: https://gitlab.com/protesilaos/lin
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "27.1"))
+;; Keywords: convenience, faces, theme
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+;;; Commentary:
+;;
+;; Lin is a stylistic enhancement for Emacs' built-in `hl-line-mode'.
+;; It remaps the `hl-line face (or equivalent) buffer-locally to a style
+;; that is optimal for major modes where line selection is the primary
+;; mode of interaction.
+;;
+;; The idea is that `hl-line-mode' cannot work equally well for contexts
+;; with competing priorities: (i) line selection, or (ii) simple line
+;; highlight.  In the former case, the current line needs to be made
+;; prominent because it carries a specific meaning of some significance in
+;; the given context: the user has to select a line.  Whereas in the latter
+;; case, the primary mode of interaction does not revolve around the line
+;; highlight itself: it may be because the focus is on editing text or
+;; reading through the buffer's contents, so the current line highlight is
+;; more of a reminder of the point's location on the vertical axis.
+;;
+;; `lin-mode' enables `hl-line-mode' by adding it to every hook specified
+;; in the user option `lin-mode-hooks'.  Users are advised to configure
+;; that variable with `customize-set-variable', or the Custom UI, or
+;; equivalent as it has a function which automatically sets up Lin.  Those
+;; who prefer to set values with `setq' must handle the process manually,
+;; by using the `lin-setup' function.
+;;
+;; Users can selected their preferred style by customizing the user
+;; option `lin-face'.  Options include the faces `lin-red', `lin-green',
+;; `lin-yellow', `lin-blue' (default), `lin-magenta', `lin-cyan',
+;; `lin-mac', `lin-red-override-fg', `lin-green-override-fg',
+;; `lin-yellow-override-fg', `lin-blue-override-fg',
+;; `lin-magenta-override-fg', `lin-cyan-override-fg',
+;; `lin-mac-override-fg', or any other face that preferably has a
+;; background attribute.  The Lin faces with the =-override-fg= suffix
+;; set a foreground value which replaces that of the underlying text.
+;; Whereas the others only specify a background attribute.
+;;
+;; Sample configuration:
+;;
+;;     (require 'lin)
+;;
+;;     (setq lin-face 'lin-blue)
+;;
+;;     (lin-setup)
+;;
+;;     (customize-set-variable
+;;      'lin-mode-hooks
+;;      '(dired-mode-hook
+;;        elfeed-search-mode-hook
+;;        git-rebase-mode-hook
+;;        ibuffer-mode-hook
+;;        ilist-mode-hook
+;;        ledger-report-mode-hook
+;;        log-view-mode-hook
+;;        magit-log-mode-hook
+;;        mu4e-headers-mode
+;;        notmuch-search-mode-hook
+;;        notmuch-tree-mode-hook
+;;        occur-mode-hook
+;;        org-agenda-mode-hook
+;;        tabulated-list-mode-hook))
+;;
+;; Consult the manual for further details.  Or visit the documentation's
+;; web page: &lt;https://protesilaos.com/emacs/lin&gt;.
+
+;;; Code:
+
+(require 'face-remap)
+(require 'hl-line)
+
+(make-obsolete 'lin--default-foreign-hooks 'lin-mode-hooks "0.2.0")
+
+(defgroup lin ()
+  "Make `hl-line' appropriate for selection UIs."
+  :group 'convenience)
+
+(defcustom lin-mode-hooks
+  '(bongo-mode-hook
+    dired-mode-hook
+    elfeed-search-mode-hook
+    git-rebase-mode-hook
+    ibuffer-mode-hook
+    ilist-mode-hook
+    ledger-report-mode-hook
+    log-view-mode-hook
+    magit-log-mode-hook
+    mu4e-headers-mode
+    notmuch-search-mode-hook
+    notmuch-tree-mode-hook
+    occur-mode-hook
+    org-agenda-mode-hook
+    tabulated-list-mode-hook)
+  "List of hooks that should enable `lin-mode'.
+
+When Lin is set up, it activates `hl-line-mode' and remaps its
+face to `lin-face'.  This makes it possible to distinguish
+between the two use-cases of permanent line highlighting: (i)
+gentle reminder of where the point is while editing, (ii) current
+selection.
+
+Set this user option with `customize-set-variable', the Custom
+UI, or equivalent.  It has a custom setter function which
+automatically sets things up when configured that way.  Users who
+prefer to use `setq' must run `lin-setup' manually.  Consult its
+doc string."
+  :type '(repeat variable)
+  :initialize #'custom-initialize-default
+  :set (lambda (symbol value)
+         (if (eq value (default-value symbol))
+             (set-default symbol value)
+           (lin-setup 'reverse)
+           (set-default symbol value)
+           (lin-setup)))
+  :group 'lin)
+
+(defcustom lin-face 'lin-blue
+  "Face to use for the pulse line.
+Users can select one among `lin-red', `lin-green', `lin-yellow',
+`lin-blue' (default), `lin-magenta', `lin-cyan', `lin-mac',
+`lin-red-override-fg', `lin-green-override-fg',
+`lin-yellow-override-fg', `lin-blue-override-fg',
+`lin-magenta-override-fg', `lin-cyan-override-fg',
+`lin-mac-override-fg', or any other face that preferably has a
+background attribute.
+
+Set this user option with `customize-set-variable', the Custom
+UI, or equivalent.  It has a custom setter function which
+automatically sets things up when configured that way.  Users who
+prefer to use `setq' must run `lin-restart-mode-in-buffers'
+manually.  Consult its doc string."
+  :type '(radio (face :tag "Red style" lin-red)
+                (face :tag "Green style" lin-green)
+                (face :tag "Yellow style" lin-yellow)
+                (face :tag "Blue style (default)" lin-blue)
+                (face :tag "Magenta style" lin-magenta)
+                (face :tag "Cyan style" lin-cyan)
+                (face :tag "macOS style" lin-mac)
+                (face :tag "Red style that also overrides the underlying foreground" lin-red-override-fg)
+                (face :tag "Green style that also overrides the underlying foreground" lin-green-override-fg)
+                (face :tag "Yellow style that also overrides the underlying foreground" lin-yellow-override-fg)
+                (face :tag "Blue style that also overrides the underlying foreground" lin-blue-override-fg)
+                (face :tag "Magenta style that also overrides the underlying foreground" lin-magenta-override-fg)
+                (face :tag "Cyan style that also overrides the underlying foreground" lin-cyan-override-fg)
+                (face :tag "macOS style that also overrides the underlying foreground" lin-mac-override-fg)
+                (face :tag "Other face (must have a background)"))
+  :initialize #'custom-initialize-default
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (lin-restart-mode-in-buffers))
+  :group 'lin)
+
+;;;; Faces
+
+(defgroup lin-faces ()
+  "Faces for `lin.el'."
+  :group 'lin)
+
+(defface lin-red
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#ffd3d3")
+    (((class color) (min-colors 88) (background dark))
+     :background "#500f0f")
+    (t :background "red"))
+  "Alternative red face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-red-override-fg
+  '((default :inherit lin-red)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-red' but also sets a foreground."
+  :group 'lin-faces)
+
+(defface lin-green
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#bfeabf")
+    (((class color) (min-colors 88) (background dark))
+     :background "#0f300f")
+    (t :background "green"))
+  "Alternative green face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-green-override-fg
+  '((default :inherit lin-green)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-green' but also sets a foreground."
+  :group 'lin-faces)
+
+(defface lin-yellow
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#ffecaa")
+    (((class color) (min-colors 88) (background dark))
+     :background "#412200")
+    (t :background "yellow"))
+  "Alternative yellow face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-yellow-override-fg
+  '((default :inherit lin-yellow)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-yellow' but also sets a foreground."
+  :group 'lin-faces)
+
+(defface lin-blue
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#c0e4ff")
+    (((class color) (min-colors 88) (background dark))
+     :background "#002460")
+    (t :background "blue"))
+  "Alternative blue face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-blue-override-fg
+  '((default :inherit lin-blue)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-blue' but also sets a foreground."
+  :group 'lin-faces)
+
+(defface lin-magenta
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#ffd9ff")
+    (((class color) (min-colors 88) (background dark))
+     :background "#401d40")
+    (t :background "magenta"))
+  "Alternative magenta face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-magenta-override-fg
+  '((default :inherit lin-magenta)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-magenta' but also sets a foreground."
+  :group 'lin-faces)
+
+(defface lin-cyan
+  '((default :foreground unspecified :underline nil :extend t)
+    (((class color) (min-colors 88) (background light))
+     :background "#baeaf8")
+    (((class color) (min-colors 88) (background dark))
+     :background "#002f3f")
+    (t :background "cyan"))
+  "Alternative cyan face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-cyan-override-fg
+  '((default :inherit lin-cyan)
+    (((background light))
+     :foreground "black")
+    (((background dark))
+     :foreground "white"))
+  "Like `lin-cyan' but also sets a foreground."
+  :group 'lin-faces)
+
+;; TODO 2022-03-18: Can we find all system styles?  Then we can rename
+;; this to `lin-system'.
+(defface lin-mac
+  '((((type ns))
+     ;; &lt;https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/&gt;.
+     :background "selectedContentBackgroundColor" :extend t)
+    (t :inherit lin-blue))
+  "Alternative macOS-style face for `lin-face'."
+  :group 'lin-faces)
+
+(defface lin-mac-override-fg
+  '((t :inherit lin-mac :foreground "alternateSelectedControlTextColor"))
+  "Like `lin-mac' but also sets a foreground."
+  :group 'lin-faces)
+
+;;;; Lin setup
+
+(defvar-local lin--cookie nil
+  "Cookie returned by `face-remap-add-relative'.")
+
+(defun lin--source-face ()
+  "Determine the source face: what to remap."
+  (cond
+   ((derived-mode-p 'mu4e-headers-mode)
+    'mu4e-header-highlight-face)
+   ((derived-mode-p 'magit-mode)
+    'magit-section-highlight)
+   ;; Do not target `hl-line' directly, as it can be changed by
+   ;; `hl-line-face'.
+   ((bound-and-true-p hl-line-face)
+    hl-line-face)
+   (t
+    'hl-line)))
+
+(define-minor-mode lin-mode
+  "Enable `hl-line-mode' and remap its face to `lin-face'."
+  :local t
+  :init-value nil
+  (if lin-mode
+      (progn
+        (setq lin--cookie
+              (face-remap-add-relative (lin--source-face) lin-face))
+        (hl-line-mode 1))
+    (face-remap-remove-relative lin--cookie)
+    (hl-line-mode -1)))
+
+(defun lin-setup (&amp;optional reverse)
+  "Set up Lin for select mode hooks.
+
+This adds `lin-mode' and `hl-line-mode' to every hook in
+`lin-mode-hooks'.
+
+With optional non-nil REVERSE argument, remove those hooks."
+  (if reverse
+      (dolist (hook lin-mode-hooks)
+        (remove-hook hook #'lin-mode))
+    (dolist (hook lin-mode-hooks)
+      (add-hook hook #'lin-mode))))
+
+(defun lin--mode-restart (buffer)
+  "Restart `lin-mode' if already enabled in BUFFER."
+  (with-current-buffer buffer
+    (when lin-mode
+      (lin-mode 1))))
+
+(defun lin-restart-mode-in-buffers ()
+  "Restart `lin-mode' if already enabled in any buffer.
+This checks the `buffer-list'."
+  (mapc #'lin--mode-restart (buffer-list)))
+
+(provide 'lin)
+
+;;; lin.el ends here
 </pre>
 </div>
 </div>
@@ -3263,14 +3753,14 @@ Relevant publications of mine that are not part of this document:
                      :variable-pitch-height 1.0
                      :variable-pitch-regular-weight normal))
 
-          (large-alt . ( :fixed-pitch-family "Hack"
-                         :fixed-pitch-regular-weight normal
-                         :fixed-pitch-heavy-weight bold
-                         :fixed-pitch-height 130
-                         :fixed-pitch-line-spacing nil
-                         :variable-pitch-family "FiraGO"
-                         :variable-pitch-height 1.05
-                         :variable-pitch-regular-weight normal))))
+          (jumbo . ( :fixed-pitch-family "Iosevka Comfy"
+                     :fixed-pitch-regular-weight semilight
+                     :fixed-pitch-heavy-weight bold
+                     :fixed-pitch-height 150
+                     :fixed-pitch-line-spacing nil
+                     :variable-pitch-family "FiraGO"
+                     :variable-pitch-height 1.0
+                     :variable-pitch-regular-weight normal))))
 
   ;; TODO 2021-08-27: I no longer have a laptop.  Those configurations
   ;; are not relevant, but I keep them around as the idea is still good.
@@ -3677,7 +4167,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org618a5ee">
+<pre class="example" id="org3ab49e2">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -3760,7 +4250,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org2e135bb">
+<pre class="example" id="org2142b66">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6066,8 +6556,6 @@ all three of the above is easier to learn and more consistent overall.
   (setq consult-find-args "find . -not ( -wholename */.* -prune )")
   (setq consult-preview-key 'any)
 
-  (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
-
   (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
 
   (require 'consult-imenu) ; the `imenu' extension is in its own file
@@ -6090,7 +6578,13 @@ all three of the above is easier to learn and more consistent overall.
     (define-key map (kbd "M-s M-s") #'consult-outline)
     (define-key map (kbd "M-s M-y") #'consult-yank-pop)
     (define-key map (kbd "C-x r r") #'consult-register)) ; Use the register's prefix
-  (define-key consult-narrow-map (kbd "?") #'consult-narrow-help))
+  (define-key consult-narrow-map (kbd "?") #'consult-narrow-help)
+
+  ;; see my `pulsar' package, which is declared further above:
+  ;; &lt;https://protesilaos.com/emacs/pulsar&gt;
+  (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
+  (dolist (fn '(pulsar-recenter-top pulsar-reveal-entry))
+    (add-hook 'consult-after-jump-hook fn)))
 </pre>
 </div>
 </div>
@@ -7221,7 +7715,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org3d1b185">
+<pre class="example" id="orga216246">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -10051,7 +10545,7 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://gitlab.com/protesilaos/logos
-;; Version: 0.1.2
+;; Version: 0.2.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, focus, writing, presentation, narrowing
 
@@ -10092,7 +10586,9 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;;
 ;; The `logos-focus-mode' tweaks the aesthetics of the current buffer.
 ;; When enabled it sets the buffer-local value of these user options:
-;; `logos-scroll-lock', `logos-variable-pitch',`logos-hide-mode-line'.
+;; `logos-scroll-lock', `logos-variable-pitch',`logos-hide-mode-line',
+;; `logos-indicate-buffer-boundaries', `logos-buffer-read-only', and
+;; `logos-olivetti'.
 ;;
 ;; Logos is the familiar word derived from Greek (watch my presentation
 ;; on philosophy about Cosmos, Logos, and the living universe:
@@ -10285,7 +10781,7 @@ portion of the buffer."
       (save-excursion (re-search-backward page-delimiter nil t))))
 
 (defun logos-narrow-visible-window ()
-  "Narrow buffer to wisible window area.
+  "Narrow buffer to visible window area.
 Also check `logos-narrow-dwim'."
   (interactive)
   (let* ((bounds (logos--window-bounds))
@@ -16218,7 +16714,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org7bc1191">
+<pre class="example" id="org81a019b">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16230,7 +16726,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org8c35951">
+<pre class="example" id="org3d4edac">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16245,7 +16741,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org33359e5">
+<pre class="example" id="org5c54638">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16263,7 +16759,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org39e3c36">
+<pre class="example" id="org231276e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16292,7 +16788,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgcdbbcd5">
+<pre class="example" id="org9ca08e5">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16456,7 +16952,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org2698f86">
+<pre class="example" id="org7f26f42">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -17183,7 +17679,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgc0bd4e7">
+<pre class="example" id="orgc42f1c0">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17217,7 +17713,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org3d3de92">
+<pre class="example" id="orga11e4fc">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17381,7 +17877,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org6b7a0ef">
+<pre class="example" id="org8754978">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -17576,7 +18072,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org4d4496f">
+<pre class="example" id="orgb52b13a">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18804,7 +19300,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org22eb2b0">
+<pre class="example" id="org6983e86">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19868,7 +20364,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgba1fa5d">
+<pre class="example" id="org464af4e">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -20560,7 +21056,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orga287418">
+<pre class="example" id="org0eba139">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23650,7 +24146,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org1d4f15c">
+<pre class="example" id="org9ac4c9c">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25377,7 +25873,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org0cbd7ac">
+<pre class="example" id="org855b2ca">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25799,7 +26295,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org7df83c4">
+<pre class="example" id="org1bb4233">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25808,7 +26304,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org746c3b5">
+<pre class="example" id="org50371f6">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25833,7 +26329,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org40d94b9">
+<pre class="example" id="org3765160">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25909,7 +26405,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org70906cf">
+<pre class="example" id="org8eecf8f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25934,7 +26430,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org91bfb38">
+<pre class="example" id="org9faa455">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25943,7 +26439,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org1c2c73a">
+<pre class="example" id="org9663da3">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25962,7 +26458,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org186f6ec">
+<pre class="example" id="orgd308080">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
