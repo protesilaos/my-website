@@ -70,6 +70,12 @@ to philosophers about programming.  Another relevant introduction is [My
 life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
 (2021-10-29).
 
+On 2022-03-19 the Free Software Foundation awarded me the [2021 Award
+for Outstanding New Free Software
+Contributor](https://www.fsf.org/news/free-software-awards-winners-announced-securepairs-protesilaos-stavrou-paul-eggert).
+I will post the video of what I said about it when the FSF makes it
+available.  Same for my LibrePlanet 2022 talk.
+
 ## protesilaos.com
 
 This website has been online since 2011.  It contains more than 600
