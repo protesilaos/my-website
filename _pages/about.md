@@ -62,7 +62,11 @@ but I actually talk philosophy, such as:
   (2021-09-22).
 + [EmacsConf 2021: How Emacs made me appreciate software
   freedom](https://protesilaos.com/codelog/2021-12-21-emacsconf2021-freedom/)
-  (2021-12-21).
+  (published on 2021-12-21---the actual event was on November 27-28, 2021).
++ [LibrePlanet 2022: Living in freedom with GNU
+  Emacs](https://protesilaos.com/codelog/2022-03-22-libreplanet-emacs-living-freedom/)
+  (published on 2022-03-22---the actual event was on March 19-20,
+  2022).
 
 In a manner of speaking, I just talk to programmers about philosophy and
 to philosophers about programming.  Another relevant introduction is [My
@@ -70,11 +74,15 @@ to philosophers about programming.  Another relevant introduction is [My
 life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
 (2021-10-29).
 
-On 2022-03-19 the Free Software Foundation awarded me the [2021 Award
-for Outstanding New Free Software
-Contributor](https://www.fsf.org/news/free-software-awards-winners-announced-securepairs-protesilaos-stavrou-paul-eggert).
-I will post the video of what I said about it when the FSF makes it
-available.  Same for my LibrePlanet 2022 talk.
+On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
+for Outstanding New Free Software Contributor_.  [Check the
+announcement](https://protesilaos.com/codelog/2022-03-22-libreplanet-fsf-award/),
+which includes the video I prepared, the text of what I said, and a link
+to the FSF's press release about these awards.
+
+I also talk or write about philosophy without any reference to free
+software or related.  Refer to my website's section on [books and
+standalone essays](https://protesilaos.com/books).
 
 ## protesilaos.com
 
