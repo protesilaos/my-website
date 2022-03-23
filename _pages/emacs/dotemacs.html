@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-03-19 06:19 +0200</b>.</li>
-<li>Word count: <b>149976</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-03-23 10:24 +0200</b>.</li>
+<li>Word count: <b>149521</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -30,7 +30,7 @@ Information pertaining to my build of Emacs:
 
 <pre class="example">
 GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo version 1.17.4)
- of 2022-03-13
+ of 2022-03-22
 </pre>
 
 
@@ -2368,6 +2368,7 @@ the official manual: <a href="https://protesilaos.com/emacs/pulsar">https://prot
   (setq pulsar-delay 0.055)
   (setq pulsar-iterations 10)
   (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-green)
 
   ;; pulsar does not define any key bindings.  This is just my personal
   ;; preference.  Remember to read the manual on the matter.  Evaluate:
@@ -2414,9 +2415,6 @@ This is the code for <code>pulsar.el</code>:
 ;; This is a small package that temporarily highlights the current line
 ;; either on demand or after a given function is invoked.  The affected
 ;; functions are defined in the user option `pulsar-pulse-functions'.
-;; What Pulsar does is set up an advice so that those functions run a
-;; hook after they are called.  The pulse effect is added there
-;; (`pulsar-after-function-hook').
 ;; 
 ;; The duration of the highlight is determined by `pulsar-delay'.  The
 ;; steps of the pulse effect are controlled by `pulsar-iterations'.
@@ -2425,6 +2423,11 @@ This is the code for <code>pulsar.el</code>:
 ;; To pulse highlight the current line on demand, use
 ;; `pulsar-pulse-line'.  To highlight the current line without pulsing
 ;; it, use `pulsar-highlight-line' instead.
+;;
+;; To help users differentiate between the momentary pulse and transient
+;; highlight effects, the user option `pulsar-highlight-face' controls
+;; the presentation of the `pulsar-highlight-line' command.  By default,
+;; this that variable is the same as `pulsar-face'.
 ;; 
 ;; Pulsar depends on the built-in `pulse.el' library.
 ;;
@@ -2493,7 +2496,7 @@ such as `customize-set-variable' do that automatically."
   :group 'pulsar)
 
 (defcustom pulsar-face 'pulsar-generic
-  "Face to use for the pulse line.
+  "Face of the regular pulse line effect (`pulsar-pulse-line').
 The default is `pulsar-generic' which reuses the standard face
 from the underlying pulse library.  Users can select one among
 `pulsar-red', `pulsar-green', `pulsar-yellow', `pulsar-blue',
@@ -2507,6 +2510,19 @@ background attribute."
                 (face :tag "Magenta style" pulsar-magenta)
                 (face :tag "Cyan style" pulsar-cyan)
                 (face :tag "Other face (must have a background)"))
+  :group 'pulsar)
+
+(defcustom pulsar-highlight-face 'pulsar-face
+  "Face used in `pulsar-highlight-line'."
+  :type '(choice (variable pulsar-face)
+                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
+                        (face :tag "Red style" pulsar-red)
+                        (face :tag "Green style" pulsar-green)
+                        (face :tag "Yellow style" pulsar-yellow)
+                        (face :tag "Blue style" pulsar-blue)
+                        (face :tag "Magenta style" pulsar-magenta)
+                        (face :tag "Cyan style" pulsar-cyan)
+                        (face :tag "Other face (must have a background)")))
   :group 'pulsar)
 
 (defcustom pulsar-pulse t
@@ -2651,63 +2667,31 @@ pulse effect."
   (interactive)
   (pulsar--pulse))
 
-(defvar pulsar--face-history '()
-  "Minibuffer history of `pulsar--highlight-face-prompt'.")
-
-(defvar pulsar--faces
-  '( pulsar-generic pulsar-red pulsar-green
-     pulsar-yellow pulsar-blue pulsar-magenta
-     pulsar-cyan)
-  "List of pulsar faces.")
-
-(defun pulsar--highlight-face-prompt ()
-  "Select from `pulsar--faces' with completion."
-  (let* ((history pulsar--face-history)
-         (def (format "%s" (nth 0 history)))
-         (prompt (if def
-                     (format "Select face [%s]: " def)
-                   "Select face: ")))
-    (intern (completing-read prompt pulsar--faces nil t nil history def))))
-
 ;;;###autoload
-(defun pulsar-highlight-line (&amp;optional face)
+(defun pulsar-highlight-line ()
   "Temporarily highlight the current line.
 Unlike `pulsar-pulse-line', never pulse the current line.  Keep
 the highlight in place until another command is invoked.
 
-With optional FACE, use that instead of `pulsar-face'."
-  (interactive
-   (list (when current-prefix-arg (pulsar--highlight-face-prompt))))
-  (pulsar--pulse :no-pulse face)
-  (when face (add-to-history 'pulsar--face-history face)))
+Use `pulsar-highlight-face' (it is the same as `pulsar-face' by
+default)."
+  (interactive)
+  (pulsar--pulse :no-pulse pulsar-highlight-face))
 
 ;;;; Advice setup
 
-(defvar pulsar-after-function-hook nil
-  "Hook that runs after any function in `pulsar-pulse-functions'.")
-
-(defun pulsar--add-hook (&amp;rest _)
-  "Run `pulsar-after-function-hook'."
-  (run-hooks 'pulsar-after-function-hook))
+(defun pulsar--post-command-pulse ()
+  "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
+  (when (memq this-command pulsar-pulse-functions)
+    (pulsar-pulse-line)))
 
 ;;;###autoload
 (defun pulsar-setup (&amp;optional reverse)
-  "Set up pulsar for select functions.
-This adds the `pulsar-after-function-hook' to every command listed
-in the `pulsar-pulse-functions'.  If the list is updated, this
-command needs to be invoked again.
-
-With optional non-nil REVERSE argument, remove the advice that
-sets up the aforementioned hook."
-  (cond
-   (reverse
-    (dolist (fn pulsar-pulse-functions)
-      (advice-remove fn #'pulsar--add-hook))
-    (remove-hook 'pulsar-after-function-hook #'pulsar-pulse-line))
-   (t
-    (dolist (fn pulsar-pulse-functions)
-      (advice-add fn :after #'pulsar--add-hook))
-    (add-hook 'pulsar-after-function-hook #'pulsar-pulse-line))))
+  "Set up pulsar for each function in `pulsar-pulse-functions'.
+With optional non-nil REVERSE argument, remove the effect."
+  (if reverse
+      (remove-hook 'post-command-hook #'pulsar--post-command-pulse)
+    (add-hook 'post-command-hook #'pulsar--post-command-pulse)))
 
 ;;;; Recentering commands
 
@@ -2914,12 +2898,12 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;;
   ;; NOTE: these are not my preferences!  I am always testing various
   ;; configurations.  Though I still like what I have here.
-  (setq modus-themes-italic-constructs nil
+  (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers nil
-        modus-themes-intense-mouseovers t
-        modus-themes-deuteranopia t
+        modus-themes-intense-mouseovers nil
+        modus-themes-deuteranopia nil
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
@@ -2968,11 +2952,11 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
 
         ;; Options for `modus-themes-box-buttons' are either nil (the
         ;; default), or a list that can combine any of `flat',
-        ;; `accented', `faint', `variable-pitch', `underline', the
-        ;; symbol of any font weight as listed in
+        ;; `accented', `faint', `variable-pitch', `underline',
+        ;; `all-buttons', the symbol of any font weight as listed in
         ;; `modus-themes-weights', and a floating point number
         ;; (e.g. 0.9) for the height of the button's text.
-        modus-themes-box-buttons '(variable-pitch flat faint 0.9)
+        modus-themes-box-buttons '(all-buttons variable-pitch (height 0.9) flat faint accented)
 
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
@@ -3005,7 +2989,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-region '(no-extend)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
-        modus-themes-diffs 'desaturated
+        modus-themes-diffs nil
 
         modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background}
 
@@ -4167,7 +4151,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org3ab49e2">
+<pre class="example" id="org21901ab">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4250,7 +4234,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org2142b66">
+<pre class="example" id="orgc59c91c">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4849,20 +4833,16 @@ code that leverages <code>avy</code>.
 
   (require 'mct-avy)
 
-  ;; ;; From the mct manual (I don't need it, but you might):
-  ;; (defun my-mct-avy-embark-act ()
-  ;;   "Use Avy to run `embark-act' on candidate."
-  ;;   (interactive)
-  ;;   (mct-avy--choose #'embark-act))
-
   (dolist (map (list mct-minibuffer-local-completion-map
                      mct-minibuffer-completion-list-map))
+    (define-key map (kbd "C-M-a") #'mct-avy-embark-act)
     (define-key map (kbd "C-.") #'mct-avy-choose-completion-exit)
     (define-key map (kbd "C-;") #'mct-avy-choose-completion-dwim))
 
   ;; If you are using `mct-region-mode':
   (dolist (map (list mct-region-completion-list-map
                      mct-region-buffer-map))
+    (define-key map (kbd "C-M-a") #'mct-avy-embark-act)
     (define-key map (kbd "C-.") #'mct-avy-region-choose-completion)))
 </pre>
 </div>
@@ -4955,11 +4935,6 @@ Only works when variable `file-name-shadow-mode' is non-nil."
 
 (defcustom mct-hide-completion-mode-line nil
   "When non-nil, hide the Completions' buffer mode line."
-  :type 'boolean
-  :group 'mct)
-
-(defcustom mct-show-completion-line-numbers nil
-  "Display line numbers in the Completions' buffer."
   :type 'boolean
   :group 'mct)
 
@@ -5184,14 +5159,6 @@ affairs."
   '((t :inherit highlight :extend t))
   "Face for current candidate in the completions' buffer."
   :group 'mct)
-
-(declare-function display-line-numbers-mode "display-line-numbers")
-
-(defun mct--setup-line-numbers ()
-  "Set up line numbers for the completions' buffer."
-  (when (and (derived-mode-p 'completion-list-mode)
-             mct-show-completion-line-numbers)
-    (display-line-numbers-mode 1)))
 
 (defun mct--first-line-completion-p ()
   "Return non-nil if first line has completion candidates."
@@ -5740,68 +5707,6 @@ If ARG is supplied, move that many completion groups at a time."
   (let ((completion-no-auto-exit t))
     (choose-completion)))
 
-(defvar display-line-numbers-mode)
-
-(defun mct--line-completion (n)
-  "Select completion on Nth line."
-  (with-current-buffer (window-buffer (mct--get-completion-window))
-    (goto-char (point-min))
-    (next-completion n)
-    (mct-choose-completion-exit)))
-
-(defun mct--line-bounds (n)
-  "Test if Nth line is in the buffer."
-  (with-current-buffer (window-buffer (mct--get-completion-window))
-    (let ((bounds (count-lines (point-min) (point-max))))
-      (unless (&lt;= n bounds)
-        (user-error "%d is not within the buffer bounds (%d)" n bounds)))))
-
-(defun mct-goto-line ()
-  "Go to line N in the Completions' buffer."
-  (interactive nil mct-minibuffer-mode)
-  (let ((n (read-number "Line number: ")))
-    (mct--line-bounds n)
-    (select-window (mct--get-completion-window))
-    (mct--line-completion n)))
-
-(defun mct--line-number-selection ()
-  "Show line numbers and select one of them."
-  (with-current-buffer (window-buffer (mct--get-completion-window))
-    (let ((mct-show-completion-line-numbers t))
-      (if (bound-and-true-p display-line-numbers-mode)
-          (mct-goto-line)
-        (unwind-protect
-            (progn
-              (mct--setup-line-numbers)
-              (mct-goto-line))
-          (display-line-numbers-mode -1))))))
-
-(defun mct-choose-completion-number ()
-  "Select completion candidate on a given line number.
-Upon selecting the candidate, exit the minibuffer (i.e. confirm
-the choice right away).
-
-If the Completions' buffer is not visible, it is displayed.  Line
-numbers are shown on the side for during the operation (unless
-`mct-show-completion-line-numbers' is non-nil, in which case they
-are always visible).
-
-This command can be invoked from either the minibuffer or the
-Completions' buffer."
-  (interactive nil mct-minibuffer-mode)
-  (if (not (mct--one-column-p))
-      (user-error "Cannot select by line in grid view")
-    (let ((mct-remove-shadowed-file-names t)
-          (mct-live-update-delay most-positive-fixnum)
-          (enable-recursive-minibuffers t))
-      (unless (mct--get-completion-window)
-        (mct--show-completions))
-      (if (or (and (derived-mode-p 'completion-list-mode)
-                   (active-minibuffer-window))
-              (and (minibufferp)
-                   (mct--get-completion-window)))
-          (mct--line-number-selection)))))
-
 (defvar crm-completion-table)
 (defvar crm-separator)
 
@@ -6008,7 +5913,6 @@ region.")
 (defvar mct-minibuffer-completion-list-map
   (let ((map (make-sparse-keymap)))
     (define-key map [remap keyboard-quit] #'mct-keyboard-quit-dwim)
-    (define-key map [remap goto-line] #'mct-choose-completion-number)
     (define-key map [remap next-line] #'mct-next-completion-or-mini)
     (define-key map (kbd "n") #'mct-next-completion-or-mini)
     (define-key map [remap previous-line] #'mct-previous-completion-or-mini)
@@ -6029,7 +5933,6 @@ region.")
 (defvar mct-minibuffer-local-completion-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-j") #'exit-minibuffer)
-    (define-key map [remap goto-line] #'mct-choose-completion-number)
     (define-key map [remap next-line] #'mct-switch-to-completions-top)
     (define-key map [remap next-line-or-history-element] #'mct-switch-to-completions-top)
     (define-key map [remap previous-line] #'mct-switch-to-completions-bottom)
@@ -6062,7 +5965,6 @@ region.")
     (mct--setup-appearance)
     (mct--setup-completion-list-keymap)
     (mct--setup-highlighting)
-    (mct--setup-line-numbers)
     (cursor-sensor-mode)))
 
 ;;;;; Dynamic completion
@@ -6233,7 +6135,6 @@ minibuffer)."
     (mct--setup-appearance)
     (mct--region-setup-completion-list-keymap)
     (mct--setup-highlighting)
-    (mct--setup-line-numbers)
     (cursor-sensor-mode)))
 
 (defun mct--region-completion-done (&amp;rest app)
@@ -7715,7 +7616,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="orga216246">
+<pre class="example" id="org6566f42">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -8829,6 +8730,7 @@ command serves as a specialised variant of <code>prot-search-grep</code>
   (setq dired-auto-revert-buffer #'dired-directory-changed-p) ; also see `dired-do-revert-buffer'
   (setq dired-make-directory-clickable t) ; Emacs 29.1
   (setq dired-free-space nil) ; Emacs 29.1
+  (setq dired-mouse-drag-files t) ; Emacs 29.1
 
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (add-hook 'dired-mode-hook #'hl-line-mode))
@@ -16714,7 +16616,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org81a019b">
+<pre class="example" id="orge070fbf">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16726,7 +16628,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org3d4edac">
+<pre class="example" id="org1ebd64f">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16741,7 +16643,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org5c54638">
+<pre class="example" id="orgf18fe4d">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16759,7 +16661,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org231276e">
+<pre class="example" id="org3ec428e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16788,7 +16690,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org9ca08e5">
+<pre class="example" id="orga22fe74">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16952,7 +16854,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org7f26f42">
+<pre class="example" id="orgc3ce36c">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -17679,7 +17581,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgc42f1c0">
+<pre class="example" id="org051c0a8">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17713,7 +17615,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orga11e4fc">
+<pre class="example" id="org25895f5">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17877,7 +17779,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org8754978">
+<pre class="example" id="org722be42">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -18072,7 +17974,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgb52b13a">
+<pre class="example" id="org814e9ef">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18422,6 +18324,7 @@ And here is <code>prot-notmuch.el</code> (part of <a href="https://gitlab.com/pr
 ;;; Code:
 
 (require 'prot-common)
+(eval-when-compile (require 'cl-lib))
 
 (defgroup prot-notmuch ()
   "Extensions for notmuch.el."
@@ -19300,7 +19203,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org6983e86">
+<pre class="example" id="org43544da">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -20364,7 +20267,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org464af4e">
+<pre class="example" id="orgf93693b">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -21056,7 +20959,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org0eba139">
+<pre class="example" id="org4fc09b5">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24146,7 +24049,7 @@ should control the exact format of the time stamp.  For examples, this
 is what I have in my <code>modus-themes.el</code>:
 </p>
 
-<pre class="example" id="org9ac4c9c">
+<pre class="example" id="org9dd8303">
 ;; Local Variables:
 ;; time-stamp-start: "Last-Modified:[ \t]+\\\\?[\"&lt;]"
 ;; time-stamp-end: "\\\\?[\"&gt;]"
@@ -25873,7 +25776,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org855b2ca">
+<pre class="example" id="org95e6ebc">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -26295,7 +26198,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org1bb4233">
+<pre class="example" id="org57f2235">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -26304,7 +26207,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org50371f6">
+<pre class="example" id="orgcece667">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -26329,7 +26232,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org3765160">
+<pre class="example" id="org8c1eba9">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -26405,7 +26308,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org8eecf8f">
+<pre class="example" id="orge45232f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -26430,7 +26333,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org9faa455">
+<pre class="example" id="org3b5e6af">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -26439,7 +26342,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9663da3">
+<pre class="example" id="orgc260160">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -26458,7 +26361,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd308080">
+<pre class="example" id="org877bcea">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
