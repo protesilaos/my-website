@@ -13,3 +13,85 @@ If you want to make a donation, use any of the following platforms:
 All my publications are free/libre and I shall never put anything behind
 a paywall.  This also means that donations will not give you any special
 perks or some kind of privilege.
+
+Below is the text I use on the GitHub and Liberpay links (I keep it here
+to edit and copy-paste more easily).
+
+* * *
+
+I am a philosopher.  My website is a de facto resource for
+self-learning.  I contribute to GNU Emacs and free software in a number
+of ways, while I also write or talk about non-software-related issues.
+Below is an overview for those who are not familiar with my work.
+
+## Packages for GNU Emacs
+
+I develop and maintain a growing number of packages for Emacs.  You can
+find the full list here: <https://protesilaos.com/emacs/>.  Among them
+is the `modus-themes` (`modus-operandi` and `modus-vivendi` themes)
+which is built into Emacs version 28 or higher.
+
+Every package comes with comprehensive documentation and sample code on
+how to use it and/or configure it further.  The change logs I publish
+also cover all the relevant information.
+
+On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
+for Outstanding New Free Software Contributor_.  [Check the
+announcement](https://protesilaos.com/codelog/2022-03-22-libreplanet-fsf-award/),
+which includes the video I prepared, the text of what I said, and a link
+to the FSF's press release about these awards.
+
+## Videos on Emacs and related philosophy
+
+I have published tens of video tutorials on various aspects of Emacs.
+Everything is available on my website's coding blog section:
+<https://protesilaos.com/codelog/>.  Or check the "code casts"
+subsection which only includes videos: <https://protesilaos.com/code-casts/>.
+
+I also talk about software freedom and concomitant concepts.  Some
+examples of those:
+
++ [Why Emacs itself is my “favourite Emacs
+  package”](https://protesilaos.com/codelog/2020-10-21-emacs-favourite-package/)
+  (2020-10-21).
++ [Moral lessons from free software and GNU
+  Emacs](https://protesilaos.com/codelog/2021-04-16-emacs-moral-lessons/)
+  (2021-04-16).
++ [Live stream: Emacs as a 'second brain' and
+  mindfulness](https://protesilaos.com/codelog/2021-08-31-emacs-second-brain-mindfulness/)
+  (2021-08-31).
++ [Live stream: Emacs and the Unix
+  philosophy](https://protesilaos.com/codelog/2021-09-22-live-stream-emacs-unix/)
+  (2021-09-22).
++ [EmacsConf 2021: How Emacs made me appreciate software
+  freedom](https://protesilaos.com/codelog/2021-12-21-emacsconf2021-freedom/)
+  (published on 2021-12-21---the actual event was on November 27-28, 2021).
++ [LibrePlanet 2022: Living in freedom with GNU
+  Emacs](https://protesilaos.com/codelog/2022-03-22-libreplanet-emacs-living-freedom/)
+  (published on 2022-03-22---the actual event was on March 19-20,
+  2022).
+
+## Philosophy and other writings
+
+I am a prolific writer on abstract matters of philosophy but also on
+more practical life issues.  My overall approach to philosophy is that
+(i) it must consist of insights that one can live by and (ii) the
+language used to communicate those should not be an impediment to their
+understanding.  Put differently, I do not write for an academic
+audience, do not rely on jargon, do not introduce alien concepts without
+explaining them in context, and do not try to impress or confuse the
+reader by using hyperbole, paradoxes, intentionally misleading
+expressions, or other techniques of rhetoric.
+
+Check the section of my website on books and standalone essays:
+<https://protesilaos.com/books/>.  There also are video presentations
+there.
+
+Sometimes I publish excerpts of comments I make via email or other
+media.  Those are always shared with the express permission of my
+correspondent.  The topics are primarily philosophical though are
+directly linked to practical scenaria.  If you want to ask me such
+questions, feel welcome to do so: <https://protesilaos.com/commentary/>.
+
+Everything I have ever written on my website since 2011 when I got
+started is available under copyleft terms: <https://protesilaos.com>.
