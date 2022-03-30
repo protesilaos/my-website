@@ -16,6 +16,52 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/logos">https://protesilaos.com/emacs/logos</a>.
 </p>
 
+<div id="outline-container-h:1c2f2cf0-7617-4bb6-9525-eafa1269d06f" class="outline-2">
+<h2 id="h:1c2f2cf0-7617-4bb6-9525-eafa1269d06f">Version 0.3.0 on 2022-03-30</h2>
+<div class="outline-text-2" id="text-h:1c2f2cf0-7617-4bb6-9525-eafa1269d06f">
+<p>
+This release basically contains one major refinement about how buffer
+narrowing is handled.  In detail:
+</p>
+
+<ol class="org-ol">
+<li>If <code>logos-outlines-are-pages</code> is non-nil, it now includes the match
+of the <code>page-delimiter</code> regexp in the narrowed region and leaves
+point right after the <code>page-delimiter</code>&#x2014;so in Org mode, after the
+stars.  (It is better to leave point there than at the very beginning
+of the narrowed buffer to match the behavior of
+<code>logos-forward-page-dwim</code> when the buffer is not narrowed.)  The
+inclusion of the delimiter helps retain any folding functionality
+associated with that line (e.g. Org headings).</li>
+
+<li>To avoid skipping pages in the narrowed case when point is at their
+outer boundaries, <code>logos</code> checks if you are right at the start of a
+<code>page-delimiter</code> and if so moves past the delimiter in the opposite
+direction of the given motion: so if you are moving back, it puts you
+after the delimiter, and if you are moving forward it puts you before
+the delimiter.  (The bug was that if the point was at <code>point-max</code>
+while narrowed and moving forward, it would skip past a page and the
+same in the opposite direction with <code>point-min</code>.)</li>
+
+<li>Changed <code>logos-narrow-dwim</code> to call <code>logos--narrow-to-page</code> instead
+of <code>narrow-to-page</code>, so that it too includes the <code>page-delimiter</code>
+match in the page.</li>
+
+<li>The <code>logos--page-p</code> now always checks for the right delimiter, which
+may be that of the outline if <code>logos-outlines-are-pages</code> is non-nil.
+Whereas before it was hard-coded to the generic <code>page-delimiter</code>.</li>
+</ol>
+
+<p>
+Thanks to Omar Antolín Camarena for commit
+<code>8c2e85033db982ef13a5e041012dc45d86d9de32</code> which covers the first three
+of the aforementioned points.  The contribution was sent as a patch via
+email.  Omar has already assigned copyright to the Free Software
+Foundation.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:c7f4f53d-0397-4586-8b21-e9b26dddf6e9" class="outline-2">
 <h2 id="h:c7f4f53d-0397-4586-8b21-e9b26dddf6e9">Version 0.2.0 on 2022-03-17</h2>
 <div class="outline-text-2" id="text-h:c7f4f53d-0397-4586-8b21-e9b26dddf6e9">
