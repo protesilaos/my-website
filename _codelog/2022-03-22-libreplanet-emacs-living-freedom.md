@@ -10,6 +10,10 @@ of the presentation in the original Org notation.  The "focus mode" I
 allude to is [my logos package](https://protesilaos.com/emacs/logos),
 but I did not want to get into the technicalities.
 
+**UPDATE 2022-04-01 06:56 +0300:** The video is uploaded by the Free
+Software Foundation on a PeerTube instance ("Framatube"):
+<https://framatube.org/w/6nij8VfSXJqVvudb69eLbo>.
+
 * * *
 
 Hello LibrePlanet!  Hello folks!  My name is Protesilaos, also known as
