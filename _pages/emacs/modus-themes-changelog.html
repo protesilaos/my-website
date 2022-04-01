@@ -27,9 +27,310 @@ For further details, please consult these additional resources:
 <dt>Screenshots</dt><dd><a href="https://protesilaos.com/emacs/modus-themes-pictures">https://protesilaos.com/emacs/modus-themes-pictures</a></dd>
 </dl>
 
-<div id="outline-container-org1216e44" class="outline-2">
-<h2 id="org1216e44">2.2.0</h2>
-<div class="outline-text-2" id="text-org1216e44">
+<div id="outline-container-org864ae70" class="outline-2">
+<h2 id="org864ae70">2.3.0</h2>
+<div class="outline-text-2" id="text-org864ae70">
+<div class="org-src-container">
+<pre class="src src-text">Modus themes version 2.3.0
+
+By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-04-01
+
+This entry documents the changes made to the project since the
+publication of version 2.2.0 on 2022-02-23.  It spans more than 70
+commits.
+
+To access the URL of the manual visit:
+&lt;https://protesilaos.com/emacs/modus-themes&gt;.  Or read it in the Emacs
+Info reader by evaluating:
+
+    (info "(modus-themes) Top")
+
+The 'modus-operandi' and 'modus-vivendi' themes are built into Emacs-28
+(next stable release) or later, and are available on GNU ELPA as well as
+other archives.  Emacs-28 ships version 1.6.0, while the current
+'master' branch (i.e. Emacs-29) and, by extension, GNU ELPA include the
+latest tagged release.
+
+
+Customisation options
+=====================
+
+* The 'modus-themes-completions' now accepts a 'text-also' property for
+  the 'selection' key.  This has the effect of colourising the current
+  line's text.  Whereas the default does not change the text colour,
+  re-using whatever underlying colours are available.  Consult the doc
+  string of this user option, as it provides for fine-grained control of
+  how completion UIs may look.  Thanks to Morgan Willcock whose feedback
+  in issue 278 inspired me to add the 'text-also' property:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/278&gt;.
+
+* The 'modus-themes-box-buttons' now accepts an 'all-buttons' property.
+  It applies whatever other style is used for the boxed buttons to the
+  generic 'widget.el'.  By default, the faces of 'widget.el' do not look
+  like graphical buttons: they have a bold weight and a foreground
+  colour instead.  Examples where those are used are the Notmuch "hello"
+  buffer and the main view of the 'elfeed-summary' package.  Thanks to
+  Daniel Mendler, Rudolf Adamkovič, and Tony Zorman for their feedback
+  in issue 296: &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/296&gt;.
+
+* The 'modus-themes-intense-mouseovers' is a boolean user option which
+  makes mouse hover effects more intense when set to a non-nil value.
+  By default, mouseovers use a cyan background value.  This changes it
+  to a more prominent blue.  Thanks to John Haman for the feedback in
+  issue 290: &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/290&gt;.
+
+* The user options 'modus-themes-box-buttons', 'modus-themes-mode-line',
+  'modus-themes-org-agenda', and 'modus-themes-headings' can now read a
+  number value as a cons cell.  The old method of a plain number
+  continues to work.  This makes it possible to be more descriptive on
+  what a given value signifies.  Each doc string describes the
+  technicalities.  Here are samples that yield identical results:
+
+      (setq modus-themes-mode-line '(accented 0.9 borderless 2))
+      (setq modus-themes-mode-line '(accented (heigh 0.9) borderless (padding 2)))
+
+  Thanks to Daniel Mendler for proposing this idea in issue 282:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/282#note_842257619&gt;
+
+
+Attempted bug fix for byte compiled files
+=========================================
+
+Quoting from the git log:
+
+    commit f067d2ef39c22174b95584f2cba7942aaf03bcca
+    Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+    Date:   Thu Mar 3 06:52:31 2022 +0200
+
+        Reify themes with eval-and-compile
+
+        This is an attempt to fix a bug that has existed since version 1.2.0 of
+        the themes or even earlier.
+
+        The bug is about a mismatch between compiled code and runtime
+        dependencies.  The runtime expects the current version while the
+        compiled code only furnishes an outdated one, thus resulting in an
+        error.  This only happens when:
+
+        1. Private functions change to accept more/fewer arguments.
+        2. Variables change their acceptable value (e.g. from symbol to list).
+        3. The user is installing the package via the package.el mechanism which
+           takes care of byte compilation (though anything that mimics
+           package.el should exhibit the same behaviour).
+
+        My understanding is that the cause was the limited scope of the
+        'eval-and-compile' we had before: it would run the 'require' also at
+        compile time, whereas the 'modus-themes-theme' macro, which reifies the
+        actual theme, would only be evaluated at runtime.  Hence the mismatch as
+        'require' would read the already installed byte code while the macro
+        would expect newer forms.
+
+        Wrapping everything in the 'eval-and-compile' should address this
+        problem.  Hopefully it will not engender new ones...
+
+        * * *
+
+        The latest reports about this bug:
+
+        * GitLab issue 287 with Mark Bestley and Daniel Mendler:
+          &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/287&gt;.
+
+        * GitHub issue 22 with Rytis Paškauskas:
+          &lt;https://github.com/protesilaos/modus-themes/issues/22&gt;.
+
+     doc/modus-themes.info   | 30 +++++++++++++++---------------
+     doc/modus-themes.org    | 15 ++++++++-------
+     modus-operandi-theme.el | 10 +++++-----
+     modus-vivendi-theme.el  | 10 +++++-----
+     4 files changed, 33 insertions(+), 32 deletions(-)
+
+After nearly one month, no problem has been observed as a result of this
+change.
+
+
+Newly supported packages
+========================
+
+These are added to the already comprehensive coverage we guarantee.
+
+Directly supported:
+
+* devdocs.  Thanks to Augusto Stoffel, its developer, for the feedback
+  which was sent via email.
+
+* mini-modeline.  Thanks to Julio C. Villasante for the feedback in
+  issue 24 over at the GitHub mirror:
+  &lt;https://github.com/protesilaos/modus-themes/issues/24&gt;.
+
+Indirectly supported (they use faces that we already cover):
+
+* elfeed-summary
+* undo-hl
+
+
+Changes to supported faces or packages
+======================================
+
+* Improved the colours used by 'avy' to always guarantee constrast in
+  hueness between side-by-side characters with a variety of user
+  settings.  I tried various styles, such as:
+      
+      (setq avy-style 'pre)
+      (setq avy-style 'at-full)
+
+  For the sake of completeness, I also ran tests by modifying the
+  'avy-lead-faces' (which is a 'defconst', not a 'defcustom'):
+      
+      (setq avy-lead-faces
+            '(avy-lead-face
+              avy-lead-face-0
+              avy-lead-face-2
+              avy-lead-face
+              avy-lead-face-0
+              avy-lead-face-2))
+
+      (setq avy-lead-faces
+            '(avy-lead-face
+              avy-lead-face-1
+              avy-lead-face-1
+              avy-lead-face-1
+              avy-lead-face-1))
+
+      (setq avy-lead-faces
+            '(avy-lead-face
+              avy-lead-face-2
+              avy-lead-face-2
+              avy-lead-face-2
+              avy-lead-face-2))
+
+* Updated the 'vertico-quick' faces to keep them aligned with the new
+  Avy styles.  Thanks to Daniel Mendler (Vertico's developer) for the
+  reminder:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/commit/404a9658196debdde95a51148fc62c5b2faccfb9#note_856454659&gt;.
+  
+* Applied warmer though still not saturated colours for Org clocking
+  overlays.  The previous style could be mistaken for a mouse highlight
+  or the highlighted line if 'modus-themes-hl-line' included the
+  properties 'intense' and 'accented'.  Thanks to Rudolf Adamkovič for
+  the feedback in issue 293:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/293&gt;.
+
+* Broadened coverage of the built-in 'shr.el' library to include the new
+  'shr-code' face (Emacs 29).
+
+* Expanded support for the 'embark' package by covering its new
+  'embark-collect-marked' face.  Thanks to Daniel Mendler for the
+  feedback in issue 299:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/299&gt;.
+
+* Made the 'fill-column-indicator' a contiguous line.  It was a dashed
+  line before, per the Emacs defaults, which led to awkward results
+  depending on the font family and value of 'line-spacing'.  Thanks to
+  Daniel Mendler for the feedback in issue 297:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/297&gt;.
+
+* Added explicit support for the built-in 'separator-line' face in order
+  to refine its presentation.  This is present in 'M-x shortdoc' buffers
+  (Emacs 28).  Thanks to Daniel Mendler for the feedback in issue 297:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/297&gt;.
+
+* Applied explicit styling to the generic 'underline' face in order to
+  ensure its consistent colouration.  The problem before was that an
+  underline that spanned text with distinct colours would inherit the
+  colour of the affected character.  A uniform presentation makes
+  everything easier to read.
+
+* The 'ement.el' Matrix client now uses a subtle background for username
+  mentions and/or quoted text.  This is consistent with how other Matrix
+  clients style such constructs.  Thanks to Adam Porter (aka
+  "alphapapa"), the developer of ement.el, for explaining the
+  technicalities and providing the relevant feedback in issue 25 over at
+  the GitHub mirror: &lt;https://github.com/protesilaos/modus-themes/issues/25&gt;.
+
+* Enforced consistency between 'icomplete' and 'ido'.  The first match
+  was coloured differently in 'ido-mode' by mistake.  Thanks to Morgan
+  Willcock for the feedback in issue 278:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/278&gt;.
+
+* Used the main foreground for Company's tooltip.  This is how it should
+  have been.  Corfu is designed that way as well.  Thanks to user okamsn
+  for the feedback in issue 278:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/278&gt;.
+
+* Corrected an omission whereby the AUCTeX verbatim face was not
+  consistent with other such faces.  Now it too is governed by the user
+  option 'modus-themes-markup'.
+
+* Fixed the 'centaur-tabs' invalid background message.  Thanks to
+  Lennart C. Karssen for reporting the bug in issue 288:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/288&gt;.  Note,
+  however, that the problem is due to some decisions made upstream.  My
+  patch has not been merged yet (open since 2022-02-24):
+  &lt;https://github.com/ema2159/centaur-tabs/pull/179&gt;.  Given this
+  opportunity, always anticipate that faces may ':inherit' from others
+  and thus functions like 'face-background' might return an undesirable
+  nil value if used without a fallback.
+
+
+Miscellaneous
+=============
+
+* Made the 'modus-themes--current-theme' return the first Modus theme
+  instead of the 'car' of 'custom-enabled-themes'.  This makes the
+  themes work at all times even when the user has multiple of them
+  enabled.  Thanks to Pierre Téchoueyres for the patch, which was sent
+  via email with regard to Emacs bug#54598:
+  &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=54598&gt;.
+
+* Implemented compile-time requirement for built-in libraries to be sure
+  that the themes work in all cases.  Thanks to Antonio Hernández Blas
+  for reporting in issue 292 the bug with the old design that assumed
+  the 'cl-lib' and 'subr-x' as already loaded:
+  &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/292&gt;.
+
+* Wrote in the manual how to achieve a monochrome style (with
+  permutations) for code syntax highlighting.  Thanks to Augusto Stoffel
+  for sharing the idea via an email exchange (this information is
+  divulged with permission).
+
+* Clarified some statements in the manual's section about the nuances in
+  "enabling" and "loading" a theme.
+
+* Documented how the applicable palette affects the outer boundaries of
+  the colour range that terminal emulators set when Emacs is ran without
+  a GUI.  Here "the palette" refers to the relevant 16 ANSI escape
+  sequences (terminal colours 0 through 15).  For the sake of
+  convenience, the node includes ready-to-use palettes for XTerm, which
+  can be adapted to other terminal emulators.  This entry complements an
+  existing one on improving the colour accuracy in terminal emulators.
+
+* Used American English constructions in a few places such as "color"
+  instead of "colour" as that is what core Emacs expects (and the themes
+  are part of emacs.git).
+
+* Updated the description of the themes to be more user-friendly.
+  Instead of "Highly accessible themes (WCAG AAA)" we now have "Elegant,
+  highly legible and customizable themes".  Nothing changes in terms of
+  substance.  Thanks to Jorge Morais for the feedback.
+
+* Clarified that the version of the themes which is built into Emacs
+  does not use 'require'.  It is in response to this thread:
+  &lt;https://lists.gnu.org/archive/html/help-gnu-emacs/2022-03/msg00049.html&gt;.
+  Thanks to Philip Kaludercic for bringing the issue to my attention.
+
+* Improved the code samples that show how to set up the package.
+
+* Wrote the correct symbols for some obsoletion forms.
+
+Thanks once again to everyone involved!
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7d3068f" class="outline-2">
+<h2 id="org7d3068f">2.2.0</h2>
+<div class="outline-text-2" id="text-org7d3068f">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 2.2.0
 
@@ -138,9 +439,9 @@ Miscellaneous changes
 </div>
 </div>
 
-<div id="outline-container-org7e29001" class="outline-2">
-<h2 id="org7e29001">2.1.0</h2>
-<div class="outline-text-2" id="text-org7e29001">
+<div id="outline-container-org736e74a" class="outline-2">
+<h2 id="org736e74a">2.1.0</h2>
+<div class="outline-text-2" id="text-org736e74a">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 2.1.0
 
@@ -848,9 +1149,9 @@ intense work which further iterated on an already solid base.
 </div>
 </div>
 
-<div id="outline-container-org69eb8e9" class="outline-2">
-<h2 id="org69eb8e9">2.0.0</h2>
-<div class="outline-text-2" id="text-org69eb8e9">
+<div id="outline-container-org598fbc8" class="outline-2">
+<h2 id="org598fbc8">2.0.0</h2>
+<div class="outline-text-2" id="text-org598fbc8">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 2.0.0
 
@@ -1231,9 +1532,9 @@ Miscellaneous
 </div>
 </div>
 
-<div id="outline-container-org6c678f4" class="outline-2">
-<h2 id="org6c678f4">1.7.0</h2>
-<div class="outline-text-2" id="text-org6c678f4">
+<div id="outline-container-org379cfb6" class="outline-2">
+<h2 id="org379cfb6">1.7.0</h2>
+<div class="outline-text-2" id="text-org379cfb6">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.7.0
 
@@ -1465,9 +1766,9 @@ Thanks once again to everyone involved!
 </div>
 </div>
 
-<div id="outline-container-org07d494a" class="outline-2">
-<h2 id="org07d494a">1.6.0</h2>
-<div class="outline-text-2" id="text-org07d494a">
+<div id="outline-container-org9d04d1b" class="outline-2">
+<h2 id="org9d04d1b">1.6.0</h2>
+<div class="outline-text-2" id="text-org9d04d1b">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.6.0
 
@@ -1819,9 +2120,9 @@ themes, version 1.6.0, as part of the next stable release of Emacs.
 </div>
 </div>
 
-<div id="outline-container-orgb224a39" class="outline-2">
-<h2 id="orgb224a39">1.5.0</h2>
-<div class="outline-text-2" id="text-orgb224a39">
+<div id="outline-container-org8a5ea41" class="outline-2">
+<h2 id="org8a5ea41">1.5.0</h2>
+<div class="outline-text-2" id="text-org8a5ea41">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.5.0
 
@@ -2261,9 +2562,9 @@ Thanks again to everyone involved!
 </div>
 </div>
 
-<div id="outline-container-orgb1eab3b" class="outline-2">
-<h2 id="orgb1eab3b">1.4.0</h2>
-<div class="outline-text-2" id="text-orgb1eab3b">
+<div id="outline-container-org7ae5980" class="outline-2">
+<h2 id="org7ae5980">1.4.0</h2>
+<div class="outline-text-2" id="text-org7ae5980">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.4.0
 
@@ -2581,9 +2882,9 @@ Miscellaneous
 </div>
 </div>
 
-<div id="outline-container-orgf692210" class="outline-2">
-<h2 id="orgf692210">1.3.0</h2>
-<div class="outline-text-2" id="text-orgf692210">
+<div id="outline-container-orgad5fe29" class="outline-2">
+<h2 id="orgad5fe29">1.3.0</h2>
+<div class="outline-text-2" id="text-orgad5fe29">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.3.0
 
@@ -2951,9 +3252,9 @@ Thanks once again to everyone involved!
 </div>
 </div>
 
-<div id="outline-container-org5daf6e9" class="outline-2">
-<h2 id="org5daf6e9">1.2.0</h2>
-<div class="outline-text-2" id="text-org5daf6e9">
+<div id="outline-container-org38e5fa9" class="outline-2">
+<h2 id="org38e5fa9">1.2.0</h2>
+<div class="outline-text-2" id="text-org38e5fa9">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.2.0
 
@@ -3305,9 +3606,9 @@ Miscellaneous
 </div>
 
 
-<div id="outline-container-orgae2ad24" class="outline-2">
-<h2 id="orgae2ad24">1.1.0</h2>
-<div class="outline-text-2" id="text-orgae2ad24">
+<div id="outline-container-org9e8b62c" class="outline-2">
+<h2 id="org9e8b62c">1.1.0</h2>
+<div class="outline-text-2" id="text-org9e8b62c">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.1.0
 
@@ -3767,9 +4068,9 @@ terms of face coverage, and (iv) meticulously designed throughout.
 </div>
 </div>
 
-<div id="outline-container-org60c23b0" class="outline-2">
-<h2 id="org60c23b0">1.0.0</h2>
-<div class="outline-text-2" id="text-org60c23b0">
+<div id="outline-container-org3aa8ea2" class="outline-2">
+<h2 id="org3aa8ea2">1.0.0</h2>
+<div class="outline-text-2" id="text-org3aa8ea2">
 <div class="org-src-container">
 <pre class="src src-text">Modus themes version 1.0.0
 
@@ -4175,9 +4476,9 @@ it may have introduced.
 </div>
 </div>
 
-<div id="outline-container-org473e2e9" class="outline-2">
-<h2 id="org473e2e9">0.13.0</h2>
-<div class="outline-text-2" id="text-org473e2e9">
+<div id="outline-container-org7082845" class="outline-2">
+<h2 id="org7082845">0.13.0</h2>
+<div class="outline-text-2" id="text-org7082845">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.13.0
 
@@ -4707,9 +5008,9 @@ Thanks again to everyone who helped improve the themes!
 </div>
 </div>
 
-<div id="outline-container-org0f72757" class="outline-2">
-<h2 id="org0f72757">0.12.0</h2>
-<div class="outline-text-2" id="text-org0f72757">
+<div id="outline-container-org2c362f3" class="outline-2">
+<h2 id="org2c362f3">0.12.0</h2>
+<div class="outline-text-2" id="text-org2c362f3">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.12.0
 
@@ -5012,9 +5313,9 @@ their thoughts.  The people already mentioned herein:
 </div>
 </div>
 
-<div id="outline-container-orgbbaff93" class="outline-2">
-<h2 id="orgbbaff93">0.11.0</h2>
-<div class="outline-text-2" id="text-orgbbaff93">
+<div id="outline-container-orgb09c47b" class="outline-2">
+<h2 id="orgb09c47b">0.11.0</h2>
+<div class="outline-text-2" id="text-orgb09c47b">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.11.0
 
@@ -5277,9 +5578,9 @@ https://gitlab.com/protesilaos/modus-themes/-/issues
 </div>
 </div>
 
-<div id="outline-container-org008a0d9" class="outline-2">
-<h2 id="org008a0d9">0.10.0</h2>
-<div class="outline-text-2" id="text-org008a0d9">
+<div id="outline-container-orgca4628c" class="outline-2">
+<h2 id="orgca4628c">0.10.0</h2>
+<div class="outline-text-2" id="text-orgca4628c">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.10.0
 
@@ -5400,9 +5701,9 @@ My thanks to Basil and André for their contributions!
 </div>
 </div>
 
-<div id="outline-container-org6fadd3f" class="outline-2">
-<h2 id="org6fadd3f">0.9.0</h2>
-<div class="outline-text-2" id="text-org6fadd3f">
+<div id="outline-container-org291ee6a" class="outline-2">
+<h2 id="org291ee6a">0.9.0</h2>
+<div class="outline-text-2" id="text-org291ee6a">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.9.0
 
@@ -5559,9 +5860,9 @@ Added support for
 </div>
 </div>
 
-<div id="outline-container-org7ee2882" class="outline-2">
-<h2 id="org7ee2882">0.8.0</h2>
-<div class="outline-text-2" id="text-org7ee2882">
+<div id="outline-container-org0bd4b08" class="outline-2">
+<h2 id="org0bd4b08">0.8.0</h2>
+<div class="outline-text-2" id="text-org0bd4b08">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.8.0
 
@@ -5734,9 +6035,9 @@ Miscellaneous changes and concluding remarks
 </div>
 </div>
 
-<div id="outline-container-org20a8219" class="outline-2">
-<h2 id="org20a8219">0.7.0</h2>
-<div class="outline-text-2" id="text-org20a8219">
+<div id="outline-container-org5eb8a60" class="outline-2">
+<h2 id="org5eb8a60">0.7.0</h2>
+<div class="outline-text-2" id="text-org5eb8a60">
 <div class="org-src-container">
 <pre class="src src-text">Modus Operandi and Modus Vivendi version 0.7.0
 
@@ -5968,9 +6269,9 @@ Software Foundation.
 </div>
 </div>
 
-<div id="outline-container-orge7714cf" class="outline-2">
-<h2 id="orge7714cf">0.6.0</h2>
-<div class="outline-text-2" id="text-orge7714cf">
+<div id="outline-container-org62569db" class="outline-2">
+<h2 id="org62569db">0.6.0</h2>
+<div class="outline-text-2" id="text-org62569db">
 <div class="org-src-container">
 <pre class="src src-text">This release contains lots of refinements and additions.
 
@@ -6070,9 +6371,9 @@ list of supported packages.
 </div>
 </div>
 
-<div id="outline-container-org7e0626d" class="outline-2">
-<h2 id="org7e0626d">0.5.0</h2>
-<div class="outline-text-2" id="text-org7e0626d">
+<div id="outline-container-org541f621" class="outline-2">
+<h2 id="org541f621">0.5.0</h2>
+<div class="outline-text-2" id="text-org541f621">
 <div class="org-src-container">
 <pre class="src src-text">This release contains support for several new packages and lots of
 refinements for existing ones.  A lot of work went into making the
@@ -6156,9 +6457,9 @@ Refinements:
 </div>
 </div>
 
-<div id="outline-container-org0159274" class="outline-2">
-<h2 id="org0159274">0.4.0</h2>
-<div class="outline-text-2" id="text-org0159274">
+<div id="outline-container-org9b1faca" class="outline-2">
+<h2 id="org9b1faca">0.4.0</h2>
+<div class="outline-text-2" id="text-org9b1faca">
 <div class="org-src-container">
 <pre class="src src-text">This is an overview of the changes since version 0.3.0 (2019-12-25).
 
@@ -6210,9 +6511,9 @@ Miscellaneous:
 </div>
 </div>
 
-<div id="outline-container-org23095d1" class="outline-2">
-<h2 id="org23095d1">0.3.0</h2>
-<div class="outline-text-2" id="text-org23095d1">
+<div id="outline-container-org18777c2" class="outline-2">
+<h2 id="org18777c2">0.3.0</h2>
+<div class="outline-text-2" id="text-org18777c2">
 <div class="org-src-container">
 <pre class="src src-text">Overview of changes since 0.2.0 (2019-12-18):
 
@@ -6274,9 +6575,9 @@ Miscellaneous:
 </div>
 </div>
 
-<div id="outline-container-org2de5c99" class="outline-2">
-<h2 id="org2de5c99">0.2.0</h2>
-<div class="outline-text-2" id="text-org2de5c99">
+<div id="outline-container-orgac7542c" class="outline-2">
+<h2 id="orgac7542c">0.2.0</h2>
+<div class="outline-text-2" id="text-orgac7542c">
 <div class="org-src-container">
 <pre class="src src-text">Overview of changes since 0.1.0 (2019-12-09):
 
@@ -6309,9 +6610,9 @@ contrast between the elements.
 </div>
 </div>
 
-<div id="outline-container-org5e6fff5" class="outline-2">
-<h2 id="org5e6fff5">0.1.0</h2>
-<div class="outline-text-2" id="text-org5e6fff5">
+<div id="outline-container-org1eb4c48" class="outline-2">
+<h2 id="org1eb4c48">0.1.0</h2>
+<div class="outline-text-2" id="text-org1eb4c48">
 <div class="org-src-container">
 <pre class="src src-text">First stable release of Modus Operandi and Modus Vivendi.
 </pre>
