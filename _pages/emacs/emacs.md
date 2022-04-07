@@ -31,7 +31,10 @@ are built into Emacs version 28 or higher.
 + Official manual: <https://protesilaos.com/emacs/modus-themes>
 + Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
 + Sample pictures: <https://protesilaos.com/emacs/modus-themes-pictures>
-+ Git repo: <https://gitlab.com/protesilaos/modus-themes>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/modus-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/modus-themes>
+    + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 
 ## Minibuffer and Completions in Tandem (mct.el)
 
