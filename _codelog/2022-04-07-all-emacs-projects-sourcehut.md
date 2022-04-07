@@ -49,7 +49,7 @@ software space.
 In principle, SourceHut is a paid service (which is consistent with
 software freedom), though they accept registrations free of charge for
 the time being.  One needs to register an account only if they host a
-project there.  **An account is not required to participate on the
+project there.  **An account is not required to participate in the
 mailing lists.**
 
 I purchased a one-year subscription for EUR 20.  This is the lowest tier
