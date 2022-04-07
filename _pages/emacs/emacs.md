@@ -35,6 +35,7 @@ are built into Emacs version 28 or higher.
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/modus-themes>
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
 
 ## Minibuffer and Completions in Tandem (mct.el)
 
