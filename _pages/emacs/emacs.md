@@ -64,7 +64,11 @@ extend the code to achieve the desired result.
 + Package name (GNU ELPA): `logos`
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Change log: <https://protesilaos.com/emacs/logos-changelog>
-+ Git repo: <https://gitlab.com/protesilaos/logos>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/logos>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/logos>
+    + GitLab: <https://gitlab.com/protesilaos/logos>
++ Mailing list: <https://lists.sr.ht/~protesilaos/logos>
 
 ## Pulsar
 
@@ -77,7 +81,11 @@ pulse effect is added there (`pulsar-after-function-hook`).
 + Package name (GNU ELPA): `pulsar`
 + Official manual: <https://protesilaos.com/emacs/pulsar>
 + Change log: <https://protesilaos.com/emacs/pulsar-changelog>
-+ Git repo: <https://gitlab.com/protesilaos/pulsar>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/pulsar>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/pulsar>
+    + GitLab: <https://gitlab.com/protesilaos/pulsar>
++ Mailing list: <https://lists.sr.ht/~protesilaos/pulsar>
 
 ## Lin
 
