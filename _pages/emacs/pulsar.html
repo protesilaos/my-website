@@ -7,11 +7,7 @@ permalink: /emacs/pulsar
 ---
 
 <p>
-  The source code
-  is <a href="https://gitlab.com/protesilaos/pulsar/">available on
-  GitLab</a>, for the time being.
-  A <a href="https://github.com/protesilaos/pulsar/">mirror on GitHub</a>
-  is also on offer.  The official manual is right below.
+  The source code of the themes is <a href="https://git.sr.ht/~protesilaos/pulsar">available on SourceHut</a>.  The <a href="https://lists.sr.ht/~protesilaos/pulsar">mailing list is also on SourceHut</a>.  Mirrors of the git source are also available on <a href="https://github.com/protesilaos/pulsar">GitHub</a> and <a href="https://gitlab.com/protesilaos/pulsar">GitLab</a>.  The official manual is right below.
 </p>
 
 <hr/>
@@ -101,9 +97,11 @@ enabled.
 </p>
 
 <p>
-The duration of the highlight is determined by <code>pulsar-delay</code>.  How
-smooth the effect is depends on <code>pulsar-iterations</code>.  While the
-applicable face is specified in <code>pulsar-face</code>.
+The overall duration of the highlight is determined by a combination of
+<code>pulsar-delay</code> and <code>pulsar-iterations</code>.  The latter determines the
+number of blinks in a pulse, while the former sets their delay in
+seconds before they fade out.  The applicable face is specified in
+<code>pulsar-face</code>.
 </p>
 
 <p>
@@ -121,10 +119,21 @@ command never pulses the line: the highlight stays in place as if
 </p>
 
 <p>
+[ The <code>pulsar-highlight-dwim</code> is part of 0.3.0-dev ]
+</p>
+
+<p>
+A do-what-I-mean command is also on offer: <code>pulsar-highlight-dwim</code>.  It
+highlights the current line line like <code>pulsar-highlight-line</code>.  If the
+region is active, it applies its effect there.  The region may also be a
+rectangle (internally they differ from ordinary regions).
+</p>
+
+<p>
 To help users differentiate between the pulse and highlight effects, the
 user option <code>pulsar-highlight-face</code> controls the presentation of the
-<code>pulsar-highlight-line</code> command.  By default, this variable is the same
-as <code>pulsar-face</code>.
+<code>pulsar-highlight-line</code> and <code>pulsar-highlight-dwim</code> commands.  By
+default, this variable is the same as <code>pulsar-face</code>.
 </p>
 
 <p>
@@ -181,7 +190,7 @@ mkdir manual-packages
 cd manual-packages
 
 # Clone this repo, naming it "pulsar"
-git clone https://gitlab.com/protesilaos/pulsar.git pulsar
+git clone https://git.sr.ht/~protesilaos/pulsar pulsar
 </pre>
 </div>
 
@@ -267,6 +276,9 @@ Remember to read the doc string of each of these variables.
 ;;
 ;; The author uses C-x l for `pulsar-pulse-line' and C-x L for
 ;; `pulsar-highlight-line'.
+;;
+;; You can replace `pulsar-highlight-line' with the command
+;; `pulsar-highlight-dwim'.
 (let ((map global-map))
   (define-key map (kbd "C-c h p") #'pulsar-pulse-line)
   (define-key map (kbd "C-c h h") #'pulsar-highlight-line))
