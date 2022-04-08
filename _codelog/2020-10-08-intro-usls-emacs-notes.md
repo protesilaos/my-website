@@ -63,7 +63,7 @@ Same principle for other standard tools, such as when conducting a
 directory-wide grep.  There is no need to have a `usls`-specific
 solution when there are plenty of general purpose alternatives in the
 Emacs milieu, including the capable built-in `project.el` library that
-[Manuel Uberti recently wrote about](https://www.manueluberti.eu/emacs/2020/09/18/project/) (2020-09-18).
+[Manuel Uberti recently wrote about](https://manueluberti.eu/emacs/2020/09/18/project/) (2020-09-18).
 
 In short, `usls` does not implement a file manager, content searcher,
 project organiser, etc.  Its focus is on streamlining the process of

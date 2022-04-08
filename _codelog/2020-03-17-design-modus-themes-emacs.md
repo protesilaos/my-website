@@ -244,7 +244,7 @@ consistent experience for all users.
 
 I am happy for the feedback I have received, including but not limited
 to email messages.  Meanwhile, [Manuel Uberti has published a blog
-entry](https://www.manueluberti.eu//emacs/2020/03/16/modus-themes/)
+entry](https://manueluberti.eu//emacs/2020/03/16/modus-themes/)
 detailing how Modus Operandi has addressed a persistent issue with light
 themes.  Given this opportunity, I must also thank Manuel for the
 valuable issues (and concomitant feedback) reported in the [project's
