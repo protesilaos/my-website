@@ -119,11 +119,13 @@ _you should not follow me_, for I am not going anywhere in particular.
 
 ## Also on
 
+* [SourceHut](https://sr.ht/~protesilaos/)
 * [GitLab](https://gitlab.com/protesilaos)
 * [GitHub](https://github.com/protesilaos)
 * [YouTube](https://www.youtube.com/c/ProtesilaosStavrou)
 * [Odysee](https://odysee.com/@protesilaos:69b6498b147014fe819188848f8961657f3bf6f3)
   (LBRY network, as of 2021-05-31)
 
-Note that my active Git repositories are on GitLab.  The ones on GitHub
-are mirrors.
+Note that my active Git repositories are on SourceHut (migrating there
+as of 2022-04-07).  For select projects, mirrors are available on GitLab
+and GitHub.
