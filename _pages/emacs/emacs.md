@@ -11,7 +11,11 @@ the [custom] code it contains as well as the documentation on what each
 piece of functionality does.
 
 + Website: <https://protesilaos.com/emacs/dotemacs>
-+ Git repo: <https://gitlab.com/protesilaos/dotfiles>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/dotfiles>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/dotfiles>
+    + GitLab: <https://gitlab.com/protesilaos/dotfiles>
++ Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
 
 ## Modus themes
 
