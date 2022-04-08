@@ -6,18 +6,77 @@ permalink: /emacs/lin-changelog
 ---
 
 <p>
-This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://gitlab.com/protesilaos/lin">https://gitlab.com/protesilaos/lin</a>.
-</p>
-
-<p>
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/lin">https://protesilaos.com/emacs/lin</a>.
 </p>
 
-<div id="outline-container-orge1e3e4e" class="outline-2">
-<h2 id="orge1e3e4e">Version 0.2.0 on 2022-03-16</h2>
-<div class="outline-text-2" id="text-orge1e3e4e">
+<div id="outline-container-orgf7da026" class="outline-2">
+<h2 id="orgf7da026">Version 0.3.0 on 2022-04-08</h2>
+<div class="outline-text-2" id="text-orgf7da026">
+<ul class="org-ul">
+<li>Changed the source repository from GitLab to SourceHut:
+<a href="https://git.sr.ht/~protesilaos/lin">https://git.sr.ht/~protesilaos/lin</a>.  Use the mailing list to start a
+discussion, report a bug, send a patch, etc.:
+<a href="https://lists.sr.ht/~protesilaos/lin">https://lists.sr.ht/~protesilaos/lin</a>.  The GitLab URL will serve as
+a mirror from now on (a GitHub mirror is still available and will
+remain that way).</li>
+
+<li><p>
+Introduced a buffer-local minor mode as well as its global equivalent:
+<code>lin-mode</code> and <code>lin-global-mode</code>.  This makes it easier to set up Lin
+in user init files and/or toggle it on demand.  The following shows
+how the package can be used:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'lin)
+
+(setq lin-face 'lin-blue) ; check doc string for alternative styles
+
+;; You can use this to live update the face:
+;;
+;; (customize-set-variable 'lin-face 'lin-green)
+
+(setq lin-mode-hooks
+      '(bongo-mode-hook
+        dired-mode-hook
+        elfeed-search-mode-hook
+        git-rebase-mode-hook
+        ibuffer-mode-hook
+        ilist-mode-hook
+        ledger-report-mode-hook
+        log-view-mode-hook
+        magit-log-mode-hook
+        mu4e-headers-mode
+        notmuch-search-mode-hook
+        notmuch-tree-mode-hook
+        occur-mode-hook
+        org-agenda-mode-hook
+        tabulated-list-mode-hook))
+
+(lin-global-mode 1)
+</pre>
+</div></li>
+
+<li>The <code>lin-face</code> now has a custom setter which automatically updates its
+appearance in all buffers where <code>lin-mode</code> is enabled.  Users might
+thus prefer to set its value with <code>customize-set-variable</code> in order to
+find the style they like the most.  Otherwise setting the value with
+<code>setq</code> is just fine for stable configurations.  If, in that case, the
+user wants to update the face, they must invoke <code>revert-buffer</code> or
+equivalent (e.g. type <code>g</code> in Dired with the default key bindings) or
+evaluate the function <code>lin-enable-mode-in-buffers</code>.</li>
+
+<li>The user option <code>lin-mode-hooks</code> now includes <code>bongo-mode-hook</code> (from
+the <code>bongo</code> package).  Its default value is shown in the sample code
+above.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8cf3cf9" class="outline-2">
+<h2 id="org8cf3cf9">Version 0.2.0 on 2022-03-16</h2>
+<div class="outline-text-2" id="text-org8cf3cf9">
 <p>
 Rewrote the entirety of <code>lin.el</code> to make the configuration easier and
 keep the code streamlined.  The gist is that now Lin automatically
@@ -52,7 +111,8 @@ is how Lin should be set up henceforth:
 </div>
 
 <p>
-The manual has been updated to reflect those changes.
+The manual has been updated to reflect those changes:
+<a href="https://protesilaos.com/emacs/lin">https://protesilaos.com/emacs/lin</a>.
 </p>
 
 <p>
@@ -79,9 +139,9 @@ Federico's contribution was sent as a patch via email.</li>
 </div>
 </div>
 
-<div id="outline-container-org2adf667" class="outline-2">
-<h2 id="org2adf667">Version 0.1.0 on 2022-03-14</h2>
-<div class="outline-text-2" id="text-org2adf667">
+<div id="outline-container-org6093d8a" class="outline-2">
+<h2 id="org6093d8a">Version 0.1.0 on 2022-03-14</h2>
+<div class="outline-text-2" id="text-org6093d8a">
 <p>
 Initial release of the package.  Please read the manual.
 </p>
