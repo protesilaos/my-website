@@ -93,7 +93,11 @@ enabled.
 </p>
 
 <p>
-[ The minor modes are part of 0.4.0-dev ]
+There is no need to add all functions that affect the active window to
+the <code>pulsar-pulse-functions</code>.  Instead, set the user option
+<code>pulsar-pulse-on-window-change</code> to a non-nil value.  It will pulse the
+current line whenever the active window changes (it is part of
+0.4.0-dev).
 </p>
 
 <p>
@@ -116,10 +120,6 @@ command.  When <code>pulsar-pulse</code> is non-nil (the default), its highlight
 will pulse before fading away.  Whereas the <code>pulsar-highlight-line</code>
 command never pulses the line: the highlight stays in place as if
 <code>pulsar-pulse</code> is nil.
-</p>
-
-<p>
-[ The <code>pulsar-highlight-dwim</code> is part of 0.4.0-dev ]
 </p>
 
 <p>
@@ -222,30 +222,31 @@ Remember to read the doc string of each of these variables.
 <pre class="src src-emacs-lisp">(require 'pulsar)
 
 (setq pulsar-pulse-functions
-      '(isearch-repeat-forward
-        isearch-repeat-backward
-        recenter-top-bottom
+      ;; NOTE 2022-04-09: The commented out functions are from before
+      ;; the introduction of `pulsar-pulse-on-window-change'.  Try that
+      ;; instead.
+      '(recenter-top-bottom
         move-to-window-line-top-bottom
         reposition-window
-        bookmark-jump
-        other-window
-        delete-window
-        delete-other-windows
+        ;; bookmark-jump
+        ;; other-window
+        ;; delete-window
+        ;; delete-other-windows
         forward-page
         backward-page
         scroll-up-command
         scroll-down-command
-        windmove-right
-        windmove-left
-        windmove-up
-        windmove-down
-        windmove-swap-states-right
-        windmove-swap-states-left
-        windmove-swap-states-up
-        windmove-swap-states-down
-        tab-new
-        tab-close
-        tab-next
+        ;; windmove-right
+        ;; windmove-left
+        ;; windmove-up
+        ;; windmove-down
+        ;; windmove-swap-states-right
+        ;; windmove-swap-states-left
+        ;; windmove-swap-states-up
+        ;; windmove-swap-states-down
+        ;; tab-new
+        ;; tab-close
+        ;; tab-next
         org-next-visible-heading
         org-previous-visible-heading
         org-forward-heading-same-level
@@ -256,6 +257,7 @@ Remember to read the doc string of each of these variables.
         outline-previous-visible-heading
         outline-up-heading))
 
+(setq pulsar-pulse-on-window-change t)
 (setq pulsar-pulse t)
 (setq pulsar-delay 0.055)
 (setq pulsar-iterations 10)
@@ -334,7 +336,7 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to the code or manual</dt><dd>Aymeric Agon-Rambosson, Daniel
-Mendler, JD Smith.</dd>
+Mendler, Ivan Popovych, JD Smith.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Mark Barton, Petter Storvik, Rudolf
 Adamkovič, Toon Claes, and user kb.</dd>
