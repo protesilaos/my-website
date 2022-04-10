@@ -74,7 +74,7 @@ to philosophers about programming.  Another relevant introduction is [My
 life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
 (2021-10-29).  A comprehensive [interview with InfoQ China on Emacs and
 life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-life/)
-may also prove useful.
+may also prove useful (2022-04-10).
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
 for Outstanding New Free Software Contributor_.  [Check the
