@@ -85,6 +85,14 @@ For the `logos` package, we have these:
      `OLDER-HASH` is not part of the range.  So if you want it to be
      included, use the one prior to it.
 
+     **UPDATE 2022-04-11 07:46 +0300:** As Sean Whitton points out in an
+     email, it probably is easier to use the `-N` flag instead of
+     specifying a range of commits, where `N` is the number of commits
+     counting from the `HEAD` (this information from the email exchange
+     is divulged with permission):
+     
+         git format-patch -3
+
 5. With the `.patch` files in place, all that remains is to prepare an
    email and include those files as attachments (there is also a way to
    send patches directly as an email, but I think standalone files are
