@@ -89,7 +89,7 @@ For the `logos` package, we have these:
      email, it probably is easier to use the `-N` flag instead of
      specifying a range of commits, where `N` is the number of commits
      counting from the `HEAD` (this information from the email exchange
-     is divulged with permission):
+     is shared with permission):
      
          git format-patch -3
 
