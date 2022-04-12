@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-11 21:34 +0300</b>.</li>
-<li>Word count: <b>150187</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-12 06:48 +0300</b>.</li>
+<li>Word count: <b>149884</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -2315,11 +2315,23 @@ Do not try to make a new directory or anything fancy."
 <p>
 This is a small package of mine that highlights the current line after a
 given command is invoked.  The affected commands are defined in the user
-option <code>pulsar-pulse-functions</code>.  Then all one needs is to enable the
+option <code>pulsar-pulse-functions</code>, while there also is the convenience of
+<code>pulsar-pulse-on-window-change</code>.  Then all one needs is to enable the
 minor mode, either globally (<code>pulsar-global-mode</code>) or hook the local
 mode (<code>pulsar-mode</code>) to the desired major-mode hooks.  I just enable the
 global mode.
 </p>
+
+<p>
+Pulsar can also be integrated with other packages through hooks.  There
+are some examples in this document, such as with Consult and Org mode
+(search for <code>pulsar-recenter-top</code> or <code>pulsar-reveal-entry</code>):
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:9c9401d6-8c53-4276-be4c-3bff345d3eeb">Enhanced minibuffer commands (consult.el)</a>.</li>
+<li><a href="#h:4e8347de-415e-4804-b383-d61499e05ca1">Org-mode (personal information manager)</a>.</li>
+</ul>
 
 <p>
 Pulsar builds on top of the built-in <code>pulse.el</code>.  More information in
@@ -2335,28 +2347,31 @@ Also watch my <a href="https://protesilaos.com/codelog/2022-03-14-emacs-pulsar-d
 ;; Read the pulsar manual: &lt;https://protesilaos.com/emacs/pulsar&gt;.
 (prot-emacs-builtin-package 'pulsar
   (setq pulsar-pulse-functions
+        ;; NOTE 2022-04-09: The commented out functions are from before
+        ;; the introduction of `pulsar-pulse-on-window-change'.  Try
+        ;; that instead.
         '(recenter-top-bottom
           move-to-window-line-top-bottom
           reposition-window
           bookmark-jump
-          other-window
-          delete-window
-          delete-other-windows
+          ;; other-window
+          ;; delete-window
+          ;; delete-other-windows
           forward-page
           backward-page
           scroll-up-command
           scroll-down-command
-          windmove-right
-          windmove-left
-          windmove-up
-          windmove-down
-          windmove-swap-states-right
-          windmove-swap-states-left
-          windmove-swap-states-up
-          windmove-swap-states-down
-          tab-new
-          tab-close
-          tab-next
+          ;; windmove-right
+          ;; windmove-left
+          ;; windmove-up
+          ;; windmove-down
+          ;; windmove-swap-states-right
+          ;; windmove-swap-states-left
+          ;; windmove-swap-states-up
+          ;; windmove-swap-states-down
+          ;; tab-new
+          ;; tab-close
+          ;; tab-next
           logos-forward-page-dwim
           logos-backward-page-dwim
           org-next-visible-heading
@@ -2369,6 +2384,7 @@ Also watch my <a href="https://protesilaos.com/codelog/2022-03-14-emacs-pulsar-d
           outline-previous-visible-heading
           outline-up-heading))
 
+  (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
   (setq pulsar-iterations 10)
@@ -2397,8 +2413,9 @@ This is the code for <code>pulsar.el</code>:
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
-;; URL: https://protesilaos.com/emacs/pulsar
-;; Version: 0.2.0
+;; URL: https://git.sr.ht/~protesilaos/pulsar
+;; Mailing list: https://lists.sr.ht/~protesilaos/pulsar
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -2464,28 +2481,30 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
+  ;; NOTE 2022-04-09: The commented out functions are from before the
+  ;; introduction of `pulsar-pulse-on-window-change'.  Try that instead.
   '(recenter-top-bottom
     move-to-window-line-top-bottom
     reposition-window
-    bookmark-jump
-    other-window
-    delete-window
-    delete-other-windows
+    ;; bookmark-jump
+    ;; other-window
+    ;; delete-window
+    ;; delete-other-windows
     forward-page
     backward-page
     scroll-up-command
     scroll-down-command
-    windmove-right
-    windmove-left
-    windmove-up
-    windmove-down
-    windmove-swap-states-right
-    windmove-swap-states-left
-    windmove-swap-states-up
-    windmove-swap-states-down
-    tab-new
-    tab-close
-    tab-next
+    ;; windmove-right
+    ;; windmove-left
+    ;; windmove-up
+    ;; windmove-down
+    ;; windmove-swap-states-right
+    ;; windmove-swap-states-left
+    ;; windmove-swap-states-up
+    ;; windmove-swap-states-down
+    ;; tab-new
+    ;; tab-close
+    ;; tab-next
     org-next-visible-heading
     org-previous-visible-heading
     org-forward-heading-same-level
@@ -2497,8 +2516,22 @@ Extension of `pulse.el'."
     outline-up-heading)
   "Functions that `pulsar-pulse-line' after invocation.
 This only takes effect when `pulsar-mode' or `pulsar-global-mode'
-is enabled."
+is enabled.
+
+For functions/commands that change the current window, it is
+better to set the user option `pulsar-pulse-on-window-change' to
+non-nil instead of specifying each of them in this list."
   :type '(repeat function)
+  :group 'pulsar)
+
+(defcustom pulsar-pulse-on-window-change t
+  "When non-nil enable pulsing on every window change.
+This covers all commands or functions that affect the current
+window.  Users who prefer to trigger a pulse only after select
+functions (e.g. only after `other-window') are advised to set
+this variable to nil and update the `pulsar-pulse-functions'
+accordingly."
+  :type 'boolean
   :group 'pulsar)
 
 (defcustom pulsar-face 'pulsar-generic
@@ -2747,8 +2780,11 @@ For lines, do the same as `pulsar-highlight-line'."
 This is a buffer-local mode.  Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
-      (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
+      (progn
+        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+        (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local))
+    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
+    (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
@@ -2758,6 +2794,12 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
+
+(defun pulsar--pulse-on-window-change (&amp;rest _)
+  "Run `pulsar-pulse-line' on window change."
+  (when (and pulsar-pulse-on-window-change
+             (or pulsar-mode pulsar-global-mode))
+    (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
   "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
@@ -4238,7 +4280,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org885b6b0">
+<pre class="example" id="orge41efd5">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4321,7 +4363,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org30e1bce">
+<pre class="example" id="orge9cc2de">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -7700,7 +7742,7 @@ to a <code>complete</code> value (check <a href="#h:d51d37df-4e58-4e0b-85a1-019c
 read that variable's doc string).
 </p>
 
-<pre class="example" id="org930bc52">
+<pre class="example" id="org9fd9d52">
 ;;; Corfu (Completion Overlay Region FUnction)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
@@ -16226,6 +16268,15 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
   (setq org-id-link-to-org-use-id
         'create-if-interactive-and-no-custom-id)
 
+;;;; Hooks and key bindings
+
+  ;; See my `pulsar' package, which is declared further above (otherwise
+  ;; I would wrap this in `with-eval-after-load'):
+  ;; &lt;https://protesilaos.com/emacs/pulsar&gt;
+  (dolist (hook '(org-agenda-after-show-hook org-follow-link-hook))
+    (add-hook hook #'pulsar-recenter-top)
+    (add-hook hook #'pulsar-reveal-entry))
+
   (let ((map global-map))
     (define-key map (kbd "C-c a") #'org-agenda)
     (define-key map (kbd "C-c c") #'org-capture)
@@ -16240,6 +16291,7 @@ Refer to <a href="#h:77d14350-978d-4820-ab7f-4641706c445a">Custom extensions for
     (define-key map (kbd "C-c S-l") #'org-toggle-link-display)
     (define-key map (kbd "C-c C-S-l") #'org-insert-last-stored-link)))
 
+;;;; Custom extensions (prot-org.el)
 (prot-emacs-builtin-package 'prot-org
   (setq org-agenda-format-date #'prot-org-agenda-format-date-aligned)
 
@@ -16702,7 +16754,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf3d01e8">
+<pre class="example" id="org1b14ccb">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -16714,7 +16766,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org74869ff">
+<pre class="example" id="orgdaf7e5e">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -16729,7 +16781,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org26a0bae">
+<pre class="example" id="org9d10466">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16747,7 +16799,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="orgec909dc">
+<pre class="example" id="orga5491db">
 2021-04-13
     This event is not time sensitive
 ....
@@ -16776,7 +16828,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd2da43e">
+<pre class="example" id="orgc9f78bd">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -16940,7 +16992,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org4f3fad1">
+<pre class="example" id="org8cf4925">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -17667,7 +17719,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgc1b9056">
+<pre class="example" id="org781634f">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -17701,7 +17753,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgda3718c">
+<pre class="example" id="org51d4bff">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -17865,7 +17917,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org3bfacd4">
+<pre class="example" id="orgcb2cd98">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -18060,7 +18112,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org19817ab">
+<pre class="example" id="org1ee7159">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -19298,7 +19350,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org3d82746">
+<pre class="example" id="orgc8d970b">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -20362,7 +20414,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgd0b494f">
+<pre class="example" id="orgaf56d80">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -21054,7 +21106,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orge5d9eed">
+<pre class="example" id="org6f8e3ef">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -25886,7 +25938,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org63c523b">
+<pre class="example" id="org8dc0e7f">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -26308,7 +26360,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org9ac85c8">
+<pre class="example" id="org542ccbd">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -26317,7 +26369,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org447124f">
+<pre class="example" id="org72b0174">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -26342,7 +26394,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org048af65">
+<pre class="example" id="orgec28b35">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -26418,7 +26470,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgabe3597">
+<pre class="example" id="org87fa933">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -26443,7 +26495,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org0e51447">
+<pre class="example" id="org481e4b1">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -26452,7 +26504,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org85a0a0d">
+<pre class="example" id="orgc8211e9">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -26471,7 +26523,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org0f48001">
+<pre class="example" id="orga9472b4">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
