@@ -41,21 +41,6 @@ are built into Emacs version 28 or higher.
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
 
-## Minibuffer and Completions in Tandem (mct.el)
-
-Enhancements for the default minibuffer completion UI of Emacs.  In
-essence, MCT is (i) a very thin layer of interactivity on top of the
-out-of-the-box completion experience, and (ii) glue code that combines
-built-in functionalities to make the default completion framework work
-like that of more featureful third-party options.
-
-Requires Emacs version 27 or higher.
-
-+ Package name (GNU ELPA): `mct`
-+ Official manual: <https://protesilaos.com/emacs/mct>
-+ Change log: <https://protesilaos.com/emacs/mct-changelog>
-+ Git repo: <https://gitlab.com/protesilaos/mct>
-
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
@@ -123,6 +108,24 @@ A simple timer package for Emacs.
 
 + Official manual: <https://protesilaos.com/emacs/tmr>
 + Git repo: <https://gitlab.com/protesilaos/tmr>
+
+## Minibuffer and Completions in Tandem (mct.el)
+
+**UPDATE 2022-04-14:** Development of this package has been discontinued:
+<https://protesilaos.com/codelog/2022-04-14-emacs-discontinue-mct/>.
+
+Enhancements for the default minibuffer completion UI of Emacs.  In
+essence, MCT is (i) a very thin layer of interactivity on top of the
+out-of-the-box completion experience, and (ii) glue code that combines
+built-in functionalities to make the default completion framework work
+like that of more featureful third-party options.
+
+Requires Emacs version 27 or higher.
+
++ Package name (GNU ELPA): `mct`
++ Official manual: <https://protesilaos.com/emacs/mct>
++ Change log: <https://protesilaos.com/emacs/mct-changelog>
++ Git repo: <https://gitlab.com/protesilaos/mct>
 
 * * *
 
