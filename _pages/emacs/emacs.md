@@ -111,6 +111,9 @@ with fast blinking" and set them on demand.
 
 + Official manual: <https://protesilaos.com/emacs/cursory>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/cursory>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/cursory>
+    + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
 
 ## TMR Must Recur (tmr.el)
