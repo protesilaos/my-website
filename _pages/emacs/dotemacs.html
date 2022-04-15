@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-15 13:00 +0300</b>.</li>
-<li>Word count: <b>142312</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-15 16:31 +0300</b>.</li>
+<li>Word count: <b>142380</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -4280,7 +4280,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org831a66f">
+<pre class="example" id="org2847ebc">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4363,7 +4363,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orga0528dd">
+<pre class="example" id="orgab70b08">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4846,7 +4846,7 @@ relevant entries.  You can also search backwardly through them with
   (setq-default case-fold-search t)   ; For general regexp
 
   (setq enable-recursive-minibuffers t)
-  (setq resize-mini-windows t)
+  (setq resize-mini-windows nil)
   (setq minibuffer-eldef-shorten-default t)
 
   (setq read-answer-short t) ; also check `use-short-answers' for Emacs28
@@ -4881,25 +4881,37 @@ relevant entries.  You can also search backwardly through them with
   (add-hook 'after-init-hook #'savehist-mode))
 
 (prot-emacs-elpa-package 'vertico
+  ;; Those are the default values, but check the user option
+  ;; `vertico-multiform-categories' for per-category tweaks.
   (setq vertico-scroll-margin 0)
-  (setq vertico-count 10)
-  (setq vertico-resize t)
+  (setq vertico-count 5)
+  (setq vertico-resize nil)
   (setq vertico-cycle t)
+  (setq vertico-buffer-hide-prompt nil)
+  ;; NOTE: Do not conflate this with a side window.
+  (setq vertico-buffer-display-action
+        '(display-buffer-in-direction
+          (direction . leftmost)))
+
+  (vertico-multiform-mode 1)
+  (vertico-mode 1)
 
   (setq vertico-multiform-categories
-        '((function reverse (vertico-sort-function . vertico-sort-alpha))
-          (symbol reverse (vertico-sort-function . vertico-sort-alpha))
-          (variable reverse (vertico-sort-function . vertico-sort-alpha))
-          (t reverse)))
+        '((consult-grep buffer)
+          (imenu buffer)
+          (consult-location buffer)
+          (command (vertico-count . 3) (vertico-resize . t))
+          (file grid (vertico-count . 10))
+          (project-file grid (vertico-count . 10))
+          (function buffer (vertico-sort-function . vertico-sort-alpha))
+          (symbol buffer (vertico-sort-function . vertico-sort-alpha))
+          (variable buffer (vertico-sort-function . vertico-sort-alpha))))
 
   ;; This works with `file-name-shadow-mode'.  When you are in a
   ;; sub-directory and use, say, `find-file' to go to your home '~/' or
   ;; root '/' directory, Vertico will clear the old path to keep only
   ;; your current input.
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-
-  (vertico-multiform-mode 1)
-  (vertico-mode 1))
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
 </pre>
 </div>
 </div>
@@ -15272,7 +15284,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org65fd77a">
+<pre class="example" id="org2c0cfad">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15284,7 +15296,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgacefa37">
+<pre class="example" id="org02d36c8">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15299,7 +15311,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org0a1e123">
+<pre class="example" id="org666e677">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15317,7 +15329,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org4ccdbb1">
+<pre class="example" id="org0969670">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15346,7 +15358,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org165c222">
+<pre class="example" id="org5a42c89">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15510,7 +15522,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orge870d2f">
+<pre class="example" id="orgd4dcc8b">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16237,7 +16249,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org703da5b">
+<pre class="example" id="org7d7cb7d">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16271,7 +16283,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgc2dda16">
+<pre class="example" id="org5dcb25b">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16435,7 +16447,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org0f0c5ff">
+<pre class="example" id="org94f3014">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16630,7 +16642,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgce43111">
+<pre class="example" id="org3504a63">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17871,7 +17883,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgacaae2d">
+<pre class="example" id="orga7a53ba">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18935,7 +18947,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org9229341">
+<pre class="example" id="orga2af669">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19627,7 +19639,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org727af06">
+<pre class="example" id="orgb137d2c">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24470,7 +24482,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org38b3212">
+<pre class="example" id="org5ba47ad">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24892,7 +24904,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org11d788f">
+<pre class="example" id="org2f8403f">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24901,7 +24913,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgd1b59ac">
+<pre class="example" id="org744ce1e">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24926,7 +24938,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orga28639a">
+<pre class="example" id="org8736d89">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25002,7 +25014,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org854d301">
+<pre class="example" id="org11d7317">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25027,7 +25039,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgfa89338">
+<pre class="example" id="orge05575c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25036,7 +25048,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org8f55851">
+<pre class="example" id="orgcb83989">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25055,7 +25067,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org2b4faa4">
+<pre class="example" id="org1b67786">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
