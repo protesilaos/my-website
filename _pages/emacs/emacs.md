@@ -102,6 +102,17 @@ more of a reminder of the point's location on the vertical axis.
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
 
+## Cursory
+
+Cursory provides a thin wrapper around built-in variables that affect
+the style of the Emacs cursor.  The intent is to allow the user to
+define preset configurations such as "block with slow blinking" or "bar
+with fast blinking" and set them on demand.
+
++ Official manual: <https://protesilaos.com/emacs/cursory>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/cursory>
++ Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
+
 ## TMR Must Recur (tmr.el)
 
 A simple timer package for Emacs.
