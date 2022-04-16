@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-16 09:58 +0300</b>.</li>
-<li>Word count: <b>141302</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-16 21:30 +0300</b>.</li>
+<li>Word count: <b>141344</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -4281,7 +4281,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgc4e1de6">
+<pre class="example" id="orge1a70b1">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4364,7 +4364,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgf8300bf">
+<pre class="example" id="org5eda50d">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -14916,14 +14916,18 @@ hook `modus-themes-after-load-theme-hook'."
 
 (declare-function cl-letf "cl-lib")
 
-;; Source: https://stackoverflow.com/a/54251825
-(defun prot-org--capture-no-delete-windows (oldfun args)
+;; Adapted from source: &lt;https://stackoverflow.com/a/54251825&gt;.
+;;
+;; Thanks to Juanjo Presa (@uningan on GitHub) for discovering that the
+;; original version was causing an error in `org-roam'.  I then figure
+;; we were missing the `&amp;rest':
+;; &lt;https://github.com/org-roam/org-roam/issues/2142#issuecomment-1100718373&gt;.
+(defun prot-org--capture-no-delete-windows (oldfun &amp;rest args)
   (cl-letf (((symbol-function 'delete-other-windows) 'ignore))
     (apply oldfun args)))
 
 ;; Same source as above
-(advice-add 'org-capture-place-template
-            :around 'prot-org--capture-no-delete-windows)
+(advice-add 'org-capture-place-template :around 'prot-org--capture-no-delete-windows)
 
 ;;;; org-agenda
 
@@ -15268,7 +15272,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgb992076">
+<pre class="example" id="orgad00580">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15280,7 +15284,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org36f421c">
+<pre class="example" id="org9ce5858">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15295,7 +15299,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org1778f43">
+<pre class="example" id="org522e598">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15313,7 +15317,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org00a0673">
+<pre class="example" id="orgb3a7965">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15342,7 +15346,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org359b2c9">
+<pre class="example" id="org3fe4047">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15506,7 +15510,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org691720a">
+<pre class="example" id="org18cb8a3">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16233,7 +16237,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org846120f">
+<pre class="example" id="orgb893e51">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16267,7 +16271,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org192abf7">
+<pre class="example" id="org918497d">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16431,7 +16435,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org34c5dc7">
+<pre class="example" id="org21564f6">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16626,7 +16630,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgd8bf224">
+<pre class="example" id="org2e9845e">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17602,7 +17606,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgb36eb34">
+<pre class="example" id="org46f72d9">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18666,7 +18670,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgf3079b5">
+<pre class="example" id="org8489c2d">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19358,7 +19362,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgae4f99c">
+<pre class="example" id="org15add67">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24201,7 +24205,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org21a41cd">
+<pre class="example" id="org9441aca">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24665,7 +24669,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org1ec2238">
+<pre class="example" id="orgf5402eb">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24674,7 +24678,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org94b2c7c">
+<pre class="example" id="org9f24ea9">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24699,7 +24703,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org99f2bd3">
+<pre class="example" id="org09e498b">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24775,7 +24779,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgc1ef8a6">
+<pre class="example" id="org643c3b5">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24800,7 +24804,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org1395a0c">
+<pre class="example" id="orgdfdb36e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24809,7 +24813,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgc26147a">
+<pre class="example" id="orgbc84546">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24828,7 +24832,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orge7c9046">
+<pre class="example" id="org4a3ca24">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
