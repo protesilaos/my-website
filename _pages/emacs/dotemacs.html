@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-15 16:31 +0300</b>.</li>
-<li>Word count: <b>142380</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-16 09:58 +0300</b>.</li>
+<li>Word count: <b>141302</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -196,6 +196,7 @@ GNU Emacs 29.0.50 (build 2, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 <li><a href="#h:79803e19-1150-49a6-a3df-1cffe3d0cbc5">5.10.2.1. .notmuch-config</a></li>
 <li><a href="#h:70d60d41-cb63-4950-bbd9-9157c4d186dc">5.10.2.2. notmuch post-new rules</a></li>
 <li><a href="#h:a7580136-cf32-44e8-81f6-590dbdd7f8f9">5.10.2.3. Org+Notmuch integration (ol-notmuch.el)</a></li>
+<li><a href="#h:e1ab755f-28bb-40ad-ac22-920c49e8b7bc">5.10.2.4. Use of transient.el with Notmuch (notmuch-transient)</a></li>
 </ul>
 </li>
 <li><a href="#h:2d793cf8-83f5-4830-b73d-78385d9b96dd">5.10.3. Sending email (SMTP)</a></li>
@@ -4280,7 +4281,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org2847ebc">
+<pre class="example" id="orgc4e1de6">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4363,7 +4364,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgab70b08">
+<pre class="example" id="orgf8300bf">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -4884,28 +4885,11 @@ relevant entries.  You can also search backwardly through them with
   ;; Those are the default values, but check the user option
   ;; `vertico-multiform-categories' for per-category tweaks.
   (setq vertico-scroll-margin 0)
-  (setq vertico-count 5)
+  (setq vertico-count 10)
   (setq vertico-resize nil)
   (setq vertico-cycle t)
-  (setq vertico-buffer-hide-prompt nil)
-  ;; NOTE: Do not conflate this with a side window.
-  (setq vertico-buffer-display-action
-        '(display-buffer-in-direction
-          (direction . leftmost)))
 
-  (vertico-multiform-mode 1)
   (vertico-mode 1)
-
-  (setq vertico-multiform-categories
-        '((consult-grep buffer)
-          (imenu buffer)
-          (consult-location buffer)
-          (command (vertico-count . 3) (vertico-resize . t))
-          (file grid (vertico-count . 10))
-          (project-file grid (vertico-count . 10))
-          (function buffer (vertico-sort-function . vertico-sort-alpha))
-          (symbol buffer (vertico-sort-function . vertico-sort-alpha))
-          (variable buffer (vertico-sort-function . vertico-sort-alpha))))
 
   ;; This works with `file-name-shadow-mode'.  When you are in a
   ;; sub-directory and use, say, `find-file' to go to your home '~/' or
@@ -15284,7 +15268,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org2c0cfad">
+<pre class="example" id="orgb992076">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15296,7 +15280,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org02d36c8">
+<pre class="example" id="org36f421c">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15311,7 +15295,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org666e677">
+<pre class="example" id="org1778f43">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15329,7 +15313,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org0969670">
+<pre class="example" id="org00a0673">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15358,7 +15342,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org5a42c89">
+<pre class="example" id="org359b2c9">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15522,7 +15506,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgd4dcc8b">
+<pre class="example" id="org691720a">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16249,7 +16233,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org7d7cb7d">
+<pre class="example" id="org846120f">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16283,7 +16267,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org5dcb25b">
+<pre class="example" id="org192abf7">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16447,7 +16431,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org94f3014">
+<pre class="example" id="org34c5dc7">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16642,7 +16626,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org3504a63">
+<pre class="example" id="orgd8bf224">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16742,13 +16726,12 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
 
 ;;; General UI
   (setq notmuch-show-logo nil)
-  (setq notmuch-column-control t)
+  (setq notmuch-column-control 1.0)
   (setq notmuch-hello-auto-refresh t)
   (setq notmuch-hello-recent-searches-max 20)
   (setq notmuch-hello-thousands-separator "")
-  ;; ;; See my variant of it in `prot-notmuch' below.
-  ;; (setq notmuch-hello-sections '(notmuch-hello-insert-saved-searches))
-  (setq notmuch-show-all-tags-list nil)
+  (setq notmuch-hello-sections '(notmuch-hello-insert-saved-searches notmuch-hello-insert-alltags))
+  (setq notmuch-show-all-tags-list t)
 
 ;;; Search
   (setq notmuch-search-oldest-first nil)
@@ -16882,7 +16865,7 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
 ;;; Hooks and key bindings
   (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
   (remove-hook 'notmuch-show-hook #'notmuch-show-turn-on-visual-line-mode)
-  (remove-hook 'notmuch-search-hook 'notmuch-hl-line-mode) ; CHECK
+  (remove-hook 'notmuch-search-hook 'notmuch-hl-line-mode) ; Check my `lin' package
   (add-hook 'notmuch-show-hook (lambda () (setq-local header-line-format nil)))
 
   (let ((map global-map))
@@ -16912,11 +16895,6 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
           (,(kbd "r") ("-unread") "Mark as read")
           (,(kbd "u") ("+unread") "Mark as unread")))
 
-  (setq prot-notmuch-search-field-width 100)
-  (setq notmuch-hello-sections '(prot-notmuch-hello-insert-saved-searches
-                                 ;; prot-notmuch-hello-insert-recent-searches
-                                 ))
-
   (add-to-list 'notmuch-tag-formats
                '("encrypted" (propertize tag 'face 'prot-notmuch-encrypted-tag)))
   (add-to-list 'notmuch-tag-formats
@@ -16938,8 +16916,6 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
         '(notmuch notmuch-refresh-this-buffer))
   ;; Mode line indicator with the number of new mails.
   (prot-notmuch-mail-indicator 1)
-
-  (add-hook 'notmuch-hello-mode-hook #'prot-notmuch-widget-field-face-remap)
 
   (let ((map notmuch-search-mode-map))
     (define-key map (kbd "a") nil) ; the default is too easy to hit accidentally
@@ -17008,13 +16984,6 @@ And here is <code>prot-notmuch.el</code> (part of <a href="https://gitlab.com/pr
 (defgroup prot-notmuch ()
   "Extensions for notmuch.el."
   :group 'notmuch)
-
-(defcustom prot-notmuch-search-field-width 100 ; Or use something like (/ (frame-width) 2)
-  "Number of characters for the width of search files.
-Those fields appear in the Notmuch hello buffer.  See
-`prot-notmuch-hello-insert-recent-searches'."
-  :type 'integer
-  :group 'prot-notmuch)
 
 (defcustom prot-notmuch-delete-tag "del"
   "Single tag that applies to mail marked for deletion.
@@ -17106,127 +17075,6 @@ those.")
   "Face for the 'todo' tag or related in Notmuch.
 Refer to the variable `notmuch-tag-formats' for how to assign
 those.")
-
-(defface prot-notmuch-widget-field
-  '((((class color) (min-colors 88) (background light))
-     :underline "#d7d7d7")
-    (((class color) (min-colors 88) (background dark))
-     :underline "#323232")
-    (t :underline t))
-  "Face for search fields in the Notmuch hello buffer.")
-
-(declare-function message-fetch-field "message")
-(declare-function message-remove-header "message")
-(declare-function message-add-header "message")
-(declare-function message-sort-headers "message")
-(declare-function notmuch-fcc-header-setup "notmuch")
-
-;; NOTE 2021-05-18: I used to have something like this when I was using
-;; Gnus and thought it would be useful here, but it ultimately isn't.  I
-;; just use `notmuch-mua-new-mail'.
-
-;; ;;;###autoload
-;; (defun prot-notmuch-message-headers ()
-;;   "While `notmuch' is running, configure From header.
-;; Add this function to `message-header-setup-hook'."
-;;   (when (and (eq mail-user-agent 'notmuch-user-agent)
-;;              (eq last-command 'compose-mail))
-;;     (when (message-fetch-field "From")
-;;       (message-remove-header "From"))
-;;     (message-add-header (format "From: %s &lt;%s&gt;" user-full-name user-mail-address))
-;;     (notmuch-fcc-header-setup)
-;;     (message-sort-headers)))
-
-(defun prot-notmuch-widget-field-face-remap ()
-  "Set up extra highlighting for widget fields in Notmuch hello.
-Add this to `notmuch-hello-mode-hook'."
-  (when (derived-mode-p 'notmuch-hello-mode)
-    (face-remap-add-relative 'widget-field 'prot-notmuch-widget-field)))
-
-(defvar notmuch-saved-searches)
-(defvar notmuch-show-empty-saved-searches)
-(defvar notmuch-search-oldest-first)
-(defvar notmuch-saved-search-sort-function)
-
-(declare-function notmuch-hello-query-counts "notmuch")
-(declare-function notmuch-saved-search-sort-function "notmuch")
-(declare-function notmuch-hello-nice-number "notmuch")
-(declare-function notmuch-hello-reflect "notmuch")
-(declare-function notmuch-hello-widget-search "notmuch")
-
-;; Simplified variant of what is available in `notmuch-hello.el'.
-(defun prot-notmuch-hello-insert-saved-searches ()
-  "Single column saved search buttons for Notmuch hello.
-Add this to `notmuch-hello-sections'."
-  (let ((searches (notmuch-hello-query-counts
-		           (if notmuch-saved-search-sort-function
-		               (funcall notmuch-saved-search-sort-function
-				                notmuch-saved-searches)
-		             notmuch-saved-searches)
-		           :show-empty-searches notmuch-show-empty-saved-searches))
-        (count 0))
-    (mapc (lambda (elem)
-	        (when elem
-	          (let* ((name (plist-get elem :name))
-		             (query (plist-get elem :query))
-		             (oldest-first (cl-case (plist-get elem :sort-order)
-				                     (newest-first nil)
-				                     (oldest-first t)
-				                     (otherwise notmuch-search-oldest-first)))
-		             (search-type (plist-get elem :search-type))
-		             (msg-count (plist-get elem :count)))
-		        (widget-insert (format "\n%8s "
-				                       (notmuch-hello-nice-number msg-count)))
-		        (widget-create 'push-button
-			                   :notify #'notmuch-hello-widget-search
-			                   :notmuch-search-terms query
-			                   :notmuch-search-oldest-first oldest-first
-			                   :notmuch-search-type search-type
-			                   name)))
-	        (cl-incf count))
-	      (notmuch-hello-reflect searches 1))))
-                                               
-(defvar notmuch-hello-indent)
-(defvar notmuch-search-history)
-(defvar notmuch-hello-recent-searches-max)
-(declare-function notmuch-hello-search "notmuch")
-
-;; Adapted from `notmuch-hello.el'.
-(define-widget 'prot-notmuch-search-item 'item
-  "A widget that shows recent search queries."
-  :format "%v\n"
-  :value-create 'prot-notmuch-search-item-value-create)
-
-;; Adapted from `notmuch-hello.el'.
-(defun prot-notmuch-search-item-value-create (widget)
-  "Specify value of search WIDGET."
-  (let ((value (widget-get widget :value)))
-    (widget-insert (make-string notmuch-hello-indent ?\s))
-    (widget-create 'editable-field
-		   :size (widget-get widget :size)
-		   :parent widget
-		   :action #'notmuch-hello-search
-		   value)))
-
-(defun prot-notmuch--search-width ()
-  "Confirm `prot-notmuch-search-field-width' is positive integer."
-  (let ((width prot-notmuch-search-field-width))
-    (if (prot-common-number-integer-positive-p width)
-        width
-      (error "Search field width must be a positive integer"))))
-
-;; Adapted from `notmuch-hello.el'.
-(defun prot-notmuch-hello-insert-recent-searches ()
-  "Insert widget with recent search terms.
-Add this to `notmuch-hello-sections'."
-  (when notmuch-search-history
-    (widget-insert "\n\n")
-    (widget-insert "Recent searches: ")
-    (widget-insert "\n\n")
-    (let ((width (prot-notmuch--search-width)))
-      (dolist (search (seq-take notmuch-search-history
-				notmuch-hello-recent-searches-max))
-	(widget-create 'prot-notmuch-search-item :value search :size width)))))
 
 ;;;; Commands
 
@@ -17643,177 +17491,48 @@ notmuch tag +inbox -- '(to:"*@protesilaos.com*" tag:list)'
 <h5 id="h:a7580136-cf32-44e8-81f6-590dbdd7f8f9"><span class="section-number-5">5.10.2.3.</span> Org+Notmuch integration (ol-notmuch.el)</h5>
 <div class="outline-text-5" id="text-h:a7580136-cf32-44e8-81f6-590dbdd7f8f9">
 <p>
-The <code>ol-notmuch.el</code> is part of the <code>org-contrib</code> package which can be found
-in the NonGNU ELPA (that archive is configured out-of-the-box for
-Emacs28, same as with GNU ELPA).  However, that package contains
-approximately one zillion things I do not need, so I prefer to copy the
-file here and handle it on its own.
+This tiny package by Jonas Bernoulli (developer of Magit, among many
+others) provides the requisite glue code between Notmuch and Org's
+powerful linking facility.  In other words, the command <code>org-store-link</code>
+can create hyperlinks to notmuch buffers.  Same for <code>org-capture</code>.
+Simple and super effective!
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; ol-notmuch.el --- Links to notmuch messages
-
-;; Copyright (C) 2010-2014  Matthieu Lemerre
-
-;; Author: Matthieu Lemerre &lt;racin@free.fr&gt;
-;; Keywords: outlines, hypermedia, calendar, wp
-;; Homepage: https://orgmode.org
-
-;; This file is not part of GNU Emacs.
-
-;; This file is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
-;; any later version.
-
-;; This file is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
-
-;;; Commentary:
-
-;; This file implements links to notmuch messages and "searches". A
-;; search is a query to be performed by notmuch; it is the equivalent
-;; to folders in other mail clients. Similarly, mails are referred to
-;; by a query, so both a link can refer to several mails.
-
-;; Links have one the following form
-;; notmuch:&lt;search terms&gt;
-;; notmuch-search:&lt;search terms&gt;.
-
-;; The first form open the queries in notmuch-show mode, whereas the
-;; second link open it in notmuch-search mode. Note that queries are
-;; performed at the time the link is opened, and the result may be
-;; different from when the link was stored.
-
-;;; Code:
-
-(require 'ol)
-
-;; customisable notmuch open functions
-(defcustom org-notmuch-open-function
-  'org-notmuch-follow-link
-  "Function used to follow notmuch links.
-
-Should accept a notmuch search string as the sole argument."
-  :group 'org-notmuch
-  :version "24.4"
-  :package-version '(Org . "8.0")
-  :type 'function)
-
-(defcustom org-notmuch-search-open-function
-  'org-notmuch-search-follow-link
-  "Function used to follow notmuch-search links.
-Should accept a notmuch search string as the sole argument."
-  :group 'org-notmuch
-  :version "24.4"
-  :package-version '(Org . "8.0")
-  :type 'function)
-
-(make-obsolete-variable 'org-notmuch-search-open-function nil "9.3")
-
-
-
-;; Install the link type
-(org-link-set-parameters "notmuch"
-			 :follow #'org-notmuch-open
-			 :store #'org-notmuch-store-link)
-
-(defun org-notmuch-store-link ()
-  "Store a link to a notmuch search or message."
-  (when (memq major-mode '(notmuch-show-mode notmuch-tree-mode))
-    (let* ((message-id (notmuch-show-get-message-id t))
-	   (subject (notmuch-show-get-subject))
-	   (to (notmuch-show-get-to))
-	   (from (notmuch-show-get-from))
-	   (date (org-trim (notmuch-show-get-date)))
-	   desc link)
-      (org-link-store-props :type "notmuch" :from from :to to :date date
-       			    :subject subject :message-id message-id)
-      (setq desc (org-link-email-description))
-      (setq link (concat "notmuch:id:" message-id))
-      (org-link-add-props :link link :description desc)
-      link)))
-
-(defun org-notmuch-open (path _)
-  "Follow a notmuch message link specified by PATH."
-  (funcall org-notmuch-open-function path))
-
-(defun org-notmuch-follow-link (search)
-  "Follow a notmuch link to SEARCH.
-
-Can link to more than one message, if so all matching messages are shown."
-  (require 'notmuch)
-  (notmuch-show search))
-
-
-
-(org-link-set-parameters "notmuch-search"
-			 :follow #'org-notmuch-search-open
-			 :store #'org-notmuch-search-store-link)
-
-(defun org-notmuch-search-store-link ()
-  "Store a link to a notmuch search or message."
-  (when (eq major-mode 'notmuch-search-mode)
-    (let ((link (concat "notmuch-search:" notmuch-search-query-string))
-	  (desc (concat "Notmuch search: " notmuch-search-query-string)))
-      (org-link-store-props :type "notmuch-search"
-			    :link link
-			    :description desc)
-      link)))
-
-(defun org-notmuch-search-open (path _)
-  "Follow a notmuch message link specified by PATH."
-  (message "%s" path)
-  (org-notmuch-search-follow-link path))
-
-(defun org-notmuch-search-follow-link (search)
-  "Follow a notmuch link by displaying SEARCH in notmuch-search mode."
-  (require 'notmuch)
-  (notmuch-search search))
-
-
-
-(org-link-set-parameters "notmuch-tree"
-			 :follow #'org-notmuch-tree-open
-			 :store #'org-notmuch-tree-store-link)
-
-(defun org-notmuch-tree-store-link ()
-  "Store a link to a notmuch search or message."
-  (when (eq major-mode 'notmuch-tree-mode)
-    (let ((link (concat "notmuch-tree:" (notmuch-tree-get-query)))
-	  (desc (concat "Notmuch tree: " (notmuch-tree-get-query))))
-      (org-link-store-props :type "notmuch-tree"
-			    :link link
-			    :description desc)
-      link)))
-
-(defun org-notmuch-tree-open (path _)
-  "Follow a notmuch message link specified by PATH."
-  (message "%s" path)
-  (org-notmuch-tree-follow-link path))
-
-(defun org-notmuch-tree-follow-link (search)
-  "Follow a notmuch link by displaying SEARCH in notmuch-tree mode."
-  (require 'notmuch)
-  (notmuch-tree search))
-
-(provide 'ol-notmuch)
-
-;;; ol-notmuch.el ends here
+<pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'ol-notmuch)
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:e1ab755f-28bb-40ad-ac22-920c49e8b7bc" class="outline-5">
+<h5 id="h:e1ab755f-28bb-40ad-ac22-920c49e8b7bc"><span class="section-number-5">5.10.2.4.</span> Use of transient.el with Notmuch (notmuch-transient)</h5>
+<div class="outline-text-5" id="text-h:e1ab755f-28bb-40ad-ac22-920c49e8b7bc">
+<p>
+This is yet another nimble package by Jonas Bernoulli.  It replaces
+Notmuch's own buffer for displaying keys to saved searches with a
+transient interface (the one use by Magit).  The transient provides some
+more commands as well, though note what the developer remarks:
+</p>
+
+<blockquote>
+<p>
+Everything is still incomplete and very much subject to change.
+</p>
+</blockquote>
 
 <p>
-And now make the thing work:
+As such, I am not describing this any further.  Use it at your own
+discretion.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'ol-notmuch)
+<pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'notmuch-transient
+  (setq notmuch-transient-prefix (kbd "?"))
+  (define-key notmuch-hello-mode-map  notmuch-transient-prefix #'notmuch-hello-mode-transient)
+  (define-key notmuch-tree-mode-map   notmuch-transient-prefix #'notmuch-tree-mode-transient)
+  (define-key notmuch-search-mode-map notmuch-transient-prefix #'notmuch-search-mode-transient)
+  (define-key notmuch-show-mode-map   notmuch-transient-prefix #'notmuch-show-mode-transient))
 </pre>
 </div>
 </div>
@@ -17883,7 +17602,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orga7a53ba">
+<pre class="example" id="orgb36eb34">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18947,7 +18666,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orga2af669">
+<pre class="example" id="orgf3079b5">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19639,7 +19358,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgb137d2c">
+<pre class="example" id="orgae4f99c">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24482,7 +24201,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org5ba47ad">
+<pre class="example" id="org21a41cd">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24636,103 +24355,145 @@ consider two highly valuable blog posts by Karthik Chikmagalur:
 <h3 id="h:7be4b564-4360-4905-aa10-1405fba6ea2a"><span class="section-number-3">9.7.</span> Compare Gnus, Mu4e, Notmuch?</h3>
 <div class="outline-text-3" id="text-h:7be4b564-4360-4905-aa10-1405fba6ea2a">
 <p>
-This question is best answered in reference to one's background and the
-intuitions made possible by it.  The short answer is that all three are
-good in different ways: the best tool for the job is the one that makes
-you most productive in the moment.
+There is no optimal tool in abstract.  The user has to find the one that
+suits their needs and is aligned with their preferences.  What follows
+is a brief comparison based on my experience as of 2022-04-16.
 </p>
 
 <p>
-Now to the longer reply, which fleshes out this time-sensitive
-subjectivity I am hinting at.
+Gnus is the most complex of the three or, at least, such is my
+impression based on what I have seen in the source code.  It also is the
+one you cannot use outside of Emacs (<code>emacsclient</code> notwithstanding).
+<code>notmuch</code> and <code>mu</code> are command-line programs that ship with their own
+Emacs-based mail user agent.  The CLI handles the search queries, while
+the MUA lets the user interact with the retrieved messages.  The CLI
+component can be used without Emacs.
 </p>
 
 <p>
-Before switching to Emacs in the summer of 2019, I used to use Mutt or
-Thunderbird as a plan B (starting from mid 2016).  At that time I did
-not receive a lot of email, maybe 2-3 per week or even less, and did not
-follow any mailing lists.  My Mutt setup was just a basic front-end to
-the IMAP server, meaning that I did not have anything like <code>offlineimap</code>
-or <code>mbsync</code> set up.  My workflow back then was heavily focused on
-elaborate directories/folders to store the mail I wanted.  For example,
-I had an "archive" directory for each of my three email accounts and
-inside of that I had yearly archives.  To cut the long story short, in
-order to find an email I had to go looking for it at some exact
-location.  It was not efficient, but I was okay with it as my mail
-traffic was very low.
+Of the three, Gnus is the only one that reads NNTP sources.  This can be
+convenient because one may follow a mailing list without ever
+subscribing to it.  The benefit is that the user's inbox stays clean
+without any kind of rules-based setup to filter out incoming traffic.
+It also is trivial to review the history of a mailing list without ever
+bothering to import its archives as everything is readily available on
+the NNTP source.
 </p>
 
 <p>
-Once I became a full-time Emacs user, I decided to push the boundaries
-of what I could do with email.  The most popular option seemed to be
-Mu4e so I picked that one (autumn 2019).  It was easy for me to set up
-and I liked its middle-of-the-road approach of combining a typical
-directory-based structure with a potent search tool.  I had stopped
-doing the complex directory structures with my archives and would keep
-everything in my inbox.  Still, the volume of incoming mail was very
-low: I was not really using the search features and was reverting to the
-directory views instead.
+[ Gnus can also read RSS feeds, but I do not think it is good at it.
+  Read: <a href="#h:7e4448ec-3878-4ea2-9cd6-75e9faaac373">Have you tried Gnus for RSS feeds?</a> ]
 </p>
 
 <p>
-Thus I decided to go with Gnus (early 2020) whose value proposition
-seemed to be <i>"directories are first-class citizens here, same for
-Newsgroup sources"</i>.  Gnus calls all of them "groups" based on its useful
-metaphor of treating everything as ephemeral news.  What I learnt from
-my time with Gnus is that:
-</p>
-
-<ol class="org-ol">
-<li>Mailing lists are worth paying attention to as you can learn a lot
-from other people's input in various conversations (emacs-devel, bug
-reports, etc.).</li>
-
-<li>It is good to use <code>mbsync</code> or equivalent as it removes the burden from
-Emacs and allows you to keep a copy of your mail correspondence.  I
-had started with Gnus' nnimap backend, which communicated directly
-with the IMAP server, but once my email traffic started to increase,
-I learnt the hard way that <code>mbsync</code> was better suited for the task, as
-it did not block Emacs.</li>
-
-<li>Directory-based workflows do not scale.  As I started to get more
-email, I realised that I often needed to quickly retrieve some piece
-of information that was kept in one of my three inbox directories or
-some other location.  Gnus has search methods but there are
-inconsistencies between nntp, nnmaildir, etc. to the effect that I
-would need to have special rules for each case.  Maybe I did not read
-the manual very carefully?  Perhaps I did not understand something?
-At any rate, it did not feel like worth the effort.</li>
-</ol>
-
-<p>
-The search engine I wanted to use with Gnus was <code>notmuch</code>, because it is
-mentioned in the Gnus manual.  As I was looking for a way to be in full
-control of my email setup, I thought it would be better to try Notmuch
-without the layer of abstraction that Gnus added on top of it, stop
-following a directory-based workflow, and embrace filtering and
-narrowing (concepts I learnt to appreciate through my daily usage of
-Emacs).
+Gnus is a competent email client as well: it can practically do
+everything one needs though at the non-negligible cost of configuring
+lots of variables and learning the relevant commands.  I believe that
+without much tinkering Gnus is best suited for those who like their mail
+to (i) reflect a specific file system directory tree and (ii) wish to
+consolidate their email and NNTP news reading in a single interface.
+There is also the fact that Gnus is built into Emacs, though I
+personally do not consider that a compelling reason to make a certain
+choice.
 </p>
 
 <p>
-My few test on the command-line convinced me to refactor my email setup.
-So I decided to read through all the manpages and then go with
-notmuch.el (made the switch between 2021-05-13 and 2021-05-14).  I did
-not want to revert to Mu4e because I had the feeling that its hybrid
-approach to directories and search would push me back to my old
-inefficient habits.  Whereas Notmuch is all about tagging and filtering,
-which makes me believe that I can push myself into new territory (the
-configs and docs: <a href="#h:a196812e-1644-4536-84ba-687366867def">Notmuch (mail indexer and mail user agent (MUA))</a>).
+Neither Mu4e nor Notmuch have a capability to parse NNTP sources, so the
+user must subscribe to mailing lists.  The major downside in terms of
+convenience is that one must download and then import the archive in
+order to review older threads.  I have not had that problem, though the
+convenience of Gnus on this matter should not be underestimated.
 </p>
 
 <p>
-This is not to say that any of these tools is inherently better/worse
-than its peers.  You can be productive with all three of them (my old
-configurations for Mu4e and Gnus can be found in <a href="https://gitlab.com/protesilaos/dotfiles">my dotfiles' repo</a>).
-What matters is to identify your requirements, set your expectations or
-ambitions, and pick the option that can optimise your productivity.  The
-point is to not be dogmatic about it: just use what works for you the
-same way I did in through journey to where I currently am.
+Both Mu4e and Notmuch are centred around the idea that a search-driven
+interface with dynamic, virtual sets of emails is more efficient at
+scale than a physical directory structure.  Gnus also has search
+capabilities and can even use the Notmuch CLI as its backend, though I
+did not find the experience to be as good as just using notmuch.el
+(perhaps because I prefer a focused tool that is optimised for its task
+instead of a do-a-bit-of-everything approach that has to make
+compromises to accommodate old and new requirements).
+</p>
+
+<p>
+Virtual folders and physical directories are not mutually exclusive.
+All three programs use combinations of both concepts.  The differences
+are mostly in terms of execution or sheer preference.
+</p>
+
+<p>
+The main differences I have observed between Mu4e and Notmuch reflect
+the focus of each package.  Both can be made to cater to almost the same
+workflows, so this is mostly about their respective starting points.
+Mu4e defaults to a tree view for its message threads, whereas Notmuch
+uses a compact view of threads (a tree style is also available and can
+be toggled on at any time).  Mu4e will show, say, three emails
+discussing the same topic, while Notmuch will display a single line with
+the count of messages that deal with the given topic (Gnus is like Mu4e
+in this regard).  For users who track lots of mailing lists, Notmuch's
+presentation feels more appropriate as it makes it easier to ignore
+threads without having to look at individual messages inside of them.
+</p>
+
+<p>
+Both Mu4e and Notmuch have notions of "saved searches" or "bookmarks".
+Basically, these are virtual folders that contain messages which match
+user-defined search terms.  Notmuch can quickly switch to a saved search
+by using a single key or a key sequence.  The option of a key sequence
+is particularly helpful when dealing with conceptually related entries,
+such as the key sequence <code>e d</code> pertaining to "Emacs development" while
+<code>e b</code> is for "Emacs bugs".  Mu4e can only accept a single character, as
+far as I can tell, which is perfectly fine for ordinary usage though
+imposes constraints at scale.
+</p>
+
+<p>
+Gnus has a concept of "topics" and provides a powerful design for
+organising and prioritising them.  Again though, the user must be
+prepared to put in the necessary work to make best use of this facility.
+Otherwise it is overkill.
+</p>
+
+<p>
+For those not used to a search-centric presentation, Mu4e is more
+intuitive at applying changes to items in its mail listing view, such as
+to mark emails as read, flag them as important, etc.  Mu4e's approach is
+to apply a mark on demand and execute all marks at the user's request (a
+bit like Dired), which practically means that the user can declare some
+messages as unread, specify others for deletion, others still for a
+third operation, and act on all of them at once.  This can be done
+inside any mail listing, as the user can skip past entries that should
+remain intact.  Whereas Notmuch has no concept of marking items and then
+operating on them at once.  Instead it can add/remove tags for the
+thread or mail at point or for those in the given region.  Regions need
+to be contiguous, which can be a limitation.  The experienced Notmuch
+user learns to limit the view to a given search pattern and then apply
+the changes to all remaining results by drawing a region on the entire
+buffer (Notmuch's filters can be compounded so it is typical to search
+for messages that match "from PERSON" and then filter further with
+"unread only").  Notmuch's approach is practical, though it might appear
+more difficult at first.
+</p>
+
+<p>
+For basic requirements, Mu4e is the easiest to set up.  Notmuch is not
+difficult either, though its paradigm for treating emails may require
+some time to get used to.  Gnus can be configured with minimal tweaks,
+though it should still feel like the most difficult to master.  More so
+if one wants to customise it extensively.
+</p>
+
+<p>
+For these reasons, I think Mu4e is a great choice for someone who wants
+a reliable client for their own email correspondence and perhaps keep
+track of a few mailing lists.  Gnus can fill that same niche while also
+providing access to NNTP sources.  Though its sheer power and impression
+of complexity makes it more suitable for those who have the patience to
+cope with its demands.  Finally, Notmuch is the best for those who
+prefer a search-driven method for all their mail, who appreciate the
+compact thread view, and who tend to follow lots of mailing lists or
+generally receive a high volume of messages to their inbox.
 </p>
 </div>
 </div>
@@ -24904,7 +24665,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org2f8403f">
+<pre class="example" id="org1ec2238">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24913,7 +24674,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org744ce1e">
+<pre class="example" id="org94b2c7c">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24938,7 +24699,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org8736d89">
+<pre class="example" id="org99f2bd3">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25014,7 +24775,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org11d7317">
+<pre class="example" id="orgc1ef8a6">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25039,7 +24800,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orge05575c">
+<pre class="example" id="org1395a0c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25048,7 +24809,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgcb83989">
+<pre class="example" id="orgc26147a">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25067,7 +24828,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org1b67786">
+<pre class="example" id="orge7c9046">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
