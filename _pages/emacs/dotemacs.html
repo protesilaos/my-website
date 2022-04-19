@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-19 08:58 +0300</b>.</li>
-<li>Word count: <b>141628</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-19 10:44 +0300</b>.</li>
+<li>Word count: <b>141844</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://gitlab.com/protesilaos/dotfiles">https://gitlab.com/protesilaos/dotfiles</a> OR <a href="https://github.com/protesilaos/dotfiles">https://github.com/protesilaos/dotfiles</a></li>
@@ -4280,7 +4280,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org309c8f4">
+<pre class="example" id="org466f052">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4363,7 +4363,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org9129923">
+<pre class="example" id="orga2137ea">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -15273,7 +15273,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org8b111d9">
+<pre class="example" id="org032a729">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15285,7 +15285,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgd51799f">
+<pre class="example" id="org2fc2a2c">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15300,7 +15300,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org7bb7d8c">
+<pre class="example" id="org61c4a71">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15318,7 +15318,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org3f99c5e">
+<pre class="example" id="orga1c6d20">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15347,7 +15347,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org9241c00">
+<pre class="example" id="orgf3807db">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15511,7 +15511,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org4934dad">
+<pre class="example" id="org9f944a6">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16238,7 +16238,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org0c997ed">
+<pre class="example" id="orga418ca5">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16272,7 +16272,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgdb91808">
+<pre class="example" id="org65eed9d">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16436,7 +16436,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org0fd6310">
+<pre class="example" id="org8f9bca3">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16631,7 +16631,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgd00c534">
+<pre class="example" id="orgfc9cceb">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16921,6 +16921,8 @@ configured by the variable <code>prot-notmuch-mode-line-search-args</code>).
         '(notmuch notmuch-refresh-this-buffer))
   ;; Mode line indicator with the number of new mails.
   (prot-notmuch-mail-indicator 1)
+
+  (add-hook 'notmuch-mua-send-hook #'prot-notmuch-ask-sourcehut-control-code)
 
   (let ((map notmuch-search-mode-map))
     (define-key map (kbd "a") nil) ; the default is too easy to hit accidentally
@@ -17313,6 +17315,32 @@ update the mode line indicator with the new mail count."
 See `prot-notmuch-patch-add-email-control-code' for how to apply
 them.")
 
+(defun prot-notmuch--rx-in-sourcehut-mail (rx-group string)
+  "Return RX-GROUP of SourceHut mail in STRING."
+  (string-clean-whitespace
+   (replace-regexp-in-string
+    ".*?\\(\\([-a-zA-Z0-9=._+~&lt;&gt;/]+\\)@\\(lists.sr.ht\\)\\).*?"
+    (format "\\%s" rx-group) string)))
+
+(declare-function notmuch-show-get-header "notmuch-show" (header &amp;optional props))
+
+(defun prot-notmuch--get-to-or-cc-header ()
+  "Get appropriate To or Cc header."
+  (cond
+   ((derived-mode-p 'notmuch-message-mode)
+    (concat (message-fetch-field "To") " " (message-fetch-field "Cc")))
+   ((derived-mode-p 'notmuch-show-mode)
+    (concat (notmuch-show-get-header :To) " " (notmuch-show-get-header :Cc)))))
+
+;; NOTE 2022-04-19: This assumes that we only have one list...  I think
+;; that is okay, but it might cause problems.
+(defun prot-notmuch--extract-sourcehut-mail (rx-group)
+  "Extract RX-GROUP from SourceHut mailing list address.
+1 is the full email address, 2 is the local part, while 3 is the
+domain."
+  (prot-notmuch--rx-in-sourcehut-mail
+   rx-group (prot-notmuch--get-to-or-cc-header)))
+
 (declare-function message-fetch-field "message" (header &amp;optional first))
 (declare-function message-add-header "message" (&amp;rest headers))
 
@@ -17320,9 +17348,7 @@ them.")
 ;;;###autoload
 (defun prot-notmuch-patch-add-email-control-code (control-code)
   "Add custom header for SourceHut email controls.
-The CONTROL-CODE is one of these special keywords (capitalisation
-is canonical): PROPOSED, NEEDS_REVISION, SUPERSEDED, APPROVED,
-REJECTED, APPLIED."
+The CONTROL-CODE is among `prot-notmuch-patch-control-codes'."
   (interactive
    (list (completing-read "Select control code: " prot-notmuch-patch-control-codes nil t)))
   (if (member control-code prot-notmuch-patch-control-codes)
@@ -17330,12 +17356,23 @@ REJECTED, APPLIED."
       (message-add-header (format "X-Sourcehut-Patchset-Update: %s" control-code)))
     (user-error "%s is not specified in `prot-notmuch-patch-control-codes'" control-code)))
 
+;;;###autoload
+(defun prot-notmuch-ask-sourcehut-control-code ()
+  "Use `prot-notmuch-patch-add-email-control-code' programmatically.
+Add this to `notmuch-mua-send-hook'."
+  (when-let* ((header (message-fetch-field "Subject"))
+              (subject (when (&gt;= (length header) 6) (substring header 0 6)))
+              ((string= "[PATCH" subject)) ; Is [ always there?
+              ((prot-notmuch--extract-sourcehut-mail 1))
+              ((not (message-fetch-field "X-Sourcehut-Patchset-Update")))
+              ((y-or-n-p "Add control code for SourceHut PATCH?")))
+    (call-interactively #'prot-notmuch-patch-add-email-control-code)))
+
 ;; NOTE 2022-04-19: Ideally we should be able to use the
 ;; `notmuch-show-stash-mlarchive-link-alist' for
 ;; `prot-notmuch-stash-sourcehut-link', but it assumes that the base URL
 ;; is fixed for all message IDs, whereas those on SourceHut are not.
 
-(declare-function notmuch-show-get-header "notmuch-show" (header &amp;optional props))
 (declare-function notmuch-show-get-message-id "notmuch-show" (&amp;optional bare))
 (declare-function notmuch-show-message-top "notmuch-show")
 (declare-function notmuch-common-do-stash "notmuch-lib" (text))
@@ -17349,9 +17386,7 @@ message, else use the topmost message (start of the thread).
 Note that the topmost message is assumed to hold the id of the
 base URL, though this is not necessarily true."
   (interactive "P")
-  (let* ((to (concat (notmuch-show-get-header :To) " "
-                     (notmuch-show-get-header :Cc)))
-         (ml (replace-regexp-in-string ".*?\\([-a-zA-Z0-9=._+~&lt;&gt;/]+\\)@\\(lists.sr.ht\\).*?" "\\1" to))
+  (let* ((ml (prot-notmuch--extract-sourcehut-mail 2))
          (base-id (save-excursion (goto-char (point-min))
                                   (notmuch-show-message-top)
                                   (notmuch-show-get-message-id t)))
@@ -17633,7 +17668,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org3b5c552">
+<pre class="example" id="org284fd7f">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18697,7 +18732,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org636f35b">
+<pre class="example" id="orge72d1eb">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19389,7 +19424,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgf83c24d">
+<pre class="example" id="orgf8cf1f9">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24232,7 +24267,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgf22b014">
+<pre class="example" id="orga8b4fce">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24696,7 +24731,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org0547842">
+<pre class="example" id="org91c6b05">
 git clone https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24705,7 +24740,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org9e8a921">
+<pre class="example" id="org780c370">
 git clone --depth 1 https://gitlab.com/protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24730,7 +24765,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgf4f8ebf">
+<pre class="example" id="orgec157b8">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24806,7 +24841,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org852bb6c">
+<pre class="example" id="orga37dc4e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24831,7 +24866,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org6f68df7">
+<pre class="example" id="orgac53903">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24840,7 +24875,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org1c193fd">
+<pre class="example" id="orgd07e306">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24859,7 +24894,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org7a71bd7">
+<pre class="example" id="orgcc820a8">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
