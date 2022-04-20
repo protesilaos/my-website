@@ -25,7 +25,7 @@ user hit the right keys quickly.
 At the end of this publication I provide a verbatim copy of the source
 file, which is in Org notation (check the Annex).
 
-In the following tables we are using the following functions:
+In the following tables we are using these functions:
 
 ```elisp
 (defalias 'Λ 'modus-themes-contrast)
@@ -202,7 +202,7 @@ mailing list of the Modus themes:
 #+AUTHOR: Protesilaos Stavrou (https://protesilaos.com)
 #+DATE: 2022-04-20
 
-In the following tables we are using the following functions:
+In the following tables we are using these functions:
 
 #+begin_src emacs-lisp
 (defalias 'Λ 'modus-themes-contrast)
