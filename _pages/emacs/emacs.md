@@ -102,6 +102,21 @@ more of a reminder of the point's location on the vertical axis.
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
 
+## TMR Must Recur (tmr)
+
+TMR is an Emacs package that provides facilities for setting timers
+using a convenient notation.  The point of entry is the `tmr` command.
+It prompts for a unit of time, which is represented as a string that
+consists of a number and, optionally, a single character suffix which
+specifies the unit of time.
+
++ Official manual: <https://protesilaos.com/emacs/tmr>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/tmr>
+    + GitLab: <https://gitlab.com/protesilaos/tmr>
++ Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
+
 ## Cursory
 
 Cursory provides a thin wrapper around built-in variables that affect
@@ -115,13 +130,6 @@ with fast blinking" and set them on demand.
     + GitHub: <https://github.com/protesilaos/cursory>
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
-
-## TMR Must Recur (tmr.el)
-
-A simple timer package for Emacs.
-
-+ Official manual: <https://protesilaos.com/emacs/tmr>
-+ Git repo: <https://gitlab.com/protesilaos/tmr>
 
 ## Minibuffer and Completions in Tandem (mct.el)
 
