@@ -1,51 +1,58 @@
 ---
 layout: page
-title: 'TMR Must Recur (tmr.el)'
-subtitle: 'A simple timer package for Emacs'
-excerpt: 'TMR Must Recur (tmr.el) is a simple timer package for Emacs.'
+title: 'TMR Must Recur (tmr)'
+subtitle: 'Emacs package to set timers using a convenient notation'
+excerpt: 'TMR Must Recur (tmr.el) is a simple Emacs package to set timers using a convenient notation.'
 permalink: /emacs/tmr
 ---
 
 <p>
-  The source code
-  is <a href="https://gitlab.com/protesilaos/tmr/">available on
-  GitLab</a>, for the time being.
-  A <a href="https://github.com/protesilaos/tmr/">mirror on GitHub</a>
-  is also on offer.  The official manual is right below.
+  The source code of the themes is <a href="https://git.sr.ht/~protesilaos/tmr">available on SourceHut</a>.  The <a href="https://lists.sr.ht/~protesilaos/tmr">mailing list is also on SourceHut</a>.  Mirrors of the git source are also available on <a href="https://github.com/protesilaos/tmr">GitHub</a> and <a href="https://gitlab.com/protesilaos/tmr">GitLab</a>.  The official manual is right below.
 </p>
 
 <hr/>
 
 <p>
 This manual, written by Protesilaos Stavrou, describes the customization
-options for <code>tmr.el</code>, and provides every other piece of information
-pertinent to it.
+options for <code>tmr</code> (or <code>tmr.el</code>, tmr, TMR, &#x2026;), and provides every other
+piece of information pertinent to it.
 </p>
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2021-10-23.  Any reference to a newer
-feature which does not yet form part of the latest tagged commit, is
-explicitly marked as such.
+0.2.0, released on 2022-04-21.  Any reference to
+a newer feature which does not yet form part of the latest tagged
+commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.2.0-dev.
+Current development target is 0.3.0-dev.
 </p>
+
+<ul class="org-ul">
+<li>Homepage: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a></li>
+<li>Git repository: <a href="https://git.sr.ht/~protesilaos/tmr">https://git.sr.ht/~protesilaos/tmr</a>.</li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a>.</li>
+</ul>
 
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:c002f811-ea06-4123-988b-a73183581fb9">1. COPYING</a></li>
-<li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. tmr.el: a simple timer for Emacs</a></li>
-<li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a></li>
-<li><a href="#h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">4. GNU Free Documentation License</a></li>
-<li><a href="#h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">5. Indices</a>
+<li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a></li>
+<li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a>
 <ul>
-<li><a href="#h:a2c585fd-3467-4aa5-a275-fea513438226">5.1. Function index</a></li>
-<li><a href="#h:5132c95a-116d-4144-89d3-a37fb0d01dcd">5.2. Variable index</a></li>
-<li><a href="#h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">5.3. Concept index</a></li>
+<li><a href="#h:39fae83f-a49a-4887-8132-eb42e61919ea">3.1. Manual installation</a></li>
+</ul>
+</li>
+<li><a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">4. Sample configuration</a></li>
+<li><a href="#h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">5. GNU Free Documentation License</a></li>
+<li><a href="#h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">6. Indices</a>
+<ul>
+<li><a href="#h:a2c585fd-3467-4aa5-a275-fea513438226">6.1. Function index</a></li>
+<li><a href="#h:5132c95a-116d-4144-89d3-a37fb0d01dcd">6.2. Variable index</a></li>
+<li><a href="#h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">6.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -56,7 +63,7 @@ Current development target is 0.2.0-dev.
 <h2 id="h:c002f811-ea06-4123-988b-a73183581fb9"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:c002f811-ea06-4123-988b-a73183581fb9">
 <p>
-Copyright (C) 2021  Free Software Foundation, Inc.
+Copyright (C) 2021-2022  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -78,20 +85,14 @@ modify this GNU manual.”
 </div>
 
 <div id="outline-container-h:7b3966d3-43c6-47f1-816a-8104f634bbd1" class="outline-2">
-<h2 id="h:7b3966d3-43c6-47f1-816a-8104f634bbd1"><span class="section-number-2">2.</span> tmr.el: a simple timer for Emacs</h2>
+<h2 id="h:7b3966d3-43c6-47f1-816a-8104f634bbd1"><span class="section-number-2">2.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:7b3966d3-43c6-47f1-816a-8104f634bbd1">
 <p>
-This package provides a single command for setting a timer: <code>tmr</code>.
-</p>
-
-<p>
-The command prompts for a unit of time, which is represented as a string
-that consists of a number and, optionally, a single character suffix
-which specifies the unit of time.
-</p>
-
-<p>
-Valid formats:
+TMR is an Emacs package that provides facilities for setting timers
+using a convenient notation.  The point of entry is the <code>tmr</code> command.
+It prompts for a unit of time, which is represented as a string that
+consists of a number and, optionally, a single character suffix which
+specifies the unit of time.  Valid input formats:
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -132,8 +133,8 @@ Valid formats:
 </table>
 
 <p>
-If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code>), it also asks
-for a description which accompanies the given timer.  Preconfigured
+If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code>), it also
+asks for a description which accompanies the given timer.  Preconfigured
 candidates are specified in the user option <code>tmr-descriptions-list</code>,
 though any arbitrary input is acceptable at the minibuffer prompt.
 </p>
@@ -142,7 +143,9 @@ though any arbitrary input is acceptable at the minibuffer prompt.
 When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
 area messages can be reviewed with the <code>view-echo-area-messages</code> which is
-bound to <code>C-h e</code> by default.
+bound to <code>C-h e</code> by default.  Though TMR provides its own buffer for
+reviewing its log: it is named <code>*tmr-messages*</code> and can be accessed with
+the command <code>tmr-view-echo-area-messages</code>.
 </p>
 
 <p>
@@ -151,11 +154,17 @@ plays an alarm sound.  The notification&rsquo;s message is practically the
 same as that which is sent to the echo area.  The sound file for the
 alarm is defined in <code>tmr-sound-file</code>, while the urgency of the
 notification can be set through the <code>tmr-notification-urgency</code> option.
+Note that it is up to the desktop environment or notification daemon to
+decide how to handle the urgency value.
 </p>
 
 <p>
-The <code>tmr-cancel</code> command cancels the last <code>tmr</code>.  Note that for the time
-being it has no notion of multiple timers&#x2014;just the last one.
+The <code>tmr-cancel</code> command is used to cancel running timers (as set by the
+<code>tmr</code> command).  If there is only one timer, it cancels it outright.  If
+there are multiple timers, it produces a minibuffer completion prompt
+which asks for one among them.  Timers at the completion prompt are
+described by the exact time they were set and the input that was used to
+create them, including the optional description that <code>tmr</code> accepts.
 </p>
 </div>
 </div>
@@ -163,49 +172,69 @@ being it has no notion of multiple timers&#x2014;just the last one.
 <div id="outline-container-h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595" class="outline-2">
 <h2 id="h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595"><span class="section-number-2">3.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">
-<p>
-For the time being, this package is not available in any package
-archive.  The best way to install it is manually, unless you use
-<code>straight.el</code>, <code>quelpa</code>, or equivalent.
-</p>
+</div>
 
+<div id="outline-container-h:39fae83f-a49a-4887-8132-eb42e61919ea" class="outline-3">
+<h3 id="h:39fae83f-a49a-4887-8132-eb42e61919ea"><span class="section-number-3">3.1.</span> Manual installation</h3>
+<div class="outline-text-3" id="text-h:39fae83f-a49a-4887-8132-eb42e61919ea">
 <p>
-Assuming your Emacs files are found in <code>~/.emacs.d/</code>:
+Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
+following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-sh">cd ~/.emacs.d
+
 # Create a directory for manually-installed packages
 mkdir manual-packages
+
 # Go to the new directory
 cd manual-packages
-# Clone this repo and name it "tmr"
-git clone https://gitlab.com/protesilaos/tmr.el.git tmr
+
+# Clone this repo, naming it "tmr"
+git clone https://git.sr.ht/~protesilaos/tmr tmr
 </pre>
 </div>
 
 <p>
-Finally, in your <code>init.el</code> (or equivalent) evaluate these:
+Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/tmr")
+</pre>
+</div>
 
-;; Load the `tmr' library
+<p>
+Everything is in place to set up the package.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:69eeb3fb-f11d-431e-ae16-2d9b322871cc" class="outline-2">
+<h2 id="h:69eeb3fb-f11d-431e-ae16-2d9b322871cc"><span class="section-number-2">4.</span> Sample configuration</h2>
+<div class="outline-text-2" id="text-h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Load the `tmr' library
 (require 'tmr)
 
 ;; OPTIONALLY set global key bindings:
 (let ((map global-map))
   (define-key map (kbd "C-c t t") #'tmr)
+  (define-key map (kbd "C-c t e") #'tmr-view-echo-area-messages) ; "e" to remind of C-h e
   (define-key map (kbd "C-c t c") #'tmr-cancel))
+
+;; Also check the user options `tmr-sound-file',
+;; `tmr-notification-urgency' `tmr-descriptions-list'.
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a" class="outline-2">
-<h2 id="h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a"><span class="section-number-2">4.</span> GNU Free Documentation License</h2>
+<h2 id="h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a"><span class="section-number-2">5.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">
 <pre>
 
@@ -666,24 +695,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:8372325e-67ee-48c5-83f3-7b5ef53f2db5" class="outline-2">
-<h2 id="h:8372325e-67ee-48c5-83f3-7b5ef53f2db5"><span class="section-number-2">5.</span> Indices</h2>
+<h2 id="h:8372325e-67ee-48c5-83f3-7b5ef53f2db5"><span class="section-number-2">6.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">
 </div>
 
 <div id="outline-container-h:a2c585fd-3467-4aa5-a275-fea513438226" class="outline-3">
-<h3 id="h:a2c585fd-3467-4aa5-a275-fea513438226"><span class="section-number-3">5.1.</span> Function index</h3>
+<h3 id="h:a2c585fd-3467-4aa5-a275-fea513438226"><span class="section-number-3">6.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:a2c585fd-3467-4aa5-a275-fea513438226">
 </div>
 </div>
 
 <div id="outline-container-h:5132c95a-116d-4144-89d3-a37fb0d01dcd" class="outline-3">
-<h3 id="h:5132c95a-116d-4144-89d3-a37fb0d01dcd"><span class="section-number-3">5.2.</span> Variable index</h3>
+<h3 id="h:5132c95a-116d-4144-89d3-a37fb0d01dcd"><span class="section-number-3">6.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:5132c95a-116d-4144-89d3-a37fb0d01dcd">
 </div>
 </div>
 
 <div id="outline-container-h:4c85dc74-f64c-46a4-a5c6-9bd6275632be" class="outline-3">
-<h3 id="h:4c85dc74-f64c-46a4-a5c6-9bd6275632be"><span class="section-number-3">5.3.</span> Concept index</h3>
+<h3 id="h:4c85dc74-f64c-46a4-a5c6-9bd6275632be"><span class="section-number-3">6.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">
 -->
 </div>
