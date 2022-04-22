@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-21 09:52 +0300</b>.</li>
-<li>Word count: <b>142632</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-22 09:42 +0300</b>.</li>
+<li>Word count: <b>142472</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -106,11 +106,12 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 <li><a href="#h:5723c4bb-ff6c-449f-bb60-be66fab3f137">3.1.7. Completion for recent files and directories (prot-recentf.el)</a></li>
 <li><a href="#h:98876022-57cc-40de-936e-4ee42cefd69a">3.1.8. In-buffer completions</a>
 <ul>
-<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.8.1. Corfu (Completion Overlay Region FUnction)</a></li>
+<li><a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">3.1.8.1. Corfu (in-buffer completion popup)</a></li>
 <li><a href="#h:5c227fea-189a-43a2-bf1e-70aeececfcb8">3.1.8.2. CAPE (extra completion-at-point backends)</a></li>
-<li><a href="#h:8b45802a-a136-4802-b721-86741370de8a">3.1.8.3. Enhance command-line completion (pcmpl-args)</a></li>
-<li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.8.4. Dabbrev (dynamic word completion)</a></li>
-<li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.8.5. Abbreviations or Abbrevs</a></li>
+<li><a href="#h:21ac2cea-4b41-4f3d-8dc0-725d0674be79">3.1.8.3. Template-based in-buffer completion (tempel.el)</a></li>
+<li><a href="#h:8b45802a-a136-4802-b721-86741370de8a">3.1.8.4. Enhance command-line completion (pcmpl-args)</a></li>
+<li><a href="#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">3.1.8.5. Dabbrev (dynamic word completion)</a></li>
+<li><a href="#h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">3.1.8.6. Abbreviations or Abbrevs</a></li>
 </ul>
 </li>
 </ul>
@@ -2417,7 +2418,7 @@ This is the code for <code>pulsar.el</code>:
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/pulsar
 ;; Mailing list: https://lists.sr.ht/~protesilaos/pulsar
-;; Version: 0.3.0
+;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -3249,7 +3250,8 @@ This is the code for <code>lin.el</code>:
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/lin
-;; Version: 0.2.0
+;; Mailing list: https://lists.sr.ht/~protesilaos/lin
+;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, faces, theme
 
@@ -3321,6 +3323,7 @@ This is the code for <code>lin.el</code>:
     dired-mode-hook
     elfeed-search-mode-hook
     git-rebase-mode-hook
+    grep-mode-hook
     ibuffer-mode-hook
     ilist-mode-hook
     ledger-report-mode-hook
@@ -3331,6 +3334,7 @@ This is the code for <code>lin.el</code>:
     notmuch-tree-mode-hook
     occur-mode-hook
     org-agenda-mode-hook
+    proced-mode-hook
     tabulated-list-mode-hook)
   "List of hooks that should enable Lin.
 
@@ -3510,12 +3514,15 @@ updates the face.  Users who prefer to use `setq' must run
   '((((type ns))
      ;; &lt;https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/&gt;.
      :background "selectedContentBackgroundColor" :extend t)
+    (((type mac))
+     :background "mac:selectedContentBackgroundColor" :extend t)
     (t :inherit lin-blue))
   "Alternative macOS-style face for `lin-face'."
   :group 'lin-faces)
 
 (defface lin-mac-override-fg
-  '((t :inherit lin-mac :foreground "alternateSelectedControlTextColor"))
+  '((((type ns)) :inherit lin-mac :foreground "alternateSelectedControlTextColor")
+    (((type mac)) :inherit lin-mac :foreground "mac:alternateSelectedControlTextColor"))
   "Like `lin-mac' but also sets a foreground."
   :group 'lin-faces)
 
@@ -3538,6 +3545,7 @@ updates the face.  Users who prefer to use `setq' must run
    (t
     'hl-line)))
 
+;;;###autoload
 (define-minor-mode lin-mode
   "Enable `hl-line-mode' and remap its face to `lin-face'."
   :global nil
@@ -4282,7 +4290,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org8288796">
+<pre class="example" id="org8a12424">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4365,7 +4373,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org0cbcc70">
+<pre class="example" id="org60785fe">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6137,7 +6145,7 @@ Add this function to `recentf-keep'."
 <div class="outline-text-4" id="text-h:98876022-57cc-40de-936e-4ee42cefd69a">
 </div>
 <div id="outline-container-h:675ebef4-d74d-41af-808d-f9579c2a5ec4" class="outline-5">
-<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.8.1.</span> Corfu (Completion Overlay Region FUnction)</h5>
+<h5 id="h:675ebef4-d74d-41af-808d-f9579c2a5ec4"><span class="section-number-5">3.1.8.1.</span> Corfu (in-buffer completion popup)</h5>
 <div class="outline-text-5" id="text-h:675ebef4-d74d-41af-808d-f9579c2a5ec4">
 <p>
 <code>corfu</code> is another nimble package by Daniel Mendler (author of Consult and
@@ -6194,7 +6202,7 @@ read that variable's doc string).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Corfu (Completion Overlay Region FUnction)
+<pre class="src src-emacs-lisp">;;; Corfu (in-buffer completion popup)
 (prot-emacs-elpa-package 'corfu
   ;; (dolist (mode '( message-mode-hook text-mode-hook prog-mode-hook
   ;;                  shell-mode-hook eshell-mode-hook))
@@ -6241,8 +6249,71 @@ completion: <a href="#h:675ebef4-d74d-41af-808d-f9579c2a5ec4">Corfu (Completion 
 </div>
 </div>
 
+<div id="outline-container-h:21ac2cea-4b41-4f3d-8dc0-725d0674be79" class="outline-5">
+<h5 id="h:21ac2cea-4b41-4f3d-8dc0-725d0674be79"><span class="section-number-5">3.1.8.3.</span> Template-based in-buffer completion (tempel.el)</h5>
+<div class="outline-text-5" id="text-h:21ac2cea-4b41-4f3d-8dc0-725d0674be79">
+<p>
+This is yet another nimble package from Daniel Mendler.  It lets us
+define a template which we can insert at ay point and fill in the empty
+fields with whatever values we want.
+</p>
+
+<p>
+My templates are rudimentary right now:
+</p>
+
+<pre class="example" id="orgffe5e08">
+text-mode
+
+(sync-package p ": sync latest updates" n n
+              "Refer to its repo for documentation and proper commit/change logs:"
+              n "&lt;https://git.sr.ht/~protesilaos/"
+              p "&gt;")
+
+(update-manual-website "Update " p ".html")
+
+;; Local Variables:
+;; mode: lisp-data
+;; outline-regexp: "[a-z]"
+;; End:
+</pre>
+
+<p>
+I will add more of them over time as I think of better uses for this
+package.  In the meantime, please check the tempel documentation on how
+to define such templates: <a href="https://github.com/minad/tempel">https://github.com/minad/tempel</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Template-based in-buffer completion (tempel.el)
+(prot-emacs-elpa-package 'tempel
+
+  ;; Setup completion at point
+  (defun contrib/tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also configure `tempel-trigger-prefix', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+
+  (dolist (hook '(prog-mode-hook text-mode-hook))
+    (add-hook hook 'contrib/tempel-setup-capf))
+
+  (let ((map global-map))
+    (define-key map (kbd "M-+") #'tempel-complete) ; Alternative: `tempel-expand'
+    (define-key map (kbd "M-*") #'tempel-insert)))
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:8b45802a-a136-4802-b721-86741370de8a" class="outline-5">
-<h5 id="h:8b45802a-a136-4802-b721-86741370de8a"><span class="section-number-5">3.1.8.3.</span> Enhance command-line completion (pcmpl-args)</h5>
+<h5 id="h:8b45802a-a136-4802-b721-86741370de8a"><span class="section-number-5">3.1.8.4.</span> Enhance command-line completion (pcmpl-args)</h5>
 <div class="outline-text-5" id="text-h:8b45802a-a136-4802-b721-86741370de8a">
 <p>
 This neat package by Jonathan Waltman enhances the standard completion
@@ -6269,14 +6340,15 @@ Relevant sections in this document:
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'pcmpl-args)
+<pre class="src src-emacs-lisp">;;; Enhance command-line completion (pcmpl-args)
+(prot-emacs-elpa-package 'pcmpl-args)
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84" class="outline-5">
-<h5 id="h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84"><span class="section-number-5">3.1.8.4.</span> Dabbrev (dynamic word completion)</h5>
+<h5 id="h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84"><span class="section-number-5">3.1.8.5.</span> Dabbrev (dynamic word completion)</h5>
 <div class="outline-text-5" id="text-h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84">
 <p>
 This is Emacs' own approach to dynamic/arbitrary text completion inside
@@ -6347,7 +6419,7 @@ configurations and documentation for <a href="#h:6c6759c8-3ae3-40b0-8356-05cc097
 </div>
 
 <div id="outline-container-h:33cd69cc-1a50-4abb-9f09-cae98dc8998b" class="outline-5">
-<h5 id="h:33cd69cc-1a50-4abb-9f09-cae98dc8998b"><span class="section-number-5">3.1.8.5.</span> Abbreviations or Abbrevs</h5>
+<h5 id="h:33cd69cc-1a50-4abb-9f09-cae98dc8998b"><span class="section-number-5">3.1.8.6.</span> Abbreviations or Abbrevs</h5>
 <div class="outline-text-5" id="text-h:33cd69cc-1a50-4abb-9f09-cae98dc8998b">
 <p>
 The <code>abbrev</code> library provides an easy way to automatically correct some of
@@ -9096,7 +9168,8 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/logos
-;; Version: 0.2.0
+;; Mailing list: https://lists.sr.ht/~protesilaos/logos
+;; Version: 0.3.2
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, focus, writing, presentation, narrowing
 
@@ -9258,11 +9331,34 @@ This is only relevant when `logos-focus-mode' is enabled."
 
 (defun logos--narrow-to-page (count &amp;optional back)
   "Narrow to COUNTth page with optional BACK motion."
+  ;; Position point to avoid skipping pages.
+  (when (and (buffer-narrowed-p)
+             (save-restriction
+               (widen)
+               (looking-at page-delimiter)))
+    (goto-char (if back
+                   (1+ (match-end 0))
+                 (1- (match-beginning 0)))))
   (if back
       (narrow-to-page (or (- count) -1))
     (narrow-to-page (or (abs count) 1)))
-  ;; Avoids the problem of skipping pages while cycling back and forth.
-  (goto-char (point-min)))
+  (let ((page-start (point-min-marker)))
+    ;; If outlines are pages, include match of page-delimiter in page
+    (when (and logos-outlines-are-pages
+               (save-excursion
+                 (goto-char (point-min))
+                 (save-restriction
+                   (widen)
+                   (looking-back page-delimiter (line-beginning-position)))))
+      (let ((match-start (match-beginning 0))
+            (page-end (point-max-marker)))
+        (widen)
+        (narrow-to-region match-start page-end)))
+    ;; Leave point at a standard location: if outlines are pages,
+    ;; leave it right after the page-delimiter (to match the
+    ;; unnarrowed behavior); if outlines are not pages, leave it at
+    ;; the beginning of the page.
+    (goto-char page-start)))
 
 (defvar logos-page-motion-hook nil
   "Hook that runs after a page motion.
@@ -9328,8 +9424,9 @@ page."
   "Return non-nil if there is a `page-delimiter' in the buffer.
 This function does not use `widen': it only checks the accessible
 portion of the buffer."
-  (or (save-excursion (re-search-forward page-delimiter nil t))
-      (save-excursion (re-search-backward page-delimiter nil t))))
+  (let ((delimiter (logos--page-delimiter)))
+    (or (save-excursion (re-search-forward delimiter nil t))
+        (save-excursion (re-search-backward delimiter nil t)))))
 
 (defun logos-narrow-visible-window ()
   "Narrow buffer to visible window area.
@@ -9364,7 +9461,10 @@ If narrowing is in effect, widen the view."
          (null (buffer-narrowed-p)))
     (narrow-to-region (region-beginning) (region-end)))
    ((logos--page-p)
-    (narrow-to-page))
+    ;; Use our own narrow to page function because when
+    ;; logos-outlines-are-pages is t, the page delimiter
+    ;; is included in the region narrowed to.
+    (logos--narrow-to-page 0))
    ((null (buffer-narrowed-p))
     (logos-narrow-visible-window))
    ((widen))))
@@ -9398,7 +9498,8 @@ alternate, thus toggling MODE."
   "Buffer-local mode for focused editing.
 When enabled it sets the buffer-local value of these user
 options: `logos-scroll-lock', `logos-variable-pitch',
-`logos-hide-mode-line'."
+`logos-hide-mode-line', `logos-indicate-buffer-boundaries',
+`logos-buffer-read-only', `logos-olivetti'."
   :init-value nil
   :global nil
   :lighter " Λ" ; lambda majuscule
@@ -11267,15 +11368,16 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; tmr.el --- TMR Must Recur -*- lexical-binding: t -*-
+<pre class="src src-emacs-lisp">;;; tmr.el --- Set timers using a convenient notation -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020-2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/tmr
 ;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
-;; Version: 0.2.0
+;; Version: 0.2.2
 ;; Package-Requires: ((emacs "27.1"))
+;; Keywords: convenience, timer
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -11440,7 +11542,7 @@ Optionally include DESCRIPTION."
     (message
      "TMR %s %s ; %s %s%s"
      (propertize "Start:" 'face 'success) start
-     (propertize "End:" 'face 'warning) end
+     (propertize "End:" 'face 'error) end
      desc-propertized)
     (unless (plist-get (notifications-get-capabilities) :sound)
       (tmr--play-sound))))
@@ -15358,7 +15460,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgd32bb37">
+<pre class="example" id="org63a640d">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15370,7 +15472,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org1a14563">
+<pre class="example" id="org808aa8d">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15385,7 +15487,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org421c771">
+<pre class="example" id="org5183b87">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15403,7 +15505,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org9a317db">
+<pre class="example" id="org263176d">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15432,7 +15534,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgfdc58a9">
+<pre class="example" id="org0bc9c4f">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15596,7 +15698,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org746b266">
+<pre class="example" id="org9da4a97">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16323,7 +16425,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org5782c99">
+<pre class="example" id="orgba0942e">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16357,7 +16459,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orga08616a">
+<pre class="example" id="orge46e93a">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16521,7 +16623,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org30a6506">
+<pre class="example" id="org51d998a">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16716,7 +16818,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org13a485f">
+<pre class="example" id="orgac28873">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17765,7 +17867,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org273c985">
+<pre class="example" id="orgebec598">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18829,7 +18931,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgcbc8c18">
+<pre class="example" id="org470fd84">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19521,7 +19623,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org2257c0b">
+<pre class="example" id="org11cc550">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24364,7 +24466,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org232a902">
+<pre class="example" id="orgef57437">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24828,7 +24930,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org4dc494c">
+<pre class="example" id="orgae2efe3">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24837,7 +24939,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgf376849">
+<pre class="example" id="org5adfe2b">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24862,7 +24964,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgbd625e0">
+<pre class="example" id="orgf5033c3">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24938,7 +25040,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org9b2d006">
+<pre class="example" id="org902fad0">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24963,7 +25065,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org9e0434b">
+<pre class="example" id="org7b69cb2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24972,7 +25074,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org584b6c3">
+<pre class="example" id="org37cafae">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24991,7 +25093,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org1e73966">
+<pre class="example" id="org20ff2d5">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
