@@ -110,6 +110,7 @@ It prompts for a unit of time, which is represented as a string that
 consists of a number and, optionally, a single character suffix which
 specifies the unit of time.
 
++ Package name (GNU ELPA): `tmr`
 + Official manual: <https://protesilaos.com/emacs/tmr>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
   - Mirrors:
@@ -124,6 +125,7 @@ the style of the Emacs cursor.  The intent is to allow the user to
 define preset configurations such as "block with slow blinking" or "bar
 with fast blinking" and set them on demand.
 
++ Package name (GNU ELPA): `cursory`
 + Official manual: <https://protesilaos.com/emacs/cursory>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/cursory>
   - Mirrors:
