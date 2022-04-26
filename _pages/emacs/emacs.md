@@ -102,6 +102,22 @@ more of a reminder of the point's location on the vertical axis.
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
 
+## Fontaine
+
+Fontaine allows the user to define detailed font configurations and set
+them on demand.  For example, one can have a `regular-editing` preset
+and another for `presentation-mode` (these are arbitrary, user-defined
+symbols): the former uses small fonts which are optimised for writing,
+while the latter applies typefaces that are pleasant to read at
+comfortable point sizes.
+
++ Official manual: <https://protesilaos.com/emacs/fontaine>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/fontaine>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/fontaine>
+    + GitLab: <https://gitlab.com/protesilaos/fontaine>
++ Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
+
 ## TMR Must Recur or TMR May Ring (tmr)
 
 TMR is an Emacs package that provides facilities for setting timers
