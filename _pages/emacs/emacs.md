@@ -102,7 +102,7 @@ more of a reminder of the point's location on the vertical axis.
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
 
-## TMR Must Recur (tmr)
+## TMR Must Recur or TMR May Ring (tmr)
 
 TMR is an Emacs package that provides facilities for setting timers
 using a convenient notation.  The point of entry is the `tmr` command.
