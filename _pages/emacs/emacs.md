@@ -150,6 +150,27 @@ with fast blinking" and set them on demand.
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
 
+## Iosevka Comfy
+
+This is not an "Emacs package" per se though I use it full time in my
+Emacs setup (it complements my work on the `modus-themes`).
+
+_Iosevka Comfy_ is a build of the Iosevka typeface with a rounded style
+and open shapes, adjusted metrics, and overrides for almost all
+individual glyphs in both roman (upright) and italic (slanted) variants.
+It is more vertically compact than the standard upstream
+configuration. Glyphs are rounder and have tailed ends or serifs only
+when those are required to both impose a predictable rhythm and keep
+characters distinct from each other.
+
+The README file in the git repository covers all the technicalities.
+
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/iosevka-comfy>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/iosevka-comfy>
+    + GitLab: <https://gitlab.com/protesilaos/iosevka-comfy>
++ Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
+
 ## Minibuffer and Completions in Tandem (mct.el)
 
 **UPDATE 2022-04-14:** Development of this package has been discontinued:
