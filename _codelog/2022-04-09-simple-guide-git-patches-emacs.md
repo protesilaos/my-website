@@ -7,7 +7,7 @@ As noted in a previous publication, I am [moving all my projects to
 SourceHut](https://protesilaos.com/codelog/2022-04-07-all-emacs-projects-sourcehut/),
 starting with my Emacs packages ([Manuel Uberti is doing the
 same](https://manueluberti.eu/real-life/2022/04/08/sourcehut/) and maybe
-others will do the same).  I perform this migration because I prefer an
+others will follow suit).  I perform this migration because I prefer an
 email-centric workflow, which basically is a fancy way of admitting that
 I want to consolidate everything inside of Emacs.  Part of this workflow
 involves the use of standard Git facilities to make contributions to
@@ -28,7 +28,9 @@ official documentation for the technicalities.
 For the `logos` package, we have these:
 
 * Git repository: <https://git.sr.ht/~protesilaos/logos>.
-* Mailing list: <https://lists.sr.ht/~protesilaos/logos>.
+* Mailing list: <https://lists.sr.ht/~protesilaos/logos>.  When you
+  write an email, it is addressed to <~protesilaos/logos@lists.sr.ht> as
+  noted in the list's description.
 
 ## Format patches
 
@@ -100,9 +102,10 @@ For the `logos` package, we have these:
    <https://git-send-email.io/>).  Compose your regular message and send
    the files to the maintainer's email address or to the mailing list of
    the given project.  In our example, the latter is found here:
-   <https://lists.sr.ht/~protesilaos/logos>.  The advantage of the
-   mailing list is that it is public, so others have a chance to review
-   the discussion and/or store a copy of it.
+   <https://lists.sr.ht/~protesilaos/logos> (the link includes the exact
+   email address of the list).  The advantage of the mailing list is
+   that it is public, so others have a chance to review the discussion
+   and/or store a copy of it.
    
    - Depending on the project, the mailing list will be the only option.
      Though I am okay if I receive patches for my packages in my
@@ -116,12 +119,27 @@ For the `logos` package, we have these:
 
 You did it!  The maintainer will take care of the rest.
 
+**UPDATE 2022-04-28 15:31 +0300:** SourceHut's web UI for mailing lists
+does not display indicators for attached files.  The information is
+still available in the mbox version of the discussion.  I consider this
+unfortunate and too advanced of a use-case.  I have started a
+[discussion on this
+topic](https://lists.sr.ht/~sircmpwn/sr.ht-discuss/<871qy1796r.fsf@protesilaos.com>#<87bkx4jnzo.fsf@protesilaos.com>),
+as I think a simple indicator would be helpful for those who are not
+subscribed to the given list.
+
 ## Other tools
 
 The [git-email Emacs package](https://git.sr.ht/~yoctocell/git-email) by
 Xinglu Chen is a tool I have used a few times to format and send patches
 as email files.  This may be a bit more advanced, but you might want to
 check it out.
+
+**UPDATE 2022-04-28 15:32 +0300:** Note my pending changes for
+`git-email`.  [Original
+patchset](https://lists.sr.ht/~yoctocell/git-email-devel/patches/31106)
+and [revised patch for project.el integration on Emacs
+29](https://lists.sr.ht/~yoctocell/git-email-devel/%3C875yn8h9i4.fsf%40posteo.net%3E).
 
 For those who assume the role of applying patches from email
 contributions, Xinglu recommends Kyle Meyer's [piem Emacs
@@ -138,12 +156,57 @@ All my projects and concomitant mailing lists are here
 (work-in-progress, as I am still migrating the repos and making all the
 relevant changes):
 
+* <https://protesilaos.com/emacs>
 * <https://git.sr.ht/~protesilaos/>
 * <https://lists.sr.ht/~protesilaos/>
 
-Note that I have assigned copyright to the Free Software Foundation, so
+Note that I have assigned copyright to the Free Software Foundation and
 all my Emacs-related packages require you to do the same before making
 any major contribution.  [Contact me](https://protesilaos.com/contact)
 if you need help on that front or ask for a copyright assignment form
 from the kind folks over at the emacs-devel mailing list by sending an
-email to <emacs-devel@gnu.org>.
+email to <emacs-devel@gnu.org>.  It looks like this (again, using the
+`logos` package as a demo):
+
+```
+Please email the following information to assign@gnu.org, and we
+will send you the assignment form for your past and future changes.
+
+Please use your full legal name (in ASCII characters) as the subject
+line of the message.
+
+REQUEST: SEND FORM FOR PAST AND FUTURE CHANGES
+
+[What is the name of the program or package you're contributing to?]
+
+GNU Emacs
+
+[Did you copy any files or text written by someone else in these changes?
+Even if that material is free software, we need to know about it.]
+
+
+[Do you have an employer who might have a basis to claim to own
+your changes?  Do you attend a school which might make such a claim?]
+
+
+[For the copyright registration, what country are you a citizen of?]
+
+
+[What year were you born?]
+
+
+[Please write your email address here.]
+
+
+[Please write your postal address here.]
+
+
+
+
+[Which files have you changed so far, and which new files have you written
+so far?]
+
+logos.el (GNU ELPA)
+```
+
+
