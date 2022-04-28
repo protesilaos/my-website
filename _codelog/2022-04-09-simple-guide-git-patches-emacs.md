@@ -29,8 +29,9 @@ For the `logos` package, we have these:
 
 * Git repository: <https://git.sr.ht/~protesilaos/logos>.
 * Mailing list: <https://lists.sr.ht/~protesilaos/logos>.  When you
-  write an email, it is addressed to <~protesilaos/logos@lists.sr.ht> as
-  noted in the list's description.
+  write an email, it is addressed to
+  [~protesilaos/logos@lists.sr.ht](mailto:~protesilaos/logos@lists.sr.ht)
+  as noted in the list's description.
 
 ## Format patches
 
