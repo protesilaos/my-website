@@ -7,6 +7,12 @@ permalink: /emacs/fontaine
 ---
 
 <p>
+  The source code of the themes is <a href="https://git.sr.ht/~protesilaos/fontaine">available on SourceHut</a>.  The <a href="https://lists.sr.ht/~protesilaos/fontaine">mailing list is also on SourceHut</a>.  Mirrors of the git source are also available on <a href="https://github.com/protesilaos/fontaine">GitHub</a> and <a href="https://gitlab.com/protesilaos/fontaine">GitLab</a>.  The official manual is right below.
+</p>
+
+<hr/>
+
+<p>
 This manual, written by Protesilaos Stavrou, describes the customization
 options for <code>fontaine</code> (or <code>fontaine.el</code>), and provides every other piece of
 information pertinent to it.
@@ -14,7 +20,7 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2022-04-26.  Any reference to
+0.1.0, released on 2022-04-28.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
@@ -37,7 +43,8 @@ Current development target is 0.2.0-dev.
 <li><a href="#h:62d716b4-44f7-4078-85d2-29a7da8ca253">2. Overview</a></li>
 <li><a href="#h:031b9bea-d42b-4be0-82c7-42712cde94cc">3. Installation</a>
 <ul>
-<li><a href="#h:eba0f790-5261-4966-9c4a-ac6949de7415">3.1. Manual installation</a></li>
+<li><a href="#h:0f288b38-6da1-4628-8f78-4df56cbc8f2a">3.1. GNU ELPA package</a></li>
+<li><a href="#h:eba0f790-5261-4966-9c4a-ac6949de7415">3.2. Manual installation</a></li>
 </ul>
 </li>
 <li><a href="#h:c4567af0-6d88-4b94-962c-59702191a75d">4. Sample configuration</a></li>
@@ -146,8 +153,17 @@ previewing certain styles before eventually codifying them as presets.
 
 <p>
 Changing the <code>bold</code> and <code>italic</code> faces only has a noticeable effect if
-the underlying does not hardcode a weight and slant but inherits from
-those faces instead (e.g. the <code>modus-themes</code>).
+the underlying theme does not hardcode a weight and slant but inherits
+from those faces instead (e.g. the <code>modus-themes</code>).
+</p>
+
+<p>
+The latest value of <code>fontaine-set-preset</code> is stored in a file whose
+location is defined in <code>fontaine-latest-state-file</code>.  Saving is done by
+the <code>fontaine-store-latest-preset</code> function, which should be assigned to
+a hook (e.g. <code>kill-emacs-hook</code>).  To restore that value, the user can
+call the function <code>fontaine-restore-latest-preset</code> (such as by adding it
+to their init file).
 </p>
 
 <p>
@@ -164,8 +180,27 @@ Are Irrelevant in Non-graphical Emacs (because that is actually true).
 <div class="outline-text-2" id="text-h:031b9bea-d42b-4be0-82c7-42712cde94cc">
 </div>
 
+<div id="outline-container-h:0f288b38-6da1-4628-8f78-4df56cbc8f2a" class="outline-3">
+<h3 id="h:0f288b38-6da1-4628-8f78-4df56cbc8f2a"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:0f288b38-6da1-4628-8f78-4df56cbc8f2a">
+<p>
+The package is available as <code>fontaine</code>.  Simply do:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:eba0f790-5261-4966-9c4a-ac6949de7415" class="outline-3">
-<h3 id="h:eba0f790-5261-4966-9c4a-ac6949de7415"><span class="section-number-3">3.1.</span> Manual installation</h3>
+<h3 id="h:eba0f790-5261-4966-9c4a-ac6949de7415"><span class="section-number-3">3.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:eba0f790-5261-4966-9c4a-ac6949de7415">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
@@ -213,6 +248,9 @@ Remember to read the relevant doc strings.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'fontaine)
 
+(setq fontaine-latest-state-file
+      (locate-user-emacs-file "fontaine-latest-state.eld"))
+
 (setq fontaine-presets
       '((regular
          :default-family "Hack"
@@ -245,11 +283,23 @@ Remember to read the relevant doc strings.
          :italic-slant italic
          :line-spacing 1)))
 
+(fontaine-restore-latest-preset)
+
+;; Use `fontaine-recovered-preset' if available, else fall back to the
+;; desired style from `fontaine-presets'.
+(if-let ((state fontaine-recovered-preset))
+    (fontaine-set-preset state)
+  (fontaine-set-preset 'regular))
+
+;; The other side of `fontaine-restore-latest-preset'.
+(add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
+
 ;; fontaine does not define any key bindings.  This is just a sample that
 ;; respects the key binding conventions.  Evaluate:
 ;;
 ;;     (info "(elisp) Key Binding Conventions")
-(define-key global-map (kbd "C-c p") #'fontaine-set-preset)
+(define-key global-map (kbd "C-c f") #'fontaine-set-preset)
+(define-key global-map (kbd "C-c F") #'fontaine-set-face-font)
 </pre>
 </div>
 </div>
