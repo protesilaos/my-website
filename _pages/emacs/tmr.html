@@ -1,8 +1,8 @@
 ---
 layout: page
-title: 'TMR Must Recur (tmr)'
+title: 'TMR May Ring (tmr)'
 subtitle: 'Emacs package to set timers using a convenient notation'
-excerpt: 'TMR Must Recur (tmr.el) is a simple Emacs package to set timers using a convenient notation.'
+excerpt: 'TMR May Ring (tmr.el) is a simple Emacs package to set timers using a convenient notation.'
 permalink: /emacs/tmr
 ---
 
@@ -43,7 +43,8 @@ Current development target is 0.3.0-dev.
 <li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a></li>
 <li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a>
 <ul>
-<li><a href="#h:39fae83f-a49a-4887-8132-eb42e61919ea">3.1. Manual installation</a></li>
+<li><a href="#h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b">3.1. GNU ELPA package</a></li>
+<li><a href="#h:39fae83f-a49a-4887-8132-eb42e61919ea">3.2. Manual installation</a></li>
 </ul>
 </li>
 <li><a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">4. Sample configuration</a></li>
@@ -141,6 +142,12 @@ though any arbitrary input is acceptable at the minibuffer prompt.
 </p>
 
 <p>
+An alternative to the <code>tmr</code> command is <code>tmr-with-description</code>.  The
+difference between the two is that the latter always prompts for a
+description.
+</p>
+
+<p>
 When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
 area messages can be reviewed with the <code>view-echo-area-messages</code> which is
@@ -160,6 +167,11 @@ decide how to handle the urgency value.
 </p>
 
 <p>
+If the <code>tmr-sound-file</code> is nil, or the file is not found, no sound will
+be played.
+</p>
+
+<p>
 The <code>tmr-cancel</code> command is used to cancel running timers (as set by the
 <code>tmr</code> command).  If there is only one timer, it cancels it outright.  If
 there are multiple timers, it produces a minibuffer completion prompt
@@ -175,8 +187,27 @@ create them, including the optional description that <code>tmr</code> accepts.
 <div class="outline-text-2" id="text-h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">
 </div>
 
+<div id="outline-container-h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b" class="outline-3">
+<h3 id="h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b">
+<p>
+The package is available as <code>tmr</code>.  Simply do:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:39fae83f-a49a-4887-8132-eb42e61919ea" class="outline-3">
-<h3 id="h:39fae83f-a49a-4887-8132-eb42e61919ea"><span class="section-number-3">3.1.</span> Manual installation</h3>
+<h3 id="h:39fae83f-a49a-4887-8132-eb42e61919ea"><span class="section-number-3">3.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:39fae83f-a49a-4887-8132-eb42e61919ea">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
@@ -221,14 +252,18 @@ Everything is in place to set up the package.
 <pre class="src src-emacs-lisp">;; Load the `tmr' library
 (require 'tmr)
 
+;; set to nil to disable the sound
+(setq tmr-sound-file
+      "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
+
 ;; OPTIONALLY set global key bindings:
 (let ((map global-map))
-  (define-key map (kbd "C-c t t") #'tmr)
+  (define-key map (kbd "C-c t t") #'tmr) ; or use the command `tmr-with-description'
   (define-key map (kbd "C-c t e") #'tmr-view-echo-area-messages) ; "e" to remind of C-h e
   (define-key map (kbd "C-c t c") #'tmr-cancel))
 
-;; Also check the user options `tmr-sound-file',
-;; `tmr-notification-urgency' `tmr-descriptions-list'.
+;; Also check the user options `tmr-notification-urgency'
+;; `tmr-descriptions-list'.
 </pre>
 </div>
 </div>
@@ -244,7 +279,8 @@ TMR is meant to be a collective effort.  Every bit of help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to the code or manual</dt><dd>Christian Tietze.</dd>
+<dt>Contributions to the code or manual</dt><dd>Christian Tietze, Damien
+Cassou.</dd>
 </dl>
 </div>
 </div>

@@ -119,7 +119,7 @@ comfortable point sizes.
     + GitLab: <https://gitlab.com/protesilaos/fontaine>
 + Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
 
-## TMR Must Recur or TMR May Ring (tmr)
+## TMR May Ring (tmr)
 
 TMR is an Emacs package that provides facilities for setting timers
 using a convenient notation.  The point of entry is the `tmr` command.
