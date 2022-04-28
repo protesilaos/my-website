@@ -111,6 +111,7 @@ symbols): the former uses small fonts which are optimised for writing,
 while the latter applies typefaces that are pleasant to read at
 comfortable point sizes.
 
++ Package name (GNU ELPA): `fontaine`
 + Official manual: <https://protesilaos.com/emacs/fontaine>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/fontaine>
   - Mirrors:
