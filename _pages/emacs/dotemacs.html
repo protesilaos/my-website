@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-22 11:24 +0300</b>.</li>
-<li>Word count: <b>143149</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-04-28 09:21 +0300</b>.</li>
+<li>Word count: <b>142934</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -77,7 +77,7 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 <li><a href="#h:601027a1-7288-4dcd-bb78-435965df27ba">2.7. Enhancements to hl-line-mode (lin.el)</a></li>
 <li><a href="#h:7a4dd5b8-724d-4f7c-b5ee-01d8ac98bda9">2.8. Typeface configurations</a>
 <ul>
-<li><a href="#h:e03b6415-a18f-4058-b9b0-5721d38c6c50">2.8.1. Font configurations (prot-fonts.el)</a></li>
+<li><a href="#h:e03b6415-a18f-4058-b9b0-5721d38c6c50">2.8.1. Font configurations (fontaine.el)</a></li>
 <li><a href="#h:9035a1ed-e988-4731-89a5-0d9e302c3dea">2.8.2. Simple font suitability test</a></li>
 </ul>
 </li>
@@ -3640,8 +3640,24 @@ Do so by checking the `buffer-list'."
 <div class="outline-text-3" id="text-h:7a4dd5b8-724d-4f7c-b5ee-01d8ac98bda9">
 </div>
 <div id="outline-container-h:e03b6415-a18f-4058-b9b0-5721d38c6c50" class="outline-4">
-<h4 id="h:e03b6415-a18f-4058-b9b0-5721d38c6c50"><span class="section-number-4">2.8.1.</span> Font configurations (prot-fonts.el)</h4>
+<h4 id="h:e03b6415-a18f-4058-b9b0-5721d38c6c50"><span class="section-number-4">2.8.1.</span> Font configurations (fontaine.el)</h4>
 <div class="outline-text-4" id="text-h:e03b6415-a18f-4058-b9b0-5721d38c6c50">
+<p>
+<code>fontaine</code> is yet another package of mine for Emacs.  It lets the user
+define detailed font configurations and set them on demand.  For
+example, one can have a <code>regular-editing</code> preset and another for
+<code>presentation-mode</code> (these are arbitrary, user-defined symbols): the
+former uses small fonts which are optimised for writing, while the
+latter applies typefaces that are pleasant to read at comfortable point
+sizes.  More information in the official manual:
+<a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>.
+</p>
+
+<p>
+Check the configuration I have for it further below, while I dedicate
+the rest of this section to a commentary on fonts in general.
+</p>
+
 <p>
 Any font I choose must conform with the following:
 </p>
@@ -3719,53 +3735,6 @@ calling attention to themselves.
 </blockquote>
 
 <p>
-Moving on to my Elisp configurations, <code>prot-fonts.el</code> covers my advanced
-typeface requirements.  At its heart is <code>prot-fonts-typeface-sets-alist</code>.
-It contains associations of property lists (an alist of plists), each of
-which pertains to a give display type.  For example, when I am doing a
-video presentation, I require font configurations that differ from what
-I normally use.  So I have a <code>large</code> key in the alist to accommodate that
-particular need.  Those associations provide granular control over font
-attributes, as they specify both mono and proportionately spaced font
-families, each with their corresponding weights and heights.
-</p>
-
-<p>
-The command <code>prot-fonts-set-fonts</code> prompts with completion for a display
-type.  It gives options like <code>small</code>, <code>regular</code>, <code>large</code>, which are drawn from
-the <code>prot-fonts-typeface-sets-alist</code> (more on completion in the section
-<a href="#h:98d3abcc-f34e-4029-aabc-740f0b6421f8">Completion framework and extras</a>).  When called from Lisp it expects a
-<code>DISPLAY</code> argument, which is a symbol that matches the car of a cons cell
-in the aforementioned alist.  While the <code>prot-fonts-set-default-font</code> only
-operates on the <code>default</code> face: it uses minibuffer completion to select
-the font family, weight, and height.
-</p>
-
-<p>
-<code>prot-fonts-fonts-per-monitor</code> is not useful with my current hardware, as
-I designed it when I had a laptop (see <a href="#h:e134a8b2-224e-4383-bf03-b080ab6659c7">What hardware do you use?</a>).
-Still, the idea is interesting and I keep it around in case someone has
-a need for it.  It sets the appropriate font family and size depending
-on whether the maximum width of the monitor is below a certain threshold
-defined in <code>prot-fonts-max-small-resolution-width</code>.  So it will use the
-two first presets defined in the aforementioned alist, with the
-assumption that the first is the smallest, laptop-specific one.
-</p>
-
-<p>
-As noted above, <code>prot-fonts-typeface-sets-alist</code> associates a list of
-typefaces with desired weights, including for their bold variation.
-This is useful when the active theme (e.g. <a href="#h:b7444e76-75d4-4ae6-a9d6-96ff9408efe6">my Modus themes</a>) is designed
-in a way that parameterises or abstracts the exact value of a bold
-weight, by calling <code>:inherit bold</code> instead of specifying <code>:weight bold</code> for
-each face it controls.  The former applies the attributes of the <code>bold</code>
-face, whereas the latter sets the weight at a constant value.  When the
-theme is designed that way, we can configure the <code>:weight</code> of the <code>bold</code>
-face to, e.g., <code>extrabold</code> and have that propagate across all the
-supported faces at once.
-</p>
-
-<p>
 Now a few general notes about setting fonts in Emacs.
 </p>
 
@@ -3816,102 +3785,90 @@ Relevant publications of mine that are not part of this document:
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Font configurations (prot-fonts.el)
-(prot-emacs-builtin-package 'prot-fonts
+<pre class="src src-emacs-lisp">;;; Font configurations (fontaine.el)
+(prot-emacs-builtin-package 'fontaine
   ;; This is defined in Emacs C code: it belongs to font settings.
   (setq x-underline-at-descent-line t)
 
   ;; And this is for Emacs28.
   (setq-default text-scale-remap-header-line t)
 
-  ;; Make sure to read the `prot-fonts-typeface-sets-alist' doc string,
-  ;; as it explains what those property lists should contain.
-  ;;
-  ;; The version of "Hack" that I custom is a custom build on mine:
-  ;; &lt;https://git.sr.ht/~protesilaos/hack-font-mod&gt;.  Same principle for
-  ;; Iosevka Comfy: &lt;https://git.sr.ht/~protesilaos/iosevka-comfy&gt;.
-  (setq prot-fonts-typeface-sets-alist
-        '((small . ( :fixed-pitch-family "Hack"
-                     :fixed-pitch-regular-weight regular
-                     :fixed-pitch-heavy-weight bold
-                     :fixed-pitch-height 75
-                     :fixed-pitch-line-spacing 1
-                     :variable-pitch-family "FiraGO"
-                     :variable-pitch-height 1.05
-                     :variable-pitch-regular-weight normal))
+  (setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld"))
+  (setq fontaine-presets
+        '((regular
+           :default-family "Iosevka Comfy"
+           :default-weight normal
+           :default-height 100
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "FiraGO"
+           :variable-pitch-weight normal
+           :variable-pitch-height 1.05
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+           :italic-family nil
+           :italic-slant italic
+           :line-spacing nil)
+          (medium
+           :default-family "Iosevka Comfy"
+           :default-weight semilight
+           :default-height 135
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "FiraGO"
+           :variable-pitch-weight normal
+           :variable-pitch-height 1.05
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+           :italic-family nil
+           :italic-slant italic
+           :line-spacing nil)
+          (large
+           :default-family "Iosevka Comfy"
+           :default-weight semilight
+           :default-height 160
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "FiraGO"
+           :variable-pitch-weight normal
+           :variable-pitch-height 1.05
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+           :italic-family nil
+           :italic-slant italic
+           :line-spacing nil)
+          (presentation
+           :default-family "Iosevka Comfy"
+           :default-weight semilight
+           :default-height 170
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+           :variable-pitch-family "FiraGO"
+           :variable-pitch-weight normal
+           :variable-pitch-height 1.05
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+           :italic-family nil
+           :italic-slant italic
+           :line-spacing nil)))
 
-          (small-alt . ( :fixed-pitch-family "Iosevka Comfy"
-                         :fixed-pitch-regular-weight regular
-                         :fixed-pitch-heavy-weight extrabold
-                         :fixed-pitch-height 80
-                         :fixed-pitch-line-spacing 1
-                         :variable-pitch-family "FiraGO"
-                         :variable-pitch-height 1.0
-                         :variable-pitch-regular-weight normal))
+  (fontaine-restore-latest-preset)
 
-          (regular . ( :fixed-pitch-family "Iosevka Comfy"
-                       :fixed-pitch-regular-weight regular
-                       :fixed-pitch-heavy-weight extrabold
-                       :fixed-pitch-height 100
-                       :fixed-pitch-line-spacing nil
-                       :variable-pitch-family "FiraGO"
-                       :variable-pitch-height 1.0
-                       :variable-pitch-regular-weight normal))
+  ;; Set `fontaine-recovered-preset' or fall back to desired style from
+  ;; `fontaine-presets'.
+  (if-let ((state fontaine-recovered-preset))
+      (fontaine-set-preset state)
+    (fontaine-set-preset 'regular))
 
-          (large . ( :fixed-pitch-family "Iosevka Comfy"
-                     :fixed-pitch-regular-weight semilight
-                     :fixed-pitch-heavy-weight bold
-                     :fixed-pitch-height 135
-                     :fixed-pitch-line-spacing nil
-                     :variable-pitch-family "FiraGO"
-                     :variable-pitch-height 1.0
-                     :variable-pitch-regular-weight normal))
+  ;; The other side of `fontaine-restore-latest-preset'.
+  (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
 
-          (jumbo . ( :fixed-pitch-family "Iosevka Comfy"
-                     :fixed-pitch-regular-weight semilight
-                     :fixed-pitch-heavy-weight bold
-                     :fixed-pitch-height 160
-                     :fixed-pitch-line-spacing nil
-                     :variable-pitch-family "FiraGO"
-                     :variable-pitch-height 1.0
-                     :variable-pitch-regular-weight normal))
-
-          (presentation . ( :fixed-pitch-family "Iosevka Comfy"
-                            :fixed-pitch-regular-weight semilight
-                            :fixed-pitch-heavy-weight bold
-                            :fixed-pitch-height 170
-                            :fixed-pitch-line-spacing nil
-                            :variable-pitch-family "FiraGO"
-                            :variable-pitch-height 1.0
-                            :variable-pitch-regular-weight normal))))
-
-  ;; TODO 2021-08-27: I no longer have a laptop.  Those configurations
-  ;; are not relevant, but I keep them around as the idea is still good.
-
-  ;; The value of `prot-fonts--laptop-desktop-keys-list' becomes '(small
-  ;; regular) based on the car of the first two cons cells found in
-  ;; `prot-fonts-typeface-sets-alist'.  The assumption is that those
-  ;; contain sets from smaller to larger display types.
-  (setq prot-fonts--laptop-desktop-keys-list
-        (prot-fonts--laptop-desktop-keys))
-
-  ;; This is the breakpoint, in pixels, for determining whether we are
-  ;; on the small or large screen layout.  The number here is my
-  ;; laptop's screen width, while it expands beyond that when I connect
-  ;; it to an external monitor (how I normally set it up on my desk).
-  (setq prot-fonts-max-small-resolution-width 1366)
-
-  ;; And this just sets the right font depending on whether my laptop is
-  ;; connected to an external monitor or not.
-  (prot-fonts-fonts-per-monitor)
-
-  ;; See theme section for this hook and also read the doc string of
-  ;; `prot-fonts-restore-last'.
-  (add-hook 'modus-themes-after-load-theme-hook #'prot-fonts-restore-last)
-
-  (let ((map global-map))
-    (define-key map (kbd "C-c f") #'prot-fonts-set-fonts)
-    (define-key map (kbd "C-c F") #'prot-fonts-set-default-font)))
+  (define-key global-map (kbd "C-c f") #'fontaine-set-preset)
+  (define-key global-map (kbd "C-c F") #'fontaine-set-face-font))
 </pre>
 </div>
 
@@ -3946,6 +3903,11 @@ if you directly clone <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotfi
 ;; along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
 
 ;;; Commentary:
+;;
+;; DEPRECATED 2022-04-26 Use my fontaine.el instead (part of this
+;; repository).
+;;
+;;
 ;;
 ;; This set of configurations pertains to my font settings, for use in
 ;; my Emacs setup: https://protesilaos.com/emacs/dotemacs.
@@ -4290,7 +4252,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgf35ed90">
+<pre class="example" id="orge8fbaaa">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4373,7 +4335,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgbf6867a">
+<pre class="example" id="orgf67fad3">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6259,18 +6221,25 @@ fields with whatever values we want.
 </p>
 
 <p>
-My templates are rudimentary right now:
+My templates:
 </p>
 
-<pre class="example" id="org27ba728">
+<pre class="example" id="org063ae05">
 text-mode
 
-(sync-package p ": sync latest updates" n n
-              "Refer to its repo for documentation and proper commit/change logs:"
-              n "&lt;https://git.sr.ht/~protesilaos/"
-              p "&gt;")
+(dotfiles-sync-package
+ (p "Package name: " package t) package ": sync latest updates" n n
+ "Refer to its repo for documentation and proper commit/change logs:"
+ n "&lt;https://git.sr.ht/~protesilaos/" package "&gt;.")
 
-(update-manual-website "Update " p ".html")
+(website-update-package-manual "Update " p ".html")
+
+(sourcehut-list-description
+ (p "Package name: " package t)
+ "Post your comments, bug reports, or patches about " "'" package "': "
+ "&lt;https://git.sr.ht/~protesilaos/" package "&gt;." n n "If you need help formatting a"
+ "patch, read: &lt;https://protesilaos.com/codelog/2022-04-09-simple-guide-git-patches-emacs/&gt;."
+ n n "The email address for this mailing list is: &lt;~protesilaos/" package "@lists.sr.ht&gt;")
 
 ;; Local Variables:
 ;; mode: lisp-data
@@ -6281,7 +6250,11 @@ text-mode
 <p>
 I will add more of them over time as I think of better uses for this
 package.  In the meantime, please check the tempel documentation on how
-to define such templates: <a href="https://github.com/minad/tempel">https://github.com/minad/tempel</a>.
+to define such templates: <a href="https://github.com/minad/tempel">https://github.com/minad/tempel</a>.  You will
+notice that my templates have the <code>(p "Package name: " package t)</code> form
+which is then expanded in multiple places by referencing its <code>package</code>
+name.  This is a neat feature as I only have to type in once the keyword
+and it gets expanded in all the relevant places.
 </p>
 
 <div class="org-src-container">
@@ -11471,6 +11444,12 @@ such notifications."
   :type '(repeat string)
   :group 'tmr)
 
+(defcustom tmr-notify-function #'tmr-notifications-notify
+  "Function called to send notification.
+It should take two string arguments: the title and the message."
+  :type 'function
+  :group 'tmr)
+
 (defun tmr--unit (time)
   "Determine common time unit for TIME."
   (cond
@@ -11526,8 +11505,23 @@ such notifications."
           win))
     (user-error "No *tmr-messages* buffer; have you used `tmr'?")))
 
-(defun tmr--notify-send (start &amp;optional description)
-  "Send system notification for timer with START time.
+(defun tmr-notifications-notify (title message)
+  "Dispatch notification titled TITLE with MESSAGE via D-Bus.
+
+Read: (info \"(elisp) Desktop Notifications\") for details."
+  (notifications-notify
+   :title title
+   :body message
+   :app-name "GNU Emacs"
+   :urgency tmr-notification-urgency
+   :sound-file tmr-sound-file))
+
+(defun tmr--notify-send-notification (title message)
+  "Send notification with TITLE and MESSAGE using `tmr-notify-function'."
+  (funcall tmr-notify-function title message))
+
+(defun tmr--notify (start &amp;optional description)
+  "Send notification for timer with START time.
 Optionally include DESCRIPTION."
   (let ((end (format-time-string "%T"))
         (desc-plain "")
@@ -11535,19 +11529,16 @@ Optionally include DESCRIPTION."
     (when description
       (setq desc-plain (concat "\n" description)
             desc-propertized (concat " [" (propertize description 'face 'bold) "]")))
-    ;; Read: (info "(elisp) Desktop Notifications")
-    (notifications-notify
-     :title "TMR Must Recur"
-     :body (format "Time is up!\nStarted: %s\nEnded: %s%s"
-                   start end desc-plain)
-     :app-name "GNU Emacs"
-     :urgency tmr-notification-urgency
-     :sound-file tmr-sound-file)
+    (tmr--notify-send-notification
+     "TMR Must Recur"
+     (format "Time is up!\nStarted: %s\nEnded: %s%s"
+             start end desc-plain))
     (message
      "TMR %s %s ; %s %s%s"
      (propertize "Start:" 'face 'success) start
      (propertize "End:" 'face 'error) end
      desc-propertized)
+    (tmr--log-in-buffer (format "Completed at %s what started at %s" end start))
     (unless (plist-get (notifications-get-capabilities) :sound)
       (tmr--play-sound))))
 
@@ -11638,7 +11629,7 @@ To cancel the timer, use the `tmr-cancel' command."
            object-desc
            (run-with-timer
             unit nil
-            'tmr--notify-send start description))
+            'tmr--notify start description))
           tmr--timers)
     (tmr--log-in-buffer object-desc)))
 
@@ -15464,7 +15455,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org8cc334c">
+<pre class="example" id="org055eace">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15476,7 +15467,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org0e46c0b">
+<pre class="example" id="orgd0574a9">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15491,7 +15482,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org0ff6b4f">
+<pre class="example" id="org1d7f99c">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15509,7 +15500,7 @@ the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom
 example:
 </p>
 
-<pre class="example" id="org29dc979">
+<pre class="example" id="org72d5c6e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15538,7 +15529,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org30ccda3">
+<pre class="example" id="orgad79ff6">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15702,7 +15693,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orga621b21">
+<pre class="example" id="org689fa4c">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16429,7 +16420,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org5bc157d">
+<pre class="example" id="orgff2126a">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16463,7 +16454,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org59bdf52">
+<pre class="example" id="orga0ee4d9">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16627,7 +16618,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org6e5ccb8">
+<pre class="example" id="org7876986">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16822,7 +16813,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org3c5e2fe">
+<pre class="example" id="org41e0ae1">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17212,7 +17203,7 @@ This gets the `notmuch-tag-flagged' face, if that is specified in
   :type '(repeat string)
   :group 'prot-notmuch)
 
-(defcustom prot-notmuch-mark-spam-tags '("+spam" "+del" "-inbox" "-unread")
+(defcustom prot-notmuch-mark-spam-tags '("+spam" "-inbox" "-unread")
   "List of tags to mark as spam."
   :type '(repeat string)
   :group 'prot-notmuch)
@@ -17768,7 +17759,8 @@ notmuch tag -unread -new -- tag:replied
 notmuch tag +inbox +unread -new -- tag:new
 
 # tag my replies as "sent"
-notmuch tag -new -unread +inbox +sent -- '(from:"*@protesilaos.com*" not to:"*@protesilaos.com*" not tag:list)'
+# notmuch tag -new -unread +inbox +sent -- '(from:"*@protesilaos.com*" not to:"*@protesilaos.com*" not tag:list)'
+notmuch tag -new -unread +inbox +sent -- '(from:"*@protesilaos.com*" not to:"*@protesilaos.com*" not tag:list not tag:archived)'
 
 # mailing lists
 ## emacs
@@ -17871,7 +17863,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org9b3df67">
+<pre class="example" id="orgb7af39a">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18935,7 +18927,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgddc8af4">
+<pre class="example" id="org8da8b44">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19627,7 +19619,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org92b46f1">
+<pre class="example" id="org04e8263">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -21429,6 +21421,7 @@ mode line's typeface (or the default one if they are the same)."
 
 (autoload 'moody-replace-mode-line-buffer-identification "moody")
 (autoload 'moody-replace-vc-mode "moody")
+(autoload 'moody-replace-eldoc-minibuffer-message-function "moody")
 
 ;;;###autoload
 (define-minor-mode prot-moody-set-height
@@ -21439,6 +21432,7 @@ mode line's typeface (or the default one if they are the same)."
       (progn
         (moody-replace-mode-line-buffer-identification)
         (moody-replace-vc-mode)
+        (moody-replace-eldoc-minibuffer-message-function)
         (add-hook 'prot-fonts-set-typeface-hook #'prot-moody--mode-line-height)
         (run-hooks 'prot-fonts-set-typeface-hook))
     (let ((format (default-value 'mode-line-format)))
@@ -21446,6 +21440,8 @@ mode line's typeface (or the default one if they are the same)."
         (moody-replace-mode-line-buffer-identification 'reverse))
       (when (member '(vc-mode moody-vc-mode) format)
         (moody-replace-vc-mode 'reverse)))
+    (when (eq eldoc-message-function 'moody-eldoc-minibuffer-message)
+        (moody-replace-eldoc-minibuffer-message-function 'reverse))
     (remove-hook 'prot-fonts-set-typeface-hook #'prot-moody--mode-line-height)))
 
 (defvar keycast-insert-after)
@@ -24471,7 +24467,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org4188dbe">
+<pre class="example" id="org6120069">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24935,7 +24931,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org4475a67">
+<pre class="example" id="org02e28d5">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24944,7 +24940,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgd014781">
+<pre class="example" id="orge52d43b">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24969,7 +24965,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org9e68e15">
+<pre class="example" id="org50c4058">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25045,7 +25041,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org60a0f42">
+<pre class="example" id="org3017927">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25070,7 +25066,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org17f6f96">
+<pre class="example" id="org16e5070">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25079,7 +25075,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgab025de">
+<pre class="example" id="orgf050a3b">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25098,7 +25094,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org945baaf">
+<pre class="example" id="org22ebf69">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
