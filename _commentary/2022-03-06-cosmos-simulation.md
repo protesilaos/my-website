@@ -3,6 +3,11 @@ title: "About the world as simulation"
 excerpt: "Comment on this notion that the world may be a simulation."
 ---
 
+**UPDATE 2022-05-01 07:37 +0300:** Read a related discussion, which goes
+into more depth: [Further thoughts on the universe as
+simulation](https://protesilaos.com/commentary/2022-05-01-universe-simulation/)
+(2022-05-01).
+
 I received the following via email in response to my presentation about
 [Cosmos, Logos, and the living
 universe](https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/)
