@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-04-29 09:42 +0300</b>.</li>
-<li>Word count: <b>143014</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-05-01 08:31 +0300</b>.</li>
+<li>Word count: <b>143276</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -1327,8 +1327,11 @@ use elsewhere.
     (define-key map (kbd "C-'") #'prot-simple-insert-pair)
     (define-key map (kbd "M-'") #'prot-simple-insert-pair)
     (define-key map (kbd "M-\\") #'prot-simple-delete-pair-dwim)
-    (define-key map (kbd "C-M-;") #'prot-simple-cite-region)
-    (define-key map (kbd "C-M-^") #'prot-simple-insert-undercaret)
+    ;; NOTE 2022-05-01: I deprecated those commands.  I don't use them
+    ;; and they need to be reworked.
+    ;;
+    ;; (define-key map (kbd "C-M-;") #'prot-simple-cite-region)
+    ;; (define-key map (kbd "C-M-^") #'prot-simple-insert-undercaret)
     (define-key map (kbd "&lt;C-M-backspace&gt;") #'backward-kill-sexp)
     (define-key map (kbd "M-c") #'capitalize-dwim)
     (define-key map (kbd "M-l") #'downcase-dwim)        ; "lower" case
@@ -1827,83 +1830,86 @@ with the specified date."
       (delete-region beg end)
       (insert (format "&lt;%s&gt;" string)))))
 
-;;;###autoload
-(defun prot-simple-cite-region (beg end &amp;optional arg)
-  "Cite text in region lines between BEG and END.
+;; NOTE 2022-05-01: I deprecate the following commands, as I don't use
+;; them often and feel they need to be refined further.
 
-Region lines are always understood in absolute terms, regardless
-of whether the region boundaries coincide with them.
-
-With optional prefix ARG (\\[universal-argument]) prompt for a
-description that will be placed on a new line at the top of the
-newly formatted text."
-  (interactive "*r\nP")
-  (let* ((absolute-beg (if (&lt; beg end)
-                           (progn (goto-char beg) (point-at-bol))
-                         (progn (goto-char end) (point-at-eol))))
-         (absolute-end (if (&lt; beg end)
-                           (progn (goto-char end) (point-at-eol))
-                         (progn (goto-char beg) (point-at-bol))))
-         (prefix-text (if (&lt; beg end)
-                          (buffer-substring-no-properties absolute-beg beg)
-                        (buffer-substring-no-properties absolute-end end)))
-         (prefix (if (string-match-p "\\`[\t\s]+\\'" prefix-text)
-                     prefix-text
-                   (replace-regexp-in-string "\\`\\([\t\s]+\\).*" "\\1" prefix-text)))
-         (description (if arg
-                          (format "+----[ %s ]\n"
-                                  (read-string "Add description: "))
-                        "+----\n"))
-         (marked-text (buffer-substring-no-properties absolute-beg absolute-end))
-         (marked-text-new (replace-regexp-in-string "^.*?" (concat prefix "|") marked-text))
-         (text (with-temp-buffer
-                 (insert marked-text-new)
-                 (save-excursion
-                   (goto-char (point-min))
-                   (re-search-forward "^\\(^[\s\t]+\\)?.*?")
-                   (forward-line -1)
-                   (insert (concat prefix description))
-                   (goto-char (point-max))
-                   (forward-line 1)
-                   (insert "\n")
-                   (insert (concat prefix "+----")))
-                 (buffer-substring-no-properties (point-min) (point-max)))))
-    (delete-region absolute-beg absolute-end)
-    (insert text)))
-
-;; `prot-simple-insert-undercaret' was offered to me by Gregory
-;; Heytings: &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=45068#250&gt;.
-;;;###autoload
-(defun prot-simple-insert-undercaret (&amp;optional arg)
-  "Draw carets below the characters on the current line or region."
-  (interactive "p")
-  (let* ((begin (if (region-active-p) (region-beginning) (line-beginning-position)))
-         (end (if (region-active-p) (region-end) (line-end-position)))
-         (lines (- (line-number-at-pos end) (line-number-at-pos begin) -1))
-         (comment (and (/= arg 1) (= lines 1)))
-         (final-forward-line -1))
-    (goto-char begin)
-    (dotimes (i lines)
-      (let* ((line-begin (if (zerop i) begin (line-beginning-position)))
-             (line-end (if (= (1+ i) lines) end (line-end-position)))
-             (begin-column (progn (goto-char line-begin) (current-column)))
-             (end-column (progn (goto-char line-end) (current-column)))
-             (prefix-begin (line-beginning-position))
-             (prefix-end (progn (beginning-of-line-text) (point)))
-             (prefix-end-column (progn (goto-char prefix-end) (current-column)))
-             (delta (if (&lt; begin-column prefix-end-column) (- prefix-end-column begin-column) 0))
-             (prefix-string (buffer-substring-no-properties prefix-begin prefix-end))
-             (prefix (if (string-match-p "\\` *\\'" prefix-string) "" prefix-string))
-             (whitespace (make-string (- (+ begin-column delta) (string-width prefix)) ?\ ))
-             (do-under (&lt; delta (- line-end line-begin)))
-             (under (if do-under (make-string (- end-column begin-column delta) ?^) ""))
-             (under-string (concat prefix whitespace under "\n")))
-        (forward-line 1)
-        (if do-under (insert under-string) (setq final-forward-line -2))
-        (setq end (+ end (length under-string)))
-        (when comment (insert prefix whitespace "\n"))))
-    (forward-line final-forward-line)
-    (goto-char (line-end-position))))
+;; ;;;###autoload
+;; (defun prot-simple-cite-region (beg end &amp;optional arg)
+;;   "Cite text in region lines between BEG and END.
+;; 
+;; Region lines are always understood in absolute terms, regardless
+;; of whether the region boundaries coincide with them.
+;; 
+;; With optional prefix ARG (\\[universal-argument]) prompt for a
+;; description that will be placed on a new line at the top of the
+;; newly formatted text."
+;;   (interactive "*r\nP")
+;;   (let* ((absolute-beg (if (&lt; beg end)
+;;                            (progn (goto-char beg) (point-at-bol))
+;;                          (progn (goto-char end) (point-at-eol))))
+;;          (absolute-end (if (&lt; beg end)
+;;                            (progn (goto-char end) (point-at-eol))
+;;                          (progn (goto-char beg) (point-at-bol))))
+;;          (prefix-text (if (&lt; beg end)
+;;                           (buffer-substring-no-properties absolute-beg beg)
+;;                         (buffer-substring-no-properties absolute-end end)))
+;;          (prefix (if (string-match-p "\\`[\t\s]+\\'" prefix-text)
+;;                      prefix-text
+;;                    (replace-regexp-in-string "\\`\\([\t\s]+\\).*" "\\1" prefix-text)))
+;;          (description (if arg
+;;                           (format "+----[ %s ]\n"
+;;                                   (read-string "Add description: "))
+;;                         "+----\n"))
+;;          (marked-text (buffer-substring-no-properties absolute-beg absolute-end))
+;;          (marked-text-new (replace-regexp-in-string "^.*?" (concat prefix "|") marked-text))
+;;          (text (with-temp-buffer
+;;                  (insert marked-text-new)
+;;                  (save-excursion
+;;                    (goto-char (point-min))
+;;                    (re-search-forward "^\\(^[\s\t]+\\)?.*?")
+;;                    (forward-line -1)
+;;                    (insert (concat prefix description))
+;;                    (goto-char (point-max))
+;;                    (forward-line 1)
+;;                    (insert "\n")
+;;                    (insert (concat prefix "+----")))
+;;                  (buffer-substring-no-properties (point-min) (point-max)))))
+;;     (delete-region absolute-beg absolute-end)
+;;     (insert text)))
+;; 
+;; ;; `prot-simple-insert-undercaret' was offered to me by Gregory
+;; ;; Heytings: &lt;https://debbugs.gnu.org/cgi/bugreport.cgi?bug=45068#250&gt;.
+;; ;;;###autoload
+;; (defun prot-simple-insert-undercaret (&amp;optional arg)
+;;   "Draw carets below the characters on the current line or region."
+;;   (interactive "p")
+;;   (let* ((begin (if (region-active-p) (region-beginning) (line-beginning-position)))
+;;          (end (if (region-active-p) (region-end) (line-end-position)))
+;;          (lines (- (line-number-at-pos end) (line-number-at-pos begin) -1))
+;;          (comment (and (/= arg 1) (= lines 1)))
+;;          (final-forward-line -1))
+;;     (goto-char begin)
+;;     (dotimes (i lines)
+;;       (let* ((line-begin (if (zerop i) begin (line-beginning-position)))
+;;              (line-end (if (= (1+ i) lines) end (line-end-position)))
+;;              (begin-column (progn (goto-char line-begin) (current-column)))
+;;              (end-column (progn (goto-char line-end) (current-column)))
+;;              (prefix-begin (line-beginning-position))
+;;              (prefix-end (progn (beginning-of-line-text) (point)))
+;;              (prefix-end-column (progn (goto-char prefix-end) (current-column)))
+;;              (delta (if (&lt; begin-column prefix-end-column) (- prefix-end-column begin-column) 0))
+;;              (prefix-string (buffer-substring-no-properties prefix-begin prefix-end))
+;;              (prefix (if (string-match-p "\\` *\\'" prefix-string) "" prefix-string))
+;;              (whitespace (make-string (- (+ begin-column delta) (string-width prefix)) ?\ ))
+;;              (do-under (&lt; delta (- line-end line-begin)))
+;;              (under (if do-under (make-string (- end-column begin-column delta) ?^) ""))
+;;              (under-string (concat prefix whitespace under "\n")))
+;;         (forward-line 1)
+;;         (if do-under (insert under-string) (setq final-forward-line -2))
+;;         (setq end (+ end (length under-string)))
+;;         (when comment (insert prefix whitespace "\n"))))
+;;     (forward-line final-forward-line)
+;;     (goto-char (line-end-position))))
 
 ;;;; Commands for object transposition
 
@@ -4267,7 +4273,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org245328e">
+<pre class="example" id="org8ac9a9e">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4350,7 +4356,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org91c7096">
+<pre class="example" id="orge213d4f">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6239,7 +6245,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org2471fce">
+<pre class="example" id="orgf65b40c">
 text-mode
 
 (dotfiles-sync-package
@@ -6681,6 +6687,15 @@ of the symbol at point.  They also accept a numeric argument, which
 they interpret as an offset.  In practice, this is the same as running
 <code>M-s . M-s &lt;</code> or <code>M-s . M-s &gt;</code>.</li>
 
+<li><code>prot-search-replace-markup</code> helps me handle the common case where I
+copy text from, say, Org to Emacs Lisp buffers and need to change the
+markup for inline code.  It prompts for completion on the exact style
+to use and basically changes something like <code>`test'</code> to the equivalent
+in Org, and vice versa.  When the region is active, it only performs
+replacements within its boundaries, else replaces from point to the
+end of the buffer.  The <code>prot-search-markup-replacements</code> variable
+holds all the relevant associations of regexp and replacement.</li>
+
 <li><code>prot-search-occur-urls</code> gathers all URLs in the current buffer and
 places them in an Occur buffer <i>without their context</i> while also making
 them clickable (we say that it "buttonises" them).</li>
@@ -6765,6 +6780,7 @@ recursively starting from the current directory.</li>
 
   (let ((map global-map))
     (define-key map (kbd "M-s %") #'prot-search-isearch-replace-symbol)
+    (define-key map (kbd "M-s M-%") #'prot-search-replace-markup) ; see `prot-search-markup-replacements'
     (define-key map (kbd "M-s M-&lt;") #'prot-search-isearch-beginning-of-buffer)
     (define-key map (kbd "M-s M-&gt;") #'prot-search-isearch-end-of-buffer)
     (define-key map (kbd "M-s g") #'prot-search-grep)
@@ -6928,6 +6944,51 @@ With numeric ARG, move to ARGth occurrence counting from the
 end of the buffer.")
 
 ;;;; Replace/Occur
+
+(defvar prot-search-markup-replacements
+  '((elisp-to-org-code "`\\(.*?\\)'" "~\\1~")
+    (elisp-to-org-verbatim "`\\(.*?\\)'" "=\\1=")
+    (org-to-elisp-quote "[=~]\\(.*?\\)[=~]" "`\\1'")
+    (org-to-markdown-code "[=~]\\(.*?\\)[=~]" "`\\1`"))
+  "Common markup replacement patterns.")
+
+(defvar prot-search--replace-markup-history '()
+  "Minibuffer history of `prot-search-replace-markup'.")
+
+(defun prot-search--replace-markup-prompt ()
+  "Prompt for font set (used by `fontaine-set-fonts')."
+  (let* ((def (nth 0 prot-search--replace-markup-history))
+         (prompt (if def
+                     (format "Replace markup TYPE [%s]: " def)
+                   "Replace markup TYPE: ")))
+    (intern
+     (completing-read
+      prompt
+      ;; TODO 2022-05-01: maybe older Emacs versions need to explicitly
+      ;; map through the car of each list?
+      prot-search-markup-replacements
+      nil t nil 'prot-search--replace-markup-history def))))
+
+(defun prot-search-replace-markup (type)
+  "Perform TYPE of markup replacement.
+TYPE is the car of a list in `prot-search-markup-replacements'.
+
+When used interactively, prompt for completion among the
+available types.
+
+When the region is active, only perform replacements within its
+boundaries, else start from point to the end of the buffer."
+  (interactive (list (prot-search--replace-markup-prompt)))
+  (if-let* ((types prot-search-markup-replacements)
+            ((memq type (mapcar #'car types)))
+            (association (alist-get type types))
+            (search (nth 0 association))
+            (replace (nth 1 association)))
+      (if (use-region-p)
+          (replace-regexp-in-region search replace (region-beginning) (region-end))
+        (while (re-search-forward search nil t)
+          (replace-match replace)))
+    (user-error "`%s' is not part of `prot-search-markup-replacements'" type)))
 
 ;; TODO: make this work backwardly when given a negative argument
 (defun prot-search-isearch-replace-symbol ()
@@ -15470,7 +15531,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgadf2ac4">
+<pre class="example" id="org95cf41f">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15482,7 +15543,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org4908de7">
+<pre class="example" id="orge537494">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15497,7 +15558,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orge6111dd">
+<pre class="example" id="orgb2d6d4f">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15509,13 +15570,11 @@ this, if you need to (here dots represent empty spaces):
 </pre>
 
 <p>
-Furthermore, it is possible to use nested levels of indentation or, in
-my case, call <code>prot-simple-cite-region</code> and indent it accordingly (check
-the source code: <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom functions (prot-simple.el)</a>).  For
+Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="orgbff681a">
+<pre class="example" id="orgd2f3406">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15544,7 +15603,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org8ea9362">
+<pre class="example" id="org15bae5e">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15708,7 +15767,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgb00f9be">
+<pre class="example" id="org25fc9fb">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16435,7 +16494,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orga3e9d10">
+<pre class="example" id="orgc1b5b62">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16469,7 +16528,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgd78b33c">
+<pre class="example" id="orgaeb5798">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16633,7 +16692,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org6d09f52">
+<pre class="example" id="org89dca7f">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16828,7 +16887,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org90b3bf2">
+<pre class="example" id="org973f205">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17878,7 +17937,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orge65b18c">
+<pre class="example" id="org4336582">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18942,7 +19001,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org138de15">
+<pre class="example" id="org1ac8454">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19634,7 +19693,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org7935c0e">
+<pre class="example" id="org3bd7efc">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22925,25 +22984,8 @@ environments that are not already supported by Emacs.
 <div class="outline-text-4" id="text-h:a04db751-9675-4f31-befc-0b48671c4b3b">
 <p>
 My <code>prot-text.el</code> (copied verbatim further below) is meant to provide a
-set of extensions for the built-in <code>text-mode.el</code>.  Currently there is
-only one command:
-</p>
-
-<ul class="org-ul">
-<li><code>prot-text-insert-heading</code> lets you add a heading delimiter to the line
-at point.  The length of the delimiter is equal to that of the line.
-By default, the delimiter consists of hyphens, but with a <code>C-u</code> prefix
-argument those are substituted for equals signs.</li>
-</ul>
-
-<p>
-I used to have another two in this file, which have now (2021-04-13)
-been moved to <code>prot-simple.el</code>.  Those are <code>prot-simple-cite-region</code> and
-<code>prot-simple-insert-undercaret</code>.
-</p>
-
-<p>
-Refer to the source code in <a href="#h:ae48fe61-a3c3-4132-8986-785f9bfbeafb">Common custom functions (prot-simple.el)</a>.
+set of extensions for the built-in <code>text-mode.el</code>.  It remains a
+work-in-progress.
 </p>
 
 <div class="org-src-container">
@@ -24482,7 +24524,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org3e2ed60">
+<pre class="example" id="org7282964">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24946,7 +24988,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orga56b2df">
+<pre class="example" id="org03fb6a5">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24955,7 +24997,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org5ef542d">
+<pre class="example" id="org5a4cc2d">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24980,7 +25022,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgb2a424d">
+<pre class="example" id="org7448179">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25056,7 +25098,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgbff0f23">
+<pre class="example" id="org708caa3">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25081,7 +25123,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org652d2ff">
+<pre class="example" id="org845ae83">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25090,7 +25132,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgf4b3ef7">
+<pre class="example" id="orga76bec4">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25109,7 +25151,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org6a965e3">
+<pre class="example" id="org75f7200">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
