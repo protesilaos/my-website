@@ -91,8 +91,8 @@ modify this GNU manual.”
 <div class="outline-text-2" id="text-h:62d716b4-44f7-4078-85d2-29a7da8ca253">
 <p>
 Fontaine lets the user specify presets of font configurations and set
-them on demand.  The user option <code>fontaine-presets</code> holds all such
-presets.
+them on demand on graphical Emacs frames.  The user option
+<code>fontaine-presets</code> holds all such presets.
 </p>
 
 <p>
@@ -143,6 +143,18 @@ such as:
 </div>
 
 <p>
+The default behaviour of <code>fontaine-set-preset</code> is to change fonts across
+all graphical frames.  The user can, however, limit the changes to a
+given frame.  For interactive use, this is done by invoking the command
+with a universal prefix argument (<code>C-u</code> by default), which changes fonts
+only in the current frame.  When used in Lisp, the FRAME argument can be
+a frame object (satisfies <code>framep</code>) or a non-nil value: the former
+applies the effects to the given object, while the latter means the
+current frame and thus is the same as interactively supplying the prefix
+argument.
+</p>
+
+<p>
 The command <code>fontaine-set-face-font</code> prompts with completion for a face
 and then asks the user to specify the value of the relevant properties.
 Preferred font families can be defined in the user option
@@ -162,6 +174,11 @@ previewing certain styles before eventually codifying them as presets.
 Changing the <code>bold</code> and <code>italic</code> faces only has a noticeable effect if
 the underlying theme does not hardcode a weight and slant but inherits
 from those faces instead (e.g. the <code>modus-themes</code>).
+</p>
+
+<p>
+The <code>fontaine-set-face-font</code> also accepts an optional FRAME argument,
+which is the same as what was described above for <code>fontaine-set-preset</code>.
 </p>
 
 <p>
@@ -290,13 +307,9 @@ Remember to read the relevant doc strings.
          :italic-slant italic
          :line-spacing 1)))
 
-(fontaine-restore-latest-preset)
-
-;; Use `fontaine-recovered-preset' if available, else fall back to the
-;; desired style from `fontaine-presets'.
-(if-let ((state fontaine-recovered-preset))
-    (fontaine-set-preset state)
-  (fontaine-set-preset 'regular))
+;; Recover last preset or fall back to desired style from
+;; `fontaine-presets'.
+(fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
 
 ;; The other side of `fontaine-restore-latest-preset'.
 (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
@@ -322,7 +335,7 @@ Fontaine is meant to be a collective effort.  Every bit of help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to the code or manual</dt><dd>Eli Zaretskii.</dd>
+<dt>Contributions to the code or manual</dt><dd>Christopher League, Eli Zaretskii.</dd>
 </dl>
 </div>
 </div>
