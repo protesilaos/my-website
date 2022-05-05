@@ -97,13 +97,57 @@ with fast blinking&rdquo; and set them on demand.
 </p>
 
 <p>
-Users can define their preferences in the option <code>cursory-presets</code>.  The
-command <code>cursory-set-preset</code> can then be used to select one such style.
-Selection uses minibuffer completion.
+The user option <code>cursory-presets</code> holds the presets.  The command
+<code>cursory-set-preset</code> is used to select one among them.  Selection
+supports minibuffer completion when there are multiple presets, else
+sets the single preset outright.
 </p>
 
 <p>
-The function <code>cursory-store-latest-preset</code> can be used to save the last
+Presets consist of a list of properties that govern the cursor type in
+the active and inactive windows, as well as cursor blinking variables.
+They look like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(bar
+ :cursor-type (bar . 2)
+ :cursor-in-non-selected-windows hollow
+ :blink-cursor-blinks 10
+ :blink-cursor-interval 0.5
+ :blink-cursor-delay 0.2)
+</pre>
+</div>
+
+<p>
+The car of the list is an arbitrary, user-defined symbol that identifies
+(and can describe) the set.  Each of the properties corresponds to
+built-in variables: <code>cursor-type</code>, <code>cursor-in-non-selected-windows</code>,
+<code>blink-cursor-blinks</code>, <code>blink-cursor-interval</code>, <code>blink-cursor-delay</code>.
+The value each property accepts is the same as the variable it
+references.
+</p>
+
+<p>
+When called from Lisp, the <code>cursory-set-preset</code> command requires a
+PRESET argument, such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(cursory-set-preset 'bar)
+</pre>
+</div>
+
+<p>
+The default behaviour of <code>cursory-set-preset</code> is to change cursors
+globally.  The user can, however, limit the effect to the current
+buffer.  With interactive use, this is done by invoking the command with
+a universal prefix argument (<code>C-u</code> by default).  When called from Lisp,
+the LOCAL argument must be non-nil.
+</p>
+
+<p>
+The function <code>cursory-store-latest-preset</code> is used to save the last
 selected style in the <code>cursory-latest-state-file</code>.  The value can then
 be restored with the <code>cursory-restore-latest-preset</code> function.
 </p>
