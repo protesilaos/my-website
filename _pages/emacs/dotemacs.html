@@ -27,8 +27,8 @@ Current development target is 2.4.0-dev.
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-05-05 07:44 +0300</b>.</li>
-<li>Word count: <b>142695</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-05-05 17:42 +0300</b>.</li>
+<li>Word count: <b>143459</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -49,7 +49,7 @@ Information pertaining to my build of Emacs:
 
 <pre class="example">
 GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo version 1.17.6)
- of 2022-04-19
+ of 2022-05-05
 </pre>
 
 
@@ -59,7 +59,7 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 </div>
 
 <pre class="example">
---prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --with-gameuser=:games --with-sound=alsa --with-modules --without-libotf --without-m17n-flt --without-gconf --without-gsettings --with-native-compilation --with-xinput2 --with-sound=no --without-gpm --without-compress-install '--program-transform-name=s/\([ec]tags\)/\1.emacs/' 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection' LDFLAGS=-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
+--prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --with-gameuser=:games --with-sound=alsa --with-modules --without-libotf --without-m17n-flt --without-gconf --without-gsettings --with-native-compilation --with-xinput2 --with-sound=alsa --without-gpm --without-compress-install '--program-transform-name=s/\([ec]tags\)/\1.emacs/' 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection' LDFLAGS=-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
 </pre>
 
 
@@ -3896,13 +3896,8 @@ Relevant publications of mine that are not part of this document:
            :italic-slant italic
            :line-spacing nil)))
 
-  (fontaine-restore-latest-preset)
-
-  ;; Set `fontaine-recovered-preset' or fall back to desired style from
-  ;; `fontaine-presets'.
-  (if-let ((state fontaine-recovered-preset))
-      (fontaine-set-preset state)
-    (fontaine-set-preset 'regular))
+  ;; Set last preset or fall back to desired style from `fontaine-presets'.
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
 
   ;; The other side of `fontaine-restore-latest-preset'.
   (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
@@ -4292,7 +4287,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org3a7a348">
+<pre class="example" id="org218b1b3">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4375,7 +4370,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org54651cd">
+<pre class="example" id="org5fe3ae8">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6264,7 +6259,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org327cfd7">
+<pre class="example" id="org57bb06f">
 text-mode
 
 (dotfiles-sync-package
@@ -9283,8 +9278,8 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;; The `logos-focus-mode' tweaks the aesthetics of the current buffer.
 ;; When enabled it sets the buffer-local value of these user options:
 ;; `logos-scroll-lock', `logos-variable-pitch',`logos-hide-mode-line',
-;; `logos-indicate-buffer-boundaries', `logos-buffer-read-only', and
-;; `logos-olivetti'.
+;; `logos-indicate-buffer-boundaries', `logos-buffer-read-only',
+;; `logos-olivetti', and `logos-hide-fringe'.
 ;;
 ;; Logos is the familiar word derived from Greek (watch my presentation
 ;; on philosophy about Cosmos, Logos, and the living universe:
@@ -9373,6 +9368,13 @@ This applies when `logos-focus-mode' is enabled."
 
 (defcustom logos-olivetti nil
   "If non-nil center buffer in its window with Olivetti package.
+This is only relevant when `logos-focus-mode' is enabled."
+  :type 'boolean
+  :group 'logos
+  :local t)
+
+(defcustom logos-hide-fringe nil
+  "If non-nil make the `fringe' face the same as `default' background.
 This is only relevant when `logos-focus-mode' is enabled."
   :type 'boolean
   :group 'logos
@@ -9571,11 +9573,12 @@ alternate, thus toggling MODE."
 When enabled it sets the buffer-local value of these user
 options: `logos-scroll-lock', `logos-variable-pitch',
 `logos-hide-mode-line', `logos-indicate-buffer-boundaries',
-`logos-buffer-read-only', `logos-olivetti'."
+`logos-buffer-read-only', `logos-olivetti', `logos-hide-fringe'."
   :init-value nil
   :global nil
   :lighter " Λ" ; lambda majuscule
   (mapc #'funcall logos--restore)
+  (logos--remove-fringe-remap)
   (setq logos--restore nil)
   (when logos-focus-mode
     (logos--setup)))
@@ -9589,7 +9592,9 @@ options: `logos-scroll-lock', `logos-variable-pitch',
   ;; variables
   (logos--hide-mode-line)
   (logos--indicate-buffer-boundaries)
-  (logos--buffer-read-only))
+  (logos--buffer-read-only)
+  ;; faces
+  (logos--hide-fringe))
 
 (defun logos--variable-pitch ()
   "Set `logos-variable-pitch'."
@@ -9627,6 +9632,23 @@ options: `logos-scroll-lock', `logos-variable-pitch',
   "Set `logos-olivetti'."
   (when (and logos-olivetti (require 'olivetti nil t))
     (logos--mode 'olivetti-mode 1)))
+
+(defvar-local logos--fringe-remap-cookie nil
+  "Cookie of remapped `fringe' face.")
+
+(declare-function face-remap-add-relative "face-remap" (face &amp;rest specs))
+(declare-function face-remap-remove-relative "face-remap" (cookie))
+
+(defun logos--hide-fringe ()
+  "Set buffer-local `fringe' to the same background as `default'."
+  (when logos-hide-fringe
+      (setq logos--fringe-remap-cookie
+            (face-remap-add-relative 'fringe :background (face-background 'default)))))
+
+(defun logos--remove-fringe-remap ()
+  "Remove effect of `logos--hide-fringe'."
+  (when logos--fringe-remap-cookie
+    (face-remap-remove-relative logos--fringe-remap-cookie)))
 
 (provide 'logos)
 ;;; logos.el ends here
@@ -15550,7 +15572,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf32488c">
+<pre class="example" id="org44c0c16">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15562,7 +15584,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org0ea6932">
+<pre class="example" id="orgca1fbbb">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15577,7 +15599,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org27e6881">
+<pre class="example" id="org01f60d2">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15593,7 +15615,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org97502f6">
+<pre class="example" id="orgc0c5025">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15622,7 +15644,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org8c0b63f">
+<pre class="example" id="org69bfcbb">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15786,7 +15808,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org43f34fb">
+<pre class="example" id="org23ee1fc">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16513,7 +16535,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgdf557c9">
+<pre class="example" id="org4572e18">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16547,7 +16569,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org85ac22e">
+<pre class="example" id="orgb1f019d">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16711,7 +16733,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org9e07e19">
+<pre class="example" id="org5e6fccf">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16906,7 +16928,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org89a1bf0">
+<pre class="example" id="org7192795">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17956,7 +17978,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgbbf4b92">
+<pre class="example" id="orgcf77b8d">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19020,7 +19042,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org87be666">
+<pre class="example" id="org7bdfd72">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19712,7 +19734,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org3ccfb18">
+<pre class="example" id="org1d37b53">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22507,13 +22529,8 @@ be restored with the <code>cursory-restore-latest-preset</code> function.
 
   (setq cursory-latest-state-file (locate-user-emacs-file "cursory-latest-state.eld"))
 
-  (cursory-restore-latest-preset)
-
-  ;; Set `cursory-recovered-preset' or fall back to desired style from
-  ;; `cursory-presets'.
-  (if cursory-recovered-preset
-      (cursory-set-preset cursory-recovered-preset)
-    (cursory-set-preset 'bar))
+  ;; Set last preset or fall back to desired style from `cursory-presets'.
+  (cursory-set-preset (or (cursory-restore-latest-preset) 'bar))
 
   ;; The other side of `cursory-restore-latest-preset'.
   (add-hook 'kill-emacs-hook #'cursory-store-latest-preset)
@@ -24543,7 +24560,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgbbab8c7">
+<pre class="example" id="orgea18956">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25007,7 +25024,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orged424ca">
+<pre class="example" id="org625df54">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25016,7 +25033,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org3eac015">
+<pre class="example" id="org2cdd3e9">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25041,7 +25058,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org7864343">
+<pre class="example" id="org3ddf901">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25117,7 +25134,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org1a3e1da">
+<pre class="example" id="org5836bcf">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25142,7 +25159,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org545b172">
+<pre class="example" id="org9b82147">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25151,7 +25168,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org9511e54">
+<pre class="example" id="org63ed8d1">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25170,7 +25187,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org0d5f74c">
+<pre class="example" id="orgbb3eead">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
