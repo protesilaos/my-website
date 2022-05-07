@@ -76,7 +76,7 @@ think about my choice of words ([contact me](https://protesilaos.com/contact)).
 | local [e.g. value]                 | τοπική [π.χ. αξία]                    |
 | margin                             | περιθώριο                             |
 | fringe                             | παρυφή                                |
-| incremental [e.g. search]          | τμηματική [π.χ. εξεύρεση]             |
+| incremental [e.g. search]          | τμηματική [π.χ. αναζήτηση]            |
 | other window                       | έτερο παράθυρο                        |
 | selected window                    | επιλεγμένο παράθυρο                   |
 | current window                     | τρέχον παράθυρο                       |
