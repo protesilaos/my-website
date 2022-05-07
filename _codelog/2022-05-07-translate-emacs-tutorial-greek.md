@@ -42,7 +42,7 @@ think about my choice of words ([contact me](https://protesilaos.com/contact)).
 | argument                           | παράμετρος                            |
 | numeric argument                   | αριθμητική παράμετρος                 |
 | [universal] prefix argument        | [καθολική] προθεματική παράμετρος     |
-| repeat count                       | μετρητής επανάλληψης                  |
+| repeat count                       | μετρητής επανάληψης                   |
 | undo                               | αναίρεση                              |
 | delete                             | διαγραφή                              |
 | kill                               | εξαφάνιση                             |
