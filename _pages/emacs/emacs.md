@@ -163,7 +163,8 @@ mentions the email address you should use.
 ## Iosevka Comfy
 
 This is not an "Emacs package" per se though I use it full time in my
-Emacs setup (it complements my work on the `modus-themes`).
+Emacs setup (it complements my work on the `modus-themes` and
+`fontaine`).
 
 _Iosevka Comfy_ is a build of the Iosevka typeface with a rounded style
 and open shapes, adjusted metrics, and overrides for almost all
