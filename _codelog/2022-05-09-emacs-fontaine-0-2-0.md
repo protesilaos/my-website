@@ -12,7 +12,7 @@ Sources:
 
 + Package name (GNU ELPA): `fontaine`
 + Official manual: <https://protesilaos.com/emacs/fontaine>
-+ Change log: <https://protesilaos.com/emacs/mct-changelog>
++ Change log: <https://protesilaos.com/emacs/fontaine-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/fontaine>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/fontaine>
