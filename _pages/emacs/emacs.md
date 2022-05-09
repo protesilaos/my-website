@@ -151,6 +151,15 @@ with fast blinking" and set them on demand.
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
 
+## The official Emacs TUTORIAL in Greek
+
+I am the author and maintainer of the `TUTORIAL.el_GR` file that is part
+of Emacs 29 (current development target) since 2022-05-08.  You can find
+it in the Emacs source code inside the `etc/tutorials/` directory.  If
+you report a bug about it with `M-x report-emacs-bug`, consider adding
+me in carbon copy (Cc).  The `etc/tutorials/TUTORIAL.translators` file
+mentions the email address you should use.
+
 ## Iosevka Comfy
 
 This is not an "Emacs package" per se though I use it full time in my
