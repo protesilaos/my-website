@@ -20,17 +20,18 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2022-04-28.  Any reference to
+0.2.0, released on 2022-05-09.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.2.0-dev.
+Current development target is 0.3.0-dev.
 </p>
 
 <ul class="org-ul">
 <li>Homepage: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>.</li>
+<li>Change log: <a href="https://protesilaos.com/emacs/mct-changelog">https://protesilaos.com/emacs/mct-changelog</a>.</li>
 <li>Git repository: <a href="https://git.sr.ht/~protesilaos/fontaine">https://git.sr.ht/~protesilaos/fontaine</a>.</li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/fontaine">https://lists.sr.ht/~protesilaos/fontaine</a>.</li>
 </ul>
@@ -40,7 +41,11 @@ Current development target is 0.2.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f">1. COPYING</a></li>
-<li><a href="#h:62d716b4-44f7-4078-85d2-29a7da8ca253">2. Overview</a></li>
+<li><a href="#h:62d716b4-44f7-4078-85d2-29a7da8ca253">2. Overview</a>
+<ul>
+<li><a href="#h:35bc7f51-6368-4718-ad25-b276a1f2cc08">2.1. Shared and implicit fallback values for presets</a></li>
+</ul>
+</li>
 <li><a href="#h:031b9bea-d42b-4be0-82c7-42712cde94cc">3. Installation</a>
 <ul>
 <li><a href="#h:0f288b38-6da1-4628-8f78-4df56cbc8f2a">3.1. GNU ELPA package</a></li>
@@ -130,6 +135,10 @@ in Emacs.
 </p>
 
 <p>
+<a href="#h:35bc7f51-6368-4718-ad25-b276a1f2cc08">Shared and implicit fallback values for presets</a>.
+</p>
+
+<p>
 The command <code>fontaine-set-preset</code> applies the desired preset.  If there
 is only one available, it implements it outright.  Otherwise it produces
 a minibuffer prompt with completion among the available presets.  When
@@ -183,11 +192,18 @@ which is the same as what was described above for <code>fontaine-set-preset</cod
 
 <p>
 The latest value of <code>fontaine-set-preset</code> is stored in a file whose
-location is defined in <code>fontaine-latest-state-file</code>.  Saving is done by
-the <code>fontaine-store-latest-preset</code> function, which should be assigned to
-a hook (e.g. <code>kill-emacs-hook</code>).  To restore that value, the user can
-call the function <code>fontaine-restore-latest-preset</code> (such as by adding it
-to their init file).
+location is defined in <code>fontaine-latest-state-file</code> (normally part of
+the <code>.emacs.d</code> directory).  Saving is done by the function
+<code>fontaine-store-latest-preset</code>, which should be assigned to a hook
+(e.g. <code>kill-emacs-hook</code>).  To restore that value, the user can call the
+function <code>fontaine-restore-latest-preset</code> (such as by adding it to their
+init file).
+</p>
+
+<p>
+For users of the <code>no-littering</code> package, <code>fontaine-latest-state-file</code> is
+not stored in their <code>.emacs.d</code>, but in a standard directory instead:
+<a href="https://github.com/emacscollective/no-littering">https://github.com/emacscollective/no-littering</a>.
 </p>
 
 <p>
@@ -196,6 +212,258 @@ which, in turn, is what the font or source is.  However, I will not
 blame you if you can only interpret it as a descriptive acronym: FONTs
 Are Irrelevant in Non-graphical Emacs (because that is actually true).
 </p>
+</div>
+
+<div id="outline-container-h:35bc7f51-6368-4718-ad25-b276a1f2cc08" class="outline-3">
+<h3 id="h:35bc7f51-6368-4718-ad25-b276a1f2cc08"><span class="section-number-3">2.1.</span> Shared and implicit fallback values for presets</h3>
+<div class="outline-text-3" id="text-h:35bc7f51-6368-4718-ad25-b276a1f2cc08">
+<p>
+The user option <code>fontaine-presets</code> may look like this (its default
+value):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((regular
+         :default-family "Hack"
+         :default-weight normal
+         :default-height 100
+         :fixed-pitch-family "Fira Code"
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Noto Sans"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.0
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family "Source Code Pro"
+         :italic-slant italic
+         :line-spacing 1)
+        (large
+         :default-family "Iosevka"
+         :default-weight normal
+         :default-height 150
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil ; use whatever the underlying face has
+         :italic-slant italic
+         :line-spacing 1)))
+</pre>
+</div>
+
+<p>
+Notice that not all properties need to be specified, as they have
+reasonable fallback values.  The above can be written thus (removed
+lines are left empty for didactic purposes):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((regular
+         :default-family "Hack"
+
+         :default-height 100
+         :fixed-pitch-family "Fira Code"
+
+
+         :variable-pitch-family "Noto Sans"
+
+
+
+
+         :italic-family "Source Code Pro"
+
+         :line-spacing 1)
+        (large
+         :default-family "Iosevka"
+
+         :default-height 150
+
+
+
+         :variable-pitch-family "FiraGO"
+
+
+
+
+
+
+         :line-spacing 1)))
+</pre>
+</div>
+
+<p>
+Without the empty lines, we have this, which yields the same results as
+the first example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((regular
+         :default-family "Hack"
+         :default-height 100
+         :fixed-pitch-family "Fira Code"
+         :variable-pitch-family "Noto Sans"
+         :italic-family "Source Code Pro"
+         :line-spacing 1)
+        (large
+         :default-family "Iosevka"
+         :default-height 150
+         :variable-pitch-family "FiraGO"
+         :line-spacing 1)))
+</pre>
+</div>
+
+<p>
+We call the properties of the removed lines &ldquo;implicit fallback values&rdquo;.
+</p>
+
+<p>
+This already shows us that the value of <code>fontaine-presets</code> does not need
+to be extensive.  To further improve its conciseness, it accepts a
+special preset that provides a list of &ldquo;shared fallback properties&rdquo;: the
+<code>t</code> preset.  This one is used to define properties that are common to
+multiple presets, such as the <code>regular</code> and <code>large</code> we have illustrated
+thus far.  Here is how verbose presets can be expressed succinctly:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Notice the duplication of properties and how we will avoid it.
+(setq fontaine-presets
+      '((regular
+         :default-family "Iosevka Comfy"
+         :default-weight normal
+         :default-height 100
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (medium
+         :default-family "Iosevka Comfy"
+         :default-weight semilight
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (large
+         :default-family "Iosevka Comfy"
+         :default-weight semilight
+         :default-height 180
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight extrabold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)))
+
+(setq fontaine-presets
+      '((regular
+         :default-height 100)
+        (medium
+         :default-weight semilight
+         :default-height 140)
+        (large
+         :default-weight semilight
+         :default-height 180
+         :bold-weight extrabold)
+        (t ; our shared fallback properties
+         :default-family "Iosevka Comfy"
+         :default-weight normal
+         ;; :default-height 100
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)))
+</pre>
+</div>
+
+<p>
+The <code>t</code> preset does not need to explicitly cover all properties.  It can
+rely on the aforementioned &ldquo;implicit fallback values&rdquo; to further reduce
+its verbosity (though the user can always write all properties if they
+intend to change their values).  We then have this transformation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; The verbose form
+(setq fontaine-presets
+      '((regular
+         :default-height 100)
+        (medium
+         :default-weight semilight
+         :default-height 140)
+        (large
+         :default-weight semilight
+         :default-height 180
+         :bold-weight extrabold)
+        (t ; our shared fallback properties
+         :default-family "Iosevka Comfy"
+         :default-weight normal
+         ;; :default-height 100
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)))
+
+;; The concise one which relies on "implicit fallback values"
+(setq fontaine-presets
+      '((regular
+         :default-height 100)
+        (medium
+         :default-weight semilight
+         :default-height 140)
+        (large
+         :default-weight semilight
+         :default-height 180
+         :bold-weight extrabold)
+        (t ; our shared fallback properties
+         :default-family "Iosevka Comfy"
+         :default-weight normal
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-height 1.05)))
+</pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -336,6 +604,8 @@ Fontaine is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to the code or manual</dt><dd>Christopher League, Eli Zaretskii.</dd>
+
+<dt>Ideas and user feedback</dt><dd>Ted Reed.</dd>
 </dl>
 </div>
 </div>
