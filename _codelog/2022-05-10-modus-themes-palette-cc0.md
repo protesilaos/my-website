@@ -40,5 +40,5 @@ different decisions.
 
 ## Further reading
 
-* From the themes' manual: [Are these color schemes?](https://protesilaos.com/emacs/modus-themes#h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b).
+* From the themes' manual: [Are these color schemes?](https://protesilaos.com/emacs/modus-themes#h:a956dbd3-8fd2-4f5d-8b01-5f881268cf2b)
 * Blog post: [Colour theory and techniques used in the Modus themes](https://protesilaos.com/codelog/2022-04-21-modus-themes-colour-theory/)
