@@ -40,6 +40,7 @@ are built into Emacs version 28 or higher.
     + GitHub: <https://github.com/protesilaos/modus-themes>
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
++ Colour palette: <https://protesilaos.com/emacs/modus-themes-colors>
 
 ## Logos
 
