@@ -27,8 +27,8 @@ Current development target is 2.4.0-dev.
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-05-11 08:56 +0300</b>.</li>
-<li>Word count: <b>143573</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-05-11 20:15 +0300</b>.</li>
+<li>Word count: <b>144322</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -178,7 +178,7 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.33, cairo ver
 <li><a href="#h:77d14350-978d-4820-ab7f-4641706c445a">5.2. Custom extensions for "focus mode" (logos.el)</a></li>
 <li><a href="#h:787df548-0d95-4512-a61d-27852198f561">5.3. USLS &#x2014; Unassuming Sidenotes of Little Significance</a></li>
 <li><a href="#h:c66a0f25-840a-49f0-a615-66dfca61890b">5.4. INVTR (toy inventory and client manager)</a></li>
-<li><a href="#h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa">5.5. TMR Must Recur (tmr to set timers)</a></li>
+<li><a href="#h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa">5.5. TMR May Ring (tmr is used to set timers)</a></li>
 <li><a href="#h:0e2fe4c7-9d4b-4570-a293-9a9629021ff7">5.6. Version control tools</a>
 <ul>
 <li><a href="#h:2ff46d23-09d5-4d92-b0af-2339dc19719f">5.6.1. Diff-mode (and prot-diff.el extensions)</a></li>
@@ -4255,7 +4255,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org818612b">
+<pre class="example" id="org3276d5d">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4338,7 +4338,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org797b27d">
+<pre class="example" id="orgc204d37">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6227,7 +6227,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org223cf92">
+<pre class="example" id="org264ef23">
 text-mode
 
 (dotfiles-sync-package
@@ -9173,7 +9173,7 @@ Other potentially relevant parts of my dotemacs:
   (setq-default logos-hide-mode-line t)
   (setq-default logos-hide-buffer-boundaries t)
   (setq-default logos-hide-fringe t)
-  (setq-default logos-variable-pitch nil)
+  (setq-default logos-variable-pitch t) ; see my `fontaine' configurations
   (setq-default logos-buffer-read-only nil)
   (setq-default logos-scroll-lock nil)
   (setq-default logos-olivetti t)
@@ -11340,18 +11340,20 @@ Internally, this is a variant of `invtr-new-record' and
 </div>
 
 <div id="outline-container-h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa" class="outline-3">
-<h3 id="h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa"><span class="section-number-3">5.5.</span> TMR Must Recur (tmr to set timers)</h3>
+<h3 id="h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa"><span class="section-number-3">5.5.</span> TMR May Ring (tmr is used to set timers)</h3>
 <div class="outline-text-3" id="text-h:c90ba6fa-ebec-42a2-98a6-3ff9027b1ffa">
 <p>
-This is a package of mine.
+This is yet another package of mine.  I wrote the original version and
+continue to be the maintainer, but I have since received substantial
+contributions from Damien Cassou, who now counts as the co-author.
 </p>
 
 <p>
-TMR provides facilities for setting timers using a convenient notation.
-The point of entry is the <code>tmr</code> command.  It prompts for a unit of time,
-which is represented as a string that consists of a number and,
-optionally, a single character suffix which specifies the unit of time.
-Valid input formats:
+TMR is an Emacs package that provides facilities for setting timers
+using a convenient notation.  The first point of entry is the <code>tmr</code>
+command.  It prompts for a unit of time, which is represented as a
+string that consists of a number and, optionally, a single character
+suffix which specifies the unit of time.  Valid input formats:
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -11399,6 +11401,12 @@ though any arbitrary input is acceptable at the minibuffer prompt.
 </p>
 
 <p>
+An alternative to the <code>tmr</code> command is <code>tmr-with-description</code>.  The
+difference between the two is that the latter always prompts for a
+description.
+</p>
+
+<p>
 When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
 area messages can be reviewed with the <code>view-echo-area-messages</code> which is
@@ -11418,24 +11426,64 @@ decide how to handle the urgency value.
 </p>
 
 <p>
+If the <code>tmr-sound-file</code> is nil, or the file is not found, no sound will
+be played.
+</p>
+
+<p>
 The <code>tmr-cancel</code> command is used to cancel running timers (as set by the
-<code>tmr</code> command).  If there is only one timer, it cancels it outright.  If
-there are multiple timers, it produces a minibuffer completion prompt
-which asks for one among them.  Timers at the completion prompt are
-described by the exact time they were set and the input that was used to
-create them, including the optional description that <code>tmr</code> accepts.
+<code>tmr</code> or <code>tmr-with-description</code> commands).  If there is only one timer,
+it cancels it outright.  If there are multiple timers, it produces a
+minibuffer completion prompt which asks for one among them.  Timers at
+the completion prompt are described by the exact time they were set and
+the input that was used to create them, including the optional
+description that <code>tmr</code> and <code>tmr-with-description</code> accept.
+</p>
+
+<p>
+Active timers can be viewed in a grid with <code>tmr-tabulated-view</code> (part of
+the <code>tmr-tabulated.el</code> file).  The grid is placed in the
+<code>*tmr-tabulated-view*</code> buffer and looks like this:
+</p>
+
+<pre class="example" id="org1abcb8e">
+Start      End        Finished?  Description
+12:26:50   12:51:50   ✔         Update tmr manual
+12:26:35   12:56:35              Bake bread
+12:26:26   12:36:26              Prepare tea
+</pre>
+
+<p>
+If a timer has elapsed, it has a check mark, otherwise the <code>Finished?</code>
+column is empty.  A <code>Description</code> is shown only if it is provided while
+setting the timer, otherwise the field is left blank.
+</p>
+
+<p>
+The <code>tmr-tabulated-view</code> command relies on Emacs' <code>tabulated-list-mode</code>.
+From the <code>*tmr-tabulated-view*</code> buffer, invoke the command
+<code>describe-mode</code> to learn about the applicable key bindings, such as how
+to expand/contract columns and toggle their sort.
+</p>
+
+<p>
+While in this grid view, the <code>k</code> key runs the <code>tmr-tabulated-cancel</code>
+command.  It immediately cancels the timer at point.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; TMR Must Recur (just my generic timer)
+<pre class="src src-emacs-lisp">;;; TMR May Ring (tmr is used to set timers)
 (prot-emacs-builtin-package 'tmr
   (setq tmr-sound-file
         "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
   (setq tmr-notification-urgency 'normal)
   (setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
+  (require 'tmr-tabulated) ; you do not need this if you install the package
   (let ((map global-map))
     (define-key map (kbd "C-c t t") #'tmr)
+    (define-key map (kbd "C-c t T") #'tmr-with-description)
     (define-key map (kbd "C-c t e") #'tmr-view-echo-area-messages) ; "e" to remind of C-h e
+    (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
     (define-key map (kbd "C-c t c") #'tmr-cancel)))
 </pre>
 </div>
@@ -11449,7 +11497,9 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 
 ;; Copyright (C) 2020-2022  Free Software Foundation, Inc.
 
-;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;,
+;;         Damien Cassou &lt;damien@cassou.me&gt;
+;; Maintainer: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/tmr
 ;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
 ;; Version: 0.2.3
@@ -11474,10 +11524,10 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 ;;; Commentary:
 ;;
 ;; TMR is an Emacs package that provides facilities for setting timers
-;; using a convenient notation.  The point of entry is the `tmr' command.
-;; It prompts for a unit of time, which is represented as a string that
-;; consists of a number and, optionally, a single character suffix which
-;; specifies the unit of time.  Valid input formats:
+;; using a convenient notation.  The first point of entry is the `tmr'
+;; command.  It prompts for a unit of time, which is represented as a
+;; string that consists of a number and, optionally, a single character
+;; suffix which specifies the unit of time.  Valid input formats:
 ;;
 ;; | Input | Meaning   |
 ;; |-------+-----------|
@@ -11498,8 +11548,8 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 ;; When the timer is set, a message is sent to the echo area recording the
 ;; current time and the point in the future when the timer elapses.  Echo
 ;; area messages can be reviewed with the `view-echo-area-messages' which is
-;; bound to =C-h e= by default.  Though TMR provides its own buffer for
-;; reviewing its log: it is named =*tmr-messages*= and can be accessed with
+;; bound to `C-h e' by default.  Though TMR provides its own buffer for
+;; reviewing its log: it is named `*tmr-messages*' and can be accessed with
 ;; the command `tmr-view-echo-area-messages'.
 ;;
 ;; Once the timer runs its course, it produces a desktop notification and
@@ -11514,11 +11564,33 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 ;; be played.
 ;;
 ;; The `tmr-cancel' command is used to cancel running timers (as set by the
-;; `tmr' command).  If there is only one timer, it cancels it outright.  If
-;; there are multiple timers, it produces a minibuffer completion prompt
-;; which asks for one among them.  Timers at the completion prompt are
-;; described by the exact time they were set and the input that was used to
-;; create them, including the optional description that `tmr' accepts.
+;; `tmr' or `tmr-with-description' commands).  If there is only one timer,
+;; it cancels it outright.  If there are multiple timers, it produces a
+;; minibuffer completion prompt which asks for one among them.  Timers at
+;; the completion prompt are described by the exact time they were set and
+;; the input that was used to create them, including the optional
+;; description that `tmr' and `tmr-with-description' accept.
+;;
+;; Active timers can be viewed in a grid with `tmr-tabulated-view' (part of
+;; the `tmr-tabulated.el' file).  The grid is placed in the
+;; `*tmr-tabulated-view*' buffer and looks like this:
+;;
+;; Start      End        Finished?  Description
+;; 12:26:50   12:51:50   ✔         Update tmr manual
+;; 12:26:35   12:56:35              Bake bread
+;; 12:26:26   12:36:26              Prepare tea
+;;
+;; If a timer has elapsed, it has a check mark, otherwise the `Finished?'
+;; column is empty.  A `Description' is shown only if it is provided while
+;; setting the timer, otherwise the field is left blank.
+;;
+;; The `tmr-tabulated-view' command relies on Emacs' `tabulated-list-mode'.
+;; From the `*tmr-tabulated-view*' buffer, invoke the command
+;; `describe-mode' to learn about the applicable key bindings, such as how
+;; to expand/contract columns and toggle their sort.
+;;
+;; While in this grid view, the `k' key runs the `tmr-tabulated-cancel'
+;; command.  It immediately cancels the timer at point.
 
 ;;; Code:
 
@@ -11561,6 +11633,52 @@ used."
 It should take two string arguments: the title and the message."
   :type 'function
   :group 'tmr)
+
+(cl-defstruct (tmr-timer
+               (:constructor tmr--timer-create)
+               (:conc-name tmr--timer-))
+  (creation-date
+   nil
+   :read-only t
+   :documentation "Time at which the timer was created.")
+  (duration
+   nil
+   :read-only t
+   :documentation "Number of seconds after `start' indicating when the timer finishes.")
+  (donep
+   nil
+   :read-only nil
+   :documentation "Non-nil if the timer is finished.")
+  (timer-object
+   nil
+   :read-only nil
+   :documentation "The object returned by `run-with-timer'.")
+  (description
+   nil
+   :read-only t
+   :documentation "Optional string describing the purpose of the timer, e.g., \"Stop the oven\"."))
+
+(defun tmr--long-description (timer)
+  "Return a human-readable description for TIMER."
+  (let ((start (tmr--format-creation-date timer))
+        (duration (tmr--timer-duration timer))
+        (description (tmr--timer-description timer)))
+    (if description
+        (format "Started at %s with input '%s' and description '%s'" start duration description)
+      (format "Started at %s with input '%s'" start duration))))
+
+(defun tmr--format-creation-date (timer)
+  "Return a string representing when TIMER was created."
+  (tmr--format-time (tmr--timer-creation-date timer)))
+
+(defun tmr--format-end-date (timer)
+  "Return a string representing when TIMER should finish."
+  (format-time-string "%T" (time-add (tmr--timer-creation-date timer)
+                                     (tmr--timer-duration timer))))
+
+(defun tmr--format-time (time)
+  "Return a human-readable string representing TIME."
+  (format-time-string "%T" time))
 
 (defun tmr--unit (time)
   "Determine common time unit for TIME."
@@ -11632,19 +11750,21 @@ Read: (info \"(elisp) Desktop Notifications\") for details."
   "Send notification with TITLE and MESSAGE using `tmr-notify-function'."
   (funcall tmr-notify-function title message))
 
-(defun tmr--notify (start &amp;optional description)
-  "Send notification for timer with START time.
-Optionally include DESCRIPTION."
-  (let ((end (format-time-string "%T"))
-        (desc-plain "")
-        (desc-propertized ""))
-    (when description
-      (setq desc-plain (concat "\n" description)
-            desc-propertized (concat " [" (propertize description 'face 'bold) "]")))
+(defun tmr--notify (timer)
+  "Send notification for TIMER."
+  (let* ((description (tmr--timer-description timer))
+         (desc-plain (if description
+                         (concat "\n" description)
+                       ""))
+         (desc-propertized (if description
+                               (concat " [" (propertize description 'face 'bold) "]")
+                             ""))
+         (start (tmr--format-creation-date timer))
+         (end (tmr--format-end-date timer)))
+    (setf (tmr--timer-donep timer) t)
     (tmr--notify-send-notification
      "TMR May Ring (Emacs tmr package)"
-     (format "Time is up!\nStarted: %s\nEnded: %s%s"
-             start end desc-plain))
+     (format "Time is up!\nStarted: %s\nEnded: %s%s" start end desc-plain))
     (message
      "TMR %s %s ; %s %s%s"
      (propertize "Start:" 'face 'success) start
@@ -11658,35 +11778,42 @@ Optionally include DESCRIPTION."
   "List of timer objects.
 Populated by `tmr' and then operated on by `tmr-cancel'.")
 
+(defun tmr--get-timer-by-creation-date (creation-date)
+  "Return the timer which was started at CREATION-DATE."
+  (cl-find creation-date tmr--timers :key #'tmr--timer-creation-date))
+
 ;;;###autoload
-(defun tmr-cancel ()
-  "Cancel timer object set with `tmr' command.
-If there is a single timer, cancel it outright.  If there are
-multiple timers, prompt for one with completion."
-  (interactive)
-  (if-let ((timers tmr--timers))
-      (cond
-       ((= (length timers) 1)
-        (let ((cell (car timers)))
-          (cancel-timer (cdr cell))
-          (tmr--log-in-buffer (format "CANCELLED &lt;&lt;%s&gt;&gt;" (car cell)))
-          (setq tmr--timers nil)))
-       ((&gt; (length timers) 1)
-        (let* ((selection (completing-read "Cancel timer: " (mapc #'car timers) nil t))
-               (cell (assoc selection timers #'string-match-p))
-               (key (car cell))
-               (object (cdr cell)))
-          (cancel-timer object)
-          (tmr--log-in-buffer (format "CANCELLED &lt;&lt;%s&gt;&gt;" key))
-          (setq tmr--timers (delete cell tmr--timers)))))
-    (user-error "No `tmr' to cancel")))
+(defun tmr-cancel (timer)
+  "Cancel TIMER object set with `tmr' command.
+Interactively, let the user choose which timer to cancel with
+completion."
+  (interactive (list (tmr--read-timer)))
+  (if (not timer)
+      (user-error "No `tmr' to cancel")
+    (cancel-timer (tmr--timer-timer-object timer))
+    (tmr--log-in-buffer (format "CANCELLED &lt;&lt;%s&gt;&gt;" (tmr--long-description timer)))
+    (setq tmr--timers (cl-delete timer tmr--timers))))
+
+(defun tmr--read-timer ()
+  "Let the user choose a timer among all timers.
+Return the selected timer.  If there is a single timer, use that.
+If there are multiple timers, prompt for one with completion.  If
+there are no timers, return nil."
+  (let ((timers tmr--timers))
+    (cond
+     ((= (length timers) 1)
+      (car timers))
+     ((&gt; (length timers) 1)
+      (let* ((timer-descriptions (mapcar #'tmr--long-description timers))
+             (selection (completing-read "Timer: " timer-descriptions nil t)))
+        (cl-find selection timers :test #'string= :key #'tmr--long-description))))))
 
 (defun tmr--echo-area (time &amp;optional description)
   "Produce `message' for current `tmr' TIME.
 Optionally include DESCRIPTION."
   (let* ((specifier (substring time -1))
          (amount (substring time 0 -1))
-         (start (format-time-string "%T"))
+         (start (tmr--format-time (current-time)))
          (unit (pcase specifier
                  ("s" (format "%ss (s == second)" amount))
                  ("h" (format "%sh (h == hour)" amount))
@@ -11749,19 +11876,19 @@ command `tmr-with-description' instead of this one."
    (list
     (tmr--read-duration)
     (when current-prefix-arg (tmr--description-prompt))))
-  (let* ((start (format-time-string "%T"))
-         (unit (tmr--unit time))
-         (object-desc (if description
-                          (format "Started at %s with input '%s' and description '%s'" start time description)
-                        (format "Started at %s with input '%s'" start time))))
+  (let* ((creation-date (current-time))
+         (duration (tmr--unit time))
+         (timer (tmr--timer-create
+                 :description description
+                 :creation-date creation-date
+                 :duration duration))
+         (timer-object (run-with-timer
+                        duration nil
+                        #'tmr--notify timer)))
+    (setf (tmr--timer-timer-object timer) timer-object)
     (tmr--echo-area time description)
-    (push (cons
-           object-desc
-           (run-with-timer
-            unit nil
-            'tmr--notify start description))
-          tmr--timers)
-    (tmr--log-in-buffer object-desc)))
+    (push timer tmr--timers)
+    (tmr--log-in-buffer (tmr--long-description timer))))
 
 ;;;###autoload
 (defun tmr-with-description (time description)
@@ -15599,7 +15726,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf8a5a07">
+<pre class="example" id="org3a985b9">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -15611,7 +15738,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org0e57700">
+<pre class="example" id="org3dd07d4">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -15626,7 +15753,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org22517da">
+<pre class="example" id="org92c2825">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15642,7 +15769,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org0c270f0">
+<pre class="example" id="org346c11b">
 2021-04-13
     This event is not time sensitive
 ....
@@ -15671,7 +15798,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orge85e481">
+<pre class="example" id="org7660d64">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15835,7 +15962,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org47ae696">
+<pre class="example" id="orgc26d511">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -16562,7 +16689,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org1ae5e71">
+<pre class="example" id="orgee40570">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -16596,7 +16723,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgb49ee9d">
+<pre class="example" id="orga409ed7">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16760,7 +16887,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org96affdf">
+<pre class="example" id="org1d1fefa">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16955,7 +17082,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org9e5837c">
+<pre class="example" id="org68aeaa5">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -18005,7 +18132,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgef3f655">
+<pre class="example" id="org8fe005f">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -19069,7 +19196,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org93f045f">
+<pre class="example" id="orgce56796">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19761,7 +19888,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org9ebf05a">
+<pre class="example" id="org4e89a50">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -24586,7 +24713,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org37bce96">
+<pre class="example" id="org48f42b1">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -25050,7 +25177,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org2d95a5f">
+<pre class="example" id="orgb92dd0e">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25059,7 +25186,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgeaba0f7">
+<pre class="example" id="orge1b54e2">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -25084,7 +25211,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgfe50aca">
+<pre class="example" id="org1e966e2">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -25160,7 +25287,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgde172bb">
+<pre class="example" id="org6e9eb37">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -25185,7 +25312,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgbb16190">
+<pre class="example" id="org26c2c4b">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -25194,7 +25321,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgf61507d">
+<pre class="example" id="org7bd048d">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -25213,7 +25340,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd418d71">
+<pre class="example" id="org2e66df8">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
