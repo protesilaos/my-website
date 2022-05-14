@@ -150,10 +150,9 @@ description.
 <p>
 When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
-area messages can be reviewed with the <code>view-echo-area-messages</code> which is
-bound to <code>C-h e</code> by default.  Though TMR provides its own buffer for
-reviewing its log: it is named <code>*tmr-messages*</code> and can be accessed with
-the command <code>tmr-view-echo-area-messages</code>.
+area messages can be reviewed with the <code>view-echo-area-messages</code> which
+is bound to <code>C-h e</code> by default.  To check all timers, use the command
+<code>tmr-tabulated-view</code>, which is described further below.
 </p>
 
 <p>
@@ -182,8 +181,14 @@ description that <code>tmr</code> and <code>tmr-with-description</code> accept.
 </p>
 
 <p>
-[ The following information about the grid view is part of
-  0.3.0-dev ]
+[ The following information is part of 0.3.0-dev.  Some
+  things may still change. ]
+</p>
+
+<p>
+An existing timer can be cloned with the <code>tmr-clone</code> command.  It copies
+the duration and optional description of an existing timer into a new
+one.
 </p>
 
 <p>
@@ -192,7 +197,7 @@ the <code>tmr-tabulated.el</code> file).  The grid is placed in the
 <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="org159ee57">
+<pre class="example" id="orgcc7f988">
 Start      End        Finished?  Description
 12:26:50   12:51:50   ✔         Update tmr manual
 12:26:35   12:56:35              Bake bread
@@ -213,9 +218,24 @@ to expand/contract columns and toggle their sort.
 </p>
 
 <p>
-While in this grid view, the <code>k</code> key runs the <code>tmr-tabulated-cancel</code>
-command.  It immediately cancels the timer at point.
+While in this grid view:
 </p>
+
+<ul class="org-ul">
+<li>The <code>+</code> key creates a new timer by calling the standard <code>tmr</code> command.
+As always, use a prefix argument to also prompt for a description.</li>
+</ul>
+
+<ul class="org-ul">
+<li>The <code>c</code> key invokes the <code>tmr-tabulated-cancel</code> command.  It is the
+same as the aforementioned <code>tmr-cancel</code> plus some tweaks for the grid
+view.</li>
+</ul>
+
+<ul class="org-ul">
+<li>The <code>k</code> key runs the <code>tmr-tabulated-cancel</code> command.  It immediately
+cancels the timer at point.</li>
+</ul>
 </div>
 </div>
 
@@ -300,9 +320,9 @@ Everything is in place to set up the package.
 (let ((map global-map))
   (define-key map (kbd "C-c t t") #'tmr)
   (define-key map (kbd "C-c t T") #'tmr-with-description)
-  (define-key map (kbd "C-c t e") #'tmr-view-echo-area-messages) ; "e" to remind of C-h e
   (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
-  (define-key map (kbd "C-c t c") #'tmr-cancel))
+  (define-key map (kbd "C-c t c") #'tmr-clone)
+  (define-key map (kbd "C-c t k") #'tmr-cancel))
 </pre>
 </div>
 </div>
