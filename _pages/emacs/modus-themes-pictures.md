@@ -19,7 +19,7 @@ interface you may want to use in your Emacs session.
 
 The following screen shots correspond to version `1.4.0-dev` and were
 taken on 2021-05-05.  The typeface is [my modified version of
-Iosevka](https://gitlab.com/protesilaos/iosevka-comfy), set at point
+Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy), set at point
 size 14.
 
 **Enlarge the image**, because the smaller size can affect your
