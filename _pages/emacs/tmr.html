@@ -40,7 +40,13 @@ Current development target is 0.3.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:c002f811-ea06-4123-988b-a73183581fb9">1. COPYING</a></li>
-<li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a></li>
+<li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a>
+<ul>
+<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. About tmr-tabulated</a></li>
+<li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.2. Hooks</a></li>
+<li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.3. Sound and desktop notifications</a></li>
+</ul>
+</li>
 <li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a>
 <ul>
 <li><a href="#h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b">3.1. GNU ELPA package</a></li>
@@ -94,7 +100,8 @@ TMR is an Emacs package that provides facilities for setting timers
 using a convenient notation.  The first point of entry is the <code>tmr</code>
 command.  It prompts for a unit of time, which is represented as a
 string that consists of a number and, optionally, a single character
-suffix which specifies the unit of time.  Valid input formats:
+suffix which specifies the unit of time.  Without a suffix, the number
+is interpreted as a count in minutes.  Valid input formats:
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -135,10 +142,41 @@ suffix which specifies the unit of time.  Valid input formats:
 </table>
 
 <p>
-If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code>), it also
-asks for a description which accompanies the given timer.  Preconfigured
-candidates are specified in the user option <code>tmr-descriptions-list</code>,
-though any arbitrary input is acceptable at the minibuffer prompt.
+The input can be a floating point:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">1.5</td>
+<td class="org-left">1.5 minutes (90 seconds)</td>
+</tr>
+
+<tr>
+<td class="org-left">1.5h</td>
+<td class="org-left">1.5 hours (90 minutes)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code>), it asks for
+a description to accompany the given timer.  Preconfigured candidates
+are specified in the user option <code>tmr-descriptions-list</code>, though any
+arbitrary input is acceptable at the minibuffer prompt.
 </p>
 
 <p>
@@ -152,43 +190,43 @@ When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
 area messages can be reviewed with the <code>view-echo-area-messages</code> which
 is bound to <code>C-h e</code> by default.  To check all timers, use the command
-<code>tmr-tabulated-view</code>, which is described further below.
+<code>tmr-tabulated-view</code> (<a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">About tmr-tabulated</a>).
 </p>
 
 <p>
-Once the timer runs its course, it produces a desktop notification and
-plays an alarm sound.  The notification&rsquo;s message is practically the
-same as that which is sent to the echo area.  The sound file for the
-alarm is defined in <code>tmr-sound-file</code>, while the urgency of the
-notification can be set through the <code>tmr-notification-urgency</code> option.
-Note that it is up to the desktop environment or notification daemon to
-decide how to handle the urgency value.
-</p>
-
-<p>
-If the <code>tmr-sound-file</code> is nil, or the file is not found, no sound will
-be played.
+[ The following are part of 0.3.0-dev. ]
 </p>
 
 <p>
 The <code>tmr-cancel</code> command is used to cancel running timers (as set by the
 <code>tmr</code> or <code>tmr-with-description</code> commands).  If there is only one timer,
-it cancels it outright.  If there are multiple timers, it produces a
-minibuffer completion prompt which asks for one among them.  Timers at
-the completion prompt are described by the exact time they were set and
-the input that was used to create them, including the optional
-description that <code>tmr</code> and <code>tmr-with-description</code> accept.
+it cancels it outright.  If there are multiple running timers, it
+produces a minibuffer completion prompt which asks for one among them.
+Timers at the completion prompt are described by the exact time they
+were set and the input that was used to create them, including the
+optional description that <code>tmr</code> and <code>tmr-with-description</code> accept.
 </p>
 
 <p>
-[ The following information is part of 0.3.0-dev.  Some
-  things may still change. ]
+A timer can be cloned with the <code>tmr-clone</code> command.  It directly copies
+the duration and optional description of a timer into a new one.  With
+an optional prefix argument, this command prompts for a duration and, if
+the underlying timer had a description, for a description as well.  The
+default values of such prompts as those of the original timer.
 </p>
 
 <p>
-An existing timer can be cloned with the <code>tmr-clone</code> command.  It copies
-the duration and optional description of an existing timer into a new
-one.
+Timers have hooks associated with their creation, cancellation, or
+completion (<a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">Hooks</a>).  TMR can also integrate with the desktop environment
+to send notifications (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound and desktop notifications</a>).
+</p>
+</div>
+
+<div id="outline-container-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a" class="outline-3">
+<h3 id="h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a"><span class="section-number-3">2.1.</span> About tmr-tabulated</h3>
+<div class="outline-text-3" id="text-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">
+<p>
+[ Part of 0.3.0-dev. ]
 </p>
 
 <p>
@@ -197,7 +235,7 @@ the <code>tmr-tabulated.el</code> file).  The grid is placed in the
 <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="orgcc7f988">
+<pre class="example" id="org5da1c2e">
 Start      End        Finished?  Description
 12:26:50   12:51:50   ✔         Update tmr manual
 12:26:35   12:56:35              Bake bread
@@ -205,20 +243,21 @@ Start      End        Finished?  Description
 </pre>
 
 <p>
-If a timer has elapsed, it has a check mark, otherwise the <code>Finished?</code>
-column is empty.  A <code>Description</code> is shown only if it is provided while
-setting the timer, otherwise the field is left blank.
+If a timer has elapsed, it has a check mark associated with it,
+otherwise the <code>Finished?</code> column is empty.  A <code>Description</code> is shown
+only if it is provided while setting the timer, otherwise the field is
+left blank.
 </p>
 
 <p>
 The <code>tmr-tabulated-view</code> command relies on Emacs&rsquo; <code>tabulated-list-mode</code>.
 From the <code>*tmr-tabulated-view*</code> buffer, invoke the command
-<code>describe-mode</code> to learn about the applicable key bindings, such as how
-to expand/contract columns and toggle their sort.
+<code>describe-mode</code> to learn about the generic applicable key bindings, such
+as how to expand/contract columns and toggle their sort.
 </p>
 
 <p>
-While in this grid view:
+While in this grid view, one can perform several operations on timers:
 </p>
 
 <ul class="org-ul">
@@ -227,15 +266,90 @@ As always, use a prefix argument to also prompt for a description.</li>
 </ul>
 
 <ul class="org-ul">
-<li>The <code>c</code> key invokes the <code>tmr-tabulated-cancel</code> command.  It is the
-same as the aforementioned <code>tmr-cancel</code> plus some tweaks for the grid
-view.</li>
+<li>The <code>c</code> key invokes the <code>tmr-tabulated-clone</code> command.  It is the same
+as <code>tmr-clone</code> plus some tweaks for the grid view.</li>
 </ul>
 
 <ul class="org-ul">
 <li>The <code>k</code> key runs the <code>tmr-tabulated-cancel</code> command.  It immediately
 cancels the timer at point.</li>
 </ul>
+
+<ul class="org-ul">
+<li>The <code>s</code> key runs the <code>tmr-tabulated-reschedule</code> command.  It
+effectively replaces the timer at point with a new one, using the
+aforementioned &ldquo;cancel&rdquo; and &ldquo;clone&rdquo; operations.  If the timer being
+rescheduled has a description, this command will also prompt for a
+description while creating the new timer, otherwise it will just ask
+for a duration.</li>
+</ul>
+
+<ul class="org-ul">
+<li>The <code>w</code> key invokes the <code>tmr-tabulated-rewrite-description</code> command.
+It prompts for user input and uses it to rewrite the description of
+the timer at point.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:c908f440-da08-462e-be4e-a61fb274ecbc" class="outline-3">
+<h3 id="h:c908f440-da08-462e-be4e-a61fb274ecbc"><span class="section-number-3">2.2.</span> Hooks</h3>
+<div class="outline-text-3" id="text-h:c908f440-da08-462e-be4e-a61fb274ecbc">
+<p>
+TMR provides the following hooks:
+</p>
+
+<dl class="org-dl">
+<dt><code>tmr-timer-created-functions</code></dt><dd>This is triggered by the <code>tmr</code>
+command.  By default, it will print a message in the echo area showing
+the newly created timer&rsquo;s start and end time as well as its optional
+description (if provided).</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-timer-completed-functions</code></dt><dd>This runs when a timer elapses.  By
+default, it will (i) produce a desktop notification which describes
+the timers start/end time and optional description (if available),
+(ii) play an alarm sound (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound and desktop notifications</a>), and (iii)
+print a message in the echo area which is basically the same as the
+desktop notification.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-timer-cancelled-functions</code></dt><dd>This is called by <code>tmr-cancel</code>.  By
+default, it will print a message in the echo area describing the timer
+that was cancelled.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-h:56bbbd6f-5b63-4375-9c86-e1eb231be356" class="outline-3">
+<h3 id="h:56bbbd6f-5b63-4375-9c86-e1eb231be356"><span class="section-number-3">2.3.</span> Sound and desktop notifications</h3>
+<div class="outline-text-3" id="text-h:56bbbd6f-5b63-4375-9c86-e1eb231be356">
+<p>
+Once the timer runs its course, it produces a desktop notification and
+plays an alarm sound.  The notification&rsquo;s message is practically the
+same as that which is sent to the echo area.
+</p>
+
+<p>
+The sound file for the alarm is defined in <code>tmr-sound-file</code>, while the
+urgency of the notification can be set through the user option
+<code>tmr-notification-urgency</code>.  Note that it is up to the desktop
+environment or notification daemon to decide how to handle the urgency
+value.
+</p>
+
+<p>
+If the <code>tmr-sound-file</code> is nil, or the file is not found, no sound will
+be played.
+</p>
+
+<p>
+Sound playback depends on the <code>ffplay</code> executable which is part of
+<code>ffmpeg</code>.
+</p>
+</div>
 </div>
 </div>
 
