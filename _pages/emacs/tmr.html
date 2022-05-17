@@ -14,19 +14,20 @@ permalink: /emacs/tmr
 
 <p>
 This manual, written by Protesilaos Stavrou, describes the customization
-options for <code>tmr</code> (or <code>tmr.el</code>, tmr, TMR, TMR May Ring, &#x2026;), and
-provides every other piece of information pertinent to it.
+options for <code>tmr</code> (or TMR, TMR May Ring, &#x2026;), and provides every other
+piece of information pertinent to it.  The name of the package is
+pronounced as &ldquo;timer&rdquo; or &ldquo;T-M-R&rdquo;.
 </p>
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.2.0, released on 2022-04-21.  Any reference to
+0.3.0, released on 2022-05-17.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.3.0-dev.
+Current development target is 0.4.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -42,7 +43,7 @@ Current development target is 0.3.0-dev.
 <li><a href="#h:c002f811-ea06-4123-988b-a73183581fb9">1. COPYING</a></li>
 <li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a>
 <ul>
-<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. About tmr-tabulated</a></li>
+<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid view</a></li>
 <li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.2. Hooks</a></li>
 <li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.3. Sound and desktop notifications</a></li>
 </ul>
@@ -173,10 +174,11 @@ The input can be a floating point:
 </table>
 
 <p>
-If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code>), it asks for
-a description to accompany the given timer.  Preconfigured candidates
-are specified in the user option <code>tmr-descriptions-list</code>, though any
-arbitrary input is acceptable at the minibuffer prompt.
+If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code> with default
+key bindings), it asks for a description to be associated with the given
+timer.  Preconfigured candidates, as a list of strings, are specified in
+the user option <code>tmr-descriptions-list</code>, though any arbitrary input is
+acceptable at the minibuffer prompt.
 </p>
 
 <p>
@@ -190,56 +192,58 @@ When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
 area messages can be reviewed with the <code>view-echo-area-messages</code> which
 is bound to <code>C-h e</code> by default.  To check all timers, use the command
-<code>tmr-tabulated-view</code> (<a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">About tmr-tabulated</a>).
+<code>tmr-tabulated-view</code>, which has more features than the generic
+<code>*Messages*</code> buffer (<a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">Grid view</a>).
 </p>
 
 <p>
-[ The following are part of 0.3.0-dev. ]
+The <code>tmr-cancel</code> command cancels running timers and erases them from the
+list of created timer objects.  If there is only one timer, it cancels
+it outright.  If there are multiple running timers, it produces a
+minibuffer completion prompt, asking for one among them.  Timers at the
+completion prompt are described by the exact time they were set and the
+input that was used to create them, including the optional description
+that <code>tmr</code> and <code>tmr-with-description</code> accept.
 </p>
 
 <p>
-The <code>tmr-cancel</code> command is used to cancel running timers (as set by the
-<code>tmr</code> or <code>tmr-with-description</code> commands).  If there is only one timer,
-it cancels it outright.  If there are multiple running timers, it
-produces a minibuffer completion prompt which asks for one among them.
-Timers at the completion prompt are described by the exact time they
-were set and the input that was used to create them, including the
-optional description that <code>tmr</code> and <code>tmr-with-description</code> accept.
+The <code>tmr-clone</code> command directly copies the duration and optional
+description of a timer into a new one.  With an optional prefix
+argument, this command prompts for a duration and, if the underlying
+timer had a description, for a description as well.  The default values
+of such prompts as those of the original timer.
 </p>
 
 <p>
-A timer can be cloned with the <code>tmr-clone</code> command.  It directly copies
-the duration and optional description of a timer into a new one.  With
-an optional prefix argument, this command prompts for a duration and, if
-the underlying timer had a description, for a description as well.  The
-default values of such prompts as those of the original timer.
+The <code>tmr-remove-finished</code> command deletes all elapsed timers from the
+list of timers.  This means that they can no longer be cloned.
 </p>
 
 <p>
-Timers have hooks associated with their creation, cancellation, or
+Timers have hooks associated with their creation, cancellation, and
 completion (<a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">Hooks</a>).  TMR can also integrate with the desktop environment
 to send notifications (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound and desktop notifications</a>).
+</p>
+
+<p>
+TMR does not specify any global key bindings.  The user must configure
+their own (<a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">Sample configuration</a>).
 </p>
 </div>
 
 <div id="outline-container-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a" class="outline-3">
-<h3 id="h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a"><span class="section-number-3">2.1.</span> About tmr-tabulated</h3>
+<h3 id="h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a"><span class="section-number-3">2.1.</span> Grid view</h3>
 <div class="outline-text-3" id="text-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">
 <p>
-[ Part of 0.3.0-dev. ]
+Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data is
+placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<p>
-Active timers can be viewed in a grid with <code>tmr-tabulated-view</code> (part of
-the <code>tmr-tabulated.el</code> file).  The grid is placed in the
-<code>*tmr-tabulated-view*</code> buffer and looks like this:
-</p>
-
-<pre class="example" id="org5da1c2e">
+<pre class="example" id="orgb40e5dc">
 Start      End        Finished?  Description
-12:26:50   12:51:50   ✔         Update tmr manual
-12:26:35   12:56:35              Bake bread
-12:26:26   12:36:26              Prepare tea
+09:22:43   09:32:43   ✔         Prepare tea
+09:17:14   09:37:14              Boil water
+09:07:03   09:57:03              Bake bread
 </pre>
 
 <p>
@@ -252,8 +256,9 @@ left blank.
 <p>
 The <code>tmr-tabulated-view</code> command relies on Emacs&rsquo; <code>tabulated-list-mode</code>.
 From the <code>*tmr-tabulated-view*</code> buffer, invoke the command
-<code>describe-mode</code> to learn about the generic applicable key bindings, such
-as how to expand/contract columns and toggle their sort.
+<code>describe-mode</code> (<code>C-h m</code> with standard key bindings) to learn about the
+applicable functionality, such as how to expand/contract columns and
+toggle their sort.
 </p>
 
 <p>
@@ -273,6 +278,12 @@ as <code>tmr-clone</code> plus some tweaks for the grid view.</li>
 <ul class="org-ul">
 <li>The <code>k</code> key runs the <code>tmr-tabulated-cancel</code> command.  It immediately
 cancels the timer at point.</li>
+</ul>
+
+<ul class="org-ul">
+<li>The <code>K</code> key uses <code>tmr-tabulated-remove-finished</code> to delete all elapsed
+timers.  This means that they no longer show up in the grid and cannot
+be cloned.</li>
 </ul>
 
 <ul class="org-ul">
@@ -309,7 +320,7 @@ description (if provided).</dd>
 <dl class="org-dl">
 <dt><code>tmr-timer-completed-functions</code></dt><dd>This runs when a timer elapses.  By
 default, it will (i) produce a desktop notification which describes
-the timers start/end time and optional description (if available),
+the timer&rsquo;s start/end time and optional description (if available),
 (ii) play an alarm sound (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound and desktop notifications</a>), and (iii)
 print a message in the echo area which is basically the same as the
 desktop notification.</dd>
@@ -374,6 +385,13 @@ M-x package-install
 <p>
 And search for it.
 </p>
+
+<p>
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the <code>elpa-devel</code> archive.  Read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
+</p>
 </div>
 </div>
 
@@ -436,7 +454,8 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c t T") #'tmr-with-description)
   (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
   (define-key map (kbd "C-c t c") #'tmr-clone)
-  (define-key map (kbd "C-c t k") #'tmr-cancel))
+  (define-key map (kbd "C-c t k") #'tmr-cancel)
+  (define-key map (kbd "C-c t K") #'tmr-remove-finished))
 </pre>
 </div>
 </div>
