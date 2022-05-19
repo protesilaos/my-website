@@ -186,6 +186,13 @@ M-x package-install
 <p>
 And search for it.
 </p>
+
+<p>
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the GNU-devel ELPA archive.  Read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
+</p>
 </div>
 </div>
 
@@ -246,7 +253,7 @@ assuming the default keys).</li>
 
 <li>To have quick access to <code>logos-focus-mode</code>, bind it to a key.  This
 mode checks the variables <code>logos-hide-mode-line</code>, <code>logos-scroll-lock</code>,
-<code>logos-variable-pitch</code>, <code>logos-indicate-buffer-boundaries</code>,
+<code>logos-variable-pitch</code>, <code>logos-hide-buffer-boundaries</code>,
 <code>logos-buffer-read-only</code>, <code>logos-olivetti</code> (requires <code>olivetti</code>
 package) and applies their effects if they are non-nil.  Note that
 everything is buffer-local, so it is possible to use file variables as
@@ -261,17 +268,18 @@ described in the Emacs manual.</li>
 (setq logos-outline-regexp-alist
       `((emacs-lisp-mode . "^;;;+ ")
         (org-mode . "^\\*+ +")
+        (markdown-mode . "^\\#+ +")
         (t . ,(or outline-regexp logos--page-delimiter))))
 
 ;; These apply when `logos-focus-mode' is enabled.  Their value is
 ;; buffer-local.
-(setq-default logos-hide-mode-line nil
-              logos-scroll-lock nil
+(setq-default logos-hide-mode-line t
+              logos-hide-buffer-boundaries t
+              logos-hide-fringe t
               logos-variable-pitch nil
-              logos-indicate-buffer-boundaries nil
               logos-buffer-read-only nil
-              logos-olivetti nil
-              logos-hide-fringe nil)
+              logos-scroll-lock nil
+              logos-olivetti nil)
 
 (let ((map global-map))
   (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
