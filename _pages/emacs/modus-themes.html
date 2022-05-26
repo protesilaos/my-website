@@ -133,6 +133,7 @@ Current development target is 2.4.0-dev.
 <li><a href="#h:e2aed9eb-5e1e-45ec-bbd7-bc4faeab3236">6.23. Diffs with only the foreground</a></li>
 <li><a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">6.24. Ediff without diff color-coding</a></li>
 <li><a href="#h:c1f3fa8e-7a63-4a6f-baf3-a7febc0661f0">6.25. Near-monochrome syntax highlighting</a></li>
+<li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">6.26. Custom hl-todo colors</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -4726,7 +4727,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org409b22a">
+<pre class="example" id="orgd22d60b">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5337,6 +5338,52 @@ comments are gray.  Regexp constructs are adapted accordingly.
     (set-face-attribute 'font-lock-warning-face nil :inherit 'modus-themes-bold :foreground red-nuanced-fg)))
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:2ef83a21-2f0a-441e-9634-473feb940743" class="outline-3">
+<h3 id="h:2ef83a21-2f0a-441e-9634-473feb940743"><span class="section-number-3">6.26.</span> Custom hl-todo colors</h3>
+<div class="outline-text-3" id="text-h:2ef83a21-2f0a-441e-9634-473feb940743">
+<p>
+The <code>hl-todo</code> package provides the user option <code>hl-todo-keyword-faces</code>:
+it specifies a pair of keyword and corresponding color value.  The Modus
+themes configure that option in the interest of legibility.  While this
+works for our purposes, users may still prefer to apply their custom
+values, in which case the following approach is necessary:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-hl-todo-faces ()
+  (setq hl-todo-keyword-faces '(("TODO" . "#ff0000")
+                                ("HACK" . "#ffff00")
+                                ("XXX" . "#00ffff")
+                                ("NOTE" . "#ff00ff"))))
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-hl-todo-faces)
+</pre>
+</div>
+
+<p>
+Or include a <code>let</code> form, if needed:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-hl-todo-faces ()
+  (let ((red "#ff0000")
+        (blue "#0000ff"))
+    (setq hl-todo-keyword-faces `(("TODO" . ,blue)
+                                  ("HACK" . ,red)
+                                  ("XXX" . ,red)
+                                  ("NOTE" . ,blue)))))
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-hl-todo-faces)
+</pre>
+</div>
+
+<p>
+Normally, we do not touch user options, though this is an exception:
+otherwise the defaults are not always legible.
+</p>
 </div>
 </div>
 </div>
@@ -6783,7 +6830,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org017fcc6">
+<pre class="example" id="orgcf4e7df">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6828,7 +6875,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgafb1f24">
+<pre class="example" id="orge9a9db8">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7207,7 +7254,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org0a41475">
+<pre class="example" id="org346a73a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
