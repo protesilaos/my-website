@@ -34,13 +34,13 @@ are built into Emacs version 28 or higher.
 + Package name (GNU ELPA): `modus-themes` (also built into Emacs >= 28)
 + Official manual: <https://protesilaos.com/emacs/modus-themes>
 + Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
++ Colour palette: <https://protesilaos.com/emacs/modus-themes-colors>
 + Sample pictures: <https://protesilaos.com/emacs/modus-themes-pictures>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/modus-themes>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/modus-themes>
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
-+ Colour palette: <https://protesilaos.com/emacs/modus-themes-colors>
 
 ## Logos
 
