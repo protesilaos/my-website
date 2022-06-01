@@ -86,6 +86,12 @@ I also talk or write about philosophy without any reference to free
 software or related.  Refer to my website's section on [books and
 standalone essays](https://protesilaos.com/books).
 
+For a more personal take, check [Comment on whether I have
+ASD](https://protesilaos.com/commentary/2022-06-01-asd/).  It is part of
+my website's "commentary" section, which covers general life issues.
+There probably are other hints about me in that section, though this one
+is straightforward.
+
 ## protesilaos.com
 
 This website has been online since 2011.  It contains more than 600
