@@ -97,8 +97,8 @@ is straightforward.
 This website has been online since 2011.  It contains more than 600
 entries on a wide range of topics, all of which are available under the
 appropriate _copyleft_ terms that ensure end user freedom—see the
-[license page](https://protesilaos.com/license/).  Read, learn, think,
-and reach your own conclusions.
+[license and resources](https://protesilaos.com/license/) page.  Read,
+learn, think, and reach your own conclusions.
 
 The report on [Ten years of
 protesilaos.com](https://protesilaos.com/news/2021-02-08-website-ten-years/)
