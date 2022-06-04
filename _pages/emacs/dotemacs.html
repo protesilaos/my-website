@@ -27,8 +27,8 @@ Current development target is 2.4.0-dev.
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-04 11:44 +0300</b>.</li>
-<li>Word count: <b>136677</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-04 14:24 +0300</b>.</li>
+<li>Word count: <b>136751</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -4257,7 +4257,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org4795993">
+<pre class="example" id="org1727c86">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4340,7 +4340,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org2d9830d">
+<pre class="example" id="org81da1c0">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6234,7 +6234,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="orgc1d96c6">
+<pre class="example" id="org98109f6">
 text-mode
 
 (dotfiles-sync-package
@@ -9109,7 +9109,19 @@ I will explain how Denote works once the package is ready.  Introduced:
   (setq denote-known-keywords
         '("emacs" "philosophy" "politics" "economics"))
   (setq denote-infer-keywords t)
-  (setq denote-sort-keywords t))
+  (setq denote-sort-keywords t)
+
+  (with-eval-after-load 'org-capture
+    (add-to-list 'org-capture-templates
+                 `("n" "New note (with denote.el)" plain
+                   #'denote-org-capture
+                   ,(concat "%i"
+                            "\n\n"
+                            "%a")
+                   :no-save t
+                   :immediate-finish t
+                   :kill-buffer t
+                   :jump-to-captured t))))
 </pre>
 </div>
 
@@ -9218,6 +9230,8 @@ If nil, show the keywords in their given order."
 (defvar denote--last-path nil "Store last path.")
 (defvar denote--last-title nil "Store last title.")
 (defvar denote--last-keywords nil "Store last keywords.")
+(defvar denote--last-buffer nil "Store last buffer.")
+(defvar denote--last-front-matter nil "Store last front-matter.")
 
 ;;;; File name helpers
 
@@ -9374,12 +9388,15 @@ Format current time, else use optional ID."
 (defun denote--prepare-note (title keywords &amp;optional path)
   "Use TITLE and KEYWORDS to prepare new note file.
 Use optional PATH, else create it with `denote--path'."
-  (let* ((filename (or path (denote--path title keywords))))
-    (with-current-buffer (find-file filename)
-      (insert
-       (denote--file-meta-header
-        title (format-time-string "%F") keywords filename
-        (format-time-string denote-id))))))
+  (let* ((filename (or path (denote--path title keywords)))
+         (default-directory denote-directory)
+         (buffer (find-file filename))
+         (header (denote--file-meta-header
+                  title (format-time-string "%F") keywords filename
+                  (format-time-string denote-id))))
+    (with-current-buffer buffer (insert header))
+    (setq denote--last-front-matter header)
+    (setq denote--last-buffer buffer)))
 
 (defvar denote--title-history nil
   "Minibuffer history of `denote--title-prompt'.")
@@ -9424,27 +9441,26 @@ Search the source code of this function for a comment with a
 sample template.  We will eventually have a manual."
   (let ((title (denote--title-prompt))
         (keywords (denote--keywords-prompt)))
-    (denote--path title keywords)
-    (denote--keywords-add-to-history denote--last-keywords)
-    (denote--prepare-note denote--last-title denote--last-keywords denote--last-path)
-    denote--last-path))
+    (prog1
+        (denote--path title keywords)
+      (denote--prepare-note denote--last-title denote--last-keywords denote--last-path)
+      (denote--keywords-add-to-history denote--last-keywords))))
 
 ;; Sample of an `org-capture-templates' entry:
 ;;
-;; ("n" "Note (with denote.el)" plain
-;;  (function denote-org-capture-path)
-;;  ,(concat "%i"
-;;           "\n"
-;;           "%a")
-;;  :unnarrowed t
-;;  :no-save t
-;;  :immediate-finish nil
-;;  :kill-buffer t
-;;  :jump-to-captured t
-;;  :empty-lines-before 1)
+;; (setq org-capture-templates
+;;       `(("n" "New note (with denote.el)" plain
+;;          #'denote-org-capture
+;;          ,(concat "%i"
+;;                   "\n\n"
+;;                   "%a")
+;;          :no-save t
+;;          :immediate-finish t
+;;          :empty-lines-before 1
+;;          :jump-to-captured t)))
 ;;
 ;; FIXME 2022-06-04: The :kill-buffer does not actually kill the buffer
-;; of the file if we use C-c C-k in the capture buffer...
+;; of the file if we use C-c C-k in the capture buffer.
 
 
 ;; TODO 2022-06-04: `denote-rename-file'
@@ -14333,7 +14349,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org69f4c02">
+<pre class="example" id="org2af902b">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14345,7 +14361,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org57792d1">
+<pre class="example" id="orgbe95795">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14360,7 +14376,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgab831e8">
+<pre class="example" id="orge00ef39">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14376,7 +14392,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org7602e9a">
+<pre class="example" id="org0826ee3">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14405,7 +14421,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org35056e9">
+<pre class="example" id="orgaad3e64">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14569,7 +14585,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgd9e1e6b">
+<pre class="example" id="org54cb4cb">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15314,7 +15330,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgf2647c5">
+<pre class="example" id="org08647fe">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15348,7 +15364,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgb684464">
+<pre class="example" id="orgbdfce65">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15512,7 +15528,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org91da51d">
+<pre class="example" id="org0ff80c5">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15707,7 +15723,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org0cc6749">
+<pre class="example" id="orgfb273fe">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16757,7 +16773,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org3eb84e2">
+<pre class="example" id="org34f98b2">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17824,7 +17840,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orgfe8012e">
+<pre class="example" id="org3d47932">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18516,7 +18532,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgf420f6a">
+<pre class="example" id="orgb34871b">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23341,7 +23357,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org6248718">
+<pre class="example" id="org836b9f2">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23805,7 +23821,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org2969ca1">
+<pre class="example" id="org9d7a373">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23814,7 +23830,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org9fb938c">
+<pre class="example" id="org29a5a84">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23839,7 +23855,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org02679fc">
+<pre class="example" id="org63843e5">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -23915,7 +23931,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org6d14cf2">
+<pre class="example" id="org0850f95">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23940,7 +23956,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgf02f56a">
+<pre class="example" id="orgbe56762">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23949,7 +23965,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgefc0756">
+<pre class="example" id="orgb60a6d4">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -23968,7 +23984,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org2bcf24c">
+<pre class="example" id="org7702bd2">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
