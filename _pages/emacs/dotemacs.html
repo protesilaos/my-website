@@ -27,8 +27,8 @@ Current development target is 2.4.0-dev.
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-05 13:47 +0300</b>.</li>
-<li>Word count: <b>136844</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-07 08:00 +0300</b>.</li>
+<li>Word count: <b>136960</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -3062,20 +3062,20 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts t
-        modus-themes-subtle-line-numbers t
-        modus-themes-intense-mouseovers t
+        modus-themes-subtle-line-numbers nil
+        modus-themes-intense-mouseovers nil
         modus-themes-deuteranopia t
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui t
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
 
-        modus-themes-fringes nil ; {nil,'subtle,'intense}
+        modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
 
         ;; Options for `modus-themes-lang-checkers' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `straight-underline', `text-also', `background',
         ;; `intense' OR `faint'.
-        modus-themes-lang-checkers '(text-also faint)
+        modus-themes-lang-checkers '(text-also)
 
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
@@ -3083,7 +3083,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; of padding and NATNUM), and a floating point for the height of
         ;; the text relative to the base font size (or a cons cell of
         ;; height and FLOAT)
-        modus-themes-mode-line '(accented borderless (padding 3))
+        modus-themes-mode-line nil
 
         ;; Options for `modus-themes-markup' are either nil, or a list
         ;; that can combine any of `bold', `italic', `background',
@@ -3093,7 +3093,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax '(alt-syntax green-strings)
+        modus-themes-syntax nil
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -3184,7 +3184,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
     (modus-themes-with-colors
       (custom-set-faces
        ;; Here add all your face definitions.
-       `(cursor ((,class :background ,cyan-intense))))))
+       `(cursor ((,class :background ,red-intense))))))
 
   (add-hook 'modus-themes-after-load-theme-hook #'prot/modus-themes-custom-faces)
 
@@ -4275,7 +4275,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org09e176e">
+<pre class="example" id="orgb6854ce">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4358,7 +4358,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgff7f9cb">
+<pre class="example" id="org20cb0d1">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6252,7 +6252,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="orge1a4126">
+<pre class="example" id="org90fe15e">
 text-mode
 
 (dotfiles-sync-package
@@ -9130,6 +9130,8 @@ I will explain how Denote works once the package is ready.  Introduced:
   (setq denote-sort-keywords t)
   (setq denote-org-capture-specifiers "%l\n%i\n%?")
 
+  (require 'denote-link)
+
   (with-eval-after-load 'org-capture
     (require 'denote-org-capture)
     (add-to-list 'org-capture-templates
@@ -9189,7 +9191,7 @@ The contents of <code>denote.el</code>.
   "Simple tool for plain text notes."
   :group 'files)
 
-;;; User options
+;;;; User options
 
 (defcustom denote-directory (expand-file-name "~/Documents/notes/")
   "Directory for storing personal notes."
@@ -9232,9 +9234,7 @@ If nil, show the keywords in their given order."
   :group 'denote
   :type 'boolean)
 
-;;; Main variables
-
-;; TODO 2022-06-04: Can we make the entire file name format a defcustom?
+;;;; Main variables
 
 (defconst denote-id "%Y%m%d_%H%M%S"
   "Format of ID prefix of a note's filename.")
@@ -9254,7 +9254,7 @@ If nil, show the keywords in their given order."
 (defvar denote-last-buffer nil "Store last buffer.")
 (defvar denote-last-front-matter nil "Store last front-matter.")
 
-;;;; File name helpers
+;;;; File helper functions
 
 (defun denote--directory ()
   "Valid name format for `denote-directory'."
@@ -9291,12 +9291,41 @@ trailing hyphen."
   "Make STR an appropriate file name slug."
   (downcase (denote--slug-hyphenate (denote--slug-no-punct str))))
 
+(defun denote--file-empty-p (file)
+  "Return non-nil if FILE is empty."
+  (zerop (or (file-attribute-size (file-attributes file)) 0)))
+
+(defvar denote--line-regexp-alist
+  '((empty . "[\s\t]*$")
+    (indent . "^[\s\t]+")
+    (non-empty . "^.+$")
+    (list . "^\\([\s\t#*+]+\\|[0-9]+[^\s]?[).]+\\)")
+    (heading . "^\\*+ +"))              ; assumes Org markup
+  "Alist of regexp types used by `denote-line-regexp-p'.")
+
+(defun denote--line-regexp-p (type &amp;optional n)
+  "Test for TYPE on line.
+TYPE is the car of a cons cell in
+`denote--line-regexp-alist'.  It matches a regular
+expression.
+
+With optional N, search in the Nth line from point."
+  (save-excursion
+    (goto-char (point-at-bol))
+    (and (not (bobp))
+         (or (beginning-of-line n) t)
+         (save-match-data
+           (looking-at
+            (alist-get type denote--line-regexp-alist))))))
+
 ;;;; Keywords
 
 (defun denote--directory-files ()
   "List `denote-directory' files, assuming flat directory."
   (let* ((dir (denote--directory))
-        (default-directory dir))
+         (default-directory dir))
+    ;; TODO 2022-06-06: Do this elegantly without seq-remove or
+    ;; cl-remove-if?  Just curious...
     (seq-remove
      (lambda (file)
        (file-directory-p file))
@@ -9412,11 +9441,11 @@ Format current time, else use optional ID."
 (defun denote--prepare-note (title keywords &amp;optional path)
   "Use TITLE and KEYWORDS to prepare new note file.
 Use optional PATH, else create it with `denote--path'."
-  (let* ((path (or path (denote--path title keywords)))
+  (let* ((p (or path (denote--path title keywords)))
          (default-directory denote-directory)
-         (buffer (unless path (find-file path)))
+         (buffer (unless path (find-file p)))
          (header (denote--file-meta-header
-                  title (format-time-string "%F") keywords path
+                  title (format-time-string "%F") keywords p
                   (format-time-string denote-id))))
     (unless path
       (with-current-buffer buffer (insert header))
@@ -9453,8 +9482,6 @@ alphabetically in both the file name and file contents."
     (denote--keywords-prompt)))
   (denote--prepare-note title keywords)
   (denote--keywords-add-to-history keywords))
-
-;; TODO 2022-06-04: `denote-rename-file'
 
 (provide 'denote)
 ;;; denote.el ends here
@@ -14358,7 +14385,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orga626cde">
+<pre class="example" id="orgd9a2ca5">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14370,7 +14397,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orga5f1589">
+<pre class="example" id="orge5260e5">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14385,7 +14412,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgdb53fb7">
+<pre class="example" id="orgb56d49e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14401,7 +14428,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="orgfc08e16">
+<pre class="example" id="orgec867d2">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14430,7 +14457,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd1cebc2">
+<pre class="example" id="orge840a48">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14594,7 +14621,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org6df29b0">
+<pre class="example" id="org936d066">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15339,7 +15366,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgbbb091e">
+<pre class="example" id="orgb286c4b">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15373,7 +15400,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org1c749bb">
+<pre class="example" id="org383baf6">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15537,7 +15564,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgb21e9df">
+<pre class="example" id="org75b7c75">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15732,7 +15759,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org7ffa790">
+<pre class="example" id="org86781b4">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16782,7 +16809,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org89e998c">
+<pre class="example" id="org7f1c8d7">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17849,7 +17876,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="orge3ec923">
+<pre class="example" id="orgdef602d">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18541,7 +18568,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org2c7914c">
+<pre class="example" id="orgc68cd04">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23366,7 +23393,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org6ec4543">
+<pre class="example" id="orga96388c">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -23830,7 +23857,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org3877c32">
+<pre class="example" id="orgebd712f">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23839,7 +23866,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org540139b">
+<pre class="example" id="orgc9c8dd9">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -23864,7 +23891,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org4df7fd0">
+<pre class="example" id="orga1142fb">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -23940,7 +23967,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org9a81f91">
+<pre class="example" id="org3df4731">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23965,7 +23992,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="orgd56a561">
+<pre class="example" id="org905f331">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23974,7 +24001,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="orgc9902b1">
+<pre class="example" id="org4dec590">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -23993,7 +24020,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgbc7a318">
+<pre class="example" id="org43c8c19">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
