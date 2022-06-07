@@ -3,6 +3,9 @@ title: "Emacs: introduction to Denote (simple note-taking)"
 excerpt: "Denote is a simple note-taking tool, based on the idea that notes should follow a predictable and descriptive file-naming scheme."
 ---
 
+**UPDATE 2022-06-07 21:30 +0300:**  Corrected a factual error about the
+`denote` command's argument types.
+
 On 2020-10-08 I wrote about [My simple note-taking system for Emacs
 (without Org)](https://protesilaos.com/codelog/2020-10-08-intro-usls-emacs-notes/).
 Most of that entry described the methodology I have been using to
@@ -99,7 +102,8 @@ Multiple keywords can be inserted by separating them with a comma (or
 whatever the value of the `crm-indicator` is&#x2014;which should be a comma).
 
 The `denote` command can also be called from Lisp, in which case it
-expects the `TITLE` and `KEYWORDS` arguments, both of which are strings.
+expects the `TITLE` and `KEYWORDS` arguments.  The former is a string,
+the latter a list of strings.
 
 For integration with `org-capture`, the user must first add the relevant
 template.  Such as:
