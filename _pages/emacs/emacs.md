@@ -152,6 +152,25 @@ with fast blinking" and set them on demand.
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
 
+## Denote
+
+Denote is a simple note-taking tool in the early stages of development.
+It is based on the idea that notes should follow a predictable and
+descriptive file-naming scheme.  The file name must offer a clear
+indication of what the note is about, without reference to any other
+metadata.  Denote basically streamlines the creation of such files.
+
+Read the [Emacs: introduction to Denote (simple
+note-taking)](https://protesilaos.com/codelog/2022-06-07-denote-introduction/).
+
+<!-- + Package name (GNU ELPA): `denote` -->
++ Official manual: <https://protesilaos.com/emacs/denote>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/denote>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/denote>
+    + GitLab: <https://gitlab.com/protesilaos/denote>
++ Mailing list: <https://lists.sr.ht/~protesilaos/denote>
+
 ## The official Emacs TUTORIAL in Greek
 
 I am the author and maintainer of the `TUTORIAL.el_GR` file that is part
