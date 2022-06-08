@@ -48,19 +48,21 @@ Current development target is 0.1.0-dev.
 <li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a></li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">5. Linking notes</a></li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">6. Fontification in Dired</a></li>
-<li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">7. Extending Denote</a></li>
-<li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">8. Installation</a>
+<li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">7. Renaming non-notes</a></li>
+<li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">8. Extending Denote</a></li>
+<li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">9. Installation</a>
 <ul>
-<li><a href="#h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0">8.1. Manual installation</a></li>
+<li><a href="#h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0">9.1. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6">9. Sample configuration</a></li>
-<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">10. GNU Free Documentation License</a></li>
-<li><a href="#h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e">11. Indices</a>
+<li><a href="#h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6">10. Sample configuration</a></li>
+<li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">11. Acknowledgements</a></li>
+<li><a href="#h:2d84e73e-c143-43b5-b388-a6765da974ea">12. GNU Free Documentation License</a></li>
+<li><a href="#h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e">13. Indices</a>
 <ul>
-<li><a href="#h:317b8c20-6dc1-4390-a20a-d01d75a48ccb">11.1. Function index</a></li>
-<li><a href="#h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98">11.2. Variable index</a></li>
-<li><a href="#h:10365e44-2fc0-4b66-a613-682fea09ee68">11.3. Concept index</a></li>
+<li><a href="#h:317b8c20-6dc1-4390-a20a-d01d75a48ccb">13.1. Function index</a></li>
+<li><a href="#h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98">13.2. Variable index</a></li>
+<li><a href="#h:10365e44-2fc0-4b66-a613-682fea09ee68">13.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -191,11 +193,15 @@ candidates can be inferred from the names of existing notes, by setting
 <p>
 Multiple keywords can be inserted by separating them with a comma (or
 whatever the value of the <code>crm-indicator</code> is&#x2014;which should be a comma).
+When the user option <code>denote-sort-keywords</code> is non-nil (the default),
+keywords are sorted alphabetically (technically, the sorting is done
+with <code>string-lessp</code>).
 </p>
 
 <p>
 The <code>denote</code> command can also be called from Lisp, in which case it
-expects the <code>TITLE</code> and <code>KEYWORDS</code> arguments, both of which are strings.
+expects the <code>TITLE</code> and <code>KEYWORDS</code> arguments.  The former is a string,
+the latter a list of strings.
 </p>
 
 <p>
@@ -245,6 +251,30 @@ in the template.  Instead, they have to be assigned to the user option
 <pre class="src src-emacs-lisp">(setq denote-org-capture-specifiers "%l\n%i\n%?")
 </pre>
 </div>
+
+<p>
+Notes have their own &ldquo;front matter&rdquo;.  This is a block of data at the top
+of the file, which is automatically generated once producing a new
+note. The front matter includes the title and keywords which the user
+specified at the relevant prompts, as well as the date, the unique
+identifier and the file path.  To ensure compatibility with the wider
+Org ecosystem, the keywords are recorded as the value of <code>#+filetags</code>.
+</p>
+
+<p>
+The format of the date in the front matter is controlled by the user
+option <code>denote-front-matter-date-format</code>:
+</p>
+
+<ul class="org-ul">
+<li>When the value is nil (the default), the date uses a plain
+<code>YEAR-MONTH-DAY</code> notation, like <code>2022-06-08</code>.</li>
+<li>When the value is the <code>org-timestamp</code> symbol, the date is recorded as
+an inactive Org timestamp, such as <code>[2022-06-08 Wed 06:19]</code>.</li>
+<li>An arbitrary string value is interpreted as the argument for the
+function <code>format-time-string</code>.  This gives the user maximum control
+over how time is represented in the front matter.</li>
+</ul>
 </div>
 </div>
 
@@ -292,11 +322,43 @@ enhance this impression, by fontifying the components of the file name
 to make the date (identifier) and keywords stand out.
 </p>
 
+<p>
+There are two ways to set the mode.  Either use it for all directories,
+which probably is not needed:
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'denote-dired)
 (add-hook 'dired-mode-hook #'denote-dired-mode)
 </pre>
 </div>
+
+<p>
+Or configure the user option <code>denote-dired-directories</code> and then set up
+the function <code>denote-dired-mode-in-directories</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'denote-dired)
+
+;; We use different ways to specify a path for demo purposes.
+(setq denote-dired-directories
+      (list denote-directory
+            (thread-last denote-directory (expand-file-name "attachments"))
+            (expand-file-name "~/Documents/vlog")))
+
+(add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+</pre>
+</div>
+
+<p>
+The <code>denote-dired-mode</code> does not only fontify note files that were
+created by Denote: it covers every file name that follows our naming
+conventions (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  This is particularly useful for
+scenaria where, say, one wants to organise their collection of PDFs and
+multimedia in a systematic way (and, perhaps, use them as attachments
+for the notes Denote produces).
+</p>
 
 <p>
 For the time being, the <code>diredfl</code> package is not compatible with this
@@ -305,8 +367,39 @@ facility.
 </div>
 </div>
 
+<div id="outline-container-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca" class="outline-2">
+<h2 id="h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca"><span class="section-number-2">7.</span> Renaming non-notes</h2>
+<div class="outline-text-2" id="text-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">
+<p>
+Denote&rsquo;s file-naming scheme is not specific to notes or text files: it
+is useful for all sorts of files, such as multimedia and PDFs that form
+part of the user&rsquo;s longer-term storage (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  While
+Denote does not manage such files, it already has all the mechanisms to
+facilitate the task of renaming them.
+</p>
+
+<p>
+To this end, invoke <code>denote-dired-rename-file</code> when point is over a file
+in Dired to rename it.  The commaand prompts for a <code>TITLE</code> and
+<code>KEYWORDS</code> the same way the <code>denote</code> command does it (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
+It finally asks for confirmation before renaming the file at point.
+</p>
+
+<p>
+The file type extension (e.g. <code>.pdf</code>) is read from the underlying file
+and is preserved in the renaming process.  Files that have no extension
+are simply left without one.
+</p>
+
+<p>
+Renaming only occurs relative to the current directory.  Files are not
+moved between directories.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece" class="outline-2">
-<h2 id="h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece"><span class="section-number-2">7.</span> Extending Denote</h2>
+<h2 id="h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece"><span class="section-number-2">8.</span> Extending Denote</h2>
 <div class="outline-text-2" id="text-h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">
 <p>
 Denote is a tool with a narrow scope: create notes and link between
@@ -347,12 +440,12 @@ bound to keys.  The whole sequence will thus look like <code>C-x C-f path
 </div>
 
 <div id="outline-container-h:f3bdac2c-4704-4a51-948c-a789a2589790" class="outline-2">
-<h2 id="h:f3bdac2c-4704-4a51-948c-a789a2589790"><span class="section-number-2">8.</span> Installation</h2>
+<h2 id="h:f3bdac2c-4704-4a51-948c-a789a2589790"><span class="section-number-2">9.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:f3bdac2c-4704-4a51-948c-a789a2589790">
 </div>
 
 <div id="outline-container-h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0" class="outline-3">
-<h3 id="h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0"><span class="section-number-3">8.1.</span> Manual installation</h3>
+<h3 id="h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0"><span class="section-number-3">9.1.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
@@ -391,20 +484,33 @@ Everything is in place to set up the package.
 </div>
 
 <div id="outline-container-h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6" class="outline-2">
-<h2 id="h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6"><span class="section-number-2">9.</span> Sample configuration</h2>
+<h2 id="h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6"><span class="section-number-2">10.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'denote)
 
+;; Remember to check the doc strings of those variables.
 (setq denote-directory (expand-file-name "~/Documents/notes/"))
 (setq denote-known-keywords
       '("emacs" "philosophy" "politics" "economics"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
+(setq denote-front-matter-date-format 'org-timestamp)
 
 (require 'denote-link)
 (require 'denote-dired)
+
+;; We use different ways to specify a path for demo purposes.
+(setq denote-dired-directories
+      (list denote-directory
+            (thread-last denote-directory (expand-file-name "attachments"))
+            (expand-file-name "~/Documents/vlog")))
+
+;; Generic
 (add-hook 'dired-mode-hook #'denote-dired-mode)
+
+;; OR better:
+(add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
 ;; You can bind `denote' to a global key if you prefer not to use
 ;; `org-capture'.  For example:
@@ -426,8 +532,23 @@ Everything is in place to set up the package.
 </div>
 </div>
 
+<div id="outline-container-h:f8126820-3b59-49fa-bcc2-73bd60132bb9" class="outline-2">
+<h2 id="h:f8126820-3b59-49fa-bcc2-73bd60132bb9"><span class="section-number-2">11.</span> Acknowledgements</h2>
+<div class="outline-text-2" id="text-h:f8126820-3b59-49fa-bcc2-73bd60132bb9">
+<p>
+Denote is meant to be a collective effort.  Every bit of help matters.
+</p>
+
+<dl class="org-dl">
+<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+
+<dt>Ideas and/or user feedback</dt><dd>Kaushal Modi, Ypot.</dd>
+</dl>
+</div>
+</div>
+
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
-<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">10.</span> GNU Free Documentation License</h2>
+<h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">12.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
 <pre>
 
@@ -888,24 +1009,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e" class="outline-2">
-<h2 id="h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e"><span class="section-number-2">11.</span> Indices</h2>
+<h2 id="h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e"><span class="section-number-2">13.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:dd530040-de9d-4f2b-8dfd-d8b8f14c058e">
 </div>
 
 <div id="outline-container-h:317b8c20-6dc1-4390-a20a-d01d75a48ccb" class="outline-3">
-<h3 id="h:317b8c20-6dc1-4390-a20a-d01d75a48ccb"><span class="section-number-3">11.1.</span> Function index</h3>
+<h3 id="h:317b8c20-6dc1-4390-a20a-d01d75a48ccb"><span class="section-number-3">13.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:317b8c20-6dc1-4390-a20a-d01d75a48ccb">
 </div>
 </div>
 
 <div id="outline-container-h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98" class="outline-3">
-<h3 id="h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98"><span class="section-number-3">11.2.</span> Variable index</h3>
+<h3 id="h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98"><span class="section-number-3">13.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:2f69d4fe-0804-4f7f-aa57-4e03e7f20d98">
 </div>
 </div>
 
 <div id="outline-container-h:10365e44-2fc0-4b66-a613-682fea09ee68" class="outline-3">
-<h3 id="h:10365e44-2fc0-4b66-a613-682fea09ee68"><span class="section-number-3">11.3.</span> Concept index</h3>
+<h3 id="h:10365e44-2fc0-4b66-a613-682fea09ee68"><span class="section-number-3">13.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:10365e44-2fc0-4b66-a613-682fea09ee68">
 -->
 </div>
