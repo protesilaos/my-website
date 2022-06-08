@@ -3,7 +3,10 @@ title: "Emacs: introduction to Denote (simple note-taking)"
 excerpt: "Denote is a simple note-taking tool, based on the idea that notes should follow a predictable and descriptive file-naming scheme."
 ---
 
-**UPDATE 2022-06-07 21:30 +0300:**  Corrected a factual error about the
+**UPDATE 2022-06-08 12:20 +0300:** Things are already progressing.  The
+manual is now available:  <https://protesilaos.com/emacs/denote>.
+
+**UPDATE 2022-06-07 21:30 +0300:** Corrected a factual error about the
 `denote` command's argument types.
 
 On 2020-10-08 I wrote about [My simple note-taking system for Emacs
@@ -24,16 +27,14 @@ and fecund.  I thus spent the last few days writing `denote`: the
 successor to USLS which is created with the express purpose of becoming
 a package on GNU ELPA.
 
-The following elaborates on the specifics.  It will eventually form the
-skeleton of Denote's official manual as we get closer to version
-`0.1.0`.
+The following elaborates on the specifics.
 
-* Git source on SourceHut: <https://git.sr.ht/~protesilaos/denote>
-* GitHub mirror: <https://github.com/protesilaos/denote>
-* Mailing list: <https://lists.sr.ht/~protesilaos/denote>
-
-[ More links will be available in the near future.  Check:
-  <https://protesilaos.com/emacs>. ]
++ Official manual: <https://protesilaos.com/emacs/denote>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/denote>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/denote>
+    + GitLab: <https://gitlab.com/protesilaos/denote>
++ Mailing list: <https://lists.sr.ht/~protesilaos/denote>
 
 * * *
 
@@ -100,6 +101,9 @@ candidates can be inferred from the names of existing notes, by setting
 
 Multiple keywords can be inserted by separating them with a comma (or
 whatever the value of the `crm-indicator` is&#x2014;which should be a comma).
+When the user option `denote-sort-keywords` is non-nil (the default),
+keywords are sorted alphabetically (technically, the sorting is done
+with `string-lessp`).
 
 The `denote` command can also be called from Lisp, in which case it
 expects the `TITLE` and `KEYWORDS` arguments.  The former is a string,
@@ -139,6 +143,24 @@ in the template.  Instead, they have to be assigned to the user option
 
     (setq denote-org-capture-specifiers "%l\n%i\n%?")
 
+Notes have their own &ldquo;front matter&rdquo;.  This is a block of data at the top
+of the file, which is automatically generated once producing a new
+note. The front matter includes the title and keywords which the user
+specified at the relevant prompts, as well as the date, the unique
+identifier and the file path.  To ensure compatibility with the wider
+Org ecosystem, the keywords are recorded as the value of `#+filetags`.
+
+The format of the date in the front matter is controlled by the user
+option `denote-front-matter-date-format`:
+
+-   When the value is nil (the default), the date uses a plain
+    `YEAR-MONTH-DAY` notation, like `2022-06-08`.
+-   When the value is the `org-timestamp` symbol, the date is recorded as
+    an inactive Org timestamp, such as `[2022-06-08 Wed 06:19]`.
+-   An arbitrary string value is interpreted as the argument for the
+    function `format-time-string`.  This gives the user maximum control
+    over how time is represented in the front matter.
+
 ## Linking notes
 
 Denote has a basic linking facility to quickly establish connections
@@ -169,11 +191,57 @@ a listing of notes (i.e. in Dired).  The `denote-dired-mode` can help
 enhance this impression, by fontifying the components of the file name
 to make the date (identifier) and keywords stand out.
 
+There are two ways to set the mode.  Either use it for all directories,
+which probably is not needed:
+
     (require 'denote-dired)
     (add-hook 'dired-mode-hook #'denote-dired-mode)
 
+Or configure the user option `denote-dired-directories` and then set up
+the function `denote-dired-mode-in-directories`:
+
+    (require 'denote-dired)
+
+    ;; We use different ways to specify a path for demo purposes.
+    (setq denote-dired-directories
+          (list denote-directory
+                (thread-last denote-directory (expand-file-name "attachments"))
+                (expand-file-name "~/Documents/vlog")))
+
+    (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+
+The `denote-dired-mode` does not only fontify note files that were
+created by Denote: it covers every file name that follows our naming
+conventions ([The file-naming
+scheme](#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d)).  This is particularly
+useful for scenaria where, say, one wants to organise their collection
+of PDFs and multimedia in a systematic way (and, perhaps, use them as
+attachments for the notes Denote produces).
+
 For the time being, the `diredfl` package is not compatible with this
 facility.
+
+## Renaming non-notes
+
+Denote&rsquo;s file-naming scheme is not specific to notes or text
+files: it is useful for all sorts of files, such as multimedia and PDFs
+that form part of the user&rsquo;s longer-term storage ([The file-naming
+scheme](#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d)).  While Denote does
+not manage such files, it already has all the mechanisms to facilitate
+the task of renaming them.
+
+To this end, invoke `denote-dired-rename-file` when point is over a file
+in Dired to rename it.  The commaand prompts for a `TITLE` and
+`KEYWORDS` the same way the `denote` command does it ([Points of
+entry](#h:17896c8c-d97a-4faa-abf6-31df99746ca6)).  It finally asks for
+confirmation before renaming the file at point.
+
+The file type extension (e.g. `.pdf`) is read from the underlying file
+and is preserved in the renaming process.  Files that have no extension
+are simply left without one.
+
+Renaming only occurs relative to the current directory.  Files are not
+moved between directories.
 
 ## Extending Denote
 
