@@ -97,7 +97,7 @@ enough and will not succumb to such otherwise minor wounds.  Let me then
 remind you of the notion of "death by a thousand cuts".  I do not mean
 this literally, but employ it as a schematic way of arguing that your
 methodology is wrong.  You are treating the event in isolation and if
-there is a second occurrence of it, you will still interpret is in its
+there is a second occurrence of it, you will still interpret it in its
 own right, and so on.  What your method obscures, what you are not
 seeing, is the possible pattern of abuse.  If you focus too much on the
 moment, you only ever notice the single cut.  Take the time to reflect
@@ -137,6 +137,6 @@ In conclusion, I used to think like you: that I am strong and that the
 transgressions of others were trivial.  I learnt about my mistake the
 hard way, i.e. by suffering the consequences.  I now know when enough is
 enough and when "fuck off" is the right reply.  True strength lies in
-the knowledge that your resources are finite---do not waster them.
+the knowledge that your resources are finite---do not waste them.
 Think about hubris very seriously: do not dismiss it as some ancient
 superstition.
