@@ -3,11 +3,8 @@ title: "Emacs: introduction to Denote (simple note-taking)"
 excerpt: "Denote is a simple note-taking tool, based on the idea that notes should follow a predictable and descriptive file-naming scheme."
 ---
 
-**UPDATE 2022-06-08 12:20 +0300:** Things are already progressing.  The
-manual is now available:  <https://protesilaos.com/emacs/denote>.
-
-**UPDATE 2022-06-07 21:30 +0300:** Corrected a factual error about the
-`denote` command's argument types.
+**UPDATE 2022-06-10 13:51 +0300:** Rewrote the record to reflect the
+current state of the project.  We are getting close to version `0.1.0`.
 
 On 2020-10-08 I wrote about [My simple note-taking system for Emacs
 (without Org)](https://protesilaos.com/codelog/2020-10-08-intro-usls-emacs-notes/).
@@ -17,8 +14,8 @@ organise my notes; a methodology that is Emacs-agnostic.
 At the time, I wrote a toy package called "Unassuming Sidenotes of
 Little Significance" (USLS---also pronounced as "useless") which helped
 me experiment with the workflow without having to rely on awkward shell
-scripts.  Bringing everything into Emacs allowed me to standarise things
-and offered an opportunity to tinker with Elisp.
+scripts.  Bringing everything into Emacs allowed me to standardise
+things and offered an opportunity to tinker with Elisp.
 
 Fast-forward to present time: I have already written a few packages for
 Emacs and am better with Elisp.  USLS was never meant to be anything
@@ -50,13 +47,18 @@ the creation of such files.
 
 Every note produced by Denote follows this pattern:
 
-    DATE--KEYWORDS--TITLE.org
+    DATE--TITLE--KEYWORDS.EXTENSION
 
 The `DATE` field represents the date in year-month-day format followed
-by an underscore and the current time in hour-minute-second notation.
-The presentation is compact, with an underscore separating the two
-components.  Like this: `20220531_091625`.  The `DATE` serves as the
-unique identifier of each note.
+by the capital letter `T` (for &ldquo;time&rdquo;) and the current time in
+hour-minute-second notation.  The presentation is compact:
+`20220531T091625`.  The `DATE` serves as the unique identifier of each
+note.
+
+The `TITLE` field is the title of the note, as provided by the user,
+that automatically gets downcased and hyphenated.  An entry about
+&ldquo;Economics in the Euro Area&rdquo; produces an `economics-in-the-euro-area`
+string for the `TITLE` of the file name.
 
 The `KEYWORDS` field consists of one or more entries demarcated by a
 plus sign (the separator is inserted automatically).  Each keyword is a
@@ -66,19 +68,19 @@ one-word-long must be written with an underscore.  So when
 `emacs_library` appears in a file name, it is interpreted as a single
 keyword, whereas `emacs+library` are two distinct keywords.
 
-The `TITLE` field is the title of the note, as provided by the user,
-that automatically gets downcased and hyphenated.  An entry about
-&ldquo;Economics in the Euro Area&rdquo; produces an `economics-in-the-euro-area`
-string for the `TITLE` of the file name.
+The `EXTENSION` is the file type.  By default, it is `.org` (`org-mode`)
+though the user option `denote-file-type` provides support for Markdown
+(`.md` which runs `markdown-mode`) and plain text (`.txt` via
+`text-mode`).  Consult its doc string for the minutia.
 
 Examples:
 
-    20220107_124941--economics--plentiful-and-predictable-liquidity.org
-    20220214_104945--emacs+git--git-patch-formatting.org
-    20220420_113805--three_word_keyword--this-is-a-test.org
+    20220107T124941--plentiful-and-predictable-liquidity--economics.org
+    20220214T104945--git-patch-formatting--emacs+git.md
+    20220420T113805--this-is-a-test--three_word_keyword.txt
 
-While files end in the `.org` extension, the Denote code base does not
-actually depend on org.el and/or its accoutrements.
+While files end in the `.org` extension by default, the Denote code base
+does not actually depend on org.el and/or its accoutrements.
 
 Notes are stored as a flat list in the `denote-directory` (i.e. no
 subdirectories).  The default path is `~/Documents/notes`.
@@ -92,7 +94,7 @@ which calls the function `denote-org-capture`.
 In the first case, all that is needed is to run `denote`.  It will first
 prompt for a title.  Once it is supplied, the command will ask for
 keywords.  The resulting note will have a file name as already explained
-(in "The file naming scheme").
+(read "The file naming scheme").
 
 The keyword prompt supports minibuffer completion.  Available candidates
 are those defined in the user option `denote-known-keywords`.  More
@@ -143,12 +145,40 @@ in the template.  Instead, they have to be assigned to the user option
 
     (setq denote-org-capture-specifiers "%l\n%i\n%?")
 
+## Front matter
+
 Notes have their own &ldquo;front matter&rdquo;.  This is a block of data at the top
-of the file, which is automatically generated once producing a new
-note. The front matter includes the title and keywords which the user
-specified at the relevant prompts, as well as the date, the unique
-identifier and the file path.  To ensure compatibility with the wider
-Org ecosystem, the keywords are recorded as the value of `#+filetags`.
+of the file, which is automatically generated at the creation of a new
+note. The front matter includes the title and keywords (aka &ldquo;tags&rdquo; or
+&ldquo;filetags&rdquo;, depending on the file type) which the user specified at the
+relevant prompt, as well as the date and unique identifier which are
+derived automatically.
+
+This is how it looks for Org mode (`denote-file-type` is nil):
+
+    #+title:      This is a sample note
+    #+date:       2022-06-10
+    #+filetags:   denote  testing
+    #+identifier: 20220610T134640
+
+For Markdown, it looks like this (`denote-file-type` has the `markdown`
+value):
+
+    ---
+    title:      This is a sample note
+    date:       2022-06-10
+    tags:       denote  testing
+    identifier: 20220610T134718
+    ---
+
+And for plain text, we have the following (`denote-file-type` has the
+`text` value):
+
+    title:      This is a sample note
+    date:       2022-06-10
+    tags:       denote  testing
+    identifier: 20220610T134829
+    ---------------------------
 
 The format of the date in the front matter is controlled by the user
 option `denote-front-matter-date-format`:
@@ -167,18 +197,38 @@ Denote has a basic linking facility to quickly establish connections
 between notes.  The command `denote-link` prompts for a file name in the
 `denote-directory` (only regular files are considered, not directories).
 It then retrieves the path of the given note, inserts it at point using
-the link notation of Org, and creates a backlink entry in the target
-file.
+the appropriate link notation, and creates a backlink entry in the
+target file (again using the appropriate notation).
+
+What constitutes &ldquo;appropriate link notation&rdquo; depends on the file type of
+the given entry per `denote-file-type` (read "The file naming scheme").  For
+example when linking from an Org file to a Markdown file, the link in
+the former will follow Org syntax while the backlink in the latter will
+use that of Markdown.  Org links use `[[file:TARGET][DESCRIPTION]]`,
+those of Markdown are `[DESCRIPTION](file:TARGET)`, while for plain text
+we implement our own scheme of `<TYPE: TARGET> [DESCRIPTION]`, where
+`TYPE` is either `LINK` or `BACKLINK` (capitalization in the latter two
+is literal, because plain text lacks other means of emphasis).
+
+Plain text links can benefit from Emacs&rsquo; notion of &ldquo;future history&rdquo;,
+else its ability to read the thing at point for relevant commands.  With
+point over the `TARGET`, `M-x find-file` followed by `M-n` will fill the
+path to that file (this also works with point over just the identifier
+of a note).
 
 Backlinks are recorded at the end of a note under the heading with the
-title `Denote backlinks`.  Users should not edit this part manually: it
-is controlled by Denote, such as to delete duplicate links (in the
-future it might also handle stuff like alphabetic sorting).
+title `Denote backlinks`.  Users should not edit the note below this
+part manually: it is controlled by Denote, such as to delete duplicate
+links (in the future it might also handle stuff like alphabetic
+sorting).
+
+The section with the backlinks is formatted according to the note&rsquo;s file
+type.
 
 The special hook `denote-link-insert-functions` is called after a link
-is created.  It accepts two arguments for the target file and the origin
-of the current link.  The function `denote-link-backlink` provides an
-example for advanced users.
+is created.  It accepts two arguments for the target file and the
+formatted backlink to the original file.  The function
+`denote-link-backlink` provides an example for advanced users.
 
 Backlinks that no longer point to available notes can be removed from
 the current buffer with the command `denote-link-clear-stale-backlinks`.
@@ -212,29 +262,26 @@ the function `denote-dired-mode-in-directories`:
 
 The `denote-dired-mode` does not only fontify note files that were
 created by Denote: it covers every file name that follows our naming
-conventions ([The file-naming
-scheme](#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d)).  This is particularly
-useful for scenaria where, say, one wants to organise their collection
-of PDFs and multimedia in a systematic way (and, perhaps, use them as
-attachments for the notes Denote produces).
+conventions (read "The file naming scheme").  This is particularly useful for
+scenaria where, say, one wants to organise their collection of PDFs and
+multimedia in a systematic way (and, perhaps, use them as attachments
+for the notes Denote produces).
 
 For the time being, the `diredfl` package is not compatible with this
 facility.
 
 ## Renaming non-notes
 
-Denote&rsquo;s file-naming scheme is not specific to notes or text
-files: it is useful for all sorts of files, such as multimedia and PDFs
-that form part of the user&rsquo;s longer-term storage ([The file-naming
-scheme](#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d)).  While Denote does
-not manage such files, it already has all the mechanisms to facilitate
-the task of renaming them.
+Denote&rsquo;s file-naming scheme is not specific to notes or text files: it
+is useful for all sorts of files, such as multimedia and PDFs that form
+part of the user&rsquo;s longer-term storage (read "The file naming scheme").  While
+Denote does not manage such files, it already has all the mechanisms to
+facilitate the task of renaming them.
 
 To this end, invoke `denote-dired-rename-file` when point is over a file
 in Dired to rename it.  The commaand prompts for a `TITLE` and
-`KEYWORDS` the same way the `denote` command does it ([Points of
-entry](#h:17896c8c-d97a-4faa-abf6-31df99746ca6)).  It finally asks for
-confirmation before renaming the file at point.
+`KEYWORDS` the same way the `denote` command does it (read "Points of entry").
+It finally asks for confirmation before renaming the file at point.
 
 The file type extension (e.g. `.pdf`) is read from the underlying file
 and is preserved in the renaming process.  Files that have no extension
@@ -278,6 +325,9 @@ specialised third-party packages.
       RET regexp C-. E`.
 
 ## Next steps
+
+**UPDATE 2022-06-10 13:51 +0300:**  Most are done.  Though I still want
+to hear from you, especially before releasing version `0.1.0`.
 
 Denote will eventually be available for download as a regular package.
 I think most of the basics are done.  I still need to substantiate the
