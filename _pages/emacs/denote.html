@@ -101,11 +101,53 @@ modify this GNU manual.”
 <h2 id="h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241"><span class="section-number-2">2.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241">
 <p>
-Denote is a simple note-taking tool.  It is based on the idea that notes
-should follow a predictable and descriptive file-naming scheme.  The
-file name must offer a clear indication of what the note is about,
-without reference to any other metadata.  Denote basically streamlines
-the creation of such files.
+Denote is a simple, yet effective note-taking tool for Emacs.  It is
+based on the principle that notes must follow a predictable and
+descriptive file-naming scheme.  The file name alone should offer a
+clear indication of what the note is about, without reference to any
+other metadata.  Denote basically streamlines the creation of such
+files.
+</p>
+
+<p>
+What Denote prioritizes with the enforcement of a strict file-naming
+scheme is portability.  Notes can be accessed, filtered, and understood
+without Emacs or any other advanced tool for that matter (though Emacs,
+Org, and the like are excellent programs).
+</p>
+
+<p>
+Denote only has a strong opinion about the file name.  It otherwise is
+flexible and poses no constraints on the desired workflow.  Denote has
+no mechanism to test for adherence to a given note-taking method, such
+as that of Zettelkasten (i.e. the contemporary digital equivalent of
+Niklas Luhmann&rsquo;s methodology).  It is possible to employ such a method,
+though it is ultimately up to the user to apply the requisite rigor.
+What matters for our purposes is that Denote is not a zettelkasten
+implementation per se.
+</p>
+
+<p>
+By default, Denote creates note files using the <code>.org</code> extension.
+However, Denote does not depend on org.el or any of its accoutrements
+and extensions.  Users are given the option to change from Org to either
+Markdown (<code>.md</code>) or Plain Text (<code>.txt</code>), as explained further in the
+manual (search for <code>denote-file-type</code>).
+</p>
+
+<p>
+&ldquo;Denote&rdquo; is the familiar word, though it also is a play on to the &ldquo;note&rdquo;
+concept.  Plus, we can come up with acronyms (of dubious utility) like:
+</p>
+
+<ul class="org-ul">
+<li>Don&rsquo;t Ever Note Only The Ephemeral</li>
+<li>Denote Everything Neatly; Omit The Excesses</li>
+</ul>
+
+<p>
+But we&rsquo;ll let you get back to work.  Don&rsquo;t Eschew or Neglect your
+Obligations, Tasks, Engagements&#x2026;
 </p>
 </div>
 </div>
@@ -261,6 +303,13 @@ in the template.  Instead, they have to be assigned to the user option
 <pre class="src src-emacs-lisp">(setq denote-org-capture-specifiers "%l\n%i\n%?")
 </pre>
 </div>
+
+<p>
+Note that <code>denote-org-capture</code> ignores the <code>denote-file-type</code>: it always
+sets the Org file extension for the created note to ensure that the
+capture process works as intended, especially for the desired output of
+the <code>denote-org-capture-specifiers</code>.
+</p>
 </div>
 </div>
 
@@ -280,7 +329,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgef751e7">
+<pre class="example" id="org622e34b">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -288,8 +337,8 @@ This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </pre>
 
 <p>
-For Markdown, it looks like this (<code>denote-file-type</code> has the <code>markdown</code>
-value):
+For Markdown, it looks like this (<code>denote-file-type</code> has the
+<code>markdown-yaml</code> value):
 </p>
 
 <div class="org-src-container">
@@ -307,7 +356,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org28e49f9">
+<pre class="example" id="orgb321e8f">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -575,7 +624,7 @@ Everything is in place to set up the package.
       '("emacs" "philosophy" "politics" "economics"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
-(setq denote-file-type nil) ; default is Org mode, else set `markdown' or `text'
+(setq denote-file-type nil) ; default is Org mode, else set `markdown-yaml' or `text'
 
 (setq denote-front-matter-date-format 'org-timestamp)
 
