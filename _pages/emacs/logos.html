@@ -59,6 +59,7 @@ Current development target is 0.5.0-dev.
 <li><a href="#h:ef719925-8d0b-479a-a87e-32b727578bfc">5.5.1. Conditionally toggle org-indent-mode</a></li>
 </ul>
 </li>
+<li><a href="#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">5.6. Update fringe color on theme switch</a></li>
 </ul>
 </li>
 <li><a href="#h:300c12cb-853e-4e06-9627-e1d6fd3a3a38">6. Acknowledgements</a></li>
@@ -580,6 +581,70 @@ not needed, the following will suffice:
 (add-hook 'logos-focus-mode-extra-functions #'my-logos-org-indent)
 </pre>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b" class="outline-3">
+<h3 id="h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b"><span class="section-number-3">5.6.</span> Update fringe color on theme switch</h3>
+<div class="outline-text-3" id="text-h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+The user option <code>logos-hide-fringe</code> does not actually remove the fringe,
+as that would change the user&rsquo;s preference for <code>fringe-mode</code>.  Instead,
+it remaps its background color to be the same as that of the <code>default</code>
+face.  For example, if the main background is white while the fringe is
+gray, the fringe will become white as well.
+</p>
+
+<p>
+The problem with this approach is that the color is not automatically
+updated upon switching to a new theme, such as by toggling between one
+with a light background to another with a dark one.  The solution is to
+assign the <code>logos-update-fringe-color-post-theme-load</code> function to a
+hook that is triggered by the theme-loading operation.
+</p>
+
+<p>
+Some themes provide such a hook.  For example, the <code>modus-themes</code>
+package has the <code>modus-themes-after-load-theme-hook</code> (the themes
+<code>modus-operandi</code> and <code>modus-vivendi</code> are built into Emacs version 28 or
+higher).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'modus-themes-after-load-theme-hook
+          #'logos-update-fringe-color-post-theme-load)
+</pre>
+</div>
+
+<p>
+A user-defined, theme-agnostic setup for such a hook can be configured
+thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar after-enable-theme-hook nil
+  "Normal hook run after enabling a theme.")
+
+(defun run-after-enable-theme-hook (&amp;rest _args)
+  "Run `after-enable-theme-hook'."
+  (run-hooks 'after-enable-theme-hook))
+
+(advice-add 'enable-theme :after #'run-after-enable-theme-hook)
+</pre>
+</div>
+
+<p>
+Then use it like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'after-enable-theme-hook #'logos-update-fringe-color-post-theme-load)
+</pre>
 </div>
 </div>
 </div>
