@@ -46,9 +46,17 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 <ul>
 <li><a href="#h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f">1. COPYING</a></li>
 <li><a href="#h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241">2. Overview</a></li>
-<li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">3. The file-naming scheme</a></li>
+<li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">3. The file-naming scheme</a>
+<ul>
+<li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">3.1. Sluggified title and keywords</a></li>
+</ul>
+</li>
 <li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a></li>
-<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">5. Front matter</a></li>
+<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">5. Front matter</a>
+<ul>
+<li><a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">5.1. Tweaking the front matter</a></li>
+</ul>
+</li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">6. Linking notes</a></li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">7. Fontification in Dired</a></li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">8. Renaming non-notes</a></li>
@@ -103,10 +111,10 @@ modify this GNU manual.”
 <p>
 Denote is a simple, yet effective note-taking tool for Emacs.  It is
 based on the principle that notes must follow a predictable and
-descriptive file-naming scheme.  The file name alone should offer a
-clear indication of what the note is about, without reference to any
-other metadata.  Denote basically streamlines the creation of such
-files.
+descriptive naming convention (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  The file name
+alone should offer a clear indication of what the note is about, without
+reference to any other metadata.  Denote basically streamlines the
+creation of such files.
 </p>
 
 <p>
@@ -119,16 +127,24 @@ Org, and the like are excellent programs).
 <p>
 Denote only has a strong opinion about the file name.  It otherwise is
 flexible and poses no constraints on the desired workflow.  Denote has
-no mechanism to test for adherence to a given note-taking method, such
+no mechanism to test for adherence with a given note-taking method, such
 as that of Zettelkasten (i.e. the contemporary digital equivalent of
 Niklas Luhmann&rsquo;s methodology).  It is possible to employ such a method,
 though it is ultimately up to the user to apply the requisite rigor.
 What matters for our purposes is that Denote is not a zettelkasten
-implementation per se.
+implementation per se, does not compel the user to manage a restricted
+vocabulary for tagging purposes, will not insist on mutual exclusivity
+between keyword subsets, and so on.
 </p>
 
 <p>
-By default, Denote creates note files using the <code>.org</code> extension.
+Denote does not manage a database and does not try to be smart about how
+notes are handled.  It creates notes and otherwise delegates extra
+functionality to other tools.
+</p>
+
+<p>
+By default, Denote writes note files using the <code>.org</code> extension.
 However, Denote does not depend on org.el or any of its accoutrements
 and extensions.  Users are given the option to change from Org to either
 Markdown (<code>.md</code>) or Plain Text (<code>.txt</code>), as explained further in the
@@ -137,7 +153,7 @@ manual (search for <code>denote-file-type</code>).
 
 <p>
 &ldquo;Denote&rdquo; is the familiar word, though it also is a play on to the &ldquo;note&rdquo;
-concept.  Plus, we can come up with acronyms (of dubious utility) like:
+concept.  Plus, we can come up with acronyms of dubious utility like:
 </p>
 
 <ul class="org-ul">
@@ -156,11 +172,16 @@ Obligations, Tasks, Engagements&#x2026;
 <h2 id="h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d"><span class="section-number-2">3.</span> The file-naming scheme</h2>
 <div class="outline-text-2" id="text-h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">
 <p>
-Every note produced by Denote follows this pattern:
+Notes are stored as a flat list in the <code>denote-directory</code> (i.e. no
+subdirectories).  The default path is <code>~/Documents/notes</code>.
+</p>
+
+<p>
+Every note produced by Denote follows this pattern (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>):
 </p>
 
 <pre class="example">
-DATE--TITLE--KEYWORDS.EXTENSION
+DATE--TITLE__KEYWORDS.EXTENSION
 </pre>
 
 
@@ -173,27 +194,31 @@ note.
 </p>
 
 <p>
-The <code>TITLE</code> field is the title of the note, as provided by the user,
-that automatically gets downcased and hyphenated.  An entry about
-&ldquo;Economics in the Euro Area&rdquo; produces an <code>economics-in-the-euro-area</code>
-string for the <code>TITLE</code> of the file name.
+The <code>TITLE</code> field is the title of the note, as provided by the user.  It
+automatically gets downcased and hyphenated.  An entry about &ldquo;Economics
+in the Euro Area&rdquo; produces an <code>economics-in-the-euro-area</code> string for
+the <code>TITLE</code> of the file name.
 </p>
 
 <p>
-The <code>KEYWORDS</code> field consists of one or more entries demarcated by a
-plus sign (the separator is inserted automatically).  Each keyword is a
+The <code>KEYWORDS</code> field consists of one or more entries demarcated by an
+underscore (the separator is inserted automatically).  Each keyword is a
 string provided by the user at the relevant prompt which broadly
 describes the contents of the entry.  Keywords that need to be more than
-one-word-long must be written with an underscore.  So when
-<code>emacs_library</code> appears in a file name, it is interpreted as a single
-keyword, whereas <code>emacs+library</code> are two distinct keywords.
+one-word-long must be written with hyphens: any other character, such as
+spaces or the plus sign is converted into a hyphen.  So when
+<code>emacs_library</code> appears in a file name, it is interpreted as two
+distinct keywords, whereas <code>emacs-library</code> is one keyword.  This is
+reflected in how the keywords are recorded in the note (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
 </p>
 
 <p>
 The <code>EXTENSION</code> is the file type.  By default, it is <code>.org</code> (<code>org-mode</code>)
 though the user option <code>denote-file-type</code> provides support for Markdown
-(<code>.md</code> which runs <code>markdown-mode</code>) and plain text (<code>.txt</code> via
-<code>text-mode</code>).  Consult its doc string for the minutia.
+with YAML or TOML variants (<code>.md</code> which runs <code>markdown-mode</code>) and plain
+text (<code>.txt</code> via <code>text-mode</code>).  Consult its doc string for the minutia.
+While files end in the <code>.org</code> extension by default, the Denote code base
+does not actually depend on org.el and/or its accoutrements.
 </p>
 
 <p>
@@ -201,21 +226,54 @@ Examples:
 </p>
 
 <pre class="example">
-20220107T124941--plentiful-and-predictable-liquidity--economics.org
-20220214T104945--git-patch-formatting--emacs+git.md
-20220420T113805--this-is-a-test--three_word_keyword.txt
+20220610T043241--initial-thoughts-on-the-zettelkasten-method__notetaking.org
+20220610T062201--define-custom-org-hyperlink-type__denote_emacs_package.md
+20220610T162327--on-hierarchy-and-taxis__notetaking_philosophy.txt
 </pre>
 
 
 <p>
-While files end in the <code>.org</code> extension by default, the Denote code base
-does not actually depend on org.el and/or its accoutrements.
+The different field separators, namely <code>--</code> and <code>__</code> introduce an
+efficient way to anchor searches (such as with Emacs commands like
+<code>isearch</code> or from the command-line with <code>find</code> and related).  A query
+for <code>_word</code> always matches a keyword, while a regexp in the form of,
+say, <code>"\\([0-9T]+?\\)--\\(.*?\\)_"</code> captures the date in group <code>\1</code> and
+the title in <code>\2</code> (test any regular expression in the current buffer by
+invoking <code>M-x re-builder</code>).
 </p>
 
 <p>
-Notes are stored as a flat list in the <code>denote-directory</code> (i.e. no
-subdirectories).  The default path is <code>~/Documents/notes</code>.
+<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>.
 </p>
+
+<p>
+While Denote is an Emacs package, notes should work long-term and not
+depend on the functionality of a specific program.  The file-naming
+scheme we apply guarantees that a listing is readable in a variety of
+contexts.
+</p>
+</div>
+
+<div id="outline-container-h:ae8b19a1-7f67-4258-96b3-370a72c43f4e" class="outline-3">
+<h3 id="h:ae8b19a1-7f67-4258-96b3-370a72c43f4e"><span class="section-number-3">3.1.</span> Sluggified title and keywords</h3>
+<div class="outline-text-3" id="text-h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">
+<p>
+Denote has to be highly opinionated about which characters can be used
+in file names and the file&rsquo;s front matter in order to enforce its
+file-naming scheme.  The private variable <code>denote--punctuation-regexp</code>
+holds the relevant value.  In simple terms:
+</p>
+
+<ul class="org-ul">
+<li>What we count as &ldquo;illegal characters&rdquo; are converted into hyphens.</li>
+
+<li>Input for a file title is hyphenated and downcased.  The original
+value is preserved only in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).</li>
+
+<li>Keywords should not have spaces or other delimiters.  If they do, they
+are converted into hyphens.  Keywords are always downcased.</li>
+</ul>
+</div>
 </div>
 </div>
 
@@ -329,7 +387,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgf00a5ff">
+<pre class="example" id="org505ad4e">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -341,7 +399,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="orgb7149a1">
+<pre class="example" id="org8683c29">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -355,7 +413,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="orgd22dd0e">
+<pre class="example" id="org49b0bcf">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -369,7 +427,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org70e9425">
+<pre class="example" id="org9242d4c">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -384,13 +442,169 @@ option <code>denote-front-matter-date-format</code>:
 
 <ul class="org-ul">
 <li>When the value is nil (the default), the date uses a plain
-<code>YEAR-MONTH-DAY</code> notation, like <code>2022-06-08</code>.</li>
+<code>YEAR-MONTH-DAY</code> notation, like <code>2022-06-08</code> (the ISO 8601 standard).</li>
+
 <li>When the value is the <code>org-timestamp</code> symbol, the date is recorded as
 an inactive Org timestamp, such as <code>[2022-06-08 Wed 06:19]</code>.</li>
+
 <li>An arbitrary string value is interpreted as the argument for the
 function <code>format-time-string</code>.  This gives the user maximum control
 over how time is represented in the front matter.</li>
 </ul>
+
+<p>
+When <code>denote-file-type</code> specifies one of the Markdown flavors, we ignore
+this user option in order to enforce the RFC3339 specification (Markdown
+is typically employed in static site generators as source code for Web
+pages).  However, when <code>denote-front-matter-date-format</code> has a string
+value, this rule is suspended: we use whatever the user wants.
+</p>
+</div>
+
+<div id="outline-container-h:f69371d5-1843-493d-9ff5-c1ab3b43024e" class="outline-3">
+<h3 id="h:f69371d5-1843-493d-9ff5-c1ab3b43024e"><span class="section-number-3">5.1.</span> Tweaking the front matter</h3>
+<div class="outline-text-3" id="text-h:f69371d5-1843-493d-9ff5-c1ab3b43024e">
+<p>
+What follows is for advanced users.  When in doubt, only configure
+variables we describe as a &ldquo;user option&rdquo;: they are declared in the
+source code with the <code>defcustom</code> keyword.
+</p>
+
+<p>
+Denote&rsquo;s code base is designed in a composable way, which lets the user
+make precise interventions to affect the output of the relevant
+commands.  One such case is to configure the front matter, such as by
+changing the order the keys appear in, renaming them, or adding new
+elements.
+</p>
+
+<p>
+Some examples are in order, starting with the Org file type.  This is
+what we have in <code>denote.el</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar denote-org-front-matter
+  "#+title:      %s
+#+date:       %s
+#+filetags:   %s
+#+identifier: %s
+\n"
+  "Org front matter value for `format'.
+The order of the arguments is TITLE, DATE, KEYWORDS, ID.  If you
+are an avdanced user who wants to edit this variable to affect
+how front matter is produced, consider using something like %2$s
+to control where Nth argument is placed.")
+</pre>
+</div>
+
+<p>
+The default front matter is:
+</p>
+
+<pre class="example" id="org0142361">
+#+title:      This is a sample note
+#+date:       2022-06-10
+#+filetags:   denote  testing
+#+identifier: 20220610T202537
+</pre>
+
+<p>
+We can add a <code>PROPERTIES</code> drawer to it, with something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-org-front-matter
+      ":PROPERTIES:
+:ID: %4$s
+:END:
+#+title:      %1$s
+#+date:       %2$s
+#+filetags:   %3$s
+#+identifier: %4$s
+\n")
+</pre>
+</div>
+
+<p>
+The output is now formatted thus:
+</p>
+
+<pre class="example" id="org1b95428">
+:PROPERTIES:
+:ID: 20220611T092444
+:END:
+#+title:      This is a sample note
+#+date:       2022-06-11
+#+filetags:   denote  testing
+#+identifier: 20220611T092444
+</pre>
+
+<p>
+Notice how we can pass a number to the <code>%s</code> specifier.  This is what
+allows us to change the placement of the provided arguments.
+</p>
+
+<p>
+For another example, we will use the plain text variant, as it differs a
+bit from the above.  By default it is formatted this way:
+</p>
+
+<pre class="example" id="org228be7f">
+title:      This is a sample note
+date:       2022-06-10
+tags:       denote  testing
+identifier: 20220610T202232
+---------------------------
+</pre>
+
+<p>
+The line with the hyphens is documented in the product of the fifth
+format specifier, as documented in <code>denote-text-front-matter</code>.  Its
+value is stored in <code>denote-text-front-matter-delimiter</code>.  Say we want to
+have a delimiter both at the top and bottom:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-text-front-matter
+      "%5$s
+title:      %1$s
+date:       %2$s
+tags:       %3$s
+identifier: %4$s
+%5$s\n\n")
+</pre>
+</div>
+
+<p>
+Which gives us:
+</p>
+
+<pre class="example" id="orgc7010e6">
+---------------------------
+title:      This is a sample note
+date:       2022-06-11
+tags:       denote  testing
+identifier: 20220611T093252
+---------------------------
+</pre>
+
+<p>
+Or we would rather use another character instead of hyphens, such as the
+equals sign:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-text-front-matter-delimiter (make-string 27 ?+))
+</pre>
+</div>
+
+<p>
+Remember that this is for advanced users.  If you want to see changes
+done on this front, you are welcome to share your thoughts and/or
+participate in the development of Denote.
+</p>
+</div>
 </div>
 </div>
 
