@@ -5,6 +5,10 @@ excerpt: "Denote is a simple note-taking tool, based on the idea that notes shou
 
 **UPDATE 2022-06-10 13:51 +0300:** Rewrote the record to reflect the
 current state of the project.  We are getting close to version `0.1.0`.
+Though better read the comprehensive manual, as I will not be updating
+this entry any more: <https://protesilaos.com/emacs/denote>.
+
+* * *
 
 On 2020-10-08 I wrote about [My simple note-taking system for Emacs
 (without Org)](https://protesilaos.com/codelog/2020-10-08-intro-usls-emacs-notes/).
