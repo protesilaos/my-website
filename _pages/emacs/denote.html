@@ -52,15 +52,15 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 </ul>
 </li>
 <li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a></li>
-<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">5. Front matter</a>
+<li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">5. Renaming files</a></li>
+<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
 <ul>
-<li><a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">5.1. Tweaking the front matter</a></li>
+<li><a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">6.1. Tweaking the front matter</a></li>
 </ul>
 </li>
-<li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">6. Linking notes</a></li>
-<li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">7. Fontification in Dired</a></li>
-<li><a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">8. Notes in multiple file types</a></li>
-<li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">9. Renaming non-notes</a></li>
+<li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a></li>
+<li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
+<li><a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">9. Notes in multiple file types</a></li>
 <li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">10. Extending Denote</a></li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">11. Installation</a>
 <ul>
@@ -372,8 +372,53 @@ the <code>denote-org-capture-specifiers</code>.
 </div>
 </div>
 
+<div id="outline-container-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca" class="outline-2">
+<h2 id="h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca"><span class="section-number-2">5.</span> Renaming files</h2>
+<div class="outline-text-2" id="text-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">
+<p>
+Denote&rsquo;s file-naming scheme is not specific to notes or text files: it
+is useful for all sorts of files, such as multimedia and PDFs that form
+part of the user&rsquo;s longer-term storage (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  While
+Denote does not manage such files, it already has all the mechanisms to
+facilitate the task of renaming them.
+</p>
+
+<p>
+To this end, we provide the <code>denote-dired-rename-file</code> command.  It has
+a two-fold purpose: (i) to change the file name of an existing note
+while retaining its identifier and (ii) to write a Denote-style file
+name for an item that was not created by <code>denote</code> or related commands
+(such as an image or PDF).
+</p>
+
+<p>
+The <code>denote-dired-rename-file</code> command will target the file at point if
+it finds one in the current Dired buffer.  Otherwise it prompts with
+minibuffer completion for a file name.  It then uses the familiar
+prompts for a <code>TITLE</code> and <code>KEYWORDS</code> the same way the <code>denote</code> command
+does it (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  As a final step it asks for confirmation
+before renaming the file at point, showing a message like:
+</p>
+
+<pre class="example" id="orgc0931da">
+Rename denote-link.el to 20220612T052900--what-the-thing__testing.el? (y or n)
+</pre>
+
+<p>
+The file type extension (e.g. <code>.pdf</code>) is read from the underlying file
+and is preserved in the renaming process.  Files that have no extension
+are simply left without one.
+</p>
+
+<p>
+Renaming only occurs relative to the current directory.  Files are not
+moved between directories.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:13218826-56a5-482a-9b91-5b6de4f14261" class="outline-2">
-<h2 id="h:13218826-56a5-482a-9b91-5b6de4f14261"><span class="section-number-2">5.</span> Front matter</h2>
+<h2 id="h:13218826-56a5-482a-9b91-5b6de4f14261"><span class="section-number-2">6.</span> Front matter</h2>
 <div class="outline-text-2" id="text-h:13218826-56a5-482a-9b91-5b6de4f14261">
 <p>
 Notes have their own &ldquo;front matter&rdquo;.  This is a block of data at the top
@@ -388,7 +433,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgde20836">
+<pre class="example" id="org48e9520">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -400,7 +445,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org775e9fc">
+<pre class="example" id="orgd6fd7d3">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -414,7 +459,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="orgdb2fc67">
+<pre class="example" id="org345b415">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -428,7 +473,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org0249507">
+<pre class="example" id="orgf76909a">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -463,7 +508,7 @@ value, this rule is suspended: we use whatever the user wants.
 </div>
 
 <div id="outline-container-h:f69371d5-1843-493d-9ff5-c1ab3b43024e" class="outline-3">
-<h3 id="h:f69371d5-1843-493d-9ff5-c1ab3b43024e"><span class="section-number-3">5.1.</span> Tweaking the front matter</h3>
+<h3 id="h:f69371d5-1843-493d-9ff5-c1ab3b43024e"><span class="section-number-3">6.1.</span> Tweaking the front matter</h3>
 <div class="outline-text-3" id="text-h:f69371d5-1843-493d-9ff5-c1ab3b43024e">
 <p>
 What follows is for advanced users.  When in doubt, only configure
@@ -503,7 +548,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org6db71f9">
+<pre class="example" id="org96482b2">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -531,7 +576,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org3965805">
+<pre class="example" id="org5dcf104">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -551,7 +596,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org8e4be4e">
+<pre class="example" id="org47020c4">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -581,7 +626,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="orgb1dfddf">
+<pre class="example" id="org2d06d0f">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -610,7 +655,7 @@ participate in the development of Denote.
 </div>
 
 <div id="outline-container-h:fc913d54-26c8-4c41-be86-999839e8ad31" class="outline-2">
-<h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">6.</span> Linking notes</h2>
+<h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">7.</span> Linking notes</h2>
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
 <p>
 Denote has a basic linking facility to quickly establish connections
@@ -642,23 +687,24 @@ of a note).
 </p>
 
 <p>
-Backlinks are recorded at the end of a note under the heading with the
-title <code>Denote backlinks</code>.  Users should not edit the note below this
-part manually: it is controlled by Denote, such as to delete duplicate
-links (in the future it might also handle stuff like alphabetic
-sorting).
+Backlinks are optionally recorded at the end of a note under the heading
+with the title <code>Denote backlinks</code>.  This is an opt-in feature that has
+to be set up by adding <code>denote-link-backlinks</code> to the special hook
+<code>denote-link-insert-functions</code>.
+</p>
+
+<p>
+The reason backlinks are off by default is because we might still make
+breaking changes on how they are implemented.  For the time being,
+Denote expects that users do not edit the section with the backlinks: it
+is controlled by Denote, such as to delete duplicate links (in the
+future it might also handle stuff like alphabetic sorting).  Suggestions
+to improve backlinking are most welcome!
 </p>
 
 <p>
 The section with the backlinks is formatted according to the note&rsquo;s file
 type.
-</p>
-
-<p>
-The special hook <code>denote-link-insert-functions</code> is called after a link
-is created.  It accepts two arguments for the target file and the
-formatted backlink to the original file.  The function
-<code>denote-link-backlink</code> provides an example for advanced users.
 </p>
 
 <p>
@@ -669,7 +715,7 @@ the current buffer with the command <code>denote-link-clear-stale-backlinks</cod
 </div>
 
 <div id="outline-container-h:337f9cf0-9f66-45af-b73f-f6370472fb51" class="outline-2">
-<h2 id="h:337f9cf0-9f66-45af-b73f-f6370472fb51"><span class="section-number-2">7.</span> Fontification in Dired</h2>
+<h2 id="h:337f9cf0-9f66-45af-b73f-f6370472fb51"><span class="section-number-2">8.</span> Fontification in Dired</h2>
 <div class="outline-text-2" id="text-h:337f9cf0-9f66-45af-b73f-f6370472fb51">
 <p>
 One of the upsides of Denote&rsquo;s file-naming scheme is the predictable
@@ -738,7 +784,7 @@ for the notes Denote produces).
 </div>
 
 <div id="outline-container-h:f34b172b-3440-446c-aec1-bf818d0aabfe" class="outline-2">
-<h2 id="h:f34b172b-3440-446c-aec1-bf818d0aabfe"><span class="section-number-2">8.</span> Notes in multiple file types</h2>
+<h2 id="h:f34b172b-3440-446c-aec1-bf818d0aabfe"><span class="section-number-2">9.</span> Notes in multiple file types</h2>
 <div class="outline-text-2" id="text-h:f34b172b-3440-446c-aec1-bf818d0aabfe">
 <p>
 As noted before, Denote does not have a particular preference on the
@@ -788,78 +834,13 @@ notes in <code>~/blog/</code> (<a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51"
 
 <p>
 Given Denote&rsquo;s composable code, you can tweak the output however you
-like (<a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">Tweaking the front matter</a>).  Consider the case where the
-alternative notes in the blog have no use for the identifier field
-inside the front matter.  Let&rsquo;s omit it!  (It will still be part of the
-file name.)
+like (<a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">Tweaking the front matter</a>).
 </p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-file-type nil)
-(setq denote-directory (expand-file-name "~/Documents/notes/"))
-
-;; Excerpt of the default:
-(defvar denote-toml-front-matter
-  "+++
-title      = %S
-date       = %s
-tags       = %s
-identifier = %S
-+++\n\n")
-
-;; Adding the N$ to show the order they are provided internally
-;; (explained in `denote-org-front-matter'),
-(defvar my-denote-toml-front-matter
-        "+++
-title      = %1$S
-date       = %2$s
-tags       = %3$s
-+++\n\n")
-
-(defun my-denote-markdown-toml ()
-  (interactive)
-  (let ((denote-file-type 'markdown-toml)
-        (denote-directory "~/blog/")
-        (denote-toml-front-matter my-denote-toml-front-matter))
-    (call-interactively #'denote)))
-</pre>
-</div>
 
 <p>
 Have more ideas?  Something does not work quite right?  Areas you wish
 were more abstract in the code?  Please participate in the development
 process.
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca" class="outline-2">
-<h2 id="h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca"><span class="section-number-2">9.</span> Renaming non-notes</h2>
-<div class="outline-text-2" id="text-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">
-<p>
-Denote&rsquo;s file-naming scheme is not specific to notes or text files: it
-is useful for all sorts of files, such as multimedia and PDFs that form
-part of the user&rsquo;s longer-term storage (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  While
-Denote does not manage such files, it already has all the mechanisms to
-facilitate the task of renaming them.
-</p>
-
-<p>
-To this end, invoke <code>denote-dired-rename-file</code> when point is over a file
-in Dired to rename it.  The commaand prompts for a <code>TITLE</code> and
-<code>KEYWORDS</code> the same way the <code>denote</code> command does it (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
-It finally asks for confirmation before renaming the file at point.
-</p>
-
-<p>
-The file type extension (e.g. <code>.pdf</code>) is read from the underlying file
-and is preserved in the renaming process.  Files that have no extension
-are simply left without one.
-</p>
-
-<p>
-Renaming only occurs relative to the current directory.  Files are not
-moved between directories.
 </p>
 </div>
 </div>
