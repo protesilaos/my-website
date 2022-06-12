@@ -401,7 +401,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org71cbc15">
+<pre class="example" id="org3fc5c37">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -447,7 +447,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgc2cc0f4">
+<pre class="example" id="org25f547b">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -459,7 +459,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="orgcb601e9">
+<pre class="example" id="orgbb38e39">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -473,7 +473,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="orgffdc501">
+<pre class="example" id="org6369650">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -487,7 +487,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org2b780ff">
+<pre class="example" id="orgf6a7754">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -562,7 +562,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org454053a">
+<pre class="example" id="orgb02887c">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -590,7 +590,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org4208ce1">
+<pre class="example" id="orgc82b2a6">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -610,7 +610,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org16db851">
+<pre class="example" id="org724e7bc">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -640,7 +640,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org683cfb5">
+<pre class="example" id="orgf60f244">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -835,8 +835,8 @@ type.  It is entirely possible to store notes in a variety of formats
 across multiple directories and Denote will still be able to work with
 them, provided they follow the file-naming scheme and have an identifier
 in their front matter (where relevant).  Here we show how to create new
-notes that deviate from the default value of <code>denote-file-type</code>, specify
-their own <code>denote-directory</code>, and even tweak the file&rsquo;s front matter.
+notes that deviate from the default value of <code>denote-file-type</code> and
+specify their own <code>denote-directory</code>.
 </p>
 
 <p>
@@ -856,10 +856,15 @@ produce a file with the <code>.md</code> extension and TOML-compliant front matt
 </div>
 
 <p>
+With the above, <code>M-x my-denote-markdown-toml</code> produces Markdown+TOML
+notes while <code>M-x denote</code> uses Org.
+</p>
+
+<p>
 This principle can be taken a step further by <code>let</code> binding a second
 directory for those alternative notes.  Maybe your standard notes are
-located in <code>~/Documents/notes/</code> but you plan to store those alternative
-notes in <code>~/blog/</code> (<a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">Fontification in Dired</a>).
+located in <code>~/Documents/notes/</code> but you plan to store the other ones in
+<code>~/blog/</code> (<a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">Fontification in Dired</a>).
 </p>
 
 <div class="org-src-container">
@@ -876,7 +881,29 @@ notes in <code>~/blog/</code> (<a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51"
 
 <p>
 Given Denote&rsquo;s composable code, you can tweak the output however you
-like (<a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">Tweaking the front matter</a>).
+like, including the contents of the file (<a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">Tweaking the front matter</a>).
+</p>
+
+<p>
+If you do place different types of notes in their own directories,
+consider introducing directory-local variables to keep things working
+seamlessly.  An obvious candidate for such a local variable is the
+<code>denote-directory</code>: you want notes in <code>~/blog/</code> to treat their directory
+as the canonical one; while those in <code>~/Documents/notes/</code> to do the same
+for that path.  Write a <code>.dir-locals.el</code> file with the following
+contents and place it in each of those directories:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Directory Local Variables
+;;; For more information see (info "(emacs) Directory Variables")
+
+((nil . ((denote-directory . (expand-file-name default-directory)))))
+</pre>
+</div>
+
+<p>
+This will allow things to work smoothly (e.g. <code>denote-infer-keywords</code>).
 </p>
 
 <p>
