@@ -386,10 +386,10 @@ facilitate the task of renaming them.
 
 <p>
 To this end, we provide the <code>denote-dired-rename-file</code> command.  It has
-a two-fold purpose: (i) to change the file name of an existing note
-while retaining its identifier and (ii) to write a Denote-style file
-name for an item that was not created by <code>denote</code> or related commands
-(such as an image or PDF).
+a two-fold purpose: (i) to change the name of an existing file while
+retaining its identifier and (ii) to write a Denote-compliant file name
+for an item that was not created by <code>denote</code> or related commands (such
+as an image or PDF).
 </p>
 
 <p>
@@ -397,18 +397,26 @@ The <code>denote-dired-rename-file</code> command will target the file at point 
 it finds one in the current Dired buffer.  Otherwise it prompts with
 minibuffer completion for a file name.  It then uses the familiar
 prompts for a <code>TITLE</code> and <code>KEYWORDS</code> the same way the <code>denote</code> command
-does it (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  As a final step it asks for confirmation
+does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  As a final step, it asks for confirmation
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org2368ec9">
+<pre class="example" id="orge403af6">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
 <p>
+When operating on a file that has no identifier, such as <code>sample.pdf</code>,
+Denote reads the file properties to retrieve its last modification time.
+If the file was from a past date like 2000-11-31 it will get an
+identifier starting with <code>20001131</code> followed by the time component (per
+our file-naming scheme).
+</p>
+
+<p>
 The file type extension (e.g. <code>.pdf</code>) is read from the underlying file
-and is preserved in the renaming process.  Files that have no extension
-are simply left without one.
+and is preserved through the renaming process.  Files that have no
+extension are simply left without one.
 </p>
 
 <p>
@@ -434,7 +442,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org4581f5f">
+<pre class="example" id="org40006f5">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -446,7 +454,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org45c5063">
+<pre class="example" id="orgbc4f26b">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -460,7 +468,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org6818c55">
+<pre class="example" id="org5a25dc5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -474,7 +482,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgf546c80">
+<pre class="example" id="orgd309a74">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -549,7 +557,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org1387dc8">
+<pre class="example" id="org61e17fe">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -577,7 +585,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org0544e0f">
+<pre class="example" id="org5fe2a8f">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -597,7 +605,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org385527f">
+<pre class="example" id="orgb303890">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -627,7 +635,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="orgf009718">
+<pre class="example" id="org7c38bdf">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
