@@ -111,61 +111,70 @@ modify this GNU manual.”
 <h2 id="h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241"><span class="section-number-2">2.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241">
 <p>
-Denote is a simple, yet effective note-taking tool for Emacs.  It is
-based on the principle that notes must follow a predictable and
-descriptive naming convention (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  The file name
-alone should offer a clear indication of what the note is about, without
-reference to any other metadata.  Denote basically streamlines the
-creation of such files.
+NOTE THAT WE ARE ACTIVELY WORKING TOWARDS VERSION <code>0.1.0</code> AND MIGHT
+STILL INTRODUCE BREAKING, BACKWARD-INCOMPATIBLE CHANGES.  This is
+particularly true for the linking facility.  Everything else is in a
+stable state.
 </p>
 
 <p>
-What Denote prioritizes with the enforcement of a strict file-naming
-scheme is portability.  Notes can be accessed, filtered, and understood
-without Emacs or any other advanced tool for that matter (though Emacs,
-Org, and the like are excellent programs).
+Denote aims to be a simple-to-use, focused-in-scope, and effective
+note-taking tool for Emacs.  It is based on the following core design
+principles:
 </p>
 
-<p>
-Denote only has a strong opinion about the file name.  It otherwise is
-flexible and poses no constraints on the desired workflow.  Denote has
-no mechanism to test for adherence with a given note-taking method, such
-as that of Zettelkasten (i.e. the contemporary digital equivalent of
-Niklas Luhmann&rsquo;s methodology).  It is possible to employ such a method,
-though it is ultimately up to the user to apply the requisite rigor.
-What matters for our purposes is that Denote is not a zettelkasten
-implementation per se, does not compel the user to manage a restricted
-vocabulary for tagging purposes, will not insist on mutual exclusivity
-between keyword subsets, and so on.
-</p>
+<dl class="org-dl">
+<dt>Predictability</dt><dd>File names must follow a consistent and descriptive
+naming convention (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  The file name alone
+should offer a clear indication of what the contents are, without
+reference to any other metadatum.  This convention is not specific to
+note-taking, as it is pertinent to any form of file that is part of
+the user&rsquo;s long-term storage (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).</dd>
+
+<dt>Composability</dt><dd>Be a good Emacs citizen, by integrating with other
+packages or built-in functionality instead of re-inventing functions
+such as for filtering or greping.  Do not introduce dependencies on
+specific libraries.  While Org is a killer app for Emacs and the
+default file type for new notes, Denote does not depend on org.el nor
+its extensions and does allow notes to be created in a variety of
+formats (<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).  The author of Denote
+(Protesilaos, aka &ldquo;Prot&rdquo;) writes ordinary notes in plain text
+(<code>.txt</code>), switching to an Org file only when its expanded set of
+functionality is required for the task at hand (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).</dd>
+
+<dt>Portability</dt><dd>Notes are plain text and should remain portable.  The
+way Denote writes file names, the front matter it include in the
+note&rsquo;s header, and the links it establishes must all be adequately
+usable with standard Unix tools.  No need for a databse or some
+specialised software.  As Denote develops and this manual is fully
+fleshed out, there will be concrete examples on how to do the
+Denote-equivalent on the command-line.</dd>
+
+<dt>Flexibility</dt><dd>Do not assume the user&rsquo;s preference for a note-taking
+methodology.  Denote is conceptually similar to the Zettelkasten
+Method, which you can learn more about in this detailed introduction:
+<a href="https://zettelkasten.de/introduction/">https://zettelkasten.de/introduction/</a>.  Notes are atomic (one file
+per note) and have a unique identifier.  However, Denote does not
+enforce a particular methodology for knowledge management, such as a
+restricted vocabulary or mutually exclusive sets of keywords.  It is
+up to the user to apply the requisite rigor in pursuit of their
+preferred workflow.</dd>
+</dl>
 
 <p>
-Denote does not manage a database and does not try to be smart about how
-notes are handled.  It creates notes and otherwise delegates extra
-functionality to other tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).
-</p>
-
-<p>
-By default, Denote writes note files using the <code>.org</code> extension.
-However, Denote does not depend on org.el or any of its accoutrements
-and extensions.  Users are given the option to change from Org to either
-Markdown (<code>.md</code>) or Plain Text (<code>.txt</code>), as explained further in the
-manual (search for <code>denote-file-type</code>).
-</p>
-
-<p>
-&ldquo;Denote&rdquo; is the familiar word, though it also is a play on the &ldquo;note&rdquo;
-concept.  Plus, we can come up with acronyms of dubious utility like:
+Now the important part&#x2026;  &ldquo;Denote&rdquo; is the familiar word, though it also
+is a play on the &ldquo;note&rdquo; concept.  Plus, we can come up with acronyms,
+recursive or otherwise, of increasingly dubious utility like:
 </p>
 
 <ul class="org-ul">
-<li>Don&rsquo;t Ever Note Only The Ephemeral</li>
+<li>Don&rsquo;t Ever Note Only The Epiphenomenal</li>
 <li>Denote Everything Neatly; Omit The Excesses</li>
 </ul>
 
 <p>
 But we&rsquo;ll let you get back to work.  Don&rsquo;t Eschew or Neglect your
-Obligations, Tasks, Engagements&#x2026;
+Obligations, Tasks, and Engagements.
 </p>
 </div>
 </div>
@@ -208,10 +217,14 @@ underscore (the separator is inserted automatically).  Each keyword is a
 string provided by the user at the relevant prompt which broadly
 describes the contents of the entry.  Keywords that need to be more than
 one-word-long must be written with hyphens: any other character, such as
-spaces or the plus sign is converted into a hyphen.  So when
-<code>emacs_library</code> appears in a file name, it is interpreted as two
+spaces or the plus sign is automatically converted into a hyphen.  So
+when <code>emacs_library</code> appears in a file name, it is interpreted as two
 distinct keywords, whereas <code>emacs-library</code> is one keyword.  This is
 reflected in how the keywords are recorded in the note (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
+While Denote supports multi-word keywords by default, the user option
+<code>denote-allow-multi-word-keywords</code> can be set to nil to forcibly join
+all words into one, meaning that an input of <code>word1 word2</code> will be
+written as <code>word1word2</code>.
 </p>
 
 <p>
@@ -401,7 +414,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org3fc5c37">
+<pre class="example" id="org16f1498">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -447,7 +460,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org25f547b">
+<pre class="example" id="org496fb77">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -459,7 +472,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="orgbb38e39">
+<pre class="example" id="org873a6f3">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -473,7 +486,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org6369650">
+<pre class="example" id="org2d822ee">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -487,7 +500,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgf6a7754">
+<pre class="example" id="orgced60dd">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -562,7 +575,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orgb02887c">
+<pre class="example" id="orgf190577">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -590,7 +603,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orgc82b2a6">
+<pre class="example" id="org4b386d2">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -610,7 +623,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org724e7bc">
+<pre class="example" id="orga50090f">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -640,7 +653,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="orgf60f244">
+<pre class="example" id="org69ed3bb">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
