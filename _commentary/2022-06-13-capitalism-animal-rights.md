@@ -141,23 +141,24 @@ upon your quotidian life, whether you like it or not.
 
 Finally, I close with a comment on Christian theology, at least as it is
 popularised in my part of the globe.  I once asked a monk whether dogs
-go to heaven.  He answered negatively, as they "do not have a soul".
-You may argue that this particular monk was clueless, which may be true
-as theologians can come up with varying interpretations, though it is
-indicative of a widespread belief in anthropocentrism (human-centrism)
-or else the notion that humankind has some special value or purpose in
-this world.  Human is, after all, supposed to be created in the image
-and likeness of the Christian God (which sounds quite the privilege if
-you ask me---in case it is not obvious, I am not religious).  The
-Enlightenment, whose very name is a euphemism writ large if taken
-holistically, also laboured under this anthropocentrism though it framed
-it in secular terms.  We thus live in a modern political reality, whose
-historicity is informed by those traditions, where we need to fight
-against the view that only humans matter.  To argue for ecology is to
-dethrone Human and dismantle the concomitant imperium over nature, to
-ultimately bring back value systems that ancient peoples upheld; systems
-which respected nature and did not assign some special role to humankind
-in the grand scheme of things.
+go to heaven.  He answered negatively, as they "do not have a soul
+**like ours**" (Prot edit: added "like ours"---its omission was mistake
+which changes the meaning).  You may argue that this particular monk was
+clueless, which may be true as theologians can come up with varying
+interpretations, though it is indicative of a widespread belief in
+anthropocentrism (human-centrism) or else the notion that humankind has
+some special value or purpose in this world.  Human is, after all,
+supposed to be created in the image and likeness of the Christian God
+(which sounds quite the privilege if you ask me---in case it is not
+obvious, I am not religious).  The Enlightenment, whose very name is a
+euphemism writ large if taken holistically, also laboured under this
+anthropocentrism though it framed it in secular terms.  We thus live in
+a modern political reality, whose historicity is informed by those
+traditions, where we need to fight against the view that only humans
+matter.  To argue for ecology is to dethrone Human and dismantle the
+concomitant imperium over nature, to ultimately bring back value systems
+that ancient peoples upheld; systems which respected nature and did not
+assign some special role to humankind in the grand scheme of things.
 
 Will we have the perfect polity?  No.  Though that is no reason to
 refrain from implementing what is good within the confines of practical
