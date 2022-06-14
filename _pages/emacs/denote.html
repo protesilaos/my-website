@@ -58,7 +58,18 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 <li><a href="#h:f69371d5-1843-493d-9ff5-c1ab3b43024e">6.1. Tweaking the front matter</a></li>
 </ul>
 </li>
-<li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a></li>
+<li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
+<ul>
+<li><a href="#org502230b">7.1. <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[1/4]</code></a>
+<ul>
+<li><a href="#org9be9b39">7.1.1. <span class="done DONE">DONE</span> Add generic linking mechanism</a></li>
+<li><a href="#org1c7290d">7.1.2. <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</a></li>
+<li><a href="#orgd0de80b">7.1.3. <span class="todo TODO">TODO</span> Flesh out the <code>denote-link-backlinks</code> prototype</a></li>
+<li><a href="#orgcf2cc8b">7.1.4. <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
 <li><a href="#h:82dc1203-d689-44b2-9a6c-b37776209651">9. Minibuffer histories</a></li>
 <li><a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">10. Notes in multiple file types</a>
@@ -425,7 +436,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org356944b">
+<pre class="example" id="org0d15682">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -471,7 +482,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org36fc219">
+<pre class="example" id="orgf1a32bc">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -483,7 +494,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org7aebd04">
+<pre class="example" id="org550f10c">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -497,7 +508,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="orge60c39e">
+<pre class="example" id="org5a1215c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -511,7 +522,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgea62d39">
+<pre class="example" id="orgdd0afa8">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -586,7 +597,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orgef26b41">
+<pre class="example" id="org7e1ebd2">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -614,7 +625,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orge232213">
+<pre class="example" id="orge533308">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -634,7 +645,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="orgf084201">
+<pre class="example" id="org2ae39be">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -664,7 +675,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org74ac6ec">
+<pre class="example" id="org40a9930">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -696,66 +707,74 @@ participate in the development of Denote.
 <h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">7.</span> Linking notes</h2>
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
 <p>
-The linking facility is subject to review and there will likely be
-breaking changes.  This is the only area that needs to be fixed before
-we release the first stable version of the package.  <b>What follows is
-not up-to-date as of 2022-06-14 17:01 +0300.</b>
+<b>The linking facility is the area that needs refinements before
+releasing the first stable version of Denote.</b>
 </p>
 
 <p>
-Denote has a basic linking facility to quickly establish connections
-between notes.  The command <code>denote-link</code> prompts for a file name in the
-<code>denote-directory</code> (only regular files are considered, not directories).
-It then retrieves the path of the given note, inserts it at point using
-the appropriate link notation, and creates a backlink entry in the
-target file (again using the appropriate notation).
+Denote aims to have a simple-yet-effective linking facility to quickly
+establish connections between notes.
+</p>
+
+<p>
+The command <code>denote-link</code> prompts for a file in the <code>denote-directory</code>
+(only regular files are considered, not directories).  It then retrieves
+the identifier of the given note and inserts it at point using the
+appropriate link notation.
 </p>
 
 <p>
 What constitutes &ldquo;appropriate link notation&rdquo; depends on the file type of
-the given entry per <code>denote-file-type</code> (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>).  For
-example when linking from an Org file to a Markdown file, the link in
-the former will follow Org syntax while the backlink in the latter will
-use that of Markdown.  Org links use <code>[[file:TARGET][DESCRIPTION]]</code>,
-those of Markdown are <code>[DESCRIPTION](file:TARGET)</code>, while for plain text
-we implement our own scheme of <code>&lt;TYPE: TARGET&gt; [DESCRIPTION]</code>, where
-<code>TYPE</code> is either <code>LINK</code> or <code>BACKLINK</code> (capitalization in the latter two
-is literal, because plain text lacks other means of emphasis).
+the given entry, per <code>denote-file-type</code> (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>):
+</p>
+
+<ul class="org-ul">
+<li>Org: <code>[[denote:IDENTIFIER][TITLE]]</code></li>
+<li>Markdown: <code>[TITLE](denote:IDENTIFIER)</code></li>
+<li>Plain text: <code>[[IDENTIFIER] [TITLE]]</code></li>
+</ul>
+
+<p>
+The special specifier <code>denote:</code> is experimental.  The idea is to reserve
+for possible integration with Org/Markdown, though we might switch to
+another method.
 </p>
 
 <p>
-Plain text links can benefit from Emacs&rsquo; notion of &ldquo;future history&rdquo;,
-else its ability to read the thing at point for relevant commands.  With
-point over the <code>TARGET</code>, <code>M-x find-file</code> followed by <code>M-n</code> will fill the
-path to that file (this also works with point over just the identifier
-of a note).
+As a general feature of Emacs, any identifier that appears in a note,
+can be expanded into the corresponding file name at the same directory
+by leveraging Emacs&rsquo; notion of &ldquo;future history&rdquo; (predicting what the
+user wants).  With point over the identifier, <code>M-x find-file</code> followed
+by <code>M-n</code> will fill the path to that file.
 </p>
 
 <p>
-Backlinks are optionally recorded at the end of a note under the heading
-with the title <code>Denote backlinks</code>.  This is an opt-in feature that has
-to be set up by adding <code>denote-link-backlinks</code> to the special hook
-<code>denote-link-insert-functions</code>.
+Based on this principle, Denote has a major-mode-agnostic mechanism to
+collects all linked file references in the current buffer and return
+them as an appropriately formatted list.  This list can then be used in
+interactive commands.  The <code>denote-link-find-file</code> is one such command.
+It uses minibuffer completion to visit a file that is linked to from the
+current note.  The candidates have the correct metadata, meaning that a
+package such as <code>marginalia</code> will display the correct annotations.
 </p>
+</div>
 
-<p>
-The reason backlinks are off by default is because we might still make
-breaking changes on how they are implemented.  For the time being,
-Denote expects that users do not edit the section with the backlinks: it
-is controlled by Denote, such as to delete duplicate links (in the
-future it might also handle stuff like alphabetic sorting).  Suggestions
-to improve backlinking are most welcome!
-</p>
-
-<p>
-The section with the backlinks is formatted according to the note&rsquo;s file
-type.
-</p>
-
-<p>
-Backlinks that no longer point to available notes can be removed from
-the current buffer with the command <code>denote-link-clear-stale-backlinks</code>.
-</p>
+<div id="outline-container-org502230b" class="outline-3">
+<h3 id="org502230b"><span class="section-number-3">7.1.</span> <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[1/4]</code></h3>
+<div class="outline-text-3" id="text-7-1">
+</div>
+<div id="outline-container-org9be9b39" class="outline-4">
+<h4 id="org9be9b39"><span class="section-number-4">7.1.1.</span> <span class="done DONE">DONE</span> Add generic linking mechanism</h4>
+</div>
+<div id="outline-container-org1c7290d" class="outline-4">
+<h4 id="org1c7290d"><span class="section-number-4">7.1.2.</span> <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</h4>
+</div>
+<div id="outline-container-orgd0de80b" class="outline-4">
+<h4 id="orgd0de80b"><span class="section-number-4">7.1.3.</span> <span class="todo TODO">TODO</span> Flesh out the <code>denote-link-backlinks</code> prototype</h4>
+</div>
+<div id="outline-container-orgcf2cc8b" class="outline-4">
+<h4 id="orgcf2cc8b"><span class="section-number-4">7.1.4.</span> <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></h4>
+</div>
 </div>
 </div>
 
