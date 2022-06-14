@@ -61,7 +61,11 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a></li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
 <li><a href="#h:82dc1203-d689-44b2-9a6c-b37776209651">9. Minibuffer histories</a></li>
-<li><a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">10. Notes in multiple file types</a></li>
+<li><a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">10. Notes in multiple file types</a>
+<ul>
+<li><a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">10.1. Keep a journal or diary</a></li>
+</ul>
+</li>
 <li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">11. Extending Denote</a></li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">12. Installation</a>
 <ul>
@@ -296,13 +300,13 @@ are converted into hyphens.  Keywords are always downcased.</li>
 <h2 id="h:17896c8c-d97a-4faa-abf6-31df99746ca6"><span class="section-number-2">4.</span> Points of entry</h2>
 <div class="outline-text-2" id="text-h:17896c8c-d97a-4faa-abf6-31df99746ca6">
 <p>
-There are two ways to write a note with Denote: invoke the <code>denote</code>
-command or leverage the <code>org-capture-templates</code> by setting up a template
-which calls the function <code>denote-org-capture</code>.
+There are three ways to write a note with Denote: invoke the <code>denote</code>,
+or <code>denote-type</code> commands, or leverage the <code>org-capture-templates</code> by
+setting up a template which calls the function <code>denote-org-capture</code>.
 </p>
 
 <p>
-In the first case, all that is needed is to run <code>denote</code>.  It will first
+In the first case, all that is needed is to run <code>denote</code>.  It will
 prompt for a title.  Once it is supplied, the command will ask for
 keywords.  The resulting note will have a file name as already explained
 (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>).
@@ -327,6 +331,13 @@ with <code>string-lessp</code>).
 The <code>denote</code> command can also be called from Lisp, in which case it
 expects the <code>TITLE</code> and <code>KEYWORDS</code> arguments.  The former is a string,
 the latter a list of strings.
+</p>
+
+<p>
+The <code>denote-type</code> command is like <code>denote</code> except it also prompts for a
+file type to use as a local value for <code>denote-file-type</code>.  In practical
+terms, this lets you produce, say, a note in Markdown even though you
+normally write in Org (<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).
 </p>
 
 <p>
@@ -414,7 +425,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org16f1498">
+<pre class="example" id="org70ed265">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -460,7 +471,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org496fb77">
+<pre class="example" id="org234084b">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -472,7 +483,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org873a6f3">
+<pre class="example" id="org7f8dd58">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -486,7 +497,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org2d822ee">
+<pre class="example" id="org065af32">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -500,7 +511,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgced60dd">
+<pre class="example" id="orgf944829">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -575,7 +586,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orgf190577">
+<pre class="example" id="org683c423">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -603,7 +614,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org4b386d2">
+<pre class="example" id="orgd409254">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -623,7 +634,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="orga50090f">
+<pre class="example" id="orgc049cac">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -632,10 +643,10 @@ identifier: 20220610T202232
 </pre>
 
 <p>
-The line with the hyphens is documented in the product of the fifth
-format specifier, as documented in <code>denote-text-front-matter</code>.  Its
-value is stored in <code>denote-text-front-matter-delimiter</code>.  Say we want to
-have a delimiter both at the top and bottom:
+The line with the hyphens is the product of the fifth format specifier,
+as documented in <code>denote-text-front-matter</code>.  Its value is stored in
+<code>denote-text-front-matter-delimiter</code>.  Say we want to have a delimiter
+both at the top and bottom:
 </p>
 
 <div class="org-src-container">
@@ -653,7 +664,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org69ed3bb">
+<pre class="example" id="org00dfc53">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -668,7 +679,7 @@ equals sign:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-text-front-matter-delimiter (make-string 27 ?+))
+<pre class="src src-emacs-lisp">(setq denote-text-front-matter-delimiter (make-string 27 ?=))
 </pre>
 </div>
 
@@ -847,50 +858,57 @@ workflow the user wishes to follow nor does it expect a specific file
 type.  It is entirely possible to store notes in a variety of formats
 across multiple directories and Denote will still be able to work with
 them, provided they follow the file-naming scheme and have an identifier
-in their front matter (where relevant).  Here we show how to create new
-notes that deviate from the default value of <code>denote-file-type</code> and
-specify their own <code>denote-directory</code>.
+in their front matter, where relevant.  Here we show how to create new
+notes that take the example of the <code>denote-type</code> command and take it one
+step further.
 </p>
 
 <p>
-Suppose you want to conform with the default of creating notes with the
-<code>.org</code> extension but, for whatever reason, wish to have a way to quickly
-produce a file with the <code>.md</code> extension and TOML-compliant front matter.
+Suppose you want to use the <code>denote</code> command to store some notes in
+Markdown, others in Org, and others still in plain text.  Maybe you also
+want to place each of those in its own directory.  Using the
+<code>denote-type</code> command is not sufficient, as it only operates on the
+value of the user option <code>denote-directory</code>.  You need some small
+wrapper functions.
+</p>
+
+<p>
+For example:
+</p>
+
+<ul class="org-ul">
+<li><code>~/Documents/notes/</code> is your default and contains Org files.</li>
+<li><code>~/Documents/blog/</code> holds the files of your blog.</li>
+<li><code>~/Documents/random/</code> is where you scribble thoughts in plain text.</li>
+</ul>
+
+<p>
+Why would you do that?  It does not matter.  This is for didactic
+purposes.  All you need to do is write functions that <code>let</code> bind the
+<code>denote-directory</code> and to the desired value.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-file-type nil)
-
-(defun my-denote-markdown-toml ()
-  (interactive)
-  (let ((denote-file-type 'markdown-toml))
-    (call-interactively #'denote)))
-</pre>
-</div>
-
-<p>
-With the above, <code>M-x my-denote-markdown-toml</code> produces Markdown+TOML
-notes while <code>M-x denote</code> uses Org.
-</p>
-
-<p>
-This principle can be taken a step further by <code>let</code> binding a second
-directory for those alternative notes.  Maybe your standard notes are
-located in <code>~/Documents/notes/</code> but you plan to store the other ones in
-<code>~/blog/</code> (<a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">Fontification in Dired</a>).
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-file-type nil)
-(setq denote-directory (expand-file-name "~/Documents/notes/"))
-
-(defun my-denote-markdown-toml ()
+<pre class="src src-emacs-lisp">(defun my-denote-markdown-toml ()
+  "Create Markdown+TOML note in ~/Documents/blog/."
   (interactive)
   (let ((denote-file-type 'markdown-toml)
-        (denote-directory "~/blog/"))
+        (denote-directory "~/Documents/blog/"))
+    (call-interactively #'denote)))
+
+(defun my-denote-plain-text ()
+  "Create plain text note in ~/Documents/random/."
+  (interactive)
+  (let ((denote-file-type 'text)
+        (denote-directory "~/Documents/random/"))
     (call-interactively #'denote)))
 </pre>
 </div>
+
+<p>
+You do not need a third command for the Org files, as those would be the
+default used by regular <code>denote</code>.
+</p>
 
 <p>
 Given Denote&rsquo;s composable code, you can tweak the output however you
@@ -901,10 +919,10 @@ like, including the contents of the file (<a href="#h:f69371d5-1843-493d-9ff5-c1
 If you do place different types of notes in their own directories,
 consider introducing directory-local variables to keep things working
 seamlessly.  An obvious candidate for such a local variable is the
-<code>denote-directory</code>: you want notes in <code>~/blog/</code> to treat their directory
-as the canonical one; while those in <code>~/Documents/notes/</code> to do the same
-for that path.  Write a <code>.dir-locals.el</code> file with the following
-contents and place it in each of those directories:
+<code>denote-directory</code>: you want notes in <code>~/Documents/blog/</code> to treat their
+directory as the canonical one; while those in <code>~/Documents/random/</code> to
+do the same for that path.  Write a <code>.dir-locals.el</code> file with the
+following contents and place it in each of those directories:
 </p>
 
 <div class="org-src-container">
@@ -920,10 +938,135 @@ This will allow things to work smoothly (e.g. <code>denote-infer-keywords</code>
 </p>
 
 <p>
+Your default <code>denote-directory</code> does not need this, as it already is the
+normal target that Denote uses.
+</p>
+
+<p>
+Want to automate aspects of note creation (<a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">Keep a journal or diary</a>)?
 Have more ideas?  Something does not work quite right?  Areas you wish
 were more abstract in the code?  Please participate in the development
 process.
 </p>
+</div>
+
+<div id="outline-container-h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92" class="outline-3">
+<h3 id="h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92"><span class="section-number-3">10.1.</span> Keep a journal or diary</h3>
+<div class="outline-text-3" id="text-h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">
+<p>
+While there are subtle technical differences between a journal and a
+diary, we will consider those equivalent in the interest of brevity:
+they both describe a personal space that holds a record of your thoughts
+about your experiences and/or view of events in the world.
+</p>
+
+<p>
+Suppose you are committed to writing an entry every day.  Unlike what we
+demonstrated before, your writing will follow a regular naming pattern
+(<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).  You know that the title of the new note
+must always look like <code>Tuesday 14 June 2022</code> and the keyword has to be
+<code>journal</code> or <code>diary</code>.  As such, you want to automate the task instead of
+being prompted each time, as is the norm with <code>denote</code> and the relevant
+commands (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  This is easy to accomplish because <code>denote</code>
+can be called from Lisp and given the required arguments of <code>TITLE</code> and
+<code>KEYWORDS</code> directly.  All you need is a simple wrapper function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-journal ()
+  "Create an entry tagged 'journal' with the date as its title."
+  (interactive)
+  (denote
+   (format-time-string "%A %e %B %Y") ; format like Tuesday 14 June 2022
+   "journal")) ; multiple keywords are a list of strings: '("one" "two")
+</pre>
+</div>
+
+<p>
+By invoking <code>my-denote-journal</code> you will go straight into the newly
+created note and commit to your writing outright.
+</p>
+
+<p>
+Sometimes journaling is done with the intent to hone one&rsquo;s writing
+skills.  Perhaps you are learning a new language or wish to communicate
+your ideas with greater clarity and precision.  As with everything that
+requires a degree of sophistication, you have to work for it&#x2014;write,
+write, write!
+</p>
+
+<p>
+One way to test your progress is to set a timer.  It helps you gauge
+your output and its quality.  To use a timer with Emacs, consider the
+<code>tmr</code> package:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-journal-with-tmr ()
+  "Like `my-denote-journal', but also set a 10-minute timer.
+The `tmr' command is part of the `tmr' package."
+  (interactive)
+  (denote
+   (format-time-string "%A %e %B %Y")
+   "journal")
+  (tmr 10 "Practice writing in my journal")) ; set 10 minute timer with a description
+</pre>
+</div>
+
+<p>
+Once the timer elapses, stop writing and review your performance.
+Practice makes perfect!
+</p>
+
+<p>
+[ As Denote matures, we may add hooks to control what happens before or
+  after the creation of a new note.  We shall also document more
+  examples of tasks that can be accomplished with this package. ]
+</p>
+
+<p>
+Sources for <code>tmr</code>:
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>tmr</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a></li>
+<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/tmr">https://git.sr.ht/~protesilaos/tmr</a>
+<ul class="org-ul">
+<li>Mirrors:
+<ul class="org-ul">
+<li>GitHub: <a href="https://github.com/protesilaos/tmr">https://github.com/protesilaos/tmr</a></li>
+<li>GitLab: <a href="https://gitlab.com/protesilaos/tmr">https://gitlab.com/protesilaos/tmr</a></li>
+</ul></li>
+</ul></li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a></li>
+</ul>
+
+<p>
+Finally, recall what we discussed elsewhere in the manual about changing
+the file type and target directory (<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).  You
+basically <code>let</code> bind the relevant variables.  Such bindings are specific
+to the function: they do not affect anything outside of it, so you can
+keep the defaults for your regular notes and use something different for
+your journaling.  For example, the following snippet is like the
+previous sample of writing a journal entry and setting a timer, but it
+also uses a plain text file type and adds the new note to the
+<code>~/Documents/journal/</code> directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-journal-with-tmr-and-custom-type-and-dir ()
+  "Like `my-denote-journal-with-tmr' with custom type and directory."
+  (interactive)
+  (let ((denote-file-type 'text) ; it supports other file types as well: read its doc string
+        (denote-directory "~/Documents/journal/"))
+    (denote
+     (format-time-string "%A %e %B %Y")
+     "journal")
+    (tmr 10 "Practice writing in my journal")))
+</pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -1045,8 +1188,11 @@ Everything is in place to set up the package.
 (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
 ;; You can bind `denote' to a global key if you prefer not to use
-;; `org-capture' or want an alternative.  For example:
-(define-key global-map (kbd "C-c n") #'denote)
+;; `org-capture' or want an alternative.  Denote does not define any key
+;; bindings though: this is for the user to decide.  For example:
+(let ((map global-map))
+  (define-key map (kbd "C-c n") #'denote)
+  (define-key map (kbd "C-c N") #'denote-type))
 
 (with-eval-after-load 'org-capture
   (require 'denote-org-capture)
@@ -1058,7 +1204,7 @@ Everything is in place to set up the package.
                  :no-save t
                  :immediate-finish nil
                  :kill-buffer t
-                 :jump-to-captured t))))
+                 :jump-to-captured t)))
 </pre>
 </div>
 </div>
@@ -1076,7 +1222,8 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 
 <dt>Contributions to code or the manual</dt><dd>Jack Baty, Kaushal Modi.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Kaushal Modi, Ypot, svnsbck.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Damien Cassou, Jack Baty, Kaushal Modi,
+Ypot, svnsbck.</dd>
 </dl>
 
 <p>
