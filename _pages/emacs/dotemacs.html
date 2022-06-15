@@ -27,8 +27,8 @@ Current development target is 2.4.0-dev.
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-14 07:51 +0300</b>.</li>
-<li>Word count: <b>138847</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-15 19:29 +0300</b>.</li>
+<li>Word count: <b>139249</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -4277,7 +4277,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orga57bfaa">
+<pre class="example" id="orgb32e53f">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4360,7 +4360,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org745c16d">
+<pre class="example" id="orgd71ad8d">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6254,7 +6254,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org829dd9b">
+<pre class="example" id="orgaf1e46a">
 text-mode
 
 (dotfiles-sync-package
@@ -9125,11 +9125,19 @@ I will explain how Denote works once the package is ready.  Introduced:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(prot-emacs-builtin-package 'denote
+  ;; Remember to check the doc strings of those variables.
   (setq denote-directory (expand-file-name "~/Documents/notes/"))
   (setq denote-known-keywords
         '("emacs" "philosophy" "politics" "economics"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
+  (setq denote-file-type nil) ; Org is the default, set others here
+
+  ;; We allow multi-word keywords by default.  The author's personal
+  ;; preference is for single-word keywords for a more rigid workflow.
+  (setq denote-allow-multi-word-keywords t)
+
+  (setq denote-front-matter-date-format nil) ; change this to `org-timestamp' or custom string
 
   (require 'denote-link)
   (require 'denote-dired)
@@ -9146,13 +9154,40 @@ I will explain how Denote works once the package is ready.  Introduced:
   ;; OR better:
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
-  ;; You can bind `denote' to a global key if you prefer not to use
-  ;; `org-capture' or want an alternative.  Denote does not define any key
-  ;; bindings though: this is for the user to decide.  For example:
-  (let ((map global-map))
-    (define-key map (kbd "C-c n") #'denote)
-    (define-key map (kbd "C-c N") #'denote-type))
+  ;; Here is a custom, user-level command from one of the examples we
+  ;; showed in this manual.  We define it here and add it to a key binding
+  ;; below.
+  ;;
+  ;; The manual: &lt;https://protesilaos.com/emacs/denote&gt;.
+  (defun prot/denote-journal ()
+    "Create an entry tagged 'journal', while prompting for a title."
+    (interactive)
+    (denote
+     (denote--title-prompt)
+     "journal"))
 
+  ;; Denote does not define any key bindings.  This is for the user to
+  ;; decide.  For example:
+  (let ((map global-map))
+    (define-key map (kbd "C-c n j") #'prot/denote-journal) ; our custom command
+    (define-key map (kbd "C-c n n") #'denote)
+    (define-key map (kbd "C-c n N") #'denote-type)
+    ;; If you intend to use Denote with a variety of file types, it is
+    ;; easier to bind the link-related commands to the `global-map', as
+    ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+    ;; `markdown-mode-map', and/or `text-mode-map'.
+    (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
+    (define-key map (kbd "C-c n I") #'denote-link-add-links)
+    (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
+    (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+    ;; Note that `denote-dired-rename-file' can work from any context, not
+    ;; just Dired bufffers.  That is why we bind it here to the
+    ;; `global-map'.
+    (define-key map (kbd "C-c n r") #'denote-dired-rename-file))
+
+  ;; I bind `org-capture' to C-c c, so C-c c n for the note.  I use this
+  ;; one when I need to leverage the extras that Org provides, such as a
+  ;; link to an email, elfeed entry, and more.
   (with-eval-after-load 'org-capture
     (require 'denote-org-capture)
     (setq denote-org-capture-specifiers "%l\n%i\n%?")
@@ -9369,11 +9404,11 @@ is suspended: we use whatever the user wants."
 
 ;;;; Main variables
 
-(defconst denote--id "%Y%m%dT%H%M%S"
+(defconst denote--id-format "%Y%m%dT%H%M%S"
   "Format of ID prefix of a note's filename.")
 
 (defconst denote--id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)"
-  "Regular expression to match `denote--id'.")
+  "Regular expression to match `denote--id-format'.")
 
 (defconst denote--file-title-regexp
   (concat denote--id-regexp "\\(--\\)\\(.*\\)\\(__\\)")
@@ -9381,7 +9416,7 @@ is suspended: we use whatever the user wants."
 
 (defconst denote--file-regexp
   (concat denote--file-title-regexp "\\([0-9A-Za-z_-]*\\)\\(\\.?.*\\)")
-  "Regular expression to match `denote-keywords'.")
+  "Regular expression to match the entire file name'.")
 
 (defconst denote--punctuation-regexp "[][{}!@#$%^&amp;*()_=+'\"?,.\|;:~`‘’“”]*"
   "Regular expression of punctionation that should be removed.
@@ -9394,6 +9429,13 @@ We consider those characters illigal for our purposes.")
 (defvar denote-last-front-matter nil "Store last front-matter.")
 
 ;;;; File helper functions
+
+(defun denote--completion-table (category candidates)
+  "Pass appropriate metadata CATEGORY to completion CANDIDATES."
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (category . ,category))
+      (complete-with-action action candidates string pred))))
 
 (defun denote-directory ()
   "Return path of variable `denote-directory' as a proper directory."
@@ -9470,14 +9512,26 @@ With optional N, search in the Nth line from point."
 
 ;;;; Keywords
 
-(defun denote--directory-files ()
-  "List note files, assuming flat directory."
+(defun denote--directory-files (&amp;optional absolute)
+  "List note files, assuming flat directory.
+If optional ABSOLUTE, show full paths, else only show base file
+names that are relative to the variable `denote-directory'."
   (let* ((dir (denote-directory))
          (default-directory dir))
     (seq-remove
      (lambda (file)
        (file-directory-p file))
-     (directory-files dir nil directory-files-no-dot-files-regexp t))))
+     (directory-files dir absolute directory-files-no-dot-files-regexp t))))
+
+(defun denote--directory-files-matching-regexp (regexp)
+  "Return list of files matching REGEXP."
+  (delq
+   nil
+   (mapcar (lambda (f)
+             (when (and (string-match-p regexp f)
+                        (not (string= (file-name-nondirectory (buffer-file-name)) f)))
+               f))
+           (denote--directory-files))))
 
 (defun denote--keywords-in-files ()
   "Produce list of keywords in `denote--directory-files'."
@@ -9658,7 +9712,7 @@ With optional ID, use it else format the current time."
   (setq denote-last-path
         (denote--format-file
          (or dir (file-name-as-directory denote-directory))
-         (or id (format-time-string denote--id))
+         (or id (format-time-string denote--id-format))
          (denote--sluggify-keywords keywords)
          (denote--sluggify title)
          (denote--file-extension))))
@@ -9700,7 +9754,7 @@ Use optional PATH, else create it with `denote--path'."
          (buffer (unless path (find-file p)))
          (header (denote--file-meta-header
                   title (denote--date) keywords
-                  (format-time-string denote--id))))
+                  (format-time-string denote--id-format))))
     (unless path
       (with-current-buffer buffer (insert header))
       (setq denote-last-buffer buffer))
@@ -9736,6 +9790,8 @@ alphabetically in both the file name and file contents."
   (denote--prepare-note title keywords)
   (denote--keywords-add-to-history keywords))
 
+(defalias 'denote-create-note (symbol-function 'denote))
+
 (defvar denote--file-type-history nil
   "Minibuffer history of `denote--file-type-prompt'.")
 
@@ -9767,6 +9823,8 @@ When called from Lisp the FILETYPE must be a symbol."
   (interactive (list (denote--file-type-prompt)))
   (let ((denote-file-type (denote--file-type-symbol filetype)))
     (call-interactively #'denote)))
+
+(defalias 'denote-create-note-using-type (symbol-function 'denote-type))
 
 (provide 'denote)
 ;;; denote.el ends here
@@ -14693,7 +14751,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org06cf124">
+<pre class="example" id="orgd3b9c77">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14705,7 +14763,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org02cee99">
+<pre class="example" id="orgceb3d39">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14720,7 +14778,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org3112e77">
+<pre class="example" id="org9ff2dac">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14736,7 +14794,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org883f828">
+<pre class="example" id="orgaf880a9">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14765,7 +14823,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org3909f8c">
+<pre class="example" id="orgf0f0ef4">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -14929,7 +14987,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org824bd6b">
+<pre class="example" id="orgafceb21">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15674,7 +15732,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org9fe4187">
+<pre class="example" id="org7395f7d">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15708,7 +15766,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org9ac0c8e">
+<pre class="example" id="orgaa595c5">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -15872,7 +15930,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgcadcfd1">
+<pre class="example" id="orgb6e4896">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16067,7 +16125,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org830d9ec">
+<pre class="example" id="org15046fd">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17117,7 +17175,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org8b7e76a">
+<pre class="example" id="orgf127ad1">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18184,7 +18242,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org1e854cd">
+<pre class="example" id="org4521daa">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -18883,7 +18941,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org22d7191">
+<pre class="example" id="orgaf3cc79">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23708,7 +23766,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org671f4b7">
+<pre class="example" id="org258d6f1">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24172,7 +24230,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org1ed7eaf">
+<pre class="example" id="org105c55c">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24181,7 +24239,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgb1278d3">
+<pre class="example" id="org205e0df">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24206,7 +24264,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org043bcb9">
+<pre class="example" id="orgeee7071">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24282,7 +24340,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgc0c01da">
+<pre class="example" id="org80a5ad9">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24307,7 +24365,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org1f245e5">
+<pre class="example" id="org4626ded">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24316,7 +24374,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org95672b3">
+<pre class="example" id="orgbd55ecd">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24335,7 +24393,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org90754b3">
+<pre class="example" id="orgfddc6ce">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
