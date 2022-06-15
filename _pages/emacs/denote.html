@@ -61,14 +61,6 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
 <ul>
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.1. Writing metanotes</a></li>
-<li><a href="#org50a1a2b">7.2. <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></a>
-<ul>
-<li><a href="#org1b124a5">7.2.1. <span class="done DONE">DONE</span> Add generic linking mechanism</a></li>
-<li><a href="#orga3a0995">7.2.2. <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</a></li>
-<li><a href="#orged8d9ba">7.2.3. <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</a></li>
-<li><a href="#org70da6aa">7.2.4. <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
@@ -149,14 +141,11 @@ the user&rsquo;s long-term storage (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d
 
 <dt>Composability</dt><dd>Be a good Emacs citizen, by integrating with other
 packages or built-in functionality instead of re-inventing functions
-such as for filtering or greping.  Do not introduce dependencies on
-specific libraries.  While Org is a killer app for Emacs and the
-default file type for new notes, Denote does not depend on org.el nor
-its extensions and does allow notes to be created in a variety of
-formats (<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).  The author of Denote
-(Protesilaos, aka &ldquo;Prot&rdquo;) writes ordinary notes in plain text
-(<code>.txt</code>), switching to an Org file only when its expanded set of
-functionality is required for the task at hand (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).</dd>
+such as for filtering or greping.  Do not introduce strong
+dependencies on specific libraries. The author of Denote (Protesilaos,
+aka &ldquo;Prot&rdquo;) writes ordinary notes in plain text (<code>.txt</code>), switching to
+an Org file only when its expanded set of functionality is required
+for the task at hand (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).</dd>
 
 <dt>Portability</dt><dd>Notes are plain text and should remain portable.  The
 way Denote writes file names, the front matter it include in the
@@ -437,7 +426,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org5414753">
+<pre class="example" id="orgb7f59d3">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -483,7 +472,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgc9faa53">
+<pre class="example" id="org99808e3">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -495,7 +484,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org83f7e5f">
+<pre class="example" id="orgc3d7621">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -509,7 +498,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="orgad4b4bd">
+<pre class="example" id="org78f610f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -523,7 +512,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orge36e39d">
+<pre class="example" id="org1a2db38">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -598,7 +587,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org2a2f295">
+<pre class="example" id="org54d4b3b">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -626,7 +615,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orgc497fc0">
+<pre class="example" id="org2be471d">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -646,7 +635,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="orga1fb006">
+<pre class="example" id="org9d06774">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -676,7 +665,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org5672a5b">
+<pre class="example" id="orgdd6ba3a">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -708,91 +697,139 @@ participate in the development of Denote.
 <h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">7.</span> Linking notes</h2>
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
 <p>
-<b>The linking facility is the area that needs refinements before
-releasing the first stable version of Denote.</b>
+<b>The linking facility is only major area that needs to be reviewed
+before releasing the first stable version of Denote.</b>
 </p>
 
 <p>
-Denote aims to have a simple-yet-effective linking facility to quickly
-establish connections between notes.
+The <code>denote-link</code> command inserts a link at point to an entry specified
+at the minibuffer prompt.  Links are formatted depending on the file
+type of current note.  In Org and plain text buffers, links are
+formatted thus: <code>[[denote:IDENTIFIER][TITLE]]</code>.  While in Markdown they
+are expressed as <code>[TITLE](denote:IDENTIFIER)</code>.
 </p>
 
 <p>
-The command <code>denote-link</code> prompts for a file in the <code>denote-directory</code>
-(only regular files are considered, not directories).  It then retrieves
-the identifier of the given note and inserts it at point using the
-appropriate link notation.
-</p>
-
-<p>
-What constitutes &ldquo;appropriate link notation&rdquo; depends on the file type of
-the given entry, per <code>denote-file-type</code> (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>):
+How those links behave will depend on the user&rsquo;s preference.  Denote
+provides a simple-minded implementation for such link, which either
+works competently with point-and-click kind of interaction or, at the
+user&rsquo;s discretion, is more rudimentary and depends on Denote commands
+and/or Emacs&rsquo; standard &ldquo;future history&rdquo; heuristics.
 </p>
 
 <ul class="org-ul">
-<li>Org: <code>[[denote:IDENTIFIER][TITLE]]</code></li>
-<li>Markdown: <code>[TITLE](denote:IDENTIFIER)</code></li>
-<li>Plain text: <code>[[TITLE] [IDENTIFIER]]</code></li>
+<li><p>
+The &ldquo;just works&rdquo; approach depends on Org&rsquo;s ability to open links it
+recognizes regardless of the current major-mode.  The command for that
+is <code>org-open-at-point-global</code>.  User may want to bind it to a key of
+their choosing, with <code>C-c o</code> looking like a decent choice.  Denote
+defines a custom Org hyperlink and Org handles the rest.  The user
+option <code>denote-link-register-ol-hyperlink</code> determines whether Denote
+will register such a hyperlink type.  Users who do not want to load
+Org, must set the variable to nil before loading denote-link.el.
+</p>
+
+<p>
+The special prefix <code>denote:</code> lets us define links with only the
+identifier.  They are robust and will work even if the file is renamed
+(<code>denote-dired-rename-file</code> never modifies the identifier).  Otherwise
+they are familiar Org-style links in <code>org-mode</code> buffers.  They can be
+followed with a mouse click or the <code>org-open-at-point</code> command, and
+they may be insterted with completion via the <code>org-insert-link</code>
+command after selecting the <code>denote:</code> link type.
+</p></li>
+
+<li>The &ldquo;rudimentary&rdquo; method does not depend on Org&rsquo;s hyperlink
+infrastructure.  As a general feature of Emacs, any identifier that
+appears in a note, can be expanded into the corresponding file name at
+the same directory by leveraging Emacs&rsquo; notion of &ldquo;future history&rdquo;
+(predicting what the user wants).  With point over the identifier,
+<code>M-x find-file</code> followed by <code>M-n</code> will fill the path to that file.</li>
 </ul>
 
 <p>
-The special specifier <code>denote:</code> is experimental.  The idea is to reserve
-for possible integration with Org/Markdown, though we might switch to
-another method.
+Whatever the user&rsquo;s preference, Denote establishes links using the
+note&rsquo;s identifier which is always unique and will yield the expected
+results whether the user prefers Org, plain text, or even command-line
+utilities.
 </p>
 
 <p>
-As a general feature of Emacs, any identifier that appears in a note,
-can be expanded into the corresponding file name at the same directory
-by leveraging Emacs&rsquo; notion of &ldquo;future history&rdquo; (predicting what the
-user wants).  With point over the identifier, <code>M-x find-file</code> followed
-by <code>M-n</code> will fill the path to that file.
+Everything that follows is independent of the user&rsquo;s preference on
+whether to use the Org hyperlink infrastructure (besides, the
+Org-specific code is less than 30 lines as of 2022-06-15 11:50 +0300).
 </p>
 
 <p>
-Based on this principle, Denote has a major-mode-agnostic mechanism to
-collects all linked file references in the current buffer and return
-them as an appropriately formatted list.  This list can then be used in
-interactive commands.  The <code>denote-link-find-file</code> is one such command.
-It uses minibuffer completion to visit a file that is linked to from the
-current note.  The candidates have the correct metadata, meaning that a
-package such as <code>marginalia</code> will display the correct annotations.
+Denote has a major-mode-agnostic mechanism to collect all linked file
+references in the current buffer and return them as an appropriately
+formatted list.  This list can then be used in interactive commands.
+The <code>denote-link-find-file</code> is such a command.  It uses minibuffer
+completion to visit a file that is linked to from the current note.  The
+candidates have the correct metadata, meaning that a package such as
+<code>marginalia</code> will display accurate annotations, while the <code>embark</code>
+package will be able to work its magic such as in exporting the list
+into a filtered Dired buffer (i.e. a familiar Dired listing with only
+the files of the current minibuffer session).
 </p>
 
 <p>
 The command <code>denote-link-backlinks</code> produces a bespoke buffer which
 displays the file name of all notes linking to the current one.  Each
 file name appears on its own line and is buttonized so that it performs
-the action of visiting the referenced file.
+the action of visiting the referenced file.  [Development note:
+currently this depends on the <code>find</code> executable.  Maybe we can make it
+work with Emacs&rsquo; <code>xref</code> facility to work everywhere.]  The backlinks&rsquo;
+buffer looks like this:
 </p>
 
+<pre class="example" id="orgd1ffab5">
+Backlinks to "On being honest" (20220614T130812)
+------------------------------------------------
+
+20220614T145606--let-this-glance-become-a-stare__journal.txt
+</pre>
+
 <p>
-The backlinks&rsquo; buffer is fontified by default, though the user has the
-<code>denote-link-fontify-backlinks</code> to disable this effect, by setting the
-variable to nil.
+The backlinks&rsquo; buffer is fontified by default, though the user has
+access to the <code>denote-link-fontify-backlinks</code> option to disable this
+effect by setting its value to nil.
 </p>
 
 <p>
 The placement of the backlinks&rsquo; buffer is subject to the user option
 <code>denote-link-backlinks-display-buffer-action</code>.  Due to the nature of the
-underlying <code>display-buffer</code> infrastructure, this is an advanced feature.
-By default, the backlinks&rsquo; buffer is displayed below the current window.
-The doc string of our user option includes a configuration that places
-the buffer in a left side window instead.
+underlying <code>display-buffer</code> mechanism, this inevitably is an advanced
+feature.  By default, the backlinks&rsquo; buffer is displayed below the
+current window.  The doc string of our user option includes a
+configuration that places the buffer in a left side window instead.
+Reproducing it here for your convenience:
 </p>
 
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-link-backlinks-display-buffer-action
+      '((display-buffer-reuse-window
+         display-buffer-in-side-window)
+        (side . left)
+        (slot . 99)
+        (window-width . 0.3)))
+</pre>
+</div>
+
 <p>
-The command <code>denote-link-add-links</code> adds links matching a regular
-expression or plain string.  The links are added at point as a
+The command <code>denote-link-add-links</code> adds links at point matching a
+regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org633f87c">
+<pre class="example" id="org152071c">
 - link1
 - link2
+- link3
 </pre>
 
 <p>
+Each link is formatted according to the file type of the current note.
 The current note is excluded from the matching entries (adding a link to
 itself is pointless).
 </p>
@@ -810,6 +847,10 @@ name.</li>
 
 <li><code>^2022.*_journal</code> match all file names starting with <code>2022</code> and
 including the keyword <code>journal</code>.</li>
+
+<li><code>\.txt</code> match all files including <code>.txt</code>.  In practical terms, this
+only applies to the file extension, as Denote automatically removes
+dots (and other characters) from the base file name.</li>
 </ul>
 
 <p>
@@ -827,9 +868,9 @@ above, but out-of-order.</li>
 </ul>
 
 <p>
-Remember that in Emacs regexp input only needs to be quoted once when
-done interactively but twice when called from Lisp.  What we show above
-is for interactive usage.
+Remember that regexp constructs only need to be escaped once (like <code>\|</code>)
+when done interactively but twice when called from Lisp.  What we show
+above is for interactive usage.
 </p>
 </div>
 
@@ -866,24 +907,6 @@ about it.
 Your future self will appreciate metanotes for the function they serve
 in encapsulating knowledge.
 </p>
-</div>
-</div>
-
-<div id="outline-container-org50a1a2b" class="outline-3">
-<h3 id="org50a1a2b"><span class="section-number-3">7.2.</span> <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></h3>
-<div class="outline-text-3" id="text-7-2">
-</div>
-<div id="outline-container-org1b124a5" class="outline-4">
-<h4 id="org1b124a5"><span class="section-number-4">7.2.1.</span> <span class="done DONE">DONE</span> Add generic linking mechanism</h4>
-</div>
-<div id="outline-container-orga3a0995" class="outline-4">
-<h4 id="orga3a0995"><span class="section-number-4">7.2.2.</span> <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</h4>
-</div>
-<div id="outline-container-orged8d9ba" class="outline-4">
-<h4 id="orged8d9ba"><span class="section-number-4">7.2.3.</span> <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</h4>
-</div>
-<div id="outline-container-org70da6aa" class="outline-4">
-<h4 id="org70da6aa"><span class="section-number-4">7.2.4.</span> <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></h4>
 </div>
 </div>
 </div>
