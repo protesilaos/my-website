@@ -60,12 +60,13 @@ BACKWARD-INCOMPATIBLE WAYS until we make the first stable release.
 </li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
 <ul>
-<li><a href="#org031aec8">7.1. <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></a>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.1. Writing metanotes</a></li>
+<li><a href="#org50a1a2b">7.2. <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></a>
 <ul>
-<li><a href="#org659ea7c">7.1.1. <span class="done DONE">DONE</span> Add generic linking mechanism</a></li>
-<li><a href="#orgc593f2a">7.1.2. <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</a></li>
-<li><a href="#orgbd80c4d">7.1.3. <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</a></li>
-<li><a href="#org0eec798">7.1.4. <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></a></li>
+<li><a href="#org1b124a5">7.2.1. <span class="done DONE">DONE</span> Add generic linking mechanism</a></li>
+<li><a href="#orga3a0995">7.2.2. <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</a></li>
+<li><a href="#orged8d9ba">7.2.3. <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</a></li>
+<li><a href="#org70da6aa">7.2.4. <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></a></li>
 </ul>
 </li>
 </ul>
@@ -436,7 +437,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org38060e1">
+<pre class="example" id="org5414753">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -482,7 +483,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgecca678">
+<pre class="example" id="orgc9faa53">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -494,7 +495,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org10060e5">
+<pre class="example" id="org83f7e5f">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -508,7 +509,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org2490c54">
+<pre class="example" id="orgad4b4bd">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -522,7 +523,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org76bdb26">
+<pre class="example" id="orge36e39d">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -597,7 +598,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orgb89bca2">
+<pre class="example" id="org2a2f295">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -625,7 +626,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orgc0103f9">
+<pre class="example" id="orgc497fc0">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -645,7 +646,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org555d3e1">
+<pre class="example" id="orga1fb006">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -675,7 +676,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="orge51a09c">
+<pre class="example" id="org5672a5b">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -779,23 +780,110 @@ By default, the backlinks&rsquo; buffer is displayed below the current window.
 The doc string of our user option includes a configuration that places
 the buffer in a left side window instead.
 </p>
+
+<p>
+The command <code>denote-link-add-links</code> adds links matching a regular
+expression or plain string.  The links are added at point as a
+typographic list, such as:
+</p>
+
+<pre class="example" id="org633f87c">
+- link1
+- link2
+</pre>
+
+<p>
+The current note is excluded from the matching entries (adding a link to
+itself is pointless).
+</p>
+
+<p>
+Same examples of a regular expression that can be used with this
+command:
+</p>
+
+<ul class="org-ul">
+<li><code>journal</code> match all files which include <code>journal</code> anywhere in their
+name.</li>
+
+<li><code>_journal</code> match all files which include <code>journal</code> as a keyword.</li>
+
+<li><code>^2022.*_journal</code> match all file names starting with <code>2022</code> and
+including the keyword <code>journal</code>.</li>
+</ul>
+
+<p>
+If files are created with <code>denote-sort-keywords</code> as non-nil (the
+default), then it is easy to write a regexp that includes multiple
+keywords in alphabetic order:
+</p>
+
+<ul class="org-ul">
+<li><code>_denote.*_package</code> match all files that include both the <code>denote</code> and
+<code>package</code> keywords, in this order.</li>
+
+<li><code>\(.*denote.*package.*\)\|\(.*package.*denote.*\)</code> is the same as
+above, but out-of-order.</li>
+</ul>
+
+<p>
+Remember that in Emacs regexp input only needs to be quoted once when
+done interactively but twice when called from Lisp.  What we show above
+is for interactive usage.
+</p>
 </div>
 
-<div id="outline-container-org031aec8" class="outline-3">
-<h3 id="org031aec8"><span class="section-number-3">7.1.</span> <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.1.</span> Writing metanotes</h3>
+<div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
+<p>
+A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
+in common.  Writing metanotes can be part of a workflow where the user
+periodically reviews their work in search of patterns and deeper
+insights.  For example, you might want to read your journal entries from
+the past year to reflect on your experiences, evolution as a person, and
+the like.
+</p>
+
+<p>
+The command <code>denote-link-add-links</code>, which we covered extensively in the
+previous section, is suited for this task (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).  You will
+create your metanote the way you use Denote ordinarily (metanotes may
+have the <code>metanote</code> keyword), write an introduction or however you want
+to go about it, invoke <code>denote-link-add-links</code> to cite the notes that
+match the given regexp, and continue writing.
+</p>
+
+<p>
+Metanotes can serve as entry points to groupings of individual notes.
+They are not the same as a filtered list of files, i.e. what you would
+do in Dired or the minibuffer where you narrow the list of notes to a
+given query.  Metanotes contain the filtered list plus your thoughts
+about it.
+</p>
+
+<p>
+Your future self will appreciate metanotes for the function they serve
+in encapsulating knowledge.
+</p>
 </div>
-<div id="outline-container-org659ea7c" class="outline-4">
-<h4 id="org659ea7c"><span class="section-number-4">7.1.1.</span> <span class="done DONE">DONE</span> Add generic linking mechanism</h4>
 </div>
-<div id="outline-container-orgc593f2a" class="outline-4">
-<h4 id="orgc593f2a"><span class="section-number-4">7.1.2.</span> <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</h4>
+
+<div id="outline-container-org50a1a2b" class="outline-3">
+<h3 id="org50a1a2b"><span class="section-number-3">7.2.</span> <span class="todo TODO">TODO</span> Finalise first version of denote-link.el <code>[2/4]</code></h3>
+<div class="outline-text-3" id="text-7-2">
 </div>
-<div id="outline-container-orgbd80c4d" class="outline-4">
-<h4 id="orgbd80c4d"><span class="section-number-4">7.1.3.</span> <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</h4>
+<div id="outline-container-org1b124a5" class="outline-4">
+<h4 id="org1b124a5"><span class="section-number-4">7.2.1.</span> <span class="done DONE">DONE</span> Add generic linking mechanism</h4>
 </div>
-<div id="outline-container-org0eec798" class="outline-4">
-<h4 id="org0eec798"><span class="section-number-4">7.1.4.</span> <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></h4>
+<div id="outline-container-orga3a0995" class="outline-4">
+<h4 id="orga3a0995"><span class="section-number-4">7.2.2.</span> <span class="done DONE">DONE</span> Flesh out the <code>denote-link-backlinks</code> prototype</h4>
+</div>
+<div id="outline-container-orged8d9ba" class="outline-4">
+<h4 id="orged8d9ba"><span class="section-number-4">7.2.3.</span> <span class="todo TODO">TODO</span> Check if denote: is the right link type for Org/Markdown</h4>
+</div>
+<div id="outline-container-org70da6aa" class="outline-4">
+<h4 id="org70da6aa"><span class="section-number-4">7.2.4.</span> <span class="todo TODO">TODO</span> Document use of Embark with <code>denote-link-find-file</code></h4>
 </div>
 </div>
 </div>
