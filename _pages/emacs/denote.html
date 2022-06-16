@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Denote (denote.el)'
-subtitle: 'Simple notes for Emacs with a strict file-naming scheme'
+subtitle: 'Simple notes for Emacs with an efficient file-naming scheme'
 excerpt: "Denote is a simple note-taking tool, based on the idea that notes should follow a predictable and descriptive file-naming scheme."
 permalink: /emacs/denote
 ---
@@ -452,7 +452,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="orgad0d69d">
+<pre class="example" id="org0235904">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -517,7 +517,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgc7ed82c">
+<pre class="example" id="org476f654">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -529,7 +529,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org54b981b">
+<pre class="example" id="orgdb104a7">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -543,7 +543,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org8df1789">
+<pre class="example" id="orge455d39">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -557,7 +557,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orga7bd062">
+<pre class="example" id="org1dd4258">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -632,7 +632,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org0852e7b">
+<pre class="example" id="orgcd382eb">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -660,7 +660,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org5bd3d27">
+<pre class="example" id="orgcc2b9fd">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -680,7 +680,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="orgb53618f">
+<pre class="example" id="orgbda9059">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -710,7 +710,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="orgdcf5511">
+<pre class="example" id="orgebc755e">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -752,6 +752,12 @@ at the minibuffer prompt.  Links are formatted depending on the file
 type of current note.  In Org and plain text buffers, links are
 formatted thus: <code>[[denote:IDENTIFIER][TITLE]]</code>.  While in Markdown they
 are expressed as <code>[TITLE](denote:IDENTIFIER)</code>.
+</p>
+
+<p>
+When <code>denote-link</code> is called with a prefix argument (<code>C-u</code> by default)
+it formats links like <code>[[denote:IDENTIFIER]]</code>.  The user might prefer
+its simplicity.
 </p>
 
 <p>
@@ -828,7 +834,7 @@ work with Emacs&rsquo; <code>xref</code> facility to work everywhere.]  The back
 buffer looks like this:
 </p>
 
-<pre class="example" id="org05dfe1b">
+<pre class="example" id="org96d8f9a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -867,17 +873,29 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org6424b62">
+<pre class="example" id="org7fca035">
 - link1
 - link2
 - link3
 </pre>
 
 <p>
-Each link is formatted according to the file type of the current note.
-The current note is excluded from the matching entries (adding a link to
-itself is pointless).
+Each link is formatted according to the file type of the current note,
+as explained further above about the <code>denote-link</code> command.  The current
+note is excluded from the matching entries (adding a link to itself is
+pointless).
 </p>
+
+<p>
+When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-links</code> will
+format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
+</p>
+
+<pre class="example" id="org46c0191">
+- [[denote:IDENTIFIER-1]]
+- [[denote:IDENTIFIER-2]]
+- [[denote:IDENTIFIER-3]]
+</pre>
 
 <p>
 Same examples of a regular expression that can be used with this
@@ -1477,8 +1495,8 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 
 <dt>Contributions to code or the manual</dt><dd>Jack Baty, Kaushal Modi.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Damien Cassou, Jack Baty, Kaushal Modi,
-Ypot, svnsbck.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Damien Cassou, Frank Ehmsen, Jack Baty,
+Kaushal Modi, Ypot, svnsbck.</dd>
 </dl>
 
 <p>
