@@ -160,8 +160,7 @@ descriptive file-naming scheme.  The file name must offer a clear
 indication of what the note is about, without reference to any other
 metadata.  Denote basically streamlines the creation of such files.
 
-Read the [Emacs: introduction to Denote (simple
-note-taking)](https://protesilaos.com/codelog/2022-06-07-denote-introduction/).
+[Watch the video demo](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
 
 <!-- + Package name (GNU ELPA): `denote` -->
 + Official manual: <https://protesilaos.com/emacs/denote>
