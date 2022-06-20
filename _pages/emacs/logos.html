@@ -153,6 +153,13 @@ buffer-local.
 </p>
 
 <p>
+Furthermore, the <code>logos-focus-mode</code> establishes a bespoke keymap, which
+can be used to, for example, bind the arrow keys to page motions.  The
+keymap is <code>logos-focus-mode-map</code> and is empty by default (we do not
+define any keys and trust the user to pick their own).
+</p>
+
+<p>
 Logos is the familiar word derived from Greek (watch my presentation on
 philosophy about Cosmos, Logos, and the living universe:
 <a href="https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/">https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/</a>),
@@ -291,6 +298,9 @@ described in the Emacs manual.</li>
   (define-key map [remap forward-page] #'logos-forward-page-dwim)
   (define-key map [remap backward-page] #'logos-backward-page-dwim)
   (define-key map (kbd "&lt;f9&gt;") #'logos-focus-mode))
+
+;; Also consider adding keys to `logos-focus-mode-map'.  They will take
+;; effect when `logos-focus-mode' is enabled.
 </pre>
 </div>
 </div>
@@ -604,8 +614,8 @@ gray, the fringe will become white as well.
 The problem with this approach is that the color is not automatically
 updated upon switching to a new theme, such as by toggling between one
 with a light background to another with a dark one.  The solution is to
-assign the <code>logos-update-fringe-color-post-theme-load</code> function to a
-hook that is triggered by the theme-loading operation.
+assign the <code>logos-update-fringe-in-buffers</code> function to a hook that is
+triggered by the theme-loading operation.
 </p>
 
 <p>
@@ -616,8 +626,7 @@ higher).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'modus-themes-after-load-theme-hook
-          #'logos-update-fringe-color-post-theme-load)
+<pre class="src src-emacs-lisp">(add-hook 'modus-themes-after-load-theme-hook #'logos-update-fringe-in-buffers)
 </pre>
 </div>
 
