@@ -673,7 +673,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="orgd6848ee">
+<pre class="example" id="orgc858e47">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -738,7 +738,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org8725c24">
+<pre class="example" id="orgf22bc0f">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -750,7 +750,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org1f7f0d0">
+<pre class="example" id="org0ca5915">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -764,7 +764,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org19c2a7c">
+<pre class="example" id="orgc983e21">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -778,7 +778,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org06a737c">
+<pre class="example" id="org22b8766">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -853,7 +853,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org923e208">
+<pre class="example" id="org336b3d1">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -881,7 +881,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orgd198737">
+<pre class="example" id="org381b275">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -901,7 +901,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="orge900ccc">
+<pre class="example" id="org22dfd68">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -931,7 +931,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org9e7f38f">
+<pre class="example" id="orgd190ee4">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -1025,7 +1025,7 @@ work with Emacs&rsquo; <code>xref</code> facility to work everywhere without los
 bespoke buffer?]  The backlinks&rsquo; buffer looks like this:
 </p>
 
-<pre class="example" id="orgba9ebbf">
+<pre class="example" id="orgd538993">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1065,7 +1065,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org3bde254">
+<pre class="example" id="org779c214">
 - link1
 - link2
 - link3
@@ -1083,7 +1083,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orga562f6a">
+<pre class="example" id="org5e61c37">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1716,12 +1716,12 @@ Everything is in place to set up the package.
 (setq denote-dired-directories
       (list denote-directory
             (thread-last denote-directory (expand-file-name "attachments"))
-            (expand-file-name "~/Documents/vlog")))
+            (expand-file-name "~/Documents/books")))
 
-;; Generic:
+;; Generic (great if you rename files Denote-style in lots of places):
 ;; (add-hook 'dired-mode-hook #'denote-dired-mode)
 ;;
-;; OR better:
+;; OR if only want it in `denote-dired-directories':
 (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
 ;; Here is a custom, user-level command from one of the examples we
@@ -1820,7 +1820,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org1d500e8">
+<pre class="example" id="org65219e5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2133,6 +2133,22 @@ Or, if you want my opinion, decouple your longer-term storage from your
 to-do list: Denote (and others) can be used for the former, while you
 let standard Org work splendidly for the latter&#x2014;that is what I do,
 anyway.
+</p>
+
+<p>
+<i>I want to sort by last modified, why won&rsquo;t Denote let me?</i>
+</p>
+
+<p>
+Denote does not sort files and will not reinvent tools that handle such
+functionality.  That is the job of the file manager or command-line
+executable that lists files.  I encourage you to read the manpage of the
+<code>ls</code> executable.  It will help you in general, while it applies to Emacs
+as well via Dired.  The gist is that you can update on-the-fly the <code>ls</code>
+flags that Dired uses: do <code>C-u M-x dired-sort-toggle-or-edit</code> (<code>C-u s</code>
+by default) and then append <code>--sort=time</code>.  To reverse the order, add
+the <code>-r</code> flag as well.  The user option <code>dired-listing-switches</code> sets
+your default preference.
 </p>
 </div>
 </div>
