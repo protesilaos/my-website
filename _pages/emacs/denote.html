@@ -465,7 +465,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org2cde6ce">
+<pre class="example" id="org3f34f3d">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -530,7 +530,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org94aa7e2">
+<pre class="example" id="org690357b">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -542,7 +542,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org46e2b7a">
+<pre class="example" id="org84fe6fc">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -556,7 +556,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org9f2e8b9">
+<pre class="example" id="org5458f1f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -570,7 +570,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgf1111cb">
+<pre class="example" id="orga654dda">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -645,7 +645,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orge297b7d">
+<pre class="example" id="org03a1f5a">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -673,7 +673,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org4ccdd6c">
+<pre class="example" id="orge17f3e0">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -693,7 +693,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org37f61ab">
+<pre class="example" id="org01f280e">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -723,7 +723,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org4348f51">
+<pre class="example" id="org7d36b88">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -756,8 +756,9 @@ participate in the development of Denote.
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
 <p>
 DEVELOPMENT NOTE 2022-06-19 22:48 +0300: This is the final part that
-remains to be finalised before the release of the first stable version.
-There still are some updates to be made.
+remains to be finalised before the release of the first stable version
+(planned for 2022-06-22&#x2013;2022-06-24).  There still are some updates to
+be made.
 </p>
 
 <p>
@@ -775,55 +776,22 @@ its simplicity.
 </p>
 
 <p>
-How those links behave will depend on the user&rsquo;s preference.  Denote
-provides a simple-minded implementation for such link, which either
-works competently with point-and-click kind of interaction or, at the
-user&rsquo;s discretion, is more rudimentary and depends on Denote commands
-and/or Emacs&rsquo; standard &ldquo;future history&rdquo; heuristics.
-</p>
-
-<ul class="org-ul">
-<li><p>
-The &ldquo;just works&rdquo; approach depends on Org&rsquo;s ability to open links it
-recognizes regardless of the current major-mode.  The command for that
-is <code>org-open-at-point-global</code>.  User may want to bind it to a key of
-their choosing, with <code>C-c o</code> looking like a decent choice.  Denote
-defines a custom Org hyperlink and Org handles the rest.  The user
-option <code>denote-link-register-ol-hyperlink</code> determines whether Denote
-will register such a hyperlink type.  Users who do not want to load
-Org, must set the variable to nil before loading denote-link.el.
+Inserted links are automatically buttonized and remain active for as
+long as the buffer is available.  In Org this is handled automatically
+as Denote creates its own custom hyperlink: the <code>denote:</code> type which
+works exactly like the <code>file:</code>.  In Markdown and plain text, Denote
+handles the buttonization of those links.
 </p>
 
 <p>
-The special prefix <code>denote:</code> lets us define links with only the
-identifier.  They are robust and will work even if the file is renamed
-(<code>denote-dired-rename-file</code> never modifies the identifier).  Otherwise
-they are familiar Org-style links in <code>org-mode</code> buffers.  They can be
-followed with a mouse click or the <code>org-open-at-point</code> command, and
-they may be insterted with completion via the <code>org-insert-link</code>
-command after selecting the <code>denote:</code> link type.
-</p></li>
-
-<li>The &ldquo;rudimentary&rdquo; method does not depend on Org&rsquo;s hyperlink
-infrastructure.  As a general feature of Emacs, any identifier that
-appears in a note, can be expanded into the corresponding file name at
-the same directory by leveraging Emacs&rsquo; notion of &ldquo;future history&rdquo;
-(predicting what the user wants).  With point over the identifier,
-<code>M-x find-file</code> followed by <code>M-n</code> will fill the path to that file.</li>
-</ul>
-
-<p>
-Whatever the user&rsquo;s preference, Denote establishes links using the
-note&rsquo;s identifier which is always unique and will yield the expected
-results whether the user prefers Org, plain text, or even command-line
-utilities.
+To buttonize links in existing files while visiting them, the user must
+add this snippet to their setup:
 </p>
 
-<p>
-Everything that follows is independent of the user&rsquo;s preference on
-whether to use the Org hyperlink infrastructure (besides, the
-Org-specific code is less than 30 lines as of 2022-06-15 11:50 +0300).
-</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+</pre>
+</div>
 
 <p>
 Denote has a major-mode-agnostic mechanism to collect all linked file
@@ -831,11 +799,12 @@ references in the current buffer and return them as an appropriately
 formatted list.  This list can then be used in interactive commands.
 The <code>denote-link-find-file</code> is such a command.  It uses minibuffer
 completion to visit a file that is linked to from the current note.  The
-candidates have the correct metadata, meaning that a package such as
-<code>marginalia</code> will display accurate annotations, while the <code>embark</code>
-package will be able to work its magic such as in exporting the list
-into a filtered Dired buffer (i.e. a familiar Dired listing with only
-the files of the current minibuffer session).
+candidates have the correct metadata, which is ideal for integration
+with other standards-compliant tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).  For instance,
+a package such as <code>marginalia</code> will display accurate annotations, while
+the <code>embark</code> package will be able to work its magic such as in exporting
+the list into a filtered Dired buffer (i.e. a familiar Dired listing
+with only the files of the current minibuffer session).
 </p>
 
 <p>
@@ -848,7 +817,7 @@ work with Emacs&rsquo; <code>xref</code> facility to work everywhere without los
 bespoke buffer?]  The backlinks&rsquo; buffer looks like this:
 </p>
 
-<pre class="example" id="org83f38fd">
+<pre class="example" id="orgad8c863">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -888,7 +857,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgf837a90">
+<pre class="example" id="org0b97793">
 - link1
 - link2
 - link3
@@ -906,7 +875,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgad9deb5">
+<pre class="example" id="org0fd7382">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1527,6 +1496,11 @@ Everything is in place to set up the package.
 ;; package is available.
 (require 'denote-retrieve)
 (require 'denote-link)
+
+;; If you use Markdown or plain text files (Org renders links as buttons
+;; right away)
+(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+
 (require 'denote-dired)
 (setq denote-dired-rename-expert nil)
 
@@ -1638,7 +1612,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org4fe468e">
+<pre class="example" id="orgd1444f0">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -1891,7 +1865,8 @@ advanced users.
 
 <p>
 Please don&rsquo;t misinterpret this: I am using Emacs full-time for my
-computing and maintain a growing list of packages for it.
+computing and maintain a growing list of packages for it.  This is just
+me thinking long-term.
 </p>
 
 <p>
@@ -1902,16 +1877,53 @@ computing and maintain a growing list of packages for it.
 I have read that Org favours the latter method.  If true, I strongly
 disagree with it because of the implicit dependency it introduces and
 the way it favours machine-friendliness over human-readability in terms
-of accessing information.  You already get what I mean, based on the
-aforementioned.
+of accessing information.  Notes are long-term storage.  I might want to
+access them on (i) some device with few features, (ii) print on paper,
+(iii) share with another person who is not a tech wizard.
+</p>
+
+<p>
+There are good arguments for few large files, but all either prioritize
+machine-friendliness or presuppose the use of sophisticated tools like
+Emacs+Org.
 </p>
 
 <p>
 Good luck using <code>less</code> on a generic TTY to read a file with a zillion
 words, headings, sub-headings, sub-sub-headings, property drawers, and
-other constructs!  My point is that notes should be atomic to help the
-user make sense of them.  The more program-agnostic your file is, the
-better for you and/or everyone else you might share your writings with.
+other constructs!  You will not get the otherwise wonderful folding of
+headings the way you do in Emacs&#x2014;do not take such features for
+granted.  My point is that notes should be atomic to help the user make
+sense of them in a wide range of scenaria.  The more program-agnostic
+your file is, the better for you and/or everyone else you might share
+your writings with.
+</p>
+
+<p>
+Human-readability means that we optimize for what matters to us.  If (a)
+you are the only one who will ever access your notes, (b) always have
+access to good software like Emacs+Org, (c) do not care about printing
+on paper, then Denote&rsquo;s model is not for you.  Maybe you need to tweak
+some <code>org-capture</code> template to append a new entry to one mega file (I do
+that for my Org agenda, by the way, as I explained before about using
+the right tool for the job).
+</p>
+
+<p>
+<i>I add TODOs to my files; will the many files slow down the Org agenda?</i>
+</p>
+
+<p>
+I have not tested it, but assume that yes, many files will slow down the
+agenda.  Consider looking into one of Denote&rsquo;s alternatives, with
+<code>org-roam</code> being the obvious choice (<a href="#h:dbb51a1b-90b8-48e8-953c-e2fb3e36981e">Alternatives to Denote</a>).
+</p>
+
+<p>
+Or, if you want my opinion, decouple your longer-term storage from your
+to-do list: Denote (and others) can be used for the former, while you
+let standard Org work splendidly for the latter&#x2014;that is what I do,
+anyway.
 </p>
 </div>
 </div>
