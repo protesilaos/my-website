@@ -62,6 +62,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">3. The file-naming scheme</a>
 <ul>
 <li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">3.1. Sluggified title and keywords</a></li>
+<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">3.2. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
 <li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a></li>
@@ -498,7 +499,7 @@ invoking <code>M-x re-builder</code>).
 </p>
 
 <p>
-<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>.
+<a href="#h:1a953736-86c2-420b-b566-fb22c97df197">Features of the file-naming scheme for searching or filtering</a>.
 </p>
 
 <p>
@@ -523,11 +524,55 @@ holds the relevant value.  In simple terms:
 <li>What we count as &ldquo;illegal characters&rdquo; are converted into hyphens.</li>
 
 <li>Input for a file title is hyphenated and downcased.  The original
-value is preserved only in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).</li>
+value is preserved in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).</li>
 
 <li>Keywords should not have spaces or other delimiters.  If they do, they
 are converted into hyphens.  Keywords are always downcased.</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-h:1a953736-86c2-420b-b566-fb22c97df197" class="outline-3">
+<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">3.2.</span> Features of the file-naming scheme for searching or filtering</h3>
+<div class="outline-text-3" id="text-h:1a953736-86c2-420b-b566-fb22c97df197">
+<p>
+File names have three fields and two sets of field delimiters between
+them:
+</p>
+
+<pre class="example">
+DATE--TITLE__KEYWORDS.EXTENSION
+</pre>
+
+
+<p>
+The first field delimiter is the double hyphen, while the second is the
+double underscore.  These practically serve as anchors for easier
+searching.  Consider this example:
+</p>
+
+<pre class="example">
+20220621T062327--introduction-to-denote__denote_emacs.txt
+</pre>
+
+
+<p>
+You will notice that there are two matches for the word <code>denote</code>: one in
+the title field and another in the keywords&rsquo; field.  Because of the
+distinct field delimiters, if we search for <code>-denote</code> we only match the
+first instance while <code>_denote</code> targets the second one.  When sorting
+through your notes, this kind of specificity is invaluable&#x2014;and you get
+it for free from the file names alone!
+</p>
+
+<p>
+Users can get a lot of value out of this simple arrangement, even if
+they have no knowledge of regular expressions.  One thing to consider,
+for maximum effect, is to avoid using multi-word keywords as those get
+hyphenated like the title and will thus interfere with the above: either
+set the user option <code>denote-allow-multi-word-keywords</code> to nil or simply
+insert single words at the relevant prompts.
+</p>
 </div>
 </div>
 </div>
@@ -687,7 +732,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org615a45a">
+<pre class="example" id="org6f576e8">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -752,7 +797,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org52c41fd">
+<pre class="example" id="orgf514667">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -764,7 +809,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org58e7dd1">
+<pre class="example" id="org8fc945d">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -778,7 +823,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org99c004b">
+<pre class="example" id="org519ea9f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -792,7 +837,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgdced8f3">
+<pre class="example" id="org2f5eae6">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -867,7 +912,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="org8132dbc">
+<pre class="example" id="orgcb6524d">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -895,7 +940,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="org405adbf">
+<pre class="example" id="orga126b10">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -915,7 +960,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org853e592">
+<pre class="example" id="org4a27c15">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -945,7 +990,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org5894a35">
+<pre class="example" id="org7e7a8d5">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -1039,7 +1084,7 @@ work with Emacs&rsquo; <code>xref</code> facility to work everywhere without los
 bespoke buffer?]  The backlinks&rsquo; buffer looks like this:
 </p>
 
-<pre class="example" id="org184038f">
+<pre class="example" id="orgb338a5a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1079,7 +1124,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgec58e91">
+<pre class="example" id="orga26e9ad">
 - link1
 - link2
 - link3
@@ -1097,7 +1142,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org90d45bf">
+<pre class="example" id="orga3feddd">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1834,7 +1879,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org60bb31d">
+<pre class="example" id="orgd71d055">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2218,10 +2263,10 @@ executable that lists files.
 <p>
 I encourage you to read the manpage of the <code>ls</code> executable.  It will
 help you in general, while it applies to Emacs as well via Dired.  The
-gist is that you can update on-the-fly the <code>ls</code> flags that Dired uses:
-do <code>C-u M-x dired-sort-toggle-or-edit</code> (<code>C-u s</code> by default) and append
-<code>--sort=time</code>.  To reverse the order, add the <code>-r</code> flag as well.  The
-user option <code>dired-listing-switches</code> sets your default preference.
+gist is that you can update the <code>ls</code> flags that Dired uses on-the-fly:
+type <code>C-u M-x dired-sort-toggle-or-edit</code> (<code>C-u s</code> by default) and append
+<code>--sort=time</code> at the prompt.  To reverse the order, add the <code>-r</code> flag.
+The user option <code>dired-listing-switches</code> sets your default preference.
 </p>
 </div>
 </div>
