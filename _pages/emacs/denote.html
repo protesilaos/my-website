@@ -84,7 +84,16 @@ the GNU ELPA machinery automatically generates an Info manual out of it
 <li><a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">10.1. Keep a journal or diary</a></li>
 </ul>
 </li>
-<li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">11. Extending Denote</a></li>
+<li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">11. Extending Denote</a>
+<ul>
+<li><a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">11.1. Narrow the list of files in Dired</a></li>
+<li><a href="#h:edf9b651-86eb-4d5f-bade-3c9e270082f0">11.2. Use Embark to collect minibuffer candidates</a></li>
+<li><a href="#h:76198fab-d6d2-4c67-9ccb-7a08cc883952">11.3. Search file contents</a></li>
+<li><a href="#h:1bba4c1e-6812-4749-948f-57df4fd49b36">11.4. Bookmark the directory with the notes</a></li>
+<li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">11.5. Use the consult-notes package</a></li>
+<li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">11.6. Treat your notes as a project</a></li>
+</ul>
+</li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">12. Installation</a>
 <ul>
 <li><a href="#h:d397712c-c8c0-4cfa-ad1a-ef28cf78d1f0">12.1. Manual installation</a></li>
@@ -732,7 +741,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org6f576e8">
+<pre class="example" id="org7509211">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -797,7 +806,7 @@ derived automatically.
 This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgf514667">
+<pre class="example" id="org3668102">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -809,7 +818,7 @@ For Markdown with YAML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-yaml</code> value):
 </p>
 
-<pre class="example" id="org8fc945d">
+<pre class="example" id="org5634e38">
 ---
 title:      "This is a sample note"
 date:       2022-06-10
@@ -823,7 +832,7 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <code>markdown-toml</code> value):
 </p>
 
-<pre class="example" id="org519ea9f">
+<pre class="example" id="orgea2fa2b">
 +++
 title      = "This is a sample note"
 date       = 2022-06-10
@@ -837,7 +846,7 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="org2f5eae6">
+<pre class="example" id="orge396262">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -912,7 +921,7 @@ to control where Nth argument is placed.")
 The default front matter is:
 </p>
 
-<pre class="example" id="orgcb6524d">
+<pre class="example" id="orgb452ed5">
 #+title:      This is a sample note
 #+date:       2022-06-10
 #+filetags:   denote  testing
@@ -940,7 +949,7 @@ We can add a <code>PROPERTIES</code> drawer to it, with something like this:
 The output is now formatted thus:
 </p>
 
-<pre class="example" id="orga126b10">
+<pre class="example" id="org02c49f8">
 :PROPERTIES:
 :ID: 20220611T092444
 :END:
@@ -960,7 +969,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org4a27c15">
+<pre class="example" id="org92291c8">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -990,7 +999,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org7e7a8d5">
+<pre class="example" id="org477046c">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -1084,7 +1093,7 @@ work with Emacs&rsquo; <code>xref</code> facility to work everywhere without los
 bespoke buffer?]  The backlinks&rsquo; buffer looks like this:
 </p>
 
-<pre class="example" id="orgb338a5a">
+<pre class="example" id="orgaf9b8aa">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1124,7 +1133,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orga26e9ad">
+<pre class="example" id="orga540c34">
 - link1
 - link2
 - link3
@@ -1142,7 +1151,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orga3feddd">
+<pre class="example" id="orgd1304fe">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1661,37 +1670,269 @@ described in its doc string."
 Denote is a tool with a narrow scope: create notes and link between
 them, based on the aforementioned file-naming scheme.  For other common
 operations the user is advised to rely on standard Emacs facilities or
-specialised third-party packages.
+specialised third-party packages.  This section covers the details.
+</p>
+</div>
+
+<div id="outline-container-h:ea173a01-69ef-4574-89a7-6e60ede02f13" class="outline-3">
+<h3 id="h:ea173a01-69ef-4574-89a7-6e60ede02f13"><span class="section-number-3">11.1.</span> Narrow the list of files in Dired</h3>
+<div class="outline-text-3" id="text-h:ea173a01-69ef-4574-89a7-6e60ede02f13">
+<p>
+Emacs&rsquo; standard file manager (or directory editor) can read a regular
+expression to mark the matching files.  This is the command
+<code>dired-mark-files-regexp</code>, which is bound to <code>% m</code> by default.  For
+example, <code>% m _denote</code> will match all files that have the <code>denote</code>
+keyword (<a href="#h:1a953736-86c2-420b-b566-fb22c97df197">Features of the file-naming scheme for searching or filtering</a>).
 </p>
 
-<ul class="org-ul">
-<li>To search through notes, use <code>M-x grep</code>, <code>M-x find-name-dired</code>, <code>M-x
-  consult-find</code>, <code>M-x consult-grep</code>, and so on (the latter two are
-provided by the <code>consult</code> package).</li>
+<p>
+Once the files are matched, the user has to options: (i) narrow the list
+to the matching items or (ii) exclude the matching items from the list.
+</p>
 
-<li>To quickly jump to the <code>denote-directory</code>, visit it with <code>M-x
-  find-file</code> and then make a bookmark with <code>M-x bookmark-set</code>.  Access
-bookmarks with <code>M-x bookmark-jump</code>, <code>M-x consult-buffer</code> (from
-<code>consult</code>), and the like.</li>
+<p>
+For the former, we want to toggle the marks by typing <code>t</code> (calls the
+command <code>dired-toggle-marks</code> by default) and then hit the letter <code>k</code>
+(for <code>dired-do-kill-lines</code>).  The remaining files are those that match
+the regexp that was provided earlier.
+</p>
 
-<li>Control the versioning of notes by turning the <code>denote-directory</code> into
-a Git project.  Consider the built-in project.el or the <code>projectile</code>
-package, as well as the built-in VC framework and/or the <code>magit</code>
-package.</li>
+<p>
+For the latter approach of filtering out the matching items, simply
+involves the use of the <code>k</code> command (<code>dired-do-kill-lines</code>) to omit the
+marked files from the list.
+</p>
 
-<li>It is possible to narrow the list of notes in Dired using a regular
-expression or literal string.  Do <code>M-x dired-mark-files-regexp RET
-  type-regexp-here RET t k</code>.  The <code>t</code> will toggle the match so that it
-marks all files that do not match the regexp and <code>k</code> will remove them
-from the buffer (restore them by reverting the buffer).</li>
+<p>
+These sequences can be combined to incrementally narrow the list.  Note
+that <code>dired-do-kill-lines</code> does not delete files: it simply hides them
+from the current view.
+</p>
 
-<li>A narrowed list of files can also be produced through the minibuffer,
-with the help of the <code>embark</code> package.  For example, <code>M-x find-file
-  RET path/to/denote-directory RET regexp embark-act embark-export</code>.
-The final two commands, <code>embark-act</code> and <code>embark-export</code>, are normally
-bound to keys.  The whole sequence will thus look like <code>C-x C-f path
-  RET regexp C-. E</code>.</li>
-</ul>
+<p>
+Revert to the original listing with <code>g</code> (<code>revert-buffer</code>).
+</p>
+
+<p>
+For a convenient wrapper, consider this example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar prot-dired--limit-hist '()
+  "Minibuffer history for `prot-dired-limit-regexp'.")
+
+;;;###autoload
+(defun prot-dired-limit-regexp (regexp omit)
+  "Limit Dired to keep files matching REGEXP.
+
+With optional OMIT argument as a prefix (\\[universal-argument]),
+exclude files matching REGEXP.
+
+Restore the buffer with \\&lt;dired-mode-map&gt;`\\[revert-buffer]'."
+  (interactive
+   (list
+    (read-regexp
+     (concat "Files "
+             (when current-prefix-arg
+               (propertize "NOT " 'face 'warning))
+             "matching PATTERN: ")
+     nil 'prot-dired--limit-hist)
+    current-prefix-arg))
+  (dired-mark-files-regexp regexp)
+  (unless omit (dired-toggle-marks))
+  (dired-do-kill-lines))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:edf9b651-86eb-4d5f-bade-3c9e270082f0" class="outline-3">
+<h3 id="h:edf9b651-86eb-4d5f-bade-3c9e270082f0"><span class="section-number-3">11.2.</span> Use Embark to collect minibuffer candidates</h3>
+<div class="outline-text-3" id="text-h:edf9b651-86eb-4d5f-bade-3c9e270082f0">
+<p>
+<code>embark</code> is a remarkable package that lets you perform relevant,
+context-dependent actions using a prefix key (simplifying in the
+interest of brevity).
+</p>
+
+<p>
+For our purposes, Embark can be used to produce a Dired listing directly
+from the minibuffer.  Suppose the current note has links to three other
+notes.  You might use the <code>denote-link-find-file</code> command to pick one
+via the minibuffer.  But why not turn those three links into their own
+Dired listing?  While in the minibuffer, invoke <code>embark-act</code> which you
+may have already bound to <code>C-.</code> and then follow it up with <code>E</code> (for the
+<code>embark-export</code> command).
+</p>
+
+<p>
+This pattern can be repeated with any list of candidates, meaning that
+you can narrow the list by providing some input before eventually
+exporting the results with Embark.
+</p>
+
+<p>
+Overall, this is very powerful and you might prefer it over doing the
+same thing directly in Dired, since you also benefit from all the power
+of the minibuffer (<a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">Narrow the list of files in Dired</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:76198fab-d6d2-4c67-9ccb-7a08cc883952" class="outline-3">
+<h3 id="h:76198fab-d6d2-4c67-9ccb-7a08cc883952"><span class="section-number-3">11.3.</span> Search file contents</h3>
+<div class="outline-text-3" id="text-h:76198fab-d6d2-4c67-9ccb-7a08cc883952">
+<p>
+Emacs provides built-in commands which are wrappers of standard Unix
+tools: <code>M-x grep</code> lets the user input the flags of a <code>grep</code> call and
+pass a regular expression to the <code>-e</code> flag.
+</p>
+
+<p>
+The author of Denote uses this thin wrapper instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar prot-search--grep-hist '()
+  "Input history of grep searches.")
+
+;;;###autoload
+(defun prot-search-grep (regexp &amp;optional recursive)
+  "Run grep for REGEXP.
+
+Search in the current directory using `lgrep'.  With optional
+prefix argument (\\[universal-argument]) for RECURSIVE, run a
+search starting from the current directory with `rgrep'."
+  (interactive
+   (list
+    (read-from-minibuffer (concat (if current-prefix-arg
+                                      (propertize "Recursive" 'face 'warning)
+                                    "Local")
+                                  " grep for PATTERN: ")
+                          nil nil nil 'prot-search--grep-hist)
+    current-prefix-arg))
+  (unless grep-command
+    (grep-compute-defaults))
+  (if recursive
+      (rgrep regexp "*" default-directory)
+    (lgrep regexp "*" default-directory)))
+</pre>
+</div>
+
+<p>
+Rather than maintain custom code, consider using the excellent <code>consult</code>
+package: it provides commands such as <code>consult-grep</code> and <code>consult-find</code>
+which provide live results and are generally easier to use than the
+built-in commands.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:1bba4c1e-6812-4749-948f-57df4fd49b36" class="outline-3">
+<h3 id="h:1bba4c1e-6812-4749-948f-57df4fd49b36"><span class="section-number-3">11.4.</span> Bookmark the directory with the notes</h3>
+<div class="outline-text-3" id="text-h:1bba4c1e-6812-4749-948f-57df4fd49b36">
+<p>
+Part of the reason Denote does not reinvent existing functionality is to
+encourage you to learn more about Emacs.  You do not need a bespoke
+&ldquo;jump to my notes&rdquo; directory because such commands do not scale well.
+Will you have a &ldquo;jump to my downloads&rdquo; then another for multimedia and
+so on?  No.
+</p>
+
+<p>
+Emacs has a built-in framework for recording persistent markers to
+locations.  Visit the <code>denote-directory</code> (or any dir/file for that
+matter) and invoke the <code>bookmark-set</code> command (bound to <code>C-x r m</code> by
+default).  It lets you create a bookmark.
+</p>
+
+<p>
+The list of bookmarks can be reviewed with the <code>bookmark-bmenu-list</code>
+command (bound to <code>C-x r l</code> by default).  A minibuffer interface is
+available with <code>bookmark-jump</code> (<code>C-x r b</code>).
+</p>
+
+<p>
+If you use the <code>consult</code> package, its default <code>consult-buffer</code> command
+has the means to group together buffers, recent files, and bookmarks.
+Each of those types can be narrowed to with a prefix key.  The package
+<code>consult-dir</code> is an extension to <code>consult</code> which provides useful extras
+for working with directories, including bookmarks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d" class="outline-3">
+<h3 id="h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d"><span class="section-number-3">11.5.</span> Use the consult-notes package</h3>
+<div class="outline-text-3" id="text-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">
+<p>
+If you are already using <code>consult</code> (which is a brilliant package), you
+will probably like its <code>consult-notes</code> extension.  It uses the familiar
+mechanisms of Consult to filter searches via a prefix key.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq consult-notes-data-dirs
+      `(("Notes"  ?n ,denote-directory)
+        ("Books"  ?b "~/Documents/books")))
+</pre>
+</div>
+
+<p>
+With the above, <code>M-x consult-notes</code> will list the files in those two
+directories.  If you type <code>n</code> and space, it narrows the list to just the
+notes, while <code>b</code> does the same for books.
+</p>
+
+<p>
+Note that <code>consult-notes</code> is in its early stages of development.  Expect
+improvements in the near future (written on 2022-06-22 16:48 +0300).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:fad3eb08-ddc7-43e4-ba28-210d89668037" class="outline-3">
+<h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">11.6.</span> Treat your notes as a project</h3>
+<div class="outline-text-3" id="text-h:fad3eb08-ddc7-43e4-ba28-210d89668037">
+<p>
+Emacs a built-in library for treating a directory tree as a &ldquo;project&rdquo;.
+This means that the contents of this tree are seen as part of the same
+set, so commands like <code>project-switch-to-buffer</code> (<code>C-x p b</code> by default)
+will only consider buffers in the current project (e.g. three notes that
+are currently being visited).
+</p>
+
+<p>
+Normally, a &ldquo;project&rdquo; is a directory tree whose root is under version
+control.  For our purposes, all you need is to navigate to the
+<code>denote-directory</code> (for the shell or via Dired) and use the command-line
+to run this (requires the <code>git</code> executable):
+</p>
+
+<pre class="example">
+git init
+</pre>
+
+
+<p>
+From Dired, you can type <code>M-!</code> which invokes <code>dired-smart-shell-command</code>
+and then run the git call there.
+</p>
+
+<p>
+The project can then be registered by invoking any project-related
+command inside of it, such as <code>project-find-file</code> (<code>C-x p f</code>).
+</p>
+
+<p>
+It is a good idea to keep your notes under version control, as that
+gives you a history of changes for each file.  We shall not delve into
+the technicalities here, though suffice to note that Emacs&rsquo; built-in
+version control framework or the exceptionally well-crafted <code>magit</code>
+package will get the job done (VC can work with other backends besides
+Git).
+</p>
+</div>
 </div>
 </div>
 
@@ -1879,7 +2120,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgd71d055">
+<pre class="example" id="orgdbea0fc">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
