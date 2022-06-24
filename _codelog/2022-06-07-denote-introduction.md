@@ -73,7 +73,7 @@ principles:
 -   **Portability:** Notes are plain text and should remain portable.
     The way Denote writes file names, the front matter it include in the
     note&rsquo;s header, and the links it establishes must all be
-    adequately usable with standard Unix tools.  No need for a databse
+    adequately usable with standard Unix tools.  No need for a database
     or some specialised software.  As Denote develops and this manual is
     fully fleshed out, there will be concrete examples on how to do the
     Denote-equivalent on the command-line.
@@ -229,7 +229,7 @@ template.  Such as:
                      :jump-to-captured t)))
 
 [ In the future, we might develop Denote in ways which do not require
-  such manual intervation. ]
+  such manual intervention. ]
 
 Once the template is added, it is accessed from the specified key.  If,
 for instance, `org-capture` is bound to `C-c c`, then the note creation
