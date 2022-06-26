@@ -374,7 +374,7 @@ gradually practice how to control yourself mentally.
 Parrhesia here means that we do not deny the fact that stimuli have an
 effect on us.  Remember that we are always subject to the cosmic
 language.  Lying or pretending does not solve the problem.  Parrhesia is
-admit the potency of those magnitudes and seek ways to deny them the
+to admit the potency of those magnitudes and seek ways to deny them the
 space they need to grow inside of us.  Do not assign value to them.
 Refrain from becoming invested in them.
 
