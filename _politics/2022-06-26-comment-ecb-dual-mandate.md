@@ -9,7 +9,7 @@ on the European Central Bank's [June monetary policy
 decisions](https://www.ecb.europa.eu/press/pr/date/2022/html/ecb.mp220609~122666c272.en.html).
 The analysis centres on the predicament the ECB finds itself in as it
 tries to (i) conform with its mandate of price stability in the face of
-rising inflation while (ii) maintaining its accommodative policy stance
+rising inflation while (ii) maintain its accommodative policy stance
 which is necessary for the integrity of Europe's single currency:
 
 > In my view, the referred decisions taken by the ECB derive from a sort
@@ -32,20 +32,20 @@ which is necessary for the integrity of Europe's single currency:
 I agree with the salient point: without the ECB's quantitative easing
 the Eurozone would have collapsed under the weight of its own
 contradictions and shortcomings.  As things currently stand, Member
-States have ceded control over both macroeconomic policy levers to the
-supranational level: (i) fiscal policy is formulated within the confines
-of the European Semester (aka "Economic Governance") in accordance with
-strict rules on debts, deficits, and pursuant to the singleness of the
-Single Market, and (ii) monetary policy is conferred to the ECB.
-Governments thus lack the means to respond to economic shocks in a
-manner that is beneficial to their domestic economy (given the
-heterogeneity of national economies, such shocks are asymmetric).
+States have conferred control over both macroeconomic policy levers to
+the supranational level: (i) fiscal policy is formulated within the
+confines of the European Semester (aka "Economic Governance") in
+accordance with strict rules on debts, deficits, and pursuant to the
+singleness of the Single Market, and (ii) monetary policy is trusted
+with the ECB.  Governments thus lack the means to respond to economic
+shocks in a manner that is beneficial to their domestic economy (given
+the heterogeneity of national economies, such shocks are asymmetric).
 
 Put concretely, a country cannot devalue its currency in an attempt to
 ease its way out of a recession.  Similarly, the government cannot boost
 the competitiveness of local businesses by shielding them from
 competition as the rules of the single market strictly prohibit as much.
-All things combined, the rigidity of European Economic and Monetary
+All things combined, the rigidity of the European Economic and Monetary
 Union makes austerity a one-way street: the story of European affairs
 since ~2010 in a nutshell.
 
@@ -61,19 +61,18 @@ reinforcing the vicious cycle.
 It can be said that foregoing sovereignty over both macroeconomic levers
 is worth it as European integration provides other benefits.  At least
 such was the thinking when the EMU was originally designed.  In the
-2000s, such beliefs were plausible because no crisis was in sight.  The
-fair weather construction of the Euro seemed to stand just fine.
-
-Though ever since the 2008+ financial calamity, things have taken a
-dramatic turn for the worse.  We are dealing with one crisis after
-crisis.  To claim that some vague promise of an integrated Europe will
-address our woes is more wishful than practical.
+2000s, these beliefs were plausible because no crisis was in sight.  The
+fair weather construction of the Euro seemed to stand just fine.  Though
+ever since the 2008+ financial calamity, things have taken a dramatic
+turn for the worse.  We are dealing with crisis after crisis.  To claim
+that some vague promise of an integrated Europe will address our woes is
+more wishful thinking than practical guidance.
 
 Europe is caught in the interregnum between the awkward
 intergovernmentalism of the Maastricht Treaty (single currency but
 decentralised governance) and a fully fledged European-level government
 that is yet to be enacted.  The prospect of the latter is not in sight,
-which implies that the legally and political questionable policies of
+which implies that the legally and politically questionable policies of
 the ECB will remain the norm for years to come.
 
 On the legal front, it can be argued that the ECB's implicit duty to
@@ -83,7 +82,7 @@ Transactions suggests as much.  It then remains to be determined whether
 citizens will be satisfied which such a broadened interpretation of the
 Treaties.  I remain of the view that OMT undermines the European value
 of democracy, as the ECB---a technocratic body---was offering a _quid
-pro quo_ to elected government in exchange for "strict conditionality"
+pro quo_ to elected governments in exchange for "strict conditionality"
 which is code language for enhanced austerity under the auspices of
 another technocratic institution: the European Stability Mechanism.
 
@@ -99,10 +98,10 @@ to the ECB, and all the legal arrangements an order of this sort
 requires.
 
 As such, and seen from the perspective of citizens in countries that are
-dependants of the ECB's whims, the proposition of European integration,
+dependant on the ECB's whims, the proposition of European integration,
 manifesting in the current poorly designed architecture, is unappealing
 (to say the least).  The choice is between austerity at home or
-migration to some other country, such as Germany.  And while the EU
+migration to some other country, such as to Germany.  And while the EU
 makes the movement of people possible, this alone cannot be examined
 without reference to the wider context: when you have to migrate in
 order to survive, you are a refugee, legal technicalities
