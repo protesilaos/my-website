@@ -42,6 +42,27 @@ are built into Emacs version 28 or higher.
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
 
+## Denote
+
+Denote is a simple note-taking tool.  It is based on the idea that notes
+should follow a predictable and descriptive file-naming scheme.  The
+file name must offer a clear indication of what the note is about,
+without reference to any other metadata.  Denote basically streamlines
+the creation of such files while providing facilities to link between
+them.
+
+[Watch the video demo that was produced before version 0.1.0 of the
+package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
+
++ Package name (GNU ELPA): `denote`
++ Official manual: <https://protesilaos.com/emacs/denote>
++ Change log: <https://protesilaos.com/emacs/denote-changelog>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/denote>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/denote>
+    + GitLab: <https://gitlab.com/protesilaos/denote>
++ Mailing list: <https://lists.sr.ht/~protesilaos/denote>
+
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
