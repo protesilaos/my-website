@@ -1,0 +1,150 @@
+---
+layout: page
+title: 'Change Log of Denote'
+subtitle: 'Simple notes for Emacs with an efficient file-naming scheme'
+excerpt: "Denote is a simple note-taking tool, based on the idea that notes should follow a predictable and descriptive file-naming scheme."
+permalink: /emacs/denote-changelog
+---
+
+<p>
+This document contains the release notes for each tagged commit on the
+project's main git repository: <a href="https://git.sr.ht/~protesilaos/denote">https://git.sr.ht/~protesilaos/denote</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a>.
+</p>
+
+<div id="outline-container-org623c9e7" class="outline-2">
+<h2 id="org623c9e7">Version 0.1.0 on 2022-06-27</h2>
+<div class="outline-text-2" id="text-org623c9e7">
+<p>
+The present entry is intended for early adopters of Denote who may have
+not caught up with the latest developments.  Prospective users are
+advised to read the manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a>.  For
+a video demonstration: <a href="https://protesilaos.com/codelog/2022-06-18-denote-demo/">https://protesilaos.com/codelog/2022-06-18-denote-demo/</a>.
+</p>
+
+<ul class="org-ul">
+<li>The <code>denote</code> package on GNU ELPA will be available a few hours after
+this release.  GNU ELPA provides the latest stable release.  To use a
+development snapshot, read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.</li>
+
+<li>Remember that any significant contribution (above ~15 lines) requires
+copyright assignment to the Free Software Foundation.  A form with
+instructions is included in the manual's "Contributing" section:
+<a href="https://protesilaos.com/emacs/denote#h:1ebe4865-c001-4747-a6f2-0fe45aad71cd">https://protesilaos.com/emacs/denote#h:1ebe4865-c001-4747-a6f2-0fe45aad71cd</a>.</li>
+
+<li><p>
+The front matter of notes in Org has changed to be compliant with the
+standard <code>org-id</code> infrastructure.  A <code>PROPERTIES</code> drawer is added to
+the top of the file, which includes an <code>ID</code> property with the value of
+the Denote identifier.  Sample:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  :PROPERTIES:
+  :ID:          20220610T202537
+  :END:
+  #+title:      Sample Org front matter
+  #+date:       2022-06-10
+  #+filetags:   denote  testing
+</pre>
+</div></li>
+
+<li><p>
+The front matter of Markdown (YAML or TOML) and plain text files
+remains constant.  For completeness, this is how they look:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-md">   ---
+   title:      "Sample with Markdown and YAML"
+   date:       2022-06-10
+   tags:       denote  testing
+   identifier: "20220610T202021"
+   ---
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-md">  +++
+  title      = "Sample with Markdown and TOML"
+  date       = 2022-06-10
+  tags       = ["denote", "testing"]
+  identifier = "20220610T201510"
+  +++
+</pre>
+</div>
+
+<pre class="example" id="org80bf493">
+  title:      Sample plain text
+  date:       2022-06-10
+  tags:       denote  testing
+  identifier: 20220610T202232
+  ---------------------------
+</pre></li>
+
+<li>The integration with <code>org-id</code> extends to how linking works.  By
+default, Denote uses its own custom hyperlink type which starts with
+the <code>denote:</code> prefix.  In Org, it works like the <code>file:</code> type.  When
+the user option <code>denote-link-use-org-id</code> is non-nil, links from Org
+notes to other Org notes will use the standard <code>id:</code> type instead.  As
+this is an Org-specific feature, Denote takes care to use the
+major-mode-agnostic <code>denote:</code> type when the link targets a non-Org
+note.</li>
+
+<li><p>
+In Org files the links created by Denote are buttonized automatically.
+For Markdown and plain text, we use our own methods.  When a link is
+inserted it is buttonized outright.  To buttonize links in existing
+notes while visiting them in a buffer, add/evaluate this (it excludes
+Org on its own):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+</pre>
+</div></li>
+
+<li>The generation of the backlinks' buffer now uses the built-in <code>xref</code>
+library instead of relying on a hardcoded call to the <code>find</code>
+executable.  This means that the <code>denote-link-backlinks</code> command will,
+in principle, work properly with all Emacs builds.</li>
+
+<li>Users of Emacs 28 or higher can configure <code>xref-search-program</code> to
+change from the default <code>grep</code> to <code>ripgrep</code>, <code>ugrep</code>, or a
+user-defined alternative.</li>
+
+<li>This is the first stable release of Denote.  It covers close to 400
+commits starting from 2022-06-04.  Denote is the successor to a toy
+package of mine, USLS, whose first public version was made available
+in early November 2020: <a href="https://gitlab.com/protesilaos/usls">https://gitlab.com/protesilaos/usls</a>.</li>
+
+<li>Thanks to everyone involved in the development of Denote.  Code
+contributions, bug reports, discussion of ideas, are all valuable.  From
+A-Z the names mentioned in the manual's "Acknowledgements" section:
+Colin McLear, Damien Cassou, Frank Ehmsen, Jack Baty, Kaushal Modi,
+Peter Povinec, Sven Seebeck, Ypot.</li>
+
+<li>Sources of Denote:
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a></li>
+<li>Change log: <a href="https://protesilaos.com/emacs/denote-changelog">https://protesilaos.com/emacs/denote-changelog</a></li>
+<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/denote">https://git.sr.ht/~protesilaos/denote</a>
+<ul class="org-ul">
+<li>Mirrors:
+<ul class="org-ul">
+<li>GitHub: <a href="https://github.com/protesilaos/denote">https://github.com/protesilaos/denote</a></li>
+<li>GitLab: <a href="https://gitlab.com/protesilaos/denote">https://gitlab.com/protesilaos/denote</a></li>
+</ul></li>
+</ul></li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/denote">https://lists.sr.ht/~protesilaos/denote</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
