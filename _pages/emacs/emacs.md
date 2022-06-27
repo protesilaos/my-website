@@ -4,19 +4,6 @@ excerpt: 'List of all my packages and/or custom code for GNU Emacs'
 permalink: /emacs/
 ---
 
-## Dotemacs
-
-My personal Emacs configuration.  It is comprehensive, both in terms of
-the [custom] code it contains as well as the documentation on what each
-piece of functionality does.
-
-+ Website: <https://protesilaos.com/emacs/dotemacs>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/dotfiles>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/dotfiles>
-    + GitLab: <https://gitlab.com/protesilaos/dotfiles>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
-
 ## Modus themes
 
 Highly accessible themes, conforming with the highest standard for
@@ -173,24 +160,6 @@ with fast blinking" and set them on demand.
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
 
-## Denote
-
-Denote is a simple note-taking tool in the early stages of development.
-It is based on the idea that notes should follow a predictable and
-descriptive file-naming scheme.  The file name must offer a clear
-indication of what the note is about, without reference to any other
-metadata.  Denote basically streamlines the creation of such files.
-
-[Watch the video demo](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
-
-<!-- + Package name (GNU ELPA): `denote` -->
-+ Official manual: <https://protesilaos.com/emacs/denote>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/denote>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/denote>
-    + GitLab: <https://gitlab.com/protesilaos/denote>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/denote>
-
 ## The official Emacs TUTORIAL in Greek
 
 I am the author and maintainer of the `TUTORIAL.el_GR` file that is part
@@ -199,6 +168,19 @@ it in the Emacs source code inside the `etc/tutorials/` directory.  If
 you report a bug about it with `M-x report-emacs-bug`, consider adding
 me in carbon copy (Cc).  The `etc/tutorials/TUTORIAL.translators` file
 mentions the email address you should use.
+
+## Dotemacs
+
+My personal Emacs configuration.  It is comprehensive, both in terms of
+the [custom] code it contains as well as the documentation on what each
+piece of functionality does.
+
++ Website: <https://protesilaos.com/emacs/dotemacs>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/dotfiles>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/dotfiles>
+    + GitLab: <https://gitlab.com/protesilaos/dotfiles>
++ Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
 
 ## Iosevka Comfy
 
