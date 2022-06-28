@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-28 11:01 +0300</b>.</li>
-<li>Word count: <b>140363</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-28 20:51 +0300</b>.</li>
+<li>Word count: <b>139738</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -2421,8 +2421,8 @@ This is the code for <code>pulsar.el</code>:
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Maintainer: Pulsar Development &lt;~protesilaos/pulsar@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/pulsar
-;; Mailing list: https://lists.sr.ht/~protesilaos/pulsar
 ;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
@@ -3261,8 +3261,8 @@ This is the code for <code>lin.el</code>:
 ;; Copyright (C) 2021-2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Maintainer: Lin Development &lt;~protesilaos/lin@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/lin
-;; Mailing list: https://lists.sr.ht/~protesilaos/lin
 ;; Version: 0.4.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, faces, theme
@@ -4249,7 +4249,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org8f0e20b">
+<pre class="example" id="org513dd32">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4332,7 +4332,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgdb9200b">
+<pre class="example" id="org92a4c04">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6226,7 +6226,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org6de5490">
+<pre class="example" id="org43e9623">
 text-mode
 
 (dotfiles-sync-package
@@ -9205,8 +9205,8 @@ The contents of <code>denote.el</code>.
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Maintainer: Denote Development &lt;~protesilaos/denote@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/denote
-;; Mailing list: https://lists.sr.ht/~protesilaos/denote
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.2"))
 
@@ -9297,7 +9297,7 @@ The contents of <code>denote.el</code>.
 ;;; Code:
 
 (defgroup denote ()
-  "Simple notes with a strict file-naming scheme."
+  "Simple notes with an efficient file-naming scheme."
   :group 'files)
 
 ;;;; User options
@@ -10060,8 +10060,8 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Maintainer: Logos Development &lt;~protesilaos/logos@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/logos
-;; Mailing list: https://lists.sr.ht/~protesilaos/logos
 ;; Version: 0.4.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, focus, writing, presentation, narrowing
@@ -10652,9 +10652,8 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;,
 ;;         Damien Cassou &lt;damien@cassou.me&gt;
-;; Maintainer: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; Maintainer: TMR Development &lt;~protesilaos/tmr@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/tmr
-;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
 ;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, timer
@@ -10752,10 +10751,10 @@ Each function must accept a timer as argument."
    nil
    :read-only t
    :documentation "Time at which the timer was created.")
-  (duration
+  (end-date
    nil
    :read-only t
-   :documentation "Number of seconds after `start' indicating when the timer finishes.")
+   :documentation "Time at which the timer finishes.")
   (finishedp
    nil
    :read-only nil
@@ -10831,8 +10830,7 @@ original input for TIMER's duration."
 
 (defun tmr--format-end-date (timer)
   "Return a string representing when TIMER should finish."
-  (tmr--format-time (time-add (tmr--timer-creation-date timer)
-                              (tmr--timer-duration timer))))
+  (tmr--format-time (tmr--timer-end-date timer)))
 
 (defun tmr--format-remaining (timer &amp;optional finished prefix)
   "Format remaining time of TIMER.
@@ -10841,9 +10839,7 @@ PREFIX is used as prefix for running timers."
   (setq prefix (or prefix ""))
   (if (tmr--timer-finishedp timer)
       (or finished "✔")
-    (let ((secs (round (- (float-time
-                           (time-add (tmr--timer-creation-date timer)
-                                     (tmr--timer-duration timer)))
+    (let ((secs (round (- (float-time (tmr--timer-end-date timer))
                           (float-time)))))
       (if (&gt; secs 3600)
           (format "%s%sh %sm" prefix (/ secs 3600) (/ (% secs 3600) 60))
@@ -10951,7 +10947,11 @@ completion candidates."
                            (lambda (x)
                              (cons (funcall formatter x) x))
                            timers)))
-        (cdr (assoc (completing-read "Timer: " timer-alist nil t) timer-alist)))))))
+        (cdr (assoc (completing-read
+                     "Timer: "
+                     (tmr--completion-table timer-alist 'tmr-timer)
+                     nil t)
+                    timer-alist)))))))
 
 ;; NOTE 2022-04-21: Emacs has a `play-sound' function but it only
 ;; supports .wav and .au formats.  Also, it does not work on all
@@ -11007,17 +11007,11 @@ If optional DEFAULT is provided use it as a default candidate."
    (if default
        (format "Description for this tmr [%s]: " default)
      "Description for this tmr: ")
-   (lambda (string predicate action)
-     (if (eq action 'metadata)
-         `(metadata (display-sort-function . ,#'identity)
-                    (cycle-sort-function . ,#'identity))
-       (complete-with-action action
-                             (if (listp tmr-description-list)
-                                 tmr-description-list
-                               (symbol-value tmr-description-list))
-                             string predicate)))
-   nil nil nil
-   'tmr-description-history default))
+   (tmr--completion-table
+    (if (listp tmr-description-list)
+        tmr-description-list
+      (symbol-value tmr-description-list)))
+   nil nil nil 'tmr-description-history default))
 
 (defun tmr--complete (timer)
   "Mark TIMER as finished and execute `tmr-timer-finished-functions'."
@@ -11053,7 +11047,7 @@ command `tmr-with-description' instead of this one."
          (timer (tmr--timer-create
                  :description description
                  :creation-date creation-date
-                 :duration duration
+                 :end-date (time-add creation-date duration)
                  :input time))
          (timer-object (run-with-timer
                         duration nil
@@ -11096,6 +11090,15 @@ Without a PROMPT, clone TIMER outright."
    (if (equal prompt '(16))
        (tmr--description-prompt (tmr--timer-description timer))
      (tmr--timer-description timer))))
+
+(defun tmr--completion-table (candidates &amp;optional category)
+  "Return completion table for CANDIDATES of CATEGORY with sorting disabled."
+  (lambda (str pred action)
+    (if (eq action 'metadata)
+        `(metadata (display-sort-function . identity)
+                   (cycle-sort-function . identity)
+                   (category . ,category))
+      (complete-with-action action candidates str pred))))
 
 (provide 'tmr)
 ;;; tmr.el ends here
@@ -14925,7 +14928,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgf6ad61d">
+<pre class="example" id="org72e33dc">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14937,7 +14940,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgdc68c77">
+<pre class="example" id="org8d2a45d">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14952,7 +14955,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orgfad171f">
+<pre class="example" id="org5157062">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14968,7 +14971,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org434c62a">
+<pre class="example" id="org93a250e">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14997,7 +15000,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org27915fc">
+<pre class="example" id="org5ff28a5">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15161,7 +15164,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgb034e4a">
+<pre class="example" id="org1de3806">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15906,7 +15909,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="orgfcef5d8">
+<pre class="example" id="org07ef4e6">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15940,7 +15943,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orgf9e6a41">
+<pre class="example" id="org709f3ee">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16104,7 +16107,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org843cc1e">
+<pre class="example" id="org7753492">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16299,7 +16302,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org3d4a273">
+<pre class="example" id="orgc58319d">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17349,7 +17352,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgfca3da6">
+<pre class="example" id="org761e1cc">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18416,7 +18419,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org6ce2680">
+<pre class="example" id="org19453c9">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19115,7 +19118,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="orgb48e4c1">
+<pre class="example" id="org730968a">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23940,7 +23943,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgb727f64">
+<pre class="example" id="orgca13075">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24404,7 +24407,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org9cea577">
+<pre class="example" id="org79fd0b5">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24413,7 +24416,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org74f6df1">
+<pre class="example" id="org9b8e891">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24438,7 +24441,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="orgb9cfed4">
+<pre class="example" id="orgd728422">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24514,7 +24517,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orga170a99">
+<pre class="example" id="org108b22c">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24539,7 +24542,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org2ce4ccd">
+<pre class="example" id="org95f53a4">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24548,7 +24551,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org3588cf8">
+<pre class="example" id="org835a69f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24567,7 +24570,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgb39acd2">
+<pre class="example" id="orgca3bb9b">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
