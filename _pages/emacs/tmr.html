@@ -176,15 +176,22 @@ The input can be a floating point:
 <p>
 If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code> with default
 key bindings), it asks for a description to be associated with the given
-timer.  Preconfigured candidates, as a list of strings, are specified in
-the user option <code>tmr-descriptions-list</code>, though any arbitrary input is
-acceptable at the minibuffer prompt.
+timer.
 </p>
 
 <p>
 An alternative to the <code>tmr</code> command is <code>tmr-with-description</code>.  The
 difference between the two is that the latter always prompts for a
 description.
+</p>
+
+<p>
+The user option <code>tmr-descriptions-list</code> defines the completion
+candidates that are shown at the description prompt.  Its value can be
+either a list of strings or the symbol of a variable that holds a list
+of strings.  The default value of <code>tmr-description-history</code>, is the name
+of a variable that contains input provided by the user at the relevant
+prompt of the <code>tmr</code> and <code>tmr-with-description</code> commands.
 </p>
 
 <p>
@@ -208,10 +215,11 @@ that <code>tmr</code> and <code>tmr-with-description</code> accept.
 
 <p>
 The <code>tmr-clone</code> command directly copies the duration and optional
-description of a timer into a new one.  With an optional prefix
-argument, this command prompts for a duration and, if the underlying
-timer had a description, for a description as well.  The default values
-of such prompts as those of the original timer.
+description of a timer into a new one.  With an optional prefix argument
+(<code>C-u</code> by default), this command prompts for a duration.  If a double
+prefix argument is supplied (<code>C-u C-u</code>), the command asks for a duration
+and then a description.  The default values of such prompts as those of
+the original timer.
 </p>
 
 <p>
@@ -239,18 +247,19 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data i
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="org702c7fb">
-Start      End        Finished?  Description
-09:22:43   09:32:43   ✔         Prepare tea
-09:17:14   09:37:14              Boil water
-09:07:03   09:57:03              Bake bread
+<pre class="example" id="orga8f4bdf">
+Start      End        Remaining  Description
+10:11:49   10:11:54   ✔
+10:11:36   10:31:36   19m 35s
+10:11:32   10:26:32   14m 31s    Yet another test
+10:11:16   10:21:16   9m 14s     Testing how it works
 </pre>
 
 <p>
 If a timer has elapsed, it has a check mark associated with it,
-otherwise the <code>Finished?</code> column is empty.  A <code>Description</code> is shown
-only if it is provided while setting the timer, otherwise the field is
-left blank.
+otherwise the <code>Remaining</code> column shows the time left.  A <code>Description</code>
+is shown only if it is provided while setting the timer, otherwise the
+field is left blank.
 </p>
 
 <p>
@@ -265,41 +274,71 @@ toggle their sort.
 While in this grid view, one can perform several operations on timers:
 </p>
 
-<ul class="org-ul">
-<li>The <code>+</code> key creates a new timer by calling the standard <code>tmr</code> command.
-As always, use a prefix argument to also prompt for a description.</li>
-</ul>
+<p>
+[ Updated as part of 0.4.0-dev ]
+</p>
 
-<ul class="org-ul">
-<li>The <code>c</code> key invokes the <code>tmr-tabulated-clone</code> command.  It is the same
-as <code>tmr-clone</code> plus some tweaks for the grid view.</li>
-</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-<ul class="org-ul">
-<li>The <code>k</code> key runs the <code>tmr-tabulated-cancel</code> command.  It immediately
-cancels the timer at point.</li>
-</ul>
 
-<ul class="org-ul">
-<li>The <code>K</code> key uses <code>tmr-tabulated-remove-finished</code> to delete all elapsed
-timers.  This means that they no longer show up in the grid and cannot
-be cloned.</li>
-</ul>
+<colgroup>
+<col  class="org-left" />
 
-<ul class="org-ul">
-<li>The <code>s</code> key runs the <code>tmr-tabulated-reschedule</code> command.  It
-effectively replaces the timer at point with a new one, using the
-aforementioned &ldquo;cancel&rdquo; and &ldquo;clone&rdquo; operations.  If the timer being
-rescheduled has a description, this command will also prompt for a
-description while creating the new timer, otherwise it will just ask
-for a duration.</li>
-</ul>
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">t</td>
+<td class="org-left">tmr</td>
+</tr>
 
-<ul class="org-ul">
-<li>The <code>w</code> key invokes the <code>tmr-tabulated-rewrite-description</code> command.
-It prompts for user input and uses it to rewrite the description of
-the timer at point.</li>
-</ul>
+<tr>
+<td class="org-left">T</td>
+<td class="org-left">tmr-with-description</td>
+</tr>
+
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">tmr</td>
+</tr>
+
+<tr>
+<td class="org-left">,*</td>
+<td class="org-left">tmr-with-description</td>
+</tr>
+
+<tr>
+<td class="org-left">c</td>
+<td class="org-left">tmr-clone</td>
+</tr>
+
+<tr>
+<td class="org-left">e</td>
+<td class="org-left">tmr-edit-description</td>
+</tr>
+
+<tr>
+<td class="org-left">s</td>
+<td class="org-left">tmr-reschedule</td>
+</tr>
+
+<tr>
+<td class="org-left">k</td>
+<td class="org-left">tmr-cancel</td>
+</tr>
+
+<tr>
+<td class="org-left">K</td>
+<td class="org-left">tmr-remove-finished</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -318,7 +357,7 @@ description (if provided).</dd>
 </dl>
 
 <dl class="org-dl">
-<dt><code>tmr-timer-completed-functions</code></dt><dd>This runs when a timer elapses.  By
+<dt><code>tmr-timer-finished-functions</code></dt><dd>This runs when a timer elapses.  By
 default, it will (i) produce a desktop notification which describes
 the timer&rsquo;s start/end time and optional description (if available),
 (ii) play an alarm sound (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound and desktop notifications</a>), and (iii)
@@ -359,6 +398,12 @@ be played.
 <p>
 Sound playback depends on the <code>ffplay</code> executable which is part of
 <code>ffmpeg</code>.
+</p>
+
+<p>
+Desktop notifications work only if Emacs is built with DBus
+functionality.  This is the norm.  If such functionality is not
+available, TMR will issue warning informing the user accordingly.
 </p>
 </div>
 </div>
@@ -446,6 +491,8 @@ Everything is in place to set up the package.
       "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
 (setq tmr-notification-urgency 'normal)
+
+;; Read the `tmr-descriptions-list' doc string
 (setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
 
 ;; OPTIONALLY set global key bindings:
@@ -455,6 +502,8 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
   (define-key map (kbd "C-c t c") #'tmr-clone)
   (define-key map (kbd "C-c t k") #'tmr-cancel)
+  (define-key map (kbd "C-c t s") #'tmr-reschedule)
+  (define-key map (kbd "C-c t e") #'tmr-edit-description)
   (define-key map (kbd "C-c t K") #'tmr-remove-finished))
 </pre>
 </div>
@@ -472,7 +521,7 @@ TMR is meant to be a collective effort.  Every bit of help matters.
 <dt>Authors</dt><dd>Protesilaos Stavrou (maintainer), Damien Cassou.</dd>
 
 <dt>Contributions to the code or manual</dt><dd>Christian Tietze, Damien
-Cassou, Nathan R. DeGruchy.</dd>
+Cassou, Daniel Mendler, Nathan R. DeGruchy.</dd>
 </dl>
 </div>
 </div>
