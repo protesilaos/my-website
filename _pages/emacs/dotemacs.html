@@ -8,27 +8,10 @@ redirect_from:
   - /dotemacs
 ---
 
-<p>
-This manual, written by Protesilaos Stavrou, describes the customization
-options for the <code>modus-operandi</code> and <code>modus-vivendi</code> themes, and provides
-every other piece of information pertinent to them.
-</p>
-
-<p>
-The documentation furnished herein corresponds to stable version
-2.3.0, released on 2022-04-01.  Any reference to a newer
-feature which does not yet form part of the latest tagged commit, is
-explicitly marked as such.
-</p>
-
-<p>
-Current development target is 2.4.0-dev.
-</p>
-
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-20 08:39 +0300</b>.</li>
-<li>Word count: <b>139359</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-28 10:50 +0300</b>.</li>
+<li>Word count: <b>140360</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -48,8 +31,8 @@ Information pertaining to my build of Emacs:
 </div>
 
 <pre class="example">
-GNU Emacs 29.0.50 (build 6, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo version 1.17.6)
- of 2022-06-05
+GNU Emacs 29.0.50 (build 7, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo version 1.17.6)
+ of 2022-06-27
 </pre>
 
 
@@ -717,26 +700,11 @@ of it."
       (delete-file user-init-el))
     (require 'org)
     (when (file-exists-p main-init-org)
-      (org-babel-tangle-file main-init-org main-init-el)
-      (byte-compile-file main-init-el))
+      (org-babel-tangle-file main-init-org main-init-el))
     (when (file-exists-p user-init-org)
-      (org-babel-tangle-file user-init-org user-init-el)
-      (byte-compile-file user-init-el))))
-
-;; NOTE 2022-06-05: Experimental.  Since I have lots of custom code of
-;; mine, I thought it would be a good idea to have .elc versions of it.
-;; Whether this will have a noticeable effect or not remains to be
-;; determined.
-(defun prot-emacs-byte-compile-files ()
-  "Byte compile everything in `prot-emacs-elisp-directories'."
-  (interactive)
-  (mapc (lambda (dir)
-          (byte-recompile-directory
-           (file-name-as-directory (concat user-emacs-directory dir)) 0))
-        prot-emacs-elisp-directories))
+      (org-babel-tangle-file user-init-org user-init-el))))
 
 (add-hook 'kill-emacs-hook #'prot-emacs-build-config)
-(add-hook 'kill-emacs-hook #'prot-emacs-byte-compile-files)
 
 ;;; init.el ends here
 </pre>
@@ -3065,7 +3033,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         modus-themes-bold-constructs nil
         modus-themes-mixed-fonts t
         modus-themes-subtle-line-numbers nil
-        modus-themes-intense-mouseovers nil
+        modus-themes-intense-mouseovers t
         modus-themes-deuteranopia t
         modus-themes-tabs-accented nil
         modus-themes-variable-pitch-ui t
@@ -3077,7 +3045,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; default), or a list of properties that may include any of those
         ;; symbols: `straight-underline', `text-also', `background',
         ;; `intense' OR `faint'.
-        modus-themes-lang-checkers '(text-also)
+        modus-themes-lang-checkers '(text-also straight-underline intense)
 
         ;; Options for `modus-themes-mode-line' are either nil, or a list
         ;; that can combine any of `3d' OR `moody', `borderless',
@@ -3095,7 +3063,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax '(yellow-comments)
+        modus-themes-syntax nil
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -3124,7 +3092,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts '(background bold italic gray)
+        modus-themes-prompts nil
 
         ;; The `modus-themes-completions' is an alist that reads three
         ;; keys: `matches', `selection', `popup'.  Each accepts a nil
@@ -3140,8 +3108,8 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; covered in `modus-themes-weights'.  Bold is used in the absence
         ;; of an explicit WEIGHT.
         modus-themes-completions
-        '((matches . (semibold underline italic background intense))
-          (selection . (extrabold intense accented))
+        '((matches . (semibold underline italic intense))
+          (selection . (extrabold))
           (popup . (extrabold)))
 
         modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
@@ -3149,10 +3117,10 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend accented)
+        modus-themes-region '(no-extend)
 
         ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
-        modus-themes-diffs 'desaturated
+        modus-themes-diffs nil
 
         modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background}
 
@@ -4281,7 +4249,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org2bbc8ec">
+<pre class="example" id="org51a5069">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4364,7 +4332,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org455462c">
+<pre class="example" id="org44280f3">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6258,7 +6226,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org821c4d8">
+<pre class="example" id="orgb23f15f">
 text-mode
 
 (dotfiles-sync-package
@@ -9144,13 +9112,27 @@ meantime, watch the <a href="https://protesilaos.com/codelog/2022-06-18-denote-d
 
   (setq denote-front-matter-date-format nil) ; change this to `org-timestamp' or custom string
 
+  ;; You will not need to `require' all those individually once the
+  ;; package is available.
+  (require 'denote-retrieve)
   (require 'denote-link)
 
-  ;; If you use Markdown or plain text files (Org renders links as
-  ;; buttons right away)
+  ;; If you want links to and from Org notes to use the standard 'id:'
+  ;; link type instead of 'denote:'.
+  (setq denote-link-use-org-id t)
+
+  ;; By default, we fontify backlinks in their bespoke buffer.
+  (setq denote-link-fontify-backlinks t)
+
+  ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
+  ;; advanced.
+
+  ;; If you use Markdown or plain text files (Org renders links as buttons
+  ;; right away)
   (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
 
   (require 'denote-dired)
+  (setq denote-dired-rename-expert nil)
 
   ;; I use different ways to specify a path for demo purposes.
   (setq denote-dired-directories
@@ -9159,10 +9141,10 @@ meantime, watch the <a href="https://protesilaos.com/codelog/2022-06-18-denote-d
               (expand-file-name "~/Documents/books")))
 
   ;; Generic (great if you rename files Denote-style in lots of places):
-  ;; (add-hook 'dired-mode-hook #'denote-dired-mode)
+  (add-hook 'dired-mode-hook #'denote-dired-mode)
   ;;
   ;; OR if only want it in `denote-dired-directories':
-  (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+  ;; (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
   ;; Here is a custom, user-level command from one of the examples we
   ;; showed in this manual.  We define it here and add it to a key binding
@@ -9224,6 +9206,7 @@ The contents of <code>denote.el</code>.
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://git.sr.ht/~protesilaos/denote
+;; Mailing list: https://lists.sr.ht/~protesilaos/denote
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.2"))
 
@@ -9244,37 +9227,36 @@ The contents of <code>denote.el</code>.
 
 ;;; Commentary:
 ;;
-;; NOTE THAT WE ARE ACTIVELY WORKING TOWARDS VERSION `0.1.0' AND MIGHT
-;; STILL INTRODUCE BREAKING, BACKWARD-INCOMPATIBLE CHANGES.  This is
-;; particularly true for the linking facility.  Everything else is in a
-;; stable state.
-;;
 ;; Denote aims to be a simple-to-use, focused-in-scope, and effective
-;; note-taking tool for Emacs.  It is based on the following core design
+;; note-taking tool for Emacs.  The manual describes all the
+;; technicalities about the file-naming scheme, points of entry to
+;; creating new notes, commands to check links between notes, and more:
+;; &lt;https://protesilaos.com/emacs/denote&gt;.  If you have the info manual
+;; available, evaluate:
+;;
+;;    (info "(denote) Top")
+;;
+;; What follows is a general overview of its core core design
 ;; principles:
 ;;
 ;; * Predictability :: File names must follow a consistent and
-;;   descriptive naming convention (read the manual's "The file-naming
+;;   descriptive naming convention (see the manual's "The file-naming
 ;;   scheme").  The file name alone should offer a clear indication of
 ;;   what the contents are, without reference to any other metadatum.
 ;;   This convention is not specific to note-taking, as it is pertinent
 ;;   to any form of file that is part of the user's long-term storage
-;;   (read the manual's "Renaming files").
+;;   (see the manual's "Renaming files").
 ;;
 ;; * Composability :: Be a good Emacs citizen, by integrating with other
 ;;   packages or built-in functionality instead of re-inventing
-;;   functions such as for filtering or greping.  Do not introduce
-;;   dependencies on specific libraries.  While Org is a killer app for
-;;   Emacs and the default file type for new notes, Denote does not
-;;   depend on org.el nor its extensions and does allow notes to be
-;;   created in a variety of formats ((read the manual's "Notes in
-;;   multiple file types").  The author of Denote (Protesilaos, aka
-;;   "Prot") writes ordinary notes in plain text (`.txt'), switching to
-;;   an Org file only when its expanded set of functionality is required
-;;   for the task at hand (read the manual's "Points of entry").
+;;   functions such as for filtering or greping.  The author of Denote
+;;   (Protesilaos, aka "Prot") writes ordinary notes in plain text
+;;   (`.txt'), switching on demand to an Org file only when its expanded
+;;   set of functionality is required for the task at hand (see the
+;;   manual's "Points of entry").
 ;;
 ;; * Portability :: Notes are plain text and should remain portable.
-;;   The way Denote writes file names, the front matter it include in
+;;   The way Denote writes file names, the front matter it includes in
 ;;   the note's header, and the links it establishes must all be
 ;;   adequately usable with standard Unix tools.  No need for a databse
 ;;   or some specialised software.  As Denote develops and this manual
@@ -9288,16 +9270,26 @@ The contents of <code>denote.el</code>.
 ;;   Notes are atomic (one file per note) and have a unique identifier.
 ;;   However, Denote does not enforce a particular methodology for
 ;;   knowledge management, such as a restricted vocabulary or mutually
-;;   exclusive sets of keywords.  It is up to the user to apply the
-;;   requisite rigor in pursuit of their preferred workflow.
+;;   exclusive sets of keywords.  Denote also does not check if the user
+;;   writes thematically atomic notes.  It is up to the user to apply
+;;   the requisite rigor and/or creativity in pursuit of their preferred
+;;   workflow (see the manual's "Writing metanotes").
+;;
+;; * Hackability :: Denote's code base consists of small and reusable
+;;   functions.  They all have documentation strings.  The idea is to
+;;   make it easier for users of varying levels of expertise to
+;;   understand what is going on and make surgical interventions where
+;;   necessary (e.g. to tweak some formatting).  In this manual, we
+;;   provide concrete examples on such user-level configurations (see
+;;   the manual's "Keep a journal or diary").
 ;;
 ;; Now the important part...  "Denote" is the familiar word, though it
 ;; also is a play on the "note" concept.  Plus, we can come up with
 ;; acronyms, recursive or otherwise, of increasingly dubious utility
 ;; like:
 ;;
-;; * Don't Ever Note Only The Epiphenomenal
-;; * Denote Everything Neatly; Omit The Excesses
+;; + Don't Ever Note Only The Epiphenomenal
+;; + Denote Everything Neatly; Omit The Excesses
 ;;
 ;; But we'll let you get back to work.  Don't Eschew or Neglect your
 ;; Obligations, Tasks, and Engagements.
@@ -9437,7 +9429,7 @@ is suspended: we use whatever the user wants."
   (concat denote--file-title-regexp "\\([0-9A-Za-z_-]*\\)\\(\\.?.*\\)")
   "Regular expression to match the entire file name'.")
 
-(defconst denote--punctuation-regexp "[][{}!@#$%^&amp;*()_=+'\"?,.\|;:~`‘’“”]*"
+(defconst denote--punctuation-regexp "[][{}!@#$%^&amp;*()_=+'\"?,.\|;:~`‘’“”/]*"
   "Regular expression of punctionation that should be removed.
 We consider those characters illigal for our purposes.")
 
@@ -9456,6 +9448,8 @@ We consider those characters illigal for our purposes.")
         `(metadata (category . ,category))
       (complete-with-action action candidates string pred))))
 
+(defvar org-id-extra-files)
+
 (defun denote-directory ()
   "Return path of variable `denote-directory' as a proper directory."
   (let* ((val (or (buffer-local-value 'denote-directory (current-buffer))
@@ -9463,6 +9457,8 @@ We consider those characters illigal for our purposes.")
          (path (if (or (eq val 'default-directory) (eq val 'local)) default-directory val)))
     (unless (file-directory-p path)
       (make-directory path t))
+    (when (require 'org-id nil :noerror)
+      (setq org-id-extra-files (directory-files path nil "\.org$")))
     (file-name-as-directory path)))
 
 (defun denote--extract (regexp str &amp;optional group)
@@ -9697,10 +9693,12 @@ is specific to this variable: it expect a delimiter such as
   "Final delimiter for plain text front matter.")
 
 (defvar denote-org-front-matter
-  "#+title:      %s
-#+date:       %s
-#+filetags:   %s
-#+identifier: %s
+  ":PROPERTIES:
+:ID:          %4$s
+:END:
+#+title:      %1$s
+#+date:       %2$s
+#+filetags:   %3$s
 \n"
   "Org front matter value for `format'.
 The order of the arguments is TITLE, DATE, KEYWORDS, ID.  If you
@@ -10415,6 +10413,9 @@ alternate, thus toggling MODE."
         (make-local-variable var)
         (push (lambda () (kill-local-variable var)) logos--restore)))))
 
+(defvar logos-focus-mode-map (make-sparse-keymap)
+  "The keymap of `logos-focus-mode'.")
+
 (define-minor-mode logos-focus-mode
   "Buffer-local mode for focused editing.
 When enabled it sets the buffer-local value of these user
@@ -10423,6 +10424,7 @@ options: `logos-scroll-lock', `logos-variable-pitch',
 `logos-buffer-read-only', `logos-olivetti', `logos-hide-fringe'."
   :init-value nil
   :global nil
+  :keymap logos-focus-mode-map
   :lighter " Λ" ; lambda majuscule
   (mapc #'funcall logos--restore)
   (logos--remove-fringe-remap)
@@ -10623,10 +10625,9 @@ Read the manual for further details: <a href="https://protesilaos.com/emacs/tmr"
   (setq tmr-sound-file
         "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
   (setq tmr-notification-urgency 'normal)
-  (setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
+  (setq tmr-description-list 'tmr-description-history)
 
   ;; You do not need these if you install the package.
-  (require 'tmr-sound)
   (require 'tmr-notification)
   (require 'tmr-tabulated)
 
@@ -10683,19 +10684,34 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 
 ;;; Code:
 
-(eval-when-compile (require 'cl-lib))
+(require 'cl-lib)
 
 (defgroup tmr ()
   "TMR May Ring: set timers using a simple notation."
   :group 'data)
 
-(defcustom tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread")
-  "Optional description candidates for the current `tmr'.
-These are provided as completion candidates when `tmr' is called
-with a DESCRIPTION argument or when `tmr-with-description' is
-used."
-  :type '(repeat string)
-  :group 'tmr)
+(define-obsolete-variable-alias
+  'tmr-descriptions-list
+  'tmr-description-list
+  "0.4.0")
+
+(defcustom tmr-description-list 'tmr-description-history
+  "List of timer description presets.
+The value can be either a list of strings or the symbol of a
+variable that holds a list of strings.
+
+The default value of `tmr-description-history', is the name of a
+variable that contains input provided by the user at the relevant
+prompt of the `tmr' and `tmr-with-description' commands."
+  :type '(choice symbol (repeat string)))
+
+(defcustom tmr-sound-file
+  "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
+  "Path to sound file used by `tmr-sound-play'.
+If nil, don't play any sound."
+  :type '(choice
+          file
+          (const :tag "Off" nil)))
 
 (defcustom tmr-timer-created-functions
   (list #'tmr-print-message-for-created-timer)
@@ -10704,17 +10720,21 @@ Each function must accept a timer as argument."
   :type 'hook
   :options '(tmr-print-message-for-created-timer))
 
-(declare-function tmr-sound-play "ext:tmr-sound.el" (&amp;optional timer))
 (declare-function tmr-notification-notify "ext:tmr-notification.el" (title message))
 
-(defcustom tmr-timer-completed-functions
-  (list #'tmr-print-message-for-completed-timer
+(define-obsolete-variable-alias
+  'tmr-timer-completed-functions
+  'tmr-timer-finished-functions
+  "0.4.0")
+
+(defcustom tmr-timer-finished-functions
+  (list #'tmr-print-message-for-finished-timer
         #'tmr-sound-play
         #'tmr-notification-notify)
-  "Functions to execute when a timer is completed.
+  "Functions to execute when a timer is finished.
 Each function must accept a timer as argument."
   :type 'hook
-  :options (list #'tmr-print-message-for-completed-timer
+  :options (list #'tmr-print-message-for-finished-timer
                  #'tmr-sound-play
                  #'tmr-notification-notify))
 
@@ -10724,9 +10744,9 @@ Each function must accept a timer as argument."
 Each function must accept a timer as argument."
   :type 'hook)
 
-(cl-defstruct (tmr-timer
+(cl-defstruct (tmr--timer
                (:constructor tmr--timer-create)
-               (:conc-name tmr--timer-))
+               (:copier tmr--timer-copy))
   (creation-date
    nil
    :read-only t
@@ -10735,7 +10755,7 @@ Each function must accept a timer as argument."
    nil
    :read-only t
    :documentation "Number of seconds after `start' indicating when the timer finishes.")
-  (donep
+  (finishedp
    nil
    :read-only nil
    :documentation "Non-nil if the timer is finished.")
@@ -10756,21 +10776,23 @@ Each function must accept a timer as argument."
   "Return a human-readable description for TIMER."
   (let ((start (tmr--format-creation-date timer))
         (end (tmr--format-end-date timer))
+        (remaining (tmr--format-remaining timer "finished" "in "))
         (description (tmr--timer-description timer)))
     ;; We prefix it with TMR just so it is easier to find in
     ;; `view-echo-area-messages'.  The concise wording makes it flexible
     ;; enough to be used when starting a timer but also when cancelling
     ;; one: check `tmr-print-message-for-created-timer' and
     ;; `tmr-print-message-for-cancelled-timer'.
-    (format "TMR start at %s; end at %s%s"
+    (format "TMR start at %s; end at %s; %s%s"
             (propertize start 'face 'success)
             (propertize end 'face 'error)
+            remaining
             (if description
                 (format " [%s]" (propertize description 'face 'bold))
               ""))))
 
-(defun tmr--long-description-for-completed-timer (timer)
-  "Return a human-readable description of completed TIMER.
+(defun tmr--long-description-for-finished-timer (timer)
+  "Return a human-readable description of finished TIMER.
 This includes the creation and completion dates as well as the
 optional `tmr--timer-description'."
   (let ((start (tmr--format-creation-date timer))
@@ -10790,11 +10812,13 @@ This is like `tmr--long-description' with the inclusion of the
 original input for TIMER's duration."
   (let ((start (tmr--format-creation-date timer))
         (end (tmr--format-end-date timer))
+        (remaining (tmr--format-remaining timer "finished" "in "))
         (description (tmr--timer-description timer))
         (input (tmr--timer-input timer)))
-    (format "TMR start at %s; end at %s%s (input was '%s')"
+    (format "TMR start at %s; end at %s; %s%s (input was '%s')"
             (propertize start 'face 'success)
             (propertize end 'face 'error)
+            remaining
             (if description
                 (format " [%s]" (propertize description 'face 'bold))
               "")
@@ -10806,8 +10830,25 @@ original input for TIMER's duration."
 
 (defun tmr--format-end-date (timer)
   "Return a string representing when TIMER should finish."
-  (format-time-string "%T" (time-add (tmr--timer-creation-date timer)
-                                     (tmr--timer-duration timer))))
+  (tmr--format-time (time-add (tmr--timer-creation-date timer)
+                              (tmr--timer-duration timer))))
+
+(defun tmr--format-remaining (timer &amp;optional finished prefix)
+  "Format remaining time of TIMER.
+FINISHED is the string used for finished timers.
+PREFIX is used as prefix for running timers."
+  (setq prefix (or prefix ""))
+  (if (tmr--timer-finishedp timer)
+      (or finished "✔")
+    (let ((secs (round (- (float-time
+                           (time-add (tmr--timer-creation-date timer)
+                                     (tmr--timer-duration timer)))
+                          (float-time)))))
+      (if (&gt; secs 3600)
+          (format "%s%sh %sm" prefix (/ secs 3600) (/ (% secs 3600) 60))
+        (if (&gt; secs 60)
+            (format "%s%sm %ss" prefix (/ secs 60) (% secs 60))
+          (format "%s%ss" prefix secs))))))
 
 (defun tmr--format-time (time)
   "Return a human-readable string representing TIME."
@@ -10838,42 +10879,51 @@ original input for TIMER's duration."
   "List of timer objects.
 Populated by `tmr' and then operated on by `tmr-cancel'.")
 
-(declare-function cl-find "cl-seq" (cl-item cl-seq &amp;rest cl-keys))
-(declare-function cl-delete "cl-seq" (cl-item cl-seq &amp;rest cl-keys))
-(declare-function cl-delete-if "cl-seq" (cl-pred cl-list &amp;rest cl-keys))
-(declare-function cl-remove-if "cl-seq" (cl-pred cl-list &amp;rest cl-keys))
-
-(defun tmr--active-timers ()
-  "Retun list of active timers."
-  (cl-remove-if
-   (lambda (timer)
-     (tmr--timer-donep timer))
-   tmr--timers))
-
-(defun tmr--get-timer-by-creation-date (creation-date)
-  "Return the timer which was started at CREATION-DATE."
-  (cl-find creation-date tmr--timers :key #'tmr--timer-creation-date))
+(defvar tmr--update-hook nil
+  "Hooks to execute when timers are changed.")
 
 ;;;###autoload
-(defun tmr-cancel (timer &amp;optional no-hooks)
+(defun tmr-cancel (timer)
   "Cancel TIMER object set with `tmr' command.
 Interactively, let the user choose which timer to cancel with
-completion.
-
-With optional NO-HOOKS refrain from calling
-`tmr-timer-cancelled-functions'."
-  (interactive (list (tmr--read-timer :active) current-prefix-arg))
+completion."
+  (interactive (list (tmr--read-timer :active)))
   (if (not timer)
       (user-error "No `tmr' to cancel")
     (cancel-timer (tmr--timer-timer-object timer))
-    (setq tmr--timers (cl-delete timer tmr--timers))
-    (unless no-hooks
-      (run-hook-with-args 'tmr-timer-cancelled-functions timer))))
+    (setq tmr--timers (delete timer tmr--timers))
+    (run-hooks 'tmr--update-hook)
+    (run-hook-with-args 'tmr-timer-cancelled-functions timer)))
 
+;;;###autoload
+(defun tmr-reschedule (timer)
+  "Reschedule TIMER.
+This is the same as cloning it, prompting for duration and
+cancelling the original one."
+  (interactive (list (tmr--read-timer)))
+  (tmr-clone timer :prompt)
+  (let (tmr-timer-cancelled-functions)
+    (tmr-cancel timer)))
+
+;;;###autoload
+(defun tmr-edit-description (timer description)
+  "Change TIMER description with that of DESCRIPTION."
+  (interactive
+   (list
+    (tmr--read-timer)
+    (tmr--description-prompt)))
+  (setf (tmr--timer-description timer) description)
+  (run-hooks 'tmr--update-hook))
+
+;;;###autoload
 (defun tmr-remove-finished ()
   "Remove all finished timers."
   (interactive)
-  (setq tmr--timers (cl-delete-if #'tmr--timer-donep tmr--timers)))
+  (setq tmr--timers (cl-delete-if #'tmr--timer-finishedp tmr--timers))
+  (run-hooks 'tmr--update-hook))
+
+(defvar tmr--read-timer-hook nil
+  "Hooks to execute to find current timer.")
 
 (defun tmr--read-timer (&amp;optional active description)
   "Let the user choose a timer among all timers.
@@ -10884,47 +10934,69 @@ there are no timers, return nil.
 If optional ACTIVE is non-nil, limit the list of timers to those
 that are still running.
 
-If optional DESCRIPTION is provided use it to format the
+If optional DESCRIPTION function is provided use it to format the
 completion candidates."
-  (let ((timers (if active (tmr--active-timers) tmr--timers)))
-    (cond
-     ((null timers)
-      (user-error "No timers available"))
-     ((= (length timers) 1)
-      (car timers))
-     ((&gt; (length timers) 1)
+  (or
+   (run-hook-with-args-until-success 'tmr--read-timer-hook)
+   (pcase
+       (if active
+           (cl-remove-if #'tmr--timer-finishedp tmr--timers)
+         tmr--timers)
+     ('nil (user-error "No timers available"))
+     (`(,timer) timer)
+     (timers
       (let* ((formatter (or description #'tmr--long-description))
-             (timer-descriptions (mapcar formatter timers))
-             (selection (completing-read "Timer: " timer-descriptions nil t)))
-        (cl-find selection timers :test #'string= :key formatter))))))
+             (timer-alist (mapcar
+                           (lambda (x)
+                             (cons (funcall formatter x) x))
+                           timers)))
+        (cdr (assoc (completing-read "Timer: " timer-alist nil t) timer-alist)))))))
+
+;; NOTE 2022-04-21: Emacs has a `play-sound' function but it only
+;; supports .wav and .au formats.  Also, it does not work on all
+;; platforms and Emacs needs to be compiled --with-sound capabilities.
+(defun tmr-sound-play (&amp;optional _timer)
+  "Play `tmr-sound-file' using the 'ffplay' executable (ffmpeg).
+TIMER is unused."
+  (when-let ((sound tmr-sound-file)
+             ((file-exists-p sound)))
+    (unless (executable-find "ffplay")
+      (user-error "Cannot play %s without `ffplay'" sound))
+    (call-process-shell-command
+     (format "ffplay -nodisp -autoexit %s &gt;/dev/null 2&gt;&amp;1" sound) nil 0)))
 
 (defun tmr-print-message-for-created-timer (timer)
   "Show a `message' informing the user that TIMER was created."
   (message "%s" (tmr--long-description timer)))
 
-(defun tmr-print-message-for-completed-timer (timer)
-  "Show a `message' informing the user that TIMER has completed."
-  (message "%s" (tmr--long-description-for-completed-timer timer)))
+(defun tmr-print-message-for-finished-timer (timer)
+  "Show a `message' informing the user that TIMER has finished."
+  (message "%s" (tmr--long-description-for-finished-timer timer)))
+
+(define-obsolete-function-alias
+  'tmr-print-message-for-completed-timer
+  'tmr-print-message-for-finished-timer
+  "0.4.0")
 
 (defun tmr-print-message-for-cancelled-timer (timer)
   "Show a `message' informing the user that TIMER is cancelled."
   (message "Cancelled: &lt;&lt;%s&gt;&gt;" (tmr--long-description timer)))
 
-(defvar tmr--duration-hist '()
+(defvar tmr-duration-history '()
   "Minibuffer history of `tmr' durations.")
 
 (defun tmr--read-duration (&amp;optional default)
   "Ask the user to type a duration.
 If DEFAULT is provided, use that as a default."
-  (let ((def (or default (nth 0 tmr--duration-hist))))
+  (let ((def (or default (nth 0 tmr-duration-history))))
     (read-string
      (if def
          (format "N minutes for timer (append `h' or `s' for other units) [%s]: " def)
        "N minutes for timer (append `h' or `s' for other units): ")
      nil
-     'tmr--duration-hist def)))
+     'tmr-duration-history def)))
 
-(defvar tmr--description-hist '()
+(defvar tmr-description-history '()
   "Minibuffer history of `tmr' descriptions.")
 
 (defun tmr--description-prompt (&amp;optional default)
@@ -10938,15 +11010,19 @@ If optional DEFAULT is provided use it as a default candidate."
      (if (eq action 'metadata)
          `(metadata (display-sort-function . ,#'identity)
                     (cycle-sort-function . ,#'identity))
-       (complete-with-action
-        action tmr-descriptions-list string predicate)))
+       (complete-with-action action
+                             (if (listp tmr-description-list)
+                                 tmr-description-list
+                               (symbol-value tmr-description-list))
+                             string predicate)))
    nil nil nil
-   'tmr--description-hist default))
+   'tmr-description-history default))
 
 (defun tmr--complete (timer)
-  "Mark TIMER as completed and execute `tmr-timer-completed-functions'."
-  (setf (tmr--timer-donep timer) t)
-  (run-hook-with-args 'tmr-timer-completed-functions timer))
+  "Mark TIMER as finished and execute `tmr-timer-finished-functions'."
+  (setf (tmr--timer-finishedp timer) t)
+  (run-hooks 'tmr--update-hook)
+  (run-hook-with-args 'tmr-timer-finished-functions timer))
 
 ;;;###autoload
 (defun tmr (time &amp;optional description)
@@ -10958,7 +11034,7 @@ special final character denoting a unit of time: 'h' for 'hours',
 's' for 'seconds'.
 
 With optional DESCRIPTION as a prefix (\\[universal-argument]),
-prompt for a description among `tmr-descriptions-list', though
+prompt for a description among `tmr-description-list', though
 allow for any string to serve as valid input.
 
 This command also plays back `tmr-sound-file' if it is available.
@@ -10983,6 +11059,7 @@ command `tmr-with-description' instead of this one."
                         #'tmr--complete timer)))
     (setf (tmr--timer-timer-object timer) timer-object)
     (push timer tmr--timers)
+    (run-hooks 'tmr--update-hook)
     (run-hook-with-args 'tmr-timer-created-functions timer)))
 
 ;;;###autoload
@@ -11003,24 +11080,21 @@ user uses a prefix argument (\\[universal-argument])."
 (defun tmr-clone (timer &amp;optional prompt)
   "Create a new timer by cloning TIMER.
 With optional PROMPT, such as a prefix argument, ask for
-confirmation about the duration and the description.  The
-description is asked only if TIMER had one.
+confirmation about the duration.  When PROMPT is a double prefix
+argument, ask for a description as well.
 
 Without a PROMPT, clone TIMER outright."
   (interactive
    (list
     (tmr--read-timer nil #'tmr--long-description-for-clonable-timer)
     current-prefix-arg))
-  (let ((description (tmr--timer-description timer)))
-    (cond
-     (prompt
-      (tmr
+  (tmr
+   (if prompt
        (tmr--read-duration (format "%s" (tmr--timer-input timer)))
-       (when description (tmr--description-prompt description))))
-     (t
-      (tmr
-       (format "%s" (tmr--timer-input timer))
-       (tmr--timer-description timer))))))
+     (format "%s" (tmr--timer-input timer)))
+   (if (equal prompt '(16))
+       (tmr--description-prompt (tmr--timer-description timer))
+     (tmr--timer-description timer))))
 
 (provide 'tmr)
 ;;; tmr.el ends here
@@ -11902,7 +11976,7 @@ you cycle through prior commit messages.</li>
   (setq prot-vc-git-log-edit-show-commit-count 10)
   (setq prot-vc-shell-output "*prot-vc-output*")
   (setq prot-vc-patch-output-dirs (list "~/" "~/Desktop/"))
-  (add-to-list' log-edit-headers-alist '("Amend"))
+  (add-to-list 'log-edit-headers-alist '("Amend"))
 
   ;; This refashions log view and log edit buffers
   (prot-vc-git-setup-mode 1)
@@ -14850,7 +14924,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="orgcb1b0df">
+<pre class="example" id="org13fdba3">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14862,7 +14936,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org647c352">
+<pre class="example" id="orgde28387">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14877,7 +14951,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orge6b7b9e">
+<pre class="example" id="org3caf663">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14893,7 +14967,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org236b1b9">
+<pre class="example" id="org83e131a">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14922,7 +14996,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orge7326b2">
+<pre class="example" id="org7967f72">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15086,7 +15160,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org6eaa80f">
+<pre class="example" id="orgab16653">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15831,7 +15905,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org59ace32">
+<pre class="example" id="org3a652e9">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15865,7 +15939,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="orge33c1aa">
+<pre class="example" id="org332495a">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16029,7 +16103,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org5813cb4">
+<pre class="example" id="orgceeb2b1">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16224,7 +16298,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org3d6cb5e">
+<pre class="example" id="org543d453">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17274,7 +17348,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgd02fcda">
+<pre class="example" id="org480598e">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18341,7 +18415,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org291ff0c">
+<pre class="example" id="org585b1fb">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19040,7 +19114,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org596fbf1">
+<pre class="example" id="org24eb19e">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23865,7 +23939,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org82b9f88">
+<pre class="example" id="org73c6899">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24329,7 +24403,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgeddef9a">
+<pre class="example" id="orgbfc7803">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24338,7 +24412,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org0caca89">
+<pre class="example" id="org283ad12">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24363,7 +24437,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org5ec879c">
+<pre class="example" id="org136612f">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24439,7 +24513,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgdab8e6c">
+<pre class="example" id="org91ef96e">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24464,7 +24538,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org21b3095">
+<pre class="example" id="org682b90f">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24473,7 +24547,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org36acb3b">
+<pre class="example" id="org3bd9aac">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24492,7 +24566,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org90d6411">
+<pre class="example" id="org2296f9e">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
