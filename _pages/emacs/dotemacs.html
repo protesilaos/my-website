@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-06-28 10:50 +0300</b>.</li>
-<li>Word count: <b>140360</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-06-28 11:01 +0300</b>.</li>
+<li>Word count: <b>140363</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -4249,7 +4249,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="org51a5069">
+<pre class="example" id="org8f0e20b">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4332,7 +4332,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org44280f3">
+<pre class="example" id="orgdb9200b">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6226,7 +6226,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="orgb23f15f">
+<pre class="example" id="org6de5490">
 text-mode
 
 (dotfiles-sync-package
@@ -10684,7 +10684,8 @@ This is its code (from <a href="https://git.sr.ht/~protesilaos/dotfiles">my dotf
 
 ;;; Code:
 
-(require 'cl-lib)
+(require 'seq)
+(eval-when-compile (require 'cl-lib))
 
 (defgroup tmr ()
   "TMR May Ring: set timers using a simple notation."
@@ -10919,7 +10920,7 @@ cancelling the original one."
 (defun tmr-remove-finished ()
   "Remove all finished timers."
   (interactive)
-  (setq tmr--timers (cl-delete-if #'tmr--timer-finishedp tmr--timers))
+  (setq tmr--timers (seq-remove #'tmr--timer-finishedp tmr--timers))
   (run-hooks 'tmr--update-hook))
 
 (defvar tmr--read-timer-hook nil
@@ -10940,7 +10941,7 @@ completion candidates."
    (run-hook-with-args-until-success 'tmr--read-timer-hook)
    (pcase
        (if active
-           (cl-remove-if #'tmr--timer-finishedp tmr--timers)
+           (seq-remove #'tmr--timer-finishedp tmr--timers)
          tmr--timers)
      ('nil (user-error "No timers available"))
      (`(,timer) timer)
@@ -14924,7 +14925,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org13fdba3">
+<pre class="example" id="orgf6ad61d">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -14936,7 +14937,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgde28387">
+<pre class="example" id="orgdc68c77">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -14951,7 +14952,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org3caf663">
+<pre class="example" id="orgfad171f">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14967,7 +14968,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org83e131a">
+<pre class="example" id="org434c62a">
 2021-04-13
     This event is not time sensitive
 ....
@@ -14996,7 +14997,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="org7967f72">
+<pre class="example" id="org27915fc">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -15160,7 +15161,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgab16653">
+<pre class="example" id="orgb034e4a">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -15905,7 +15906,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org3a652e9">
+<pre class="example" id="orgfcef5d8">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -15939,7 +15940,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org332495a">
+<pre class="example" id="orgf9e6a41">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -16103,7 +16104,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgceeb2b1">
+<pre class="example" id="org843cc1e">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -16298,7 +16299,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="org543d453">
+<pre class="example" id="org3d4a273">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -17348,7 +17349,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="org480598e">
+<pre class="example" id="orgfca3da6">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -18415,7 +18416,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org585b1fb">
+<pre class="example" id="org6ce2680">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -19114,7 +19115,7 @@ the settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org24eb19e">
+<pre class="example" id="orgb48e4c1">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -23939,7 +23940,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="org73c6899">
+<pre class="example" id="orgb727f64">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -24403,7 +24404,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="orgbfc7803">
+<pre class="example" id="org9cea577">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24412,7 +24413,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org283ad12">
+<pre class="example" id="org74f6df1">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -24437,7 +24438,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org136612f">
+<pre class="example" id="orgb9cfed4">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -24513,7 +24514,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="org91ef96e">
+<pre class="example" id="orga170a99">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -24538,7 +24539,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org682b90f">
+<pre class="example" id="org2ce4ccd">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -24547,7 +24548,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org3bd9aac">
+<pre class="example" id="org3588cf8">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -24566,7 +24567,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org2296f9e">
+<pre class="example" id="orgb39acd2">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
