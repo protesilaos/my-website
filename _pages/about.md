@@ -117,6 +117,7 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [Blog archive](https://protesilaos.com/blog-archive/) (mostly political writings about the EU)
 * [Coding blog](https://protesilaos.com/codelog/) (posts about free/libre software---mostly Emacs)
 * [General commentary on life](https://protesilaos.com/commentary/) (comments or discussions on how to approach complex life issues)
+* [Interpretations and critiques](https://protesilaos.com/interpretations/) (translations of---and comments on---works of art, typically Greek songs)
 * [My packages for GNU Emacs](https://protesilaos.com/emacs/) (index with all my packages---lots of code!)
 
 ### In Greek

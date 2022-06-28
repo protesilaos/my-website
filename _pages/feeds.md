@@ -44,6 +44,7 @@ its own feed, as it caters to a potentially different audience.
 * [Political writings](https://protesilaos.com/politics.xml)
 * [Coding blog](https://protesilaos.com/codelog.xml)
 * [Comments on life issues](https://protesilaos.com/commentary.xml)
+* [Interpretations and critiques](https://protesilaos.com/interpretations.xml)
 * [Πολιτικές αναλύσεις](https://protesilaos.com/greek.xml) (political writings in Greek)
 * [Σημειώσεις περί του τρόπου ζωής](https://protesilaos.com/life.xml) (writings in Greek about the mode of living)
 * [Master feed](https://protesilaos.com/master.xml) (captures every new publication)
