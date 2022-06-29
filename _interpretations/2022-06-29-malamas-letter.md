@@ -75,7 +75,7 @@ the years are left empty
 
 Socratis Malamas sings about a letter.  Who is the author and who its
 intended recipient?  What does the author try to accomplish?  And which
-are recipient's woes?  I believe this is a monologue.  The person is
+are the recipient's woes?  I believe this is a monologue.  The person is
 trying to escape from their own obsessions, to let go of the past, and
 to accept the present for what it is.
 
@@ -107,7 +107,7 @@ about it", and certainly not in relation to what your past self could
 have done.  What occurs, what is in the present, is the feeling, which
 is passionate.  When we live moment-by-moment we do it with aloofness,
 for we are not fastened upon constructs of either the past or the
-future.  We have already emptied the room, freed the mind from such
+future.  We have already cleared the room, freed the mind from such
 concerns.  Experiences can then be savoured in full.
 
 What about those "Sunday nights" that bring sorrow?  Why are the years
@@ -151,9 +151,9 @@ the man, not the symbol made out of him.  Symbols persist, but the man
 was dead.  Laodamia thus created a simulacrum of her husband and
 dedicated her life to it.  She could not move on; she could not accept
 that Iolaos had become "distant", to re-use Malamas' lyrics.  Laodamias'
-father set up a fire to dismantle the effigy, in hope that his daughter
+father lit a fire to dismantle the effigy, in hope that his daughter
 would come to terms with reality.  To his surprise, Laodamia jumped into
-the fire and burned to death.
+the flames and burned to death.
 
 While we can interpret the story as one of eternal love, I hold that
 would do us a disservice.  There is no denying how Laodamia felt about

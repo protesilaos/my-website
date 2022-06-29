@@ -141,7 +141,7 @@ laboriously set up.  Thus they will shatter any "mirror" that exposes
 them.
 
 We then have the angel.  Why would a being of peerless beauty ever
-entertain the notion of saving oneself from their looks ("if you want to
+entertain the notion of saving oneself from one's looks ("if you want to
 save yourself from your beauty")?  Isn't it good to be beautiful?  Don't
 practically all benefits come from this attribute?  We live in an overly
 sexualised and superficial society that commodifies certain standards.

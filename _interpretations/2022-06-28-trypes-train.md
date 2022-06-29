@@ -85,10 +85,10 @@ failure of sorts.
 the times I've heard these...  If you believe in the notion that you are
 a person manqué, a "half" who must necessarily find some "other half" to
 qualify as a fully fledged human being, you will spend the remainder of
-your days belittling yourself for your perceived worthlessness.  You
-will be conditioned into thinking that not conforming with a social norm
-is indicative of a defect of yours.  Much like the train in the song,
-you will live in sorrow, merely spectating the others.  You will not
+your days belittling yourself for your perceived worthlessness.  You are
+conditioned into thinking that not conforming with a social norm is
+indicative of a defect of yours.  Much like the train in the song, you
+will live in sorrow, merely spectating the others.  You do not
 appreciate what you have---there is so much you could do with it,
 provided you showed the requisite self-respect.
 
