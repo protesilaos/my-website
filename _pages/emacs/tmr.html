@@ -55,13 +55,14 @@ Current development target is 0.4.0-dev.
 </ul>
 </li>
 <li><a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">4. Sample configuration</a></li>
-<li><a href="#h:047ecc52-ca02-4424-a037-c5b6a02383de">5. Acknowledgements</a></li>
-<li><a href="#h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">6. GNU Free Documentation License</a></li>
-<li><a href="#h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">7. Indices</a>
+<li><a href="#h:64711ce4-c023-4f6e-b9aa-b43942013423">5. Integration with Embark</a></li>
+<li><a href="#h:047ecc52-ca02-4424-a037-c5b6a02383de">6. Acknowledgements</a></li>
+<li><a href="#h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">7. GNU Free Documentation License</a></li>
+<li><a href="#h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">8. Indices</a>
 <ul>
-<li><a href="#h:a2c585fd-3467-4aa5-a275-fea513438226">7.1. Function index</a></li>
-<li><a href="#h:5132c95a-116d-4144-89d3-a37fb0d01dcd">7.2. Variable index</a></li>
-<li><a href="#h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">7.3. Concept index</a></li>
+<li><a href="#h:a2c585fd-3467-4aa5-a275-fea513438226">8.1. Function index</a></li>
+<li><a href="#h:5132c95a-116d-4144-89d3-a37fb0d01dcd">8.2. Variable index</a></li>
+<li><a href="#h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">8.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -204,13 +205,26 @@ is bound to <code>C-h e</code> by default.  To check all timers, use the command
 </p>
 
 <p>
-The <code>tmr-cancel</code> command cancels running timers and erases them from the
-list of created timer objects.  If there is only one timer, it cancels
-it outright.  If there are multiple running timers, it produces a
-minibuffer completion prompt, asking for one among them.  Timers at the
-completion prompt are described by the exact time they were set and the
-input that was used to create them, including the optional description
-that <code>tmr</code> and <code>tmr-with-description</code> accept.
+[ The <code>tmr-cancel</code> has been reviewed as part of 0.4.0-dev ]
+</p>
+
+<p>
+The <code>tmr-cancel</code> command cancels running timers without erasesing them
+from the list of created timer objects.  If there is only one timer, it
+cancels it outright.  If there are multiple running timers, it produces
+a minibuffer completion prompt, asking for one among them.  Timers at
+the completion prompt are described by the exact time they were set and
+the input that was used to create them, including the optional
+description that <code>tmr</code> and <code>tmr-with-description</code> accept.
+</p>
+
+<p>
+[ The <code>tmr-remove</code> is introduced by 0.4.0-dev ]
+</p>
+
+<p>
+This is like <code>tmr-cancel</code>, except it is not limited to active timers: it
+can target elapsed ones as well.
 </p>
 
 <p>
@@ -247,7 +261,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data i
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="orga8f4bdf">
+<pre class="example" id="orgc4614cc">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -271,74 +285,10 @@ toggle their sort.
 </p>
 
 <p>
-While in this grid view, one can perform several operations on timers:
+While in this grid view, one can perform all the operations on timers we
+have already covered herein (the <code>C-h m</code> will show you their key
+bindings in this mode).
 </p>
-
-<p>
-[ Updated as part of 0.4.0-dev ]
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Key</th>
-<th scope="col" class="org-left">Command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">t</td>
-<td class="org-left">tmr</td>
-</tr>
-
-<tr>
-<td class="org-left">T</td>
-<td class="org-left">tmr-with-description</td>
-</tr>
-
-<tr>
-<td class="org-left">+</td>
-<td class="org-left">tmr</td>
-</tr>
-
-<tr>
-<td class="org-left">,*</td>
-<td class="org-left">tmr-with-description</td>
-</tr>
-
-<tr>
-<td class="org-left">c</td>
-<td class="org-left">tmr-clone</td>
-</tr>
-
-<tr>
-<td class="org-left">e</td>
-<td class="org-left">tmr-edit-description</td>
-</tr>
-
-<tr>
-<td class="org-left">s</td>
-<td class="org-left">tmr-reschedule</td>
-</tr>
-
-<tr>
-<td class="org-left">k</td>
-<td class="org-left">tmr-cancel</td>
-</tr>
-
-<tr>
-<td class="org-left">K</td>
-<td class="org-left">tmr-remove-finished</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 
@@ -504,30 +454,69 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c t k") #'tmr-cancel)
   (define-key map (kbd "C-c t s") #'tmr-reschedule)
   (define-key map (kbd "C-c t e") #'tmr-edit-description)
-  (define-key map (kbd "C-c t K") #'tmr-remove-finished))
+  (define-key map (kbd "C-c t r") #'tmr-remove)
+  (define-key map (kbd "C-c t R") #'tmr-remove-finished))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:64711ce4-c023-4f6e-b9aa-b43942013423" class="outline-2">
+<h2 id="h:64711ce4-c023-4f6e-b9aa-b43942013423"><span class="section-number-2">5.</span> Integration with Embark</h2>
+<div class="outline-text-2" id="text-h:64711ce4-c023-4f6e-b9aa-b43942013423">
+<p>
+[ Part of 0.4.0-dev ]
+</p>
+
+<p>
+The <code>embark</code> package provides standards-compliant infrastructure to run
+context-dependent actions on all sorts of targets (symbol at point,
+current completion candidate, etc.).  TMR is set up to make its timer
+objects recognisable by Embark.  All the user needs is something like
+the following glue code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar tmr-action-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "k" #'tmr-remove)
+    (define-key map "r" #'tmr-remove)
+    (define-key map "R" #'tmr-remove-finished)
+    (define-key map "c" #'tmr-clone)
+    (define-key map "e" #'tmr-edit-description)
+    (define-key map "s" #'tmr-reschedule)
+    map))
+
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:047ecc52-ca02-4424-a037-c5b6a02383de" class="outline-2">
-<h2 id="h:047ecc52-ca02-4424-a037-c5b6a02383de"><span class="section-number-2">5.</span> Acknowledgements</h2>
+<h2 id="h:047ecc52-ca02-4424-a037-c5b6a02383de"><span class="section-number-2">6.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:047ecc52-ca02-4424-a037-c5b6a02383de">
 <p>
 TMR is meant to be a collective effort.  Every bit of help matters.
 </p>
 
 <dl class="org-dl">
-<dt>Authors</dt><dd>Protesilaos Stavrou (maintainer), Damien Cassou.</dd>
+<dt>Authors</dt><dd>Protesilaos Stavrou (maintainer), Damien Cassou, Daniel
+Mendler.</dd>
 
-<dt>Contributions to the code or manual</dt><dd>Christian Tietze, Damien
-Cassou, Daniel Mendler, Nathan R. DeGruchy.</dd>
+<dt>Contributions to the code or manual</dt><dd>Christian Tietze, Nathan
+R. DeGruchy.</dd>
 </dl>
 </div>
 </div>
 
 <div id="outline-container-h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a" class="outline-2">
-<h2 id="h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
+<h2 id="h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:b8b7def2-5ab0-4623-b3ef-2a1bd17bb42a">
 <pre>
 
@@ -988,24 +977,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:8372325e-67ee-48c5-83f3-7b5ef53f2db5" class="outline-2">
-<h2 id="h:8372325e-67ee-48c5-83f3-7b5ef53f2db5"><span class="section-number-2">7.</span> Indices</h2>
+<h2 id="h:8372325e-67ee-48c5-83f3-7b5ef53f2db5"><span class="section-number-2">8.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:8372325e-67ee-48c5-83f3-7b5ef53f2db5">
 </div>
 
 <div id="outline-container-h:a2c585fd-3467-4aa5-a275-fea513438226" class="outline-3">
-<h3 id="h:a2c585fd-3467-4aa5-a275-fea513438226"><span class="section-number-3">7.1.</span> Function index</h3>
+<h3 id="h:a2c585fd-3467-4aa5-a275-fea513438226"><span class="section-number-3">8.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:a2c585fd-3467-4aa5-a275-fea513438226">
 </div>
 </div>
 
 <div id="outline-container-h:5132c95a-116d-4144-89d3-a37fb0d01dcd" class="outline-3">
-<h3 id="h:5132c95a-116d-4144-89d3-a37fb0d01dcd"><span class="section-number-3">7.2.</span> Variable index</h3>
+<h3 id="h:5132c95a-116d-4144-89d3-a37fb0d01dcd"><span class="section-number-3">8.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:5132c95a-116d-4144-89d3-a37fb0d01dcd">
 </div>
 </div>
 
 <div id="outline-container-h:4c85dc74-f64c-46a4-a5c6-9bd6275632be" class="outline-3">
-<h3 id="h:4c85dc74-f64c-46a4-a5c6-9bd6275632be"><span class="section-number-3">7.3.</span> Concept index</h3>
+<h3 id="h:4c85dc74-f64c-46a4-a5c6-9bd6275632be"><span class="section-number-3">8.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:4c85dc74-f64c-46a4-a5c6-9bd6275632be">
 -->
 </div>
