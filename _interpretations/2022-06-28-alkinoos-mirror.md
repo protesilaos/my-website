@@ -84,7 +84,7 @@ they brought him in a cage
 and people were ragingly buying tickets
 to behold his beauty
 
-And a child like a good tear, an angel,
+And a child like a good tear, a little angel,
 a child
 a child asked him to sing a song
 a child
