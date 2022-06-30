@@ -18,6 +18,14 @@ copyleft terms.  See the [license page](https://protesilaos.com/license/).
 
 I do not use social media.
 
+## Citations (optional)
+
+I put this here because I got asked about it a few times: I do not care
+what format you use to cite my articles.  Simply contribute to a free
+society by respecting copyleft.  If you insist though, here is an idea:
+
+Protesilaos: _TITLE_, YYYY-MM-DD, LINK
+
 ## PGP encryption for emails (optional)
 
 Below is my public key.  Save it to a file, say `prot`, open a terminal
