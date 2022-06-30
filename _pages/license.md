@@ -18,9 +18,8 @@ under the terms of the [GNU General Public License Version 3 or
 later](https://www.gnu.org/licenses/gpl-3.0.html).
 
 The website is built with [Jekyll](http://jekyllrb.com).  The entire
-underlying code base—HTML, CSS, Liquid, YAML—is written by me.
-
-For the technicalities refer to my website's [git
+code base---HTML, CSS, Liquid, YAML---is written by Protesilaos.  For
+the technicalities refer to the [git
 repository](https://gitlab.com/protesilaos/protesilaos.gitlab.io).
 
-For any further questions, feel free to [contact me](https://protesilaos.com/contact/).
+For any further questions, consult the [contact page](https://protesilaos.com/contact/).
