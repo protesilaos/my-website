@@ -9,8 +9,8 @@ Presumably some ancestor was a fisher by trade or had the nickname.  It
 is common in Greece to pass nicknames down through generations.
 
 But that is not why I'm writing this.  Psarantonis interprets "The
-tiger", which is performatively brilliant piece of art but also deserves
-our attention for the profundity of its lyrics:
+tiger", which is a performatively brilliant piece of art though also
+deserves our attention for the profundity of its lyrics:
 <https://www.youtube.com/watch?v=iV1CwUQl-pM>.
 
 What follows are the lyrics in Greek, followed by my translation and
