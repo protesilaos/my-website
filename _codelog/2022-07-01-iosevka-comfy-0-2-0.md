@@ -44,7 +44,6 @@ Below are the release notes.
   a misguided one-size-fits-all.  Concretely, the README explains thus:
 
 > Deviations from the regular style
-> ---------------------------------
 >
 > The variants of Iosevka Comfy are subdivided into "narrow" and "wide".
 > The former consists of `iosevka-comfy` and `iosevka-comfy-fixed`.  The
