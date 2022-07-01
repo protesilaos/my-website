@@ -54,13 +54,13 @@ Below are the release notes.
 > considerations, the wide variants have stylistic deviations from their
 > counterparts.  In detail:
 >
-> * The 'm' character has three legs of equal length, insetad of a shorter
+> * The `m` character has three legs of equal length, insetad of a shorter
 >   middle leg.  The short middle leg in the narrow variants is necessary
 >   for legibility, especially at small point sizes (otherwise the
 >   character's legs visually blend into what appears to be a solid
 >   block).
 >
-> * The '0' has a forward slash that cuts diagonally through the middle of
+> * The `0` has a forward slash that cuts diagonally through the middle of
 >   the circle, connecting the bottom left part to the top right of the
 >   oval shape.  Whereas the narrow variants have a dashed forward slash
 >   which does not connect the two sides as it is positioned inside the
