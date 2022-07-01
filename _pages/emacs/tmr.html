@@ -175,6 +175,15 @@ The input can be a floating point:
 </table>
 
 <p>
+The input can also be an absolute time, such as <code>16:00</code> or <code>16:00:30</code>.
+It sets a timer from present time until the one specified.
+</p>
+
+<p>
+[ Absolute time support is part of 0.4.0-dev ]
+</p>
+
+<p>
 If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code> with default
 key bindings), it asks for a description to be associated with the given
 timer.
@@ -184,6 +193,11 @@ timer.
 An alternative to the <code>tmr</code> command is <code>tmr-with-description</code>.  The
 difference between the two is that the latter always prompts for a
 description.
+</p>
+
+<p>
+The command <code>tmr-edit-description</code> [ part of 0.4.0-dev ]
+can change the description a given timer object.
 </p>
 
 <p>
@@ -237,6 +251,13 @@ the original timer.
 </p>
 
 <p>
+The command <code>tmr-reschedule</code> [ part of 0.4.0-dev ]
+changes the duration of the given timer to a new one provided at the
+prompt.  In practice this is a shortcut to (i) cloning the timer, (ii)
+prompting for duration, and (iii) cancelling the original timer.
+</p>
+
+<p>
 The <code>tmr-remove-finished</code> command deletes all elapsed timers from the
 list of timers.  This means that they can no longer be cloned.
 </p>
@@ -261,7 +282,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data i
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="orgc4614cc">
+<pre class="example" id="org71338dc">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -274,6 +295,12 @@ If a timer has elapsed, it has a check mark associated with it,
 otherwise the <code>Remaining</code> column shows the time left.  A <code>Description</code>
 is shown only if it is provided while setting the timer, otherwise the
 field is left blank.
+</p>
+
+<p>
+Inside this grid view, all TMR commands that operate on timer objects
+automatically target the one at point.  Whereas the global behaviour is
+to use minibuffer completion to pick a timer to operate on.
 </p>
 
 <p>
@@ -437,13 +464,12 @@ Everything is in place to set up the package.
 (require 'tmr)
 
 ;; set to nil to disable the sound
-(setq tmr-sound-file
-      "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
+(setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
 (setq tmr-notification-urgency 'normal)
 
 ;; Read the `tmr-descriptions-list' doc string
-(setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
+(setq tmr-descriptions-list 'tmr-description-history)
 
 ;; OPTIONALLY set global key bindings:
 (let ((map global-map))
