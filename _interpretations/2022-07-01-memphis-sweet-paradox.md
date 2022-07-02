@@ -131,13 +131,12 @@ the belief that a human can be reduced to a purely rational being.
 Sometimes the right answer is given by our feelings.  At others by our
 aesthetic inclinations.  And others still by our instincts or "gut
 feelings".  Reason is part of a wider system.  It is important, though
-it cannot be the only one that matters, for it cannot exist in
-isolation.  We exist as our fully fledged humans, not as a
-decontextualised mind, or spirit, or whatnot.  To focus on one aspect is
-to remain oblivious to their totality, the emergent reality of the
-interplay between all our facets.  Once we accept the multi-faceted-ness
-of our humanity, we no longer think that the aforementioned paradox
-exists.
+it cannot be the only one that matters, for it cannot stand in
+isolation.  We exist as fully fledged humans, not as a decontextualised
+mind, or spirit, or whatnot.  To focus on one aspect is to remain
+oblivious to their totality: the emergent reality of the interplay
+between all our facets.  Once we accept the multi-faceted-ness of our
+humanity, we no longer think that the aforementioned paradox exists.
 
 With those granted, let me tell you what I think about this song's
 lyrics.  The "paradox" hinted at therein is three-fold:
@@ -172,7 +171,7 @@ remedy and poison is one of degree: a pill addresses the headache while
 a bottle of pills poses a lethal threat.  When the ideology turns into
 an obsession, when it becomes a self-serving end that tolerates no
 compromises or deviations from its path, it is deleterious for us.  Such
-may be a paradox unto itself: how the benign turns pernicious.
+may be a paradox unto itself: how easily the benign turns pernicious.
 
 Perfectionism can become that ideological facade we put up to conceal
 our insecurities.  When, for instance, the perfectionist spends an hour
@@ -187,14 +186,14 @@ determines as much.  But the "fear of fear" is no ordinary feeling.  It
 is an arrangement of beliefs which embed value judgements about what
 "ought to be".  It is framed as pressure to perform in a certain way for
 the public, to placate those who test our conformity with the prevailing
-beliefs.
+values.
 
 [ Read/watch: [Expectations, rules, and
 role-playing](https://protesilaos.com/books/2022-05-03-expectations-rules-roles/) ]
 
 Perfectionism then, is not about how we relate to our own self.  It is
 an act of servitude, of insisting on patterns of behaviour that are
-actually harmful for us in order not to be called out as a failure or
+actually harmful to us in order not to be called out as a failure or
 misfit: as one who does not satisfy the requirements of the role
 bestowed upon them.
 
@@ -249,11 +248,10 @@ Perfectionism is a dogma.  To go against it is quite literally a
 paradox: an opposition to established views.  It is why I hold that the
 reference to the dark cloud is about the imperfect self who is like a
 smudge on an otherwise "perfect" canvas.  By lifting the burdens of all
-those norms from my shoulders, I shall cast to the wind everything my
-perfectionist self gave back to me while giving it an "F" grade.  And,
-while I'm at it, I'll let the sea wash away everything this
+those norms from my shoulders, we shall cast to the wind everything our
+perfectionist self gave back to us while marking it with an "F" grade.
+And, while we're at it, we'll let the sea wash away everything this
 perfectionist fool missed in life.
 
 It is never too late to enjoy the sense of running contrary to beliefs
-imposed upon you; beliefs that you continue to reinforce.  Be the
-paradox!
+imposed upon us; beliefs that we continue to reinforce.  Be the paradox!
