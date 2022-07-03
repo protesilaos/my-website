@@ -226,8 +226,16 @@ Obligations, Tasks, and Engagements.
 <h2 id="h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d"><span class="section-number-2">3.</span> The file-naming scheme</h2>
 <div class="outline-text-2" id="text-h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">
 <p>
-Notes are stored as a flat list in the <code>denote-directory</code> (i.e. no
-subdirectories).  The default path is <code>~/Documents/notes</code>.
+Notes are stored the <code>denote-directory</code>.  The default path is
+<code>~/Documents/notes</code>.  The <code>denote-directory</code> can be a flat listing,
+meaning that it has no subdirectories, or it can be a directory tree.
+At any rate, Denote takes care to only consider &ldquo;notes&rdquo; as valid
+candidates in the relevant operations and will omit other files or
+directories.
+</p>
+
+<p>
+[ Subdirectory support is part of 0.2.0-dev ]
 </p>
 
 <p>
@@ -534,7 +542,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org4b02d51">
+<pre class="example" id="orgd111031">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -601,10 +609,10 @@ This is how it looks for Org mode (<code>denote-file-type</code> is nil):
 
 <div class="org-src-container">
 <pre class="src src-org">:PROPERTIES:
-:ID:          20220610T202537
+:ID:          20220630T160934
 :END:
 #+title:      This is a sample note
-#+date:       2022-06-10
+#+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
 </pre>
 </div>
@@ -623,9 +631,9 @@ For Markdown with YAML, the front matter looks like this
 <div class="org-src-container">
 <pre class="src src-md">---
 title:      "This is a sample note"
-date:       2022-06-10
+date:       2022-06-30T16:09:58+03:00
 tags:       denote  testing
-identifier: "20220610T202021"
+identifier: "20220630T160958"
 ---
 </pre>
 </div>
@@ -638,9 +646,9 @@ For Markdown with TOML, it looks like this (<code>denote-file-type</code> has th
 <div class="org-src-container">
 <pre class="src src-md">+++
 title      = "This is a sample note"
-date       = 2022-06-10
+date       = 2022-06-30T16:10:13+03:00
 tags       = ["denote", "testing"]
-identifier = "20220610T201510"
+identifier = "20220630T161013"
 +++
 </pre>
 </div>
@@ -650,37 +658,39 @@ And for plain text, we have the following (<code>denote-file-type</code> has the
 <code>text</code> value):
 </p>
 
-<pre class="example" id="orgef1e8f8">
+<pre class="example" id="orgd615bab">
 title:      This is a sample note
-date:       2022-06-10
+date:       2022-06-30
 tags:       denote  testing
-identifier: 20220610T202232
+identifier: 20220630T161028
 ---------------------------
 </pre>
 
 <p>
 The format of the date in the front matter is controlled by the user
-option <code>denote-front-matter-date-format</code>:
+option <code>denote-date-format</code>.  When nil, Denote uses a file-type-specific
+format:
 </p>
 
 <ul class="org-ul">
-<li>When the value is nil (the default), the date uses a plain
-<code>YEAR-MONTH-DAY</code> notation, like <code>2022-06-08</code> (the ISO 8601 standard).</li>
+<li>For Org, an inactive timestamp is used, such as
+<code>[2022-06-30 Wed 06:19]</code>.</li>
 
-<li>When the value is the <code>org-timestamp</code> symbol, the date is recorded as
-an inactive Org timestamp, such as <code>[2022-06-08 Wed 06:19]</code>.</li>
+<li>For Markdowmn, the RFC3339 standard is applied:
+<code>2022-06-30T15:48:00+03:00</code>.</li>
 
-<li>An arbitrary string value is interpreted as the argument for the
-function <code>format-time-string</code>.  This gives the user maximum control
-over how time is represented in the front matter.</li>
+<li>For plain text, the format is that of ISO 8601: <code>2022-06-30</code>.</li>
 </ul>
 
 <p>
-When <code>denote-file-type</code> specifies one of the Markdown flavors, we ignore
-this user option in order to enforce the RFC3339 specification (Markdown
-is typically employed in static site generators as source code for Web
-pages).  However, when <code>denote-front-matter-date-format</code> has a string
-value, this rule is suspended: we use whatever the user wants.
+If the value is a string, ignore the above and use it instead.  The
+string must include format specifiers for the date.  These are described
+in the doc string of <code>format-time-string</code>..
+</p>
+
+<p>
+[ DEV NOTE: <code>denote-date-format</code> supersedes the now obsolete
+  <code>denote-front-matter-date-format</code> as part of 0.2.0-dev ]
 </p>
 </div>
 
@@ -790,7 +800,7 @@ For another example, we will use the plain text variant, as it differs a
 bit from the above.  By default it is formatted this way:
 </p>
 
-<pre class="example" id="org934d230">
+<pre class="example" id="orga24dadc">
 title:      This is a sample note
 date:       2022-06-10
 tags:       denote  testing
@@ -820,7 +830,7 @@ identifier: %4$s
 Which gives us:
 </p>
 
-<pre class="example" id="org9ef0448">
+<pre class="example" id="org28ca416">
 ---------------------------
 title:      This is a sample note
 date:       2022-06-11
@@ -866,13 +876,14 @@ its simplicity.
 </p>
 
 <p>
-When the user option <code>denote-link-use-org-id</code> is set to non-nil (default
-is nil), inserted links in Org notes that target other Org notes will
-use the standard <code>id:</code> type so the format is <code>[[id:IDENTIFIER][TITLE]]</code>
-(the title is omitted is <code>denote-link</code> is called with a prefix argument,
-as explained above).  When, however, an Org note links to a note in
-another file, the link with use our own <code>denote:</code> type as there is no
-standard for this case.
+When the user option <code>denote-link-use-org-id</code> is set to non-nil (the
+default is nil), inserted links in Org notes that target other Org notes
+will use the standard <code>id:</code> hyperlink type.  The format is
+<code>[[id:IDENTIFIER][TITLE]]</code> (the title is omitted if <code>denote-link</code> is
+called with a prefix argument, as explained above).  When, however, an
+Org note links to a note of another file type (e.g Org to Markdown), the
+link will use our own <code>denote:</code> type as there is no standard for this
+case.
 </p>
 
 <p>
@@ -916,7 +927,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org94bf503">
+<pre class="example" id="orgb2c8ee3">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -956,7 +967,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc48d561">
+<pre class="example" id="org8ddd30a">
 - link1
 - link2
 - link3
@@ -974,7 +985,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[TYPE:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgb23e5ac">
+<pre class="example" id="org15cd199">
 - [[TYPE:IDENTIFIER-1]]
 - [[TYPE:IDENTIFIER-2]]
 - [[TYPE:IDENTIFIER-3]]
@@ -1853,16 +1864,16 @@ Everything is in place to set up the package.
 ;; preference is for single-word keywords for a more rigid workflow.
 (setq denote-allow-multi-word-keywords t)
 
-(setq denote-front-matter-date-format nil) ; change this to `org-timestamp' or custom string
+(setq denote-date-format nil) ; read doc string
 
 ;; You will not need to `require' all those individually once the
 ;; package is available.
 (require 'denote-retrieve)
 (require 'denote-link)
 
-;; If you want links to and from Org notes to use the standard 'id:'
-;; link type instead of 'denote:'.
-(setq denote-link-use-org-id t)
+;; Set to non-nil if you want links to and from Org notes to use the
+;; standard 'id:' link type instead of 'denote:'.
+(setq denote-link-use-org-id nil)
 
 ;; By default, we fontify backlinks in their bespoke buffer.
 (setq denote-link-fontify-backlinks t)
@@ -1986,7 +1997,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org848750b">
+<pre class="example" id="org8cd744a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2429,10 +2440,11 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Damien Cassou, Jack Baty,
-Kaushal Modi.</dd>
+Jean-Philippe Gagné Guay, Kaushal Modi.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Colin McLear, Damien Cassou, Frank
-Ehmsen, Jack Baty, Kaushal Modi, Sven Seebeck, Ypot.</dd>
+Ehmsen, Jack Baty, Kaushal Modi, M. Hadi Timachi, Peter Prevos,
+Shreyas Ragavan, Sven Seebeck, Ypot.</dd>
 </dl>
 
 <p>
