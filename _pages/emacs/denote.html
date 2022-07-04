@@ -61,7 +61,15 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">3.2. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
-<li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a></li>
+<li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">4. Points of entry</a>
+<ul>
+<li><a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">4.1. Standard note creation</a></li>
+<li><a href="#h:2ee9736b-327c-44a6-8c00-c73253d8c326">4.2. Create note by specifying file type</a></li>
+<li><a href="#h:70b8d932-3783-4f81-afdc-30d12fbadd0f">4.3. Create note using a date</a></li>
+<li><a href="#h:588c1f96-ca01-4c2c-be7a-ca6359c9465b">4.4. Create note in a specific directory</a></li>
+<li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">4.5. Create note using Org capture</a></li>
+</ul>
+</li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">5. Renaming files</a></li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a></li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
@@ -225,7 +233,7 @@ Obligations, Tasks, and Engagements.
 Notes are stored the <code>denote-directory</code>.  The default path is
 <code>~/Documents/notes</code>.  The <code>denote-directory</code> can be a flat listing,
 meaning that it has no subdirectories, or it can be a directory tree.
-At any rate, Denote takes care to only consider &ldquo;notes&rdquo; as valid
+Either way, Denote takes care to only consider &ldquo;notes&rdquo; as valid
 candidates in the relevant operations and will omit other files or
 directories.
 </p>
@@ -387,17 +395,26 @@ insert single words at the relevant prompts.
 <h2 id="h:17896c8c-d97a-4faa-abf6-31df99746ca6"><span class="section-number-2">4.</span> Points of entry</h2>
 <div class="outline-text-2" id="text-h:17896c8c-d97a-4faa-abf6-31df99746ca6">
 <p>
-There are four ways to write a note with Denote: invoke the <code>denote</code>,
-<code>denote-type</code>, <code>denote-date</code> commands, or leverage the
-<code>org-capture-templates</code> by setting up a template which calls the
-function <code>denote-org-capture</code>.
+There are five ways to write a note with Denote: invoke the <code>denote</code>,
+<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code> commands, or
+leverage the <code>org-capture-templates</code> by setting up a template which
+calls the function <code>denote-org-capture</code>.  We explain all those in the
+subsequent sections.
+</p>
+</div>
+
+<div id="outline-container-h:6a92a8b5-d766-42cc-8e5b-8dc255466a23" class="outline-3">
+<h3 id="h:6a92a8b5-d766-42cc-8e5b-8dc255466a23"><span class="section-number-3">4.1.</span> Standard note creation</h3>
+<div class="outline-text-3" id="text-h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">
+<p>
+The <code>denote</code> command will prompt for a title.  Once that is supplied, it
+will ask for keywords.  The resulting note will have a file name as
+already explained: <a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>
 </p>
 
 <p>
-In the first case, all that is needed is to run <code>denote</code>.  It will
-prompt for a title.  Once it is supplied, the command will ask for
-keywords.  The resulting note will have a file name as already explained
-(<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>).
+The file type of the new note is determined by the user option
+<code>denote-file-type</code> (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
 </p>
 
 <p>
@@ -422,19 +439,43 @@ the latter a list of strings.
 </p>
 
 <p>
+In the interest of discoverability, <code>denote</code> is also available under the
+alias <code>denote-create-note</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:2ee9736b-327c-44a6-8c00-c73253d8c326" class="outline-3">
+<h3 id="h:2ee9736b-327c-44a6-8c00-c73253d8c326"><span class="section-number-3">4.2.</span> Create note by specifying file type</h3>
+<div class="outline-text-3" id="text-h:2ee9736b-327c-44a6-8c00-c73253d8c326">
+<p>
 The <code>denote-type</code> command is like <code>denote</code> except it also prompts for a
-file type to use as a local value for <code>denote-file-type</code>.  In practical
+file type to use as an ad-hoc value for <code>denote-file-type</code>.  In practical
 terms, this lets you produce, say, a note in Markdown even though you
-normally write in Org (<a href="#h:f34b172b-3440-446c-aec1-bf818d0aabfe">Notes in multiple file types</a>).
+normally write in Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
 </p>
 
 <p>
-Similarly, the <code>denote-date</code> command accepts the same <code>TITLE</code> and
-<code>KEYWORDS</code> arguments, though it starts by asking for a date.  Normally,
-Denote use the current date and time to construct an identifier, but
-<code>denote-date</code> allows the user to specify any date+time combination.  The
-input for the <code>DATE</code> argument is like <code>2022-06-16</code> or <code>2022-06-16
-14:30</code>.  When the time is omitted, it is interpreted as <code>00:00</code>.
+The <code>denote-create-note-using-type</code> is an alias of <code>denote-type</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:70b8d932-3783-4f81-afdc-30d12fbadd0f" class="outline-3">
+<h3 id="h:70b8d932-3783-4f81-afdc-30d12fbadd0f"><span class="section-number-3">4.3.</span> Create note using a date</h3>
+<div class="outline-text-3" id="text-h:70b8d932-3783-4f81-afdc-30d12fbadd0f">
+<p>
+Normally, Denote reads the current date and time to derive the
+identifier of a new note (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  Sometimes, however,
+the user needs to set an explicit date+time value.
+</p>
+
+<p>
+This is where the <code>denote-date</code> command comes in.  It accepts the
+familiar <code>TITLE</code> and <code>KEYWORDS</code> arguments, though it starts by asking
+for a date.  The input for the <code>DATE</code> argument is like <code>2022-06-16</code> or
+<code>2022-06-16 14:30</code>.  When the time is omitted, it is interpreted as
+<code>00:00</code>.
 </p>
 
 <p>
@@ -442,9 +483,40 @@ Since the ability to insert a date may result in duplicate identifiers,
 Denote takes care to abort the operation if such an identity is
 established (e.g. when you use <code>denote-date</code> with <code>2022-06-16</code> twice, it
 will generate the same identifier of <code>20220616T000000</code>).  The user must
-thus call the <code>denote-date</code> command again and provide a unique value.
+thus call the <code>denote-date</code> command again and provide a unique date or
+date+time value.
 </p>
 
+<p>
+The <code>denote-create-note-using-date</code> is an alias of <code>denote-date</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:588c1f96-ca01-4c2c-be7a-ca6359c9465b" class="outline-3">
+<h3 id="h:588c1f96-ca01-4c2c-be7a-ca6359c9465b"><span class="section-number-3">4.4.</span> Create note in a specific directory</h3>
+<div class="outline-text-3" id="text-h:588c1f96-ca01-4c2c-be7a-ca6359c9465b">
+<p>
+[ The <code>denote-subdirectory</code> is part of 0.2.0-dev ]
+</p>
+
+<p>
+The <code>denote-subdirectory</code> command is like <code>denote</code> except it prompts for
+a directory to place the new note in (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+Candidates are the value of the user option <code>denote-directory</code> and any
+subdirectory inside of it.  Denote does not create subdirectories.
+</p>
+
+<p>
+The <code>denote-create-note-in-subdirectory</code> is a more descriptive alias of
+<code>denote-subdirectory</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881" class="outline-3">
+<h3 id="h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881"><span class="section-number-3">4.5.</span> Create note using Org capture</h3>
+<div class="outline-text-3" id="text-h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">
 <p>
 For integration with <code>org-capture</code>, the user must first add the relevant
 template.  Such as:
@@ -466,15 +538,16 @@ template.  Such as:
 
 <p>
 [ In the future, we might develop Denote in ways which do not require such
-  manual intervention. ]
+  manual intervention.  More user feedback is required to identify the
+  relevant workflows. ]
 </p>
 
 <p>
 Once the template is added, it is accessed from the specified key.  If,
 for instance, <code>org-capture</code> is bound to <code>C-c c</code>, then the note creation
-is initiated with <code>C-c c n</code>.  After that, the process is the same as
-with invoking <code>denote</code> directly, namely: a prompt for a title followed
-by a prompt for keywords.
+is initiated with <code>C-c c n</code>, per the above snippet.  After that, the
+process is the same as with invoking <code>denote</code> directly, namely: a prompt
+for a title followed by a prompt for keywords (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
 </p>
 
 <p>
@@ -482,10 +555,11 @@ Users may prefer to leverage <code>org-capture</code> in order to extend file
 creation with the specifiers described in the <code>org-capture-templates</code>
 documentation (such as to capture the active region and/or create a
 hyperlink pointing to the given context).  Due to the particular
-file-naming scheme of Denote, such specifiers cannot be written directly
-in the template.  Instead, they have to be assigned to the user option
-<code>denote-org-capture-specifiers</code>, which is interpreted by the function
-<code>denote-org-capture</code>.  Example with our default value:
+file-naming scheme of Denote, which is derived dynamically, such
+specifiers cannot be written directly in the template.  Instead, they
+have to be assigned to the user option <code>denote-org-capture-specifiers</code>,
+which is interpreted by the function <code>denote-org-capture</code>.  Example with
+our default value:
 </p>
 
 <div class="org-src-container">
@@ -499,14 +573,7 @@ sets the Org file extension for the created note to ensure that the
 capture process works as intended, especially for the desired output of
 the <code>denote-org-capture-specifiers</code>.
 </p>
-
-<p>
-For convencience, the <code>denote</code> command has a <code>denote-create-note</code> alias.
-Same for <code>denote-type</code> which is <code>denote-create-note-using-type</code> and
-<code>denote-date</code> that has <code>denote-create-note-using-date</code>.  The purpose of
-these aliases is to provide alternative, more descriptive names of
-select commands to aid with discoverability.
-</p>
+</div>
 </div>
 </div>
 
@@ -538,7 +605,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org486931f">
+<pre class="example" id="orgc3cc54d">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -646,7 +713,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org503ac3c">
+<pre class="example" id="org9ef1128">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -748,7 +815,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org2a82b91">
+<pre class="example" id="orgeb80718">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -788,7 +855,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgf2f6f69">
+<pre class="example" id="orgf8c9d7f">
 - link1
 - link2
 - link3
@@ -806,7 +873,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orge8fa73b">
+<pre class="example" id="org3996172">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1724,6 +1791,7 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c n n") #'denote)
   (define-key map (kbd "C-c n N") #'denote-type)
   (define-key map (kbd "C-c n d") #'denote-date)
+  (define-key map (kbd "C-c n s") #'denote-subdirectory)
   ;; If you intend to use Denote with a variety of file types, it is
   ;; easier to bind the link-related commands to the `global-map', as
   ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
@@ -1804,7 +1872,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org1a8d64b">
+<pre class="example" id="org0e881db">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
