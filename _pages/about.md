@@ -94,7 +94,7 @@ is straightforward.
 
 ## protesilaos.com
 
-This website has been online since 2011.  It contains more than 600
+This website has been online since 2011.  It contains more than 1000
 entries on a wide range of topics, all of which are available under the
 appropriate _copyleft_ terms that ensure end user freedom—see the
 [license and resources](https://protesilaos.com/license/) page.  Read,
@@ -102,7 +102,8 @@ learn, think, and reach your own conclusions.
 
 The report on [Ten years of
 protesilaos.com](https://protesilaos.com/news/2021-02-08-website-ten-years/)
-might also be of interest.
+(2021-02-08) might also be of interest, though note that I have since
+picked up pace and publish even more than before.
 
 What I wrote in the past may not represent my current views.  I review,
 change, refine my beliefs as part of a life of research and reflection.

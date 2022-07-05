@@ -93,5 +93,8 @@ correspondent.  The topics are primarily philosophical though are
 directly linked to practical scenaria.  If you want to ask me such
 questions, feel welcome to do so: <https://protesilaos.com/commentary/>.
 
+For more, check all my publication indices:
+<https://protesilaos.com/publications/>.
+
 Everything I have ever written on my website since 2011 when I got
 started is available under copyleft terms: <https://protesilaos.com>.
