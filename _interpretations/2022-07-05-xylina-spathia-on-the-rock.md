@@ -117,13 +117,13 @@ through them.
 Poetry, and art in general, is special in that it tolerates multiple
 valid interpretations.  What I think about those images and metaphors in
 my capacity as a philosopher who mindfully prepares the present entry
-may differ from my experience as an emotional agent as I lose myself in
-the soundscapes.  Art teaches us to tolerate different views by virtue
-of not imposing an orthodoxy.
+may differ from my experience as an emotional agent when I lose myself
+in the soundscapes.  Art teaches us to tolerate different views by
+virtue of not imposing an orthodoxy.
 
 It is this diversity that _At the rock_ puts forth when considered in
 abstract.  A phantasmagorical exchange between the magical and the
-mundane.  We go on a trip during we envisage surreal settings yet
+mundane.  We go on a trip during which we envisage surreal settings yet
 recognise behind their superficialities a truth that pertains to our
 quotidian reality.
 
@@ -156,13 +156,13 @@ differently, we are in control of something, though not everything.
 
 Consider this concept of "control" in the opening lines of the song.  In
 the introduction we have the first person view of others who once stood
-at the precipice, where forced to jump, yet managed to survive by
-growing a pair of wings.  They did not jump on their own: it just
-happened.  Why?  It does not matter.  As they were falling, as they were
-put on this path of no return, so to speak, they managed to assume
-agency, to make something out of it.  This is not about absolute
-control.  It is how selfhood develops in tandem with or in juxtaposition
-to stimuli that trigger feedback loops.
+at the precipice, where forced to jump, yet survived by growing a pair
+of wings.  They did not jump on their own: it just happened.  Why?  It
+does not matter.  As they were falling, as they were put on this path of
+no return, so to speak, they managed to assume agency: to make something
+out of it.  This is not about absolute control.  It is how selfhood
+develops in tandem with or in juxtaposition to stimuli that trigger
+feedback loops.
 
 Towards the end of the song one of those survivors of the cliff fall
 prompts the poetic first person to meet fate and spend time with Her.
@@ -206,11 +206,11 @@ expectations imposed upon their role-playing simulacrum---the
 avatar/idol of theirs---where not met.
 
 To be clear, if I judge my philosophy on the social standard of academic
-qualifications, I am creating a replica of my own who lives and dies by
-how many degrees it has.  What I may say or think, what I might do, how
-my works affect others, become irrelevant.  All that matters for this
-idol of mine that I created is how many degrees it has.  Otherwise, it
-is useless; useless on the basis of a meaningless metric that I was
+qualifications, I am creating a replica of my own that lives and dies by
+how many degrees it has.  What I say or think, what I do, how my works
+affect others, become irrelevant.  All that matters for this idol of
+mine that I created is how many degrees it has.  Otherwise, it is
+useless; useless on the basis of a meaningless metric that I was
 misguided to attribute value to.
 
 [ Read/watch: [On learning and being
@@ -225,17 +225,18 @@ some market, but find it as an innate quality of ours.
 
 Fate, here representing the world beyond the narrow confines of our
 subjectivity, always waits for us to approach Her.  She will not take us
-by the hand.  She leaves us to our devices: to discover self-love when
-we are left alone.  It is at this point where the titular rock is
-introduced.  As soon as others leave the scene, we pick a rock perhaps
-with the intent to hurl it at something in frustration.  The rock,
-however, holds more truths than we initially thought.  It conceals a
-scorpion, which we couldn't have noticed before.  What our frustration
-concealed, which we can interpret as egoism which prevents us from
-recognising the otherness in the world, is the castle built on this very
-rock.  What was once hidden is now rendered conspicuous.  This castle is
-the home of all those "sailors" who were left alone to discover their
-self and the world within and around it.
+by the hand.  She leaves us to our own devices: to discover self-love
+when we are left alone.  It is at this point where the titular rock is
+introduced.  As soon as others leave the scene and we feel abandonned
+and lonely, we pick a rock perhaps with the intent to hurl it at
+something in frustration.  The rock, however, holds more truths than we
+initially thought.  It conceals a scorpion, which we couldn't have
+noticed before.  What our frustration obfuscates, which we can interpret
+as egoism that prevents us from recognising the otherness in the world,
+is the castle built on this very rock.  What was once hidden is now
+rendered conspicuous.  This castle a home to all those "sailors" who
+were left alone to discover their self and the world within and around
+it.
 
 These "sailors", those souls who ventured past the furthest places, can
 now listen to what fate is doing.  They can hear how She tosses coins in
@@ -243,12 +244,12 @@ the well.  Why do we throw coins in fountains?  For good luck and the
 expectation of living through another pleasant experience.  Fate,
 though, has no such needs.  She throws coins to bring closer those who
 listen, those who grew wings through the power of love for their self
-and the others, those who discovered the castle on the rock that once
-looked like an ordinary stone.
+and the others, those who discovered the castle on the rock that the
+inattentive (e.g. egocentric) eye perceives as an ordinary stone.
 
 The dissociation between our self and our avatars is distilled in the
-presence with which we live.  Life melts in Her hands.  We know it.  We
-do not worry though.  We take each moment for what it is.  There is no
+here-and-now we live in.  Life melts in Her hands.  We know it.  We do
+not worry though.  We take each moment for what it is.  There is no
 before or after that we need to obsess with (notice the parallel with my
 [interpretation of “Letter” by Socratis
 Malamas](https://protesilaos.com/interpretations/2022-06-29-malamas-letter/)).
@@ -259,4 +260,4 @@ the Cosmos: an endless totality; a world where presences undergo
 transfiguration.  Letting our life run its course means that we have
 reached the level of awareness that is necessary to recognise the
 consubstantiality of all there is.  The self and the other collapse into
-themselves as impressions of the same universal oneness.
+themselves as impressions of universal oneness.
