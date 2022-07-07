@@ -21,19 +21,28 @@ pronounced as &ldquo;timer&rdquo; or &ldquo;T-M-R&rdquo;.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.3.0, released on 2022-05-17.  Any reference to
+0.4.0, released on 2022-07-07.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.4.0-dev.
+Current development target is 0.5.0-dev.
 </p>
 
 <ul class="org-ul">
-<li>Homepage: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a>.</li>
-<li>Git repository: <a href="https://git.sr.ht/~protesilaos/tmr">https://git.sr.ht/~protesilaos/tmr</a>.</li>
-<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a>.</li>
+<li>Package name (GNU ELPA): <code>tmr</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a></li>
+<li>Change log: <a href="https://protesilaos.com/emacs/tmr-changelog">https://protesilaos.com/emacs/tmr-changelog</a></li>
+<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/tmr">https://git.sr.ht/~protesilaos/tmr</a>
+<ul class="org-ul">
+<li>Mirrors:
+<ul class="org-ul">
+<li>GitHub: <a href="https://github.com/protesilaos/tmr">https://github.com/protesilaos/tmr</a></li>
+<li>GitLab: <a href="https://gitlab.com/protesilaos/tmr">https://gitlab.com/protesilaos/tmr</a></li>
+</ul></li>
+</ul></li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a></li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -46,6 +55,7 @@ Current development target is 0.4.0-dev.
 <li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid view</a></li>
 <li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.2. Hooks</a></li>
 <li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.3. Sound and desktop notifications</a></li>
+<li><a href="#h:fbedb656-2402-46bc-9763-d5112700c954">2.4. Minibuffer histories</a></li>
 </ul>
 </li>
 <li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a>
@@ -180,10 +190,6 @@ It sets a timer from present time until the one specified.
 </p>
 
 <p>
-[ Absolute time support is part of 0.4.0-dev ]
-</p>
-
-<p>
 If <code>tmr</code> is called with an optional prefix argument (<code>C-u</code> with default
 key bindings), it asks for a description to be associated with the given
 timer.
@@ -196,8 +202,8 @@ description.
 </p>
 
 <p>
-The command <code>tmr-edit-description</code> [ part of 0.4.0-dev ]
-can change the description a given timer object.
+The command <code>tmr-edit-description</code> can change the description a given
+timer object.
 </p>
 
 <p>
@@ -219,26 +225,16 @@ is bound to <code>C-h e</code> by default.  To check all timers, use the command
 </p>
 
 <p>
-[ The <code>tmr-cancel</code> has been reviewed as part of 0.4.0-dev ]
-</p>
-
-<p>
 The <code>tmr-cancel</code> command cancels running timers without erasesing them
-from the list of created timer objects.  If there is only one timer, it
-cancels it outright.  If there are multiple running timers, it produces
-a minibuffer completion prompt, asking for one among them.  Timers at
-the completion prompt are described by the exact time they were set and
-the input that was used to create them, including the optional
-description that <code>tmr</code> and <code>tmr-with-description</code> accept.
+from the list of created timer objects.  Timers at the completion prompt
+are described by the exact time they were set and the input that was
+used to create them, including the optional description that <code>tmr</code> and
+<code>tmr-with-description</code> accept.
 </p>
 
 <p>
-[ The <code>tmr-remove</code> is introduced by 0.4.0-dev ]
-</p>
-
-<p>
-This is like <code>tmr-cancel</code>, except it is not limited to active timers: it
-can target elapsed ones as well.
+The <code>tmr-remove</code> command is like <code>tmr-cancel</code>, except it is not limited
+to active timers: it can target elapsed ones as well.
 </p>
 
 <p>
@@ -251,10 +247,10 @@ the original timer.
 </p>
 
 <p>
-The command <code>tmr-reschedule</code> [ part of 0.4.0-dev ]
-changes the duration of the given timer to a new one provided at the
-prompt.  In practice this is a shortcut to (i) cloning the timer, (ii)
-prompting for duration, and (iii) cancelling the original timer.
+The command <code>tmr-reschedule</code> changes the duration of the given timer to
+a new one provided at the prompt.  In practice this is a shortcut to (i)
+cloning the timer, (ii) prompting for duration, and (iii) cancelling the
+original timer.
 </p>
 
 <p>
@@ -267,7 +263,7 @@ By default, TMR uses minibuffer completion to pick a timer object in
 operations such as cloning and cancelling.  If the user option
 <code>tmr-confirm-single-timer</code> is set nil, TMR will not use completion when
 there is only one timer available: it will perform the specified command
-outright. [ part of 0.4.0-dev ]
+outright.
 </p>
 
 <p>
@@ -290,7 +286,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data i
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="org0c7d0f6">
+<pre class="example" id="orgb25d7a7">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -390,6 +386,28 @@ Desktop notifications work only if Emacs is built with DBus
 functionality.  This is the norm.  If such functionality is not
 available, TMR will issue warning informing the user accordingly.
 </p>
+</div>
+</div>
+
+<div id="outline-container-h:fbedb656-2402-46bc-9763-d5112700c954" class="outline-3">
+<h3 id="h:fbedb656-2402-46bc-9763-d5112700c954"><span class="section-number-3">2.4.</span> Minibuffer histories</h3>
+<div class="outline-text-3" id="text-h:fbedb656-2402-46bc-9763-d5112700c954">
+<p>
+TMR defines two variables that store user input: <code>tmr-duration-history</code>
+and <code>tmr-description-history</code>.  Minibuffer histories can persist between
+sessions if the user enables the built-in <code>savehist</code> library.  Sample
+configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'savehist)
+(setq savehist-file (locate-user-emacs-file "savehist"))
+(setq history-length 10000)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history t)
+(add-hook 'after-init-hook #'savehist-mode)
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -498,10 +516,6 @@ Everything is in place to set up the package.
 <div id="outline-container-h:64711ce4-c023-4f6e-b9aa-b43942013423" class="outline-2">
 <h2 id="h:64711ce4-c023-4f6e-b9aa-b43942013423"><span class="section-number-2">5.</span> Integration with Embark</h2>
 <div class="outline-text-2" id="text-h:64711ce4-c023-4f6e-b9aa-b43942013423">
-<p>
-[ Part of 0.4.0-dev ]
-</p>
-
 <p>
 The <code>embark</code> package provides standards-compliant infrastructure to run
 context-dependent actions on all sorts of targets (symbol at point,
