@@ -139,6 +139,7 @@ specifies the unit of time.
 
 + Package name (GNU ELPA): `tmr`
 + Official manual: <https://protesilaos.com/emacs/tmr>
++ Change log: <https://protesilaos.com/emacs/tmr-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/tmr>
