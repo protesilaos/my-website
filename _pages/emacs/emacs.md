@@ -132,10 +132,9 @@ comfortable point sizes.
 ## TMR May Ring (tmr)
 
 TMR is an Emacs package that provides facilities for setting timers
-using a convenient notation.  The point of entry is the `tmr` command.
-It prompts for a unit of time, which is represented as a string that
-consists of a number and, optionally, a single character suffix which
-specifies the unit of time.
+using a convenient notation.  Lots of commands are available to operate
+on timers, while there also exists a tabulated view to display all
+timers in a nice grid.
 
 + Package name (GNU ELPA): `tmr`
 + Official manual: <https://protesilaos.com/emacs/tmr>
