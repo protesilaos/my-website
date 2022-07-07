@@ -15,9 +15,168 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a>.
 </p>
 
-<div id="outline-container-org00b8ad4" class="outline-2">
-<h2 id="org00b8ad4">Version 0.3.0 on 2022-05-17</h2>
-<div class="outline-text-2" id="text-org00b8ad4">
+<div id="outline-container-orgcfc54bc" class="outline-2">
+<h2 id="orgcfc54bc">Version 0.4.0 on 2022-07-07</h2>
+<div class="outline-text-2" id="text-orgcfc54bc">
+<p>
+The general theme of this release is that TMR became simpler, better,
+and more robust.  Daniel Mendler provided lots of patches and is now
+recognised as co-author of the package together with Damien Cassou and
+me (Protesilaos).  With the exception of documentation changes and other
+accompanying tweaks, all of the following are courtesy of Daniel
+Mendler.  Consult the git log for the minutia.
+</p>
+
+<ul class="org-ul">
+<li>Timers can also be set using an absolute time input.  For example,
+<code>21:45</code> will set a timer from now until the specified time.  The
+familiar ways of starting timers with relative values, work as they
+did before.  This is part of a wider internal revision to make the
+parsing of input more strict.</li>
+
+<li><p>
+TMR no longer maintains distinct feature sets between its minibuffer
+and tabulated interfaces.  What works in one context, works equally in
+the other.  All commands that were formerly available only in the
+<code>tmr-tabulated-mode</code> (accessed via <code>tmr-tabulated-view</code>) are now
+implemented anew to provide the requisite minibuffer capabilities.
+When called from inside the <code>tmr-tabulated-mode</code>, the commands operate
+on the timer at point.  Otherwise they prompt for completion among the
+available timers (where relevant).  This covers all operations for
+creating, cloning, [re-]describing, rescheduling, and removing timers.
+The <code>tmr-tabulated-mode-map</code> is updated thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (defvar tmr-tabulated-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "k" #'tmr-remove)
+      (define-key map "r" #'tmr-remove)
+      (define-key map "R" #'tmr-remove-finished)
+      (define-key map "+" #'tmr)
+      (define-key map "t" #'tmr)
+      (define-key map "*" #'tmr-with-description)
+      (define-key map "T" #'tmr-with-description)
+      (define-key map "c" #'tmr-clone)
+      (define-key map "e" #'tmr-edit-description)
+      (define-key map "s" #'tmr-reschedule)
+      map)
+    "Keybindings for `tmr-tabulated-mode-map'.")
+</pre>
+</div>
+
+<p>
+Similarly, our sample key bindings are these:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  ;; OPTIONALLY set your own global key bindings:
+  (let ((map global-map))
+    (define-key map (kbd "C-c t t") #'tmr)
+    (define-key map (kbd "C-c t T") #'tmr-with-description)
+    (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
+    (define-key map (kbd "C-c t c") #'tmr-clone)
+    (define-key map (kbd "C-c t k") #'tmr-cancel)
+    (define-key map (kbd "C-c t s") #'tmr-reschedule)
+    (define-key map (kbd "C-c t e") #'tmr-edit-description)
+    (define-key map (kbd "C-c t r") #'tmr-remove)
+    (define-key map (kbd "C-c t R") #'tmr-remove-finished))
+</pre>
+</div></li>
+
+<li><p>
+The tabulated view now shows the remaining time for all timer objects.
+This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
+</p>
+
+<pre class="example" id="org66cb67b">
+  Start      End        Remaining  Description
+  10:11:49   10:11:54   ✔
+  10:11:36   10:31:36   19m 35s
+  10:11:32   10:26:32   14m 31s    Yet another test
+  10:11:16   10:21:16   9m 14s     Testing how it works
+</pre></li>
+
+<li><p>
+All timer objects are refactored to expose a properly formatted
+completion table.  The completion category is <code>tmr-timer</code>.  In
+practical terms, <code>embark</code> (and other standards-compliant packages) can
+operate on them.  The manual provides sample glue code for Embark:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (defvar tmr-action-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "k" #'tmr-remove)
+      (define-key map "r" #'tmr-remove)
+      (define-key map "R" #'tmr-remove-finished)
+      (define-key map "c" #'tmr-clone)
+      (define-key map "e" #'tmr-edit-description)
+      (define-key map "s" #'tmr-reschedule)
+      map))
+
+  (with-eval-after-load 'embark
+    (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+    (cl-loop
+     for cmd the key-bindings of tmr-action-map
+     if (commandp cmd) do
+     (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+</pre>
+</div>
+
+<p>
+The <a href="https://github.com/oantolin/embark/wiki/Additional-Actions#actions-for-prots-tmr-tmr-may-ring">Embark Wiki</a> is updated accordingly.
+</p></li>
+
+<li>The new user option <code>tmr-confirm-single-timer</code> governs how TMR should
+behave while operating on the sole timer.  If non-nil (the default),
+TMR will always use the minibuffer to select a timer object to operate
+on, even when there is only one candidate available.  If set to nil,
+TMR will not ask for confirmation when there is one timer available:
+the operation will be carried out outright.  The default value is
+optimal for use with Embark.</li>
+
+<li><p>
+The existing user option <code>tmr-description-list</code> is revised to accept
+either a list of strings (the old approach) or a symbol of a variable
+that holds a list of strings.  In the latter case, this can be the
+<code>tmr-description-history</code>, which is a variable that stores the user's
+input at the relevant minibuffer prompt.  We have made this the new
+default value, as it grows naturally to reflect one's usage of TMR.
+Minibuffer histories can persist between sessions if the user enables
+the built-in <code>savehist</code> library.  Sample configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (require 'savehist)
+  (setq savehist-file (locate-user-emacs-file "savehist"))
+  (setq history-length 10000)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history t)
+  (add-hook 'after-init-hook #'savehist-mode)
+</pre>
+</div></li>
+
+<li>Fixed an edge case where a <code>when-let*</code> form did not return the
+expected value.  Thanks to Nathan R. DeGruchy for the patch.  The
+patch is below the ~15 line threshold and thus does not require
+copyright assignment to the Free Software Foundation.</li>
+
+<li>Named the mailing list address as the <code>Maintainer:</code> of Denote.
+Together with the other package headers, they help the user find our
+primary sources and/or communication channels.  This change conforms
+with work being done upstream in package.el by Philip Kaludercic.  I
+was informed about it here:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C875ykl84yi.fsf%40posteo.net%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C875ykl84yi.fsf%40posteo.net%3E</a>.</li>
+
+<li>Updated the manual to reflect the aforementioned.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org07f3b69" class="outline-2">
+<h2 id="org07f3b69">Version 0.3.0 on 2022-05-17</h2>
+<div class="outline-text-2" id="text-org07f3b69">
 <p>
 The gist of TMR's May Release is that TMR is Maintained Rigorously&#x2014;but
 enough with The Mostly Recursive acronyms!
@@ -60,7 +219,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="orgddf9804">
+<pre class="example" id="org84b3648">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
@@ -91,9 +250,9 @@ have the package installed or visit <a href="https://protesilaos.com/emacs/tmr">
 </div>
 </div>
 
-<div id="outline-container-org305c223" class="outline-2">
-<h2 id="org305c223">Version 0.2.0 on 2022-04-21</h2>
-<div class="outline-text-2" id="text-org305c223">
+<div id="outline-container-orga5fe7c8" class="outline-2">
+<h2 id="orga5fe7c8">Version 0.2.0 on 2022-04-21</h2>
+<div class="outline-text-2" id="text-orga5fe7c8">
 <p>
 This entry is retroactively introduced on 2022-07-07.
 </p>
@@ -111,9 +270,9 @@ instead of only interfacing with the last timer.</li>
 </div>
 </div>
 
-<div id="outline-container-org9bb9efd" class="outline-2">
-<h2 id="org9bb9efd">Version 0.1.0 on 2021-10-02</h2>
-<div class="outline-text-2" id="text-org9bb9efd">
+<div id="outline-container-orgf27544d" class="outline-2">
+<h2 id="orgf27544d">Version 0.1.0 on 2021-10-02</h2>
+<div class="outline-text-2" id="text-orgf27544d">
 <p>
 This entry is retroactively introduced on 2022-07-07.
 </p>
