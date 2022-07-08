@@ -234,7 +234,7 @@ initially thought.  It conceals a scorpion, which we couldn't have
 noticed before.  What our frustration obfuscates, which we can interpret
 as egoism that prevents us from recognising the otherness in the world,
 is the castle built on this very rock.  What was once hidden is now
-rendered conspicuous.  This castle a home to all those "sailors" who
+rendered conspicuous.  This castle is a home to all those "sailors" who
 were left alone to discover their self and the world within and around
 it.
 
