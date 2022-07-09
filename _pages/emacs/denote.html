@@ -113,6 +113,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">16.5. I add TODOs to my files; will the many files slow down the Org agenda?</a></li>
 <li><a href="#h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">16.6. I want to sort by last modified, why won&rsquo;t Denote let me?</a></li>
 <li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">16.7. How do you handle the last modified case?</a></li>
+<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">16.8. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
 </ul>
 </li>
 <li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">17. Acknowledgements</a></li>
@@ -432,7 +433,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="orgda9f7d2">
+<pre class="example" id="org7da11cf">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -658,7 +659,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org5720df1">
+<pre class="example" id="org81bac4e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -670,7 +671,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orged07bd4">
+<pre class="example" id="orgfd7f660">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -684,7 +685,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orga06ad0e">
+<pre class="example" id="org2e72b30">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -698,7 +699,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org4d250c8">
+<pre class="example" id="org3722597">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -784,7 +785,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org87170cc">
+<pre class="example" id="org36e7cd4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -819,12 +820,22 @@ Reproducing it here for the sake of convenience:
 </div>
 
 <p>
+Note that the backlinking facility uses Emacs&rsquo; built-in Xref
+infrastructure.  On some operating systems, the user may need to add
+certain executables to the relevant environment variable.
+</p>
+
+<p>
+<a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
+</p>
+
+<p>
 The command <code>denote-link-add-links</code> adds links at point matching a
 regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org0421b17">
+<pre class="example" id="org720d4c4">
 - link1
 - link2
 - link3
@@ -842,7 +853,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgbc59467">
+<pre class="example" id="org947bc47">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1635,7 +1646,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org9ec2ca2">
+<pre class="example" id="orgeb5690d">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2063,6 +2074,32 @@ the tracking of changes.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:42f6b07e-5956-469a-8294-17f9cf62eb2b" class="outline-3">
+<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">16.8.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
+<div class="outline-text-3" id="text-h:42f6b07e-5956-469a-8294-17f9cf62eb2b">
+<p>
+Denote uses <a href="https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Xref">Emacs&rsquo; Xref</a> to find backlinks.  Xref requires <code>xargs</code> and
+one of <code>grep</code> or <code>ripgrep</code>, depending on your configuration.
+</p>
+
+<p>
+This is usually not an issue on *nix systems, but the necessary
+executables are not available on Windows Emacs distributions.  Please
+ensure that you have both <code>xargs</code> and either <code>grep</code> or <code>ripgrep</code>
+available within your <code>PATH</code> environment variable.
+</p>
+
+<p>
+If you have <code>git</code> on Windows installed, then you may use the following
+code (adjust the git&rsquo;s installation path if necessary):
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setenv "PATH" (concat (getenv "PATH") ";" "C:\\Program Files\\Git\\usr\\bin"))
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:f8126820-3b59-49fa-bcc2-73bd60132bb9" class="outline-2">
@@ -2075,8 +2112,9 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or the manual</dt><dd>Damien Cassou, Jack Baty,
-Jean-Philippe Gagné Guay, Kaushal Modi, Stefan Monnier.</dd>
+<dt>Contributions to code or the manual</dt><dd>Benjamin Kästner, Damien
+Cassou, Jack Baty, Jean-Philippe Gagné Guay, Kaushal Modi, Stefan
+Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Benjamin Kästner, Colin McLear, Damien
 Cassou, Frank Ehmsen, Jack Baty, Kaushal Modi, M. Hadi Timachi, Peter
