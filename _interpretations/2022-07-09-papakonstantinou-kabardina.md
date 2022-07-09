@@ -173,9 +173,10 @@ facade is a poetic construct that captures pretences; appearances to
 intellectuality and sophistication; appearances to tolerance and
 open-mindedness; appearances about lofty values and ethical standards.
 Every society, every establishment, thinks of itself as great and
-righteous.  Americans bring democracy to parts of the world.  Europeans
-safeguard "European values".  Russians engage in "special operations"
-for the de-nazification of countries...  Everyone is righteous.
+righteous.  Americans bring "democracy" to parts of the world.
+Europeans safeguard "European values".  Russians engage in "special
+operations" for the de-nazification of countries...  Everyone is
+righteous.
 
 The white trench coat will have none of that humbuggery.  It shatters
 all forms of hypocrisy that stand in its path.  Power, however, does not
