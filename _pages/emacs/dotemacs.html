@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-07-06 09:00 +0300</b>.</li>
-<li>Word count: <b>131910</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-07-09 09:35 +0300</b>.</li>
+<li>Word count: <b>132057</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -31,8 +31,8 @@ Information pertaining to my build of Emacs:
 </div>
 
 <pre class="example">
-GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo version 1.17.6)
- of 2022-07-02
+GNU Emacs 29.0.50 (build 2, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo version 1.17.6)
+ of 2022-07-07
 </pre>
 
 
@@ -42,7 +42,7 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo ver
 </div>
 
 <pre class="example">
---prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --with-gameuser=:games --with-modules --without-libotf --without-m17n-flt --without-gconf --without-gsettings --with-native-compilation --with-xinput2 --with-pgtk --without-xaw3d --with-sound=no --without-gpm --without-compress-install '--program-transform-name=s/\([ec]tags\)/\1.emacs/' 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection' LDFLAGS=-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
+--prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --with-gameuser=:games --without-libotf --without-m17n-flt --without-gconf --with-native-compilation --with-pgtk --with-sound=no --without-gpm --without-compress-install '--program-transform-name=s/\([ec]tags\)/\1.emacs/' 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection' LDFLAGS=-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
 </pre>
 
 
@@ -262,9 +262,10 @@ GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.34, cairo ver
 <ul>
 <li><a href="#h:a04db751-9675-4f31-befc-0b48671c4b3b">7.1.1. Plain text (text-mode with prot-text.el)</a></li>
 <li><a href="#h:7e0416c0-3acc-4748-9eca-4dd4da11d79b">7.1.2. Markdown (markdown-mode)</a></li>
-<li><a href="#h:c6a1aa30-4850-40b4-9764-302d98ba95fc">7.1.3. YAML (yaml-mode)</a></li>
-<li><a href="#h:ec10bfe6-5340-481c-9de2-3e346868241b">7.1.4. CSS (css-mode)</a></li>
-<li><a href="#h:fee2b8ff-80d6-4669-904c-c8ee64c9719c">7.1.5. Shell scripts (sh-mode)</a></li>
+<li><a href="#h:39510230-eb08-4363-84cd-bb472165b6d3">7.1.3. Systemd unit files</a></li>
+<li><a href="#h:c6a1aa30-4850-40b4-9764-302d98ba95fc">7.1.4. YAML (yaml-mode)</a></li>
+<li><a href="#h:ec10bfe6-5340-481c-9de2-3e346868241b">7.1.5. CSS (css-mode)</a></li>
+<li><a href="#h:fee2b8ff-80d6-4669-904c-c8ee64c9719c">7.1.6. Shell scripts (sh-mode)</a></li>
 </ul>
 </li>
 <li><a href="#h:1ae84fae-efc1-4bcc-9542-55b4ab8391a3">7.2. Paragraphs and fill-mode (prot-fill.el)</a></li>
@@ -756,9 +757,18 @@ with greater precision.  My code is as follows:
 
 ;;; Code:
 
+(setq frame-resize-pixelwise t)
+
+;; Do not resize the frame at this early stage.
+(setq frame-inhibit-implied-resize t)
+
 (dolist (var '(default-frame-alist initial-frame-alist))
-  (add-to-list var '(width . (text-pixels . 1600)))
-  (add-to-list var '(height . (text-pixels . 900))))
+  (add-to-list var '(width . (text-pixels . 1920)))
+  ;; The height should be 1080, but the panel and the window's
+  ;; deocrations reduce the effective value.  If I set 1080 here, Emacs
+  ;; maximises the frame regardless of the width value, which I do not
+  ;; want.
+  (add-to-list var '(height . (text-pixels . 990))))
 
 ;; Initialise installed packages
 (setq package-enable-at-startup t)
@@ -767,9 +777,6 @@ with greater precision.  My code is as follows:
 
 ;; Allow loading from the package cache
 (setq package-quickstart t)
-
-;; Do not resize the frame at this early stage.
-(setq frame-inhibit-implied-resize t)
 
 ;; Disable GUI elements
 (menu-bar-mode -1)
@@ -1479,12 +1486,9 @@ Also see `prot-simple-focus-help-buffers'."
 (defun prot-simple--scratch-list-modes ()
   "List known major modes."
   (cl-loop for sym the symbols of obarray
-           for name = (symbol-name sym)
            when (and (functionp sym)
-                     (not (member sym minor-mode-list))
-                     (string-match "-mode$" name)
-                     (not (string-match "--" name)))
-           collect name))
+                     (provided-mode-derived-p sym 'prog-mode))
+           collect sym))
 
 (defun prot-simple--scratch-buffer-setup (region &amp;optional mode)
   "Add contents to `scratch' buffer and name it accordingly.
@@ -2427,6 +2431,7 @@ This is the code for <code>pulsar.el</code>:
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; Maintainer: Pulsar Development &lt;~protesilaos/pulsar@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/pulsar
+;; Mailing-List: https://lists.sr.ht/~protesilaos/pulsar
 ;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
@@ -3139,11 +3144,12 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; combinations, include per-heading-level tweaks: read the
         ;; manual or its doc string
         modus-themes-headings
-        '(;; (1 . (variable-pitch light (height 1.6) background))
-          ;; (2 . (variable-pitch regular (height 1.4) overline))
-          ;; (3 . (variable-pitch regular (height 1.3) overline))
-          ;; (4 . (rainbow (height 1.2)))
-          ;; (5 . (rainbow (height 1.1)))
+        '((0 . (variable-pitch light (height 1.9)))
+          (1 . (variable-pitch light (height 1.6) background))
+          (2 . (variable-pitch regular (height 1.4) overline))
+          (3 . (variable-pitch regular (height 1.3) overline))
+          (4 . (rainbow (height 1.2)))
+          (5 . (rainbow (height 1.1)))
           (t . (variable-pitch extrabold (height 1.05)))))
 
   ;; Load the theme files before enabling a theme (else you get an error).
@@ -3264,6 +3270,7 @@ This is the code for <code>lin.el</code>:
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; Maintainer: Lin Development &lt;~protesilaos/lin@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/lin
+;; Mailing-List: https://lists.sr.ht/~protesilaos/lin
 ;; Version: 0.4.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, faces, theme
@@ -4250,7 +4257,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgff424a8">
+<pre class="example" id="org1f147d7">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4333,7 +4340,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="org8f6b5ef">
+<pre class="example" id="org3d973d0">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6227,7 +6234,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org94bd500">
+<pre class="example" id="org5976f73">
 text-mode
 
 (dotfiles-sync-package
@@ -9261,6 +9268,7 @@ And here is <code>logos.el</code> in its totality.  It is available as a file in
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; Maintainer: Logos Development &lt;~protesilaos/logos@lists.sr.ht&gt;
 ;; URL: https://git.sr.ht/~protesilaos/logos
+;; Mailing-List: https://lists.sr.ht/~protesilaos/logos
 ;; Version: 0.4.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, focus, writing, presentation, narrowing
@@ -13680,7 +13688,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org655108a">
+<pre class="example" id="orgfefd056">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -13692,7 +13700,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="orgd23ccb8">
+<pre class="example" id="org8e233ae">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -13707,7 +13715,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="org9008c97">
+<pre class="example" id="orga8b0f77">
 2021-04-13
     This event is not time sensitive
 ....
@@ -13723,7 +13731,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org1e07d65">
+<pre class="example" id="org401b111">
 2021-04-13
     This event is not time sensitive
 ....
@@ -13752,7 +13760,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orgd800b62">
+<pre class="example" id="orge4df8a0">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -13916,7 +13924,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="orgd96f8a2">
+<pre class="example" id="org9a1ace7">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -14661,7 +14669,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org9d732b6">
+<pre class="example" id="orgb78b3e8">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -14695,7 +14703,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org1c50dff">
+<pre class="example" id="org5fa1d9b">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -14859,7 +14867,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="orgd8ca514">
+<pre class="example" id="org60e4307">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15054,7 +15062,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgc12611e">
+<pre class="example" id="org1b8f717">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16104,7 +16112,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgc7eadd3">
+<pre class="example" id="orga443c99">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17164,7 +17172,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org231e938">
+<pre class="example" id="org0738486">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -17546,8 +17554,13 @@ examples: <a href="https://github.com/karthink/elfeed-tube">https://github.com/k
     (define-key map (kbd "F") #'elfeed-tube-fetch)
     (define-key map [remap save-buffer] #'elfeed-tube-save)))
 
+(prot-emacs-elpa-package 'mpv)
+
 (prot-emacs-elpa-package 'elfeed-tube-mpv
+  (define-key elfeed-search-mode-map (kbd "v") 'elfeed-tube-mpv)
   (let ((map elfeed-show-mode-map))
+    (define-key map (kbd "v") 'elfeed-tube-mpv)
+    (define-key map (kbd "C-c C-v") 'elfeed-tube-mpv)
     (define-key map (kbd "C-c C-f") 'elfeed-tube-mpv-follow-mode)
     (define-key map (kbd "C-c C-w") 'elfeed-tube-mpv-where)))
 </pre>
@@ -17565,7 +17578,7 @@ settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org47b0a75">
+<pre class="example" id="org39dda47">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -20970,8 +20983,24 @@ I edit lots of Markdown files.  This makes things easier.
 </div>
 </div>
 
+<div id="outline-container-h:39510230-eb08-4363-84cd-bb472165b6d3" class="outline-4">
+<h4 id="h:39510230-eb08-4363-84cd-bb472165b6d3"><span class="section-number-4">7.1.3.</span> Systemd unit files</h4>
+<div class="outline-text-4" id="text-h:39510230-eb08-4363-84cd-bb472165b6d3">
+<p>
+Sometimes I need to edit a systemd file.  The <code>systemd</code> package sets up
+the appropriate major-mode.  The package provides some user options, but
+the defaults work perfectly fine.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(prot-emacs-elpa-package 'systemd)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:c6a1aa30-4850-40b4-9764-302d98ba95fc" class="outline-4">
-<h4 id="h:c6a1aa30-4850-40b4-9764-302d98ba95fc"><span class="section-number-4">7.1.3.</span> YAML (yaml-mode)</h4>
+<h4 id="h:c6a1aa30-4850-40b4-9764-302d98ba95fc"><span class="section-number-4">7.1.4.</span> YAML (yaml-mode)</h4>
 <div class="outline-text-4" id="text-h:c6a1aa30-4850-40b4-9764-302d98ba95fc">
 <p>
 This adds support for YAML files.
@@ -20987,7 +21016,7 @@ This adds support for YAML files.
 </div>
 
 <div id="outline-container-h:ec10bfe6-5340-481c-9de2-3e346868241b" class="outline-4">
-<h4 id="h:ec10bfe6-5340-481c-9de2-3e346868241b"><span class="section-number-4">7.1.4.</span> CSS (css-mode)</h4>
+<h4 id="h:ec10bfe6-5340-481c-9de2-3e346868241b"><span class="section-number-4">7.1.5.</span> CSS (css-mode)</h4>
 <div class="outline-text-4" id="text-h:ec10bfe6-5340-481c-9de2-3e346868241b">
 <p>
 This is the built-in mode for working with CSS and SCSS.  I just want it
@@ -21007,7 +21036,7 @@ is <code>rainbow-mode</code> (see <a href="#h:9061c694-5f45-46b0-a878-6bcfb018e1
 </div>
 
 <div id="outline-container-h:fee2b8ff-80d6-4669-904c-c8ee64c9719c" class="outline-4">
-<h4 id="h:fee2b8ff-80d6-4669-904c-c8ee64c9719c"><span class="section-number-4">7.1.5.</span> Shell scripts (sh-mode)</h4>
+<h4 id="h:fee2b8ff-80d6-4669-904c-c8ee64c9719c"><span class="section-number-4">7.1.6.</span> Shell scripts (sh-mode)</h4>
 <div class="outline-text-4" id="text-h:fee2b8ff-80d6-4669-904c-c8ee64c9719c">
 <p>
 <code>sh-mode.el</code> is another built-in mode that targets shell scripts.  I
@@ -22372,7 +22401,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgea5237e">
+<pre class="example" id="orgfb4145b">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -22836,7 +22865,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org93fb96e">
+<pre class="example" id="org4f4d712">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -22845,7 +22874,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="orgdc7ce08">
+<pre class="example" id="org33973b4">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -22870,7 +22899,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org2f85704">
+<pre class="example" id="org02590c0">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -22946,7 +22975,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orgeb78337">
+<pre class="example" id="org39d2603">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -22971,7 +23000,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org7ca8a1d">
+<pre class="example" id="org18617d6">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -22980,7 +23009,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org816bb63">
+<pre class="example" id="org1a54acf">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -22999,7 +23028,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="org15f7933">
+<pre class="example" id="orga6a6688">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
