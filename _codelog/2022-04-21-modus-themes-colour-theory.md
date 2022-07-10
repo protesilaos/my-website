@@ -86,7 +86,7 @@ Putting it all together produces a hexagon:
 By continuing to combine adjacent colours we end up with a circle, which
 is also known as a "colour wheel".
 
-The spectrum of all those colours can eventually be split in to two
+The spectrum of all those colours can eventually be split into two
 parts: the side which includes cyan-green, green, green-yellow, yellow,
 yellow-red, and red is the "warm" side, while the other is the "cold"
 one (or "cool", if you will).  More on this point below.
@@ -262,7 +262,7 @@ secondary colours.
 Note though that I do not use an actual colour wheel.  My understanding
 of it is in abstract.  As such, when I claim that the variants of
 cyan-magenta-yellow that are used for Avy are triadic, I do not mean it
-in the rigorous mathematical sense of them representing an actual
+in the rigorous mathematical sense of them representing a fixed-size
 triangle.  Because themes are not colour schemes, we have to consider
 the function of colour: I decided to make one a bit more saturated than
 the others to help guide the eye to where it needs to focus first.  As
