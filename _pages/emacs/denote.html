@@ -62,6 +62,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:70b8d932-3783-4f81-afdc-30d12fbadd0f">3.3. Create note using a date</a></li>
 <li><a href="#h:588c1f96-ca01-4c2c-be7a-ca6359c9465b">3.4. Create note in a specific directory</a></li>
 <li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.5. Create note using Org capture</a></li>
+<li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.6. Maintain separate directories for notes</a></li>
 </ul>
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a></li>
@@ -403,6 +404,77 @@ the <code>denote-org-capture-specifiers</code>.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5" class="outline-3">
+<h3 id="h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5"><span class="section-number-3">3.6.</span> Maintain separate directories for notes</h3>
+<div class="outline-text-3" id="text-h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">
+<p>
+The user option <code>denote-directory</code> accepts a value that represents the
+path to a directory, such as <code>~/Documents/notes</code>.  Normally, the user
+will have one place where they store all their notes, in which case this
+arrangement shall suffice.
+</p>
+
+<p>
+There is, however, the possibility to maintain separate directories of
+notes.  By &ldquo;separate&rdquo;, we mean that they do not communicate with each
+other: no linking between them, no common keywords, nothing.  Think of
+the scenario where one set of notes is for private use and another is
+for an employer.  We call these separate directories &ldquo;silos&rdquo;.
+</p>
+
+<p>
+To create silos, the user must specify a local variable at the root of
+the desired directory.  This is done by creating a <code>.dir-locals.el</code>
+file, with the following contents:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Directory Local Variables.  For more information evaluate:
+;;;
+;;;     (info "(emacs) Directory Variables")
+
+((nil . ((denote-directory . default-directory))))
+</pre>
+</div>
+
+<p>
+When inside the directory that contains this <code>.dir-locals.el</code> file, all
+Denote commands/functions for note creation, linking, the inference of
+available keywords, et cetera will use the silo as their point of
+reference.  They will not read the global value of <code>denote-directory</code>.
+The global value of <code>denote-directory</code> is read everywhere else except
+the silos.
+</p>
+
+<p>
+In concrete terms, this is a representation of the directory structures
+(notice the <code>.dir-locals.el</code> file is needed only for the silos):
+</p>
+
+<pre class="example" id="org2f3da41">
+;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
+~/Documents/notes
+|-- 20210303T120534--this-is-a-test__journal_philosophy.txt
+|-- 20220303T120534--another-sample__journal_testing.md
+`-- 20220620T181255--the-third-test__keyword.org
+
+;; A silo with notes for the employer
+~/different/path/to/notes-for-employer
+|-- .dir-locals.el
+|-- 20210303T120534--this-is-a-test__conference.txt
+|-- 20220303T120534--another-sample__meeting.md
+`-- 20220620T181255--the-third-test__keyword.org
+
+;; Another silo with notes for my volunteering
+~/different/path/to/notes-for-volunteering
+|-- .dir-locals.el
+|-- 20210303T120534--this-is-a-test__activism.txt
+|-- 20220303T120534--another-sample__teambuilding.md
+`-- 20220620T181255--the-third-test__keyword.org
+</pre>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca" class="outline-2">
@@ -433,7 +505,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org7da11cf">
+<pre class="example" id="org24971fd">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -659,7 +731,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org81bac4e">
+<pre class="example" id="orgd35d765">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -671,7 +743,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgfd7f660">
+<pre class="example" id="org7aff182">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -685,7 +757,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org2e72b30">
+<pre class="example" id="orge7a35d5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -699,7 +771,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org3722597">
+<pre class="example" id="org4769f78">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -785,7 +857,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org36e7cd4">
+<pre class="example" id="org249fbc4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -835,7 +907,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org720d4c4">
+<pre class="example" id="org64cc78f">
 - link1
 - link2
 - link3
@@ -853,7 +925,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org947bc47">
+<pre class="example" id="orgab2691b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1646,7 +1718,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgeb5690d">
+<pre class="example" id="org381c549">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
