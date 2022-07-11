@@ -394,15 +394,19 @@ option, there are cases where an ad-hoc method is the appropriate one
 </p>
 
 <p>
-To this end, Denote provides the follow convenience commands for note
-creation:
+To this end, Denote provides the following convenience interactive
+commands for note creation:
 </p>
 
 <dl class="org-dl">
 <dt>Create note by specifying file type</dt><dd><p>
-The <code>denote-type</code> command is
-like <code>denote</code> except it also prompts for a file type to use as an
-ad-hoc value for <code>denote-file-type</code>.  In practical terms, this lets
+The <code>denote-type</code> command
+creates a note while prompting for a file type.
+</p>
+
+<p>
+This is the equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
+set to <code>'(file-type title keywords)</code>.  In practical terms, this lets
 you produce, say, a note in Markdown even though you normally write in
 Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
 </p>
@@ -419,20 +423,14 @@ an explicit date+time value.
 </p>
 
 <p>
-This is where the <code>denote-date</code> command comes in.  It accepts the
-familiar <code>TITLE</code> and <code>KEYWORDS</code> arguments, though it starts by asking
-for a date.  The input for the <code>DATE</code> argument is like <code>2022-06-16</code> or
-<code>2022-06-16 14:30</code>.  When the time is omitted, it is interpreted as
-<code>00:00</code>.
+This is where the <code>denote-date</code> command comes in.  It creates a note
+while prompting for a date.  The date can be in YEAR-MONTH-DAY
+notation like <code>2022-06-30</code> or that plus the time: <code>2022-06-16 14:30</code>.
 </p>
 
 <p>
-Since the ability to insert a date may result in duplicate
-identifiers, Denote takes care to abort the operation if such an
-identity is established (e.g. when you use <code>denote-date</code> with
-<code>2022-06-16</code> twice, it will generate the same identifier of
-<code>20220616T000000</code>).  The user must thus call the <code>denote-date</code> command
-again and provide a unique date or date+time value.
+This is the equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
+set to <code>'(date title keywords)</code>.
 </p>
 
 <p>
@@ -441,10 +439,14 @@ The <code>denote-create-note-using-date</code> is an alias of <code>denote-date<
 
 <dt>Create note in a specific directory</dt><dd><p>
 The <code>denote-subdirectory</code>
-command is like <code>denote</code> except it prompts for a directory to place
-the new note in (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>). Candidates are the value of
-the user option <code>denote-directory</code> and any subdirectory inside of it.
-Denote does not create subdirectories.
+command creates a note while prompting for a subdirectory.  Available
+candidates include the value of the variable <code>denote-directory</code> and
+any subdirectory thereof (Denote does not create subdirectories).
+</p>
+
+<p>
+This is equivalent to calling <code>denote</code> when <code>denote-prompts</code> is set to
+<code>'(subdirectory title keywords)</code>.
 </p>
 
 <p>
@@ -565,7 +567,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgfd403e1">
+<pre class="example" id="orga6e37e2">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -618,7 +620,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="orgfba0715">
+<pre class="example" id="org2f78232">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -844,7 +846,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgd477ea1">
+<pre class="example" id="org15e51c1">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -856,7 +858,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgc9f20c5">
+<pre class="example" id="org73311b6">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -870,7 +872,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1e5ac24">
+<pre class="example" id="orgf0a8da6">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -884,7 +886,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgb34246b">
+<pre class="example" id="orgcc38c3e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -970,7 +972,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgb351cc5">
+<pre class="example" id="orgcaf705e">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1020,7 +1022,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org01681ab">
+<pre class="example" id="orgcdc60f8">
 - link1
 - link2
 - link3
@@ -1038,7 +1040,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc615f1c">
+<pre class="example" id="orgfe4b863">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1831,7 +1833,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org022f991">
+<pre class="example" id="org13de673">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
