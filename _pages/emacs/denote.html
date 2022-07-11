@@ -57,12 +57,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241">2. Overview</a></li>
 <li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">3. Points of entry</a>
 <ul>
-<li><a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">3.1. Standard note creation</a></li>
-<li><a href="#h:2ee9736b-327c-44a6-8c00-c73253d8c326">3.2. Create note by specifying file type</a></li>
-<li><a href="#h:70b8d932-3783-4f81-afdc-30d12fbadd0f">3.3. Create note using a date</a></li>
-<li><a href="#h:588c1f96-ca01-4c2c-be7a-ca6359c9465b">3.4. Create note in a specific directory</a></li>
-<li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.5. Create note using Org capture</a></li>
-<li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.6. Maintain separate directories for notes</a></li>
+<li><a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">3.1. Standard note creation</a>
+<ul>
+<li><a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">3.1.1. The <code>denote-prompts</code> option</a></li>
+<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">3.1.2. Convenience commands for note creation</a></li>
+</ul>
+</li>
+<li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.2. Create note using Org capture</a></li>
+<li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.3. Maintain separate directories for notes</a></li>
 </ul>
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a></li>
@@ -251,10 +253,11 @@ The file type of the new note is determined by the user option
 </p>
 
 <p>
-The keyword prompt supports minibuffer completion.  Available candidates
-are those defined in the user option <code>denote-known-keywords</code>.  More
-candidates can be inferred from the names of existing notes, by setting
-<code>denote-infer-keywords</code> to non-nil (which is the case by default).
+The keywords&rsquo; prompt supports minibuffer completion.  Available
+candidates are those defined in the user option <code>denote-known-keywords</code>.
+More candidates can be inferred from the names of existing notes, by
+setting <code>denote-infer-keywords</code> to non-nil (which is the case by
+default).
 </p>
 
 <p>
@@ -266,9 +269,17 @@ with <code>string-lessp</code>).
 </p>
 
 <p>
-The <code>denote</code> command can also be called from Lisp, in which case it
-expects the <code>TITLE</code> and <code>KEYWORDS</code> arguments.  The former is a string,
-the latter a list of strings.
+[ The <code>denote-prompts</code> is part of 0.3.0-dev ]
+</p>
+
+<p>
+The interactive behaviour of the <code>denote</code> command is influenced by the
+user option <code>denote-prompts</code> (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>).
+</p>
+
+<p>
+The <code>denote</code> command can also be called from Lisp.  Read its doc string
+for the technicalities.
 </p>
 
 <p>
@@ -276,31 +287,135 @@ In the interest of discoverability, <code>denote</code> is also available under 
 alias <code>denote-create-note</code>.
 </p>
 </div>
+
+<div id="outline-container-h:f9204f1f-fcee-49b1-8081-16a08a338099" class="outline-4">
+<h4 id="h:f9204f1f-fcee-49b1-8081-16a08a338099"><span class="section-number-4">3.1.1.</span> The <code>denote-prompts</code> option</h4>
+<div class="outline-text-4" id="text-h:f9204f1f-fcee-49b1-8081-16a08a338099">
+<p>
+[ What is described in this section is part of
+  0.3.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-prompts</code> determines how the <code>denote</code> command
+will behave interactively (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+</p>
+
+<p>
+The value is a list of symbols, which includes any of the following:
+</p>
+
+<ul class="org-ul">
+<li><code>title</code>: Prompt for the title of the new note.</li>
+
+<li><code>keywords</code>: Prompts with completion for the keywords of the new
+note.  Available candidates are those specified in the user
+option <code>denote-known-keywords</code>.  If the user option
+<code>denote-infer-keywords</code> is non-nil, keywords in existing note
+file names are included in the list of candidates.  The
+<code>keywords</code> prompt uses <code>completing-read-multiple</code>, meaning that
+it can accept multiple keywords separated by a comma (or
+whatever the value of <code>crm-sepator</code> is).</li>
+
+<li><code>file-type</code>: Prompts with completion for the file type of the
+new note.  Available candidates are those specified in the user
+option <code>denote-file-type</code>.  Without this prompt, <code>denote</code> uses
+the value of <code>denote-file-type</code>.</li>
+
+<li><code>subdirectory</code>: Prompts with completion for a subdirectory in
+which to create the note.  Available candidates are the value
+of the user option <code>denote-directory</code> and all of its
+subdirectories.  Any subdirectory must already exist: Denote
+will not create it.</li>
+
+<li><code>date</code>: Prompts for the date of the new note.  It will expect
+an input like 2022-06-16 or a date plus time: 2022-06-16 14:30.
+Without the <code>date</code> prompt, the <code>denote</code> command uses the
+<code>current-time</code>.</li>
+</ul>
+
+<p>
+The prompts occur in the given order.
+</p>
+
+<p>
+If the value of this user option is nil, no prompts are used.  The
+resulting file name will consist of an identifier (i.e. the date and
+time) and a supported file type extension (per <code>denote-file-type</code>).
+</p>
+
+<p>
+Recall that Denote&rsquo;s standard file-naming scheme is defined as follows
+(<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>):
+</p>
+
+<pre class="example">
+DATE--TITLE__KEYWORDS.EXT
+</pre>
+
+
+<p>
+If either or both of the <code>title</code> and <code>keywords</code> prompts are not
+included in the value of this variable, file names will be any of
+those permutations:
+</p>
+
+<pre class="example">
+DATE.EXT
+DATE--TITLE.EXT
+DATE__KEYWORDS.EXT
+</pre>
+
+
+<p>
+When in doubt, always include the <code>title</code> and <code>keywords</code> prompts.
+</p>
+
+<p>
+Finally, this user option only affects the interactive use of the
+<code>denote</code> command (advanced users can call it from Lisp).  For ad-hoc
+interactive actions that do not change the default behaviour of the
+<code>denote</code> command, users can invoke these convenience commands:
+<code>denote-type</code>, <code>denote-subdirectory</code>, <code>denote-date</code>.  They are described
+in the subsequent section (<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).
+</p>
+</div>
 </div>
 
-<div id="outline-container-h:2ee9736b-327c-44a6-8c00-c73253d8c326" class="outline-3">
-<h3 id="h:2ee9736b-327c-44a6-8c00-c73253d8c326"><span class="section-number-3">3.2.</span> Create note by specifying file type</h3>
-<div class="outline-text-3" id="text-h:2ee9736b-327c-44a6-8c00-c73253d8c326">
+<div id="outline-container-h:887bdced-9686-4e80-906f-789e407f2e8f" class="outline-4">
+<h4 id="h:887bdced-9686-4e80-906f-789e407f2e8f"><span class="section-number-4">3.1.2.</span> Convenience commands for note creation</h4>
+<div class="outline-text-4" id="text-h:887bdced-9686-4e80-906f-789e407f2e8f">
 <p>
-The <code>denote-type</code> command is like <code>denote</code> except it also prompts for a
-file type to use as an ad-hoc value for <code>denote-file-type</code>.  In practical
-terms, this lets you produce, say, a note in Markdown even though you
-normally write in Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+Sometimes the user needs to create a note that has different
+requirements from those of <code>denote</code> (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  While
+this can be achieved globally by changing the <code>denote-prompts</code> user
+option, there are cases where an ad-hoc method is the appropriate one
+(<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>).
+</p>
+
+<p>
+To this end, Denote provides the follow convenience commands for note
+creation:
+</p>
+
+<dl class="org-dl">
+<dt>Create note by specifying file type</dt><dd><p>
+The <code>denote-type</code> command is
+like <code>denote</code> except it also prompts for a file type to use as an
+ad-hoc value for <code>denote-file-type</code>.  In practical terms, this lets
+you produce, say, a note in Markdown even though you normally write in
+Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
 </p>
 
 <p>
 The <code>denote-create-note-using-type</code> is an alias of <code>denote-type</code>.
-</p>
-</div>
-</div>
+</p></dd>
 
-<div id="outline-container-h:70b8d932-3783-4f81-afdc-30d12fbadd0f" class="outline-3">
-<h3 id="h:70b8d932-3783-4f81-afdc-30d12fbadd0f"><span class="section-number-3">3.3.</span> Create note using a date</h3>
-<div class="outline-text-3" id="text-h:70b8d932-3783-4f81-afdc-30d12fbadd0f">
-<p>
-Normally, Denote reads the current date and time to derive the
-identifier of a new note (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  Sometimes, however,
-the user needs to set an explicit date+time value.
+<dt>Create note using a date</dt><dd><p>
+Normally, Denote reads the current date
+and time to construct the unique identifier of a newly created note
+(<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  Sometimes, however, the user needs to set
+an explicit date+time value.
 </p>
 
 <p>
@@ -312,39 +427,37 @@ for a date.  The input for the <code>DATE</code> argument is like <code>2022-06-
 </p>
 
 <p>
-Since the ability to insert a date may result in duplicate identifiers,
-Denote takes care to abort the operation if such an identity is
-established (e.g. when you use <code>denote-date</code> with <code>2022-06-16</code> twice, it
-will generate the same identifier of <code>20220616T000000</code>).  The user must
-thus call the <code>denote-date</code> command again and provide a unique date or
-date+time value.
+Since the ability to insert a date may result in duplicate
+identifiers, Denote takes care to abort the operation if such an
+identity is established (e.g. when you use <code>denote-date</code> with
+<code>2022-06-16</code> twice, it will generate the same identifier of
+<code>20220616T000000</code>).  The user must thus call the <code>denote-date</code> command
+again and provide a unique date or date+time value.
 </p>
 
 <p>
 The <code>denote-create-note-using-date</code> is an alias of <code>denote-date</code>.
-</p>
-</div>
-</div>
+</p></dd>
 
-<div id="outline-container-h:588c1f96-ca01-4c2c-be7a-ca6359c9465b" class="outline-3">
-<h3 id="h:588c1f96-ca01-4c2c-be7a-ca6359c9465b"><span class="section-number-3">3.4.</span> Create note in a specific directory</h3>
-<div class="outline-text-3" id="text-h:588c1f96-ca01-4c2c-be7a-ca6359c9465b">
-<p>
-The <code>denote-subdirectory</code> command is like <code>denote</code> except it prompts for
-a directory to place the new note in (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
-Candidates are the value of the user option <code>denote-directory</code> and any
-subdirectory inside of it.  Denote does not create subdirectories.
+<dt>Create note in a specific directory</dt><dd><p>
+The <code>denote-subdirectory</code>
+command is like <code>denote</code> except it prompts for a directory to place
+the new note in (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>). Candidates are the value of
+the user option <code>denote-directory</code> and any subdirectory inside of it.
+Denote does not create subdirectories.
 </p>
 
 <p>
-The <code>denote-create-note-in-subdirectory</code> is a more descriptive alias of
-<code>denote-subdirectory</code>.
-</p>
+The <code>denote-create-note-in-subdirectory</code> is a more descriptive alias
+of <code>denote-subdirectory</code>.
+</p></dd>
+</dl>
+</div>
 </div>
 </div>
 
 <div id="outline-container-h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881" class="outline-3">
-<h3 id="h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881"><span class="section-number-3">3.5.</span> Create note using Org capture</h3>
+<h3 id="h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881"><span class="section-number-3">3.2.</span> Create note using Org capture</h3>
 <div class="outline-text-3" id="text-h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">
 <p>
 For integration with <code>org-capture</code>, the user must first add the relevant
@@ -406,7 +519,7 @@ the <code>denote-org-capture-specifiers</code>.
 </div>
 
 <div id="outline-container-h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5" class="outline-3">
-<h3 id="h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5"><span class="section-number-3">3.6.</span> Maintain separate directories for notes</h3>
+<h3 id="h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5"><span class="section-number-3">3.3.</span> Maintain separate directories for notes</h3>
 <div class="outline-text-3" id="text-h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">
 <p>
 The user option <code>denote-directory</code> accepts a value that represents the
@@ -452,7 +565,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgef0b9cb">
+<pre class="example" id="org78a5b8a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -505,7 +618,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org2611148">
+<pre class="example" id="org1b8c23e">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -731,7 +844,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgd8d54aa">
+<pre class="example" id="orgb98ee31">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -743,7 +856,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org7a383b3">
+<pre class="example" id="org861a653">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -757,7 +870,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge51fe5d">
+<pre class="example" id="orgb2febbb">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -771,7 +884,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org42fb1b8">
+<pre class="example" id="org3a84adb">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -857,7 +970,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org0961b51">
+<pre class="example" id="orgaf0ef54">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -907,7 +1020,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org5296920">
+<pre class="example" id="org2d88679">
 - link1
 - link2
 - link3
@@ -925,7 +1038,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org85f185a">
+<pre class="example" id="org9629fc9">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1156,7 +1269,7 @@ you need is a simple wrapper function:
   (interactive)
   (denote
    (format-time-string "%A %e %B %Y") ; format like Tuesday 14 June 2022
-   "journal")) ; multiple keywords are a list of strings: '("one" "two")
+   '("journal"))) ; multiple keywords are a list of strings: '("one" "two")
 </pre>
 </div>
 
@@ -1176,7 +1289,7 @@ Of course, you can always set up the function so that it asks for a
   (interactive)
   (denote
    (denote--title-prompt) ; ask for title, instead of using human-readable date
-   "journal"))
+   '("journal")))
 </pre>
 </div>
 
@@ -1201,7 +1314,7 @@ The `tmr' command is part of the `tmr' package."
   (interactive)
   (denote
    (format-time-string "%A %e %B %Y")
-   "journal")
+   '("journal"))
   (tmr 10 "Practice writing in my journal")) ; set 10 minute timer with a description
 </pre>
 </div>
@@ -1578,11 +1691,11 @@ Everything is in place to set up the package.
 
 ;; Remember to check the doc strings of those variables.
 (setq denote-directory (expand-file-name "~/Documents/notes/"))
-(setq denote-known-keywords
-      '("emacs" "philosophy" "politics" "economics"))
+(setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
 (setq denote-file-type nil) ; Org is the default, set others here
+(setq denote-prompts '(title keywords))
 
 ;; We allow multi-word keywords by default.  The author's personal
 ;; preference is for single-word keywords for a more rigid workflow.
@@ -1628,7 +1741,7 @@ Everything is in place to set up the package.
   (interactive)
   (denote
    (denote--title-prompt)
-   "journal"))
+   '("journal")))
 
 ;; Denote does not define any key bindings.  This is for the user to
 ;; decide.  For example:
@@ -1718,7 +1831,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc155f30">
+<pre class="example" id="orga7afc9e">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
