@@ -16,6 +16,260 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a>.
 </p>
 
+<div id="outline-container-h:6864cfd4-d0be-4c89-b313-39ba6e892a03" class="outline-2">
+<h2 id="h:6864cfd4-d0be-4c89-b313-39ba6e892a03">Version 0.3.0 on 2022-07-11</h2>
+<div class="outline-text-2" id="text-h:6864cfd4-d0be-4c89-b313-39ba6e892a03">
+<ul class="org-ul">
+<li><p>
+Fixed how references are analysed to produce the backlinks' buffer.
+This should resolve the issue that some users faced where the
+backlinks would not be produced.
+</p>
+
+<p>
+The previous implementation would not yield the appropriate results if
+(i) the value of the user option <code>denote-directory</code> was a "project"
+per the built-in project.el and (ii) the link to the given entry was
+from a subdirectory.  In short, the references were sometimes returned
+as relative file paths, whereas they should always be absolute.
+Thanks to Jean-Philippe Gagné Guay for the feedback in issue 42 over
+at the GitHub mirror: <a href="https://github.com/protesilaos/denote/pull/42">https://github.com/protesilaos/denote/pull/42</a>.
+</p>
+
+<p>
+[ Jean-Philippe has assigned copyright to the Free Software
+  Foundation.  It is a prerequisite for contributing to core Emacs
+  and/or any package distributed via the official GNU ELPA. ]
+</p></li>
+
+<li><p>
+Addressed a regression in the function <code>denote-directory</code> (this is the
+function that normalises the variable of the same name) which
+prevented it from returning an expanded file path.  This too
+contributed to problems with the backlinking facility.  Thanks to
+Jean-Philippe Gagné Guay for the contribution in pull request 44 over
+at the GitHub mirror: <a href="https://github.com/protesilaos/denote/pull/44">https://github.com/protesilaos/denote/pull/44</a>.
+</p>
+
+<p>
+Also thanks to user pRot0ta1p for the relevant feedback in issue 43
+(also on the mirror): <a href="https://github.com/protesilaos/denote/issues/43">https://github.com/protesilaos/denote/issues/43</a>.
+More thanks to Alfredo Borrás, Benjamin Kästner, and Sven Seebeck for
+their comments in a related thread on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3CCA73E705-1194-4324-9962-70708C4C72E5%40zoho.eu%3E">https://lists.sr.ht/~protesilaos/denote/%3CCA73E705-1194-4324-9962-70708C4C72E5%40zoho.eu%3E</a>.
+These discussions showed we had a problem, which we managed to
+identify.
+</p></li>
+
+<li><p>
+Introduced the user option <code>denote-prompts</code> (read its doc string or
+the relevant entry in the manual).  It governs how the standard
+<code>denote</code> command for creating new notes will behave in interactive
+usage.  By default, <code>denote</code> prompts for a title and keywords.  With
+<code>denote-prompts</code>, the command can also ask for a file type (per
+<code>denote-file-type</code>), subdirectory of the <code>denote-directory</code>, and a
+specific date+time.  Prompts occur in the order they are specified.
+Furthermore, the <code>denote-prompts</code> can be set to values which do not
+include the title and keywords.  This means that the resulting file
+names can be any of those permutations:
+</p>
+
+<pre class="example">
+DATE.EXT
+DATE--TITLE.EXT
+DATE__KEYWORDS.EXT
+</pre>
+
+
+<p>
+Recall that Denote's standard file-naming scheme is defined as follows
+(read the manual for the details):
+</p>
+
+<pre class="example">
+DATE--TITLE__KEYWORDS.EXT
+</pre>
+
+
+<p>
+For our purposes, Denote will work perfectly fine for linking and
+backlinking, even if file names do not include the <code>TITLE</code> and
+<code>KEYWORDS</code> fields.  However, the user is advised to consider the
+implications on usability: notes without a descriptive title and/or
+useful keywords may be hard to filter and practically impossible to
+manage at scale.  File names without such information should at least
+be added to subdirectories which themselves have a descriptive name.
+</p>
+
+<p>
+At any rate, Denote does not have strong opinions about one's
+workflow.  The standard file name is the culmination of years of
+experience.
+</p>
+
+<p>
+Consider the <code>denote-prompts</code> the affirmative answer to the question
+"Can keywords be optional?" as posed by Jack Baty on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C8D392BC3-980A-4E5B-9480-D6A00BE8279F%40baty.net%3E">https://lists.sr.ht/~protesilaos/denote/%3C8D392BC3-980A-4E5B-9480-D6A00BE8279F%40baty.net%3E</a>.
+</p>
+
+<p>
+Thanks to Jean-Philippe Gagné Guay for the original contribution in
+commit 9b981a2.  It was originally part of a pull request, but due to
+some internal changes I had to merge it as a patch and technically the
+web UI did not count the PR as "merged" (though it was in terms of
+substance).
+</p></li>
+
+<li><p>
+Refactored the <code>denote</code> command to (i) accommodate the new user option
+<code>denote-prompts</code> via its interactive specification and (ii) be more
+flexible when called from Lisp.  The latter scenario is for advanced
+users or, generally, those who can maintain some custom code in their
+configuration.  A case in point is one of the examples we show in the
+manual for a programmatic way to create notes that automatically get
+the <code>journal</code> tag:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (defun my-denote-journal ()
+    "Create an entry tagged 'journal', while prompting for a title."
+    (interactive)
+    (denote
+     (denote--title-prompt)
+     '("journal")))
+</pre>
+</div>
+
+<p>
+Notice that the <code>'("journal")</code> is a list of strings even for a single
+keyword.  Whereas before a single one was a plain string.  This is a
+breaking change.
+</p>
+
+<p>
+Please consult the doc string of the <code>denote</code> command for the
+technicalities.
+</p></li>
+
+<li><p>
+Refashioned the interactive convenience functions of <code>denote-type</code>,
+<code>denote-date</code>, <code>denote-subdirectory</code> to leverage the <code>denote-prompts</code>
+user option while calling <code>denote</code> interactively.  In practical terms,
+they no longer accept any arguments when called from Lisp.  Users who
+need a programmatic approach are advised to either call <code>denote</code>
+directly, or check how these commands <code>let</code> bind the <code>denote-prompts</code>
+to carry out their operations.  The doc string of each command
+explains how it works.  Or evaluate this to check the manual:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (info "(denote) Convenience commands for note creation")
+</pre>
+</div>
+
+<p>
+Else visit:
+<a href="https://protesilaos.com/emacs/denote#h:887bdced-9686-4e80-906f-789e407f2e8f">https://protesilaos.com/emacs/denote#h:887bdced-9686-4e80-906f-789e407f2e8f</a>
+</p></li>
+
+<li><p>
+Documented how the user option <code>denote-directory</code> can accept a local
+value.  This is pertinent to scenaria where the user needs to maintain
+separate directories of notes.  By "separate" we mean sets of notes
+that do not communicate with each other, cannot create links between
+them, etc.  The manual delves into the technicalities.  If you have
+the Info entry installed, evaluate:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (info "(denote) Maintain separate directories for notes")
+</pre>
+</div>
+
+<p>
+Else visit:
+<a href="https://protesilaos.com/emacs/denote#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">https://protesilaos.com/emacs/denote#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5</a>.
+</p>
+
+<p>
+Thanks to user "Summer Emacs" for starting the discussion on the
+mailing list, and Benjamin Kästner for their participation:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm25yk5e856.fsf@gmail.com%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm25yk5e856.fsf@gmail.com%3E</a>.
+</p></li>
+
+<li>Added an entry to the manual's Frequently Asked Questions about a
+failed search for backlinks.  It includes sample code that users of
+Windows can apply, if necessary.  (The error is not Denote's fault.)
+Thanks to Benjamin Kästner for the patch, which is below the ~15 line
+threshold and thus does not require copyright assignment to the Free
+Software Foundation:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cce117b14-55cf-622e-6cd8-0af698091ae3%40gmail.com%3E">https://lists.sr.ht/~protesilaos/denote/%3Cce117b14-55cf-622e-6cd8-0af698091ae3%40gmail.com%3E</a>.</li>
+
+<li>Removed duplicate entries from the list of file paths that the <code>xref</code>
+library returns for the purposes of backlinking.  Thanks to
+Jean-Philippe Gagné Guay for the contribution in pull request 44 on
+the GitHub mirror: <a href="https://github.com/protesilaos/denote/issues/44">https://github.com/protesilaos/denote/issues/44</a>.</li>
+
+<li>Applied an appropriate face to the backlinks' button to mitigate an
+error.  Thanks to Jean-Philippe Gagné Guay for the contribution in
+pull request 45 on the GitHub mirror and for later testing a
+subsequent tweak: <a href="https://github.com/protesilaos/denote/issues/45">https://github.com/protesilaos/denote/issues/45</a>.</li>
+
+<li>Simplfied all the faces we define to make them work with all themes.
+The previous colours were consistent with the <code>modus-themes</code>:
+<a href="https://protesilaos.com/emacs/modus-themes">https://protesilaos.com/emacs/modus-themes</a>.</li>
+
+<li>Refined how strings are sluggified under all circumstances.  Before, a
+nil value for the user option <code>denote-allow-multi-word-keywords</code> would
+have the adverse effect of joining all the strings in the title field
+of the file name.  The intent always was to do that only for
+multi-word keywords, not the title.  This change was part of a hotfix,
+formalised as version <code>0.2.1</code> a day after the release of <code>0.2.0</code>.</li>
+
+<li>Made the fontification rules more robust, while avoiding any false
+positives.  This was done over a series of commits as it had
+implications for the file name permutations that were mentioned
+earlier.  Thanks to Jean-Philippe Gagné Guay for the patches and/or
+discussion about the merits of each change and concomitant
+considerations:
+
+<ul class="org-ul">
+<li><a href="https://github.com/protesilaos/denote/pull/36">https://github.com/protesilaos/denote/pull/36</a></li>
+<li><a href="https://github.com/protesilaos/denote/pull/38">https://github.com/protesilaos/denote/pull/38</a></li>
+<li><a href="https://github.com/protesilaos/denote/pull/40">https://github.com/protesilaos/denote/pull/40</a></li>
+<li><a href="https://github.com/protesilaos/denote/pull/42">https://github.com/protesilaos/denote/pull/42</a></li>
+</ul></li>
+
+<li>Rewrote all relevant entries in the manual to reflect all the
+user-facing aspects of the aforementioned.</li>
+
+<li><p>
+Discussed a use-case of rewriting old journal entries as Denote-style
+files.  As of this writing, we do not support migration of files in
+bulk.  It might happen at some point, though it is no mean task.
+Thanks to Summer Emacs and Alan Schmitt for their participation:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm27d4mbktj.fsf%40gmail.com%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm27d4mbktj.fsf%40gmail.com%3E</a>.
+</p>
+
+<p>
+An aside here as this topic was brought up: my packages are open to
+users of all skill levels and is why I maintain a mailing list as well
+as mirrors of the official git repository on SourceHut.  Do not
+hesitate to ask a question.  If, for whatever reason, those
+communication channels are not appropriate, you are welcome to contact
+me in private: <a href="https://protesilaos.com/contact">https://protesilaos.com/contact</a>.
+</p></li>
+</ul>
+
+<p>
+Thanks again to Jean-Philippe Gagné Guay for the numerous contributions.
+Please read the commit log for the minutia, as this change log entry
+omitted some of the finer yet important details.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:2002fee6-3f0c-48be-9727-6d4e20f34856" class="outline-2">
 <h2 id="h:2002fee6-3f0c-48be-9727-6d4e20f34856">Version 0.2.0 on 2022-07-04</h2>
 <div class="outline-text-2" id="text-h:2002fee6-3f0c-48be-9727-6d4e20f34856">
@@ -180,7 +434,7 @@ My thanks for their participation in the discussions go to Jean-Philippe
 Gagné Guay, Kaushal Modi, and Shreyas Ragavan.
 </p>
 
-<pre class="example" id="org90c73ad">
+<pre class="example" id="orgf0a9248">
 commit f35ef05cb451f265213c3aafc1e62c425b1ff043
 Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 Date:   Sun Jul 3 17:34:38 2022 +0300
@@ -387,7 +641,7 @@ remains constant.  For completeness, this is how they look:
 </pre>
 </div>
 
-<pre class="example" id="org2e97c39">
+<pre class="example" id="org46af862">
   title:      Sample plain text
   date:       2022-06-10
   tags:       denote  testing
