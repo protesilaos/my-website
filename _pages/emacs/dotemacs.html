@@ -10,8 +10,8 @@ redirect_from:
 
 <ul class="org-ul">
 <li>Created: 2019-08-15</li>
-<li>Updated: <b>2022-07-09 22:29 +0300</b>.</li>
-<li>Word count: <b>132080</b> (not a measure of quality, just to offer an
+<li>Updated: <b>2022-07-12 16:19 +0300</b>.</li>
+<li>Word count: <b>132066</b> (not a measure of quality, just to offer an
 idea on what to expect)</li>
 <li>Git repository (part of my dotfiles for GNU/Linux):
 <a href="https://git.sr.ht/~protesilaos/dotfiles">https://git.sr.ht/~protesilaos/dotfiles</a> OR
@@ -3062,7 +3062,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; of padding and NATNUM), and a floating point for the height of
         ;; the text relative to the base font size (or a cons cell of
         ;; height and FLOAT)
-        modus-themes-mode-line '(borderless (padding 3))
+        modus-themes-mode-line nil
 
         ;; Options for `modus-themes-markup' are either nil, or a list
         ;; that can combine any of `bold', `italic', `background',
@@ -3082,13 +3082,13 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match '(intense)
+        modus-themes-paren-match '(bold underline)
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
         ;; `bold', `italic', `background'
-        modus-themes-links '(no-color)
+        modus-themes-links '(neutral-underline)
 
         ;; Options for `modus-themes-box-buttons' are either nil (the
         ;; default), or a list that can combine any of `flat',
@@ -3101,7 +3101,7 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; Options for `modus-themes-prompts' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `background', `bold', `gray', `intense', `italic'
-        modus-themes-prompts '(bold gray intense)
+        modus-themes-prompts '(bold italic intense)
 
         ;; The `modus-themes-completions' is an alist that reads three
         ;; keys: `matches', `selection', `popup'.  Each accepts a nil
@@ -3144,10 +3144,10 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
         ;; combinations, include per-heading-level tweaks: read the
         ;; manual or its doc string
         modus-themes-headings
-        '((0 . (variable-pitch light (height 1.9)))
-          (1 . (variable-pitch light (height 1.6) background))
-          (2 . (variable-pitch regular (height 1.4) overline))
-          (3 . (variable-pitch regular (height 1.3) overline))
+        '((0 . (variable-pitch monochrome light (height 1.9)))
+          (1 . (variable-pitch rainbow light (height 1.6)))
+          (2 . (variable-pitch rainbow regular (height 1.4)))
+          (3 . (variable-pitch rainbow regular (height 1.3)))
           (4 . (rainbow (height 1.2)))
           (5 . (rainbow (height 1.1)))
           (t . (variable-pitch extrabold (height 1.05)))))
@@ -3155,27 +3155,19 @@ check the <a href="https://protesilaos.com/emacs/modus-themes-changelog/">Change
   ;; Load the theme files before enabling a theme (else you get an error).
   (modus-themes-load-themes)
 
-  ;; Custom faces (for demo purposes---check the themes' manual for more
-  ;; advanced uses).
-  (defun prot/modus-themes-custom-faces ()
-    (modus-themes-with-colors
-      (custom-set-faces
-       ;; Here add all your face definitions.
-       `(cursor ((,class :background ,red-intense))))))
-
-  (add-hook 'modus-themes-after-load-theme-hook #'prot/modus-themes-custom-faces)
-
-  ;; Enable the theme at startup.  This is done after loading the files.
-  ;; You only need `modus-themes-load-operandi' for the light theme or
-  ;; `modus-themes-load-vivendi' for the dark one.  What I have here is
-  ;; a simple test to load a light/dark theme based on some general time
-  ;; ranges (just accounting for the hour and without checking for the
-  ;; actual sunrise/sunset times).  Plus we have `modus-themes-toggle'
-  ;; to switch themes at will.
-  (let ((time (string-to-number (format-time-string "%H"))))
-    (if (and (&gt; time 5) (&lt; time 18))
-        (modus-themes-load-operandi)
-      (modus-themes-load-vivendi)))
+  ;; A simple check to load the desired theme at startup based on what
+  ;; the global preference for GNOME is.  If such preference is not
+  ;; registered, it just loads `modus-operandi'.  Check my dotfiles for
+  ;; the shell script called "delight", which handles system-wide theme
+  ;; switching (as I bind the `modus-themes-toggle' to &lt;f5&gt;, delight is
+  ;; bound to s-&lt;f5&gt; in the desktop's own custom key bindings.
+  (if-let ((pref (shell-command-to-string "gsettings get org.gnome.desktop.interface color-scheme")))
+      (cond
+       ((string-match-p "dark" pref)
+        (modus-themes-load-vivendi))
+       ((string-match-p "light" pref)
+        (modus-themes-load-operandi)))
+    (modus-themes-load-operandi))
 
   ;; Also check my package configurations for `prot-fonts' because I use
   ;; the `modus-themes-after-load-theme-hook' for some typeface-related
@@ -3354,6 +3346,7 @@ This is the code for <code>lin.el</code>:
     notmuch-tree-mode-hook
     occur-mode-hook
     org-agenda-mode-hook
+    pdf-outline-buffer-mode-hook
     proced-mode-hook
     tabulated-list-mode-hook)
   "List of hooks that should enable Lin.
@@ -3857,6 +3850,9 @@ Relevant publications of mine that are not part of this document:
            :fixed-pitch-family nil ; falls back to :default-family
            :fixed-pitch-weight nil ; falls back to :default-weight
            :fixed-pitch-height 1.0
+           :fixed-pitch-serif-family nil ; falls back to :default-family
+           :fixed-pitch-serif-weight nil ; falls back to :default-weight
+           :fixed-pitch-serif-height 1.0
            :variable-pitch-family "Iosevka Comfy Duo"
            :variable-pitch-weight nil
            :variable-pitch-height 1.0
@@ -4257,7 +4253,7 @@ that the website version of this document may not accurately represent
 the typeface I am using.
 </p>
 
-<pre class="example" id="orgd5563ec">
+<pre class="example" id="orga7e3f3f">
 ()[]{}&lt;&gt;«»‹›
 6bB8&amp;
 0ODdoaoOQGC
@@ -4340,7 +4336,7 @@ question has been added to the <code>repeat-map</code>.  Here is a sample from
 <code>window.el</code>:
 </p>
 
-<pre class="example" id="orgdf3c0ab">
+<pre class="example" id="org5db6ab1">
 (defvar resize-window-repeat-map
   (let ((map (make-sparse-keymap)))
     ;; Standard keys:
@@ -6234,7 +6230,7 @@ fields with whatever values we want.
 My templates:
 </p>
 
-<pre class="example" id="org1adb4c2">
+<pre class="example" id="orge071a27">
 text-mode
 
 (dotfiles-sync-package
@@ -9096,12 +9092,12 @@ Watch the <a href="https://protesilaos.com/codelog/2022-06-18-denote-demo/">demo
     (interactive)
     (denote
      (denote--title-prompt)
-     "journal"))
+     '("journal")))
 
   ;; Denote does not define any key bindings.  This is for the user to
   ;; decide.  For example:
   (let ((map global-map))
-    (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
+    (define-key map (kbd "C-c n j") #'prot/denote-journal) ; our custom command
     (define-key map (kbd "C-c n n") #'denote)
     (define-key map (kbd "C-c n N") #'denote-type)
     (define-key map (kbd "C-c n d") #'denote-date)
@@ -13692,7 +13688,7 @@ of spaces is a matter of preference).  So the format looks like this
 the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 </p>
 
-<pre class="example" id="org7e74d72">
+<pre class="example" id="org46858d4">
 2021-04-13
     This event is not time sensitive
     06:30-09:00 Hiking
@@ -13704,7 +13700,7 @@ the active region, or <code>C-u C-x TAB</code> to increase by four spaces):
 The following is also possible, but looks too busy for no good reason:
 </p>
 
-<pre class="example" id="org9116bc8">
+<pre class="example" id="orgc4b20cc">
 2021-04-13 This event is not time sensitive
 2021-04-13 06:30-09:00 Hiking
 2021-04-13 10:00 Prepare sourdough bread
@@ -13719,7 +13715,7 @@ means that for multiple events on a given day you can use something like
 this, if you need to (here dots represent empty spaces):
 </p>
 
-<pre class="example" id="orge51c775">
+<pre class="example" id="org0dd09a9">
 2021-04-13
     This event is not time sensitive
 ....
@@ -13735,7 +13731,7 @@ Furthermore, it is possible to use nested levels of indentation.  For
 example:
 </p>
 
-<pre class="example" id="org25f96cf">
+<pre class="example" id="orgf261ca9">
 2021-04-13
     This event is not time sensitive
 ....
@@ -13764,7 +13760,7 @@ starts from the line below the date and ends at the end of the line with
 the last entry (demarcated by the <code>|</code> characters).
 </p>
 
-<pre class="example" id="orge85d21f">
+<pre class="example" id="org09e2d8d">
 2021-04-13
 |This event is not time sensitive
 06:30-09:00 Hiking
@@ -13928,7 +13924,7 @@ like this (new line and indentation are optional, as mentioned above,
 otherwise keep everything on one line):
 </p>
 
-<pre class="example" id="org340f126">
+<pre class="example" id="orgf3ae51a">
  %%(diary-date t t 13 'prot-diary-calendar-administrative-mark)
      Some administrative monthly task
  %%(diary-anniversary 1900 4 13 'prot-diary-calendar-anniversary-mark)
@@ -14673,7 +14669,7 @@ from inside <code>dired</code> with <code>: e</code> while the point is over the
 decrypt all encrypted files automatically.
 </p>
 
-<pre class="example" id="org9eefbdf">
+<pre class="example" id="orge0a48ea">
 machine prv port 993 login MAIL password SECRET
 machine inf port 993 login MAIL password SECRET
 machine pub port 993 login MAIL password SECRET
@@ -14707,7 +14703,7 @@ will find this function used elsewhere in this document.  For example,
 to get the username and password for host <code>inf</code> we do:
 </p>
 
-<pre class="example" id="org538c04a">
+<pre class="example" id="org5d6c704">
 (prot-mail-auth-get-field "inf" :user)   ; login name
 (prot-mail-auth-get-field "inf" :secret) ; password
 </pre>
@@ -14871,7 +14867,7 @@ to spend some time reading the man pages for the CLI tools.  Some
 examples for searching:
 </p>
 
-<pre class="example" id="org30da76f">
+<pre class="example" id="orgb58fd1f">
 $ notmuch search from:prot*
 $ notmuch search from:protesilaos tag:todo
 $ notmuch search from:protesilaos or from:socrates
@@ -15066,7 +15062,7 @@ we can tag it accordingly (e.g. "del") and then run this command either
 manually or from a script with some cron job or systemd timer:
 </p>
 
-<pre class="example" id="orgef148e6">
+<pre class="example" id="orgfca33cb">
 notmuch search --output=files --format=text0 tag:del | xargs -r0 rm
 </pre>
 
@@ -16116,7 +16112,7 @@ angled brackets, or a domain name that starts with the <code>@</code> sign.  No
 regexp notation is accepted.  For example:
 </p>
 
-<pre class="example" id="orgaa56197">
+<pre class="example" id="org271a21f">
 @debbugs.gnu.org
 help-debbugs@gnu.org
 @reply.github.com
@@ -17176,7 +17172,7 @@ to one or more tags.  These are then written to a database.  The Elisp
 part users should care about looks like this:
 </p>
 
-<pre class="example" id="org3515eab">
+<pre class="example" id="org6d5b9c4">
 (setq elfeed-feeds
       '(("https://www.archlinux.org/feeds/news/" linux distro)
         ("https://planet.emacslife.com/atom.xml" emacs community)
@@ -17582,7 +17578,7 @@ settings of the player, I just add the following to my local
 configuration files, specifically <code>~/.config/mpv/mpv.conf</code>:
 </p>
 
-<pre class="example" id="org3b0c766">
+<pre class="example" id="org4cdc107">
 hwdec=auto-safe
 ytdl-format="bestvideo[height&lt;=?1080]+bestaudio/best"
 </pre>
@@ -22405,7 +22401,7 @@ consistent and fairly easy to identify.
 To be clear, these are equivalent:
 </p>
 
-<pre class="example" id="orgc4f9ead">
+<pre class="example" id="org98994e2">
 ;; Style A
 (setq var-1 'symbol)
 (setq var-2 '(a b c))
@@ -22869,7 +22865,7 @@ use.  Let's say you plan to clone the repo at <code>~/Git/prot-dotfiles</code>. 
 invoke this command from your shell:
 </p>
 
-<pre class="example" id="org03064a6">
+<pre class="example" id="org532cd8f">
 git clone https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -22878,7 +22874,7 @@ If you do not want to copy the entire history of the project, you can
 pass the <code>--depth</code> flag, like this:
 </p>
 
-<pre class="example" id="org6b974b5">
+<pre class="example" id="orgb31d5ed">
 git clone --depth 1 https://git.sr.ht/~protesilaos/dotfiles.git ~/Git/prot-dotfiles
 </pre>
 
@@ -22903,7 +22899,7 @@ at the tree representation of my "emacs package", per Stow's parlance
 you review it, but that is beside the point).
 </p>
 
-<pre class="example" id="org4f835fa">
+<pre class="example" id="orgc3e04c4">
 ~/Git/Projects/dotfiles $ tree -aF --dirsfirst emacs
 emacs/
 `-- .emacs.d/
@@ -22979,7 +22975,7 @@ mirror this tree in our <code>$HOME</code> directory (I only use GNU/Linux, by t
 way):
 </p>
 
-<pre class="example" id="orga165bbf">
+<pre class="example" id="org3e57a99">
 ~/Git/prot-dotfiles $ stow -t "$HOME" emacs
 </pre>
 
@@ -23004,7 +23000,7 @@ accordingly: the symlinks have to be generated anew.  Adding the <code>-R</code>
 does the trick:
 </p>
 
-<pre class="example" id="org0f9b336">
+<pre class="example" id="org78353a2">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -R emacs
 </pre>
 
@@ -23013,7 +23009,7 @@ Similarly, if you ever want to delete those symlinks in a clean way,
 pass the <code>-D</code> flag instead of <code>-R</code>:
 </p>
 
-<pre class="example" id="org6e002cf">
+<pre class="example" id="org42a6000">
 ~/Git/prot-dotfiles $ stow -t "$HOME" -D emacs
 </pre>
 
@@ -23032,7 +23028,7 @@ called <code>basic-init.el</code> and place it in the same place where my <code>
 main configuration file).  In that file you must add the following:
 </p>
 
-<pre class="example" id="orgd057a87">
+<pre class="example" id="org65f2fc0">
 (setq prot-emacs-autoinstall-elpa t)
 </pre>
 
