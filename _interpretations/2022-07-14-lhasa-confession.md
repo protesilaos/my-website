@@ -10,6 +10,8 @@ Below are the original lyrics, my translation of them, and some further
 thoughts on the underlying philosophical points I discern therein.
 
 ```
+La confession
+
 Je n'ai pas peur
 de dire que je t'ai trahi
 Par pure paresse
@@ -103,8 +105,8 @@ It is reassuring
 to think
 that I am certain
 to not be mistaken
-when it comes to the
-question
+when it comes 
+to the question
 of my great guilt
 
 I'm not afraid
@@ -122,7 +124,7 @@ Pleasure and guilt
 
 What is this confession about?  Who is betrayed and what does the
 betrayal amount to?  I think that without the final part of the song, we
-would have to surmise that this is all about a private affair.  Yet the
+would have to surmise that this pertains to a private affair.  Yet the
 allusion to the "truth" makes me believe that Lhasa sings about the
 person who defies the norms in their cultural milieu.
 
@@ -130,14 +132,15 @@ We can think of _La confession_ as an open letter whose opening
 statement is "Dear society".  The person did not behave in accordance
 with some conventional wisdom and expresses their guilt about the fact.
 Though this guilt is not authentic.  The poetic "I" has no regrets.  The
-admission of culpability is what the prevailing cultural norms expect of
-an agent who deviates from them.  The "I" simply role-plays because that
-is what it has learnt to do in such circumstances.
+admission of culpability, this performance, is what the prevailing
+cultural norms expect of an agent who deviates from them.  The "I"
+simply role-plays because that is what it has learnt to do in such
+circumstances.
 
 The first person view of this confession is the irony of rejecting the
-given truths of society while still not having fully overcome the false
-sense of duty one has; duty to conform with the norms; duty to perform
-the role imposed upon the given person; duty to become what this
+given truths of society while still not having fully overcome the
+misplaced sense of duty one has; duty to conform with the rules; duty to
+perform the role imposed upon their person; duty to become what this
 impersonal "society" wants us to be.
 
 You are a boy?  You will grow up to be a real man!  You are a girl?  You
@@ -169,22 +172,22 @@ could be out of boredom, or depression, or chance.  The point is that
 the "I" learns about the possibility of an alternative.  As such, it
 finds a new friend in this newfound realisation; an amiable presence
 that gives hope and provides the impetus to walk down the path of
-uncertainty.  The "I" will free itself from the fetters of duty: the
+uncertainty.  The "I" shall free itself from the fetters of duty: the
 [fetters are now theirs](https://protesilaos.com/interpretations/2022-06-28-trypes-train/).
 
-I write "uncertainty" because rejecting established truths does not mean
-that we have replaced them with other truths.  The renegade's latent
-hubris is braught to bear when their propensity for self-righteousness
-turns into a cult of personality.  It is prudent to not take oneself too
-seriously.  It would be frivolous to claim that one's truth is the
-truth.  Rather, one has merely discovered that what is all too often
-taken for granted does not withstand scrutiny.  What those truths
-purport to represent are nothing of the sort.  Their pretences to
-sagacity are just that: _pretences_.
+I mention "uncertainty" because rejecting established truths does not
+mean that we have replaced them with other truths.  The renegade's
+latent hubris is braught to bear when their propensity for
+self-righteousness turns into a cult of personality.  It is prudent to
+not take oneself too seriously.  It would be frivolous to claim that
+one's truth is the truth.  Rather, one has merely discovered that what
+is all too often taken for granted does not withstand scrutiny.  What
+those truths purport to represent are nothing of the sort.  Their
+pretences to sagacity are just that: _pretences_.
 
 Does the aforementioned irony have a resolution?  Will the escape from
 all the norms engender a better state of affairs?  What does "better"
-even mean?  One cannot know in advance.  There are times where it is
+even mean?  One cannot know in advance.  There are cases where it is
 necessary [to make a leap of
 faith](https://protesilaos.com/interpretations/2022-07-05-xylina-spathia-on-the-rock/)
 by trusting in our own devices.  If it works for us, then that's good
