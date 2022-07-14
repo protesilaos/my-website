@@ -177,7 +177,7 @@ uncertainty.  The "I" shall free itself from the fetters of duty: the
 
 I mention "uncertainty" because rejecting established truths does not
 mean that we have replaced them with other truths.  The renegade's
-latent hubris is braught to bear when their propensity for
+latent hubris is brought to bear when their propensity for
 self-righteousness turns into a cult of personality.  It is prudent to
 not take oneself too seriously.  It would be frivolous to claim that
 one's truth is the truth.  Rather, one has merely discovered that what
