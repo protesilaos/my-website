@@ -85,7 +85,7 @@ We also notice the theme of running away, of not wanting to face up to
 who one is.  This is done in the opening verse where the "you" believes
 to have deceived the heavens.  Who is the fool, really?  No heaven can
 ever be tricked.  It is always humans who, in their lack of perspective,
-do not recognise the limits imposed by their condition by virtue of
+do not recognise the limits imposed on their condition by virtue of
 their humanity.
 
 The Moon's Hamlet is the person who is not honest about who they are and
