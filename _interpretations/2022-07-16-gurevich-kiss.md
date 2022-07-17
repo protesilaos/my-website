@@ -10,9 +10,10 @@ conditions.
 
 _Kiss_, the song I am about to provide philosophical commentary on,
 feels to me like a "hidden gem".  It is not as intriguing as _Party
-Girl_, not as sincere as _First Six Months of Love_, not as downbeat as
-_Friday Night_, and not as daring as _To Be With Others_.  On the face
-of it, _Kiss_ is a simple-minded song.  We'll see if that's the case.
+Girl_, not as hard-hitting as _First Six Months of Love_, not as
+downbeat as _Friday Night_, and not as daring as _To Be With Others_.
+On the face of it, _Kiss_ is a simple-minded song.  We'll see if that's
+the case.
 
 I could not find a video link, so this is the track on Bandcamp (from
 the album _Ecstasy in the Shadow of Ecstasy_):
