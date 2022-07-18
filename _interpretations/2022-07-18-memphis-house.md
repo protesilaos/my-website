@@ -5,14 +5,14 @@ excerpt: "Translation of---and philosophical commentary on---a song by Memphis (
 
 Memphis (stylised as "Μ3ΜΦ1Σ") is a Greek rock/metal band that I have
 covered before in this new section of my website ([Interpretation of
-“The Sweet Paradox” by Memphis (Μ3ΜΦ1Σ)](https://protesilaos.com/interpretations/2022-07-01-memphis-sweet-paradox/))
+“The Sweet Paradox” by Memphis (Μ3ΜΦ1Σ)](https://protesilaos.com/interpretations/2022-07-01-memphis-sweet-paradox/)).
 They blend meaningful lyrics with high quality music.  Really talented
 fellows!
 
 For this entry, I am translating---and providing philosophical
 commentary on---the song "I have a house" (Έχω ένα σπίτι):
 <https://www.youtube.com/watch?v=rCrFjcfF4yQ> (also check their bandcamp
-page for all their discography: <https://m3mf1s.bandcamp.com/music>)
+page for their entire discography: <https://m3mf1s.bandcamp.com/music>)
 
 [ By the way, the solo at 02:48 is art at its scintillating best! ]
 
