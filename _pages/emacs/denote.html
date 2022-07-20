@@ -257,7 +257,7 @@ default).
 
 <p>
 Multiple keywords can be inserted by separating them with a comma (or
-whatever the value of the <code>crm-indicator</code> is&#x2014;which should be a comma).
+whatever the value of the <code>crm-separator</code> is&#x2014;which should be a comma).
 When the user option <code>denote-sort-keywords</code> is non-nil (the default),
 keywords are sorted alphabetically (technically, the sorting is done
 with <code>string-lessp</code>).
@@ -484,12 +484,15 @@ for a title followed by a prompt for keywords (<a href="#h:6a92a8b5-d766-42cc-8e
 Users may prefer to leverage <code>org-capture</code> in order to extend file
 creation with the specifiers described in the <code>org-capture-templates</code>
 documentation (such as to capture the active region and/or create a
-hyperlink pointing to the given context).  Due to the particular
-file-naming scheme of Denote, which is derived dynamically, such
-specifiers cannot be written directly in the template.  Instead, they
-have to be assigned to the user option <code>denote-org-capture-specifiers</code>,
-which is interpreted by the function <code>denote-org-capture</code>.  Example with
-our default value:
+hyperlink pointing to the given context).
+</p>
+
+<p>
+IMPORTANT.  Due to the particular file-naming scheme of Denote, which is
+derived dynamically, such specifiers or other arbitrary text cannot be
+written directly in the template.  Instead, they have to be assigned to
+the user option <code>denote-org-capture-specifiers</code>, which is interpreted by
+the function <code>denote-org-capture</code>.  Example with our default value:
 </p>
 
 <div class="org-src-container">
@@ -553,7 +556,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge2bf30d">
+<pre class="example" id="orge921938">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -606,7 +609,7 @@ does (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  A
 before renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org2cba1b1">
+<pre class="example" id="org6822977">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -867,7 +870,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org6aa34a9">
+<pre class="example" id="orgb1dc37e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -879,7 +882,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf4496f8">
+<pre class="example" id="orgc6928a8">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -893,7 +896,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbc3be63">
+<pre class="example" id="org35db4e1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -907,7 +910,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge720313">
+<pre class="example" id="org2dbd016">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -993,7 +996,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org0a54125">
+<pre class="example" id="org77cc61f">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1043,7 +1046,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org3ec5af9">
+<pre class="example" id="org77f5ff1">
 - link1
 - link2
 - link3
@@ -1061,7 +1064,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org5a3a7bb">
+<pre class="example" id="org917700f">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1220,7 +1223,8 @@ created by Denote: it covers every file name that follows our naming
 conventions (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  This is particularly useful for
 scenaria where, say, one wants to organise their collection of PDFs and
 multimedia in a systematic way (and, perhaps, use them as attachments
-for the notes Denote produces).
+for the notes Denote produces if you are writing Org notes and are using
+its standand attachments&rsquo; facility).
 </p>
 </div>
 </div>
@@ -1244,7 +1248,7 @@ configuration:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'savehist)
 (setq savehist-file (locate-user-emacs-file "savehist"))
-(setq history-length 10000)
+(setq history-length 500)
 (setq history-delete-duplicates t)
 (setq savehist-save-minibuffer-history t)
 (add-hook 'after-init-hook #'savehist-mode)
@@ -1854,7 +1858,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8ecbadd">
+<pre class="example" id="orgf2d557d">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
