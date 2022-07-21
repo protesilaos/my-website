@@ -72,7 +72,13 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">7. Front matter</a></li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">8. Linking notes</a>
 <ul>
-<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">8.1. Writing metanotes</a></li>
+<li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">8.1. Adding a single link</a></li>
+<li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">8.2. Insert links matching a regexp</a></li>
+<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">8.3. Insert links from marked files in Dired</a></li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">8.4. The backlinks&rsquo; buffer</a></li>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">8.5. Writing metanotes</a></li>
+<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">8.6. Visiting linked files via the minibuffer</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">8.7. Miscellaneous information about links</a></li>
 </ul>
 </li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">9. Fontification in Dired</a></li>
@@ -556,7 +562,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org03d5107">
+<pre class="example" id="org6b54a51">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -611,7 +617,7 @@ completion for a file name.  It then uses the familiar prompts for a
 renaming the file at point, showing a message like:
 </p>
 
-<pre class="example" id="org59c2e26">
+<pre class="example" id="orgec0229e">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -911,7 +917,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgaef4dd8">
+<pre class="example" id="org492abd0">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -923,7 +929,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org86c7301">
+<pre class="example" id="orgb29eeaf">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -937,7 +943,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbf90d77">
+<pre class="example" id="org6e0f29c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -951,7 +957,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org86bb3af">
+<pre class="example" id="org43aec32">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -987,6 +993,27 @@ in the doc string of <code>format-time-string</code>..
 <h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">8.</span> Linking notes</h2>
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
 <p>
+Denote offers several commands for linking between notes.
+</p>
+
+<p>
+All links target files which are Denote notes.  This means that they
+have our file-naming scheme, are writable/regular (not directory, named
+pipe, etc.), and use the appropriate file type extension (per
+<code>denote-file-type</code>).  Furthermore, the files need to be inside the
+<code>denote-directory</code> or one of its subdirectories.  No other file is
+recognised.
+</p>
+
+<p>
+The following sections delve into the details.
+</p>
+</div>
+
+<div id="outline-container-h:5e5e3370-12ab-454f-ba09-88ff44214324" class="outline-3">
+<h3 id="h:5e5e3370-12ab-454f-ba09-88ff44214324"><span class="section-number-3">8.1.</span> Adding a single link</h3>
+<div class="outline-text-3" id="text-h:5e5e3370-12ab-454f-ba09-88ff44214324">
+<p>
 The <code>denote-link</code> command inserts a link at point to an entry specified
 at the minibuffer prompt.  Links are formatted depending on the file
 type of current note.  In Org and plain text buffers, links are
@@ -1021,78 +1048,22 @@ case the user needs it [ this is part of 0.4.0-dev ].
 </p>
 
 <p>
-Denote has a major-mode-agnostic mechanism to collect all linked file
-references in the current buffer and return them as an appropriately
-formatted list.  This list can then be used in interactive commands.
-The <code>denote-link-find-file</code> is such a command.  It uses minibuffer
-completion to visit a file that is linked to from the current note.  The
-candidates have the correct metadata, which is ideal for integration
-with other standards-compliant tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).  For instance,
-a package such as <code>marginalia</code> will display accurate annotations, while
-the <code>embark</code> package will be able to work its magic such as in exporting
-the list into a filtered Dired buffer (i.e. a familiar Dired listing
-with only the files of the current minibuffer session).
+Links are created only for files which qualify as a &ldquo;note&rdquo; for our
+purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
 </p>
-
-<p>
-The command <code>denote-link-backlinks</code> produces a bespoke buffer which
-displays the file name of all notes linking to the current one.  Each
-file name appears on its own line and is buttonized so that it performs
-the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
-like this:
-</p>
-
-<pre class="example" id="org4aaedd0">
-Backlinks to "On being honest" (20220614T130812)
-------------------------------------------------
-
-20220614T145606--let-this-glance-become-a-stare__journal.txt
-20220616T182958--not-feeling-butterflies-in-your-stomach__journal.txt
-</pre>
-
-<p>
-The backlinks&rsquo; buffer is fontified by default, though the user has
-access to the <code>denote-link-fontify-backlinks</code> option to disable this
-effect by setting its value to nil.
-</p>
-
-<p>
-The placement of the backlinks&rsquo; buffer is subject to the user option
-<code>denote-link-backlinks-display-buffer-action</code>.  Due to the nature of the
-underlying <code>display-buffer</code> mechanism, this inevitably is a relatively
-advanced feature.  By default, the backlinks&rsquo; buffer is displayed below
-the current window.  The doc string of our user option includes a sample
-configuration that places the buffer in a left side window instead.
-Reproducing it here for the sake of convenience:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-link-backlinks-display-buffer-action
-      '((display-buffer-reuse-window
-         display-buffer-in-side-window)
-        (side . left)
-        (slot . 99)
-        (window-width . 0.3)))
-</pre>
+</div>
 </div>
 
-<p>
-Note that the backlinking facility uses Emacs&rsquo; built-in Xref
-infrastructure.  On some operating systems, the user may need to add
-certain executables to the relevant environment variable.
-</p>
-
-<p>
-<a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
-</p>
-
+<div id="outline-container-h:9bec2c83-36ca-4951-aefc-7187c5463f90" class="outline-3">
+<h3 id="h:9bec2c83-36ca-4951-aefc-7187c5463f90"><span class="section-number-3">8.2.</span> Insert links matching a regexp</h3>
+<div class="outline-text-3" id="text-h:9bec2c83-36ca-4951-aefc-7187c5463f90">
 <p>
 The command <code>denote-link-add-links</code> adds links at point matching a
 regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgd50042b">
+<pre class="example" id="org8f52016">
 - link1
 - link2
 - link3
@@ -1110,7 +1081,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgac3bd25">
+<pre class="example" id="orgeac161f">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1156,17 +1127,113 @@ above is for interactive usage.
 </p>
 
 <p>
-For convenience, the <code>denote-link</code> command has an alias called
-<code>denote-link-insert-link</code>.  The <code>denote-link-backlinks</code> can also be used
-as <code>denote-link-show-backlinks-buffer</code>.  While <code>denote-link-add-links</code>
-is aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
-these aliases is to offer alternative, more descriptive names of select
-commands.
+Links are created only for files which qualify as a &ldquo;note&rdquo; for our
+purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
 </p>
+</div>
+</div>
+
+<div id="outline-container-h:9cbb692e-5d8a-44a6-9193-899a07872a07" class="outline-3">
+<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">8.3.</span> Insert links from marked files in Dired</h3>
+<div class="outline-text-3" id="text-h:9cbb692e-5d8a-44a6-9193-899a07872a07">
+<p>
+[ The <code>denote-link-dired-marked-notes</code> is part of 0.4.0-dev ]
+</p>
+
+<p>
+The command <code>denote-link-dired-marked-notes</code> is similar to
+<code>denote-link-add-links</code> in that it inserts in the buffer a typographic
+list of links to Denote notes (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  Though
+instead of reading a regular expression, it lets the user mark files in
+Dired and link to them.  This should be easier for users of all skill
+levels, instead of having to write a potentially complex regular
+expression.
+</p>
+
+<p>
+If there are multiple buffers that visit a Denote note, this command
+will ask to select one among them, using minibuffer completion.  If
+there is only one buffer, it will operate in it outright.  If there are
+no buffers, it will produce an error.
+</p>
+
+<p>
+With optional <code>ID-ONLY</code> as a prefix argument (<code>C-u</code> by default), the
+command inserts links with just the identifier, which is the same
+principle as with <code>denote-link</code> and others (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
+</p>
+
+<p>
+The command <code>denote-link-dired-marked-notes</code> is meant to be used from a
+Dired buffer.
+</p>
+
+<p>
+As always, links are created only for files which qualify as a &ldquo;note&rdquo;
+for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:c73f1f68-e214-49d5-b369-e694f6a5d708" class="outline-3">
+<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">8.4.</span> The backlinks&rsquo; buffer</h3>
+<div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
+<p>
+The command <code>denote-link-backlinks</code> produces a bespoke buffer which
+displays the file name of all notes linking to the current one.  Each
+file name appears on its own line and is buttonized so that it performs
+the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
+like this:
+</p>
+
+<pre class="example" id="org0326041">
+Backlinks to "On being honest" (20220614T130812)
+------------------------------------------------
+
+20220614T145606--let-this-glance-become-a-stare__journal.txt
+20220616T182958--not-feeling-butterflies-in-your-stomach__journal.txt
+</pre>
+
+<p>
+The backlinks&rsquo; buffer is fontified by default, though the user has
+access to the <code>denote-link-fontify-backlinks</code> option to disable this
+effect by setting its value to nil.
+</p>
+
+<p>
+The placement of the backlinks&rsquo; buffer is subject to the user option
+<code>denote-link-backlinks-display-buffer-action</code>.  Due to the nature of the
+underlying <code>display-buffer</code> mechanism, this inevitably is a relatively
+advanced feature.  By default, the backlinks&rsquo; buffer is displayed below
+the current window.  The doc string of our user option includes a sample
+configuration that places the buffer in a left side window instead.
+Reproducing it here for the sake of convenience:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-link-backlinks-display-buffer-action
+      '((display-buffer-reuse-window
+         display-buffer-in-side-window)
+        (side . left)
+        (slot . 99)
+        (window-width . 0.3)))
+</pre>
+</div>
+
+<p>
+Note that the backlinking facility uses Emacs&rsquo; built-in Xref
+infrastructure.  On some operating systems, the user may need to add
+certain executables to the relevant environment variable.
+</p>
+
+<p>
+<a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
+</p>
+</div>
 </div>
 
 <div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
-<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">8.1.</span> Writing metanotes</h3>
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">8.5.</span> Writing metanotes</h3>
 <div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
 <p>
 A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
@@ -1178,12 +1245,24 @@ the like.
 </p>
 
 <p>
-The command <code>denote-link-add-links</code>, which we covered extensively in the
-previous section, is suited for this task (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).  You will
-create your metanote the way you use Denote ordinarily (metanotes may
-have the <code>metanote</code> keyword), write an introduction or however you want
-to go about it, invoke <code>denote-link-add-links</code> to cite the notes that
-match the given regexp, and continue writing.
+The commands <code>denote-link-add-links</code>, <code>denote-link-dired-marked-notes</code>
+are suited for this task.
+</p>
+
+<p>
+<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>.
+</p>
+
+<p>
+<a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">Insert links from marked files in Dired</a>.
+</p>
+
+<p>
+You will create your metanote the way you use Denote ordinarily
+(metanotes may have the <code>metanote</code> keyword, among others), write an
+introduction or however you want to go about it, invoke the command
+which inserts multiple links at once (see the above-cited nodes), and
+continue writing.
 </p>
 
 <p>
@@ -1199,6 +1278,39 @@ contemplating on their shared patterns is what adds value.
 Your future self will appreciate metanotes for the function they serve
 in encapsulating knowledge, while current you will be equipped with the
 knowledge derived from the deliberate self-reflection.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4" class="outline-3">
+<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">8.6.</span> Visiting linked files via the minibuffer</h3>
+<div class="outline-text-3" id="text-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">
+<p>
+Denote has a major-mode-agnostic mechanism to collect all linked file
+references in the current buffer and return them as an appropriately
+formatted list.  This list can then be used in interactive commands.
+The <code>denote-link-find-file</code> is such a command.  It uses minibuffer
+completion to visit a file that is linked to from the current note.  The
+candidates have the correct metadata, which is ideal for integration
+with other standards-compliant tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).  For instance,
+a package such as <code>marginalia</code> will display accurate annotations, while
+the <code>embark</code> package will be able to work its magic such as in exporting
+the list into a filtered Dired buffer (i.e. a familiar Dired listing
+with only the files of the current minibuffer session).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">8.7.</span> Miscellaneous information about links</h3>
+<div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
+<p>
+For convenience, the <code>denote-link</code> command has an alias called
+<code>denote-link-insert-link</code>.  The <code>denote-link-backlinks</code> can also be used
+as <code>denote-link-show-backlinks-buffer</code>.  While <code>denote-link-add-links</code>
+is aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
+these aliases is to offer alternative, more descriptive names of select
+commands.
 </p>
 </div>
 </div>
@@ -1904,7 +2016,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org971bef4">
+<pre class="example" id="orgf268337">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
