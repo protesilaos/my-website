@@ -38,8 +38,8 @@ patiently, you are not troubled by the fact that you have more questions
 than answers.  As you explore the world and understand yourself better,
 you realise that each answer begets ten more questions ("ten" is a
 figure of speech).  Patience is what keeps you on the path.  You do not
-grow desperate to find an answer right away.  Such answers may do not
-exist or be attainable under the prevailing conditions.
+grow desperate to find an answer right away.  Such answers may not exist
+or be attainable under the prevailing conditions.
 
 In contradistinction, the impatient fellow tends to behave in a manner
 that is imprudent.  Not because they are inherently foolish.  It simply
