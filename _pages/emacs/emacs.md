@@ -191,10 +191,10 @@ Emacs setup (it complements my work on the `modus-themes` and
 _Iosevka Comfy_ is a build of the Iosevka typeface with a rounded style
 and open shapes, adjusted metrics, and overrides for almost all
 individual glyphs in both roman (upright) and italic (slanted) variants.
-It is more vertically compact than the standard upstream
-configuration. Glyphs are rounder and have tailed ends or serifs only
-when those are required to both impose a predictable rhythm and keep
-characters distinct from each other.
+It is more vertically compact than the standard upstream configuration.
+Glyphs are rounder and have tailed ends or serifs only when those are
+required to both impose a predictable rhythm and keep characters
+distinct from each other.
 
 The README file in the git repository covers all the technicalities.
 
