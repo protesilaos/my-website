@@ -567,7 +567,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgad45e15">
+<pre class="example" id="org615406d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -638,7 +638,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgf0f839f">
+<pre class="example" id="org18a391e">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -659,12 +659,33 @@ moved between directories.
 </p>
 
 <p>
-If the <code>FILE</code> has Denote-style front matter, the command asks to rewrite
-it in order to reflect the new values of <code>TITLE</code> and/or <code>KEYWORDS</code> (this
-step always requires confirmation and the underlying buffer is not
-saved, so consider invoking <code>diff-buffer-with-file</code> to double-check the
-effect).  If the file doesn&rsquo;t have front matter, the command skips this
-step (<a href="#h:322fefee-6412-487d-bdad-9bd862f0423a">Rename file and add front matter</a>).
+[ The front matter rewrite has been refined as part of
+  0.4.0-dev.  Before it would replace the whole block.
+  Only it only touches the relevant values. ]
+</p>
+
+<p>
+If the <code>FILE</code> has Denote-style front matter for the <code>TITLE</code> and
+<code>KEYWORDS</code>, this command asks to rewrite their values in order to
+reflect the new input (this step always requires confirmation and the
+underlying buffer is not saved, so consider invoking
+<code>diff-buffer-with-file</code> to double-check the effect).  The rewrite of the
+<code>FILE</code> and <code>KEYWORDS</code> in the front matter should not affect the rest of
+the block.
+</p>
+
+<p>
+If the file doesn&rsquo;t have front matter, the command skips this step (see
+the command <code>denote-dired-rename-file-and-add-front-matter</code>).
+</p>
+
+<p>
+This command is intended to (i) rename existing Denote notes while
+updating their title and keywords in the front matter, (ii) rename files
+that can benefit from Denote&rsquo;s file-naming scheme.  The latter is a
+convenience we provide, since we already have all the requisite
+mechanisms in place (Denote does not and will not manage such files
+though). (<a href="#h:322fefee-6412-487d-bdad-9bd862f0423a">Rename file and add front matter</a>).
 </p>
 
 <p>
@@ -672,7 +693,8 @@ The <code>denote-dired-rename-file</code> command is intended to (i) rename
 existing Denote notes while updating their front matter, (ii) rename
 files that can benefit from Denote&rsquo;s file-naming scheme.  The latter is
 a convenience we provide, since we already have all the requisite
-mechanisms in place (Denote does not manage such files though).
+mechanisms in place (though Denote does not&#x2014;and will not&#x2014;manage such
+files).
 </p>
 </div>
 </div>
@@ -937,7 +959,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org58264a2">
+<pre class="example" id="org14763eb">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -949,7 +971,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8917740">
+<pre class="example" id="orge38cabd">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -963,7 +985,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4188a05">
+<pre class="example" id="org654a21a">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -977,7 +999,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org5838db7">
+<pre class="example" id="org54f962a">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1083,7 +1105,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org1205781">
+<pre class="example" id="orgaa84acd">
 - link1
 - link2
 - link3
@@ -1101,7 +1123,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd221569">
+<pre class="example" id="org47be467">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1206,7 +1228,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgad12163">
+<pre class="example" id="org6520065">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2043,7 +2065,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org132c260">
+<pre class="example" id="org51c1c9e">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
