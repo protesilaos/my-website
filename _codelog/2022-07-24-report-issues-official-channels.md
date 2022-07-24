@@ -21,7 +21,7 @@ reported](https://gitlab.com/protesilaos/modus-themes/-/issues/308) in
 the GitLab mirror.  As soon as I saw it, I helped the user figure out
 what the problem was.  Voilà!
 
-The morale of the story is **never hesitate to contact me**.  I do not
+The moral of the story is **never hesitate to contact me**.  I do not
 judge your skill level and will not discourage you from asking anything.
 There are no "stupid questions" and there is no need for you to be an
 expert on the subject matter.  Please do not belittle yourself.  This is
