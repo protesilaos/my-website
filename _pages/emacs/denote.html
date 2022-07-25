@@ -567,7 +567,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2abd407">
+<pre class="example" id="orgf47e125">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -638,7 +638,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org42b9fa6">
+<pre class="example" id="org22647f3">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -741,19 +741,24 @@ following:
 
 <ul class="org-ul">
 <li>the file&rsquo;s existing file name is retained and becomes the <code>TITLE</code>
-field, per our file-naming scheme;</li>
+field, per Denote&rsquo;s file-naming scheme;</li>
 
 <li>the <code>TITLE</code> is sluggified and downcased, per our conventions;</li>
 
 <li>an identifier is prepended to the <code>TITLE</code>;</li>
 
-<li>the file&rsquo;s contents are not touched (no insertion of front
-matter, no other changes);</li>
-
 <li>the file&rsquo;s extension is retained;</li>
 
 <li>a prompt is asked once for the <code>KEYWORDS</code> field and the input is
-applied to all files.</li>
+applied to all file names;</li>
+
+<li>if the file is recognized as a Denote note, its front matter is
+rewritten to include the new keywords.  A confirmation to carry out
+this step is performed once at the outset.  Note that the affected
+buffers are not saved.  The user can thus check them to confirm that
+the new front matter does not cause any problems (e.g. with the
+command <code>diff-buffer-with-file</code>).  Multiple buffers can be saved with
+<code>save-some-buffers</code> (read its doc string).</li>
 </ul>
 
 <p>
@@ -959,7 +964,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgfe91821">
+<pre class="example" id="orge4c33af">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -971,7 +976,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org04ef77a">
+<pre class="example" id="org2ba5339">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -985,7 +990,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgcb803ac">
+<pre class="example" id="org03e31e3">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -999,7 +1004,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org66c8c9d">
+<pre class="example" id="orgc4a440b">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1105,7 +1110,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orged2f734">
+<pre class="example" id="org8590b73">
 - link1
 - link2
 - link3
@@ -1123,7 +1128,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd183498">
+<pre class="example" id="orgc8c4d27">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1228,7 +1233,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org1de1945">
+<pre class="example" id="orgebc8f70">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2065,7 +2070,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8b500f0">
+<pre class="example" id="orgc7c46e5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
