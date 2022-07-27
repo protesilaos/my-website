@@ -1,6 +1,7 @@
 ---
 title: "Interpretation of “Edelweiss” by Dimitris Mitropanos"
 excerpt: "Translation of---and philosophical commentary on---a song whose title is 'Edelweiss'."
+redirect_from: /interpretations/mitropanos-edelweiss/
 ---
 
 Dimitris Mitropanos had one of my favourite voices of all time.  While
