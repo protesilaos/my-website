@@ -58,7 +58,7 @@ philosophical commentary.
 ```
 
 ```
-Εντελβάις (Edelweiss)
+Edelweiss
 
 Singer:   Dimitris Mitropanos
 Lyrics:   Alkis Alkaios
