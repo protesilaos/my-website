@@ -11,7 +11,7 @@ from.
 
 For this entry I have selected: _Porto Rico_.  We can treat it more as a
 poem than the average song, though its music also makes it a noteworthy
-contribution to the rock genre: <https://ww.youtube.com/watch?v=uPELcaItvFY>.
+contribution to the rock genre: <https://www.youtube.com/watch?v=uPELcaItvFY>.
 The second half, in particular, is exceptional.
 
 Here are the lyrics, my translation, and philosophical commentary:
