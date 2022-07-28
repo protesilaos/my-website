@@ -145,7 +145,7 @@ I like that we travel together
 ```
 
 Let's get this out real quick: "Ernesto" refers to Ernesto "Che"
-Guevera, while "Nikos" is Nikos Beloyannis.  Both were political figures
+Guevara, while "Nikos" is Nikos Beloyannis.  Both were political figures
 who believed in the ideal of progressing towards a more just world.
 They would not accept the established order as-is.  The song is thus
 inspired by the politics of resistance, anti-imperialism, and
