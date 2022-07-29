@@ -119,10 +119,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:b9831849-5c71-484e-b444-bac19cc13151">16.2. Why not rely exclusively on Org?</a></li>
 <li><a href="#h:da1e2469-8f04-450b-a379-a854efa80a36">16.3. Why care about Unix tools when you use Emacs?</a></li>
 <li><a href="#h:7d2e7b8a-d484-4c1d-8688-17f70f242ad7">16.4. Why many small files instead of few large ones?</a></li>
-<li><a href="#h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">16.5. I add TODOs to my files; will the many files slow down the Org agenda?</a></li>
-<li><a href="#h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">16.6. I want to sort by last modified, why won&rsquo;t Denote let me?</a></li>
-<li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">16.7. How do you handle the last modified case?</a></li>
-<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">16.8. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
+<li><a href="#h:863f812a-aac7-42ea-83b3-fbbdb58e08d7">16.5. Does Denote perform well at scale?</a></li>
+<li><a href="#h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">16.6. I add TODOs to my files; will the many files slow down the Org agenda?</a></li>
+<li><a href="#h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">16.7. I want to sort by last modified, why won&rsquo;t Denote let me?</a></li>
+<li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">16.8. How do you handle the last modified case?</a></li>
+<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">16.9. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
 </ul>
 </li>
 <li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">17. Acknowledgements</a></li>
@@ -567,7 +568,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org6ba07bd">
+<pre class="example" id="org6a89bfb">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -638,7 +639,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org27c3ab1">
+<pre class="example" id="orgc4595ba">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -945,7 +946,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org2d32043">
+<pre class="example" id="org7a6f6c9">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   denote  testing
@@ -957,7 +958,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org20c4a8d">
+<pre class="example" id="org3acd746">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -971,7 +972,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org5d19361">
+<pre class="example" id="org8a28bce">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -985,7 +986,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org661444c">
+<pre class="example" id="org50a5176">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1091,7 +1092,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org4a7c369">
+<pre class="example" id="orgf02fc49">
 - link1
 - link2
 - link3
@@ -1109,7 +1110,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org17d7f5e">
+<pre class="example" id="org72c5d5f">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1210,7 +1211,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org441bb1f">
+<pre class="example" id="org1bf5800">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2047,7 +2048,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org31b67e7">
+<pre class="example" id="orgc8b7d2a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2406,17 +2407,48 @@ the right tool for the job).
 </div>
 </div>
 
-<div id="outline-container-h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0" class="outline-3">
-<h3 id="h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0"><span class="section-number-3">16.5.</span> I add TODOs to my files; will the many files slow down the Org agenda?</h3>
-<div class="outline-text-3" id="text-h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">
+<div id="outline-container-h:863f812a-aac7-42ea-83b3-fbbdb58e08d7" class="outline-3">
+<h3 id="h:863f812a-aac7-42ea-83b3-fbbdb58e08d7"><span class="section-number-3">16.5.</span> Does Denote perform well at scale?</h3>
+<div class="outline-text-3" id="text-h:863f812a-aac7-42ea-83b3-fbbdb58e08d7">
 <p>
-I have not tested it, but assume that yes, many files will slow down the
-agenda.  Consider looking into one of Denote&rsquo;s alternatives, with
-<code>org-roam</code> being the obvious choice (<a href="#h:dbb51a1b-90b8-48e8-953c-e2fb3e36981e">Alternatives to Denote</a>).
+Denote does not do anything fancy and has no special requirements: it
+uses standard tools to accomplish ordinary tasks.  If Emacs can cope
+with lots of files, then that is all you need to know: Denote will work.
 </p>
 
 <p>
-Or, if you want my opinion, decouple your longer-term storage from your
+To put this to the test, Peter Prevos is running simulations with R that
+generate large volumes of notes.  You can read the technicalities here:
+<a href="https://lucidmanager.org/productivity/testing-denote-package/">https://lucidmanager.org/productivity/testing-denote-package/</a>.
+Excerpt:
+</p>
+
+<blockquote>
+<p>
+Using this code I generated ten thousands notes and used this to test
+the Denote package to see it if works at a large scale. This tests shows
+that Prot&rsquo;s approach is perfectly capable of working with thousands of
+notes.
+</p>
+</blockquote>
+
+<p>
+Of course, we are always prepared to make refinements to the code, where
+necessary, without compromising on the project&rsquo;s principles.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0" class="outline-3">
+<h3 id="h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0"><span class="section-number-3">16.6.</span> I add TODOs to my files; will the many files slow down the Org agenda?</h3>
+<div class="outline-text-3" id="text-h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">
+<p>
+I have not tested it, but assume that yes, many files will slow down the
+agenda due to how that works.
+</p>
+
+<p>
+If you want my opinion though, decouple your knowledge base from your
 ephemeral to-do list: Denote (and others) can be used for the former,
 while you let standard Org work splendidly for the latter&#x2014;that is what
 I do, anyway.
@@ -2425,7 +2457,7 @@ I do, anyway.
 </div>
 
 <div id="outline-container-h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2" class="outline-3">
-<h3 id="h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2"><span class="section-number-3">16.6.</span> I want to sort by last modified, why won&rsquo;t Denote let me?</h3>
+<h3 id="h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2"><span class="section-number-3">16.7.</span> I want to sort by last modified, why won&rsquo;t Denote let me?</h3>
 <div class="outline-text-3" id="text-h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">
 <p>
 Denote does not sort files and will not reinvent tools that handle such
@@ -2445,7 +2477,7 @@ The user option <code>dired-listing-switches</code> sets your default preference
 </div>
 
 <div id="outline-container-h:764b5e87-cd22-4937-b5fc-af3892d6b3d8" class="outline-3">
-<h3 id="h:764b5e87-cd22-4937-b5fc-af3892d6b3d8"><span class="section-number-3">16.7.</span> How do you handle the last modified case?</h3>
+<h3 id="h:764b5e87-cd22-4937-b5fc-af3892d6b3d8"><span class="section-number-3">16.8.</span> How do you handle the last modified case?</h3>
 <div class="outline-text-3" id="text-h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">
 <p>
 Denote does not insert any meta data or heading pertaining to edits in
@@ -2477,7 +2509,7 @@ the tracking of changes.
 </div>
 
 <div id="outline-container-h:42f6b07e-5956-469a-8294-17f9cf62eb2b" class="outline-3">
-<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">16.8.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
+<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">16.9.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
 <div class="outline-text-3" id="text-h:42f6b07e-5956-469a-8294-17f9cf62eb2b">
 <p>
 Denote uses <a href="https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Xref">Emacs&rsquo; Xref</a> to find backlinks.  Xref requires <code>xargs</code> and
@@ -2519,9 +2551,9 @@ Peter Prevos, Philip Kaludercic, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
-Jack Baty, Kaushal Modi, M. Hadi Timachi, Peter Prevos, Shreyas
-Ragavan, Summer Emacs, Sven Seebeck, Taoufik, Ypot, hpgisler,
-pRot0ta1p.</dd>
+Jack Baty, Kaushal Modi, M. Hadi Timachi, Paul van Gelder, Peter
+Prevos, Shreyas Ragavan, Summer Emacs, Sven Seebeck, Taoufik, Ypot,
+hpgisler, pRot0ta1p.</dd>
 </dl>
 
 <p>
