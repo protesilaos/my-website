@@ -110,7 +110,7 @@ being.
 
 [^Ugliness]: **Update 2022-07-31 18:33 +0300:** On rare occasions I
     raise secondary points without explaining them: they don't really
-    matter.  Though here I need to elaborate , otherwise there may be a
+    matter.  Though here I need to elaborate, otherwise there may be a
     misunderstanding.  It is inferred from my writings---or stated
     outright---that I have no interest in social standards and, as such,
     the point about me being "uglier" is just part of my cynicism.
