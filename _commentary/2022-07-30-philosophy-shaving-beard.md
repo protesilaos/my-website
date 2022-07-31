@@ -8,10 +8,10 @@ was about to put my sourdough bread in the oven.  I managed to
 extinguish it quickly, but had already lost a good portion of its left
 side.  I could still trim it to about the length of my neck (was up to
 my chest before), but decided to shave it off completely.  Now I am even
-uglier than before, which is quite the accomplishment!  Though I am not
-here to write about hair, but to use this event as a reminder of one of
-the themes I have been writing about for the last few months on the
-matter on non-ownership.  Some publications that come to mind:
+uglier than before, which is quite the accomplishment![^Ugliness] Though
+I am not here to write about hair, but to use this event as a reminder
+of one of the themes I have been writing about for the last few months
+on the matter on non-ownership.  Some publications that come to mind:
 
 - [Why you are not important](https://protesilaos.com/books/2021-08-28-why-you-are-not-important/) (2021-08-28)
 - [Why it is not yours](https://protesilaos.com/books/2022-01-16-why-not-yours/) (2022-01-16)
@@ -107,3 +107,24 @@ is ever-lasting, ever-present.  There is no existence from nothing, in
 nothing, and towards nothing.  There will always be transfiguration.
 Learn this and you will remain undisturbed in the lightness of your
 being.
+
+[^Ugliness]: **Update 2022-07-31 18:33 +0300:** On rare occasions I
+    raise secondary points without explaining them: they don't really
+    matter.  Though here I need to elaborate , otherwise there may be a
+    misunderstanding.  It is inferred from my writings---or stated
+    outright---that I have no interest in social standards and, as such,
+    the point about me being "uglier" is just part of my cynicism.
+    People would tell me that a long beard is not attractive and that I
+    should keep it trimmed, do this, do that...  To them, a natural long
+    beard is "ugly", otherwise their exhortations to improve my looks
+    would be meaningless.  Then, there is the other view which holds
+    that facial hair is attractive only when it is a stubble.  As I had
+    just shaved, I had none.  There is a slur that people use, but I
+    will save you the trouble.  So again, per this inane standard, I am
+    "ugly".  Then, if I were to just do what it takes to be "pretty"
+    with the facial hair, people would have more opinions about my hair,
+    clothing, accessories, and, and, and...  The gist is that either I
+    should ignore them by being confident and by letting them entertain
+    whatever notion they want (what I do), or yield to their pressure
+    and become an avatar of their expectations.  This is how things
+    stand.  Sometimes this cynic teases people to test their reflexes.
