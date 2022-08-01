@@ -466,7 +466,6 @@ template.  Such as:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(with-eval-after-load 'org-capture
-  (require 'denote-org-capture)
   (add-to-list 'org-capture-templates
                '("n" "New note (with Denote)" plain
                  (file denote-last-path)
@@ -568,7 +567,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgebc95b2">
+<pre class="example" id="org0b66851">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -639,7 +638,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org622983f">
+<pre class="example" id="org490f0a5">
 Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
 </pre>
 
@@ -946,19 +945,28 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org08c778e">
+<pre class="example" id="orgbee2945">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
-#+filetags:   denote  testing
+#+filetags:   :denote:testing:
 #+identifier: 20220630T160934
 </pre>
+
+<p>
+[ The format of the <code>#+filetags</code> has been revised as part of
+  0.5.0-dev.  Before, we would separate multiple entries
+  with two spaces, which is technically correct though not what Org
+  users are familiar with.  We now separate tags with a colon, per the
+  Org manual.  The previous approach still works though and Denote will
+  continue to support it internally, where relevant. ]
+</p>
 
 <p>
 For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yaml</code>
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga6a0f05">
+<pre class="example" id="org73c860b">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -972,7 +980,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4e7942f">
+<pre class="example" id="orgc79f039">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -986,7 +994,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org2cd9963">
+<pre class="example" id="org49944a1">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1092,7 +1100,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org5fdbc8e">
+<pre class="example" id="orgcdc5d84">
 - link1
 - link2
 - link3
@@ -1110,7 +1118,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org4eb6254">
+<pre class="example" id="org6b3b155">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1211,7 +1219,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org2152684">
+<pre class="example" id="org47d9fd5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1358,8 +1366,7 @@ which probably is not needed:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'denote-dired)
-(add-hook 'dired-mode-hook #'denote-dired-mode)
+<pre class="src src-emacs-lisp">(add-hook 'dired-mode-hook #'denote-dired-mode)
 </pre>
 </div>
 
@@ -1369,9 +1376,7 @@ the function <code>denote-dired-mode-in-directories</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'denote-dired)
-
-;; We use different ways to specify a path for demo purposes.
+<pre class="src src-emacs-lisp">;; We use different ways to specify a path for demo purposes.
 (setq denote-dired-directories
       (list denote-directory
             (thread-last denote-directory (expand-file-name "attachments"))
@@ -1782,11 +1787,11 @@ improvements in the near future (written on 2022-06-22 16:48 +0300).
 <h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">10.7.</span> Treat your notes as a project</h3>
 <div class="outline-text-3" id="text-h:fad3eb08-ddc7-43e4-ba28-210d89668037">
 <p>
-Emacs a built-in library for treating a directory tree as a &ldquo;project&rdquo;.
-This means that the contents of this tree are seen as part of the same
-set, so commands like <code>project-switch-to-buffer</code> (<code>C-x p b</code> by default)
-will only consider buffers in the current project (e.g. three notes that
-are currently being visited).
+Emacs has a built-in library for treating a directory tree as a
+&ldquo;project&rdquo;.  This means that the contents of this tree are seen as part
+of the same set, so commands like <code>project-switch-to-buffer</code> (<code>C-x p b</code>
+by default) will only consider buffers in the current project
+(e.g. three notes that are currently being visited).
 </p>
 
 <p>
@@ -1913,10 +1918,6 @@ Everything is in place to set up the package.
 
 (setq denote-date-format nil) ; read doc string
 
-;; You will not need to `require' all those individually once the
-;; package is available.
-(require 'denote-link)
-
 ;; By default, we fontify backlinks in their bespoke buffer.
 (setq denote-link-fontify-backlinks t)
 
@@ -1927,7 +1928,6 @@ Everything is in place to set up the package.
 ;; right away)
 (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
 
-(require 'denote-dired)
 (setq denote-dired-rename-expert nil)
 
 ;; We use different ways to specify a path for demo purposes.
@@ -1981,7 +1981,6 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-and-add-front-matters))
 
 (with-eval-after-load 'org-capture
-  (require 'denote-org-capture)
   (setq denote-org-capture-specifiers "%l\n%i\n%?")
   (add-to-list 'org-capture-templates
                '("n" "New note (with denote.el)" plain
@@ -2047,7 +2046,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgb8243fc">
+<pre class="example" id="org70b27d5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2546,7 +2545,7 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 
 <dt>Contributions to code or the manual</dt><dd>Benjamin Kästner, Damien
 Cassou, Jack Baty, Jean-Philippe Gagné Guay, Kaushal Modi, Kyle Meyer,
-Peter Prevos, Philip Kaludercic, Stefan Monnier.</dd>
+Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
