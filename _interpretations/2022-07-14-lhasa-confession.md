@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “La Confession” by Lhasa de Sela"
-excerpt: "Translation of---and philosophical commentary on---a song titled 'The Confession' by Lhasa de Sela."
+excerpt: "Translation of---and philosophical commentary on---a song titled 'The Confession'."
 ---
 
 For today's entry I have picked another song by Lhasa.  This one is in

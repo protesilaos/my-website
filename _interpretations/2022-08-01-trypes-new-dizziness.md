@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “New dizziness” by Trypes"
-excerpt: "Translation of---and philosophical commentary on---a song whose title is 'New dizziness'."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'New dizziness'."
 ---
 
 I have written about _Trypes_ (Τρύπες) before in an article that

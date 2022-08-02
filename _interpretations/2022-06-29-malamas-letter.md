@@ -1,6 +1,6 @@
 ---
-title: "Interpretation of “Gramma” (Letter) by Socratis Malamas"
-excerpt: "Translation of a Greek song titled 'Letter' and comments on its meaning."
+title: "Interpretation of “Letter” by Socratis Malamas"
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Letter'."
 ---
 
 What follows is my translation of a song titled "To gramma" (The letter)

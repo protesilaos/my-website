@@ -1,6 +1,6 @@
 ---
-title: "Interpretation of Trypes' “Treno” (Train)"
-excerpt: "Translation of a Greek song titled 'Train' and comments on its meaning."
+title: "Interpretation of “Train” by Trypes"
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Train'."
 ---
 
 What follows is my translation of a song titled "Τρένο" (Train) by an

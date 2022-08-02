@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Bells” by Lhasa de Sela"
-excerpt: "My philosophical commentary on a song titled 'Bells', by Lhasa de Sela."
+excerpt: "Translation of---and philosophical commentary on---a song titled 'Bells'."
 ---
 
 Unlike my previous entries in [this

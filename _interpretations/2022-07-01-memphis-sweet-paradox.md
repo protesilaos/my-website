@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “The Sweet Paradox” by Memphis (Μ3ΜΦ1Σ)"
-excerpt: "Translation of a Greek song titled 'The Sweet Paradox' and comments on its meaning."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'The Sweet Paradox'."
 ---
 
 Memphis (stylised as "Μ3ΜΦ1Σ") is a Greek rock/metal band.  They are

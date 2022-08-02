@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “At the rock” by Xylina Spathia"
-excerpt: "Translation of a Greek song titled 'On the rock' and comments on its meaning."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'At the rock'."
 ---
 
 Ta Xylina Spathia (Τα Ξύλινα Σπαθιά, "The Wooden Swords") is an old

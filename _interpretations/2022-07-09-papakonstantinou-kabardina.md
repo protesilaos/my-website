@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Trench coat” by Vasilis Papakonstantinou"
-excerpt: "Translation of a Greek song titled 'Trench coat' and comments on its meaning."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Trench coat'."
 ---
 
 Vasilis Papakonstantinou is a legend among Greek singers.  Most of his

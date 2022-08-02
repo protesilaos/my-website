@@ -1,6 +1,6 @@
 ---
-title: "Interpretation of Alkinoos Ioannidis' “Kathreftis” (Mirror)"
-excerpt: "Translation of a Greek song titled 'Mirror' and comments on its meaning."
+title: "Interpretation of “Mirror” by Alkinoos Ioannidis"
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Mirror'."
 ---
 
 What follows is my translation of a song by Alkinoos Ioannidis (Αλκίνοος

@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Hamlet of the Moon” by Christos Thivaios"
-excerpt: "Translation of---and philosophical commentary on---a song titled 'Hamlet of the Moon' by Christos Thivaios."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Hamlet of the Moon'."
 ---
 
 For this publication, I decided to translate and then comment on

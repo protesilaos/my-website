@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Kiss” by Michelle Gurevich"
-excerpt: "Translation of---and philosophical commentary on---a song titled 'Kiss' by Michelle Gurevich."
+excerpt: "Translation of---and philosophical commentary on---a song titled 'Kiss'."
 ---
 
 Michelle Gurevich is a singer with a unique style that combines a witty

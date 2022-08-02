@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Tiger” by Psarantonis"
-excerpt: "Translation of a Greek song titled 'Tiger' and comments on its meaning."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Tiger'."
 ---
 
 "Psarantonis" (Ψαραντώνης) is the nickname of Antonis Xylouris (Αντώνης

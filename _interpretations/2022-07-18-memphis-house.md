@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “I have a house” by Memphis (Μ3ΜΦ1Σ)"
-excerpt: "Translation of---and philosophical commentary on---a song by Memphis (Μ3ΜΦ1Σ) whose translated title is 'I have a house'."
+excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'I have a house'."
 ---
 
 Memphis (stylised as "Μ3ΜΦ1Σ") is a Greek rock/metal band that I have
