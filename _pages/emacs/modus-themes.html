@@ -135,6 +135,7 @@ Current development target is 2.6.0-dev.
 <li><a href="#h:b0b31802-0216-427e-b071-1a47adcfe608">6.25. Ediff without diff color-coding</a></li>
 <li><a href="#h:c1f3fa8e-7a63-4a6f-baf3-a7febc0661f0">6.26. Near-monochrome syntax highlighting</a></li>
 <li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">6.27. Custom hl-todo colors</a></li>
+<li><a href="#h:439c9e46-52e2-46be-b1dc-85841dd99671">6.28. Add support for solaire-mode</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -612,7 +613,7 @@ package configurations in their setup.  We use this as an example:
   :config
   ;; Load the theme of your choice:
   (load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
-  :bind ("&lt;f5&gt;" . modus-themes-toggle)
+  :bind ("&lt;f5&gt;" . modus-themes-toggle))
 
 
 
@@ -5036,7 +5037,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org20d67e5">
+<pre class="example" id="org47563de">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5695,6 +5696,72 @@ otherwise the defaults are not always legible.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:439c9e46-52e2-46be-b1dc-85841dd99671" class="outline-3">
+<h3 id="h:439c9e46-52e2-46be-b1dc-85841dd99671"><span class="section-number-3">6.28.</span> Add support for solaire-mode</h3>
+<div class="outline-text-3" id="text-h:439c9e46-52e2-46be-b1dc-85841dd99671">
+<p>
+The <code>solaire-mode</code> package dims the background of what it considers
+ancillary buffers, such as the minibuffer and Dired buffers.  The Modus
+themes used to support Solaire on the premise that the user was (i)
+opting in to it, (ii) understood why certain buffers were more gray, and
+(iii) knew what other adjustments had to be made to prevent broken
+visuals (e.g. the default style of the <code>modus-themes-completions</code> uses a
+subtle gray background for the selection, which with Solaire becomes
+practically invisible).
+</p>
+
+<p>
+However, the assumption that users opt-in to this feature does not
+always hold true in many cases as it is enabled by default in at least
+the very popular Doom Emacs configuration.  Thus, the unsuspecting user
+who loads <code>modus-operandi</code> or <code>modus-vivendi</code> without the requisite
+customizations is getting a sub-par experience; an experience that we
+did not intend.
+</p>
+
+<p>
+Because the Modus themes are meant to work everywhere, we cannot make an
+exception for Doom Emacs users.  Furthermore, we shall not introduce
+hacks, such as by adding a check in all relevant faces to be adjusted
+based on Solaire or whatever other package.  Hacks of this sort are
+unsustainable and penalize all users.  Besides, the themes are built
+into Emacs and we must keep their standard high.
+</p>
+
+<p>
+As such, <code>solaire-mode</code> is not&#x2014;and will not be&#x2014;supported by the
+Modus themes.  Users who want it must style the faces manually.  Below
+is some sample code, based on what we cover at length elsewhere in this
+manual:
+</p>
+
+<p>
+<a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">Advanced customization</a>.
+</p>
+
+<p>
+<a href="#h:51ba3547-b8c8-40d6-ba5a-4586477fd4ae">Face specs at scale using the themes&rsquo; palette</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-custom-faces ()
+  (modus-themes-with-colors
+    (custom-set-faces
+     `(solaire-default-face ((,class :inherit default :background ,bg-alt :foreground ,fg-dim)))
+     `(solaire-line-number-face ((,class :inherit solaire-default-face :foreground ,fg-unfocused)))
+     `(solaire-hl-line-face ((,class :background ,bg-active)))
+     `(solaire-org-hide-face ((,class :background ,bg-alt :foreground ,bg-alt))))))
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+As always, re-load the theme for changes to take effect.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19" class="outline-2">
@@ -5964,7 +6031,6 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>smart-mode-line</li>
 <li>smartparens</li>
 <li>smerge</li>
-<li>solaire</li>
 <li>spaceline</li>
 <li>speedbar</li>
 <li>stripes</li>
@@ -7134,7 +7200,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgd59c237">
+<pre class="example" id="orgbdbf130">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7179,7 +7245,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org40b5e86">
+<pre class="example" id="org6d76785">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7557,7 +7623,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgf485f99">
+<pre class="example" id="orgd658fe5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7619,9 +7685,10 @@ Johansson, Basil L. Contovounesios, Björn Lindström,
 Carlo Zancanaro, Christian Tietze, Daniel Mendler, Eli Zaretskii,
 Fritz Grabo, Illia Ostapyshyn, Kévin Le Gouguec, Kostadin Ninev,
 Madhavan Krishnan, Manuel Giraud, Markus Beppler, Matthew Stevenson,
-Mauro Aranda, Nicolas De Jaeghere, Philip Kaludercic, Pierre
-Téchoueyres, Rudolf Adamkovič, Stephen Gildea, Shreyas Ragavan, Stefan
-Kangas, Utkarsh Singh, Vincent Murphy, Xinglu Chen, Yuanchen Xie.</dd>
+Mauro Aranda, Nicolas De Jaeghere, Paul David, Philip Kaludercic,
+Pierre Téchoueyres, Rudolf Adamkovič, Stephen Gildea, Shreyas Ragavan,
+Stefan Kangas, Utkarsh Singh, Vincent Murphy, Xinglu Chen, Yuanchen
+Xie.</dd>
 
 <dt>Ideas and user feedback</dt><dd>Aaron Jensen, Adam Porter, Adam Spiers,
 Adrian Manea, Alex Griffin, Alex Koen, Alex Peitsinis, Alexey Shmalko,
