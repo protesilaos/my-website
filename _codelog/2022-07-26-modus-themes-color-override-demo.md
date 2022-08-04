@@ -22,15 +22,15 @@ packages, and meticulous design.
 Here I will elaborate on the latter scenario of thoroughly refashioning
 the themes.  I am turning these:
 
-<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-operandi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-regular-operandibase16-atelier-heath sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-operandi.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-operandi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-regular-operandi sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-operandi.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-vivendi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-regular-vivendibase16-atelier-heath sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-vivendi.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-vivendi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-regular-vivendi sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-regular-vivendi.png' | absolute_url }}"/></a>
 
 Into these:
 
-<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-operandi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-override-operandibase16-atelier-heath sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-operandi.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-operandi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-override-operandi sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-operandi.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-vivendi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-override-vivendibase16-atelier-heath sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-vivendi.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-vivendi.png' | absolute_url }}"><img alt="modus-themes-summertime-demo-override-vivendi sample" src="{{ '/assets/images/attachments/2022-07-26-modus-themes-summertime-demo-override-vivendi.png' | absolute_url }}"/></a>
 
 [ Remember that the themes have **lots of customisation options** which
   govern the looks of individual components.  The screenshots do not
