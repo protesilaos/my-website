@@ -64,8 +64,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
 <ul>
 <li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a></li>
-<li><a href="#h:322fefee-6412-487d-bdad-9bd862f0423a">4.2. Rename file and add front matter</a></li>
-<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.3. Rename multiple files at once</a></li>
+<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.2. Rename multiple files at once</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -567,7 +566,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge653a73">
+<pre class="example" id="org61c8048">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -609,8 +608,12 @@ them.
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
 <div class="outline-text-3" id="text-h:7cc9e000-806a-48da-945c-711bbc7426b0">
 <p>
-The <code>denote-dired-rename-file</code> command renames a file and updates
-existing front matter if appropriate.
+[ Updated as part of 0.5.0-dev ]
+</p>
+
+<p>
+The <code>denote-rename-file</code> command renames a file and updates existing
+front matter if appropriate.
 </p>
 
 <p>
@@ -638,12 +641,12 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgc3ba3a8">
-Rename sample.pdf to 20220612T052900--my-sample-title__testing.pdf? (y or n)
+<pre class="example" id="orgd597d8a">
+Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
 <p>
-The file type extension (e.g. <code>.pdf</code>) is read from the underlying file
+The file type extension (e.g. <code>.txt</code>) is read from the underlying file
 and is preserved through the renaming process.  Files that have no
 extension are simply left without one.
 </p>
@@ -664,56 +667,31 @@ the block.
 </p>
 
 <p>
-If the file doesn&rsquo;t have front matter, the command skips this step (see
-the command <code>denote-dired-rename-file-and-add-front-matter</code>).
+If the file doesn&rsquo;t have front matter but is among the supported file
+types (per <code>denote-file-type</code>), the <code>denote-rename-file</code> command adds
+front matter at the top of it and leaves the buffer unsaved for further
+inspection.
 </p>
 
 <p>
 This command is intended to (i) rename existing Denote notes while
-updating their title and keywords in the front matter, (ii) rename files
-that can benefit from Denote&rsquo;s file-naming scheme.  The latter is a
-convenience we provide, since we already have all the requisite
-mechanisms in place (Denote does not and will not manage such files
-though). (<a href="#h:322fefee-6412-487d-bdad-9bd862f0423a">Rename file and add front matter</a>).
-</p>
-
-<p>
-The <code>denote-dired-rename-file</code> command is intended to (i) rename
-existing Denote notes while updating their front matter, (ii) rename
-files that can benefit from Denote&rsquo;s file-naming scheme.  The latter is
-a convenience we provide, since we already have all the requisite
-mechanisms in place (though Denote does not&#x2014;and will not&#x2014;manage such
-files).
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:322fefee-6412-487d-bdad-9bd862f0423a" class="outline-3">
-<h3 id="h:322fefee-6412-487d-bdad-9bd862f0423a"><span class="section-number-3">4.2.</span> Rename file and add front matter</h3>
-<div class="outline-text-3" id="text-h:322fefee-6412-487d-bdad-9bd862f0423a">
-<p>
-The command <code>denote-dired-rename-file-and-add-front-matter</code> has the same
-modalities of interaction as the <code>denote-dired-rename-file</code> command
-(<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  The difference is that it unconditionally
-inserts front matter at the start of a file.
-</p>
-
-<p>
-This command is thus suitable for a workflow where an existing writable
-file needs to be converted into a Denote-style note.  Whereas the other
-command does not insert front matter if one doesn&rsquo;t already exist.
-</p>
-
-<p>
-Front matter is added when the file type extension is among the
-supported ones (per <code>denote-file-type</code>).
+updating their title and keywords in the front matter, (ii) convert
+existing supported file types to Denote notes, and (ii) rename non-note
+files (e.g. PDF) that can benefit from Denote&rsquo;s file-naming scheme.  The
+latter is a convenience we provide, since we already have all the
+requisite mechanisms in place (though Denote does not&#x2014;and will
+not&#x2014;manage such files).
 </p>
 </div>
 </div>
 
 <div id="outline-container-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde" class="outline-3">
-<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files at once</h3>
+<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.2.</span> Rename multiple files at once</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
+<p>
+[ Updated as part of 0.5.0-dev ]
+</p>
+
 <p>
 The <code>denote-dired-rename-marked-files</code> command renames marked files in
 Dired to conform with our file-naming scheme.  The operation does the
@@ -733,32 +711,16 @@ field, per Denote&rsquo;s file-naming scheme;</li>
 <li>a prompt is asked once for the <code>KEYWORDS</code> field and the input is
 applied to all file names;</li>
 
-<li>if the file is recognized as a Denote note, its front matter is
-rewritten to include the new keywords.  A confirmation to carry out
-this step is performed once at the outset.  Note that the affected
-buffers are not saved.  The user can thus check them to confirm that
-the new front matter does not cause any problems (e.g. with the
-command <code>diff-buffer-with-file</code>).  Multiple buffers can be saved with
-<code>save-some-buffers</code> (read its doc string).</li>
+<li>if the file is recognized as a Denote note, this command adds or
+rewrites front matter to include the new keywords.  A confirmation to
+carry out this step is performed once at the outset.  Note that the
+affected buffers are not saved.  The user can thus check them to
+confirm that the new front matter does not cause any problems
+(e.g. with the command <code>diff-buffer-with-file</code>).  Multiple buffers can
+be saved with <code>save-some-buffers</code> (read its doc string).  The addition
+of front matter takes place only if the given file has the appropriate
+file type extension (per the user option <code>denote-file-type</code>).</li>
 </ul>
-
-<p>
-The command <code>denote-dired-rename-marked-files-and-add-front-matters</code> is
-like <code>denote-dired-rename-marked-files</code> but also adds front matter.  The
-additon of front matter takes place only if the file has the appropriate
-file type extension (per the user option <code>denote-file-type</code>).
-</p>
-
-<p>
-Buffers are not saved.  The user can thus check them to confirm that the
-new front matter does not cause any problems (e.g. by invoking the
-command <code>diff-buffer-with-file</code>).
-</p>
-
-<p>
-Multiple buffers can be saved with <code>save-some-buffers</code> (read its doc
-string).
-</p>
 </div>
 </div>
 </div>
@@ -940,7 +902,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orga216377">
+<pre class="example" id="orgb752b46">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -961,7 +923,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org3b5ea75">
+<pre class="example" id="orgeefcc63">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -975,7 +937,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgfe86b1a">
+<pre class="example" id="org015ea34">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -989,7 +951,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org79d1403">
+<pre class="example" id="org9151fc2">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1114,7 +1076,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org920551d">
+<pre class="example" id="org759bbbf">
 - link1
 - link2
 - link3
@@ -1132,7 +1094,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd0b6e88">
+<pre class="example" id="org482d295">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1233,7 +1195,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org38ce331">
+<pre class="example" id="orgeca62b5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1987,17 +1949,15 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c n I") #'denote-link-add-links)
   (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
   (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-  ;; Note that `denote-dired-rename-file' can work from any context, not
+  ;; Note that `denote-rename-file' can work from any context, not
   ;; just Dired bufffers.  That is why we bind it here to the
   ;; `global-map'.
-  (define-key map (kbd "C-c n r") #'denote-dired-rename-file)
-  (define-key map (kbd "C-c n R") #'denote-dired-rename-file-and-add-front-matter))
+  (define-key map (kbd "C-c n r") #'denote-rename-file))
 
 ;; Key bindings specifically for Dired.
 (let ((map dired-mode-map))
   (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
-  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
-  (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-and-add-front-matters))
+  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files))
 
 (with-eval-after-load 'org-capture
   (setq denote-org-capture-specifiers "%l\n%i\n%?")
@@ -2065,7 +2025,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgd9d995a">
+<pre class="example" id="org1d1a667">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
