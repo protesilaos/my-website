@@ -64,8 +64,9 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
 <ul>
 <li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a></li>
-<li><a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">4.2. Rename a single file based on its front matter</a></li>
-<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.3. Rename multiple files at once</a></li>
+<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.2. Rename multiple files at once</a></li>
+<li><a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">4.3. Rename a single file based on its front matter</a></li>
+<li><a href="#h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">4.4. Rename multiple files based on their front matter</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -567,7 +568,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org0579f35">
+<pre class="example" id="org822a7e4">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -661,7 +662,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgf37f8a4">
+<pre class="example" id="orgdd1fd50">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -705,82 +706,8 @@ not&#x2014;manage such files).
 </div>
 </div>
 
-<div id="outline-container-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373" class="outline-3">
-<h3 id="h:3ab08ff4-81fa-4d24-99cb-79f97c13a373"><span class="section-number-3">4.2.</span> Rename a single file based on its front matter</h3>
-<div class="outline-text-3" id="text-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">
-<p>
-[ Part of 0.5.0-dev ]
-</p>
-
-<p>
-In the previous section, we covered the more general mechanism of the
-command <code>denote-rename-file</code> (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  There is also a
-way to have the same outcome by making Denote read the data in the
-current file&rsquo;s front matter and use it to construct/update the file
-name.  The command for this is <code>denote-rename-file-using-front-matter</code>.
-It is only relevant for files that (i) are among the supported file
-types, per <code>denote-file-type</code>, and (ii) have the requisite front matter
-in place.
-</p>
-
-<p>
-Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
-</p>
-
-<pre class="example" id="orgdadcd6c">
-#+title:      My sample note file
-#+date:       [2022-08-05 Fri 13:10]
-#+filetags:   :testing:
-#+identifier: 20220805T131044
-</pre>
-
-<p>
-Its file name reflects this information:
-</p>
-
-<pre class="example">
-20220805T131044--my-sample-note-file__testing.org
-</pre>
-
-
-<p>
-You want to change its title and keywords manually, so you modify it thus:
-</p>
-
-<pre class="example" id="orgd389b51">
-#+title:      My modified sample note file
-#+date:       [2022-08-05 Fri 13:10]
-#+filetags:   :testing:denote:emacs:
-#+identifier: 20220805T131044
-</pre>
-
-<p>
-The file name still shows the old title and keywords.  So after saving
-the buffer, you invoke <code>denote-rename-file-using-front-matter</code> and it
-updates the file name to:
-</p>
-
-<pre class="example">
-20220805T131044--my-modified-sample-note-file__testing_denote_emacs.org
-</pre>
-
-
-<p>
-The renaming is subject to a &ldquo;yes or no&rdquo; prompt that shows the old and
-new names, just so the user is certain about the change.
-</p>
-
-<p>
-The identifier of the file, if any, is never modified even if it is
-edited in the front matter: Denote considers the file name to be the
-source of truth in this case, to avoid potential breakage with typos and
-the like.
-</p>
-</div>
-</div>
-
 <div id="outline-container-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde" class="outline-3">
-<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files at once</h3>
+<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.2.</span> Rename multiple files at once</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
 <p>
 [ Updated as part of 0.5.0-dev ]
@@ -815,6 +742,132 @@ be saved with <code>save-some-buffers</code> (read its doc string).  The additio
 of front matter takes place only if the given file has the appropriate
 file type extension (per the user option <code>denote-file-type</code>).</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373" class="outline-3">
+<h3 id="h:3ab08ff4-81fa-4d24-99cb-79f97c13a373"><span class="section-number-3">4.3.</span> Rename a single file based on its front matter</h3>
+<div class="outline-text-3" id="text-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+In the previous section, we covered the more general mechanism of the
+command <code>denote-rename-file</code> (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  There is also a
+way to have the same outcome by making Denote read the data in the
+current file&rsquo;s front matter and use it to construct/update the file
+name.  The command for this is <code>denote-rename-file-using-front-matter</code>.
+It is only relevant for files that (i) are among the supported file
+types, per <code>denote-file-type</code>, and (ii) have the requisite front matter
+in place.
+</p>
+
+<p>
+Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
+</p>
+
+<pre class="example" id="org71be06a">
+#+title:      My sample note file
+#+date:       [2022-08-05 Fri 13:10]
+#+filetags:   :testing:
+#+identifier: 20220805T131044
+</pre>
+
+<p>
+Its file name reflects this information:
+</p>
+
+<pre class="example">
+20220805T131044--my-sample-note-file__testing.org
+</pre>
+
+
+<p>
+You want to change its title and keywords manually, so you modify it thus:
+</p>
+
+<pre class="example" id="org3ea9373">
+#+title:      My modified sample note file
+#+date:       [2022-08-05 Fri 13:10]
+#+filetags:   :testing:denote:emacs:
+#+identifier: 20220805T131044
+</pre>
+
+<p>
+The file name still shows the old title and keywords.  So after saving
+the buffer, you invoke <code>denote-rename-file-using-front-matter</code> and it
+updates the file name to:
+</p>
+
+<pre class="example">
+20220805T131044--my-modified-sample-note-file__testing_denote_emacs.org
+</pre>
+
+
+<p>
+The renaming is subject to a &ldquo;yes or no&rdquo; prompt that shows the old and
+new names, just so the user is certain about the change.
+</p>
+
+<p>
+The identifier of the file, if any, is never modified even if it is
+edited in the front matter: Denote considers the file name to be the
+source of truth in this case, to avoid potential breakage with typos and
+the like.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8" class="outline-3">
+<h3 id="h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8"><span class="section-number-3">4.4.</span> Rename multiple files based on their front matter</h3>
+<div class="outline-text-3" id="text-h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+As already noted, Denote can rename a file based on the data in its
+front matter (<a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">Rename a single file based on its front matter</a>).  The
+command <code>denote-dired-rename-marked-files-using-front-matter</code> extends
+this principle to a batch operation which applies to all marked files in
+Dired.
+</p>
+
+<p>
+Marked files must count as notes for the purposes of Denote, which means
+that they at least have an identifier in their file name and use a
+supported file type, per <code>denote-file-type</code>.  Files that do not meet
+this criterion are ignored.
+</p>
+
+<p>
+The operation does the following:
+</p>
+
+<ul class="org-ul">
+<li>the title in the front matter becomes the <code>TITLE</code> component of the
+file name (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>);</li>
+
+<li>the keywords in the front matter are used for the <code>KEYWORDS</code> component
+of the file name and are processed accordingly, if needed;</li>
+
+<li>the identifier remains unchanged in the file name even if it is
+modified in the front matter (this is done to avoid breakage caused by
+typos and the like).</li>
+</ul>
+
+<p>
+NOTE that files must be saved, because Denote reads from the underlying
+file, not a modified buffer (this is done to avoid potential mistakes).
+The return value of a modified buffer is the one prior to the
+modification, i.e. the one already written on disk.
+</p>
+
+<p>
+This command is useful for synchronizing multiple file names with their
+respective front matter.
+</p>
 </div>
 </div>
 </div>
@@ -1001,7 +1054,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org01c6ba9">
+<pre class="example" id="orga502c39">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1022,7 +1075,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6acbbc9">
+<pre class="example" id="org3c4dc9e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1036,7 +1089,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgd9d9ff0">
+<pre class="example" id="orgb642020">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1050,7 +1103,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org1397c41">
+<pre class="example" id="org29bab89">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1175,7 +1228,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org750f12d">
+<pre class="example" id="org58a2bc8">
 - link1
 - link2
 - link3
@@ -1193,7 +1246,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgbd17e18">
+<pre class="example" id="org8dc53b9">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1294,7 +1347,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org4aa87fd">
+<pre class="example" id="org0edf9e8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2056,7 +2109,8 @@ Everything is in place to set up the package.
 ;; Key bindings specifically for Dired.
 (let ((map dired-mode-map))
   (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
-  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files))
+  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
+  (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
 
 (with-eval-after-load 'org-capture
   (setq denote-org-capture-specifiers "%l\n%i\n%?")
@@ -2124,7 +2178,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgdb0f855">
+<pre class="example" id="org16b9837">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -2628,9 +2682,9 @@ Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
-Jack Baty, Kaushal Modi, M. Hadi Timachi, Paul van Gelder, Peter
-Prevos, Shreyas Ragavan, Summer Emacs, Sven Seebeck, Taoufik, Ypot,
-hpgisler, pRot0ta1p.</dd>
+Hanspeter Gisler, Jack Baty, Kaushal Modi, M. Hadi Timachi, Paul van
+Gelder, Peter Prevos, Shreyas Ragavan, Summer Emacs, Sven Seebeck,
+Taoufik, Ypot, hpgisler, pRot0ta1p.</dd>
 </dl>
 
 <p>
