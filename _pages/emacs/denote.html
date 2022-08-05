@@ -64,7 +64,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
 <ul>
 <li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a></li>
-<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.2. Rename multiple files at once</a></li>
+<li><a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">4.2. Rename a single file based on its front matter</a></li>
+<li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.3. Rename multiple files at once</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -566,7 +567,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org61c8048">
+<pre class="example" id="org0579f35">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -595,12 +596,31 @@ In concrete terms, this is a representation of the directory structures
 <h2 id="h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca"><span class="section-number-2">4.</span> Renaming files</h2>
 <div class="outline-text-2" id="text-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">
 <p>
-Denote&rsquo;s file-naming scheme is not specific to notes or text files: it
-is useful for all sorts of files, such as multimedia and PDFs that form
-part of the user&rsquo;s longer-term storage (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  While
-Denote does not manage such files (e.g. doesn&rsquo;t create links to them),
-it already has all the mechanisms to facilitate the task of renaming
-them.
+Denote provides commands to rename files and update their front matter
+where relevant.  For Denote to work, only the file name needs to be in
+order, by following our naming conventions (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
+The linking mechanism, in particular, needs just the identifier in the
+file name (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+</p>
+
+<p>
+We write front matter in notes for the user&rsquo;s convenience and for other
+tools to make use of that information (e.g. Org&rsquo;s export mechanism).
+The renaming mechanism takes care to keep this data in sync with the
+file name, when the user performs a change.
+</p>
+
+<p>
+Renaming is useful for managing existing files created with Denote, but
+also for converting older text files to Denote notes.
+</p>
+
+<p>
+Lastly, Denote&rsquo;s file-naming scheme is not specific to notes or text
+files: it is useful for all sorts of items, such as multimedia and PDFs
+that form part of the user&rsquo;s longer-term storage.  While Denote does not
+manage such files (e.g. doesn&rsquo;t create links to them), it already has
+all the mechanisms to facilitate the task of renaming them.
 </p>
 </div>
 
@@ -641,7 +661,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgd597d8a">
+<pre class="example" id="orgf37f8a4">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -685,8 +705,82 @@ not&#x2014;manage such files).
 </div>
 </div>
 
+<div id="outline-container-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373" class="outline-3">
+<h3 id="h:3ab08ff4-81fa-4d24-99cb-79f97c13a373"><span class="section-number-3">4.2.</span> Rename a single file based on its front matter</h3>
+<div class="outline-text-3" id="text-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+In the previous section, we covered the more general mechanism of the
+command <code>denote-rename-file</code> (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  There is also a
+way to have the same outcome by making Denote read the data in the
+current file&rsquo;s front matter and use it to construct/update the file
+name.  The command for this is <code>denote-rename-file-using-front-matter</code>.
+It is only relevant for files that (i) are among the supported file
+types, per <code>denote-file-type</code>, and (ii) have the requisite front matter
+in place.
+</p>
+
+<p>
+Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
+</p>
+
+<pre class="example" id="orgdadcd6c">
+#+title:      My sample note file
+#+date:       [2022-08-05 Fri 13:10]
+#+filetags:   :testing:
+#+identifier: 20220805T131044
+</pre>
+
+<p>
+Its file name reflects this information:
+</p>
+
+<pre class="example">
+20220805T131044--my-sample-note-file__testing.org
+</pre>
+
+
+<p>
+You want to change its title and keywords manually, so you modify it thus:
+</p>
+
+<pre class="example" id="orgd389b51">
+#+title:      My modified sample note file
+#+date:       [2022-08-05 Fri 13:10]
+#+filetags:   :testing:denote:emacs:
+#+identifier: 20220805T131044
+</pre>
+
+<p>
+The file name still shows the old title and keywords.  So after saving
+the buffer, you invoke <code>denote-rename-file-using-front-matter</code> and it
+updates the file name to:
+</p>
+
+<pre class="example">
+20220805T131044--my-modified-sample-note-file__testing_denote_emacs.org
+</pre>
+
+
+<p>
+The renaming is subject to a &ldquo;yes or no&rdquo; prompt that shows the old and
+new names, just so the user is certain about the change.
+</p>
+
+<p>
+The identifier of the file, if any, is never modified even if it is
+edited in the front matter: Denote considers the file name to be the
+source of truth in this case, to avoid potential breakage with typos and
+the like.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde" class="outline-3">
-<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.2.</span> Rename multiple files at once</h3>
+<h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files at once</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
 <p>
 [ Updated as part of 0.5.0-dev ]
@@ -890,6 +984,11 @@ insert single words at the relevant prompts.
 <h2 id="h:13218826-56a5-482a-9b91-5b6de4f14261"><span class="section-number-2">6.</span> Front matter</h2>
 <div class="outline-text-2" id="text-h:13218826-56a5-482a-9b91-5b6de4f14261">
 <p>
+[ The format of the Org and Markdown+YAML filetags/tags has been revised
+  as part of 0.5.0-dev ]
+</p>
+
+<p>
 Notes have their own &ldquo;front matter&rdquo;.  This is a block of data at the top
 of the file, with no empty lines between the entries, which is
 automatically generated at the creation of a new note.  The front matter
@@ -902,7 +1001,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orgb752b46">
+<pre class="example" id="org01c6ba9">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -923,11 +1022,11 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgeefcc63">
+<pre class="example" id="org6acbbc9">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
-tags:       denote  testing
+tags:       ["denote", "testing"]
 identifier: "20220630T160958"
 ---
 </pre>
@@ -937,7 +1036,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org015ea34">
+<pre class="example" id="orgd9d9ff0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -951,7 +1050,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org9151fc2">
+<pre class="example" id="org1397c41">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1076,7 +1175,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org759bbbf">
+<pre class="example" id="org750f12d">
 - link1
 - link2
 - link3
@@ -1094,7 +1193,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org482d295">
+<pre class="example" id="orgbd17e18">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1195,7 +1294,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgeca62b5">
+<pre class="example" id="org4aa87fd">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1949,10 +2048,10 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c n I") #'denote-link-add-links)
   (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
   (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-  ;; Note that `denote-rename-file' can work from any context, not
-  ;; just Dired bufffers.  That is why we bind it here to the
-  ;; `global-map'.
-  (define-key map (kbd "C-c n r") #'denote-rename-file))
+  ;; Note that `denote-rename-file' can work from any context, not just
+  ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+  (define-key map (kbd "C-c n r") #'denote-rename-file)
+  (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
 
 ;; Key bindings specifically for Dired.
 (let ((map dired-mode-map))
@@ -2025,7 +2124,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org1d1a667">
+<pre class="example" id="orgdb0f855">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
