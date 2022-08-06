@@ -75,7 +75,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.2. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
-<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a></li>
+<li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
+<ul>
+<li><a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">6.1. Change the front matter format</a></li>
+</ul>
+</li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
 <ul>
 <li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">7.1. Adding a single link</a></li>
@@ -568,7 +572,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org822a7e4">
+<pre class="example" id="orga7ef2e1">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -662,7 +666,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgdd1fd50">
+<pre class="example" id="org25cc0f0">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -767,7 +771,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org71be06a">
+<pre class="example" id="org33edb9f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -787,7 +791,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3ea9373">
+<pre class="example" id="orga824c13">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1054,7 +1058,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="orga502c39">
+<pre class="example" id="org143bcc0">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1075,7 +1079,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org3c4dc9e">
+<pre class="example" id="org45f7da7">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1089,7 +1093,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb642020">
+<pre class="example" id="org25ebddf">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1103,7 +1107,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org29bab89">
+<pre class="example" id="orgd1e40f8">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1132,6 +1136,119 @@ If the value is a string, ignore the above and use it instead.  The
 string must include format specifiers for the date.  These are described
 in the doc string of <code>format-time-string</code>..
 </p>
+</div>
+
+<div id="outline-container-h:7f918854-5ed4-4139-821f-8ee9ba06ad15" class="outline-3">
+<h3 id="h:7f918854-5ed4-4139-821f-8ee9ba06ad15"><span class="section-number-3">6.1.</span> Change the front matter format</h3>
+<div class="outline-text-3" id="text-h:7f918854-5ed4-4139-821f-8ee9ba06ad15">
+<p>
+Per Denote&rsquo;s design principles, the code is hackable.  All front matter
+is stored in variables that are intended for public use.  We do not
+declare those as &ldquo;user options&rdquo; because (i) they expect the user to have
+some degree of knowledge in Emacs Lisp and (ii) implement custom code.
+</p>
+
+<p>
+[ NOTE for tinkerers: code intended for internal use includes double
+  hyphens in its symbol.  &ldquo;Internal use&rdquo; means that it can be changed
+  without warning and with no further reference in the change log.  Do
+  not use any of it without understanding the consequences. ]
+</p>
+
+<p>
+The variables which hold the front matter format are:
+</p>
+
+<ul class="org-ul">
+<li><code>denote-org-front-matter</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>denote-text-front-matter</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>denote-toml-front-matter</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>denote-yaml-front-matter</code></li>
+</ul>
+
+<p>
+These variables hold a string with specifiers that are used by the
+<code>format</code> function.  The formatting operation passes four arguments (five
+in the case of <code>denote-text-front-matter</code> as noted in its doc string)
+which include the values of the given entries.  The doc string of
+<code>denote-org-front-matter</code> describes the technicalities:
+</p>
+
+<blockquote>
+<p>
+The order of the arguments is TITLE, DATE, KEYWORDS, ID.  If you are an
+advanced user who wants to edit this variable to affect how front matter
+is produced, consider using something like %2$s to control where Nth
+argument is placed.
+</p>
+
+<p>
+Make sure to:
+</p>
+
+<ol class="org-ol">
+<li>Not use empty lines inside the front matter block.</li>
+
+<li>Insert at least one empty line after the front matter block and do
+not use any empty line before it.</li>
+</ol>
+
+<p>
+These help with consistency and might prove useful if we ever need to
+operate on the front matter as a whole.
+</p>
+</blockquote>
+
+<p>
+With those granted, below are some examples.  The approach is the same
+for all variables.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Change the order
+(setq denote-yaml-front-matter
+  "---
+title:      %1$S
+tags:       %3$s
+date:       %2$s
+identifier: %4$S
+---\n\n")
+
+;; Remove the date
+(setq denote-yaml-front-matter
+  "---
+title:      %1$S
+tags:       %3$s
+identifier: %4$S
+---\n\n")
+
+;; Remove the date and the identifier
+(setq denote-yaml-front-matter
+  "---
+title:      %1$S
+tags:       %3$s
+---\n\n")
+</pre>
+</div>
+
+<p>
+Note that <code>setq</code> has a global effect: it affects the creation of all new
+notes.  Depending on the workflow, it may be preferrable to have a
+custom command which <code>let</code> binds the different format.  We shall not
+provide examples at this point as this is a more advanced feature and we
+are not yet sure what the user&rsquo;s needs are.  Please provide feedback and
+we shall act accordingly.
+</p>
+</div>
 </div>
 </div>
 
@@ -1228,7 +1345,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org58a2bc8">
+<pre class="example" id="orgf9d0788">
 - link1
 - link2
 - link3
@@ -1246,7 +1363,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org8dc53b9">
+<pre class="example" id="orgd03230b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1347,7 +1464,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org0edf9e8">
+<pre class="example" id="orgeb895f9">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2178,7 +2295,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org16b9837">
+<pre class="example" id="org733344a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
