@@ -78,6 +78,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
 <ul>
 <li><a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">6.1. Change the front matter format</a></li>
+<li><a href="#h:54b48277-e0e5-4188-ad54-ef3db3b7e772">6.2. Regenerate front matter</a></li>
 </ul>
 </li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">7. Linking notes</a>
@@ -572,7 +573,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgc050366">
+<pre class="example" id="org39defee">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -666,7 +667,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org2dba89c">
+<pre class="example" id="org23954f8">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -771,7 +772,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org5fb75d7">
+<pre class="example" id="org5c4d608">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -791,7 +792,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org2422731">
+<pre class="example" id="org7a029bd">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1058,7 +1059,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org17960d3">
+<pre class="example" id="org8ec3f00">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1079,7 +1080,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org9f49ea9">
+<pre class="example" id="org826b48c">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1093,7 +1094,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org9c7ee78">
+<pre class="example" id="orgea1875d">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1107,7 +1108,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org92c2e80">
+<pre class="example" id="org215cf7c">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1255,6 +1256,48 @@ we shall act accordingly.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:54b48277-e0e5-4188-ad54-ef3db3b7e772" class="outline-3">
+<h3 id="h:54b48277-e0e5-4188-ad54-ef3db3b7e772"><span class="section-number-3">6.2.</span> Regenerate front matter</h3>
+<div class="outline-text-3" id="text-h:54b48277-e0e5-4188-ad54-ef3db3b7e772">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+Sometimes the user needs to produce new front matter for an existing
+note.  Perhaps because they accidentally deleted a line and could not
+undo the operation.  The command <code>denote-add-front-matter</code> can be used
+for this very purpose.
+</p>
+
+<p>
+In interactive use, <code>denote-add-front-matter</code> must be invoked from a
+buffer that visits a Denote note.  It prompts for a title and then for
+keywords.  These are the standard prompts we already use for note
+creation, so the keywords&rsquo; prompt allows minibuffer completion and the
+input of multiple entries, each separated by a comma (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
+</p>
+
+<p>
+The newly created front matter is added to the top of the file.
+</p>
+
+<p>
+This command does not rename the file (e.g. to update the keywords).  To
+rename a file by reading its front matter as input, the user can rely on
+<code>denote-rename-file-using-front-matter</code> (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+</p>
+
+<p>
+Note that <code>denote-add-front-matter</code> is useful only for existing Denote
+notes.  If the user needs to convert a generic text file to a Denote
+note, they can use one of the command which first rename the file to
+make it comply with our file-naming scheme and then add the relevant
+front matter.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:fc913d54-26c8-4c41-be86-999839e8ad31" class="outline-2">
@@ -1350,7 +1393,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orge2d15c3">
+<pre class="example" id="org1ecbe76">
 - link1
 - link2
 - link3
@@ -1368,7 +1411,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org755f78a">
+<pre class="example" id="orgc5f7fa3">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1469,7 +1512,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgfc7ede0">
+<pre class="example" id="org4ff2ddb">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2300,7 +2343,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org17a6af0">
+<pre class="example" id="org4ee773a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
