@@ -3,6 +3,10 @@ title: "Who can be a philosopher?"
 excerpt: "A comment on a question I often get about who can be a philosopher."
 ---
 
+**UPDATE 2022-08-07 21:05 +0300:** Better watch the new video on this
+topic: <https://protesilaos.com/books/2022-08-07-who-can-be-philosopher/>.
+
+
 Unlike most entries in [the present section of my website](https://protesilaos.com/commentary/),
 this is not a reply to a particular message.  It rather captures the
 spirit of remarks that I have noticed and want to hereby address.
