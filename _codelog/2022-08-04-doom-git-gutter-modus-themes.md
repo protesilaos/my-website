@@ -133,7 +133,7 @@ This is not about the technicalities of the intersection between the
 responsibility towards the community.
 
 Doom Emacs happens to be a very popular choice, especially for new users
-who are not yet familiar with all the minutia of Emacs.  When a soft
+who are not yet familiar with all the minutiae of Emacs.  When a soft
 fork breaks my package, I get to deal with the problem even though my
 package works correctly.  This is not nice and it detracts from my other
 projects.
