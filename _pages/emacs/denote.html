@@ -54,7 +54,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">3.1. Standard note creation</a>
 <ul>
 <li><a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">3.1.1. The <code>denote-prompts</code> option</a></li>
-<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">3.1.2. Convenience commands for note creation</a></li>
+<li><a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">3.1.2. The <code>denote-templates</code> option</a></li>
+<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">3.1.3. Convenience commands for note creation</a></li>
 </ul>
 </li>
 <li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.2. Create note using Org capture</a></li>
@@ -244,10 +245,14 @@ Obligations, Tasks, and Engagements.
 <div class="outline-text-2" id="text-h:17896c8c-d97a-4faa-abf6-31df99746ca6">
 <p>
 There are five ways to write a note with Denote: invoke the <code>denote</code>,
-<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code> commands, or
-leverage the <code>org-capture-templates</code> by setting up a template which
-calls the function <code>denote-org-capture</code>.  We explain all of those in the
-subsequent sections.
+<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>, <code>denote-template</code>
+commands, or leverage the <code>org-capture-templates</code> by setting up a
+template which calls the function <code>denote-org-capture</code>.  We explain all
+of those in the subsequent sections.
+</p>
+
+<p>
+[ The <code>denote-template</code> is part of 0.5.0-dev ]
 </p>
 </div>
 
@@ -312,30 +317,38 @@ The value is a list of symbols, which includes any of the following:
 <ul class="org-ul">
 <li><code>title</code>: Prompt for the title of the new note.</li>
 
-<li><code>keywords</code>: Prompts with completion for the keywords of the new
-note.  Available candidates are those specified in the user
-option <code>denote-known-keywords</code>.  If the user option
-<code>denote-infer-keywords</code> is non-nil, keywords in existing note
-file names are included in the list of candidates.  The
-<code>keywords</code> prompt uses <code>completing-read-multiple</code>, meaning that
-it can accept multiple keywords separated by a comma (or
-whatever the value of <code>crm-sepator</code> is).</li>
+<li><code>keywords</code>: Prompts with completion for the keywords of the new note.
+Available candidates are those specified in the user option
+<code>denote-known-keywords</code>.  If the user option <code>denote-infer-keywords</code>
+is non-nil, keywords in existing note file names are included in the
+list of candidates.  The <code>keywords</code> prompt uses
+<code>completing-read-multiple</code>, meaning that it can accept multiple
+keywords separated by a comma (or whatever the value of <code>crm-sepator</code>
+is).</li>
 
-<li><code>file-type</code>: Prompts with completion for the file type of the
-new note.  Available candidates are those specified in the user
-option <code>denote-file-type</code>.  Without this prompt, <code>denote</code> uses
-the value of <code>denote-file-type</code>.</li>
+<li><code>file-type</code>: Prompts with completion for the file type of the new
+note.  Available candidates are those specified in the user option
+<code>denote-file-type</code>.  Without this prompt, <code>denote</code> uses the value of
+<code>denote-file-type</code>.</li>
 
-<li><code>subdirectory</code>: Prompts with completion for a subdirectory in
-which to create the note.  Available candidates are the value
-of the user option <code>denote-directory</code> and all of its
-subdirectories.  Any subdirectory must already exist: Denote
-will not create it.</li>
+<li><code>subdirectory</code>: Prompts with completion for a subdirectory in which to
+create the note.  Available candidates are the value of the user
+option <code>denote-directory</code> and all of its subdirectories.  Any
+subdirectory must already exist: Denote will not create it.</li>
 
-<li><code>date</code>: Prompts for the date of the new note.  It will expect
-an input like 2022-06-16 or a date plus time: 2022-06-16 14:30.
-Without the <code>date</code> prompt, the <code>denote</code> command uses the
-<code>current-time</code>.</li>
+<li><code>date</code>: Prompts for the date of the new note.  It will expect an input
+like 2022-06-16 or a date plus time: 2022-06-16 14:30.  Without the
+<code>date</code> prompt, the <code>denote</code> command uses the <code>current-time</code>.</li>
+
+<li><p>
+<code>template</code>: Prompts for a KEY among the <code>denote-templates</code>.  The value
+of that KEY is used to populate the new note with content, which is
+added after the front matter (<a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">The denote-templates option</a>).
+</p>
+
+<p>
+[ The <code>template</code> is part of 0.5.0-dev ]
+</p></li>
 </ul>
 
 <p>
@@ -386,8 +399,98 @@ in the subsequent section (<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Con
 </div>
 </div>
 
+<div id="outline-container-h:f635a490-d29e-4608-9372-7bd13b34d56c" class="outline-4">
+<h4 id="h:f635a490-d29e-4608-9372-7bd13b34d56c"><span class="section-number-4">3.1.2.</span> The <code>denote-templates</code> option</h4>
+<div class="outline-text-4" id="text-h:f635a490-d29e-4608-9372-7bd13b34d56c">
+<p>
+[ Part of 0.5.0-dev ]
+</p>
+
+<p>
+The user option <code>denote-templates</code> is an alist of content templates for
+new notes.  A template is arbitrary text that Denote will add to a newly
+created note right below the front matter.
+</p>
+
+<p>
+Templates are expressed as a <code>(KEY . STRING)</code> association.
+</p>
+
+<ul class="org-ul">
+<li>The <code>KEY</code> is the name which identifies the template.  It is an
+arbitrary symbol, such as <code>report</code>, <code>memo</code>, <code>statement</code>.</li>
+
+<li>The <code>STRING</code> is ordinary text that Denote will insert as-is.  It can
+contain newline characters to add spacing.  Below we show some
+concrete examples.</li>
+</ul>
+
+<p>
+The user can choose a template either by invoking the command
+<code>denote-template</code> or by changing the user option <code>denote-prompts</code> to
+always prompt for a template when calling the <code>denote</code> command.
+</p>
+
+<p>
+<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>.
+</p>
+
+<p>
+<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>.
+</p>
+
+<p>
+Templates can be written directly as one large string.  For example (the
+<code>\n</code> character is read as a newline):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-templates
+      '((report . "* Some heading\n\n* Another heading")
+        (memo . "* Some heading
+
+* Another heading
+
+")))
+</pre>
+</div>
+
+<p>
+Long strings may be easier to type but interpret indentation literally.
+Also, they do not scale well.  A better way is to use some Elisp code to
+construct the string.  This would typically be the <code>concat</code> function,
+which joins multiple strings into one.  The following is the same as the
+previous example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-templates
+      `((report . "* Some heading\n\n* Another heading")
+        (memo . ,(concat "* Some heading"
+                         "\n\n"
+                         "* Another heading"
+                         "\n\n"))))
+</pre>
+</div>
+
+<p>
+Notice that to evaluate a function inside of an alist we use the
+backtick to quote the alist (NOT the straight quote) and then prepend a
+comma to the expression that should be evaluated.  The <code>concat</code> form
+here is not sensitive to indentation, so it is easier to adjust for
+legibility.
+</p>
+
+<p>
+DEV NOTE: We do not provide more examples at this point, though feel
+welcome to ask for help if the information provided herein is not
+sufficient.  We shall expand the manual accordingly.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:887bdced-9686-4e80-906f-789e407f2e8f" class="outline-4">
-<h4 id="h:887bdced-9686-4e80-906f-789e407f2e8f"><span class="section-number-4">3.1.2.</span> Convenience commands for note creation</h4>
+<h4 id="h:887bdced-9686-4e80-906f-789e407f2e8f"><span class="section-number-4">3.1.3.</span> Convenience commands for note creation</h4>
 <div class="outline-text-4" id="text-h:887bdced-9686-4e80-906f-789e407f2e8f">
 <p>
 Sometimes the user needs to create a note that has different
@@ -456,6 +559,27 @@ This is equivalent to calling <code>denote</code> when <code>denote-prompts</cod
 <p>
 The <code>denote-create-note-in-subdirectory</code> is a more descriptive alias
 of <code>denote-subdirectory</code>.
+</p>
+
+<p>
+[ Templates are part of 0.5.0-dev ]
+</p></dd>
+
+<dt>Create note and add a template</dt><dd><p>
+The <code>denote-template</code> command
+creates a new note and inserts the specified template below the front
+matter (<a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">The denote-templates option</a>).  Available candidates for
+templates are specified in the user option <code>denote-templates</code>.
+</p>
+
+<p>
+This is equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
+set to <code>'(template title keywords)</code>.
+</p>
+
+<p>
+The <code>denote-create-note-with-template</code> is an alias of the command
+<code>denote-template</code>, meant to help with discoverability.
 </p></dd>
 </dl>
 </div>
@@ -573,7 +697,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org39defee">
+<pre class="example" id="org1b695bf">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -667,7 +791,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org23954f8">
+<pre class="example" id="org8e4e15b">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -772,7 +896,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org5c4d608">
+<pre class="example" id="org5491e33">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -792,7 +916,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org7a029bd">
+<pre class="example" id="org1ea3b0d">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1059,7 +1183,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org8ec3f00">
+<pre class="example" id="org73c90e5">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1080,7 +1204,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org826b48c">
+<pre class="example" id="org6afb420">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1094,7 +1218,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgea1875d">
+<pre class="example" id="orgd978dc6">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1108,7 +1232,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org215cf7c">
+<pre class="example" id="orgdd74bba">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1393,7 +1517,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org1ecbe76">
+<pre class="example" id="orgfb95ba7">
 - link1
 - link2
 - link3
@@ -1411,7 +1535,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc5f7fa3">
+<pre class="example" id="orga76653b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1512,7 +1636,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org4ff2ddb">
+<pre class="example" id="org0fa9478">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2212,6 +2336,10 @@ Everything is in place to set up the package.
 (setq denote-file-type nil) ; Org is the default, set others here
 (setq denote-prompts '(title keywords))
 
+;; Read this manual for how to specify `denote-templates'.  We do not
+;; include an example here to avoid potential confusion.
+
+
 ;; We allow multi-word keywords by default.  The author's personal
 ;; preference is for single-word keywords for a more rigid workflow.
 (setq denote-allow-multi-word-keywords t)
@@ -2258,6 +2386,7 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c n N") #'denote-type)
   (define-key map (kbd "C-c n d") #'denote-date)
   (define-key map (kbd "C-c n s") #'denote-subdirectory)
+  (define-key map (kbd "C-c n t") #'denote-template)
   ;; If you intend to use Denote with a variety of file types, it is
   ;; easier to bind the link-related commands to the `global-map', as
   ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
@@ -2343,7 +2472,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org4ee773a">
+<pre class="example" id="org53dab69">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
