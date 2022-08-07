@@ -3,6 +3,9 @@ title: "Re: books on Greek mythology?"
 excerpt: "My answer to a general question about how to approach Greek mythology and ancient sources."
 ---
 
+**UPDATE 2022-08-07 21:27 +0300:** Appended an Annex with some book
+suggestions and subsequent commentary.
+
 I got the question in the title.  My answer is copied below.
 
 * * *
@@ -174,3 +177,47 @@ here).
 So yeah, good luck researching this topic further.  Feel welcome to
 share any findings.  I, too, am interested to learn more about the
 subject.
+
+## Annex with book suggestions
+
+After I published the above, I received an email with some book
+suggestions.  I am quoting it with permission, while keeping the
+identity of my correspondent private:
+
+> Over the past few years I have read a few interesting books on that
+> matter which might of be interest.
+>
+> I do not know about their accuracy (at the least they seem somewhat well
+> researched) and are retellings of the original myths in a more
+> contemporary way:
+>
+> - Stephen Fry: Mythos-The Greek Myths Retold
+> - Stephen Fry: Heroes-Mortals and Monsters, Quests and Adventures
+> - Homer/Emily Wilson: The Odyssey
+>
+> Stephen Fry also has out a third book "Troy" which obviously is on the
+> topic of Troy, I haven't though read it as of know.
+>
+> As said, I'm not sure about the accuracy of those retellings but at
+> the least they had been able to give an overview of those myths and
+> are entertaining in a way as they are written in a more "contemporary
+> language".
+
+And here is the relevant part of my comment to it:
+
+They look promising.  Accuracy is always tricky with translations of
+this sort.  It is up to the reader to not take everything at face value.
+
+There is the variant of one myth, for example, which is often referred
+to as "ancient Greek" even though it is Roman in origin: the origin
+story of Medusa.  In the original ancient Greek sources Medusa is always
+a monster.  There is no nuanced backstory.  In the Roman version of
+later centuries as expressed by Ovid, she is a chaste priestess who gets
+raped by Neptune (Roman variant of Poseidon) and is then penalised for
+it by Minerva (Roman variant of Athena).  Minerva converts Medusa to the
+monster we know as punishment for her losing her virginity.  I cannot
+understand why the goddess of wisdom, out of all archetypes, would be
+the one to lack basic judgement over who the victim is in the case of a
+rape, but I digress.  The point is that this backstory is not "ancient
+Greek", strictly speaking.  There may be more like it, hence the need to
+not take things at face value.
