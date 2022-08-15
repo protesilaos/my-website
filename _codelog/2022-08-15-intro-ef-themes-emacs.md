@@ -36,7 +36,6 @@ I plan to finalise the first version of the package during this week.
 ## Sources
 
 + Package name (GNU ELPA): `ef-themes` (**not available yet**)
-+ Official manual: <https://protesilaos.com/emacs/ef-themes>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/ef-themes>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/ef-themes>
