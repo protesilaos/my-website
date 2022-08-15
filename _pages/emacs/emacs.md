@@ -50,6 +50,19 @@ package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
     + GitLab: <https://gitlab.com/protesilaos/denote>
 + Mailing list: <https://lists.sr.ht/~protesilaos/denote>
 
+## Ef (εὖ) themes
+
+Legible and colourful themes.  This is a work-in-progress.  Read the
+announcement from 2022-08-15 (includes screenshots):
+<https://protesilaos.com/codelog/2022-08-15-intro-ef-themes-emacs/>.
+
++ Package name (GNU ELPA): `ef-themes` (**not available yet**)
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/ef-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/ef-themes>
+    + GitLab: <https://gitlab.com/protesilaos/ef-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
+
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
