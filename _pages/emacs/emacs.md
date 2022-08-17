@@ -56,7 +56,7 @@ Legible and colourful themes.  This is a work-in-progress.  Read the
 announcement from 2022-08-15 (includes screenshots):
 <https://protesilaos.com/codelog/2022-08-15-intro-ef-themes-emacs/>.
 
-+ Package name (GNU ELPA): `ef-themes` (**not available yet**)
++ Package name (GNU ELPA): `ef-themes`
 + Official manual: <https://protesilaos.com/emacs/ef-themes>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/ef-themes>
   - Mirrors:
