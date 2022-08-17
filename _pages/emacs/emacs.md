@@ -64,6 +64,40 @@ announcement from 2022-08-15 (includes screenshots):
     + GitLab: <https://gitlab.com/protesilaos/ef-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
 
+## Fontaine
+
+Fontaine allows the user to define detailed font configurations and set
+them on demand.  For example, one can have a `regular-editing` preset
+and another for `presentation-mode` (these are arbitrary, user-defined
+symbols): the former uses small fonts which are optimised for writing,
+while the latter applies typefaces that are pleasant to read at
+comfortable point sizes.
+
++ Package name (GNU ELPA): `fontaine`
++ Official manual: <https://protesilaos.com/emacs/fontaine>
++ Change log: <https://protesilaos.com/emacs/fontaine-changelog>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/fontaine>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/fontaine>
+    + GitLab: <https://gitlab.com/protesilaos/fontaine>
++ Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
+
+## TMR May Ring (tmr)
+
+TMR is an Emacs package that provides facilities for setting timers
+using a convenient notation.  Lots of commands are available to operate
+on timers, while there also exists a tabulated view to display all
+timers in a nice grid.
+
++ Package name (GNU ELPA): `tmr`
++ Official manual: <https://protesilaos.com/emacs/tmr>
++ Change log: <https://protesilaos.com/emacs/tmr-changelog>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/tmr>
+    + GitLab: <https://gitlab.com/protesilaos/tmr>
++ Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
+
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
@@ -124,40 +158,6 @@ more of a reminder of the point's location on the vertical axis.
     + GitHub: <https://github.com/protesilaos/lin>
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
-
-## Fontaine
-
-Fontaine allows the user to define detailed font configurations and set
-them on demand.  For example, one can have a `regular-editing` preset
-and another for `presentation-mode` (these are arbitrary, user-defined
-symbols): the former uses small fonts which are optimised for writing,
-while the latter applies typefaces that are pleasant to read at
-comfortable point sizes.
-
-+ Package name (GNU ELPA): `fontaine`
-+ Official manual: <https://protesilaos.com/emacs/fontaine>
-+ Change log: <https://protesilaos.com/emacs/fontaine-changelog>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/fontaine>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/fontaine>
-    + GitLab: <https://gitlab.com/protesilaos/fontaine>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
-
-## TMR May Ring (tmr)
-
-TMR is an Emacs package that provides facilities for setting timers
-using a convenient notation.  Lots of commands are available to operate
-on timers, while there also exists a tabulated view to display all
-timers in a nice grid.
-
-+ Package name (GNU ELPA): `tmr`
-+ Official manual: <https://protesilaos.com/emacs/tmr>
-+ Change log: <https://protesilaos.com/emacs/tmr-changelog>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/tmr>
-    + GitLab: <https://gitlab.com/protesilaos/tmr>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
 
 ## Cursory
 
