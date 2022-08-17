@@ -76,7 +76,7 @@ Last time I told him that somewhere on this turn
 I would change course and that he wouldn't be able to find me
 ```
 
-To me the illegal passenger is an alien being that accompanies the
+To me, the illegal passenger is an alien being that accompanies the
 poetic "I" when it aspires to its highest.  It is "illegal" because the
 instituted reality of humankind already has little tolerance for
 foreigners, let alone otherworldly presences or lofty standards.
