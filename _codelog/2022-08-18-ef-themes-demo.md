@@ -2,7 +2,7 @@
 title: "Emacs: demonstration of my ef-themes"
 excerpt: "Video demo of my new colorful-yet-legible themes for GNU Emacs."
 layout: vlog
-mediaid: "VOd7CVz10"
+mediaid: "h7VOd7CVz10"
 ---
 
 In this video I showcase the eight themes that form part of my new
