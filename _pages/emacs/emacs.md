@@ -52,9 +52,12 @@ package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
 
 ## Ef (εὖ) themes
 
-Legible and colourful themes.  This is a work-in-progress.  Read the
-announcement from 2022-08-15 (includes screenshots):
-<https://protesilaos.com/codelog/2022-08-15-intro-ef-themes-emacs/>.
+The `ef-themes` are a collection of light and dark themes for GNU Emacs
+whose goal is to provide colourful ("pretty") yet legible options for
+users who want something with a bit more flair than the `modus-themes`
+(also designed by me).  Watch the presentation, which demonstrates each
+of the eight themes in the collection:
+<https://protesilaos.com/codelog/2022-08-18-ef-themes-demo/>.
 
 + Package name (GNU ELPA): `ef-themes`
 + Official manual: <https://protesilaos.com/emacs/ef-themes>
