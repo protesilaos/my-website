@@ -342,7 +342,7 @@ pressure to be somewhere else.  We were not in a hurry.
 
 This same approach applies to how an intimate relationship would unfold.
 If we are not focused on the moment, we are faking it or simply not
-making the most out it.  And the same for every field of endeavour.  If1
+making the most out it.  And the same for every field of endeavour.  If
 we do not put it the endless hours of hard work, we will never have the
 skills for it.  A foreign language, programming, playing the guitar&#x2026;
 Whatever it is, it has to be done with the understanding that there is
