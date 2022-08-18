@@ -3,6 +3,12 @@ title: "Emacs: introduction to the ef-themes"
 excerpt: "A quick demonstration and commentary on my new theme-related project for GNU Emacs."
 ---
 
+**UPDATE 2022-08-18 13:30 +0300.** Watch the presentation, which
+demonstrates each of the eight themes in the collection:
+<https://protesilaos.com/codelog/2022-08-18-ef-themes-demo/>.
+
+* * *
+
 The `ef-themes` is an in-development project I launched two days ago.
 But first check some screenshots and then you can proceed to the rest of
 text.  **Click to enlarge them and zoom in**.
