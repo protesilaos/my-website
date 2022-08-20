@@ -10,7 +10,7 @@ already covered twice in this new section of my website:
 - [The Sweet Paradox](https://protesilaos.com/interpretations/2022-07-01-memphis-sweet-paradox/)
 
 For the present entry, I want to comment on the profound words of
-_Between_ (Ανάμεσα), all while introducing you another wonderful song
+_Between_ (Ανάμεσα), all while introducing you to another wonderful song
 from this exceptionally talented band:
 <https://www.youtube.com/watch?v=5cSDDhv_OVI> (also check their bandcamp
 page for their entire discography: <https://m3mf1s.bandcamp.com/music>).
@@ -71,23 +71,23 @@ their attributes and mode of being?  Everything that is ephemeral, is
 predicated on what has been.  However, the cosmos is ever-lasting.  Time
 is pertinent to items whose presence is temporary.  For the cosmos as
 such, time is irrelevant.  Such is the implication of it being
-ever-lasting: it always is.  There is no past, no future.  It is a
-simply present: a total presence.
+ever-lasting: it always is.  There is no past, no future.  It is simply
+present: a total presence.
 
 [ Read/watch: [Cosmos, Logos, and the living universe](https://protesilaos.com/books/2022-02-05-cosmos-logos-living-universe/) ]
 
 The "between" is the innocuous lie we all arrive at intuitively.  Who I
 was yesterday, what my plans are for tomorrow...  I can understand the
 analytical constructs of past, present, and future, ultimately taking
-them as universal constants.  Yet I know all-too-well that I cannot live
-in either the past or the future.  Behold the lie right in front of me!
-All I can ever do is be present.  This is not a matter of choice.  My
-condition as human, my condition as a _presence_, imposes as much.
+them as universal constants.  Still, I know all-too-well that I cannot
+live in either the past or the future.  Behold the lie right in front of
+me!  All I can ever do is be present.  This is not a matter of choice.
+My condition as human, my condition as a _presence_, imposes as much.
 
 We sometimes cling on to the past.  Perhaps to the "good old days" of
 yesteryear which provide a stark contrast to the particularities of our
 dystopic locus.  Or we daydream of what is yet to transpire, as we find
-solace in the escape from the immediate into the possible.  Yet even the
+solace in the escape from the immediate into the possible.  Even the
 strongest attachment of this kind cannot refashion our actuality.  The
 past or future can only be lived in the present.  The mind may travel
 wherever it wants, though its phantasmagoric journey is one of
@@ -113,12 +113,12 @@ what isn't "there".  The "lover" experiences love in the present.  There
 is no other experience.
 
 It is for this reason that the song talks about the saddest mornings
-that are yet to come.  If we worry about them, if we fear that which
-does not exist, if we reify the conceptual as a substitute of the
-present, we are to be served a bitter kiss.  We become insecure,
-fearful, stressed, unsettled.  The expectation, the distraction from our
-actuality, the "what I want", is undoing us.  Same principle for those
-who wait pointlessly for some eventuality.  They too shall suffer.
+that are to happen.  If we worry about them, if we fear that which does
+not exist, if we reify the conceptual as a substitute of the present, we
+are to be served a bitter kiss.  We become insecure, fearful, stressed,
+unsettled.  The expectation, the distraction from our actuality, the
+"what I want", is undoing us.  Same principle for those who wait
+pointlessly for some eventuality.  They too shall suffer.
 
 What about the shy words, then?  I think they are those inklings of
 recognition we have for the aforementioned, but are trapped in the
@@ -129,8 +129,8 @@ taboos of our cultural setting and are scared to pursue their truth.
 
 Whatever the answer, it is unreliable.  The questions assume as real the
 impossibility of a present future.  To entertain that notion as the
-basis of one's life is to labour under beguiling illusions.  Yet
-admission of this simple fact is hard.  Those words are too shy.  The
+basis of one's life is to labour under beguiling illusions.  Admission
+of this simple fact is hard---I know.  Those words are too shy.  The
 embarrassment to speak the truth is what holds one hostage to falsehood.
 The shy ones shall thus wait in vain and be given the most acerbic of
 kisses.
@@ -138,4 +138,4 @@ kisses.
 The present is full of regrets only when it is pulled on either side of
 this intermediate "between" state.  It otherwise consists in aloofness:
 the lightness of being ever-present.  No regrets, no expectations, no
-fear, no hope.  What is, is.
+fear, no hope.  Nothing.  What is, is.
