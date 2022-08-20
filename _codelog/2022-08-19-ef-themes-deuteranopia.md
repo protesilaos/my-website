@@ -11,7 +11,7 @@ new `ef-themes` project for GNU Emacs.  Those are the
 `ef-deuteranopia-light` and `ef-deuteranopia-dark`.  Both are designed
 to accommodate the needs of users with red-green colour
 deficiency/blindness (deuteranopia).  In simple terms, those themes only
-uses shades of blue and yellow for their accents.  Expect to find
+use shades of blue and yellow for their accents.  Expect to find
 consistent blue-yellow colour combinations throughout the themes.
 
 [ Click to enlarge the screenshots.  Those are relevant as of 2022-08-19
