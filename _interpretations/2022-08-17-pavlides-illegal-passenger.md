@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Illegal passenger” by Pavlos Pavlides"
-excerpt: "Translation of---and philosophical commentary on---a Greek poem whose translated title is 'Illegal passenger'."
+excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Illegal passenger'."
 ---
 
 Pavlos Pavlides is a extraordinary songwriter whose beautiful songs add

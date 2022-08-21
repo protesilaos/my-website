@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Between” by Memphis (Μ3ΜΦ1Σ)"
-excerpt: "Translation of---and philosophical commentary on---a Greek poem whose translated title is 'Between'."
+excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Between'."
 ---
 
 Memphis (stylised as "Μ3ΜΦ1Σ") is a Greek rock/metal band that I have
