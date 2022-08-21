@@ -820,11 +820,11 @@ tomorrow morning as well?  Maybe you could show me exactly what to do?
 **B.:** Careful with your enthusiasm.  It is not to be taken lightly,
 nor to be done over the weekend or with a new friend you are excited
 about.  I left home, but I also had to outgrow my self.  That cannot be
-undone.  B.e prepared for the long journey and let go of the tourist
-mentality.  A.s for showing you how it's done, there is no secret.  I
+undone.  Be prepared for the long journey and let go of the tourist
+mentality.  As for showing you how it's done, there is no secret.  I
 just went for a swim and then for a walk.  It is not magic.  Nothing out
 of the ordinary.  What matters is my perspective, which comes from the
-elucidation of all those concepts I have presented tonight and at
+elucidation of all those concepts I have presented tonight and during
 breakfast.  Just think about your place in the world.  I do not need to
 be at the seaside to do that.  I do not have to wake up early, nor to
 swim or walk or whatnot.  It just happens that those activities are
