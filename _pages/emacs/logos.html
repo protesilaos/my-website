@@ -45,16 +45,17 @@ Current development target is 0.5.0-dev.
 <li><a href="#h:2bb57369-352a-43bf-afe3-0bed2fcc7359">5. Extra tweaks</a>
 <ul>
 <li><a href="#h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">5.1. Center the buffer in its window</a></li>
-<li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.2. Automatically reveal Org or Outline subtree</a></li>
-<li><a href="#h:bba965c6-7451-4c76-84d6-7e03c99ed546">5.3. Recenter at the top upon page motion</a></li>
-<li><a href="#h:3464ada8-c55d-4179-9d54-c2f87e284ac7">5.4. Use outlines and page breaks</a></li>
-<li><a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">5.5. Leverage logos-focus-mode-extra-functions</a>
+<li><a href="#h:2b598775-8a3d-4728-a7ce-edc05d90fdb9">5.2. Make EWW look like the rest of Emacs</a></li>
+<li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.3. Automatically reveal Org or Outline subtree</a></li>
+<li><a href="#h:bba965c6-7451-4c76-84d6-7e03c99ed546">5.4. Recenter at the top upon page motion</a></li>
+<li><a href="#h:3464ada8-c55d-4179-9d54-c2f87e284ac7">5.5. Use outlines and page breaks</a></li>
+<li><a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">5.6. Leverage logos-focus-mode-extra-functions</a>
 <ul>
-<li><a href="#h:ef719925-8d0b-479a-a87e-32b727578bfc">5.5.1. Conditionally toggle org-indent-mode</a></li>
-<li><a href="#h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">5.5.2. Disable menu-bar and tool-bar</a></li>
+<li><a href="#h:ef719925-8d0b-479a-a87e-32b727578bfc">5.6.1. Conditionally toggle org-indent-mode</a></li>
+<li><a href="#h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">5.6.2. Disable menu-bar and tool-bar</a></li>
 </ul>
 </li>
-<li><a href="#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">5.6. Update fringe color on theme switch</a></li>
+<li><a href="#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">5.7. Update fringe color on theme switch</a></li>
 </ul>
 </li>
 <li><a href="#h:300c12cb-853e-4e06-9627-e1d6fd3a3a38">6. Acknowledgements</a></li>
@@ -132,6 +133,18 @@ want:
 On standard Emacs, those key bindings are: <code>C-x n n</code>, <code>C-x ]</code>, <code>C-x [</code>.
 The <code>logos-narrow-dwim</code> is not necessary for users who already know how
 to narrow effectively.  Such users may still want to bind it to a key.
+</p>
+
+<p>
+For users running Emacs version 28 or higher, Logos defines the
+<code>logos-repeat-map</code> which is activated when <code>repeat-mode</code> is enabled.
+This means that page motions, <code>C-x ]</code> and <code>C-x [</code>, can be repeated by
+following them up with <code>]</code> and <code>[</code>, respectively.  The repetition stops
+when another command is invoked.
+</p>
+
+<p>
+[ The <code>logos-repeat-map</code> is part of 0.5.0-dev ]
 </p>
 
 <p>
@@ -337,8 +350,52 @@ Though note that Olivetti works well even without a <code>fill-column</code> and
 </div>
 </div>
 
+<div id="outline-container-h:2b598775-8a3d-4728-a7ce-edc05d90fdb9" class="outline-3">
+<h3 id="h:2b598775-8a3d-4728-a7ce-edc05d90fdb9"><span class="section-number-3">5.2.</span> Make EWW look like the rest of Emacs</h3>
+<div class="outline-text-3" id="text-h:2b598775-8a3d-4728-a7ce-edc05d90fdb9">
+<p>
+By default, all <code>M-x eww</code> buffers use the <code>shr-max-width</code> which is set
+to 120 characters.  This is above the standard value of <code>fill-column</code>
+and thus does not let text flow nicely while using <code>olivetti</code> package
+(<a href="#h:8864fb36-53d6-40a2-8e0a-2c609e06d70f">Center the buffer in its window</a>).
+</p>
+
+<p>
+For a general customization, the user can evaluate this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq shr-max-width fill-column)
+</pre>
+</div>
+
+<p>
+EWW buffers also default to <code>variable-pitch</code> typography by default (as
+opposed to whatever the font family of the <code>default</code> face is).  This too
+can be made consistent with the rest of Emacs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq shr-use-fonts nil)
+</pre>
+</div>
+
+<p>
+[ For font-related customizations check the <code>fontaine</code> package on GNU
+  ELPA (by Protesilaos). ]
+</p>
+
+<p>
+Note that all variables with the <code>shr-</code> prefix are about the built-in
+Simple HTML Renderer, so they will affect any other package that relies
+on them beside EWW (in principle, the aforementioned should not pose any
+problem).
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:e18f828f-f9a8-4821-b73b-46793be57abb" class="outline-3">
-<h3 id="h:e18f828f-f9a8-4821-b73b-46793be57abb"><span class="section-number-3">5.2.</span> Automatically reveal Org or Outline subtree</h3>
+<h3 id="h:e18f828f-f9a8-4821-b73b-46793be57abb"><span class="section-number-3">5.3.</span> Automatically reveal Org or Outline subtree</h3>
 <div class="outline-text-3" id="text-h:e18f828f-f9a8-4821-b73b-46793be57abb">
 <p>
 The Logos page motions normally jump between positions.  Though Org and
@@ -386,7 +443,7 @@ one may override the definition of <code>logos--reveal-entry</code>:
 </div>
 
 <div id="outline-container-h:bba965c6-7451-4c76-84d6-7e03c99ed546" class="outline-3">
-<h3 id="h:bba965c6-7451-4c76-84d6-7e03c99ed546"><span class="section-number-3">5.3.</span> Recenter at the top upon page motion</h3>
+<h3 id="h:bba965c6-7451-4c76-84d6-7e03c99ed546"><span class="section-number-3">5.4.</span> Recenter at the top upon page motion</h3>
 <div class="outline-text-3" id="text-h:bba965c6-7451-4c76-84d6-7e03c99ed546">
 <p>
 Page motions normally reposition the point at the centre of the window
@@ -440,7 +497,7 @@ Or simply exclude all programming modes:
 </div>
 
 <div id="outline-container-h:3464ada8-c55d-4179-9d54-c2f87e284ac7" class="outline-3">
-<h3 id="h:3464ada8-c55d-4179-9d54-c2f87e284ac7"><span class="section-number-3">5.4.</span> Use outlines and page breaks</h3>
+<h3 id="h:3464ada8-c55d-4179-9d54-c2f87e284ac7"><span class="section-number-3">5.5.</span> Use outlines and page breaks</h3>
 <div class="outline-text-3" id="text-h:3464ada8-c55d-4179-9d54-c2f87e284ac7">
 <p>
 By default, the page motions only move between the <code>^L</code> delimiters.
@@ -526,7 +583,7 @@ result can look like this:
 </div>
 
 <div id="outline-container-h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8" class="outline-3">
-<h3 id="h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8"><span class="section-number-3">5.5.</span> Leverage logos-focus-mode-extra-functions</h3>
+<h3 id="h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8"><span class="section-number-3">5.6.</span> Leverage logos-focus-mode-extra-functions</h3>
 <div class="outline-text-3" id="text-h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">
 <p>
 The <code>logos-focus-mode-extra-functions</code> is a normal hook that runs when
@@ -545,7 +602,7 @@ provides yet another useful sample.
 </div>
 
 <div id="outline-container-h:ef719925-8d0b-479a-a87e-32b727578bfc" class="outline-4">
-<h4 id="h:ef719925-8d0b-479a-a87e-32b727578bfc"><span class="section-number-4">5.5.1.</span> Conditionally toggle org-indent-mode</h4>
+<h4 id="h:ef719925-8d0b-479a-a87e-32b727578bfc"><span class="section-number-4">5.6.1.</span> Conditionally toggle org-indent-mode</h4>
 <div class="outline-text-4" id="text-h:ef719925-8d0b-479a-a87e-32b727578bfc">
 <p>
 Here is a snippet that relies on <code>logos-focus-mode-extra-functions</code> to
@@ -590,7 +647,7 @@ not needed, the following will suffice:
 </div>
 
 <div id="outline-container-h:8914f8fc-e6e9-440e-b037-f934e08ee1ae" class="outline-4">
-<h4 id="h:8914f8fc-e6e9-440e-b037-f934e08ee1ae"><span class="section-number-4">5.5.2.</span> Disable menu-bar and tool-bar</h4>
+<h4 id="h:8914f8fc-e6e9-440e-b037-f934e08ee1ae"><span class="section-number-4">5.6.2.</span> Disable menu-bar and tool-bar</h4>
 <div class="outline-text-4" id="text-h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">
 <p>
 Continuing with the examples in this section of the manual, this is how
@@ -623,7 +680,7 @@ and then restore them back on when <code>logos-focus-mode</code> is disabled.
 </div>
 
 <div id="outline-container-h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b" class="outline-3">
-<h3 id="h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b"><span class="section-number-3">5.6.</span> Update fringe color on theme switch</h3>
+<h3 id="h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b"><span class="section-number-3">5.7.</span> Update fringe color on theme switch</h3>
 <div class="outline-text-3" id="text-h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">
 <p>
 [ Part of 0.5.0-dev ]
