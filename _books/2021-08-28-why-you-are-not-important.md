@@ -35,11 +35,11 @@ establish relationships that can help bridge the gap.  I found the whole
 idea intriguing: to bring together bloggers and activists from the
 region.
 
-**A.:** We hope for the best, though I feel that ten years from now all
+**B.:** We hope for the best, though I feel that ten years from now all
 this will be but a distant memory or, perhaps, an inspiration for future
 writers.
 
-**B.:** Time will tell.  I hope we succeed, despite the daunting task.
+**A.:** Time will tell.  I hope we succeed, despite the daunting task.
 Do you mind though if we stop talking about politics?  We don't have
 that much time and I would prefer to know more about you: your
 interests, your background.  We will get the chance to elaborate on the
