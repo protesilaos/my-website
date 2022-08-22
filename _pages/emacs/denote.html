@@ -55,7 +55,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">3.1.1. The <code>denote-prompts</code> option</a></li>
 <li><a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">3.1.2. The <code>denote-templates</code> option</a></li>
-<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">3.1.3. Convenience commands for note creation</a></li>
+<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">3.1.3. Convenience commands for note creation</a>
+<ul>
+<li><a href="#h:11946562-7eb0-4925-a3b5-92d75f1f5895">3.1.3.1. Write your own convenience commands</a></li>
+</ul>
+</li>
 <li><a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">3.1.4. The <code>denote-date-prompt-use-org-read-date</code> option</a></li>
 </ul>
 </li>
@@ -576,6 +580,84 @@ The <code>denote-create-note-with-template</code> is an alias of the command
 </p></dd>
 </dl>
 </div>
+
+<div id="outline-container-h:11946562-7eb0-4925-a3b5-92d75f1f5895" class="outline-5">
+<h5 id="h:11946562-7eb0-4925-a3b5-92d75f1f5895"><span class="section-number-5">3.1.3.1.</span> Write your own convenience commands</h5>
+<div class="outline-text-5" id="text-h:11946562-7eb0-4925-a3b5-92d75f1f5895">
+<p>
+The convenience commands we provide only cover some basic use-cases
+(<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).  The user may require
+combinations that are not covered, such as to prompt for a template and
+for a subdirectory, instead of only one of the two.  To this end, we
+show how to follow the code we use in Denote to write your own variants
+of those commands.
+</p>
+
+<p>
+First let&rsquo;s take a look at the definition of one of those commands.
+They all look the same, but we use <code>denote-subdirectory</code> for this
+example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun denote-subdirectory ()
+  "Create note while prompting for a subdirectory.
+
+Available candidates include the value of the variable
+`denote-directory' and any subdirectory thereof.
+
+This is equivalent to calling `denote' when `denote-prompts' is
+set to '(subdirectory title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(subdirectory title keywords)))
+    (call-interactively #'denote)))
+</pre>
+</div>
+
+<p>
+The hyphenated word after <code>defun</code> is the name of the function.  It has
+to be unique.  Then we have the documentation string (or &ldquo;doc string&rdquo;)
+which is for the user&rsquo;s convenience.
+</p>
+
+<p>
+This function is <code>interactive</code>, meaning that it can be called via <code>M-x</code>
+or be assigned to a key binding.  Then we have the local binding of the
+<code>denote-prompts</code> to the desired combination (&ldquo;local&rdquo; means specific to
+this function without affecting other contexts).  Lastly, it calls the
+standard <code>denote</code> command interactively, so it uses all the prompts in
+their specified order.
+</p>
+
+<p>
+Now let&rsquo;s say we want to have a command that (i) asks for a template and
+(ii) for a subdirectory (<a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">The denote-templates option</a>).  All we need to
+do is tweak the <code>let</code> bound value of <code>denote-prompts</code> and give our
+command a unique name:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Like `denote-subdirectory' but also ask for a template
+(defun denote-subdirectory-with-template ()
+  "Create note while also prompting for a template and subdirectory.
+
+This is equivalent to calling `denote' when `denote-prompts' is
+set to '(template subdirectory title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(template subdirectory title keywords)))
+    (call-interactively #'denote)))
+</pre>
+</div>
+
+<p>
+The tweaks to <code>denote-prompts</code> determine how the command will behave
+(<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>).  Use this paradigm to write your own
+variants which you can then assign to keys or invoke with <code>M-x</code>.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63" class="outline-4">
@@ -712,7 +794,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orga1165cb">
+<pre class="example" id="org4571d33">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -802,7 +884,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org92ff239">
+<pre class="example" id="org1776899">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -899,7 +981,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org937e922">
+<pre class="example" id="orgf6cbe36">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -919,7 +1001,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org8f036d2">
+<pre class="example" id="org27ca3a4">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1177,7 +1259,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org72be5d3">
+<pre class="example" id="org1e7706e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1189,7 +1271,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org61e1c60">
+<pre class="example" id="org73dce20">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1203,7 +1285,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org645822a">
+<pre class="example" id="org4800474">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1217,7 +1299,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgf6de897">
+<pre class="example" id="orgaaebecb">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1494,7 +1576,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org0d2abb5">
+<pre class="example" id="orgc5f38d5">
 - link1
 - link2
 - link3
@@ -1512,7 +1594,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org78c1891">
+<pre class="example" id="org78decf2">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1613,7 +1695,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org6537ef0">
+<pre class="example" id="orgcb0edc5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2462,7 +2544,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgbc71fb2">
+<pre class="example" id="org0c19c3f">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
