@@ -67,15 +67,23 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:58345e8c-2bec-459c-872c-a85a29e9fe97">7. Commands to load an Ef theme</a></li>
 <li><a href="#h:8dd67bf5-879e-46e5-b277-5bac141f53d1">8. Preview theme colors</a></li>
 <li><a href="#h:5b74bd9e-e7f2-46b3-af2e-7c45b2e69245">9. Use colors from the active Ef theme</a></li>
-<li><a href="#h:c8d80daf-d039-40c4-bb74-e7814a9b4c79">10. Supported packages or face groups</a>
+<li><a href="#h:152326a3-9356-4158-8adb-83c42c2ef117">10. Do-It-Yourself customizations</a>
 <ul>
-<li><a href="#h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05">10.1. Explicitly supported packages or face groups</a></li>
-<li><a href="#h:7d1acc40-a2ce-4e6d-a230-35ddffc00690">10.2. Implicitly support packages or face groups</a></li>
-<li><a href="#h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7">10.3. Packages that are hard to support</a></li>
+<li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.1. The general approach to DIY changes</a></li>
 </ul>
 </li>
-<li><a href="#h:a6dd030c-6b6c-4992-83e8-3438b4607b51">11. Principles</a></li>
-<li><a href="#h:fb219b87-ab95-401a-a742-a2fc451bf9f7">12. Minimal VS maximal scope</a></li>
+<li><a href="#h:c8d80daf-d039-40c4-bb74-e7814a9b4c79">11. Supported packages or face groups</a>
+<ul>
+<li><a href="#h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05">11.1. Explicitly supported packages or face groups</a></li>
+<li><a href="#h:7d1acc40-a2ce-4e6d-a230-35ddffc00690">11.2. Implicitly support packages or face groups</a></li>
+<li><a href="#h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7">11.3. Packages that are hard to support</a></li>
+</ul>
+</li>
+<li><a href="#h:a6dd030c-6b6c-4992-83e8-3438b4607b51">12. Principles</a>
+<ul>
+<li><a href="#h:fb219b87-ab95-401a-a742-a2fc451bf9f7">12.1. Minimal VS maximal scope</a></li>
+</ul>
+</li>
 <li><a href="#h:a6d5c6f1-84c5-4d74-ba39-b5ccda05497a">13. FAQ</a>
 <ul>
 <li><a href="#h:22a92ee8-eda6-4c29-b850-b2709a7239c0">13.1. What does Ef mean?</a></li>
@@ -649,9 +657,7 @@ give us the relevant results for that theme.  The same with <code>ef-winter</cod
 </div>
 
 <p>
-For the time being, we do not provide detailed instructions on how to
-use this macro.  We shall do so as the needs of users become more clear
-through the development process.
+<a href="#h:152326a3-9356-4158-8adb-83c42c2ef117">Do-It-Yourself customizations</a>.
 </p>
 
 <p>
@@ -663,8 +669,111 @@ code that uses <code>ef-themes-with-colors</code>.
 </div>
 </div>
 
+<div id="outline-container-h:152326a3-9356-4158-8adb-83c42c2ef117" class="outline-2">
+<h2 id="h:152326a3-9356-4158-8adb-83c42c2ef117"><span class="section-number-2">10.</span> Do-It-Yourself customizations</h2>
+<div class="outline-text-2" id="text-h:152326a3-9356-4158-8adb-83c42c2ef117">
+<p>
+This section documents how the user can further tweak the Ef themes to
+their liking.
+</p>
+</div>
+
+<div id="outline-container-h:ec0adf54-c037-4c53-81b8-7eab2303794d" class="outline-3">
+<h3 id="h:ec0adf54-c037-4c53-81b8-7eab2303794d"><span class="section-number-3">10.1.</span> The general approach to DIY changes</h3>
+<div class="outline-text-3" id="text-h:ec0adf54-c037-4c53-81b8-7eab2303794d">
+<p>
+When the user wants to customize Emacs faces there are two
+considerations they need to make if they care about robustness:
+</p>
+
+<ol class="org-ol">
+<li>Do not hardcode color values, but instead use the relevant variables
+from the Ef themes.</li>
+<li>Make the changes persist through theme changes between the Ef themes
+collection.</li>
+</ol>
+
+<p>
+For point 1 we provide the <code>ef-themes-with-colors</code> macro, while for
+point 2 we have the <code>ef-themes-post-load-hook</code>.
+</p>
+
+<p>
+<a href="#h:5b74bd9e-e7f2-46b3-af2e-7c45b2e69245">Use colors from the active Ef theme</a>.
+</p>
+
+<p>
+<a href="#h:58345e8c-2bec-459c-872c-a85a29e9fe97">Commands to load an Ef theme</a>.
+</p>
+
+<p>
+We need to wrap our code in the <code>ef-themes-with-colors</code> and declare it
+as a function which we then add to the hook.  Here we show the general
+approach of putting those pieces together.
+</p>
+
+<p>
+To customize faces we use the built-in <code>custom-set-faces</code>.  The value it
+accepts has the same syntax as that found in <code>ef-themes.el</code>,
+specifically the <code>ef-themes-faces</code> constant.  It thus is easy to copy
+lines from there and tweak them.  Let&rsquo;s pick a couple of font-lock faces
+(used in all programming modes, among others):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-ef-themes-custom-faces ()
+  "My customizations on top of the Ef themes.
+This function is added to the `ef-themes-post-load-hook'."
+  (ef-themes-with-colors
+    (custom-set-faces
+     ;; These are the default specifications
+     `(font-lock-comment-face ((,c :inherit italic :foreground ,comment)))
+     `(font-lock-variable-name-face ((,c :foreground ,variable))))))
+
+;; Using the hook lets our changes persist when we use the commands
+;; `ef-themes-toggle', `ef-themes-select', and `ef-themes-load-random'.
+(add-hook 'ef-themes-post-load-hook #'my-ef-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+Each item in the Ef themes collection has its own color mapping.  So the
+color value of the <code>comment</code> variable will differ from theme-to-theme.
+For our purposes, we make variables look like comments and comments like
+variables:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-ef-themes-custom-faces ()
+  "My customizations on top of the Ef themes.
+This function is added to the `ef-themes-post-load-hook'."
+  (ef-themes-with-colors
+    (custom-set-faces
+     ;; These are the default specifications
+     `(font-lock-comment-face ((,c :foreground ,variable)))
+     `(font-lock-variable-name-face ((,c :inherit italic :foreground ,comment))))))
+
+;; Using the hook lets our changes persist when we use the commands
+;; `ef-themes-toggle', `ef-themes-select', and `ef-themes-load-random'.
+(add-hook 'ef-themes-post-load-hook #'my-ef-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+All changes take effect when a theme is loaded again.
+</p>
+
+<p>
+Please contact us if you have specific questions about this mechanism.
+We are willing to help and shall provide comprehensive documentation
+where necessary.
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:c8d80daf-d039-40c4-bb74-e7814a9b4c79" class="outline-2">
-<h2 id="h:c8d80daf-d039-40c4-bb74-e7814a9b4c79"><span class="section-number-2">10.</span> Supported packages or face groups</h2>
+<h2 id="h:c8d80daf-d039-40c4-bb74-e7814a9b4c79"><span class="section-number-2">11.</span> Supported packages or face groups</h2>
 <div class="outline-text-2" id="text-h:c8d80daf-d039-40c4-bb74-e7814a9b4c79">
 <p>
 The <code>ef-themes</code> will only ever support a curated list of packages based
@@ -675,7 +784,7 @@ everything most users need.
 </div>
 
 <div id="outline-container-h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05" class="outline-3">
-<h3 id="h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05"><span class="section-number-3">10.1.</span> Explicitly supported packages or face groups</h3>
+<h3 id="h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05"><span class="section-number-3">11.1.</span> Explicitly supported packages or face groups</h3>
 <div class="outline-text-3" id="text-h:8e87733c-9fc9-45cd-9b9e-97b11f4f6c05">
 <ul class="org-ul">
 <li>all basic faces</li>
@@ -732,6 +841,7 @@ everything most users need.
 <li>rcirc</li>
 <li>regexp-builder (re-builder)</li>
 <li>ruler-mode</li>
+<li>shell-script-mode (sh-mode)</li>
 <li>show-paren-mode</li>
 <li>shr [ Part of 0.4.0-dev ]</li>
 <li>smerge</li>
@@ -752,7 +862,7 @@ everything most users need.
 </div>
 
 <div id="outline-container-h:7d1acc40-a2ce-4e6d-a230-35ddffc00690" class="outline-3">
-<h3 id="h:7d1acc40-a2ce-4e6d-a230-35ddffc00690"><span class="section-number-3">10.2.</span> Implicitly support packages or face groups</h3>
+<h3 id="h:7d1acc40-a2ce-4e6d-a230-35ddffc00690"><span class="section-number-3">11.2.</span> Implicitly support packages or face groups</h3>
 <div class="outline-text-3" id="text-h:7d1acc40-a2ce-4e6d-a230-35ddffc00690">
 <p>
 Those are known to work with the Ef themes either because their colors
@@ -784,7 +894,7 @@ themes already cover:
 </div>
 
 <div id="outline-container-h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7" class="outline-3">
-<h3 id="h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7"><span class="section-number-3">10.3.</span> Packages that are hard to support</h3>
+<h3 id="h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7"><span class="section-number-3">11.3.</span> Packages that are hard to support</h3>
 <div class="outline-text-3" id="text-h:ea2eedd7-a473-4826-9b83-31bf3ac2c5f7">
 <p>
 These are difficult to support due to their (i) incompatibility with the
@@ -856,7 +966,7 @@ The above list is non-exhaustive though you get the idea.
 </div>
 
 <div id="outline-container-h:a6dd030c-6b6c-4992-83e8-3438b4607b51" class="outline-2">
-<h2 id="h:a6dd030c-6b6c-4992-83e8-3438b4607b51"><span class="section-number-2">11.</span> Principles</h2>
+<h2 id="h:a6dd030c-6b6c-4992-83e8-3438b4607b51"><span class="section-number-2">12.</span> Principles</h2>
 <div class="outline-text-2" id="text-h:a6dd030c-6b6c-4992-83e8-3438b4607b51">
 <ul class="org-ul">
 <li>No customization options that affect the coloration of individual
@@ -877,11 +987,10 @@ standard).  Use my <code>modus-themes</code> package (also built into Emacs 28 o
 higher) if you need top-class accessibility.</li>
 </ul>
 </div>
-</div>
 
-<div id="outline-container-h:fb219b87-ab95-401a-a742-a2fc451bf9f7" class="outline-2">
-<h2 id="h:fb219b87-ab95-401a-a742-a2fc451bf9f7"><span class="section-number-2">12.</span> Minimal VS maximal scope</h2>
-<div class="outline-text-2" id="text-h:fb219b87-ab95-401a-a742-a2fc451bf9f7">
+<div id="outline-container-h:fb219b87-ab95-401a-a742-a2fc451bf9f7" class="outline-3">
+<h3 id="h:fb219b87-ab95-401a-a742-a2fc451bf9f7"><span class="section-number-3">12.1.</span> Minimal VS maximal scope</h3>
+<div class="outline-text-3" id="text-h:fb219b87-ab95-401a-a742-a2fc451bf9f7">
 <p>
 The <code>ef-themes</code> are meant to be minimal in scope, as opposed to my
 <code>modus-themes</code> whose accessibility requirements make them maximalist by
@@ -900,6 +1009,7 @@ the whole theme fails to deliver on its promise.</li>
 The <code>ef-themes</code> can afford to be minimal because they do not have such a
 lofty accessibility target.
 </p>
+</div>
 </div>
 </div>
 
