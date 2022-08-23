@@ -261,9 +261,16 @@ of those in the subsequent sections.
 <h3 id="h:6a92a8b5-d766-42cc-8e5b-8dc255466a23"><span class="section-number-3">3.1.</span> Standard note creation</h3>
 <div class="outline-text-3" id="text-h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">
 <p>
-The <code>denote</code> command will prompt for a title.  Once that is supplied, it
-will ask for keywords.  The resulting note will have a file name as
-already explained: <a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>
+[ The region as default title is part of 0.6.0-dev ]
+</p>
+
+<p>
+The <code>denote</code> command will prompt for a title.  If a region is active,
+the text of the region becomes the default at the minibuffer prompt
+(meaning that typing <code>RET</code> without any input will use the default
+value).  Once the title is supplied, the <code>denote</code> command will then ask
+for keywords.  The resulting note will have a file name as already
+explained: <a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming scheme</a>
 </p>
 
 <p>
@@ -794,7 +801,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org4571d33">
+<pre class="example" id="org19e3b21">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -884,7 +891,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org1776899">
+<pre class="example" id="orgec0b672">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -981,7 +988,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgf6cbe36">
+<pre class="example" id="org521d023">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1001,7 +1008,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org27ca3a4">
+<pre class="example" id="org4b8813f">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1259,7 +1266,7 @@ as the date and unique identifier, which are derived automatically.
 This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
 </p>
 
-<pre class="example" id="org1e7706e">
+<pre class="example" id="orgedad54d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1271,7 +1278,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org73dce20">
+<pre class="example" id="org8a3e6cb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1285,7 +1292,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4800474">
+<pre class="example" id="orgbdd1513">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1299,7 +1306,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgaaebecb">
+<pre class="example" id="orgdedf4ec">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1576,7 +1583,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc5f38d5">
+<pre class="example" id="orgf4eb9fa">
 - link1
 - link2
 - link3
@@ -1594,7 +1601,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org78decf2">
+<pre class="example" id="org5b673fb">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1695,7 +1702,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgcb0edc5">
+<pre class="example" id="org7a723a5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2544,7 +2551,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org0c19c3f">
+<pre class="example" id="orgb6177be">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3042,9 +3049,9 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Abin Simon, Benjamin Kästner,
-Colin McLear, Damien Cassou, Jack Baty, Jean-Philippe Gagné Guay,
-Jürgen Hötzel, Kaushal Modi, Kyle Meyer, Peter Prevos, Philip
-Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
+Colin McLear, Damien Cassou, Eshel Yaron, Jack Baty, Jean-Philippe
+Gagné Guay, Jürgen Hötzel, Kaushal Modi, Kyle Meyer, Peter Prevos,
+Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
