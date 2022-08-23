@@ -62,6 +62,7 @@ a few technical points: <https://protesilaos.com/codelog/2022-08-18-ef-themes-de
 + Package name (GNU ELPA): `ef-themes`
 + Official manual: <https://protesilaos.com/emacs/ef-themes>
 + Change log: <https://protesilaos.com/emacs/ef-themes-changelog>
++ Sample pictures: <https://protesilaos.com/emacs/ef-themes-pictures>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/ef-themes>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/ef-themes>
