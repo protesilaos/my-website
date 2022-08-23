@@ -97,6 +97,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:22a92ee8-eda6-4c29-b850-b2709a7239c0">13.1. What does Ef mean?</a></li>
 <li><a href="#h:33c9b520-0af2-441c-a2e8-2945522feb3e">13.2. Will you stop using the modus-themes?</a></li>
 <li><a href="#h:ca441ae7-2e18-4dd2-9f5d-e3b806456251">13.3. Then why develop the ef-themes?</a></li>
+<li><a href="#h:b59f315c-6d25-4225-b99b-c06594fa3bf0">13.4. Let Org tags inherit the heading color?</a></li>
 </ul>
 </li>
 <li><a href="#h:5d8753d2-cc10-44a7-9467-dcd62157718b">14. Acknowledgements</a></li>
@@ -1122,9 +1123,10 @@ The above list is non-exhaustive though you get the idea.
 <div class="outline-text-2" id="text-h:a6dd030c-6b6c-4992-83e8-3438b4607b51">
 <ul class="org-ul">
 <li>No customization options that affect the coloration of individual
-components !  Either you like them or you don&rsquo;t.  To change faces, it
-is better to do it in user-level configurations (report the issue and
-we can help with the relevant code).  Providing customizations that
+components!  Either you like them or you don&rsquo;t.  To change the
+attributes of individual faces, it is better to do it in user-level
+configurations (<a href="#h:152326a3-9356-4158-8adb-83c42c2ef117">Do-It-Yourself customizations</a>).  Report the issue and
+we can help with the relevant code.  Providing customizations that
 refashion a wide set of themes is not maintainable.</li>
 
 <li>Curated list of supported faces (<a href="#h:c8d80daf-d039-40c4-bb74-e7814a9b4c79">Supported packages or face groups</a>).
@@ -1137,6 +1139,17 @@ the theme.</li>
 <li>Minimum contrast ratio of 4.5:1 against the main background (WCAG AA
 standard).  Use my <code>modus-themes</code> package (also built into Emacs 28 or
 higher) if you need top-class accessibility.</li>
+
+<li>If two elements are functionally different, the theme must render this
+fact conspicuous (<a href="#h:b59f315c-6d25-4225-b99b-c06594fa3bf0">Let Org tags inherit the heading color?</a>).</li>
+
+<li>Respect the decisions of the upstream package provider or, else, do
+not make weird things with faces.  We only override the design choice
+of a package if it is necessary.</li>
+
+<li>When there is an inescapable trade-off between usability and
+aesthetics, we will always opt for the former, without prejudice to
+the aforementioned principles.</li>
 </ul>
 </div>
 
@@ -1204,6 +1217,47 @@ considerations for legibility, and (ii) are not designed on a whimsy.
 The <code>ef-themes</code> are my answer to those who (i) like my <code>modus-themes</code>,
 (ii) want something with a bit more flair, and (iii) are fine with a
 bit more relaxed accessibility target.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:b59f315c-6d25-4225-b99b-c06594fa3bf0" class="outline-3">
+<h3 id="h:b59f315c-6d25-4225-b99b-c06594fa3bf0"><span class="section-number-3">13.4.</span> Let Org tags inherit the heading color?</h3>
+<div class="outline-text-3" id="text-h:b59f315c-6d25-4225-b99b-c06594fa3bf0">
+<p>
+Upstream Org defines tags in headings to have the same color as the rest
+of the heading&rsquo;s text.  However, tags are a distinct component of the
+heading as noted in the doc string of the <code>org-get-heading</code> function.
+Tags also are functionally different than the ordinary text of the
+heading: they are a clickable link/button.  It thus is a matter of
+usability to render this distinction clear at the visual level: the fact
+that upstream Org does not do that does not mean we should uncritically
+accept its decision.
+</p>
+
+<p>
+Normally, we would style a link to have an underline.  However, this
+design does not look right in headings (as it doesn&rsquo;t look right in,
+e.g., the headings in a listing of emails or the unread items in the
+Elfeed list of entries).  We thus have to go with the next option, which
+is to use a distinct foreground color that differentiates the tag from
+its context, while accounting for theme-wide usability and consistency.
+</p>
+
+<p>
+The overarching principle is that when two things function differently,
+they have to look apart even if the difference is small.
+</p>
+
+<p>
+The assumption that tags are right-aligned (per Org&rsquo;s default behaviour)
+does not hold, as there exists a user option to disable this effect:
+<code>org-auto-align-tags</code>.  The author of the <code>ef-themes</code> uses this option
+because the way Org performs this alignment using literal spaces does
+not work properly with (i) proportionately spaced fonts, (ii) varying
+heading heights, (iii) different levels of indentation.  Realigning tags
+by inserting spaces also creates noise in version-controlled files,
+which is undesirable.
 </p>
 </div>
 </div>
