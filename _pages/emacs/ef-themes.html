@@ -246,6 +246,9 @@ Everything is in place to set up the package.
 ;; Load the theme of choice:
 (load-theme 'ef-summer :no-confirm)
 
+;; OR use this to load the theme which also calls `ef-themes-post-load-hook':
+(ef-themes-select 'ef-summer)
+
 ;; The themes we provide:
 ;;
 ;; Light: `ef-day', `ef-light', `ef-spring', `ef-summer'.
@@ -768,7 +771,6 @@ variables:
 This function is added to the `ef-themes-post-load-hook'."
   (ef-themes-with-colors
     (custom-set-faces
-     ;; These are the default specifications
      `(font-lock-comment-face ((,c :foreground ,variable)))
      `(font-lock-variable-name-face ((,c :inherit italic :foreground ,comment))))))
 
@@ -779,8 +781,28 @@ This function is added to the `ef-themes-post-load-hook'."
 </div>
 
 <p>
-All changes take effect when a theme is loaded again.
+All changes take effect when a theme is loaded again.  As such, it is
+better to use <code>ef-themes-select</code> at startup so that the function added
+to the hook gets applied properly upon first load.  Like this:
 </p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-ef-themes-custom-faces ()
+  "My customizations on top of the Ef themes.
+This function is added to the `ef-themes-post-load-hook'."
+  (ef-themes-with-colors
+    (custom-set-faces
+     `(font-lock-comment-face ((,c :foreground ,variable)))
+     `(font-lock-variable-name-face ((,c :inherit italic :foreground ,comment))))))
+
+;; Using the hook lets our changes persist when we use the commands
+;; `ef-themes-toggle', `ef-themes-select', and `ef-themes-load-random'.
+(add-hook 'ef-themes-post-load-hook #'my-ef-themes-custom-faces)
+
+;; Load the theme and run `ef-themes-post-load-hook'
+(ef-themes-select 'ef-summer) ; Instead of (load-theme 'ef-summer :no-confirm)
+</pre>
+</div>
 
 <p>
 Please contact us if you have specific questions about this mechanism.
@@ -1015,6 +1037,7 @@ everything most users need.
 <li>ediff</li>
 <li>eldoc</li>
 <li>elfeed</li>
+<li>embark [ Part of 0.4.0-dev ]</li>
 <li>epa</li>
 <li>eshell</li>
 <li>eww [ Part of 0.4.0-dev ]</li>
@@ -1079,7 +1102,6 @@ themes already cover:
 <li>consult</li>
 <li>corfu</li>
 <li>dim-autoload</li>
-<li>embark</li>
 <li>flycheck</li>
 <li>flymake</li>
 <li>flyspell</li>
@@ -1363,7 +1385,8 @@ matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or the manual</dt><dd>Philip Kaludercic.</dd>
+<dt>Contributions to code or the manual</dt><dd>Christopher League, Philip
+Kaludercic.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Anthony Chavez, Iris Garcia,
 Jean-Philippe Gagné Guay, Spike-Leung, Steve Molitor, Summer Emacs,
