@@ -97,7 +97,7 @@ which to carry out actions.  These are ideas that are shared by people
 and only become actualised through the behaviour of those individuals.
 They are preserved, substantiated, and enforced intersubjectively.
 
-The "must" or "musn't" are products of institution: the process of
+The "must" or "mustn't" are products of institution: the process of
 enacting concepts as enforceable rules.  The social whole applies its
 notions and works for their preservation or proliferation.  Through this
 mechanism, the effective emergent organism reproduces itself in the form
