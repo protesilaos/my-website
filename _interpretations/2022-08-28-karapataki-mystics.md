@@ -4,17 +4,18 @@ excerpt: "Translation of---and philosophical commentary on---a Greek song whose 
 ---
 
 The song I have picked for this entry was originally performed by
-Socratis Malamas, whom I have mentioned in previous entries to this
-series:
+Socratis Malamas (Σωκράτης Μάλαμας), whom I have mentioned in previous
+entries to this series:
 
 - [Must (Of course we mustn't)](https://protesilaos.com/interpretations/2022-08-26-moscholiou-must/)
 - [Letter](https://protesilaos.com/interpretations/2022-06-29-malamas-letter/)
 
-I have chosen the version which is performed by Ioulia Karapataki (with
-Socratis on the guitar) because I like her voice and how it helps us
-travel to otherworldly places through the words of this insightful song:
-<https://www.youtube.com/watch?v=RqGUlgjrtwU>.  For context, here is
-Socratis being effortlessly wonderful: <https://www.youtube.com/watch?v=uzr_WIUkq-U>.
+I have chosen the version which is performed by Ioulia Karapataki
+(Ιουλία Καραπατάκη), with Socratis on the guitar, because I like her
+voice and how it helps us travel to otherworldly places through the
+words of this insightful song: <https://www.youtube.com/watch?v=RqGUlgjrtwU>.
+For context, here is Socratis being effortlessly wonderful:
+<https://www.youtube.com/watch?v=uzr_WIUkq-U>.
 
 Below are the lyrics, my translation of them, and subsequent
 philosophical commentary.
