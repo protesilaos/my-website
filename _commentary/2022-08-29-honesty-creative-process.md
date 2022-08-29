@@ -143,4 +143,4 @@ choice.  Not by design.  Not because I do not care about people.
 Loneliness is part of the deal, it seems.  So I walk with no clue of
 where I'm going.
 
-Honesty, then.  Who would I be without ti?  What would I even do?
+Honesty, then.  Who would I be without it?  What would I even do?
