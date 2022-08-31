@@ -16,37 +16,42 @@ size 14.
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
 
-The themes in order:
-
-- Light themes:
-  - ef-light
-  - ef-day
-  - ef-summer
-  - ef-spring
-  - ef-deuteranopia-light
-- Dark themes:
-  - ef-dark
-  - ef-night
-  - ef-winter
-  - ef-autumn
-  - ef-deuteranopia-dark
+## ef-light
 
 <a href="{{'/assets/images/ef/ef-light-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light-version-0-3-0-sample.png' | absolute_url }}"/></a>
 
+## ef-day
+
 <a href="{{'/assets/images/ef/ef-day-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day-version-0-3-0-sample.png' | absolute_url }}"/></a>
+
+## ef-summer
 
 <a href="{{'/assets/images/ef/ef-summer-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-summer theme sample" src="{{'/assets/images/ef/ef-summer-version-0-3-0-sample.png' | absolute_url }}"/></a>
 
+## ef-spring
+
 <a href="{{'/assets/images/ef/ef-spring-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring-version-0-3-0-sample.png' | absolute_url }}"/></a>
+
+## ef-deuteranopia-light
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-light-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme sample" src="{{'/assets/images/ef/ef-deuteranopia-light-version-0-3-0-sample.png' | absolute_url }}"/></a>
 
+## ef-dark
+
 <a href="{{'/assets/images/ef/ef-dark-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark-version-0-3-0-sample.png' | absolute_url }}"/></a>
+
+## ef-night
 
 <a href="{{'/assets/images/ef/ef-night-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-night theme sample" src="{{'/assets/images/ef/ef-night-version-0-3-0-sample.png' | absolute_url }}"/></a>
 
+## ef-winter
+
 <a href="{{'/assets/images/ef/ef-winter-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter-version-0-3-0-sample.png' | absolute_url }}"/></a>
 
+## ef-autumn
+
 <a href="{{'/assets/images/ef/ef-autumn-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-autumn theme sample" src="{{'/assets/images/ef/ef-autumn-version-0-3-0-sample.png' | absolute_url }}"/></a>
+
+## ef-deuteranopia-dark
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-version-0-3-0-sample.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-version-0-3-0-sample.png' | absolute_url }}"/></a>
