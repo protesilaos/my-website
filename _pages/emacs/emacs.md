@@ -112,6 +112,9 @@ provides some optional aesthetic tweaks which come into effect when the
 buffer-local `logos-focus-mode` is enabled.  The manual shows how to
 extend the code to achieve the desired result.
 
+[Watch the demo of the original version of logos.el](https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/)
+(all my videos since early 2022 use `logos`).
+
 + Package name (GNU ELPA): `logos`
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Change log: <https://protesilaos.com/emacs/logos-changelog>
