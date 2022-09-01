@@ -144,3 +144,7 @@ Loneliness is part of the deal, it seems.  So I walk with no clue of
 where I'm going.
 
 Honesty, then.  Who would I be without it?  What would I even do?
+
+**UPDATE 2022-09-01 09:17 +0300:** I explain more about some of these
+personal themes in my video on philosophy: [The presumptive idol of
+you](https://protesilaos.com/books/2022-08-30-presumptive-idol/).
