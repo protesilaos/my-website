@@ -77,10 +77,10 @@ life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-lif
 may also prove useful (2022-04-10).
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
-for Outstanding New Free Software Contributor_.  [Check the
-announcement](https://protesilaos.com/codelog/2022-03-22-libreplanet-fsf-award/),
-which includes the video I prepared, the text of what I said, and a link
-to the FSF's press release about these awards.
+for Outstanding New Free Software Contributor_.  I received it in my
+mail in late August 2022.  Here is the announcement, which also includes
+all links to the backstory, as well as a video of me showing the
+physical item: <https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/>.
 
 I also talk or write about philosophy without any reference to free
 software or related.  Refer to my website's section on [books and
