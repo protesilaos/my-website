@@ -10,6 +10,139 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/logos">https://protesilaos.com/emacs/logos</a>.
 </p>
 
+<div id="outline-container-h:189634ab-187a-4e44-9006-1361459150b8" class="outline-2">
+<h2 id="h:189634ab-187a-4e44-9006-1361459150b8">Version 0.5.0 on 2022-09-01</h2>
+<div class="outline-text-2" id="text-h:189634ab-187a-4e44-9006-1361459150b8">
+<ul class="org-ul">
+<li>Introduced the function <code>logos-update-fringe-in-buffers</code>.  This is a
+convenience function for those who (i) set the user option
+<code>logos-hide-fringe</code> to a non-nil value and (ii) switch themes while
+<code>logos-focus-mode</code> is enabled in one or more buffers.  This
+convenience function updates the <code>fringe</code> face to be consistent with
+the current theme (we technically make the fringe invisible, instead
+of outright disabling it, as that would not be desirable).  It needs
+to be assigned to a hook that gets called in the post-theme-load
+phase.  The <code>modus-themes</code> or the <code>ef-themes</code> (both by me) provide
+such a hook.  Otherwise the Logos manual explains how to implement one
+for any theme.  Read:
+<a href="https://protesilaos.com/emacs/logos#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">https://protesilaos.com/emacs/logos#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b</a>.</li>
+
+<li><p>
+Implemented the <code>logos-focus-mode-map</code>.  This is a keymap that is
+active when <code>logos-focus-mode</code> is enabled in the buffer.  One can, for
+example, use it to bind the arrow key to page motions, such as
+<code>logos-forward-page-dwim</code>.
+</p>
+
+<p>
+Remember that, by default, pages are delimited with the Control-L
+character (<code>^L</code>), though Logos can treat different delimiters as
+"page" separators (e.g. Org headings and a horizontal rule of five
+hyphens).  Consult the user options <code>logos-outlines-are-pages</code>,
+<code>logos-outline-regexp-alist</code>, and check the manual for relevant simple
+and more advanced code samples.  My current setup for those:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq logos-outlines-are-pages t)
+  (setq logos-outline-regexp-alist
+        `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
+          (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))
+          (markdown-mode . ,(format "\\(^\\#+ +\\|^[*-]\\{5\\}$\\|^\\* \\* \\*$\\|%s\\)" logos--page-delimiter))
+          (conf-toml-mode . "^\\[")
+          (t . ,(or outline-regexp logos--page-delimiter))))
+</pre>
+</div></li>
+
+<li><p>
+Added the <code>logos-repeat-map</code>.  This is a keymap that gets enabled when
+the built-in <code>repeat-mode</code> is active (Emacs 28 or higher).  This means
+that page motions, <code>C-x ]</code> and <code>C-x [</code>, can be repeated by following
+them up with either <code>]</code> or <code>[</code>.  The repetition stops when another
+command is invoked.
+</p>
+
+<p>
+Thanks to Lucy McPhail for the patch:
+<a href="https://lists.sr.ht/~protesilaos/logos/patches/34101">https://lists.sr.ht/~protesilaos/logos/patches/34101</a>.  The change is
+below the ~15 line threshold and thus requires no copyright assignment
+to the Free Software Foundation.
+</p></li>
+
+<li><p>
+Wrote documentation on how to auto-toggle menu and tool bars while
+using the <code>logos-focus-mode</code>.  This is complementary to user options
+provided by Logos and shows how flexible and extensible the code is.
+Thanks to Ypot for raising the question in issue 2 on the GitHub
+mirror: <a href="https://github.com/protesilaos/logos/issues/2">https://github.com/protesilaos/logos/issues/2</a>.
+</p>
+
+<p>
+[ Never hesitate to ask for help if you want to do something with
+  Logos but are not sure how. ]
+</p></li>
+
+<li>Specified the <code>:version</code> of all user-facing variables.  This is
+helpful while perusing documentation strings in Help buffers, as any
+change will be assigned to the given version of Logos.</li>
+
+<li><p>
+Clarified the doc string of the <code>logos-variable-pitch</code> user option
+with regard to <code>prog-mode</code> buffers.  It now reads thus:
+</p>
+
+<blockquote>
+<p>
+When non-nil, use <code>variable-pitch-mode</code> where appropriate.
+In programming modes the default font is always used, as that is
+assumed to be a monospaced typeface, which is appropriate for
+spacing-sensitive text.
+</p>
+
+<p>
+This is only relevant when <code>logos-focus-mode</code> is enabled.
+</p>
+</blockquote></li>
+
+<li><p>
+Documented some user options for the built-in <code>eww</code> which make its
+contents behave like the rest of Emacs in terms of the use of fonts
+and the filling of paragraphs.  In brief:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq shr-max-width fill-column)
+  (setq shr-use-fonts nil)
+</pre>
+</div>
+
+<p>
+This is relevant for Logos as we then do not need to implement special
+casing for <code>logos-focus-mode</code> to work nicely with <code>eww</code> (I am
+personally annoyed when a buffer has its own opinions about font
+settings).
+</p>
+
+<p>
+Thanks to Ypot for discussing this in issue 4 on the GitHub mirror:
+<a href="https://github.com/protesilaos/logos/issues/4">https://github.com/protesilaos/logos/issues/4</a>.
+</p>
+
+<p>
+[ For font-related customisations check the <code>fontaine</code> package on GNU
+  ELPA (by me). ]
+</p></li>
+
+<li>Named the mailing list address as the <code>Maintainer:</code> of Logos.
+Together with the other package headers, they help the user find our
+primary sources and/or communication channels.  This change conforms
+with work being done upstream in package.el by Philip Kaludercic.  I
+was informed about it here:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C875ykl84yi.fsf%40posteo.net%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C875ykl84yi.fsf%40posteo.net%3E</a>.</li>
+</ul>
+</div>
+</div>
+
 <div id="outline-container-h:f0293274-8cde-4660-ba1a-cffce2910f2f" class="outline-2">
 <h2 id="h:f0293274-8cde-4660-ba1a-cffce2910f2f">Version 0.4.0 on 2022-06-02</h2>
 <div class="outline-text-2" id="text-h:f0293274-8cde-4660-ba1a-cffce2910f2f">
