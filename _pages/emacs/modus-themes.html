@@ -166,6 +166,7 @@ Current development target is 2.7.0-dev.
 <li><a href="#h:d28879a2-8e4b-4525-986e-14c0f873d229">8.18. Note on Helm grep</a></li>
 <li><a href="#h:2659d13e-b1a5-416c-9a89-7c3ce3a76574">8.19. Note on pdf-tools link hints</a></li>
 <li><a href="#h:636af312-54a5-4918-84a6-0698e85a3c6d">8.20. Note on the Notmuch logo</a></li>
+<li><a href="#h:2d74236a-e41c-4616-8735-75f949a67334">8.21. Note on goto-address-mode faces</a></li>
 </ul>
 </li>
 <li><a href="#h:b3384767-30d3-4484-ba7f-081729f03a47">9. Frequently Asked Questions</a>
@@ -5036,7 +5037,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org1be8fe7">
+<pre class="example" id="org36aba89">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5836,6 +5837,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% trueâ
 <li>counsel-css</li>
 <li>cov</li>
 <li>cperl-mode</li>
+<li>crontab-mode [ Part of 2.7.0-dev ]</li>
 <li>css-mode</li>
 <li>csv-mode</li>
 <li>ctrlf</li>
@@ -7090,6 +7092,39 @@ those buttons.  Disabling the logo fixes the problem:
 </div>
 </div>
 </div>
+
+<div id="outline-container-h:2d74236a-e41c-4616-8735-75f949a67334" class="outline-3">
+<h3 id="h:2d74236a-e41c-4616-8735-75f949a67334"><span class="section-number-3">8.21.</span> Note on goto-address-mode faces</h3>
+<div class="outline-text-3" id="text-h:2d74236a-e41c-4616-8735-75f949a67334">
+<p>
+The built-in <code>goto-address-mode</code> uses heuristics to identify URLs and
+email addresses in the current buffer.  It then applies a face to them
+to change their style.  Some packages, such as <code>notmuch</code>, use this
+minor-mode automatically.
+</p>
+
+<p>
+The faces are not declared with <code>defface</code>, meaning that it is better
+that the theme does not modify them.  The user is thus encouraged to
+consider including this in their setup:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq goto-address-url-face 'link
+      goto-address-url-mouse-face 'highlight
+      goto-address-mail-face 'link
+      goto-address-mail-mouse-face 'highlight)
+</pre>
+</div>
+
+<p>
+My personal preference is to set <code>goto-address-mail-face</code> to nil,
+because it otherwise adds too much visual noise to the buffer (email
+addresses stand out more, due to the use of the uncommon <code>@</code> caharacter
+but also because they are often enclosed in angled brackets).
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:b3384767-30d3-4484-ba7f-081729f03a47" class="outline-2">
@@ -7209,7 +7244,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgd283d62">
+<pre class="example" id="org956d724">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7254,7 +7289,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgdd781be">
+<pre class="example" id="org6605c63">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7632,7 +7667,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org5b9da8c">
+<pre class="example" id="org93dae60">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
