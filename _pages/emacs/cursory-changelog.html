@@ -16,9 +16,67 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/cursory">https://protesilaos.com/emacs/cursory</a>.
 </p>
 
-<div id="outline-container-orgda6d3a6" class="outline-2">
-<h2 id="orgda6d3a6">Version 0.2.0 on 2022-07-01</h2>
-<div class="outline-text-2" id="text-orgda6d3a6">
+<div id="outline-container-org91fcf92" class="outline-2">
+<h2 id="org91fcf92">Version 0.3.0 on 2022-09-04</h2>
+<div class="outline-text-2" id="text-org91fcf92">
+<ul class="org-ul">
+<li><p>
+Implemented a mechanism to read fallback values for the presets
+specified in the user option <code>cursory-presets</code>.  In practical terms,
+there can now be a <code>t</code> preset which holds the default values.  Any
+other named preset overrides the <code>t</code>, so it only needs to specify the
+properties that differ from the defaults.  Sample using the original
+value:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq cursory-presets
+        '((box
+           :blink-cursor-interval 0.8)
+          (box-no-blink
+           :blink-cursor-mode -1)
+          (bar
+           :cursor-type (bar . 2)
+           :blink-cursor-interval 0.5)
+          (underscore
+           :cursor-type (hbar . 3)
+           :blink-cursor-blinks 50)
+          (t ; the default values
+           :cursor-type box
+           :cursor-in-non-selected-windows hollow
+           :blink-cursor-mode 1
+           :blink-cursor-blinks 10
+           :blink-cursor-interval 0.2
+           :blink-cursor-delay 0.2)))
+</pre>
+</div></li>
+
+<li>Expanded the available properties of the user option <code>cursory-presets</code>
+to accept a value for the <code>:blink-cursor-mode</code> key (as seen in the
+above code block).  It is either <code>1</code> or <code>-1</code> and is passed to the
+function <code>blink-cursor-mode</code>.  The former value enables the mode, the
+latter disables it.  This lets <code>cursory-presets</code> set the
+<code>blink-cursor-mode</code> per stylistic variant.</li>
+
+<li>Refined the default value of the minibuffer prompt that is used by the
+command <code>cursory-set-preset</code>.  The default value now is the previous
+element in the history, if it exists.  This makes it easier to toggle
+between the last two choices (select the default value simply by
+pressing <code>RET</code> without any further input).</li>
+
+<li>Specified a <code>:package-version</code> for all user options.  The user is
+informed in relevant Help buffers about the last version that
+introduced or iterated on the variable.</li>
+
+<li>The <code>cursory</code> group now references the Info manual that ships with the
+GNU ELPA package.  A link is shown in Custom UI buffers.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0cdb373" class="outline-2">
+<h2 id="org0cdb373">Version 0.2.0 on 2022-07-01</h2>
+<div class="outline-text-2" id="text-org0cdb373">
 <p>
 This is a stability release that introduces minor tweaks while
 formalising point releases which were already available to users.
@@ -107,9 +165,9 @@ For example, the box is the default and switches to a bar when
 </div>
 </div>
 
-<div id="outline-container-org9b667cf" class="outline-2">
-<h2 id="org9b667cf">Version 0.1.0 on 2022-04-15</h2>
-<div class="outline-text-2" id="text-org9b667cf">
+<div id="outline-container-org7bd73ea" class="outline-2">
+<h2 id="org7bd73ea">Version 0.1.0 on 2022-04-15</h2>
+<div class="outline-text-2" id="text-org7bd73ea">
 <p>
 Initial release of the package.  Please read the manual.
 </p>
