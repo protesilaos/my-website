@@ -14,19 +14,28 @@ of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.2.0, released on 2022-07-01.  Any reference to
+0.3.0, released on 2022-09-04.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.3.0-dev.
+Current development target is 0.4.0-dev.
 </p>
 
 <ul class="org-ul">
-<li>Homepage: <a href="https://protesilaos.com/emacs/cursory">https://protesilaos.com/emacs/cursory</a>.</li>
-<li>Git repository: <a href="https://git.sr.ht/~protesilaos/cursory">https://git.sr.ht/~protesilaos/cursory</a>.</li>
-<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/cursory">https://lists.sr.ht/~protesilaos/cursory</a>.</li>
+<li>Package name (GNU ELPA): <code>cursory</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/cursory">https://protesilaos.com/emacs/cursory</a></li>
+<li>Change log: <a href="https://protesilaos.com/emacs/cursory-changelog">https://protesilaos.com/emacs/cursory-changelog</a></li>
+<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/cursory">https://git.sr.ht/~protesilaos/cursory</a>
+<ul class="org-ul">
+<li>Mirrors:
+<ul class="org-ul">
+<li>GitHub: <a href="https://github.com/protesilaos/cursory">https://github.com/protesilaos/cursory</a></li>
+<li>GitLab: <a href="https://gitlab.com/protesilaos/cursory">https://gitlab.com/protesilaos/cursory</a></li>
+</ul></li>
+</ul></li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/cursory">https://lists.sr.ht/~protesilaos/cursory</a></li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -122,6 +131,45 @@ built-in variables: <code>cursor-type</code>, <code>cursor-in-non-selected-windo
 The value each property accepts is the same as the variable it
 references.
 </p>
+
+<p>
+A property of <code>:blink-cursor-mode</code> is also available.  It is a numeric
+value of either <code>1</code> or <code>-1</code> and is given to the function
+<code>blink-cursor-mode</code> (<code>1</code> is to enable, <code>-1</code> is to disable the mode).
+</p>
+
+<p>
+A preset whose car is <code>t</code> is treated as the default option.  This makes
+it possible to specify multiple presets without duplicating their
+properties.  The other presets beside <code>t</code> act as overrides of the
+defaults and, as such, need only consist of the properties that change
+from the default.  See the original value of this variable for how that
+is done:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defcustom cursory-presets
+  '((box
+     :blink-cursor-interval 0.8)
+    (box-no-blink
+     :blink-cursor-mode -1)
+    (bar
+     :cursor-type (bar . 2)
+     :blink-cursor-interval 0.5)
+    (underscore
+     :cursor-type (hbar . 3)
+     :blink-cursor-blinks 50)
+    (t ; the default values
+     :cursor-type box
+     :cursor-in-non-selected-windows hollow
+     :blink-cursor-mode 1
+     :blink-cursor-blinks 10
+     :blink-cursor-interval 0.2
+     :blink-cursor-delay 0.2))
+  ;; Omitting the doc string for demo purposes
+  )
+</pre>
+</div>
 
 <p>
 When called from Lisp, the <code>cursory-set-preset</code> command requires a
@@ -229,25 +277,7 @@ Remember to read the doc string of each of these variables or functions.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'cursory)
 
-(setq cursory-presets
-      '((bar
-         :cursor-type (bar . 2)
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 10
-         :blink-cursor-interval 0.5
-         :blink-cursor-delay 0.2)
-        (box
-         :cursor-type box
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 10
-         :blink-cursor-interval 0.5
-         :blink-cursor-delay 0.2)
-        (underscore
-         :cursor-type (hbar . 3)
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 50
-         :blink-cursor-interval 0.2
-         :blink-cursor-delay 0.2)))
+;; Check the `cursory-presets' for how to set your own preset styles.
 
 (setq cursory-latest-state-file (locate-user-emacs-file "cursory-latest-state"))
 
