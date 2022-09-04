@@ -176,6 +176,7 @@ with fast blinking" and set them on demand.
 
 + Package name (GNU ELPA): `cursory`
 + Official manual: <https://protesilaos.com/emacs/cursory>
++ Change log: <https://protesilaos.com/emacs/cursory-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/cursory>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/cursory>
