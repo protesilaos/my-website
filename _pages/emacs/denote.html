@@ -14,13 +14,13 @@ provides every other piece of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.5.0, released on 2022-08-10.  Any reference to
+0.6.0, released on 2022-08-31.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.6.0-dev.
+Current development target is 1.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -260,10 +260,6 @@ of those in the subsequent sections.
 <div id="outline-container-h:6a92a8b5-d766-42cc-8e5b-8dc255466a23" class="outline-3">
 <h3 id="h:6a92a8b5-d766-42cc-8e5b-8dc255466a23"><span class="section-number-3">3.1.</span> Standard note creation</h3>
 <div class="outline-text-3" id="text-h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">
-<p>
-[ The region as default title is part of 0.6.0-dev ]
-</p>
-
 <p>
 The <code>denote</code> command will prompt for a title.  If a region is active,
 the text of the region becomes the default at the minibuffer prompt
@@ -671,10 +667,6 @@ variants which you can then assign to keys or invoke with <code>M-x</code>.
 <h4 id="h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63"><span class="section-number-4">3.1.4.</span> The <code>denote-date-prompt-use-org-read-date</code> option</h4>
 <div class="outline-text-4" id="text-h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">
 <p>
-[ Part of 0.6.0-dev ]
-</p>
-
-<p>
 By default, Denote uses its own simple prompt for date or date+time
 input (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>).  This is done when the
 <code>denote-prompts</code> option includes a <code>date</code> symbol and/or when the user
@@ -801,7 +793,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org19e3b21">
+<pre class="example" id="org7fdb979">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -891,7 +883,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgec0b672">
+<pre class="example" id="orgf0a5b21">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -988,7 +980,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org521d023">
+<pre class="example" id="org050563a">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1008,7 +1000,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org4b8813f">
+<pre class="example" id="org36a1bcf">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1263,10 +1255,11 @@ as the date and unique identifier, which are derived automatically.
 </p>
 
 <p>
-This is how it looks for Org mode (when <code>denote-file-type</code> is nil):
+This is how it looks for Org mode (when <code>denote-file-type</code> is nil or the
+<code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgedad54d">
+<pre class="example" id="org948d76d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1278,7 +1271,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8a3e6cb">
+<pre class="example" id="orgdcfc896">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1292,7 +1285,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbdd1513">
+<pre class="example" id="orgce7e8a0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1306,7 +1299,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgdedf4ec">
+<pre class="example" id="org5709997">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1375,23 +1368,16 @@ The variables which hold the front matter format are:
 </ul>
 
 <p>
-These variables hold a string with specifiers that are used by the
-<code>format</code> function.  The formatting operation passes four arguments (five
-in the case of <code>denote-text-front-matter</code> as noted in its doc string)
-which include the values of the given entries.  The doc string of
-<code>denote-org-front-matter</code> describes the technicalities:
-</p>
-
-<blockquote>
-<p>
-The order of the arguments is TITLE, DATE, KEYWORDS, ID.  If you are an
-advanced user who wants to edit this variable to affect how front matter
-is produced, consider using something like %2$s to control where Nth
-argument is placed.
+These variables have a string value with specifiers that are used by the
+<code>format</code> function.  The formatting operation passes four arguments which
+include the values of the given entries.  If you are an advanced user
+who wants to edit this variable to affect how front matter is produced,
+consider using something like <code>%2$s</code> to control where the Nth argument
+is placed.
 </p>
 
 <p>
-Make sure to:
+When editing the value, make sure to:
 </p>
 
 <ol class="org-ol">
@@ -1405,7 +1391,6 @@ not use any empty line before it.</li>
 These help with consistency and might prove useful if we ever need to
 operate on the front matter as a whole.
 </p>
-</blockquote>
 
 <p>
 With those granted, below are some examples.  The approach is the same
@@ -1583,7 +1568,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgf4eb9fa">
+<pre class="example" id="orgc5ba953">
 - link1
 - link2
 - link3
@@ -1601,7 +1586,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org5b673fb">
+<pre class="example" id="org1f6372a">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1702,7 +1687,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org7a723a5">
+<pre class="example" id="orgfcbde40">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2551,7 +2536,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgb6177be">
+<pre class="example" id="org134ae1a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3049,9 +3034,9 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Abin Simon, Benjamin Kästner,
-Colin McLear, Damien Cassou, Eshel Yaron, Jack Baty, Jean-Philippe
-Gagné Guay, Jürgen Hötzel, Kaushal Modi, Kyle Meyer, Peter Prevos,
-Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
+Colin McLear, Damien Cassou, Eshel Yaron, Hilde Rhyne, Jack Baty,
+Jean-Philippe Gagné Guay, Jürgen Hötzel, Kaushal Modi, Kyle Meyer,
+Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
