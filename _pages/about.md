@@ -80,7 +80,7 @@ On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
 for Outstanding New Free Software Contributor_.  I received it in my
 mail in late August 2022.  Here is the announcement, which also includes
 all links to the backstory, as well as a video of me showing the
-physical item: <https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/>.
+physical item: <https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/> (pictures too!).
 
 I also talk or write about philosophy without any reference to free
 software or related.  Refer to my website's section on [books and

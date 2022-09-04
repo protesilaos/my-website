@@ -5,6 +5,11 @@ layout: vlog
 mediaid: "oFyBWCl3Nj8"
 ---
 
+**UPDATE 2022-09-04 09:17 +0300:** Appended a section with the pictures
+I just managed to take.
+
+* * *
+
 In this video I show the award that the FSF gave me.  It arrived in my
 mail a few days ago.
 
@@ -62,3 +67,25 @@ directly or indirectly in my first steps:
   other concepts that pertain to coding in Elisp.  Those insights helped
   me tinker with my configuration and continue learning through trial
   and error.
+
+## Pictures
+
+These are not high quality because I don't have access to good hardware
+or some fancy studio.  You will have to bear with me.
+
+### Just me
+
+<a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award.jpg' | absolute_url }}"><img alt="Protesilaos holding the FSF award" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award.jpg' | absolute_url }}"/></a>
+
+### Me and Atlas (who is just as curious)
+
+<a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award-with-atlas.jpg' | absolute_url }}"><img alt="Protesilaos holding the FSF award with Atlas entering the frame" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award-with-atlas.jpg' | absolute_url }}"/></a>
+
+### Side A
+
+<a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award-side-a.jpg' | absolute_url }}"><img alt="Side A of Protesilaos' FSF award" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award-side-a.jpg' | absolute_url }}"/></a>
+
+### Side B
+
+<a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award-side-b.jpg' | absolute_url }}"><img alt="Side B of Protesilaos' FSF award" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award-side-b.jpg' | absolute_url }}"/></a>
+
