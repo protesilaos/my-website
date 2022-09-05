@@ -77,7 +77,7 @@ or some fancy studio.  You will have to bear with me.
 
 <a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award.jpg' | absolute_url }}"><img alt="Protesilaos holding the FSF award" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award.jpg' | absolute_url }}"/></a>
 
-### Me and Atlas (who is just as curious)
+### Atlas is curious
 
 <a href="{{'/assets/images/attachments/2022-09-04-prot-fsf-award-with-atlas.jpg' | absolute_url }}"><img alt="Protesilaos holding the FSF award with Atlas entering the frame" src="{{ '/assets/images/attachments/2022-09-04-prot-fsf-award-with-atlas.jpg' | absolute_url }}"/></a>
 
