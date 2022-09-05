@@ -28,6 +28,7 @@ are built into Emacs version 28 or higher.
     + GitHub: <https://github.com/protesilaos/modus-themes>
     + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
++ Backronym: My Old Display Unexpectedly Sharpened
 
 ## Denote
 
@@ -49,6 +50,9 @@ package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
     + GitHub: <https://github.com/protesilaos/denote>
     + GitLab: <https://gitlab.com/protesilaos/denote>
 + Mailing list: <https://lists.sr.ht/~protesilaos/denote>
++ Backronym: Denote Everything Neatly; Omit The Excesses; Don't Ever
+  Note Only The Epiphenomenal; Don't Eschew or Neglect your Obligations,
+  Tasks, and Engagements
 
 ## Ef (εὖ) themes
 
@@ -68,6 +72,7 @@ a few technical points: <https://protesilaos.com/codelog/2022-08-18-ef-themes-de
     + GitHub: <https://github.com/protesilaos/ef-themes>
     + GitLab: <https://gitlab.com/protesilaos/ef-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
++ Backronym: Effortlessly Flamboyant
 
 ## Fontaine
 
@@ -86,8 +91,9 @@ comfortable point sizes.
     + GitHub: <https://github.com/protesilaos/fontaine>
     + GitLab: <https://gitlab.com/protesilaos/fontaine>
 + Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
++ Backronym: Fonts, Ornaments, and Neat Typography Are Irrelevant in Non-graphical Emacs
 
-## TMR May Ring (tmr)
+## TMR
 
 TMR is an Emacs package that provides facilities for setting timers
 using a convenient notation.  Lots of commands are available to operate
@@ -102,15 +108,16 @@ timers in a nice grid.
     + GitHub: <https://github.com/protesilaos/tmr>
     + GitLab: <https://gitlab.com/protesilaos/tmr>
 + Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
++ Backronym: TMR May Ring; Time Must Run
 
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
-It uses the `page-delimiter` or the outline together with some commands
-to move between pages whether narrowing is in effect or not.  It also
-provides some optional aesthetic tweaks which come into effect when the
-buffer-local `logos-focus-mode` is enabled.  The manual shows how to
-extend the code to achieve the desired result.
+It uses the `page-delimiter` (typically `^L`) or the outline together
+with some commands to move between pages whether narrowing is in effect
+or not.  It also provides some optional aesthetic tweaks which come into
+effect when the buffer-local `logos-focus-mode` is enabled.  The manual
+shows how to extend the code to achieve the desired result.
 
 [Watch the demo of the original version of logos.el](https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/)
 (all my videos since early 2022 use `logos`).
@@ -123,6 +130,7 @@ extend the code to achieve the desired result.
     + GitHub: <https://github.com/protesilaos/logos>
     + GitLab: <https://gitlab.com/protesilaos/logos>
 + Mailing list: <https://lists.sr.ht/~protesilaos/logos>
++ Backronyms: `^L` Only Generates Ostensible Slides; Logos Optionally Goes through Outline Sections
 
 ## Pulsar
 
@@ -140,6 +148,7 @@ pulse effect is added there (`pulsar-after-function-hook`).
     + GitHub: <https://github.com/protesilaos/pulsar>
     + GitLab: <https://gitlab.com/protesilaos/pulsar>
 + Mailing list: <https://lists.sr.ht/~protesilaos/pulsar>
++ Backronym: Pulsar Unquestionably Luminates, Strictly Absent the Radiation
 
 ## Lin
 
@@ -166,6 +175,7 @@ more of a reminder of the point's location on the vertical axis.
     + GitHub: <https://github.com/protesilaos/lin>
     + GitLab: <https://gitlab.com/protesilaos/lin>
 + Mailing list: <https://lists.sr.ht/~protesilaos/lin>
++ Backronym: LIN Is Noticeable
 
 ## Cursory
 
@@ -182,6 +192,7 @@ with fast blinking" and set them on demand.
     + GitHub: <https://github.com/protesilaos/cursory>
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
++ Backronym: Cursors are Undeniably Reduced a Simple, Ordinary Role Yearround
 
 ## The official Emacs TUTORIAL in Greek
 
@@ -204,6 +215,7 @@ piece of functionality does.
     + GitHub: <https://github.com/protesilaos/dotfiles>
     + GitLab: <https://gitlab.com/protesilaos/dotfiles>
 + Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
++ Backronym: Do Observe, Transpose, Examine, or Mirror All Configs, Stranger
 
 ## Iosevka Comfy
 
@@ -226,6 +238,7 @@ The README file in the git repository covers all the technicalities.
     + GitHub: <https://github.com/protesilaos/iosevka-comfy>
     + GitLab: <https://gitlab.com/protesilaos/iosevka-comfy>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Backronym: Iosevka (Could Only Modify a Font, Yes)
 
 ## Minibuffer and Completions in Tandem (mct.el)
 
