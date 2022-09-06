@@ -25,25 +25,25 @@ will not be reflected herein.
 
 ## ef-duo-light, ef-duo-dark
 
-<a href="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"/></a>
 
 ## Comparison of ef-light, ef-duo-light, ef-day
 
-<a href="{{'/assets/images/ef/ef-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-light.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-day-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-day.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day.png' | absolute_url }}"/></a>
 
 ## Comparison of ef-dark, ef-duo-dark, ef-winter
 
-<a href="{{'/assets/images/ef/ef-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-winter-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"/></a>
 
 ## Coming in version 0.5.0 (next stable release)
 

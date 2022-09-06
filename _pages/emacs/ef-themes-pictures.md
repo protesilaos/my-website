@@ -18,48 +18,48 @@ perception of what is on display.
 
 ## ef-light
 
-<a href="{{'/assets/images/ef/ef-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-light.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light.png' | absolute_url }}"/></a>
 
 ## ef-duo-light
 
-<a href="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"/></a>
 
 ## ef-day
 
-<a href="{{'/assets/images/ef/ef-day-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-day.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day.png' | absolute_url }}"/></a>
 
 ## ef-summer
 
-<a href="{{'/assets/images/ef/ef-summer-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-summer theme sample" src="{{'/assets/images/ef/ef-summer-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"><img alt="ef-summer theme sample" src="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"/></a>
 
 ## ef-spring
 
-<a href="{{'/assets/images/ef/ef-spring-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"/></a>
 
 ## ef-deuteranopia-light
 
-<a href="{{'/assets/images/ef/ef-deuteranopia-light-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme sample" src="{{'/assets/images/ef/ef-deuteranopia-light-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-deuteranopia-light.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme sample" src="{{'/assets/images/ef/ef-deuteranopia-light.png' | absolute_url }}"/></a>
 
 ## ef-dark
 
-<a href="{{'/assets/images/ef/ef-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"/></a>
 
 ## ef-duo-dark
 
-<a href="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"><img alt="ef-duo-dark theme sample" src="{{'/assets/images/ef/ef-duo-dark.png' | absolute_url }}"/></a>
 
 ## ef-night
 
-<a href="{{'/assets/images/ef/ef-night-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-night theme sample" src="{{'/assets/images/ef/ef-night-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-night.png' | absolute_url }}"><img alt="ef-night theme sample" src="{{'/assets/images/ef/ef-night.png' | absolute_url }}"/></a>
 
 ## ef-winter
 
-<a href="{{'/assets/images/ef/ef-winter-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"/></a>
 
 ## ef-autumn
 
-<a href="{{'/assets/images/ef/ef-autumn-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-autumn theme sample" src="{{'/assets/images/ef/ef-autumn-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-autumn.png' | absolute_url }}"><img alt="ef-autumn theme sample" src="{{'/assets/images/ef/ef-autumn.png' | absolute_url }}"/></a>
 
 ## ef-deuteranopia-dark
 
-<a href="{{'/assets/images/ef/ef-deuteranopia-dark-version-0-5-0-sample.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-version-0-5-0-sample.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-deuteranopia-dark.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme sample" src="{{'/assets/images/ef/ef-deuteranopia-dark.png' | absolute_url }}"/></a>
