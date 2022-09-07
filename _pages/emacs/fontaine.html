@@ -14,13 +14,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.3.0, released on 2022-07-06.  Any reference to
+0.4.0, released on 2022-09-07.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.4.0-dev.
+Current development target is 0.5.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -104,10 +104,6 @@ modify this GNU manual.”
 Fontaine lets the user specify presets of font configurations and set
 them on demand on graphical Emacs frames.  The user option
 <code>fontaine-presets</code> holds all such presets.
-</p>
-
-<p>
-[ Support for <code>fixed-pitch-serif</code> is part of 0.4.0-dev ]
 </p>
 
 <p>
@@ -643,22 +639,40 @@ Remember to read the relevant doc strings.
 <p>
 Themes re-apply face definitions when they are loaded.  This is
 necessary to render the theme.  For certain faces, such as <code>bold</code> and
-<code>italic</code>, this means that their font family is reset.  To avoid this
-problem, we can instruct them to restore the current font configuration
-with something like this:
+<code>italic</code>, it means that their font family may be reset (depending on the
+particularities of the theme).
+</p>
+
+<p>
+To avoid such a problem, we can arrange to restore the current font
+preset which was applied by <code>fontaine-set-preset</code>.  Fontaine provides
+the command <code>fontaine-apply-current-preset</code>.  It can either be called
+interactively after loading a theme or be assigned to a hook that is ran
+at the post <code>load-theme</code> phase.
+</p>
+
+<p>
+Some themes that provide a hook are the <code>modus-themes</code> and <code>ef-themes</code>
+(both by Protesilaos), so we can use something like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'modus-themes-after-load-theme-hook #'fontaine-apply-current-preset))
+</pre>
+</div>
+
+<p>
+If both packages are used, we can either write two lines of <code>add-hook</code>
+or do this:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Persist font configurations while switching themes (doing it with
 ;; my `modus-themes' and `ef-themes' via the hooks they provide).
 (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
-  (add-hook hook (lambda () (fontaine-set-preset fontaine-current-preset))))
+  (add-hook hook #'fontaine-apply-current-preset))
 </pre>
 </div>
-
-<p>
-[ The variable <code>fontaine-current-preset</code> is part of 0.4.0-dev ]
-</p>
 
 <p>
 Themes must specify a hook that is called by their relevant commands at
@@ -669,11 +683,11 @@ way:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Set up the `after-enable-theme-hook'
 (defvar after-enable-theme-hook nil
-   "Normal hook run after enabling a theme.")
+  "Normal hook run after enabling a theme.")
 
 (defun run-after-enable-theme-hook (&amp;rest _args)
-   "Run `after-enable-theme-hook'."
-   (run-hooks 'after-enable-theme-hook))
+  "Run `after-enable-theme-hook'."
+  (run-hooks 'after-enable-theme-hook))
 
 (advice-add 'enable-theme :after #'run-after-enable-theme-hook)
 </pre>
@@ -684,7 +698,7 @@ And then simply use that hook:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'after-enable-theme-hook (lambda () (fontaine-set-preset fontaine-current-preset)))
+<pre class="src src-emacs-lisp">(add-hook 'after-enable-theme-hook #'fontaine-apply-current-preset)
 </pre>
 </div>
 </div>
