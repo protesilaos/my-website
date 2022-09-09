@@ -135,8 +135,8 @@ locality is not strictly private.  But more on this later.
 To be clear, emphasis on the significance of the space is not some
 hippie theory of someone who goes around hugging trees.  Talking about
 the ecosystem and understanding those matters of coexistence and
-interdependence has always been part of what the discussion about the
-ecos is about.
+interdependence has always been part of the discussion about the ecos
+is.
 
 ## The instituted reality of the polis
 
