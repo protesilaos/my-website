@@ -27,7 +27,7 @@ tree.  The fresh air helped a lot.  We talked, joked, pushed each other
 playfully, and then...  coordinated silence.  Do you know that moment
 when the person's eyes are too beautiful, you want to look away, but
 they still captivate you and you just remain still?  It is how I felt.
-They approached me and kissed me on the chick.  That was new.  I liked
+They approached me and kissed me on the cheek.  That was new.  I liked
 it and asked if I could do the same, which I did.  It snowballed from
 there.  Things happened with me following the person's gentle guidance.
 

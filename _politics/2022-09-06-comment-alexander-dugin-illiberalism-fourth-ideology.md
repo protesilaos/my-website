@@ -114,9 +114,9 @@ established and unfolds.
 The platformarchs don't need a specific ideology to rationalise and
 consolidate their holdings.  There were platformarchs in other regimes,
 such as the East India Company: a prime example of capitalism
-(i.e. state intervention in favour capital owners, here in the form of
-exclusive privileges that establish a symbiotic relationship between
-private interests and the then imperialist state apparatus).
+(i.e. state intervention in favour of capital owners, here in the form
+of exclusive privileges that established a symbiotic relationship
+between private interests and the then imperialist state apparatus).
 Platformarchs will use "liberalism 2.0" for as long as it serves their
 agenda, but they will have no problem to switch to something else, if
 need be.
