@@ -1,0 +1,32 @@
+---
+layout: index
+title: "All publications"
+excerpt: "Index of the items published on protesilaos.com."
+index-feed:
+  text: All publications
+  url: "/master.xml"
+permalink: /master/
+---
+
+<p>Check here for per-category indices: <a href="https://protesilaos.com/publications/">https://protesilaos.com/publications/</a></p>
+
+{% assign docs = site.documents | where: 'master', true | sort: 'date' | reverse %}
+
+<div class="index index-blog">
+  <ul>
+    {% for i in docs %}
+    <li class="index-blog-post-container">
+      <time class="index-blog-post-timestamp">
+        {{ i.date | date: site.date_format }}
+      </time>
+      <a class="index-blog-post-link" href="{{ i.url | relative_url }}"><span class="index-blog-post-heading">{{- i.title -}}</span>
+        {%- if i.doc -%}
+        <span class="index-blog-post-meta-label"> [doc]</span>
+        {%- elsif i.mediaid or i.layout == 'vlog' -%}
+        <span class="index-blog-post-meta-label"> [video]</span>
+        {%- endif -%}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
