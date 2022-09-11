@@ -117,21 +117,23 @@ If you are looking for consistency, a dogma to follow, a narcissist to
 idolise, you need to look elsewhere.  It is important to understand that
 _you should not follow me_, for I am not going anywhere in particular.
 
-### Content indices in English
+### Content indices
 
-* [Books and publications](https://protesilaos.com/books/) (philosophy, politics, code)
-* [Blog on politics](https://protesilaos.com/politics/) (supersedes my old EU-focused blog)
-* [Blog archive](https://protesilaos.com/blog-archive/) (mostly political writings about the EU)
-* [Coding blog](https://protesilaos.com/codelog/) (posts about free/libre software---mostly Emacs)
-* [General commentary on life](https://protesilaos.com/commentary/) (comments or discussions on how to approach complex life issues)
-* [Interpretations and critiques](https://protesilaos.com/interpretations/) (translations of---and comments on---works of art, typically Greek songs)
-* [My packages for GNU Emacs](https://protesilaos.com/emacs/) (index with all my packages---lots of code!)
+<div>
+  {% assign indices = site.data.indices %}
+  <ul>
+    {% for i in indices %}
+    <li>
+      <p>
+        <strong><a href="{{ i.url | absolute_url }}">{{ i.name }}</a> :: </strong> {{ i.description }}
+      </p>
+    </li>
+    {% endfor %}
+  </ul>
 
-### In Greek
-
-* [Ιστολόγιο πολιτικής](https://protesilaos.com/greek/) (politics blog)
-* [Πρακτικές συμβουλές περί του απλού, φυσικού βίου](https://protesilaos.com/life/) (practical advice for the simple, natural life)
-* [Ατάκες και αστειϊσμοί](https://protesilaos.com/jokes/) (jokes, puns, funny experiences)
+  <p>For the available RSS/Atom links, refer to
+  the <a href="/feeds/">feeds' information page</a>.</p>
+</div>
 
 ## Also on
 
