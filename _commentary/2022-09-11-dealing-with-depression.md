@@ -170,40 +170,40 @@ friend, his wife, and relatives but was otherwise alone.  I was okay
 with that.  At some point I moved to the stand where the beers were
 placed.  I was not familiar with the local brands though eager to grab a
 bottle at random and hope for a decent outcome.  A person who shall be
-known as "MP" approached and offered advice: this one has a mellow
+known as "MO" approached and offered advice: this one has a mellow
 after-taste, that is a local ale...  I picked one, issued my thanks, and
 moved towards the main room where I took a seat by myself.
 
-I was drinking my beer and basically staring at the walls.  "MP" showed
+I was drinking my beer and basically staring at the walls.  "MO" showed
 up some ten minutes later.  They asked for a seat, which I gladly
 offered and we started talking.  Apart from the formulaic "where do you
 know our mutual acquaintance from", we talked about the interests of
-"MP".  For some reason people always talk to me about who they are and
+"MO".  For some reason people always talk to me about who they are and
 what they want to do...  I am an attentive listener and can tag along
-without ever talking about myself.  "MP" was working in the IT sector
+without ever talking about myself.  "MO" was working in the IT sector
 but had a background in a combination of anthropology and business.
 They told me about their ambition to travel the world and use their
 skills for the greater good.  My role in this exchange was to probe for
 more information: I was genuinely curious!
 
-Up until that point, it did not even occur to me that "MP" approached me
+Up until that point, it did not even occur to me that "MO" approached me
 in particular for some ulterior reason other than talk about whatever
 intersection between anthropology and business---there were plenty of
 seats, after all, and lots of people to talk to.  I was happy to find a
 person at an otherwise unfamiliar place who actually had something to
-say.  In hindsight, "MP" was an all-round interesting person and had
+say.  In hindsight, "MO" was an all-round interesting person and had
 good looks as well.  Must have been about 10cm taller than me (I am
 170cm), short blond hair parted down the middle, a strong jawline, and
 an athletic build.  And yet all I could think about was the subject of
 our discussion and how I, too, would like to travel the world in pursuit
 of learning more about humanity.
 
-When "MP" invited me for a dance, I declined.  I was not ready to return
+When "MO" invited me for a dance, I declined.  I was not ready to return
 to normal.  I simply told them that I would wait at my seat and take it
 easy.  In the past, this was the sort of situation where I would explain
 how "eccentric" I was.  Rubbish!  Though not this time: I was not faking
 it anymore.  I spoke the truth as I recognised my fragility.  It was not
-feasible to put pressure on myself.  Maybe "MP" liked me and wanted to
+feasible to put pressure on myself.  Maybe "MO" liked me and wanted to
 explore the possibilities?  Or did they just want to dance because they
 got tired of talking?  Who knows?  Either way, I could not proceed.
 
@@ -214,7 +214,7 @@ not yet developed the mental tools I have now.  I was just getting
 started as a philosopher.  All I knew back then was that I had to be in
 an environment that did not put any pressure on me, starting with the
 appearances.  The poor people of the mountains and the "donkey work" one
-has to do in such a place have to pretences to intellectuality or
+has to do in such a place have no pretences to intellectuality or
 significance.  They are simple: what you see is what you get.
 
 I did not move to the mountains because I had some special interest in
@@ -233,7 +233,7 @@ anything and could not trust anyone.  There are several years I have
 little memory of.  I was not living in the moment.  Either I was hoping
 for a better future or was reminiscing about the past when my life was
 straightforward.  I was basically faking it all while placing too much
-value to expectations and roles.
+value on expectations and roles.
 
 My experiences made me a philosopher.  I learnt what honesty really does
 to you, as it lifts burdens from your shoulders.  I understood the
