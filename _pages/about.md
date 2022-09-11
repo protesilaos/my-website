@@ -86,13 +86,17 @@ I also talk or write about philosophy without any reference to free
 software or related.  Refer to my website's section on [books and
 standalone essays](https://protesilaos.com/books).
 
-For a more personal take, check [Comment on whether I have
-ASD](https://protesilaos.com/commentary/2022-06-01-asd/), as well as [On
-honesty and my creative
-process](https://protesilaos.com/commentary/2022-08-29-honesty-creative-process/).
-They are part of my website's "commentary" section, which covers general
-life issues.  There probably are other hints about me in that section
-and elsewhere, though those are straightforward.
+For some personal publications, check this non-exhaustive list:
+
+- [Comment on whether I have ASD](https://protesilaos.com/commentary/2022-06-01-asd/)
+- [On honesty and my creative process](https://protesilaos.com/commentary/2022-08-29-honesty-creative-process/).
+- [On alcohol and sex](https://protesilaos.com/commentary/2022-09-07-alcohol-sex/)
+- [Dealing with depression](https://protesilaos.com/commentary/2022-09-11-dealing-with-depression/)
+
+These are part of my website's "commentary" section, which covers
+general life issues.  There probably are other hints about me in that
+section and in many other publications, though those are
+straightforward.
 
 ## protesilaos.com
 
