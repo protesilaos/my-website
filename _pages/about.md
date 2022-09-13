@@ -92,6 +92,7 @@ For some personal publications, check this non-exhaustive list:
 - [On honesty and my creative process](https://protesilaos.com/commentary/2022-08-29-honesty-creative-process/).
 - [On alcohol and sex](https://protesilaos.com/commentary/2022-09-07-alcohol-sex/)
 - [Dealing with depression](https://protesilaos.com/commentary/2022-09-11-dealing-with-depression/)
+- [Why do I write?](https://protesilaos.com/commentary/2022-09-13-why-do-i-write/)
 
 These are part of my website's "commentary" section, which covers
 general life issues.  There probably are other hints about me in that
