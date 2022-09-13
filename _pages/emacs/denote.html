@@ -92,10 +92,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">7.1. Adding a single link</a></li>
 <li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">7.2. Insert links matching a regexp</a></li>
 <li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.3. Insert links from marked files in Dired</a></li>
-<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.4. The backlinks&rsquo; buffer</a></li>
-<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.5. Writing metanotes</a></li>
-<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.6. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.7. Miscellaneous information about links</a></li>
+<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.4. Link to an existing note or create a new one</a></li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.5. The backlinks&rsquo; buffer</a></li>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.6. Writing metanotes</a></li>
+<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.7. Visiting linked files via the minibuffer</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.8. Miscellaneous information about links</a></li>
 </ul>
 </li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
@@ -793,7 +794,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org6c9f76e">
+<pre class="example" id="org5e67b0d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -883,7 +884,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org61b89bd">
+<pre class="example" id="org6dad255">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -980,7 +981,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org3c6d9ea">
+<pre class="example" id="org79bd9a1">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1000,7 +1001,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org6988353">
+<pre class="example" id="org1c223a0">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1259,7 +1260,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgccc13fe">
+<pre class="example" id="orgfcea5bd">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1271,7 +1272,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8efbbc1">
+<pre class="example" id="orgf5be6fd">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1285,7 +1286,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org0994fb5">
+<pre class="example" id="orge4f9942">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1299,7 +1300,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgc425755">
+<pre class="example" id="orgbfdd6a2">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1568,7 +1569,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org504e6e7">
+<pre class="example" id="orgc29e94c">
 - link1
 - link2
 - link3
@@ -1586,7 +1587,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org2401ee8">
+<pre class="example" id="org0d6d9b8">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1676,8 +1677,82 @@ for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking note
 </div>
 </div>
 
+<div id="outline-container-h:9e41e7df-2aac-4835-94c5-659b6111e6de" class="outline-3">
+<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.4.</span> Link to an existing note or create a new one</h3>
+<div class="outline-text-3" id="text-h:9e41e7df-2aac-4835-94c5-659b6111e6de">
+<p>
+[ The <code>denote-link-after-creating</code> and <code>denote-link-or-create</code> are part
+  of 1.0.0-dev. ]
+</p>
+
+<p>
+In one&rsquo;s note-taking workflow, there may come a point where they are
+expounding on a certain topic but have an idea about another subject
+they would like to link to (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).  The user can always rely on
+the other linking facilities we have covered herein to target files that
+already exist.  Though they may not know whether they already have notes
+covering the subject or whether they would need to write new ones.  To
+this end, Denote provides two convenience commands:
+</p>
+
+<dl class="org-dl">
+<dt><code>denote-link-after-creating</code></dt><dd><p>
+Create new note in the background and
+link to it directly.
+</p>
+
+<p>
+Use <code>denote</code> interactively to produce the new note.  Its doc string or
+this manual explains which prompts will be used and under what
+conditions (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+</p>
+
+<p>
+With optional <code>ID-ONLY</code> as a prefix argument (this is the <code>C-u</code> key,
+by default) create a link that consists of just the identifier.  Else
+try to also include the file&rsquo;s title.  This has the same meaning as in
+<code>denote-link</code> (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
+</p>
+
+<p>
+IMPORTANT NOTE: Normally, <code>denote</code> does not save the buffer it
+produces for the new note.  This is a safety precaution to not write
+to disk unless the user wants it (e.g. the user may choose to kill the
+buffer, thus cancelling the creation of the note).  However, for this
+command the creation of the note happens in the background and the
+user may miss the step of saving their buffer.  We thus have to save
+the buffer in order to (i) establish valid links, and (ii) retrieve
+whatever front matter from the target file.
+</p></dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-link-or-create</code></dt><dd><p>
+Use <code>denote-link</code> on <code>TARGET</code> file,
+creating it if necessary.
+</p>
+
+<p>
+If <code>TARGET</code> file does not exist, call <code>denote-link-after-creating</code>
+which runs the <code>denote</code> command interactively to create the file.  The
+established link will then be targeting that new file.
+</p>
+
+<p>
+With optional <code>ID-ONLY</code> as a prefix argument create a link with just
+the file&rsquo;s identifier.  This has the same meaning as in <code>denote-link</code>.
+</p>
+
+<p>
+This command has the alias <code>denote-link-to-existing-or-new-note</code>,
+which helps with discoverability.
+</p></dd>
+</dl>
+</div>
+</div>
+
 <div id="outline-container-h:c73f1f68-e214-49d5-b369-e694f6a5d708" class="outline-3">
-<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.4.</span> The backlinks&rsquo; buffer</h3>
+<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.5.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
 The command <code>denote-link-backlinks</code> produces a bespoke buffer which
@@ -1687,7 +1762,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org6a80e93">
+<pre class="example" id="org843b8a0">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1742,7 +1817,7 @@ certain executables to the relevant environment variable.
 </div>
 
 <div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
-<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.5.</span> Writing metanotes</h3>
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.6.</span> Writing metanotes</h3>
 <div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
 <p>
 A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
@@ -1792,7 +1867,7 @@ knowledge derived from the deliberate self-reflection.
 </div>
 
 <div id="outline-container-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4" class="outline-3">
-<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.6.</span> Visiting linked files via the minibuffer</h3>
+<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.7.</span> Visiting linked files via the minibuffer</h3>
 <div class="outline-text-3" id="text-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">
 <p>
 Denote has a major-mode-agnostic mechanism to collect all linked file
@@ -1811,7 +1886,7 @@ with only the files of the current minibuffer session).
 </div>
 
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.7.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.8.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -2480,6 +2555,9 @@ Everything is in place to set up the package.
                  :immediate-finish nil
                  :kill-buffer t
                  :jump-to-captured t)))
+
+;; Also check the commands `denote-link-after-creating',
+;; `denote-link-or-create'.  You may want to bind them to keys as well.
 </pre>
 </div>
 </div>
@@ -2536,7 +2614,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org82157b2">
+<pre class="example" id="org78e1042">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3047,9 +3125,9 @@ Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
-Hanspeter Gisler, Jack Baty, Kaushal Modi, M. Hadi Timachi, Paul van
-Gelder, Peter Prevos, Shreyas Ragavan, Summer Emacs, Sven Seebeck,
-Taoufik, Ypot, atanasj, hpgisler, pRot0ta1p.</dd>
+Hanspeter Gisler, Jack Baty, Juanjo Presa, Kaushal Modi, M. Hadi
+Timachi, Paul van Gelder, Peter Prevos, Shreyas Ragavan, Summer Emacs,
+Sven Seebeck, Taoufik, Ypot, atanasj, hpgisler, pRot0ta1p, sienic.</dd>
 </dl>
 
 <p>
