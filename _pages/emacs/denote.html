@@ -104,12 +104,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">10. Extending Denote</a>
 <ul>
 <li><a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">10.1. Keep a journal or diary</a></li>
-<li><a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">10.2. Narrow the list of files in Dired</a></li>
-<li><a href="#h:edf9b651-86eb-4d5f-bade-3c9e270082f0">10.3. Use Embark to collect minibuffer candidates</a></li>
-<li><a href="#h:76198fab-d6d2-4c67-9ccb-7a08cc883952">10.4. Search file contents</a></li>
-<li><a href="#h:1bba4c1e-6812-4749-948f-57df4fd49b36">10.5. Bookmark the directory with the notes</a></li>
-<li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">10.6. Use the consult-notes package</a></li>
-<li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">10.7. Treat your notes as a project</a></li>
+<li><a href="#h:2f8090f1-50af-4965-9771-d5a91a0a87bd">10.2. Create a note with the region&rsquo;s contents</a></li>
+<li><a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">10.3. Split an Org subtree into its own note</a></li>
+<li><a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">10.4. Narrow the list of files in Dired</a></li>
+<li><a href="#h:edf9b651-86eb-4d5f-bade-3c9e270082f0">10.5. Use Embark to collect minibuffer candidates</a></li>
+<li><a href="#h:76198fab-d6d2-4c67-9ccb-7a08cc883952">10.6. Search file contents</a></li>
+<li><a href="#h:1bba4c1e-6812-4749-948f-57df4fd49b36">10.7. Bookmark the directory with the notes</a></li>
+<li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">10.8. Use the consult-notes package</a></li>
+<li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">10.9. Treat your notes as a project</a></li>
 </ul>
 </li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">11. Installation</a>
@@ -794,7 +796,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org5e67b0d">
+<pre class="example" id="orge9a607d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -884,7 +886,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org6dad255">
+<pre class="example" id="orgb853c54">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -981,7 +983,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org79bd9a1">
+<pre class="example" id="org06fa6db">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1001,7 +1003,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org1c223a0">
+<pre class="example" id="orgc824bcc">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1260,7 +1262,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgfcea5bd">
+<pre class="example" id="orge929e7d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1272,7 +1274,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf5be6fd">
+<pre class="example" id="org32368e4">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1286,7 +1288,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge4f9942">
+<pre class="example" id="org2c167a7">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1300,7 +1302,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgbfdd6a2">
+<pre class="example" id="org99d83d4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1569,7 +1571,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc29e94c">
+<pre class="example" id="org73befe1">
 - link1
 - link2
 - link3
@@ -1587,7 +1589,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0d6d9b8">
+<pre class="example" id="org969f850">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1762,7 +1764,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org843b8a0">
+<pre class="example" id="orgdf7e765">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2117,8 +2119,76 @@ Sources for <code>tmr</code>:
 </div>
 </div>
 
+<div id="outline-container-h:2f8090f1-50af-4965-9771-d5a91a0a87bd" class="outline-3">
+<h3 id="h:2f8090f1-50af-4965-9771-d5a91a0a87bd"><span class="section-number-3">10.2.</span> Create a note with the region&rsquo;s contents</h3>
+<div class="outline-text-3" id="text-h:2f8090f1-50af-4965-9771-d5a91a0a87bd">
+<p>
+Sometimes it makes sense to gather notes in a single file and later
+review it to make multiple notes out of it.  With the following code,
+the user marks a region and then invokes the command
+<code>my-denote-create-new-note-from-region</code>: it prompts for a title and
+keywords and then uses the region&rsquo;s contents to fill in the newly
+created note.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-create-new-note-from-region (beg end)
+  "Create note whose contents include the text between BEG and END.
+Prompt for title and keywords of the new note."
+  (interactive "r")
+  (if-let (((region-active-p))
+           (text (buffer-substring-no-properties beg end)))
+      (progn
+        (denote (denote--title-prompt) (denote--keywords-prompt))
+        (insert text))
+    (user-error "No region is available")))
+</pre>
+</div>
+
+<p>
+Have a different workflow?  Feel welcome to discuss it in any of our
+official channels (<a href="#h:1ebe4865-c001-4747-a6f2-0fe45aad71cd">Contributing</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd" class="outline-3">
+<h3 id="h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd"><span class="section-number-3">10.3.</span> Split an Org subtree into its own note</h3>
+<div class="outline-text-3" id="text-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">
+<p>
+With Org files in particular, it is common to have nested headings which
+could be split off into their own standalone notes.  In Org parlance an
+entry with all its subheadings is a &ldquo;subtree&rdquo;.  With the following code,
+the user places the point inside the heading they want to split off and
+invokes the command <code>my-denote-split-org-subtree</code>.  It will create a
+note using the heading&rsquo;s text and tags for the new file.  The contents
+of the subtree become the contents of the new note and are removed from
+the old one.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-split-org-subtree ()
+  "Create new note using current Org subtree."
+  (interactive)
+  (let* ((text (org-get-entry))
+         (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment))
+         (tags (org-get-tags)))
+    (delete-region (org-back-to-heading-or-point-min)
+                   (org-end-of-subtree :invisible-ok :to-heading))
+    (denote heading tags 'org)
+    (insert text)))
+</pre>
+</div>
+
+<p>
+Have a different workflow?  Feel welcome to discuss it in any of our
+official channels (<a href="#h:1ebe4865-c001-4747-a6f2-0fe45aad71cd">Contributing</a>).
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:ea173a01-69ef-4574-89a7-6e60ede02f13" class="outline-3">
-<h3 id="h:ea173a01-69ef-4574-89a7-6e60ede02f13"><span class="section-number-3">10.2.</span> Narrow the list of files in Dired</h3>
+<h3 id="h:ea173a01-69ef-4574-89a7-6e60ede02f13"><span class="section-number-3">10.4.</span> Narrow the list of files in Dired</h3>
 <div class="outline-text-3" id="text-h:ea173a01-69ef-4574-89a7-6e60ede02f13">
 <p>
 Emacs&rsquo; standard file manager (or directory editor) can read a regular
@@ -2190,7 +2260,7 @@ Restore the buffer with \\&lt;dired-mode-map&gt;`\\[revert-buffer]'."
 </div>
 
 <div id="outline-container-h:edf9b651-86eb-4d5f-bade-3c9e270082f0" class="outline-3">
-<h3 id="h:edf9b651-86eb-4d5f-bade-3c9e270082f0"><span class="section-number-3">10.3.</span> Use Embark to collect minibuffer candidates</h3>
+<h3 id="h:edf9b651-86eb-4d5f-bade-3c9e270082f0"><span class="section-number-3">10.5.</span> Use Embark to collect minibuffer candidates</h3>
 <div class="outline-text-3" id="text-h:edf9b651-86eb-4d5f-bade-3c9e270082f0">
 <p>
 <code>embark</code> is a remarkable package that lets you perform relevant,
@@ -2223,7 +2293,7 @@ of the minibuffer (<a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">Narrow the 
 </div>
 
 <div id="outline-container-h:76198fab-d6d2-4c67-9ccb-7a08cc883952" class="outline-3">
-<h3 id="h:76198fab-d6d2-4c67-9ccb-7a08cc883952"><span class="section-number-3">10.4.</span> Search file contents</h3>
+<h3 id="h:76198fab-d6d2-4c67-9ccb-7a08cc883952"><span class="section-number-3">10.6.</span> Search file contents</h3>
 <div class="outline-text-3" id="text-h:76198fab-d6d2-4c67-9ccb-7a08cc883952">
 <p>
 Emacs provides built-in commands which are wrappers of standard Unix
@@ -2272,7 +2342,7 @@ built-in commands.
 </div>
 
 <div id="outline-container-h:1bba4c1e-6812-4749-948f-57df4fd49b36" class="outline-3">
-<h3 id="h:1bba4c1e-6812-4749-948f-57df4fd49b36"><span class="section-number-3">10.5.</span> Bookmark the directory with the notes</h3>
+<h3 id="h:1bba4c1e-6812-4749-948f-57df4fd49b36"><span class="section-number-3">10.7.</span> Bookmark the directory with the notes</h3>
 <div class="outline-text-3" id="text-h:1bba4c1e-6812-4749-948f-57df4fd49b36">
 <p>
 Part of the reason Denote does not reinvent existing functionality is to
@@ -2306,7 +2376,7 @@ for working with directories, including bookmarks.
 </div>
 
 <div id="outline-container-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d" class="outline-3">
-<h3 id="h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d"><span class="section-number-3">10.6.</span> Use the consult-notes package</h3>
+<h3 id="h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d"><span class="section-number-3">10.8.</span> Use the consult-notes package</h3>
 <div class="outline-text-3" id="text-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">
 <p>
 If you are already using <code>consult</code> (which is a brilliant package), you
@@ -2342,7 +2412,7 @@ improvements in the near future (written on 2022-06-22 16:48 +0300).
 </div>
 
 <div id="outline-container-h:fad3eb08-ddc7-43e4-ba28-210d89668037" class="outline-3">
-<h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">10.7.</span> Treat your notes as a project</h3>
+<h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">10.9.</span> Treat your notes as a project</h3>
 <div class="outline-text-3" id="text-h:fad3eb08-ddc7-43e4-ba28-210d89668037">
 <p>
 Emacs has a built-in library for treating a directory tree as a
@@ -2614,7 +2684,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org78e1042">
+<pre class="example" id="org697a4d8">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3127,7 +3197,8 @@ Monnier.</dd>
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Frank Ehmsen,
 Hanspeter Gisler, Jack Baty, Juanjo Presa, Kaushal Modi, M. Hadi
 Timachi, Paul van Gelder, Peter Prevos, Shreyas Ragavan, Summer Emacs,
-Sven Seebeck, Taoufik, Ypot, atanasj, hpgisler, pRot0ta1p, sienic.</dd>
+Sven Seebeck, Taoufik, Ypot, atanasj, hpgisler, pRot0ta1p, sienic,
+sundar bp.</dd>
 </dl>
 
 <p>
