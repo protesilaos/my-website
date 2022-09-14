@@ -797,7 +797,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org217f171">
+<pre class="example" id="org77bbc78">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -887,7 +887,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org14112dd">
+<pre class="example" id="orga89f377">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -984,7 +984,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgf49ee9f">
+<pre class="example" id="orgabca0a4">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1004,7 +1004,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf0c6dbc">
+<pre class="example" id="org2d8bfbf">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1263,7 +1263,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org954ad3f">
+<pre class="example" id="orgc8cbf80">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1275,7 +1275,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgb007e38">
+<pre class="example" id="orga3d128b">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1289,7 +1289,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org413cbcd">
+<pre class="example" id="orgc939aa3">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1303,7 +1303,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgd3d53f3">
+<pre class="example" id="orgfdd8669">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1572,7 +1572,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org3e7d5ca">
+<pre class="example" id="orgc9cc00a">
 - link1
 - link2
 - link3
@@ -1590,7 +1590,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org7cb4538">
+<pre class="example" id="orgd704629">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1765,7 +1765,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org0318d27">
+<pre class="example" id="org06abca5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2169,13 +2169,12 @@ the old one.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defun my-denote-split-org-subtree ()
-  "Create new note using current Org subtree."
+  "Create new Denote note as an Org file using current Org subtree."
   (interactive)
-  (let* ((text (org-get-entry))
-         (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment))
-         (tags (org-get-tags)))
-    (delete-region (org-back-to-heading-or-point-min)
-                   (org-end-of-subtree :invisible-ok :to-heading))
+  (let ((text (org-get-entry))
+        (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment))
+        (tags (org-get-tags)))
+    (delete-region (org-entry-beginning-position) (org-entry-end-position))
     (denote heading tags 'org)
     (insert text)))
 </pre>
@@ -2673,6 +2672,18 @@ directory-local value (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintai
 <dt><code>denote-directory-files-matching-regexp</code></dt><dd>Return list of files
 matching <code>REGEXP</code> in <code>denote-directory-files</code>.</dd>
 
+<dt><code>denote-sluggify</code></dt><dd>Make <code>STR</code> an appropriate slug for file names and
+related (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggified title and keywords</a>).</dd>
+
+<dt><code>denote-sluggify-and-join</code></dt><dd>Sluggify <code>STR</code> while joining separate
+words.</dd>
+
+<dt><code>denote-desluggify</code></dt><dd>Capitalize and dehyphenate <code>STR</code>, inverting
+<code>denote-sluggify</code>.</dd>
+
+<dt><code>denote-sluggify-keywords</code></dt><dd>Sluggify <code>KEYWORDS</code>, which is a list of
+strings (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggified title and keywords</a>).</dd>
+
 <dt><code>denote-filetype-heuristics</code></dt><dd><p>
 Return likely file type of <code>FILE</code>.
 Use the file extension to detect the file type of the file.
@@ -2690,8 +2701,19 @@ If no file types in <code>denote-file-types</code> has the file extension, the
 file type is assumed to be the first of <code>denote-file-types</code>.
 </p></dd>
 
+<dt><code>denote-format-file-name</code></dt><dd>Format file name.  <code>PATH</code>, <code>ID</code>,
+<code>KEYWORDS</code>, <code>TITLE-SLUG</code> are expected to be supplied by <code>denote</code> or
+equivalent: they will all be converted into a single string.
+<code>EXTENSION</code> is the file type extension, as a string.</dd>
+
 <dt><code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier from
-<code>FILE</code> name.</dd>
+<code>FILE</code> name.  To only return an existing identifier or create a new
+one, refer to the <code>denote-retrieve-or-create-file-identifier</code>
+function.</dd>
+
+<dt><code>denote-retrieve-or-create-file-identifier</code></dt><dd>Extract identifier from
+<code>FILE</code> name.  To only return an existing identifier or create a new one,
+refer to the function <code>denote-retrieve-or-create-file-identifier</code>.</dd>
 
 <dt><code>denote-retrieve-filename-title</code></dt><dd>Extract title from <code>FILE</code> name,
 else return <code>file-name-base</code>.</dd>
@@ -2736,6 +2758,12 @@ non-nil (<a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">The denote-date-promp
 variable <code>denote-directory</code>.  The table uses the <code>file</code> completion
 category (so it works with packages such as <code>marginalia</code> and
 <code>embark</code>).</dd>
+
+<dt><code>denote-rename-file-prompt</code></dt><dd>Prompt to rename file named <code>OLD-NAME</code>
+to <code>NEW-NAME</code>.</dd>
+
+<dt><code>denote-rename-file-and-buffer</code></dt><dd>Rename file named <code>OLD-NAME</code> to
+<code>NEW-NAME</code>, updating buffer name.</dd>
 
 <dt><code>denote-file-types</code></dt><dd><p>
 Alist of <code>denote-file-type</code> and their format
@@ -2837,7 +2865,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org29a404d">
+<pre class="example" id="orgc304618">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
