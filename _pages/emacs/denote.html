@@ -797,7 +797,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org77bbc78">
+<pre class="example" id="orgff36f94">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -887,7 +887,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orga89f377">
+<pre class="example" id="orgef6bdc9">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -984,7 +984,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgabca0a4">
+<pre class="example" id="org4c5e4b6">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1004,7 +1004,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org2d8bfbf">
+<pre class="example" id="org98f1558">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1263,7 +1263,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc8cbf80">
+<pre class="example" id="orgb00671f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1275,7 +1275,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga3d128b">
+<pre class="example" id="org23fbbab">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1289,7 +1289,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgc939aa3">
+<pre class="example" id="org0ef08bc">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1303,7 +1303,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgfdd8669">
+<pre class="example" id="org014c7a8">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1572,7 +1572,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc9cc00a">
+<pre class="example" id="org520fa05">
 - link1
 - link2
 - link3
@@ -1590,7 +1590,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd704629">
+<pre class="example" id="org32c3a0b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1765,7 +1765,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org06abca5">
+<pre class="example" id="orgb72fc2f">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2663,14 +2663,35 @@ might change them without further notice.
 </p>
 
 <dl class="org-dl">
+<dt><code>denote-file-is-note-p</code></dt><dd>Return non-nil if <code>FILE</code> is an actual Denote
+note.  For our purposes, a note must note be a directory, must satisfy
+<code>file-regular-p</code>, its path must be part of the variable
+<code>denote-directory</code>, it must have a Denote identifier in its name, and
+use one of the extensions implied by <code>denote-file-type</code>.</dd>
+
+<dt><code>denote-file-has-identifier-p</code></dt><dd>Return non-nil if FILE has a Denote
+identifier.</dd>
+
+<dt><code>denote-file-has-supported-extension-p</code></dt><dd>Return non-nil if <code>FILE</code>
+has supported extension.  Also account for the possibility of an added
+<code>.gpg</code> suffix. Supported extensions are those implied by
+<code>denote-file-type</code>.</dd>
+
+<dt><code>denote-file-is-writable-and-supported-p</code></dt><dd>Return non-nil if <code>FILE</code>
+is writable and has supported extension.</dd>
+
 <dt><code>denote-directory-files</code></dt><dd>List absolute file paths in variable
 <code>denote-directory</code>. The returned files only need to have an
 identifier.  This may include files that are not implied by
-<code>denote-file-types</code>.  Remember that the <code>denote-directory</code> accepts a
+<code>denote-file-type</code>.  Remember that the <code>denote-directory</code> accepts a
 directory-local value (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
 
 <dt><code>denote-directory-files-matching-regexp</code></dt><dd>Return list of files
 matching <code>REGEXP</code> in <code>denote-directory-files</code>.</dd>
+
+<dt><code>denote-file-name-relative-to-denote-directory</code></dt><dd>Return name of
+<code>FILE</code> relative to the variable <code>denote-directory</code>.  <code>FILE</code> must be an
+absolute path.</dd>
 
 <dt><code>denote-sluggify</code></dt><dd>Make <code>STR</code> an appropriate slug for file names and
 related (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggified title and keywords</a>).</dd>
@@ -2865,7 +2886,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc304618">
+<pre class="example" id="orga489660">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
