@@ -8,11 +8,9 @@ Refer to the [official manual](https://protesilaos.com/emacs/ef-themes)
 for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
-The following screen shots correspond to version `0.5.0-dev`.  Some were
-taken on 2022-09-07 and others on 2022-09-11.  The typeface is [Iosevka
-Comfy, my modified version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy), set at point
-size 14 for the larger text and point 10 for the smaller one (an Emacs
-face `:height` attribute of 140 and 100, respectively).
+The following screen shots correspond to version `0.6.0-dev`.  Some were
+taken on 2022-09-16.  The typeface is [Iosevka Comfy, my modified
+version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
@@ -40,6 +38,12 @@ perception of what is on display.
 <a href="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"><img alt="ef-summer theme sample" src="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-summer-code.png' | absolute_url }}"><img alt="ef-summer theme code sample" src="{{'/assets/images/ef/ef-summer-code.png' | absolute_url }}"/></a>
+
+## ef-trio-light
+
+<a href="{{'/assets/images/ef/ef-trio-light.png' | absolute_url }}"><img alt="ef-trio-light theme sample" src="{{'/assets/images/ef/ef-trio-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-trio-light-code.png' | absolute_url }}"><img alt="ef-trio-light theme code sample" src="{{'/assets/images/ef/ef-trio-light-code.png' | absolute_url }}"/></a>
 
 ## ef-spring
 
@@ -76,6 +80,12 @@ perception of what is on display.
 <a href="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"><img alt="ef-winter theme sample" src="{{'/assets/images/ef/ef-winter.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-winter-code.png' | absolute_url }}"><img alt="ef-winter theme code sample" src="{{'/assets/images/ef/ef-winter-code.png' | absolute_url }}"/></a>
+
+## ef-trio-dark
+
+<a href="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"><img alt="ef-trio-dark theme sample" src="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"><img alt="ef-trio-dark theme code sample" src="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"/></a>
 
 ## ef-autumn
 
