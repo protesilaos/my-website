@@ -3,7 +3,7 @@ title: "Introversion, relationships, and self-denial"
 excerpt: "Excerpt from my journal with some philosophical themes about self-denial in relationships."
 ---
 
-Here is yet another excerpt from my journal.  I do philosophy by
+Below is yet another excerpt from my journal.  I do philosophy by
 examining a banal phenomenon: romantic relationships.  No, the journal
 still does not have pretty faces.  Nor poetry...  But I am getting
 there.  Here's a self-portait for the time being: 👺.
