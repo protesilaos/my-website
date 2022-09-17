@@ -17,7 +17,7 @@ committing your edits as usual and sharing them with the project as
 patch files.  The maintainers then apply those with or without further
 tweaks (e.g. emacs.git works this way).  No more faux forks!
 
-What follows is a short guide to help you get started.  My `logos`
+What follows is a short guide to help you get started.  My `denote`
 package shall serve as an example.  I think Magit is all you will ever
 need to handle most (all?) such processes, though I also include the
 relevant command-line part for the sake of completeness.  This is
@@ -25,17 +25,17 @@ supposed to be for beginners who already know the basics of Git and who
 are using Magit.  It is not an exhaustive resource.  Consult the
 official documentation for the technicalities.
 
-For the `logos` package, we have these:
+For the `denote` package, we have these:
 
-* Git repository: <https://git.sr.ht/~protesilaos/logos>.
-* Mailing list: <https://lists.sr.ht/~protesilaos/logos>.  When you
+* Git repository: <https://git.sr.ht/~protesilaos/denote>.
+* Mailing list: <https://lists.sr.ht/~protesilaos/denote>.  When you
   write an email, it is addressed to
-  [~protesilaos/logos@lists.sr.ht](mailto:~protesilaos/logos@lists.sr.ht)
+  [~protesilaos/denote@lists.sr.ht](mailto:~protesilaos/denote@lists.sr.ht)
   as noted in the list's description.
 
 ## Format patches
 
-1. Clone the git repo as usual: <https://git.sr.ht/~protesilaos/logos>.
+1. Clone the git repo as usual: <https://git.sr.ht/~protesilaos/denote>.
 
 2. If you already have a local copy of the repository, make sure it is
    up-to-date.  Use `git pull` if necessary.
@@ -103,7 +103,7 @@ For the `logos` package, we have these:
    <https://git-send-email.io/>).  Compose your regular message and send
    the files to the maintainer's email address or to the mailing list of
    the given project.  In our example, the latter is found here:
-   <https://lists.sr.ht/~protesilaos/logos> (the link includes the exact
+   <https://lists.sr.ht/~protesilaos/denote> (the link includes the exact
    email address of the list).  The advantage of the mailing list is
    that it is public, so others have a chance to review the discussion
    and/or store a copy of it.
@@ -167,7 +167,7 @@ any major contribution.  [Contact me](https://protesilaos.com/contact)
 if you need help on that front or ask for a copyright assignment form
 from the kind folks over at the emacs-devel mailing list by sending an
 email to <emacs-devel@gnu.org>.  It looks like this (again, using the
-`logos` package as a demo):
+`denote` package as a demo):
 
 ```
 Please email the following information to assign@gnu.org, and we
@@ -207,7 +207,7 @@ your changes?  Do you attend a school which might make such a claim?]
 [Which files have you changed so far, and which new files have you written
 so far?]
 
-logos.el (GNU ELPA)
+denote.el (GNU ELPA)
 ```
 
 
