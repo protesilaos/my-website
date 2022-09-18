@@ -117,11 +117,6 @@ appropriate _copyleft_ terms that ensure end user freedom—see the
 [license and resources](https://protesilaos.com/license/) page.  Read,
 learn, think, and reach your own conclusions.
 
-The report on [Ten years of
-protesilaos.com](https://protesilaos.com/news/2021-02-08-website-ten-years/)
-(2021-02-08) might also be of interest, though note that I have since
-picked up pace and publish even more than before.
-
 What I wrote in the past may not represent my current views.  I review,
 change, refine my beliefs as part of a life of research and reflection.
 If you are looking for consistency, a dogma to follow, a narcissist to
