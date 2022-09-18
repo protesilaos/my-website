@@ -93,11 +93,21 @@ For some personal publications, check this non-exhaustive list:
 - [On alcohol and sex](https://protesilaos.com/commentary/2022-09-07-alcohol-sex/)
 - [Dealing with depression](https://protesilaos.com/commentary/2022-09-11-dealing-with-depression/)
 - [Why do I write?](https://protesilaos.com/commentary/2022-09-13-why-do-i-write/)
+- [Introversion, relationships, and self-denial](https://protesilaos.com/commentary/2022-09-17-introversion-relationships-self-denial/)
 
 These are part of my website's "commentary" section, which covers
 general life issues.  There probably are other hints about me in that
 section and in many other publications, though those are
 straightforward.
+
+Some more somewhat personal entries from the "books and standalone
+publications" section:
+
+- [Perfectionism, insecurity, and improvisation](https://protesilaos.com/books/2022-09-15-perfectionism-insecurity-improvisation/)
+- [False binaries and the continuum](https://protesilaos.com/books/2022-09-16-false-binaries-continuum/)
+- [On thinking, living, acting](https://protesilaos.com/books/2022-09-18-thinking-acting-living/)
+
+[ These are non-exhaustive, but they should give you an idea. ]
 
 ## protesilaos.com
 
