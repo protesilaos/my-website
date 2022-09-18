@@ -1,6 +1,6 @@
 ---
 title: "Perfectionism, insecurity, and improvisation"
-excerpt: "A work on philosophy by Protesilaos Stavrou aobut perfectionism, insecurity, and improvisation."
+excerpt: "A work on philosophy by Protesilaos Stavrou about perfectionism, insecurity, and improvisation."
 layout: vlog
 mediaid: "oBQ9i0I0kTQ"
 ---

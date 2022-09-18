@@ -1,6 +1,6 @@
 ---
 title: "False binaries and the continuum"
-excerpt: "A work on philosophy by Protesilaos Stavrou aobut false binaries and the continuum."
+excerpt: "A work on philosophy by Protesilaos Stavrou about false binaries and the continuum."
 layout: vlog
 mediaid: "mUrQMKTb_Kk"
 ---
