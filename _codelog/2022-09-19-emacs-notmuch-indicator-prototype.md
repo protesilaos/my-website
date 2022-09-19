@@ -44,4 +44,4 @@ as add the relevant documentation files, license, etc.  I just wanted to
 give you an idea of what this is.
 
 [ I have been using a variant of `notmuch-indicator` for more than a
-  year, as part of my personal Emacs config. ]
+  year now, as part of my personal Emacs config. ]
