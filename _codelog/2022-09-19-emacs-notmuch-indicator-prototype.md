@@ -29,8 +29,8 @@ For instance, a value like the following defines two commands:
 
 ```elisp
 (setq notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox" :specifier "@")
-        (:terms "--output threads from:VIP" :specifier "🤡")))
+      '((:terms "tag:unread and tag:inbox" :label "@")
+        (:terms "--output threads from:VIP" :label "🤡")))
 ```
 
 The indicator on the mode line will then look like:
