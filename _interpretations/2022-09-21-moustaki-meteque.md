@@ -3,11 +3,11 @@ title: "Interpretation of “Le Métèque” by Georges Moustaki"
 excerpt: "Translation of---and philosophical commentary on---a song titled 'Le Métèque' (the metic)."
 ---
 
-For these "interpretations" I usually pick a Greek song and translate
-its lyrics to ultimately forward some philophical point.  My goal is to
-do philosophy in an even more approachable way, though I also seize the
-opportunity to introduce you to beautiful music you may not be familiar
-with.  Culture has no borders.
+For these "interpretations", I usually pick a Greek song and translate
+its lyrics to ultimately forward some philosophical point.  My goal is
+to do philosophy in an even more approachable way, though I also seize
+the opportunity to introduce you to beautiful music you may not be
+familiar with.  Culture has no borders.
 
 Today, I am deviating from the norm in that the song is in French,
 although the singer is part Greek.  This is _Le Métèque_, meaning "the
