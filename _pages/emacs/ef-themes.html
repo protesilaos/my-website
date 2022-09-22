@@ -75,11 +75,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:5b74bd9e-e7f2-46b3-af2e-7c45b2e69245">9. Use colors from the active Ef theme</a></li>
 <li><a href="#h:152326a3-9356-4158-8adb-83c42c2ef117">10. Do-It-Yourself customizations</a>
 <ul>
-<li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.1. The general approach to DIY changes</a></li>
-<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.2. Configure bold and italic faces</a></li>
-<li><a href="#h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">10.3. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.4. Add support for hl-todo</a></li>
-<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.5. Tweak goto-address-mode faces</a></li>
+<li><a href="#h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">10.1. Tweak <code>org-modern</code> timestamps</a></li>
+<li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.2. The general approach to advanced DIY changes</a></li>
+<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.3. Configure bold and italic faces</a></li>
+<li><a href="#h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">10.4. A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.5. Add support for hl-todo</a></li>
+<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.6. Tweak goto-address-mode faces</a></li>
 </ul>
 </li>
 <li><a href="#h:c8d80daf-d039-40c4-bb74-e7814a9b4c79">11. Supported packages or face groups</a>
@@ -720,8 +721,54 @@ their liking.
 </p>
 </div>
 
+<div id="outline-container-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d" class="outline-3">
+<h3 id="h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d"><span class="section-number-3">10.1.</span> Tweak <code>org-modern</code> timestamps</h3>
+<div class="outline-text-3" id="text-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">
+<p>
+[ Part of 0.6.0-dev ]
+</p>
+
+<p>
+The <code>org-modern</code> package uses faces and text properties to make Org
+buffers more aesthetically pleasing.  It affects tables, timestamps,
+lists, headings, and more.
+</p>
+
+<p>
+In previous versions of the Ef themes, we mistakenly affected one of its
+faces: the <code>org-modern-label</code>.  It changed the intended looks and
+prevented the user option <code>org-modern-label-border</code> from having its
+desired effect.  As such, we no longer override that face.
+</p>
+
+<p>
+Users who were used to the previous design and who generally do not
+configure the user options of <code>org-modern</code> may thus notice a change in
+how clocktables (or generally tables with timestamps) are aligned.  The
+simplest solution is to instruct the mode to not prettify timestamps, by
+setting the user option <code>org-modern-timestamp</code> to nil.  For example, by
+adding this to the init file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-modern-timestamp nil)
+</pre>
+</div>
+
+<p>
+Alignment in tables will also depend on the use of proportionately
+spaced fonts.  Enable the relevant option to work with those without any
+further trouble (<a href="#h:621d3bb9-5967-4f97-b253-7470bba9168c">Enable mixed fonts</a>).
+</p>
+
+<p>
+For any further issues, you are welcome to ask for help.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:ec0adf54-c037-4c53-81b8-7eab2303794d" class="outline-3">
-<h3 id="h:ec0adf54-c037-4c53-81b8-7eab2303794d"><span class="section-number-3">10.1.</span> The general approach to DIY changes</h3>
+<h3 id="h:ec0adf54-c037-4c53-81b8-7eab2303794d"><span class="section-number-3">10.2.</span> The general approach to advanced DIY changes</h3>
 <div class="outline-text-3" id="text-h:ec0adf54-c037-4c53-81b8-7eab2303794d">
 <p>
 When the user wants to customize Emacs faces there are two
@@ -837,7 +884,7 @@ where necessary.
 </div>
 
 <div id="outline-container-h:8c0b05b7-5624-4051-844c-3c4882658782" class="outline-3">
-<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.2.</span> Configure bold and italic faces</h3>
+<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.3.</span> Configure bold and italic faces</h3>
 <div class="outline-text-3" id="text-h:8c0b05b7-5624-4051-844c-3c4882658782">
 <p>
 The Ef themes do not hardcode a <code>:weight</code> or <code>:slant</code> attribute in the
@@ -913,7 +960,7 @@ provides the means to configure font families via faces.
 </div>
 
 <div id="outline-container-h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d" class="outline-3">
-<h3 id="h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d"><span class="section-number-3">10.3.</span> A theme-agnostic hook for theme loading</h3>
+<h3 id="h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d"><span class="section-number-3">10.4.</span> A theme-agnostic hook for theme loading</h3>
 <div class="outline-text-3" id="text-h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">
 <p>
 The themes are designed with the intent to be useful to Emacs users of
@@ -973,7 +1020,7 @@ to.
 </div>
 
 <div id="outline-container-h:19c549dc-d13f-45c4-a727-3618591d5c4f" class="outline-3">
-<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.4.</span> Add support for hl-todo</h3>
+<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.5.</span> Add support for hl-todo</h3>
 <div class="outline-text-3" id="text-h:19c549dc-d13f-45c4-a727-3618591d5c4f">
 <p>
 The <code>hl-todo</code> package provides the user option <code>hl-todo-keyword-faces</code>:
@@ -1022,7 +1069,7 @@ commands for previewing the palette (<a href="#h:8dd67bf5-879e-46e5-b277-5bac141
 </div>
 
 <div id="outline-container-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189" class="outline-3">
-<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.5.</span> Tweak goto-address-mode faces</h3>
+<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.6.</span> Tweak goto-address-mode faces</h3>
 <div class="outline-text-3" id="text-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">
 <p>
 The built-in <code>goto-address-mode</code> uses heuristics to identify URLs and
