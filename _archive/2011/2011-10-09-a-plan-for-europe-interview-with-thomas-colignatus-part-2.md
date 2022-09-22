@@ -32,7 +32,7 @@ categories:
 
 Thomas Colignatus is a Dutch econometrician (1954). All his works can be found in [his personal website](http://www.dataweb.nl/%7Ecool/). In September 2011 he drafted a plan for Europe, to deal with the political, economic and institutional flaws of the European Union and its constituent member-states. The plan is titled &#8220;[High Noon at the EU Corral. An economic plan for Europe, September 2011](http://mpra.ub.uni-muenchen.de/33476/)&#8220;. __It uses standard economic theory but also has some new insights. It shows that political decision makers have more options than commonly thought. The plan is rather long and at points technical. Can it work? An interview may highlight its key aspects and may allow the broader public to grasp the plethora of ideas found in it.
 
-The interview consists of two parts. Feel free to post or send (see contact info) any comments you may have regarding the ideas of Thomas Colignatus, either if that is to shed more light to some aspects of his plan or to clarify some of his points.&nbsp; Part 1 dealt with the Economic Supreme Court and the National Investment Banks. This Part 2 deals with functional finance and monetary stability.
+The interview consists of two parts. Feel free to post or send (see contact info) any comments you may have regarding the ideas of Thomas Colignatus, either if that is to shed more light to some aspects of his plan or to clarify some of his points.  Part 1 dealt with the Economic Supreme Court and the National Investment Banks. This Part 2 deals with functional finance and monetary stability.
 
 <div style="text-align: center;">
   <u><b>Start of Part 2 </b></u>

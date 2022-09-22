@@ -23,7 +23,7 @@ categories:
   
   <tr>
     <td class="tr-caption" style="text-align: center;">
-      There is room for cautious optimism. But always beware of&nbsp;complacency.&nbsp;
+      There is room for cautious optimism. But always beware of complacency. 
     </td>
   </tr>
 </table>
@@ -34,7 +34,7 @@ Of course when people like Mario Monti, the Italian Prime Minister, or Angela Me
 
 Though I would like to share this optimism, since I really wish this crisis will end sooner rather than later, for the sake of all of us; I cannot afford to do so. There are several issues that remain unsettled, while many of the problems have only been pushed under the surface, where they can grow without anybody noticing them.
 
-To point out the most important of these issues, the **second bailout programme for Greece** will only be sustainable and&nbsp;successful&nbsp;if a series of conditions are met. If for instance the local political establishment is willing to implement more austerity measures and take unpopular measures. Towards that end much will depend on the results of the upcoming national elections that will most probably give rise to a highly anti-troika parliament that will have little appetite for the directives of the troika or the &#8220;task force&#8221;. 
+To point out the most important of these issues, the **second bailout programme for Greece** will only be sustainable and successful if a series of conditions are met. If for instance the local political establishment is willing to implement more austerity measures and take unpopular measures. Towards that end much will depend on the results of the upcoming national elections that will most probably give rise to a highly anti-troika parliament that will have little appetite for the directives of the troika or the &#8220;task force&#8221;. 
 
 Next, **the programme in Portugal** does not look in a very good shape and there are many indications pointing to an inevitable debt restructuring of the Portuguese sovereign debt, possibly complimented by additional funding, some time between the end of 2012 and mid-2013.
 

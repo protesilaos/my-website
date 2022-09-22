@@ -33,7 +33,7 @@ The plain fact is that the eurozone&#8217;s periphery experienced an <a href="ht
   
   <tr>
     <td class="tr-caption" style="text-align: center;">
-      Eurozone interest rate convergence. Source:&nbsp;<a href="http://www.bbc.co.uk/news/in-pictures-16090055" target="_blank">BBC</a>
+      Eurozone interest rate convergence. Source: <a href="http://www.bbc.co.uk/news/in-pictures-16090055" target="_blank">BBC</a>
     </td>
   </tr>
 </table>

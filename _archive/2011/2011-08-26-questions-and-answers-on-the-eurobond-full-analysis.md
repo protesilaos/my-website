@@ -91,7 +91,7 @@ It is a given fact that the crisis creates extraordinary conditions. Amid these 
 
 In the sense of thinking that the ECB by buying national debt, will become dependent on it and therefore indirectly dependent on the policies of national governments, then ECB has &#8220;lost&#8221; its independence long ago, since it has already accumulated a considerable amount of sovereign and private debt in its books. 
 
-But this would have been a serious problem under normal conditions. Right now it is forced to do so, partially due to the inability of politicians to provide solutions to the systemic crisis and partially due to the surrounding conditions.&nbsp; 
+But this would have been a serious problem under normal conditions. Right now it is forced to do so, partially due to the inability of politicians to provide solutions to the systemic crisis and partially due to the surrounding conditions.  
 
 However the independence of the ECB does not depend on whether it has debt in its books. The independence of the ECB is institutional in the sense that no power in Europe, no institution, no nation-state, none, can tell the ECB what to do. Whether that is what we want or not, is another issue but the point is that the ECB is by far the most independent institution in the EU, much more independent than the intergovernmental bodies and even the Commission and the Parliament and certainly much more independent than any ad hoc mechanism. 
 

@@ -50,7 +50,7 @@ categories:
   </p>
   
   <p>
-    The narrow solution that was delivered on the last EU summit, will do little to prevent contagion. European leaders were quick to say that&nbsp; <i>&#8220;as far as our general approach to private sector involvement in the euro area is concerned, we would like to <u>make it clear that Greece requires an exceptional and unique solution</u>.&#8221;</i> It is this kind of logic that the markets will soon start questioning. They will start thinking that the EU has ruled out any similar measures for Ireland, Portugal and whoever else. This will be the root of uncertainty and will soon fuel speculation that will force European leaders to come back and start planning another summit to deal with the new effects of the crisis.
+    The narrow solution that was delivered on the last EU summit, will do little to prevent contagion. European leaders were quick to say that  <i>&#8220;as far as our general approach to private sector involvement in the euro area is concerned, we would like to <u>make it clear that Greece requires an exceptional and unique solution</u>.&#8221;</i> It is this kind of logic that the markets will soon start questioning. They will start thinking that the EU has ruled out any similar measures for Ireland, Portugal and whoever else. This will be the root of uncertainty and will soon fuel speculation that will force European leaders to come back and start planning another summit to deal with the new effects of the crisis.
   </p>
   
   <p>

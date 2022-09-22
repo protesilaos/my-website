@@ -36,4 +36,4 @@ There are a series of other issues that could be pointed out within the context 
 
 It would be unfair to put the blame of the situation in any group of workers, or on any sector of the economy, either that is public servants, or banks, or &#8220;business&#8221; in general. The ultimate blame must be put on the government, since it created all this mess, with its ill advised, counter-productive policies. After all as the great Cynic philosopher, Diogenes of Sinope once said, _&#8220;Why not whip the teacher when the pupil misbehaves?&#8221;_.
 
-President Demetris Christofias is now called to fix the errors of all the administrations that took power the last decades, including his own. Given the structure of the broader issue and the direction his government&#8217;s policies have taken, I doubt he&nbsp;can do much, or if done I fear it will not be enough.
+President Demetris Christofias is now called to fix the errors of all the administrations that took power the last decades, including his own. Given the structure of the broader issue and the direction his government&#8217;s policies have taken, I doubt he can do much, or if done I fear it will not be enough.

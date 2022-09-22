@@ -53,4 +53,4 @@ Dexia is just a tiny example of what the European banking system looks like. Jus
 
 The absence of a system-wide strategy to deal with the crisis is leading with mathematical accuracy to the collapse of the euro. Politicians must finally find the courage to reveal the truth and they must finally take the decision to make decisive steps forward to arrest the crisis. Praying and delaying is not a policy suitable for European leaders.
 
-European banks need to be cleansed. It is unacceptable that they remain in a zombie state, that they act as black holes to the system and that they put all their losses on the shoulders of the &#8220;ever-generous&#8221; European taxpayer who is called to bail them out time and again.&nbsp;
+European banks need to be cleansed. It is unacceptable that they remain in a zombie state, that they act as black holes to the system and that they put all their losses on the shoulders of the &#8220;ever-generous&#8221; European taxpayer who is called to bail them out time and again. 

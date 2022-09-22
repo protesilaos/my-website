@@ -72,6 +72,6 @@ categories:
   </p>
   
   <p>
-    The current practice, where quasi-bankrupt states bail out and guarantee their bankrupt partners is the most toxic of&nbsp; structures. It puts everything in place for a spectacular domino effect. If the EFSF, remains as it is the chain effect will not be prevented and thus the situation in many countries will only get worse.
+    The current practice, where quasi-bankrupt states bail out and guarantee their bankrupt partners is the most toxic of  structures. It puts everything in place for a spectacular domino effect. If the EFSF, remains as it is the chain effect will not be prevented and thus the situation in many countries will only get worse.
   </p>
 </div>

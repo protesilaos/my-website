@@ -23,7 +23,7 @@ categories:
   
   <tr>
     <td class="tr-caption" style="text-align: center;">
-      European banks have never been cleansed from their pre-2008 toxic waste and have ever since been loaded with more of it (government bonds).&nbsp; Image source: <a href="http://euobserver.com/19/113457">EU observer</a>
+      European banks have never been cleansed from their pre-2008 toxic waste and have ever since been loaded with more of it (government bonds).  Image source: <a href="http://euobserver.com/19/113457">EU observer</a>
     </td>
   </tr>
 </table>

@@ -33,7 +33,7 @@ categories:
     </p>
     
     <p>
-      The Greek state transformed from a semi-peripheral European economy into a core economy, by means of becoming a member-state of the eurozone. <b>The convergence in interest rates was purely artificial</b> since it was not the end result of reforms in the real economy, it was not the product of intensive efforts to modernize, minimize, rationalize the Greek state; it was not an accurate representation of any change in the productive capacities of the economy or its competitiveness. It only was a perceived convergence, resulting from the ill-thought policies of&nbsp; the European policymakers and the fraudulent accounting of Greek authorities.
+      The Greek state transformed from a semi-peripheral European economy into a core economy, by means of becoming a member-state of the eurozone. <b>The convergence in interest rates was purely artificial</b> since it was not the end result of reforms in the real economy, it was not the product of intensive efforts to modernize, minimize, rationalize the Greek state; it was not an accurate representation of any change in the productive capacities of the economy or its competitiveness. It only was a perceived convergence, resulting from the ill-thought policies of  the European policymakers and the fraudulent accounting of Greek authorities.
     </p>
     
     <p>

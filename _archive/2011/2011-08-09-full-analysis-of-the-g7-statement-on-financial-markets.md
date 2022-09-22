@@ -30,11 +30,11 @@ categories:
   </table>
   
   <p>
-    On August 7 the Finance Ministers and Central Bank Governors of the seven wealthiest industrialized nations, the so-called G7, issued a statement in which they say that they are ready to provide extra cash if markets seize up. I shall put down their final text, analyze it paragraph by paragraph, to see whether the statement is just promising political rhetoric, or whether it paves the road for real reforms. I found the <a href="http://www.creditwritedowns.com/2011/08/g7-statement-panic-of-2011.html">original text on Credit Writedowns</a>. <i>&nbsp;</i>
+    On August 7 the Finance Ministers and Central Bank Governors of the seven wealthiest industrialized nations, the so-called G7, issued a statement in which they say that they are ready to provide extra cash if markets seize up. I shall put down their final text, analyze it paragraph by paragraph, to see whether the statement is just promising political rhetoric, or whether it paves the road for real reforms. I found the <a href="http://www.creditwritedowns.com/2011/08/g7-statement-panic-of-2011.html">original text on Credit Writedowns</a>. <i> </i>
   </p>
   
   <p>
-    <i>(Note: the text that appears in a blockquote, i.e. that has a light gray background color and a black border-line on its left, is from the G7, the rest is mine)&nbsp;</i>
+    <i>(Note: the text that appears in a blockquote, i.e. that has a light gray background color and a black border-line on its left, is from the G7, the rest is mine) </i>
   </p>
   
   <p>

@@ -38,7 +38,7 @@ categories:
   </p>
   
   <p>
-    This wind of optimism will be short-lived though, when the first signs of the implementation of the new austerity measures will prove that no progress is made. Furthermore, taking into account that the supply of money will become more expensive thanks to the increase in interest rates that was <a href="http://www.ecb.int/press/key/date/2011/html/sp110630.en.html">announced yesterday by the European Central Bank President</a>, Jean-Claude Trichet, aiming to tackle inflation; it is certain that this will further worsen the chances of Greece to prevent a default, as now Greece needs cheaper money to deal with its liquidity problems and with its over-appreciated exports &#8211;&nbsp; not the opposite.
+    This wind of optimism will be short-lived though, when the first signs of the implementation of the new austerity measures will prove that no progress is made. Furthermore, taking into account that the supply of money will become more expensive thanks to the increase in interest rates that was <a href="http://www.ecb.int/press/key/date/2011/html/sp110630.en.html">announced yesterday by the European Central Bank President</a>, Jean-Claude Trichet, aiming to tackle inflation; it is certain that this will further worsen the chances of Greece to prevent a default, as now Greece needs cheaper money to deal with its liquidity problems and with its over-appreciated exports &#8211;  not the opposite.
   </p>
   
   <p>

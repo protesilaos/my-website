@@ -23,7 +23,7 @@ categories:
   
   <tr>
     <td class="tr-caption" style="text-align: center;">
-      George Soros is a very smart person and knows well what are the catastrophic implications <br />of Greece and/or Portugal exiting the euro. What he says is nothing more than speculation.&nbsp; <br />Image source: Economic Times
+      George Soros is a very smart person and knows well what are the catastrophic implications <br />of Greece and/or Portugal exiting the euro. What he says is nothing more than speculation.  <br />Image source: Economic Times
     </td>
   </tr>
 </table>

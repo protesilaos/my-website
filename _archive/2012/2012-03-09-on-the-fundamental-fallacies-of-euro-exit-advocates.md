@@ -45,4 +45,4 @@ The above-mentioned list is of course non-exhaustive, as there are several other
 
 As a concluding remark I would first like to remind my readers that I am in favor of deep reforms at local, national and supranational level, not just in the economy but also in the political level and these can only be materialized within the context of the Euro and the European Union. A united Europe has many benefits, the point is to make it beneficial for the individuals and this will be done when we abolish all delusions pertaining to the _&#8220;cornucopia&#8221;_ of the welfare system, the scandalous protectionist policies at EU and national level, the stunning democratic deficit at all levels of governance, especially the European; and the collusion between big governments and big corporate interests against the average consumer, worker, entrepreneur and citizen.
 
-Exits from the euro that will&nbsp;supposedly&nbsp;produce more good than harm, are wild delusions at best and unbridled speculation at worst.
+Exits from the euro that will supposedly produce more good than harm, are wild delusions at best and unbridled speculation at worst.

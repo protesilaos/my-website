@@ -45,11 +45,11 @@ categories:
   </p>
   
   <p>
-    Third the idea of taking money from European taxpayers and giving it to fiscally challenged countries who themselves hand it on to major private European banks is completely counter-productive as it does not help anyhow in solving the problems in the real economies of those countries. Contrary it plunges them into a deeper recession, to higher unemployment, to less income, to years of under-development. It is only a means of postponing the inevitable Greek default to buy precious time that will allow for the fortification of certain major banks who are the main creditors of&nbsp; Greece.
+    Third the idea of taking money from European taxpayers and giving it to fiscally challenged countries who themselves hand it on to major private European banks is completely counter-productive as it does not help anyhow in solving the problems in the real economies of those countries. Contrary it plunges them into a deeper recession, to higher unemployment, to less income, to years of under-development. It is only a means of postponing the inevitable Greek default to buy precious time that will allow for the fortification of certain major banks who are the main creditors of  Greece.
   </p>
   
   <p>
-    European leaders still cling to their stubborn beliefs of&nbsp; narrow bailout packages to individual countries, instead of accepting the reality that lies in front of their eyes: That the crisis is a European issue and as such it requires a European solution to it. Not ad hoc, non-credible, self-defeating &#8220;solutions&#8221;.
+    European leaders still cling to their stubborn beliefs of  narrow bailout packages to individual countries, instead of accepting the reality that lies in front of their eyes: That the crisis is a European issue and as such it requires a European solution to it. Not ad hoc, non-credible, self-defeating &#8220;solutions&#8221;.
   </p>
   
   <p>
