@@ -11,12 +11,8 @@ categories:
   - Euroblog
   - Uncategorized
 ---
-<div dir="ltr" style="text-align: left;" trbidi="on">
-  <div class="separator" style="clear: both; text-align: center;">
-  </div>
-  
   <p>
-    The <a href="http://www.telegraph.co.uk/finance/financialcrisis/8502762/SandP-downgrades-Greece-over-debt-restructuring-worries.html">latest S&P; downgrade of the Greek credit rating</a> raises among many others one essential question: <b><i>Is the European safety mechanism a waste of time?</i></b> Since the situation in Greece is getting worse, even though the country has practically transfered all of its economic policy competences to the troika (EU, IMF, ECB) by signing the memorandum more than a year ago.
+    The <a href="http://www.telegraph.co.uk/finance/financialcrisis/8502762/SandP-downgrades-Greece-over-debt-restructuring-worries.html">latest S&P downgrade of the Greek credit rating</a> raises among many others one essential question: <b><i>Is the European safety mechanism a waste of time?</i></b> Since the situation in Greece is getting worse, even though the country has practically transfered all of its economic policy competences to the troika (EU, IMF, ECB) by signing the memorandum more than a year ago.
   </p>
   
   <p>
@@ -40,8 +36,5 @@ categories:
   </p>
   
   <p>
-    Thus the answer to the initial question is that the safety mechanism is an investment for the creditors so they are very positive to it, but it is a complete waste of time for the revitalization of the Greek economy as it only succeeds in worsening the recession, something which is depicted in the latest S&P; evaluation. 
-    
-    <div class="zemanta-pixie" style="height: 15px; margin-top: 10px;">
-      <img alt="" class="zemanta-pixie-img" src="http://i1.wp.com/img.zemanta.com/pixy.gif?w=840" style="border: medium none; float: right;" data-recalc-dims="1" />
-    </div></div>
+    Thus the answer to the initial question is that the safety mechanism is an investment for the creditors so they are very positive to it, but it is a complete waste of time for the revitalization of the Greek economy as it only succeeds in worsening the recession, something which is depicted in the latest S&P evaluation. 
+  </p>
