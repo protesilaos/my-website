@@ -99,3 +99,85 @@ unreliable at that stage, such as "why use parentheses when you can add
 extra spacing?"  Now I know there is a good reason for those
 parentheses, but I wouldn't have learnt as much if I had let my prior
 beliefs govern my thinking.
+
+## Annex with another comment
+
+I had the following exchange with another correspondent whose name shall
+remain private.  It is shared with permission.
+
+* * *
+
+> Hi, Prot.
+
+Hello there!
+
+> I've just read your post "Comment on my concept of “prior notes”" and
+> I thought that this essay might be of interest to you:
+> http://www.paulgraham.com/avg.html
+
+An interesting read.  Thanks for sharing!
+
+> Some context: if you haven't heard of him, the author is a programmer
+> and businessman (he helps startups grow and cofounded Hacker News),
+> and also studied philosophy.
+
+This is the first time I encounter this author.  The writing does show a
+blend of insights from different disciplines/backgrounds.  On this note,
+I remember once hearing Matt Mullenweg (developer of WordPress, among
+others) say that as a programmer they learnt valuable lessons from the
+humanities.  I don't have the source, as it was many years ago and my
+laptop at the time broke, but the core idea was that the humanities
+taught them to think in terms of diverse systems.
+
+> *SPOILERS AHEAD (I just wanted to give you some more context, but
+> instead I ended up basically explaining the essay)*
+
+Haha, that's okay.  I did read the essay.
+
+> It is about the power of different programming languages and something
+> the author calls The Blub Paradox: "You can't trust the opinions of
+> the others, because of the Blub paradox: they're satisfied with
+> whatever language they happen to use, because it dictates the way they
+> think about programs."
+>
+> You can then extend it to: "You can't trust the opinions of people
+> (including you), because of the Blub paradox: everyone's satisfied
+> with their current knowledge, because it dictates their perception,
+> the way they think about the world."
+>
+> So it's basically about the importance of being aware that everyone's
+> dumb (especially you), remembering not to get used to almost anything
+> (because brains just like staying where they currently are) and
+> seeking knowledge until you kick the bucket.
+
+Yes, this is the gist of it.  What you already know conditions how you
+think about something unfamiliar.  So if you are argumentative about
+that new concept, you are most likely just showing your ignorance.
+Being argumentative is a sign of being defensive about what you have:
+you are afraid to lose it.  Why though?  If we let go of a falsehood we
+are not losing anything: we are gaining the freedom to think things
+anew, equipped with better insights (and, perhaps, a newfound
+excitement).
+
+> I was also confused when I started learning my second programming
+> language. First I learned C++ and that - the syntax and underlying
+> mechanics - was programming to me. I didn't know that this is just how
+> you program *in C++*. When I started learning JavaScript and Python
+> after a few months of learning and playing around with C++, these
+> languages were so strange to me - I had thoughts like "Why is there
+> this weird feature/mechanic? Why does it work like this? Why can't it
+> just be like C++? Why can't it be *normal*?" That made me not
+> appreciate some of these languages' more unique features.
+
+This is indeed where it gets tricky.  Your prejudice is affecting your
+ability to recognise what the reality is, so even when the unique
+feature is there, you are likely not paying attention to it or are
+misunderstanding it.
+
+I think being mindful of our condition is a skill that improves with
+practice.  The more we are aware of this propensity we have to be
+defensive, the easier it is to overcome it and to keep an open mind.
+
+> So yeah, just wanted to share my thoughts.
+
+You did well.  Thanks!
