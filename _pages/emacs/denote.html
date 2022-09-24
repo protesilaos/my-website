@@ -112,6 +112,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:1bba4c1e-6812-4749-948f-57df4fd49b36">10.7. Bookmark the directory with the notes</a></li>
 <li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">10.8. Use the consult-notes package</a></li>
 <li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">10.9. Treat your notes as a project</a></li>
+<li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">10.10. Variants of <code>denote-open-or-create</code></a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">10.11. Variants of <code>denote-link-or-create</code></a></li>
 </ul>
 </li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">11. Installation</a>
@@ -797,7 +799,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org60ca866">
+<pre class="example" id="org5f6c043">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -887,7 +889,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org7eefc93">
+<pre class="example" id="org2a8ea88">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -984,7 +986,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgaf502cb">
+<pre class="example" id="org358183a">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1004,7 +1006,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org65e6489">
+<pre class="example" id="orgbd6d72e">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1263,7 +1265,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc86c5d8">
+<pre class="example" id="org602d106">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1275,7 +1277,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org58d49fd">
+<pre class="example" id="orgd459427">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1289,7 +1291,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgdf5ca0b">
+<pre class="example" id="org9e67ccb">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1303,7 +1305,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgec5b048">
+<pre class="example" id="org8db9361">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1552,14 +1554,6 @@ like an ordinary link by default.  This is just a convenience for the
 user/theme in case they want <code>denote:</code> links to remain distinct from
 other links.
 </p>
-
-<p>
-In Org files, broken links get the <code>denote-faces-broken-link</code> if the
-linked identifier does not resolve to a file path with a note.  The
-ability to use distinct faces for such a scenario is a feature of Org,
-which is not available in other supported file types that use Emacs&rsquo;
-generic button mechanism.
-</p>
 </div>
 </div>
 
@@ -1572,7 +1566,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgb1c5c67">
+<pre class="example" id="orgb590977">
 - link1
 - link2
 - link3
@@ -1590,7 +1584,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgee28294">
+<pre class="example" id="org03a28d9">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1765,7 +1759,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgabf3978">
+<pre class="example" id="orgf4e45ae">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2454,6 +2448,168 @@ Git).
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:ad91ca39-cf10-4e16-b224-fdf78f093883" class="outline-3">
+<h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">10.10.</span> Variants of <code>denote-open-or-create</code></h3>
+<div class="outline-text-3" id="text-h:ad91ca39-cf10-4e16-b224-fdf78f093883">
+<p>
+[ Part of 1.0.0-dev ]
+</p>
+
+<p>
+The command <code>denote-open-or-create</code> prompts to visit a file in the
+<code>denote-directory</code>.  If the user input does not have any matches,
+<code>denote-open-or-create</code> will call the <code>denote</code> command interactively.
+It will then use whatever prompts <code>denote</code> normally has, per the user
+option <code>denote-prompts</code> (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+</p>
+
+<p>
+To speed up the process or to maintain variants that suit one&rsquo;s
+workflow, we provide these ready-to-use commands that one can add to
+their Emacs init file.  They can be assigned to key bindings or be used
+via <code>M-x</code> after they have been evaluated.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;###autoload
+(defun denote-open-or-create-with-date ()
+  "Invoke `denote-open-or-create' but also prompt for date.
+
+The date can be in YEAR-MONTH-DAY notation like 2022-06-30 or
+that plus the time: 2022-06-16 14:30.  When the user option
+`denote-date-prompt-use-org-read-date' is non-nil, the date
+prompt uses the more powerful Org+calendar system.
+
+This is the equivalent to calling `denote-open-or-create' when
+`denote-prompts' is set to \\='(date title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(date title keywords)))
+    (call-interactively #'denote-open-or-create)))
+
+;;;###autoload
+(defun denote-open-or-create-with-type ()
+  "Invoke `denote-open-or-create' but also prompt for file type.
+This is the equivalent to calling `denote-open-or-create' when
+`denote-prompts' is set to \\='(type title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(type title keywords)))
+    (call-interactively #'denote-open-or-create)))
+
+;;;###autoload
+(defun denote-open-or-create-with-subdirectory ()
+  "Invoke `denote-open-or-create' but also prompt for subdirectory.
+This is the equivalent to calling `denote-open-or-create' when
+`denote-prompts' is set to \\='(subdirectory title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(subdirectory title keywords)))
+    (call-interactively #'denote-open-or-create)))
+
+;;;###autoload
+(defun denote-open-or-create-with-template ()
+  "Invoke `denote-open-or-create' but also prompt for template.
+This is the equivalent to calling `denote-open-or-create' when
+`denote-prompts' is set to \\='(template title keywords).
+
+For templates, refer to `denote-templates'."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(template title keywords)))
+    (call-interactively #'denote-open-or-create)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">10.11.</span> Variants of <code>denote-link-or-create</code></h3>
+<div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
+<p>
+[ Part of 1.0.0-dev ]
+</p>
+
+<p>
+The command <code>denote-link-or-create</code> uses <code>denote-link</code> on a <code>TARGET</code>
+file, creating it if necessary.  The <code>TARGET</code> matches the user input at
+a minibuffer prompt: it is a file in the <code>denote-directory</code>.
+</p>
+
+<p>
+If <code>TARGET</code> file does not exist, The <code>denote-link-or-create</code> calls
+<code>denote-link-after-creating</code> which runs the standard <code>denote</code> command
+interactively to create the file (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  The
+established link will then be targeting that new file.
+</p>
+
+<p>
+When called with an optional prefix argument (<code>C-u</code> by default)
+<code>denote-link-or-create</code> creates a link that consists of just the
+identifier.  Else it tries to also include the file&rsquo;s title.  This has
+the same meaning as in <code>denote-link</code> (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+</p>
+
+<p>
+To speed up the process or to maintain variants that suit one&rsquo;s
+workflow, we provide these ready-to-use commands that one can add to
+their Emacs init file.  They can be assigned to key bindings or be used
+via <code>M-x</code> after they have been evaluated.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;###autoload
+(defun denote-link-or-create-with-date ()
+  "Invoke `denote-link-or-create' but also prompt for date.
+
+The date can be in YEAR-MONTH-DAY notation like 2022-06-30 or
+that plus the time: 2022-06-16 14:30.  When the user option
+`denote-date-prompt-use-org-read-date' is non-nil, the date
+prompt uses the more powerful Org+calendar system.
+
+This is the equivalent to calling `denote-link-or-create' when
+`denote-prompts' is set to \\='(date title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(date title keywords)))
+    (call-interactively #'denote-link-or-create)))
+
+;;;###autoload
+(defun denote-link-or-create-with-type ()
+  "Invoke `denote-link-or-create' but also prompt for file type.
+This is the equivalent to calling `denote-link-or-create' when
+`denote-prompts' is set to \\='(type title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(type title keywords)))
+    (call-interactively #'denote-link-or-create)))
+
+;;;###autoload
+(defun denote-link-or-create-with-subdirectory ()
+  "Invoke `denote-link-or-create' but also prompt for subdirectory.
+This is the equivalent to calling `denote-link-or-create' when
+`denote-prompts' is set to \\='(subdirectory title keywords)."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(subdirectory title keywords)))
+    (call-interactively #'denote-link-or-create)))
+
+;;;###autoload
+(defun denote-link-or-create-with-template ()
+  "Invoke `denote-link-or-create' but also prompt for template.
+This is the equivalent to calling `denote-link-or-create' when
+`denote-prompts' is set to \\='(template title keywords).
+
+For templates, refer to `denote-templates'."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-prompts '(template title keywords)))
+    (call-interactively #'denote-link-or-create)))
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:f3bdac2c-4704-4a51-948c-a789a2589790" class="outline-2">
@@ -3052,7 +3208,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org96305b1">
+<pre class="example" id="org5e792cb">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3110,19 +3266,20 @@ low-priority ideas you may want to help with (<a href="#h:1ebe4865-c001-4747-a6f
 <ul class="org-ul">
 <li>Support mutually-exclusive sets of tags.  For example, a <code>home</code>
 keyword would preclude <code>work</code>.  Personally, I am not a fan of such
-arrangements there may be a case where something applies to both ends
-of this prefigured binary.  Though we can think about it.</li>
+arrangements as there may be a case where something applies to both
+ends of this prefigured binary.  Though we can think about it.</li>
 
 <li>Add command that expands the identifier in links to a full file name.
 This would be useful for some sort of &ldquo;export&rdquo; operation where the
 absolute file path is necessary and where the Denote linking mechanism
-is not available.</li>
+is not available.  Though this could be handled by the exporter, by
+doing something like what <code>denote-link-find-file</code> does.</li>
 
 <li>Add command that rewrites full names in links, if they are invalid.
 This would complement the renaming mechanism.  Personally, I think old
 titles in links are not a problem, because they show you what was true
-at the time and are relevant to their context.  Again though, it is an
-option worth exploring.</li>
+at the time and are usually relevant to their context.  Again though,
+it is an option worth exploring.</li>
 
 <li>Ensure integration between <code>denote:</code> links and the <code>embark</code> package.
 The idea is to allow Embark to understand the Denote buttons are links
@@ -3130,6 +3287,12 @@ to files and correctly infer the absolute path.  I am not sure what a
 user would want to do with this, but maybe there are some interesting
 possibilities.</li>
 </ul>
+
+<p>
+You are welcome to suggest more ideas.  If they do not broaden the scope
+of Denote, they can be added to denote.el.  Otherwise we might think of
+extensions to the core package.
+</p>
 </div>
 </div>
 
