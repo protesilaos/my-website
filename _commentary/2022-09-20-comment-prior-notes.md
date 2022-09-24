@@ -102,8 +102,9 @@ beliefs govern my thinking.
 
 ## Annex with another comment
 
-I had the following exchange with another correspondent whose name shall
-remain private.  It is shared with permission.
+**UPDATE 2022-09-23 15:49 +0300:** I had the following exchange with
+another correspondent whose name shall remain private.  It is shared
+with permission.
 
 * * *
 
