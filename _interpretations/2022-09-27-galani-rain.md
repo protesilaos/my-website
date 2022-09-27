@@ -37,7 +37,7 @@ further commentary.
 ```
 
 ```
-Βροχή και σήμερα
+Rain again today
 
 Singer:  Dimitra Galani
 Lyrics:  Lefteris Papadopoulos
