@@ -61,7 +61,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:deaaba28-9236-45b8-925b-1e35ff78d2a0">2.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:9ea57def-7883-44bd-b27e-54127457b808">3. <span class="todo TODO">TODO</span> Sample configuration</a></li>
+<li><a href="#h:9ea57def-7883-44bd-b27e-54127457b808">3. Sample configuration</a></li>
 <li><a href="#h:22035775-da3a-4f11-b078-bbe76ef8a93b">4. COPYING</a></li>
 <li><a href="#h:0f9a759f-89f7-4242-b484-e0d4bf8aef09">5. GNU Free Documentation License</a></li>
 <li><a href="#h:85a055ac-2a38-4f1f-89ad-6dad5ebc4e5e">6. Indices</a>
@@ -333,8 +333,41 @@ Everything is in place to set up the package.
 </div>
 
 <div id="outline-container-h:9ea57def-7883-44bd-b27e-54127457b808" class="outline-2">
-<h2 id="h:9ea57def-7883-44bd-b27e-54127457b808"><span class="section-number-2">3.</span> <span class="todo TODO">TODO</span> Sample configuration</h2>
+<h2 id="h:9ea57def-7883-44bd-b27e-54127457b808"><span class="section-number-2">3.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:9ea57def-7883-44bd-b27e-54127457b808">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; These are all OPTIONAL.  You should just use whatever key bindings
+;; or setup you prefer.
+
+;; Agitate is still a WORK-IN-PROGRESS.
+
+(require 'agitate "/home/prot/Git/Projects/agitate/agitate.el")
+
+(add-hook 'diff-mode-hook #'agitate-diff-enable-outline-minor-mode)
+
+(advice-add #'vc-git-push :override #'agitate-vc-git-push-prompt-for-remote)
+
+(let ((map global-map))
+  (define-key map (kbd "C-x v =") #'agitate-diff-buffer-or-file) ; replace `vc-diff'
+  (define-key map (kbd "C-x v g") #'agitate-vc-git-grep) ; replace `vc-annotate'
+  (define-key map (kbd "C-x v s") #'agitate-vc-git-show)
+  (define-key map (kbd "C-x v c") #'agitate-vc-git-format-patch-single))
+(let ((map diff-mode-map))
+  (define-key map (kbd "C-c C-b") #'agitate-diff-refine-cycle) ; replace `diff-refine-hunk'
+  (define-key map (kbd "C-c C-n") #'agitate-diff-narrow-dwim))
+(let ((map log-view-mode-map))
+  (define-key map (kbd "w") #'agitate-log-view-kill-revision)
+  (define-key map (kbd "W") #'agitate-log-view-kill-revision-expanded))
+(let ((map vc-git-log-view-mode-map))
+  (define-key map (kbd "c") #'agitate-vc-git-format-patch-single))
+(let ((map log-edit-mode-map))
+  (define-key map (kbd "C-c C-i C-n") #'agitate-log-edit-insert-file-name)
+  ;; See user options `agitate-log-edit-emoji-collection' and
+  ;; `agitate-log-edit-conventional-commits-collection'.
+  (define-key map (kbd "C-c C-i C-e") #'agitate-log-edit-emoji-commit)
+  (define-key map (kbd "C-c C-i C-c") #'agitate-log-edit-conventional-commit))
+</pre>
+</div>
 </div>
 </div>
 
