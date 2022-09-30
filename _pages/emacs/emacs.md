@@ -50,9 +50,8 @@ package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
     + GitHub: <https://github.com/protesilaos/denote>
     + GitLab: <https://gitlab.com/protesilaos/denote>
 + Mailing list: <https://lists.sr.ht/~protesilaos/denote>
-+ Backronym: Denote Everything Neatly; Omit The Excesses; Don't Ever
-  Note Only The Epiphenomenal; Don't Eschew or Neglect your Obligations,
-  Tasks, and Engagements
++ Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
+  Note Only The Epiphenomenal.
 
 ## Ef (εὖ) themes
 
