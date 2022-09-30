@@ -91,12 +91,13 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">7.1. Adding a single link</a></li>
 <li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">7.2. Insert links matching a regexp</a></li>
-<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.3. Insert links from marked files in Dired</a></li>
-<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.4. Link to an existing note or create a new one</a></li>
-<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.5. The backlinks&rsquo; buffer</a></li>
-<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.6. Writing metanotes</a></li>
-<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.7. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.8. Miscellaneous information about links</a></li>
+<li><a href="#h:0c1fdaab-5a6b-4792-9694-fed53cd042e6">7.3. Insert links, but only those missing from current buffer</a></li>
+<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.4. Insert links from marked files in Dired</a></li>
+<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.5. Link to an existing note or create a new one</a></li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.6. The backlinks&rsquo; buffer</a></li>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.7. Writing metanotes</a></li>
+<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.8. Visiting linked files via the minibuffer</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.9. Miscellaneous information about links</a></li>
 </ul>
 </li>
 <li><a href="#h:337f9cf0-9f66-45af-b73f-f6370472fb51">8. Fontification in Dired</a></li>
@@ -800,7 +801,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org5f5281a">
+<pre class="example" id="org758849a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -890,7 +891,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org1ace88f">
+<pre class="example" id="org6b00376">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -987,7 +988,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org234118a">
+<pre class="example" id="org07b42d5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1007,7 +1008,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3d16bc3">
+<pre class="example" id="org1a39c15">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1266,7 +1267,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org329474d">
+<pre class="example" id="orgc044cea">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1278,7 +1279,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgb000c51">
+<pre class="example" id="orgaf10ec1">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1292,7 +1293,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org8906257">
+<pre class="example" id="org9a410d8">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1306,7 +1307,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org830f058">
+<pre class="example" id="org95a33a0">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1567,7 +1568,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgceb2665">
+<pre class="example" id="orgaaeb006">
 - link1
 - link2
 - link3
@@ -1585,7 +1586,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org771a2c6">
+<pre class="example" id="org17bbdd8">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1637,8 +1638,25 @@ purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
 </div>
 </div>
 
+<div id="outline-container-h:0c1fdaab-5a6b-4792-9694-fed53cd042e6" class="outline-3">
+<h3 id="h:0c1fdaab-5a6b-4792-9694-fed53cd042e6"><span class="section-number-3">7.3.</span> Insert links, but only those missing from current buffer</h3>
+<div class="outline-text-3" id="text-h:0c1fdaab-5a6b-4792-9694-fed53cd042e6">
+<p>
+As a variation on the <code>denote-link-add-links</code> command, one may wish to
+only include &rsquo;missing links&rsquo;, i.e. links that are not yet present in
+the current file.
+</p>
+
+<p>
+This can be achieved with <code>denote-link-add-missing-links</code>. The command
+is similar to <code>denote-link-add-links</code>, but will only include links to
+notes that are not yet linked to (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:9cbb692e-5d8a-44a6-9193-899a07872a07" class="outline-3">
-<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">7.3.</span> Insert links from marked files in Dired</h3>
+<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">7.4.</span> Insert links from marked files in Dired</h3>
 <div class="outline-text-3" id="text-h:9cbb692e-5d8a-44a6-9193-899a07872a07">
 <p>
 The command <code>denote-link-dired-marked-notes</code> is similar to
@@ -1676,7 +1694,7 @@ for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking note
 </div>
 
 <div id="outline-container-h:9e41e7df-2aac-4835-94c5-659b6111e6de" class="outline-3">
-<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.4.</span> Link to an existing note or create a new one</h3>
+<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.5.</span> Link to an existing note or create a new one</h3>
 <div class="outline-text-3" id="text-h:9e41e7df-2aac-4835-94c5-659b6111e6de">
 <p>
 In one&rsquo;s note-taking workflow, there may come a point where they are
@@ -1745,7 +1763,7 @@ which helps with discoverability.
 </div>
 
 <div id="outline-container-h:c73f1f68-e214-49d5-b369-e694f6a5d708" class="outline-3">
-<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.5.</span> The backlinks&rsquo; buffer</h3>
+<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.6.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
 The command <code>denote-link-backlinks</code> produces a bespoke buffer which
@@ -1755,7 +1773,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgd1a9a3d">
+<pre class="example" id="orgdcc6f7e">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1810,7 +1828,7 @@ certain executables to the relevant environment variable.
 </div>
 
 <div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
-<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.6.</span> Writing metanotes</h3>
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.7.</span> Writing metanotes</h3>
 <div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
 <p>
 A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
@@ -1860,7 +1878,7 @@ knowledge derived from the deliberate self-reflection.
 </div>
 
 <div id="outline-container-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4" class="outline-3">
-<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.7.</span> Visiting linked files via the minibuffer</h3>
+<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.8.</span> Visiting linked files via the minibuffer</h3>
 <div class="outline-text-3" id="text-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">
 <p>
 Denote has a major-mode-agnostic mechanism to collect all linked file
@@ -1879,7 +1897,7 @@ with only the files of the current minibuffer session).
 </div>
 
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.8.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.9.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -2288,7 +2306,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org68bd0c4">
+<pre class="example" id="org9c36bce">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3359,7 +3377,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org3654262">
+<pre class="example" id="orgc515c12">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3902,9 +3920,9 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 
 <dt>Contributions to code or the manual</dt><dd>Abin Simon, Alan Schmitt,
 Benjamin Kästner, Clemens Radermacher, Colin McLear, Damien Cassou,
-Eshel Yaron, Hilde Rhyne, Jack Baty, Jean-Philippe Gagné Guay, Jürgen
-Hötzel, Kaushal Modi, Kyle Meyer, Marc Fargas, Peter Prevos, Philip
-Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
+Elias Storms, Eshel Yaron, Hilde Rhyne, Jack Baty, Jean-Philippe
+Gagné Guay, Jürgen Hötzel, Kaushal Modi, Kyle Meyer, Marc Fargas,
+Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Elias Storms,
