@@ -17,6 +17,8 @@ Below are the lyrics, my translation of them, and some further
 philosophical comments.
 
 ```
+Ο πόνος του Ηρακλή
+
 Αν είναι πέτρα τηνε σπώ
 Σίδερο το λυγίζω
 Μα την παντέρμη αμοναξιά
