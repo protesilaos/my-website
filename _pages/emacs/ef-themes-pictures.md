@@ -21,11 +21,15 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-light-code.png' | absolute_url }}"><img alt="ef-light theme code sample" src="{{'/assets/images/ef/ef-light-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"><img alt="ef-light theme listing sample" src="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"/></a>
+
 ## ef-duo-light
 
 <a href="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-duo-light-code.png' | absolute_url }}"><img alt="ef-duo-light theme code sample" src="{{'/assets/images/ef/ef-duo-light-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-duo-light-listing.png' | absolute_url }}"><img alt="ef-duo-light theme listing sample" src="{{'/assets/images/ef/ef-duo-light-listing.png' | absolute_url }}"/></a>
 
 ## ef-day
 
@@ -33,11 +37,15 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-day-code.png' | absolute_url }}"><img alt="ef-day theme code sample" src="{{'/assets/images/ef/ef-day-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-day-listing.png' | absolute_url }}"><img alt="ef-day theme listing sample" src="{{'/assets/images/ef/ef-day-listing.png' | absolute_url }}"/></a>
+
 ## ef-summer
 
 <a href="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"><img alt="ef-summer theme sample" src="{{'/assets/images/ef/ef-summer.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-summer-code.png' | absolute_url }}"><img alt="ef-summer theme code sample" src="{{'/assets/images/ef/ef-summer-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-summer-listing.png' | absolute_url }}"><img alt="ef-summer theme listing sample" src="{{'/assets/images/ef/ef-summer-listing.png' | absolute_url }}"/></a>
 
 ## ef-trio-light
 
@@ -45,11 +53,15 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-trio-light-code.png' | absolute_url }}"><img alt="ef-trio-light theme code sample" src="{{'/assets/images/ef/ef-trio-light-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-trio-light-listing.png' | absolute_url }}"><img alt="ef-trio-light theme listing sample" src="{{'/assets/images/ef/ef-trio-light-listing.png' | absolute_url }}"/></a>
+
 ## ef-spring
 
 <a href="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-spring-code.png' | absolute_url }}"><img alt="ef-spring theme code sample" src="{{'/assets/images/ef/ef-spring-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-spring-listing.png' | absolute_url }}"><img alt="ef-spring theme listing sample" src="{{'/assets/images/ef/ef-spring-listing.png' | absolute_url }}"/></a>
 
 ## ef-deuteranopia-light
 
@@ -57,11 +69,15 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-light-code.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme code sample" src="{{'/assets/images/ef/ef-deuteranopia-light-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-deuteranopia-light-listing.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme listing sample" src="{{'/assets/images/ef/ef-deuteranopia-light-listing.png' | absolute_url }}"/></a>
+
 ## ef-dark
 
 <a href="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-dark-code.png' | absolute_url }}"><img alt="ef-dark theme code sample" src="{{'/assets/images/ef/ef-dark-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-dark-listing.png' | absolute_url }}"><img alt="ef-dark theme listing sample" src="{{'/assets/images/ef/ef-dark-listing.png' | absolute_url }}"/></a>
 
 ## ef-duo-dark
 
@@ -69,11 +85,23 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-duo-dark-code.png' | absolute_url }}"><img alt="ef-duo-dark theme code sample" src="{{'/assets/images/ef/ef-duo-dark-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-duo-dark-listing.png' | absolute_url }}"><img alt="ef-duo-dark theme listing sample" src="{{'/assets/images/ef/ef-duo-dark-listing.png' | absolute_url }}"/></a>
+
+## ef-bio
+
+<a href="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"><img alt="ef-bio theme sample" src="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"><img alt="ef-bio theme code sample" src="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"><img alt="ef-bio theme listing sample" src="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"/></a>
+
 ## ef-night
 
 <a href="{{'/assets/images/ef/ef-night.png' | absolute_url }}"><img alt="ef-night theme sample" src="{{'/assets/images/ef/ef-night.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-night-code.png' | absolute_url }}"><img alt="ef-night theme code sample" src="{{'/assets/images/ef/ef-night-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-night-listing.png' | absolute_url }}"><img alt="ef-night theme listing sample" src="{{'/assets/images/ef/ef-night-listing.png' | absolute_url }}"/></a>
 
 ## ef-winter
 
@@ -81,11 +109,15 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-winter-code.png' | absolute_url }}"><img alt="ef-winter theme code sample" src="{{'/assets/images/ef/ef-winter-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-winter-listing.png' | absolute_url }}"><img alt="ef-winter theme listing sample" src="{{'/assets/images/ef/ef-winter-listing.png' | absolute_url }}"/></a>
+
 ## ef-trio-dark
 
 <a href="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"><img alt="ef-trio-dark theme sample" src="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"><img alt="ef-trio-dark theme code sample" src="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-trio-dark-listing.png' | absolute_url }}"><img alt="ef-trio-dark theme listing sample" src="{{'/assets/images/ef/ef-trio-dark-listing.png' | absolute_url }}"/></a>
 
 ## ef-autumn
 
@@ -93,8 +125,12 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-autumn-code.png' | absolute_url }}"><img alt="ef-autumn theme code sample" src="{{'/assets/images/ef/ef-autumn-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/ef/ef-autumn-listing.png' | absolute_url }}"><img alt="ef-autumn theme listing sample" src="{{'/assets/images/ef/ef-autumn-listing.png' | absolute_url }}"/></a>
+
 ## ef-deuteranopia-dark
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme sample" src="{{'/assets/images/ef/ef-deuteranopia-dark.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-code.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme code sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-deuteranopia-dark-listing.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme listing sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-listing.png' | absolute_url }}"/></a>
