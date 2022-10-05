@@ -130,7 +130,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:044a6a0f-e382-4013-8279-8bf4e64e73c0">15. Things to do</a></li>
 <li><a href="#h:dbb51a1b-90b8-48e8-953c-e2fb3e36981e">16. Alternatives to Denote</a>
 <ul>
-<li><a href="#h:188c0986-f2fa-444f-b493-5429356e75cf">16.1. Alternative ideas wih Emacs and further reading</a></li>
+<li><a href="#h:188c0986-f2fa-444f-b493-5429356e75cf">16.1. Alternative ideas with Emacs and further reading</a></li>
 </ul>
 </li>
 <li><a href="#h:da2944c6-cde6-4c65-8f2d-579305a159bb">17. Frequently Asked Questions</a>
@@ -801,7 +801,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org758849a">
+<pre class="example" id="org2050a67">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -891,7 +891,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org6b00376">
+<pre class="example" id="orga64ab09">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -988,7 +988,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org07b42d5">
+<pre class="example" id="org00bea28">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1008,7 +1008,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org1a39c15">
+<pre class="example" id="orgf82cd93">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1267,7 +1267,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc044cea">
+<pre class="example" id="orgf0d1489">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1279,7 +1279,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgaf10ec1">
+<pre class="example" id="org6661f29">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1293,7 +1293,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org9a410d8">
+<pre class="example" id="org190f895">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1307,7 +1307,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org95a33a0">
+<pre class="example" id="orgc14d871">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1568,7 +1568,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgaaeb006">
+<pre class="example" id="org86695eb">
 - link1
 - link2
 - link3
@@ -1586,7 +1586,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org17bbdd8">
+<pre class="example" id="org7e960ab">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1773,7 +1773,7 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="orgdcc6f7e">
+<pre class="example" id="org0d2172d">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1823,6 +1823,12 @@ certain executables to the relevant environment variable.
 
 <p>
 <a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
+</p>
+
+<p>
+Backlinks can also be visited by using minibuffer completion.  The
+command is <code>denote-link-find-backlink</code>, which is part of
+1.1.0-dev (<a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">Visiting linked files via the minibuffer</a>).
 </p>
 </div>
 </div>
@@ -1892,6 +1898,16 @@ a package such as <code>marginalia</code> will display accurate annotations, whi
 the <code>embark</code> package will be able to work its magic such as in exporting
 the list into a filtered Dired buffer (i.e. a familiar Dired listing
 with only the files of the current minibuffer session).
+</p>
+
+<p>
+To visit backlinks to the current note via the minibuffer, use
+<code>denote-link-find-backlink</code>.  This is an alternative to placing
+backlinks in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The backlinks&rsquo; buffer</a>).
+</p>
+
+<p>
+[ The <code>denote-link-find-backlink</code> is part of 1.1.0-dev. ]
 </p>
 </div>
 </div>
@@ -2306,7 +2322,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org9c36bce">
+<pre class="example" id="org934063a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -2879,8 +2895,9 @@ Everything is in place to set up the package.
   ;; `markdown-mode-map', and/or `text-mode-map'.
   (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
   (define-key map (kbd "C-c n I") #'denote-link-add-links)
-  (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
   (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+  (define-key map (kbd "C-c n f f") #'denote-link-find-file)
+  (define-key map (kbd "C-c n f b") #'denote-link-find-backlink)
   ;; Note that `denote-rename-file' can work from any context, not just
   ;; Dired bufffers.  That is why we bind it here to the `global-map'.
   (define-key map (kbd "C-c n r") #'denote-rename-file)
@@ -3149,7 +3166,9 @@ from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-file-prompt</code></dt><dd>Prompt for file with identifier in
-variable <code>denote-directory</code>.</dd>
+variable <code>denote-directory</code>.  With optional <code>INITIAL-TEXT</code>, use it
+to prepopulate the minibuffer.  [ The optional <code>INITIAL-TEXT</code> is
+part of 1.1.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3377,7 +3396,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc515c12">
+<pre class="example" id="org3af56e2">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3550,7 +3569,7 @@ If I missed something, please let me know.
 </div>
 
 <div id="outline-container-h:188c0986-f2fa-444f-b493-5429356e75cf" class="outline-3">
-<h3 id="h:188c0986-f2fa-444f-b493-5429356e75cf"><span class="section-number-3">16.1.</span> Alternative ideas wih Emacs and further reading</h3>
+<h3 id="h:188c0986-f2fa-444f-b493-5429356e75cf"><span class="section-number-3">16.1.</span> Alternative ideas with Emacs and further reading</h3>
 <div class="outline-text-3" id="text-h:188c0986-f2fa-444f-b493-5429356e75cf">
 <p>
 This section covers blog posts from the Emacs community on the matter of
@@ -3922,14 +3941,15 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 Benjamin Kästner, Clemens Radermacher, Colin McLear, Damien Cassou,
 Elias Storms, Eshel Yaron, Hilde Rhyne, Jack Baty, Jean-Philippe
 Gagné Guay, Jürgen Hötzel, Kaushal Modi, Kyle Meyer, Marc Fargas,
-Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier.</dd>
+Noboru Ota (nobiot), Peter Prevos, Philip Kaludercic, Quiliro
+Ordóñez, Stefan Monnier.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Elias Storms,
-Frank Ehmsen, Hanspeter Gisler, Jack Baty, Juanjo Presa, Kaushal
-Modi, M. Hadi Timachi, Paul van Gelder, Peter Prevos, Shreyas
-Ragavan, Summer Emacs, Sven Seebeck, Taoufik, Yi Liu, Ypot, atanasj,
-hpgisler, pRot0ta1p, sienic, sundar bp.</dd>
+Federico Stilman, Frank Ehmsen, Hanspeter Gisler, Jack Baty, Juanjo
+Presa, Kaushal Modi, M. Hadi Timachi, Paul van Gelder, Peter Prevos,
+Shreyas Ragavan, Summer Emacs, Sven Seebeck, Taoufik, Yi Liu, Ypot,
+atanasj, hpgisler, pRot0ta1p, sienic, sundar bp.</dd>
 </dl>
 
 <p>
