@@ -71,7 +71,8 @@ a few technical points: <https://protesilaos.com/codelog/2022-08-18-ef-themes-de
     + GitHub: <https://github.com/protesilaos/ef-themes>
     + GitLab: <https://gitlab.com/protesilaos/ef-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
-+ Backronym: Effortlessly Flamboyant
++ Backronym: Extremely Fatigued of Themes Having Exaggerated Markings,
+  Embellishments, and Sparkles.
 
 ## Agitate
 
