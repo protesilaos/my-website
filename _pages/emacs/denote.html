@@ -143,7 +143,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">17.6. I add TODOs to my notes; will many files slow down the Org agenda?</a></li>
 <li><a href="#h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">17.7. I want to sort by last modified, why won&rsquo;t Denote let me?</a></li>
 <li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">17.8. How do you handle the last modified case?</a></li>
-<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">17.9. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
+<li><a href="#h:893eec49-d7be-4603-bcff-fcc247244011">17.9. Speed up backlinks&rsquo; buffer creation?</a></li>
+<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">17.10. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
 </ul>
 </li>
 <li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">18. Acknowledgements</a></li>
@@ -801,7 +802,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2050a67">
+<pre class="example" id="org87756c1">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -891,7 +892,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orga64ab09">
+<pre class="example" id="org68e517f">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -988,7 +989,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org00bea28">
+<pre class="example" id="org6b30601">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1008,7 +1009,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf82cd93">
+<pre class="example" id="orge9a1762">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1267,7 +1268,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgf0d1489">
+<pre class="example" id="orgdd5c93d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1279,7 +1280,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6661f29">
+<pre class="example" id="orgfd9d572">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1293,7 +1294,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org190f895">
+<pre class="example" id="orga9cd8bf">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1307,7 +1308,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgc14d871">
+<pre class="example" id="org01e2192">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1568,7 +1569,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org86695eb">
+<pre class="example" id="org26408f0">
 - link1
 - link2
 - link3
@@ -1586,7 +1587,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org7e960ab">
+<pre class="example" id="orgc49016d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1773,13 +1774,17 @@ the action of visiting the referenced file.  The backlinks&rsquo; buffer looks
 like this:
 </p>
 
-<pre class="example" id="org0d2172d">
+<pre class="example" id="org06a1bbf">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
 20220614T145606--let-this-glance-become-a-stare__journal.txt
 20220616T182958--not-feeling-butterflies-in-your-stomach__journal.txt
 </pre>
+
+<p>
+<a href="#h:893eec49-d7be-4603-bcff-fcc247244011">Speed up backlinks&rsquo; buffer creation?</a>
+</p>
 
 <p>
 The backlinks&rsquo; buffer is fontified by default, though the user has
@@ -2322,7 +2327,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org934063a">
+<pre class="example" id="orge7c09b6">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3396,7 +3401,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org3af56e2">
+<pre class="example" id="org56e93a4">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3900,8 +3905,55 @@ the tracking of changes.
 </div>
 </div>
 
+<div id="outline-container-h:893eec49-d7be-4603-bcff-fcc247244011" class="outline-3">
+<h3 id="h:893eec49-d7be-4603-bcff-fcc247244011"><span class="section-number-3">17.9.</span> Speed up backlinks&rsquo; buffer creation?</h3>
+<div class="outline-text-3" id="text-h:893eec49-d7be-4603-bcff-fcc247244011">
+<p>
+Denotes leverages the built-in <code>xref</code> library to search for the
+identifier of the current file and return any links to it.  For users
+of Emacs version 28 or higher, there exists a user option to specify
+the program that performs this search: <code>xref-search-program</code>.  The
+default is <code>grep</code>, which can be slow, though one may opt for <code>ugrep</code>,
+<code>ripgrep</code>, or even specify something else (read the doc string of that
+user option for the details).
+</p>
+
+<p>
+Try either for these for better results:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq xref-search-program 'ripgrep)
+
+;; OR
+
+(setq xref-search-program 'ugrep)
+</pre>
+</div>
+
+<p>
+To use whatever executable is available on your system, use something
+like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Prefer ripgrep, then ugrep, and fall back to regular grep.
+(setq xref-search-program
+      (cond
+       ((or (executable-find "ripgrep")
+            (executable-find "rg"))
+        'ripgrep)
+       ((executable-find "ugrep")
+        'ugrep)
+       (t
+        'grep)))
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:42f6b07e-5956-469a-8294-17f9cf62eb2b" class="outline-3">
-<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">17.9.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
+<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">17.10.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
 <div class="outline-text-3" id="text-h:42f6b07e-5956-469a-8294-17f9cf62eb2b">
 <p>
 Denote uses <a href="https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Xref">Emacs&rsquo; Xref</a> to find backlinks.  Xref requires <code>xargs</code> and
