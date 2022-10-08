@@ -5,6 +5,6 @@ layout: vlog
 mediaid: "Tl0jgrh-5l8"
 ---
 
-There is no transcript for this one.  I recorded it while walking in
-the mountains.  You need to load the video, which is close to an hour
-long.
+There is no transcript for this philosophical talk.  I recorded it
+while walking in the mountains.  You need to load the video, which is
+close to an hour long.
