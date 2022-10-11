@@ -8,8 +8,8 @@ Refer to the [official manual](https://protesilaos.com/emacs/ef-themes)
 for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
-The following screen shots correspond to version `0.6.0-dev`.  Some were
-taken on 2022-09-16.  The typeface is [Iosevka Comfy, my modified
+The following screen shots correspond to version `0.8.0-dev`.  They
+were taken on 2022-10-11.  The typeface is [Iosevka Comfy, my modified
 version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
@@ -79,6 +79,14 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-light-listing.png' | absolute_url }}"><img alt="ef-deuteranopia-light theme listing sample" src="{{'/assets/images/ef/ef-deuteranopia-light-listing.png' | absolute_url }}"/></a>
 
+## ef-tritanopia-light
+
+<a href="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"><img alt="ef-tritanopia-light theme sample" src="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-light-code.png' | absolute_url }}"><img alt="ef-tritanopia-light theme code sample" src="{{'/assets/images/ef/ef-tritanopia-light-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"><img alt="ef-tritanopia-light theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"/></a>
+
 ## ef-dark
 
 <a href="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"><img alt="ef-dark theme sample" src="{{'/assets/images/ef/ef-dark.png' | absolute_url }}"/></a>
@@ -142,3 +150,11 @@ perception of what is on display.
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-code.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme code sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-code.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-listing.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme listing sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-listing.png' | absolute_url }}"/></a>
+
+## ef-tritanopia-dark
+
+<a href="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme sample" src="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-code.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme code sample" src="{{'/assets/images/ef/ef-tritanopia-dark-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"/></a>
