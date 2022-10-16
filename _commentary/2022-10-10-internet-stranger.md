@@ -143,7 +143,7 @@ no impact on the state of affairs?
 
 Off I go now for a hike.  Maybe this is the day I fall from a cliff,
 have that fateful meeting with a tourist, or witness the inevitable
-descend of the aliens.  Or it might end up being more of the same
+descent of the aliens.  Or it might end up being more of the same
 routines.  It does not matter to you.  Does it matter to me though?
 Evaluations of this sort are arbitrary.  I am at a point where I think
 the answer is negative: what happens, happens.  The end to the story
