@@ -11,7 +11,7 @@ layout: page
 * Name: Protesilaos (Πρωτεσίλαος)
 * Birth place: Greece
 * Birth year: 1988
-* Residence: Cyprus
+* Residence: Cyprus (Troodos mountain range)
 * Email: <public@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
   for further information)
 
@@ -38,6 +38,42 @@ philosophy, whether that is by thinking or writing.  I also program my
 custom computing environment and generally try to do things my way for
 their inherent recreational or educational value.
 
+I care about human connections and hope my publications will help in
+that regard.
+
+### Work on philosophy
+
+I talk, write, and do philosophy.  I generally try to express myself
+in plain terms and make my thoughts relatable to everyone.  I consider
+my theories "practical", in the sense that I put them to the test and
+live by those precepts.
+
+My website contains three distinct sections with philosophical
+content:
+
+1. The "books and standalone essays" contains my core work:
+   <https://protesilaos.com/books>.
+2. The "general commentary on life" consists of anonymised excerpts
+   from exchanges I have with other people and/or entries from my
+   journal: <https://protesilaos.com/commentary/>.
+3. The "interpretations" cover my philosophical commentary on works of
+   art (typically Greek songs which I translate):
+   <https://protesilaos.com/interpretations>.
+
+As of 2022-10-07, I am doing videos on philosophy where I walk in
+nature and expound on my thoughts.  Find those in the aforementioned
+"books" section.  This effort is made possible by a 500 EUR donation I
+received which allowed me to buy a smartphone (Samsung A53), its
+charging adapter, and a selfie stick.
+
+### Work on GNU Emacs
+
+I maintain lots of packages for Emacs, including the `modus-themes`
+which are a part of core Emacs and the increasingly popular `denote`
+note-taking system.  Find all my packages here:
+<https://protesilaos.com/emacs>.  And follow my coding blog for
+relevant updates: <https://protesilaos.com/codelog>.
+
 Sometimes I blend programming with philosophy, as made evident by such
 questions as the one that populates my GitLab/GitHub profile's
 description:
@@ -45,8 +81,8 @@ description:
 > At what point does a tinkerer become a programmer, provided no formal
 > background in the latter?
 
-Or in some of the videos I make which are nominally about a text editor
-but I actually talk philosophy, such as:
+Or in some of the older videos I made which are nominally about a text
+editor but I actually talk philosophy, such as:
 
 + [Why Emacs itself is my “favourite Emacs
   package”](https://protesilaos.com/codelog/2020-10-21-emacs-favourite-package/)
@@ -82,33 +118,6 @@ mail in late August 2022.  Here is the announcement, which also includes
 all links to the backstory, as well as a video of me showing the
 physical item: <https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/> (pictures too!).
 
-I also talk or write about philosophy without any reference to free
-software or related.  Refer to my website's section on [books and
-standalone essays](https://protesilaos.com/books).
-
-For some personal publications, check this non-exhaustive list:
-
-- [Comment on whether I have ASD](https://protesilaos.com/commentary/2022-06-01-asd/)
-- [On honesty and my creative process](https://protesilaos.com/commentary/2022-08-29-honesty-creative-process/).
-- [On alcohol and sex](https://protesilaos.com/commentary/2022-09-07-alcohol-sex/)
-- [Dealing with depression](https://protesilaos.com/commentary/2022-09-11-dealing-with-depression/)
-- [Why do I write?](https://protesilaos.com/commentary/2022-09-13-why-do-i-write/)
-- [Introversion, relationships, and self-denial](https://protesilaos.com/commentary/2022-09-17-introversion-relationships-self-denial/)
-
-These are part of my website's "commentary" section, which covers
-general life issues.  There probably are other hints about me in that
-section and in many other publications, though those are
-straightforward.
-
-Some more somewhat personal entries from the "books and standalone
-publications" section:
-
-- [Perfectionism, insecurity, and improvisation](https://protesilaos.com/books/2022-09-15-perfectionism-insecurity-improvisation/)
-- [False binaries and the continuum](https://protesilaos.com/books/2022-09-16-false-binaries-continuum/)
-- [On thinking, living, acting](https://protesilaos.com/books/2022-09-18-thinking-acting-living/)
-
-[ These are non-exhaustive, but they should give you an idea. ]
-
 ## protesilaos.com
 
 This website has been online since 2011.  It contains more than 1000
@@ -122,24 +131,6 @@ change, refine my beliefs as part of a life of research and reflection.
 If you are looking for consistency, a dogma to follow, a narcissist to
 idolise, you need to look elsewhere.  It is important to understand that
 _you should not follow me_, for I am not going anywhere in particular.
-
-### Content indices
-
-<div>
-  {% assign indices = site.data.indices %}
-  <ul>
-    {% for i in indices %}
-    <li>
-      <p>
-        <strong><a href="{{ i.url | absolute_url }}">{{ i.name }}</a> :: </strong> {{ i.description }}
-      </p>
-    </li>
-    {% endfor %}
-  </ul>
-
-  <p>For the available RSS/Atom links, refer to
-  the <a href="/feeds/">feeds' information page</a>.</p>
-</div>
 
 ## Also on
 
