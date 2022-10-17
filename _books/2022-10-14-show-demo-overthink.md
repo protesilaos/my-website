@@ -6,11 +6,12 @@ mediaid: "VOU443wsePA"
 ---
 
 This is another video of mine where I do philosophy.  There is no
-transcript.  The part with the waterfall starts after the 15:00 mark.
-I noticed that whenever I toggled between the front and rear cameras,
-there was an interruption or distortion to the audio.  I think nothing
-critical is lost, though I will try to find ways to improve this while
-still keeping it recording in one go.
+transcript.  The part with the waterfall of Chantara at the Troodos
+mountain range (Cyprus) starts after the 15:00 mark.  I noticed that
+whenever I toggled between the front and rear cameras, there was an
+interruption or distortion to the audio.  I think nothing critical is
+lost, though I will try to find ways to improve this while still
+keeping it recording in one go.
 
 Some of the other videos of mine that I mention here:
 
@@ -27,7 +28,8 @@ The main points I covered:
   with the unclear lines.
 - In turn, I cannot control how you perceive of what I consider
   "demonstration"---you may still think it is me "showing off".
-- Explanation of the perils of overthinking.
-- My corpus of work is---this video of me walking and talking---is a
-  demonstration against overthinking.  It proves that I managed to
-  overcome a major problem I had.
+- Explanation of the perils of overthinking.  Life is practical, not
+  theoretical.
+- My corpus of work---such as this video of me walking and
+  talking---is a demonstration against overthinking.  It proves that I
+  managed to overcome a major problem I had.
