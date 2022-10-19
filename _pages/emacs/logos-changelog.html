@@ -10,6 +10,76 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/logos">https://protesilaos.com/emacs/logos</a>.
 </p>
 
+<div id="outline-container-h:b71866b6-393a-4bff-bb89-e52f5e2fca9d" class="outline-2">
+<h2 id="h:b71866b6-393a-4bff-bb89-e52f5e2fca9d">Version 0.6.0 on 2022-10-19</h2>
+<div class="outline-text-2" id="text-h:b71866b6-393a-4bff-bb89-e52f5e2fca9d">
+<ul class="org-ul">
+<li><p>
+Revised the fallback condition of the user option
+<code>logos-outline-regexp-alist</code> (it comes into effect when the
+<code>logos-outlines-are-pages</code> is non-nil).
+</p>
+
+<p>
+The previous value did not account for the buffer-local values of
+<code>outline-regexp</code> or <code>page-delimiter</code>, nor did it adapt to any
+changes in their respective values.  Instead, it would capture
+whatever the value was at the time of the symbol's declaration.
+</p>
+
+<p>
+We remove the <code>t</code> condition altogether and instead handle the
+fallback value internally.  Logos will return the current
+buffer-local value of <code>outline-regexp</code> or <code>page-delimiter</code>, in this
+order of priority.
+</p>
+
+<p>
+Put simply, this has the same intent as before, but works properly.
+</p></li>
+
+<li><p>
+Introduced a check to guard against a void <code>outline-regexp</code>.  The
+previous value would cause a problem if the <code>outline-regexp</code> had not
+been set yet.  In a typical Emacs session, even on 'emacs -Q', the
+<code>outline-regexp</code> is set in the scratch buffer, so we have a valid
+value at the outset.  However, when the user changes the
+<code>initial-buffer-choice</code> or opens Emacs directly for a given file,
+the <code>outline-regexp</code> can be void.
+</p>
+
+<p>
+Thanks to Xiaoduan for informing me about this error and for testing
+my code on how to fix it.  This was done via a private channel and
+is shared with permission.
+</p></li>
+
+<li><p>
+Implemented the user option <code>logos-hide-cursor</code>.  It hides the
+cursor when <code>logos-focus-mode</code> is enabled.  Note that this user
+option is always buffer-local.  Use <code>setq-default</code> to set its
+default global value (same as with other user options that apply to
+<code>logos-focus-mode</code> (read the manual)).
+</p>
+
+<p>
+Thanks to Marcel Ventosa for suggesting the idea of hiding the
+cursor.  This was done via a private channel and is shared with
+permission.
+</p></li>
+
+<li>Clarified the documentation of <code>logos-focus-mode-extra-functions</code>.
+It is intended for use by those who are prepared to write custom
+functions in the spirit of those already used in <code>logos.el</code> to
+affect the buffer when <code>logos-focus-mode</code> is enabled.</li>
+
+<li>Added the missing autoload cookie to <code>logos-focus-mode</code>.  This means
+that it shows up in the completion candidates of <code>M-x</code> even if the
+<code>logos</code> library has not been called via <code>require</code>.</li>
+</ul>
+</div>
+</div>
+
 <div id="outline-container-h:189634ab-187a-4e44-9006-1361459150b8" class="outline-2">
 <h2 id="h:189634ab-187a-4e44-9006-1361459150b8">Version 0.5.0 on 2022-09-01</h2>
 <div class="outline-text-2" id="text-h:189634ab-187a-4e44-9006-1361459150b8">
