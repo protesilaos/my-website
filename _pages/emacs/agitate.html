@@ -180,23 +180,24 @@ commits&rdquo; are documented here: <a href="https://www.conventionalcommits.org
 <h4 id="h:7f50cff1-4abd-4155-a57b-07f283db7630"><span class="section-number-4">1.2.1.</span> Informative log-edit window configuration mode</h4>
 <div class="outline-text-4" id="text-h:7f50cff1-4abd-4155-a57b-07f283db7630">
 <p>
-The <code>agitate-log-edit-informative-mode</code> is the PROTOTYPE of a global
-minor mode that rearranges the window configuration (layout) while
-bringing up a log-edit buffer (such as what happens when <code>C-x v v</code>
+The <code>agitate-log-edit-informative-mode</code> is a global minor mode that
+rearranges the window configuration (layout) when bringing up a
+<code>log-edit</code> buffer (such as what happens when <code>C-x v v</code>
 (<code>vc-next-action</code>) is about to commit the changes).  It shows the
-log-edit buffer on the left and the corresponding diff on the right.
+<code>log-edit</code> buffer on the left and the corresponding diff on the right.
 </p>
 
 <p>
 When the user option <code>agitate-log-edit-informative-show-files</code> is
 non-nil (the default), the list of files pertinent to the current
-action is shown below the log-edit buffer.
+action is shown below the <code>log-edit</code> buffer.
 </p>
 
 <p>
 When the user option <code>agitate-log-edit-informative-show-root-log</code> is
 non-nil, the root log of the revisions is shown below the window that
-displays the log-edit buffer.
+displays the <code>log-edit</code> buffer.  Its contents are bound by the value
+of the user option <code>agitate-log-limit</code>
 </p>
 </div>
 </div>
@@ -230,7 +231,12 @@ point.</dd>
 <div class="outline-text-3" id="text-h:f1a1f462-b6db-415a-b8e6-ba23788cb6e3">
 <dl class="org-dl">
 <dt>Function <code>agitate-vc-git-find-revision</code></dt><dd>Find revision of current
-file, visiting it in a buffer.  Prompt with completion for the revision.</dd>
+file, visiting it in a buffer.  Prompt with completion for the
+revision.  The number of revisions in the log is controlled by the
+user option <code>agitate-log-limit</code>.  Pro tip: if you are using the
+<code>embark</code> package, you can produce a snapshot of the minibuffer
+prompt.  Then use the resulting buffer to browse through the file&rsquo;s
+history.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -238,13 +244,17 @@ file, visiting it in a buffer.  Prompt with completion for the revision.</dd>
 <code>git-show(1)</code> on it. With optional <code>CURRENT-FILE</code> as prefix
 argument, limit the commits to those pertaining to the current file.
 The number of revisions in the log is controlled by the user option
-<code>agitate-log-limit</code>.</dd>
+<code>agitate-log-limit</code>.  Pro tip: if you are using the <code>embark</code>
+package, you can produce a snapshot of the minibuffer prompt.  Then
+use the resulting buffer to browse through the available commits.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>agitate-vc-git-show-tag</code></dt><dd>Run <code>git-show(1)</code> on Git
 <code>TAG</code>.  When called interactively, prompt for TAG using minibuffer
-completion.</dd>
+completion.  Pro tip: if you are using the <code>embark</code> package, you can
+produce a snapshot of the minibuffer prompt.  Then use the resulting
+buffer to browse through the available tags.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -256,8 +266,8 @@ string of <code>agitate-log-view-kill-revision</code>.  If there is no such
 commit at point, prompt for <code>COMMIT</code> using minibuffer completion.
 Output the patch file to the return value of the function
 <code>vc-root-dir</code>.  The number of revisions in the log is controlled by
-the user option <code>agitate-log-limit</code>.  Relevant except from the
-source code:
+the user option <code>agitate-log-limit</code>.  For Emacs 29, consider using
+<code>vc-prepare-patch</code>.  Relevant except from the source code:
 </p>
 
 <div class="org-src-container">
@@ -272,7 +282,8 @@ source code:
 <dl class="org-dl">
 <dt>Function <code>agitate-vc-git-format-patch-n-from-head</code></dt><dd>Format patches
 covering <code>NUMBER</code> of commits from current HEAD.  This is the
-eqvuivalent of: <code>git format-patch -NUMBER</code>.</dd>
+eqvuivalent of: <code>git format-patch -NUMBER</code>.  For Emacs 29, consider
+using <code>vc-prepare-patch</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -417,8 +428,10 @@ Everything is in place to set up the package.
 (let ((map global-map))
   (define-key map (kbd "C-x v =") #'agitate-diff-buffer-or-file) ; replace `vc-diff'
   (define-key map (kbd "C-x v g") #'agitate-vc-git-grep) ; replace `vc-annotate'
+  (define-key map (kbd "C-x v f") #'agitate-vc-git-find-revision)
   (define-key map (kbd "C-x v s") #'agitate-vc-git-show)
-  (define-key map (kbd "C-x v c") #'agitate-vc-git-format-patch-single))
+  (define-key map (kbd "C-x v p p") #'agitate-vc-git-format-patch-single)
+  (define-key map (kbd "C-x v p n") #'agitate-vc-git-format-patch-n-from-head))
 (let ((map diff-mode-map))
   (define-key map (kbd "C-c C-b") #'agitate-diff-refine-cycle) ; replace `diff-refine-hunk'
   (define-key map (kbd "C-c C-n") #'agitate-diff-narrow-dwim))
