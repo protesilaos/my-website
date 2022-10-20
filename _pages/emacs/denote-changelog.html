@@ -16,6 +16,252 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a>.
 </p>
 
+<div id="outline-container-h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd" class="outline-2">
+<h2 id="h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd">Version 1.1.0 on 2022-10-20</h2>
+<div class="outline-text-2" id="text-h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd">
+</div>
+
+<div id="outline-container-h:5665e7ec-4f3a-4de3-8cb0-63d25a0db8c1" class="outline-3">
+<h3 id="h:5665e7ec-4f3a-4de3-8cb0-63d25a0db8c1">New commands or refinements to common use-cases</h3>
+<div class="outline-text-3" id="text-h:5665e7ec-4f3a-4de3-8cb0-63d25a0db8c1">
+<ul class="org-ul">
+<li><p>
+The <code>denote-link-add-missing-links</code> is a companion to what we
+already provide to produce a list of links to Denote files matching
+a regular expression (the <code>denote-link-add-links</code>).  This new
+command adds links that are not already present in the current file.
+So if you have a metanote that references, say, your journal entries
+but have not updated it in a month, you can revisit the metanote,
+invoke <code>denote-link-add-missing-links</code>, and then type the search
+terms (e.g. <code>_journal</code>) to include what remains.
+</p>
+
+<p>
+Thanks to Elias Storms for the initial contribution, which was done
+in pull request 108 on the GitHub mirror:
+<a href="https://github.com/protesilaos/denote/pull/108">https://github.com/protesilaos/denote/pull/108</a>.
+</p>
+
+<p>
+Elias has assigned copyright to the Free Software Foundation.  It is
+required for changes that exceed 15 lines in total.
+</p></li>
+
+<li><p>
+The <code>denote-link-find-backlink</code> provides a minibuffer interface that
+shows all backlinks to the current note.  It complements the
+existing <code>denote-link-backlinks</code> command (which also has the alias
+<code>denote-link-show-backlinks-buffer</code>).  Each command has its own
+niche: the minibuffer lets the user leverage powerful pattern
+matching styles, such as those provided by the <code>orderless</code> package,
+while the bespoke buffer provides an easy overview of what links to
+the current note.
+</p>
+
+<p>
+Thanks to Elias Storms for the original patch:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm2fsg6o2t6.fsf%40MBA21.fritz.box%3E#%3Cm2pmfam7yi.fsf@MBA21.fritz.box%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm2fsg6o2t6.fsf%40MBA21.fritz.box%3E#%3Cm2pmfam7yi.fsf@MBA21.fritz.box%3E</a>.
+</p></li>
+
+<li><p>
+The <code>denote-keywords-add</code> and <code>denote-keywords-remove</code> are two
+commands that interactively operate on the current note's front
+matter to add or remove keywords.  They use the familiar keywords'
+prompt which means, among others, that they can read more than one
+keyword at a time.  To specify multiple keywords, separate each
+input with a comma (or whatever the value of <code>crm-separator</code> is,
+which should be a comma unless something out-of-the-ordinary is in
+force).
+</p>
+
+<p>
+Thanks to Elias Storms for the original patch, which was done as
+part of a discussion on the mailing list and then iterated on:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm24jwvpbt2.fsf%40MBA21.fritz.box%3E#%3Cm28rlik0tc.fsf@MBA21.fritz.box%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm24jwvpbt2.fsf%40MBA21.fritz.box%3E#%3Cm28rlik0tc.fsf@MBA21.fritz.box%3E</a>.
+</p></li>
+
+<li><p>
+The <code>denote-link</code> command will now recognise an active region and
+use its text as the description of the inserted link.  The default
+behaviour is to use the file's title from its front matter or file
+name.  Thanks to Charanjit Singh for the original contribution,
+which was done as part of pull request 109 on the GitHub mirror:
+<a href="https://github.com/protesilaos/denote/pull/109">https://github.com/protesilaos/denote/pull/109</a>.  A subsequent
+tweak was implemented in pull request 110, following a discussion
+with me: <a href="https://github.com/protesilaos/denote/pull/110">https://github.com/protesilaos/denote/pull/110</a>.
+</p>
+
+<p>
+Charanjit's contribution is below the ~15 line threshold and thus
+does not require copyright assignment to the Free Software
+Foundation.
+</p></li>
+
+<li><p>
+The renaming operations are now aware of the underlying version
+control system and will use the appropriate command when a VCS is
+available.  In practice, renaming a file under, say, Git will
+register it as a "rename" instead of two separate actions of
+deletion and addition.
+</p>
+
+<p>
+Thanks to Florian for the patch.  It was discussed on the mailing
+list and then underwent some changes:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C166547153518.8.941129310186454444.68125516@aboulafia.org%3E">https://lists.sr.ht/~protesilaos/denote/%3C166547153518.8.941129310186454444.68125516@aboulafia.org%3E</a>.
+</p></li>
+
+<li>The <code>denote-rename-file-using-front-matter</code> no longer fails to carry
+out its intended task when the front matter has no keywords.  If no
+keywords are available, this is interpreted as a request to remove
+the KEYWORDS component of the file name.  This was always
+technically possible and could be achieved with various permutations
+of the user option <code>denote-prompts</code> (as explained in its doc string
+or the manual).  Denote only needs an identifier in the file name to
+establish unique links (although I strongly encourage you to stick
+to the standard file-naming scheme as it is informative, reliable,
+and can work even if you access your data without Emacs).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:505c84dd-2959-4bd4-8af4-78d75592a6d5" class="outline-3">
+<h3 id="h:505c84dd-2959-4bd4-8af4-78d75592a6d5">For more advanced use-cases</h3>
+<div class="outline-text-3" id="text-h:505c84dd-2959-4bd4-8af4-78d75592a6d5">
+<ul class="org-ul">
+<li><p>
+The variable <code>denote-file-types</code> has been tweaked to respond
+directly to changes in its value done with <code>setq</code>.  Thanks to Noboru
+Ota for the patch: <a href="https://lists.sr.ht/~protesilaos/denote/%3C86k05gsqsg.fsf%40nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86k05gsqsg.fsf%40nobiot.com%3E</a>.
+</p>
+
+<p>
+Noboru has assigned copyright to the Free Software Foundation.
+</p></li>
+
+<li>The <code>:front-matter</code> property of the <code>denote-file-types</code> now accepts
+a nil value.  Denote could always work without front matter, but
+this was not implemented flexibly in the <code>denote-file-types</code>.
+Thanks to Noboru Ota (nobiot) for pointing this out on the mailing
+list: <a href="https://lists.sr.ht/~protesilaos/denote/%3C86k05gsqsg.fsf%40nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86k05gsqsg.fsf%40nobiot.com%3E</a>.</li>
+
+<li>The <code>denote-file-prompt</code> function now reads an optional
+<code>INITIAL-TEXT</code> argument.  This is a string that prepopulates the
+minibuffer.  It is useful for custom commands the user may have
+where, for example, there is a need to automatically filter to
+entries matching <code>_journal</code>.  Thanks to Alan Schmitt for suggesting
+the idea: <a href="https://lists.sr.ht/~protesilaos/denote/%3C87pmf676n1.fsf@m4x.org%3E">https://lists.sr.ht/~protesilaos/denote/%3C87pmf676n1.fsf@m4x.org%3E</a>.</li>
+
+<li>The <code>denote-rename-file-using-front-matter</code> accepts an optional
+<code>AUTO-CONFIRM</code> argument.  It can either be passed interactively or
+via Lisp.  The doc string (or the manual) explains the details.
+Thanks to Elias Storms for the initial patch:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm2a667aeku.fsf%40gmail.com%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm2a667aeku.fsf%40gmail.com%3E</a>.</li>
+
+<li>The <code>denote-prompt-for-date-return-id</code> function uses the familiar
+<code>denote-date-prompt</code> and returns the appropriate identifier.  It is
+used internally by some of our function, but we also provide it for
+anyone who wants to write their own custom code.</li>
+
+<li>The <code>denote-retrieve-or-create-file-identifier</code> function reads and
+option <code>DATE</code> argument to its mandatory <code>FILE</code> argument.  If <code>FILE</code>
+does not have an identifier and optional <code>DATE</code> is non-nil, the
+function invokes the <code>denote-prompt-for-date-return-id</code>, as
+mentioned above.</li>
+
+<li><p>
+The <code>denote-rename-file</code> command accepts an optional <code>DATE</code>
+argument.  It functionally does what is described right above, with
+the exception that this is for an interactive function (a
+"command").  Read the detailed doc string or the manual for
+everything that pertains to this powerful command.
+</p>
+
+<p>
+Thanks to Florian for suggesting the idea on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C166521684647.7.5483179875879361874.67576870%40aboulafia.org%3E">https://lists.sr.ht/~protesilaos/denote/%3C166521684647.7.5483179875879361874.67576870%40aboulafia.org%3E</a>.
+</p></li>
+
+<li>The <code>denote-directory-text-only-files</code> function filters the
+<code>denote-directory-files</code> to only return a list of text files.  This
+leaves out, say, mp3 files.  The function is used internally, though
+it may also prove useful in custom user code.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:0531047f-ef15-412e-b265-886c55526d57" class="outline-3">
+<h3 id="h:0531047f-ef15-412e-b265-886c55526d57">Miscellaneous refinements</h3>
+<div class="outline-text-3" id="text-h:0531047f-ef15-412e-b265-886c55526d57">
+<ul class="org-ul">
+<li>Implemented a <code>revert-buffer-function</code> for the backlinks' buffer,
+which is produced by the command <code>denote-link-backlinks</code>.  This
+revert function is what the <code>g</code> key invokes with the default key
+bindings (the command is <code>revert-buffer</code>).  It produces the buffer
+anew, updating the list of backlinks accordingly.</li>
+
+<li><p>
+Documented how to speed up the creation of the backlinks' buffer.
+As this depends on the built-in <code>xref</code> library, the change is done
+by specifying the value of the user option <code>xref-search-program</code> in
+Emacs 28 or higher.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq xref-search-program 'ripgrep)
+</pre>
+</div>
+
+<p>
+For something more elaborate:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  ;; Prefer ripgrep, then ugrep, and fall back to regular grep.
+  (setq xref-search-program
+        (cond
+         ((or (executable-find "ripgrep")
+              (executable-find "rg"))
+          'ripgrep)
+         ((executable-find "ugrep")
+          'ugrep)
+         (t
+          'grep)))
+</pre>
+</div></li>
+
+<li>Removed some minor duplication of effort in how the buttonisation of
+links is done (what makes them clickable).</li>
+
+<li>Made refinements to the definition of functions such as
+<code>denote-link-add-links</code>.  There should be no noticeable change for
+users, though this shows we care about code quality.</li>
+
+<li>With Eshel Yaron, we tried to remove the empty indices for functions
+and variables from the HTML version of the manual.  These indices
+are useful in the Info version, which can be accessed directly from
+Emacs when the <code>denote</code> package is installed (for example, evaluate
+<code>(info "(denote) Top")</code>), but they do not work with HTML.  Alas,
+what we tried to do did not work.  Maybe Org has a way to control
+what is exported where.  We shall see.  At any rate, thanks to Eshel
+for the effort: <a href="https://lists.sr.ht/~protesilaos/denote/patches/36028">https://lists.sr.ht/~protesilaos/denote/patches/36028</a>.</li>
+
+<li>All code that integrates the <code>denote:</code> custom hyperlink type with
+Org's link facility is now assigned <code>autoload</code> cookies.  These are
+done to ensure that <code>denote</code> is loaded and is available in cases
+where Org needs to access a <code>denote:</code> link at some early stage
+(e.g. at startup before using Denote).  Thanks to Sven Seebeck for
+reporting the problem: <a href="https://lists.sr.ht/~protesilaos/denote/%3C87r0zovwix.fsf%40svenseebeck.me%3E">https://lists.sr.ht/~protesilaos/denote/%3C87r0zovwix.fsf%40svenseebeck.me%3E</a>.
+Although Sven could not reproduce a bug reliably, I believe this
+prevents such an eventuality.</li>
+
+<li>Expanded or otherwise updated the manual to account for all of the
+above, where appropriate.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:053975d7-3fe2-49e5-96a0-336483e5861c" class="outline-2">
 <h2 id="h:053975d7-3fe2-49e5-96a0-336483e5861c">Version 1.0.0 on 2022-09-30</h2>
 <div class="outline-text-2" id="text-h:053975d7-3fe2-49e5-96a0-336483e5861c">
@@ -776,7 +1022,7 @@ Denote used to format tags in Org files by separating them with two
 spaces:
 </p>
 
-<pre class="example" id="orgfe9bbf7">
+<pre class="example" id="orgdc61968">
 #+filetags:  tag1  tag2
 </pre>
 
@@ -786,7 +1032,7 @@ Org.  The Org documentation stipulates that tags be separated by the
 colon sign.  The above would then be written thus:
 </p>
 
-<pre class="example" id="orgcd83979">
+<pre class="example" id="org60dbd51">
 #+filetags:  :tag1:tag2:
 </pre>
 
@@ -2083,7 +2329,7 @@ My thanks for their participation in the discussions go to Jean-Philippe
 Gagné Guay, Kaushal Modi, and Shreyas Ragavan.
 </p>
 
-<pre class="example" id="org900e011">
+<pre class="example" id="orge1fc46f">
 commit f35ef05cb451f265213c3aafc1e62c425b1ff043
 Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 Date:   Sun Jul 3 17:34:38 2022 +0300
@@ -2290,7 +2536,7 @@ remains constant.  For completeness, this is how they look:
 </pre>
 </div>
 
-<pre class="example" id="orgcb415a9">
+<pre class="example" id="org961b024">
   title:      Sample plain text
   date:       2022-06-10
   tags:       denote  testing
