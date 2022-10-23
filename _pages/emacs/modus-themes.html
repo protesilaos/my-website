@@ -37,7 +37,7 @@ explicitly marked as such.
 </p>
 
 <p>
-Current development target is 2.8.0-dev.
+Current development target is 3.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -1712,6 +1712,10 @@ Centaur tabs package.
 <h3 id="h:f1c20c02-7b34-4c35-9c65-99170efb2882"><span class="section-number-3">5.12.</span> Option for completion framework aesthetics</h3>
 <div class="outline-text-3" id="text-h:f1c20c02-7b34-4c35-9c65-99170efb2882">
 <p>
+[ Default value changed as part of 3.0.0-dev. ]
+</p>
+
+<p>
 Brief: Set the overall style of completion framework interfaces.
 </p>
 
@@ -1722,8 +1726,9 @@ Symbol: <code>modus-themes-completions</code> (<code>alist</code> type propertie
 <p>
 This affects Company, Corfu, Flx, Helm, Icomplete/Fido, Ido, Ivy,
 Orderless, Selectrum, Vertico.  The value is an alist that takes the
-form of a <code>(key . properties)</code> combination.  Here is a sample, followed
-by a description of the particularities:
+form of a <code>(KEY . PROPERTIES)</code> combination.  <code>KEY</code> is a symbol, while
+<code>PROPERTIES</code> is a list.  Here is a sample, followed by a description
+of the particularities:
 </p>
 
 <div class="org-src-container">
@@ -1736,10 +1741,10 @@ by a description of the particularities:
 
 <p>
 The <code>matches</code> key refers to the highlighted characters that correspond
-to the user&rsquo;s input.  By default (nil or an empty list), they have a
-bold weight and a colored foreground.  The list of properties may
-include any of the following symbols regardless of the order they may
-appear in:
+to the user&rsquo;s input.  When its properties are nil or an empty list,
+matching characters in the user interface will have a bold weight and
+a colored foreground.  The list of properties may include any of the
+following symbols regardless of the order they may appear in:
 </p>
 
 <ul class="org-ul">
@@ -1759,10 +1764,10 @@ variable.  The absence of a weight means that bold will be used.</li>
 
 <p>
 The <code>selection</code> key applies to the current line or currently matched
-candidate, depending on the specifics of the User Interface.  By default
-(nil or an empty list), it has a subtle gray background, a bold weight,
-and the base foreground value for the text. The list of properties it
-accepts is as follows (order is not significant):
+candidate, depending on the specifics of the user interface.  When its
+properties are nil or an empty list, it has a subtle gray background,
+a bold weight, and the base foreground value for the text.  The list
+of properties it accepts is as follows (order is not significant):
 </p>
 
 <ul class="org-ul">
@@ -1782,7 +1787,11 @@ variable.  The absence of a weight means that bold will be used.</li>
 </ul>
 
 <p>
-The <code>popup</code> key takes the same values as <code>selection</code>.
+The <code>popup</code> key takes the same values as <code>selection</code>.  The only
+difference is that it applies specifically to user interfaces that
+display an inline popup and thus have slightly different styling
+requirements than the minibuffer.  The two prominent packages are
+<code>company</code> and <code>corfu</code>.
 </p>
 
 <p>
@@ -1817,26 +1826,12 @@ and <code>text-also</code>, while <code>selection</code> and <code>popup</code> 
 </p>
 
 <p>
-A concise expression of those associations can be written as follows,
-where the <code>car</code> is always the key and the <code>cdr</code> is the list of
-properties (whatever order they may appear in):
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq modus-themes-completions
-      '((matches extrabold background intense)
-        (selection semibold accented intense)
-        (popup accented)))
-</pre>
-</div>
-
-<p>
 <a href="#h:2793a224-2109-4f61-a106-721c57c01375">Configure bold and italic faces</a>.
 </p>
 
 <p>
-Also refer to the Orderless documentation for its intersection with
-Company (if you choose to use those in tandem).
+Also refer to the documentation of the <code>orderless</code> package for its
+intersection with <code>company</code> (if you choose to use those in tandem).
 </p>
 </div>
 </div>
@@ -1896,6 +1891,10 @@ not touch.
 <h3 id="h:1983c3fc-74f6-44f3-b917-967c403bebae"><span class="section-number-3">5.14.</span> Option for fringe visibility</h3>
 <div class="outline-text-3" id="text-h:1983c3fc-74f6-44f3-b917-967c403bebae">
 <p>
+[ Default value changed as part of 3.0.0-dev. ]
+</p>
+
+<p>
 Brief: Control the overall coloration of the fringes.
 </p>
 
@@ -1908,7 +1907,7 @@ Possible values:
 </p>
 
 <ol class="org-ol">
-<li><code>nil</code> (default)</li>
+<li><code>nil</code></li>
 <li><code>subtle</code></li>
 <li><code>intense</code></li>
 </ol>
@@ -1919,7 +1918,7 @@ When the value is nil, do not apply a distinct background color.
 
 <p>
 With a value of <code>subtle</code> use a gray background color that is
-visible yet close to the main buffer background color.
+visible yet close to the main background color.
 </p>
 
 <p>
@@ -2032,6 +2031,10 @@ respectively.
 <h3 id="h:1dba1cfe-d079-4c13-a810-f768e8789177"><span class="section-number-3">5.16.</span> Option for line highlighting</h3>
 <div class="outline-text-3" id="text-h:1dba1cfe-d079-4c13-a810-f768e8789177">
 <p>
+[ Default value changed as part of 3.0.0-dev. ]
+</p>
+
+<p>
 Brief: Control the style of the current line of <code>hl-line-mode</code>.
 </p>
 
@@ -2040,8 +2043,13 @@ Symbol: <code>modus-themes-hl-line</code> (<code>choice</code> type, list of pro
 </p>
 
 <p>
-Possible values are expressed as a list of properties (default is <code>nil</code> or
-an empty list).  The list can include any of the following symbols:
+The value is a list of properties, each designated by a symbol.  With
+a nil value, or an empty list, the style is a subtle gray background
+color.
+</p>
+
+<p>
+Possible properties are the following symbols:
 </p>
 
 <ul class="org-ul">
@@ -2049,11 +2057,6 @@ an empty list).  The list can include any of the following symbols:
 <li><code>intense</code></li>
 <li><code>underline</code></li>
 </ul>
-
-<p>
-The default (a <code>nil</code> value or an empty list) is a subtle gray background
-color.
-</p>
 
 <p>
 The property <code>accented</code> changes the background to a colored variant.
@@ -2096,8 +2099,9 @@ In user configuration files the form may look like this:
 </div>
 
 <p>
-Set <code>x-underline-at-descent-line</code> to a non-nil value for better results
-with underlines.
+Set <code>x-underline-at-descent-line</code> to a non-nil value so that the
+placement of the underline coincides with the lower boundary of the
+colored background.
 </p>
 
 <p>
@@ -5038,7 +5042,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org6e1b82b">
+<pre class="example" id="org2c6b50e">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -7248,7 +7252,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orga56988d">
+<pre class="example" id="orgd784f59">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7293,7 +7297,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgc3083e8">
+<pre class="example" id="orge8cece6">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7671,7 +7675,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org67e3ce4">
+<pre class="example" id="org7843e01">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
