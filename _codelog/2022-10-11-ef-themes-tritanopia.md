@@ -24,7 +24,7 @@ here: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
 <a href="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"><img alt="ef-tritanopia-light theme sample" src="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-light-code.png' | absolute_url }}"><img alt="ef-tritanopia-light theme code sample" src="{{'/assets/images/ef/ef-tritanopia-light-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-light-magit.png' | absolute_url }}"><img alt="ef-tritanopia-light theme magit sample" src="{{'/assets/images/ef/ef-tritanopia-light-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"><img alt="ef-tritanopia-light theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"/></a>
 
@@ -32,7 +32,7 @@ here: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
 <a href="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme sample" src="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-dark-code.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme code sample" src="{{'/assets/images/ef/ef-tritanopia-dark-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-magit.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme magit sample" src="{{'/assets/images/ef/ef-tritanopia-dark-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"/></a>
 

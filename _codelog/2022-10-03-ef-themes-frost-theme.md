@@ -29,7 +29,7 @@ explains more.
 
 <a href="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"><img alt="ef-frost theme sample" src="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-frost-code.png' | absolute_url }}"><img alt="ef-frost theme code sample" src="{{'/assets/images/ef/ef-frost-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"><img alt="ef-frost theme magit sample" src="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"><img alt="ef-frost theme listing sample" src="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"/></a>
 
@@ -44,9 +44,9 @@ colour palette).
 
 <a href="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"><img alt="ef-frost theme sample" src="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-light-code.png' | absolute_url }}"><img alt="ef-light theme code sample" src="{{'/assets/images/ef/ef-light-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-light-magit.png' | absolute_url }}"><img alt="ef-light theme magit sample" src="{{'/assets/images/ef/ef-light-magit.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-frost-code.png' | absolute_url }}"><img alt="ef-frost theme code sample" src="{{'/assets/images/ef/ef-frost-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"><img alt="ef-frost theme magit sample" src="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"><img alt="ef-light theme listing sample" src="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"/></a>
 

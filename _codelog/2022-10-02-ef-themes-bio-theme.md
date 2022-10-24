@@ -18,7 +18,7 @@ here: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
 <a href="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"><img alt="ef-bio theme sample" src="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"><img alt="ef-bio theme code sample" src="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"><img alt="ef-bio theme magit sample" src="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"><img alt="ef-bio theme listing sample" src="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"/></a>
 
@@ -33,11 +33,11 @@ collection.
 
 <a href="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"><img alt="ef-trio-dark theme sample" src="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"><img alt="ef-bio theme code sample" src="{{'/assets/images/ef/ef-bio-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"><img alt="ef-bio theme magit sample" src="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-night-code.png' | absolute_url }}"><img alt="ef-night theme code sample" src="{{'/assets/images/ef/ef-night-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-night-magit.png' | absolute_url }}"><img alt="ef-night theme magit sample" src="{{'/assets/images/ef/ef-night-magit.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"><img alt="ef-trio-dark theme code sample" src="{{'/assets/images/ef/ef-trio-dark-code.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-trio-dark-magit.png' | absolute_url }}"><img alt="ef-trio-dark theme magit sample" src="{{'/assets/images/ef/ef-trio-dark-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"><img alt="ef-bio theme listing sample" src="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"/></a>
 
