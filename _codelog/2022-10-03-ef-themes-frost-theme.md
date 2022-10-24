@@ -1,6 +1,6 @@
 ---
 title: "Emacs: introduction to the ef-themes “frost” theme"
-excerpt: "I added a dark theme to my 'ef-themes' collection.  It is a legible dark theme with green, teal, blue, purple colors."
+excerpt: "I added another theme to my 'ef-themes' collection.  It is a legible light theme with blue, cyan, teal, purple colors."
 ---
 
 I just added `ef-frost` to my `ef-themes` collection.  It is a legible
