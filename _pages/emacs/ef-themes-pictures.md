@@ -9,8 +9,8 @@ for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
 The following screen shots correspond to version `0.9.0-dev`.  They
-were taken on 2022-10-24.  The typeface is [Iosevka Comfy, my modified
-version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
+were taken on 2022-10-24 and 2022-10-25.  The typeface is [Iosevka
+Comfy, my modified version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
@@ -134,6 +134,14 @@ perception of what is on display.
 <a href="{{'/assets/images/ef/ef-winter-magit.png' | absolute_url }}"><img alt="ef-winter theme magit sample" src="{{'/assets/images/ef/ef-winter-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-winter-listing.png' | absolute_url }}"><img alt="ef-winter theme listing sample" src="{{'/assets/images/ef/ef-winter-listing.png' | absolute_url }}"/></a>
+
+## ef-cherie
+
+<a href="{{'/assets/images/ef/ef-cherie.png' | absolute_url }}"><img alt="ef-cherie theme sample" src="{{'/assets/images/ef/ef-cherie.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-cherie-magit.png' | absolute_url }}"><img alt="ef-cherie theme magit sample" src="{{'/assets/images/ef/ef-cherie-magit.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-cherie-listing.png' | absolute_url }}"><img alt="ef-cherie theme listing sample" src="{{'/assets/images/ef/ef-cherie-listing.png' | absolute_url }}"/></a>
 
 ## ef-trio-dark
 
