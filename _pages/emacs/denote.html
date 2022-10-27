@@ -828,7 +828,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org674c274">
+<pre class="example" id="org0d6e3c2">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -930,7 +930,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orga36eb0a">
+<pre class="example" id="orgf61769f">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1027,7 +1027,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org83e6c71">
+<pre class="example" id="org4728363">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1047,7 +1047,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga545051">
+<pre class="example" id="orgeb72b4f">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1311,7 +1311,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org9d97713">
+<pre class="example" id="org7f13449">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1323,7 +1323,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org7d9cf69">
+<pre class="example" id="org72e5156">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1337,7 +1337,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org0fff028">
+<pre class="example" id="org1cc78cb">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1351,7 +1351,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org3e2aaf7">
+<pre class="example" id="org34cc6b6">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1620,7 +1620,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org66d31a8">
+<pre class="example" id="orga457871">
 - link1
 - link2
 - link3
@@ -1638,7 +1638,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0c496c3">
+<pre class="example" id="org60eae37">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1831,8 +1831,8 @@ which helps with discoverability.
 <h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.6.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
-[ Refactored as part of 1.2.0-dev to show the context
-  of links. ]
+[ Refactored as part of 1.2.0-dev to optionally show
+  the context of links. ]
 </p>
 
 <p>
@@ -1842,15 +1842,27 @@ to the present entry.
 </p>
 
 <p>
-The backlinks&rsquo; buffer is desinged to display the file name of the note
-linking to the current entry, as well as the context of each link.
+By default, the backlinks&rsquo; buffer is desinged to display the file name
+of the note linking to the current entry.  Each file name is presented
+on its own line, like this:
 </p>
+
+<pre class="example" id="org05056c4">
+Backlinks to "On being honest" (20220614T130812)
+------------------------------------------------
+
+20220614T145606--let-this-glance-become-a-stare__journal.txt
+20220616T182958--feeling-butterflies-in-your-stomach__journal.txt
+</pre>
 
 <p>
-It looks like this:
+When the user option <code>denote-backlinks-show-context</code> is non-nil, the
+backlinks&rsquo; buffer displays the line on which a link to the current
+note occurs.  It also shows multiple occurances, if present.  It looks
+like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgce0f97a">
+<pre class="example" id="orgf0fb1bb">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1864,7 +1876,9 @@ Backlinks to "On being honest" (20220614T130812)
 <p>
 Note that the width of the lines in the context depends on the
 underlying file.  In the above example, the lines are split at the
-<code>fill-column</code>.  Long lines will show up just fine.
+<code>fill-column</code>.  Long lines will show up just fine.  Also note that the
+built-in user option <code>xref-truncation-width</code> can truncate long lines
+to a given maximum number of characters.
 </p>
 
 <p>
@@ -1872,13 +1886,29 @@ underlying file.  In the above example, the lines are split at the
 </p>
 
 <p>
-The backlinks&rsquo; buffer is fontified by default, though the user has
-access to the <code>denote-link-fontify-backlinks</code> option to disable this
-effect by setting its value to nil.  The default style is handled by
-Denote, to highlight the components of each file.  A nil value means
-that the fontification will be performed by the underlying <code>xref</code>
-mechanism (generic style such as the one used by the output of the
-built-in command <code>project-find-regexp</code>).
+The backlinks&rsquo; buffer runs the major-mode <code>denote-backlinks-mode</code>.  It
+binds keys to move between links with <code>n</code> (next) and <code>p</code> (previous).
+These are stored in the <code>denote-backlinks-mode-map</code> (use <code>M-x
+describe-mode</code> (<code>C-h m</code>) in an unfamiliar buffer to learn more about
+it).  When the user option <code>denote-backlinks-show-context</code> is non-nil,
+all relevant Xref key bindings are fully functional: again, check
+<code>describe-mode</code>.
+</p>
+
+<p>
+The backlinking facility uses Emacs&rsquo; built-in Xref infrastructure.  On
+some operating systems, the user may need to add certain executables
+to the relevant environment variable.
+</p>
+
+<p>
+<a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
+</p>
+
+<p>
+Backlinks to the current file can also be visited by using the
+minibuffer completion interface with the <code>denote-link-find-backlink</code>
+command (<a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">Visiting linked files via the minibuffer</a>).
 </p>
 
 <p>
@@ -1900,36 +1930,6 @@ Reproducing it here for the sake of convenience:
         (window-width . 0.3)))
 </pre>
 </div>
-
-<p>
-The backlinks&rsquo; buffer runs the major-mode <code>denote-backlinks-mode</code>, which
-is derived from <code>special-mode</code>.  It binds keys to move between links
-with <code>n</code> (next) and <code>p</code> (previous).  These are stored in the
-<code>denote-backlinks-mode-map</code> (use <code>M-x describe-mode</code> (<code>C-h m</code>) in an
-unfamiliar buffer to learn more about it).
-</p>
-
-<p>
-[ The above paragraph is no longer accurate since 2022-10-26 06:44
-  +0300, on 1.2.0-dev.  We are making refinements to
-  it and shall update the documentation accordingly. ]
-</p>
-
-<p>
-Note that the backlinking facility uses Emacs&rsquo; built-in Xref
-infrastructure.  On some operating systems, the user may need to add
-certain executables to the relevant environment variable.
-</p>
-
-<p>
-<a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a>
-</p>
-
-<p>
-Backlinks to the current file can also be visited by using the
-minibuffer completion interface with the <code>denote-link-find-backlink</code>
-command (<a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">Visiting linked files via the minibuffer</a>).
-</p>
 </div>
 </div>
 
@@ -2418,7 +2418,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org3171864">
+<pre class="example" id="org8927ff3">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -2944,8 +2944,9 @@ Everything is in place to set up the package.
 
 (setq denote-date-format nil) ; read doc string
 
-;; By default, we fontify backlinks in their bespoke buffer.
-(setq denote-link-fontify-backlinks t)
+;; By default, we do not show the context of links.  We just display
+;; file names.  This provides a more informative view.
+(setq denote-backlinks-show-context t)
 
 ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
 ;; advanced.
@@ -3521,7 +3522,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org55e82ad">
+<pre class="example" id="orga4d6202">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
