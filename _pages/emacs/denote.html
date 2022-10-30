@@ -829,7 +829,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgc186b62">
+<pre class="example" id="org7d098e4">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -931,7 +931,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org30dd9d2">
+<pre class="example" id="orga5fa300">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1028,7 +1028,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge7fc722">
+<pre class="example" id="org9e63a8f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1048,7 +1048,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgba96dc9">
+<pre class="example" id="orgcc9635d">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1312,7 +1312,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orga8f94f3">
+<pre class="example" id="org4af82bb">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1324,7 +1324,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8ff2956">
+<pre class="example" id="org09392d4">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1338,7 +1338,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org5c7b126">
+<pre class="example" id="org7783209">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1352,7 +1352,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge88aa4b">
+<pre class="example" id="org3c670e3">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1621,7 +1621,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org05f48e5">
+<pre class="example" id="org86e1d8a">
 - link1
 - link2
 - link3
@@ -1639,7 +1639,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org1a97850">
+<pre class="example" id="org93ac067">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1848,7 +1848,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org1374a9d">
+<pre class="example" id="org3b86596">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1863,7 +1863,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org61ed337">
+<pre class="example" id="orgec1a522">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2419,7 +2419,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org9fc459e">
+<pre class="example" id="orgcedc7a6">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3369,9 +3369,13 @@ accepts a directory-local value for what we internally refer to as
 <dl class="org-dl">
 <dt>Variable <code>denote-file-types</code></dt><dd><p>
 Alist of <code>denote-file-type</code> and
-their format properties.  Each element is of the form <code>(SYMBOL
-  . PROPERTY-LIST)</code>.  <code>SYMBOL</code> is one of those specified in
-<code>denote-file-type</code>.
+their format properties.
+</p>
+
+<p>
+Each element is of the form <code>(SYMBOL . PROPERTY-LIST)</code>.  <code>SYMBOL</code> is
+one of those specified in <code>denote-file-type</code> or an arbitrary symbol
+that defines a new file type.
 </p>
 
 <p>
@@ -3379,40 +3383,40 @@ their format properties.  Each element is of the form <code>(SYMBOL
 </p>
 
 <ol class="org-ol">
-<li><code>:extension</code> which is a string with the file extension
-including the period.</li>
+<li><code>:extension</code> is a string with the file extension including the
+period.</li>
 
 <li><code>:date-function</code> is a function that can format a date.  See the
 functions <code>denote--date-iso-8601</code>, <code>denote--date-rfc3339</code>, and
 <code>denote--date-org-timestamp</code>. [This property is part of
 1.2.0-dev.]</li>
 
-<li><code>:front-matter</code> which is either a string passed to <code>format</code> or a
-variable holding such a string.  The <code>format</code> function accepts four
-arguments, which come from <code>denote</code> in this order: <code>TITLE</code>, <code>DATE</code>,
-<code>KEYWORDS</code>, <code>IDENTIFIER</code>.  Read the doc string of <code>format</code> on how
-to reorder arguments.</li>
+<li><code>:front-matter</code> is either a string passed to <code>format</code> or a
+variable holding such a string.  The <code>format</code> function accepts
+four arguments, which come from <code>denote</code> in this order: <code>TITLE</code>,
+<code>DATE</code>, <code>KEYWORDS</code>, <code>IDENTIFIER</code>.  Read the doc string of
+<code>format</code> on how to reorder arguments.</li>
 
-<li><code>:title-key-regexp</code> is a string with the regular expression that is
-used to retrieve the title line in a file.  The first line matching
-this regexp is considered the title line.</li>
+<li><code>:title-key-regexp</code> is a regular expression that is used to
+retrieve the title line in a file.  The first line matching this
+regexp is considered the title line.</li>
 
 <li><code>:title-value-function</code> is the function used to format the raw
-title string for inclusion in the front matter (e.g. to surround it
-in quotes).  Use the <code>identity</code> function if no further processing
-is required.</li>
+title string for inclusion in the front matter (e.g. to surround
+it with quotes).  Use the <code>identity</code> function if no further
+processing is required.</li>
 
 <li><code>:title-value-reverse-function</code> is the function used to retrieve
 the raw title string from the front matter.  It performs the
 reverse of <code>:title-value-function</code>.</li>
 
-<li><code>:keywords-key-regexp</code> is a string with the regular expression used
-to retrieve the keywords&rsquo; line in the file.  The first line
-matching this regexp is considered the keywords&rsquo; line.</li>
+<li><code>:keywords-key-regexp</code> is a regular expression used to retrieve
+the keywords&rsquo; line in the file.  The first line matching this
+regexp is considered the keywords&rsquo; line.</li>
 
 <li><code>:keywords-value-function</code> is the function used to format the
-keywords&rsquo; list of strings as a single string for inclusion in the
-front matter.</li>
+keywords&rsquo; list of strings as a single string, with appropriate
+delimiters, for inclusion in the front matter.</li>
 
 <li><code>:keywords-value-reverse-function</code> is the function used to retrieve
 the keywords&rsquo; value from the front matter.  It performs the reverse
@@ -3430,8 +3434,8 @@ to match the aforementioned link format.  See the variables
 </ol>
 
 <p>
-If <code>denote-file-type</code> is nil, we use the first element of this list
-for new note creation.  The default is <code>org</code>.
+If <code>denote-file-type</code> is nil, use the first element of this list for
+new note creation.  The default is <code>org</code>.
 </p></dd>
 </dl>
 
@@ -3610,7 +3614,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgda94300">
+<pre class="example" id="org287a1cd">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
