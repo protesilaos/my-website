@@ -67,3 +67,33 @@ average user.  Consistency is not something that should actively be
 calling for one's attention, though it is "there" for those who wish
 to pay attention.  In short: I am not picking random colours and
 implementing them on a whimsy.  Theme development is not easy.
+
+## Sources
+
+### Modus themes
+
++ Package name (GNU ELPA): `modus-themes` (also built into Emacs >= 28)
++ Official manual: <https://protesilaos.com/emacs/modus-themes>
++ Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
++ Colour palette: <https://protesilaos.com/emacs/modus-themes-colors>
++ Sample pictures: <https://protesilaos.com/emacs/modus-themes-pictures>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/modus-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/modus-themes>
+    + GitLab: <https://gitlab.com/protesilaos/modus-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/modus-themes>
++ Backronym: My Old Display Unexpectedly Sharpened ... themes
+
+### Ef (εὖ) themes
+
++ Package name (GNU ELPA): `ef-themes`
++ Official manual: <https://protesilaos.com/emacs/ef-themes>
++ Change log: <https://protesilaos.com/emacs/ef-themes-changelog>
++ Sample pictures: <https://protesilaos.com/emacs/ef-themes-pictures>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/ef-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/ef-themes>
+    + GitLab: <https://gitlab.com/protesilaos/ef-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
++ Backronym: Extremely Fatigued of Themes Having Exaggerated Markings,
+  Embellishments, and Sparkles.
