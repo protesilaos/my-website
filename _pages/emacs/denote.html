@@ -68,6 +68,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.2. Create note using Org capture</a></li>
 <li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.3. Maintain separate directory silos for notes</a></li>
+<li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.4. Exclude certain directories from all operations</a></li>
 </ul>
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
@@ -829,7 +830,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org54ae744">
+<pre class="example" id="org26ccd62">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -922,6 +923,42 @@ sufficient.  The manual shall be expanded accordingly.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:8458f716-f9c2-4888-824b-2bf01cc5850a" class="outline-3">
+<h3 id="h:8458f716-f9c2-4888-824b-2bf01cc5850a"><span class="section-number-3">3.4.</span> Exclude certain directories from all operations</h3>
+<div class="outline-text-3" id="text-h:8458f716-f9c2-4888-824b-2bf01cc5850a">
+<p>
+[ Part of 1.2.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-excluded-directories-regexp</code> instructs all
+Denote functions that read or check file/directory names to omit
+directories that match the given regular expression.  The regexp needs
+to match only the name of the directory, not its full path.
+</p>
+
+<p>
+Affected operations include file prompts and functions that return the
+available files in the value of the user option <code>denote-directory</code>
+(<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>).
+</p>
+
+<p>
+File prompts are used by several commands, such as <code>denote-link</code> and
+<code>denote-subdirectory</code>.
+</p>
+
+<p>
+Functions that check for files include <code>denote-directory-files</code> and
+<code>denote-directory-subdirectories</code>.
+</p>
+
+<p>
+<a href="#h:c916d8c5-540a-409f-b780-6ccbd90e088e">For developers or advanced users</a>.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca" class="outline-2">
@@ -1001,7 +1038,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org4b64d24">
+<pre class="example" id="org94050b2">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1098,7 +1135,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb044c7b">
+<pre class="example" id="org9df0acf">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1118,7 +1155,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org7ba4a8b">
+<pre class="example" id="org9565bca">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1382,7 +1419,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org2fc33cf">
+<pre class="example" id="org9d0aa28">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1394,7 +1431,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8ce9fdd">
+<pre class="example" id="org21c82ae">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1408,7 +1445,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1f26ad1">
+<pre class="example" id="orgba8f253">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1422,7 +1459,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge308644">
+<pre class="example" id="org855f6ce">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1691,7 +1728,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org8891ad8">
+<pre class="example" id="org460ab51">
 - link1
 - link2
 - link3
@@ -1709,7 +1746,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org1cde7dc">
+<pre class="example" id="org5a88b69">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1918,7 +1955,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org6ff9ef0">
+<pre class="example" id="orgc3089fd">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1933,7 +1970,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org15508e2">
+<pre class="example" id="org7ff4fa2">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2489,7 +2526,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org8fd52a9">
+<pre class="example" id="org8c35cab">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -2999,7 +3036,7 @@ Everything is in place to set up the package.
 (setq denote-sort-keywords t)
 (setq denote-file-type nil) ; Org is the default, set others here
 (setq denote-prompts '(title keywords))
-
+(setq denote-excluded-directories-regexp nil)
 
 ;; Pick dates, where relevant, with Org's advanced interface:
 (setq denote-date-prompt-use-org-read-date t)
@@ -3222,7 +3259,9 @@ files in variable <code>denote-directory</code>.  Filter
 
 <dl class="org-dl">
 <dt>Function <code>denote-directory-subdirectories</code></dt><dd>Return list of
-subdirectories of the variable <code>denote-directory</code>.  Note that the
+subdirectories in variable <code>denote-directory</code>. Omit dotfiles (such
+as .git) unconditionally.  Also exclude whatever matches
+<code>denote-excluded-directories-regexp</code>.  Note that the
 <code>denote-directory</code> accepts a directory-local value for what we call
 &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
 </dl>
@@ -3684,7 +3723,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgbff56a6">
+<pre class="example" id="org0387551">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
