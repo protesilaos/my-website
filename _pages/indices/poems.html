@@ -1,0 +1,50 @@
+---
+layout: index
+title: "Poems"
+subtitle: "My poetry is an expression of self, showing how I feel"
+excerpt: "My poetry is an expression of self, showing how I feel."
+index-feed:
+  text: My poetry
+  url: "/poems.xml"
+permalink: /poems/
+---
+
+<p>
+  My poetry is but an attempt to record feelings.  All poems are
+  written in one go.  I do not tend to their aesthetic appeal, as that
+  requires extra processing which detracts from my truth in the
+  moment.
+</p>
+
+<hr>
+
+{% assign poems = site.poems | sort: 'date' | reverse %}
+
+<div class="index">
+
+  {% for i in poems %}
+  <article class="post">
+
+    <div>
+      <h2>{{ i.title }}</h2>
+
+      {% if i.subtitle %}
+      <h4 class="subtitle">{{ i.subtitle }}</h4>
+      {% endif %}
+      <div class="post-header-meta">
+        <time datetime="{{ i.date | date_to_xmlschema }}">
+          <a href="{{ i.url | relative_url }}">
+            {{ i.date | date: site.date_format }}
+          </a>
+        </time>
+      </div>
+    </div>
+
+    <div>
+      {{ i.content }}
+    </div>
+
+  </article>
+  {% endfor %}
+
+</div>
