@@ -21,7 +21,8 @@ In my teens I was a semi-professional football (soccer) player and, at
 times, an assistant to a land surveyor and a motorcycle mechanic.
 
 During my university years I was employed as a bartender, construction
-worker, receptionist, waiter, etc.
+worker, receptionist, waiter, etc.  I hold a Bachelor's degree in
+European Politics, Economics, and Law.
 
 After my studies in mid-2011 and up until ~2016 I got involved in
 politics-related fields (parliamentary assistant at the European
