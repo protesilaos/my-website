@@ -3,6 +3,12 @@ title: "Please help me find a job and move country"
 excerpt: "My public plea for a new job and place to live."
 ---
 
+**UPDATE 2022-11-07 09:06 +0200:** I published a video where I explain
+my problem and talk about my underwhelming CV:
+<https://protesilaos.com/news/2022-11-07-job-help-cv-story/>
+
+* * *
+
 Ever since August, I have a memo to leave the house I live in.  A new
 memo has prompted me to make this public plea.  The landlord wants the
 house for "private use".  I pay everything, so there is no legal
