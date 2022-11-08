@@ -48,11 +48,12 @@ in all aspects of my life.
 
 ## Activities
 
-- **2019 -- Present:** Started working with Emacs.  Learnt to program in
-  Emacs Lisp, without a background in programming.  I maintain more
+- **2019 -- Present:** Started working with Emacs.  Learnt to program
+  in Emacs Lisp, without a background in programming.  I maintain more
   than 10 packages and have contributed to core Emacs, among other
   projects in the community.  The Free Software Foundation awarded me
-  the *2021 Award for Outstanding New Free Software Contributor*.
+  the *2021 Award for Outstanding New Free Software Contributor*:
+  <https://www.fsf.org/awards/onfsc-award>.
 
 - **2016 -- Present:** Switched my computer to the GNU/Linux operating
   system and began learning about Unix tools.  My distribution of
@@ -75,7 +76,7 @@ in all aspects of my life.
 - Self-taught philosopher.
 - Self-taught programmer.
 - Native Greek speaker.
-- Proficient English speaker (I would say I am as good as with my Greek).
+- Proficient English speaker.
 - Competent with French.
 - Good with Spanish.
 - Rudimentary understanding of Portuguese and Italian.
