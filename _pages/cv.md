@@ -76,3 +76,11 @@ in all aspects of my life.
 -   Competent with French.
 -   Good with Spanish.
 -   Rudimentary understanding of Portuguese and Italian.
+
+## Publications
+
+{% assign indices = site.data.indices %}
+
+{% for i in indices %}
+-  <strong><a href="{{ i.url | absolute_url }}">{{ i.name }}</a> :: </strong> {{ i.description }}
+{% endfor %}
