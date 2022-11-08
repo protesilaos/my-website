@@ -15,6 +15,9 @@ layout: page
 * Email: <public@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
   for further information)
 
+The following is an expanded version of [my Curriculum Vitae
+(CV)](https://protesilaos.com/cv/).
+
 ## Profile
 
 In my teens I was a semi-professional football (soccer) player and, at
