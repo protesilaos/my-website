@@ -35,50 +35,50 @@ in all aspects of my life.
 
 ## Skills
 
--   Writing
--   Public speaking (video format)
--   Conceptual analysis
--   Technical documentation
--   Emacs Lisp
--   Git
--   Shell (Bash)
--   HTML
--   CSS
--   Jekyll
+- Writing
+- Public speaking (video format)
+- Conceptual analysis
+- Technical documentation
+- Emacs Lisp
+- Git
+- Shell (Bash)
+- HTML
+- CSS
+- Jekyll
 
 ## Activities
 
--   **2019 -- Present:** Started working with Emacs.  Learnt to program in
-    Emacs Lisp, without a background in programming.  I maintain more
-    than 10 packages and have contributed to core Emacs, among other
-    projects in the community.  The Free Software Foundation awarded me
-    the *2021 Award for Outstanding New Free Software Contributor*.
+- **2019 -- Present:** Started working with Emacs.  Learnt to program in
+  Emacs Lisp, without a background in programming.  I maintain more
+  than 10 packages and have contributed to core Emacs, among other
+  projects in the community.  The Free Software Foundation awarded me
+  the *2021 Award for Outstanding New Free Software Contributor*.
 
--   **2016 -- Present:** Switched my computer to the GNU/Linux operating
-    system and began learning about Unix tools.  My distribution of
-    choice is Arch Linux.
+- **2016 -- Present:** Switched my computer to the GNU/Linux operating
+  system and began learning about Unix tools.  My distribution of
+  choice is Arch Linux.
 
--   **2011 -- Present:** Launched my personal website, protesilaos.com,
-    which now contains more than 1000 publications on a range of topics,
-    including politics, programming, and philosophy.  The website also
-    hosts all the technical documentation of my Emacs packages.  All my
-    publications are provided for free and in freedom.
+- **2011 -- Present:** Launched my personal website, protesilaos.com,
+  which now contains more than 1000 publications on a range of topics,
+  including politics, programming, and philosophy.  The website also
+  hosts all the technical documentation of my Emacs packages.  All my
+  publications are provided for free and in freedom.
 
--   **2012 -- 2015:** Worked as a parliamentary assistant at the European
-    Parliament.  Also did some minor freelancing jobs related to
-    European Union politics.
+- **2012 -- 2015:** Worked as a parliamentary assistant at the European
+  Parliament.  Also did some minor freelancing jobs related to
+  European Union politics.
 
 ## Education
 
--   Bachelor's Degree in European Politics, Economics, and Law from the
-    European University Cyprus (2012).
--   Self-taught philosopher.
--   Self-taught programmer.
--   Native Greek speaker.
--   Proficient English speaker (I would say I am as good as with my Greek).
--   Competent with French.
--   Good with Spanish.
--   Rudimentary understanding of Portuguese and Italian.
+- Bachelor's Degree in European Politics, Economics, and Law from the
+  European University Cyprus (2012).
+- Self-taught philosopher.
+- Self-taught programmer.
+- Native Greek speaker.
+- Proficient English speaker (I would say I am as good as with my Greek).
+- Competent with French.
+- Good with Spanish.
+- Rudimentary understanding of Portuguese and Italian.
 
 ## Publications
 
