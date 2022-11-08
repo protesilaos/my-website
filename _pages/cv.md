@@ -42,6 +42,9 @@ in all aspects of my life.
 -   Emacs Lisp
 -   Git
 -   Shell (Bash)
+-   HTML
+-   CSS
+-   Jekyll
 
 ## Activities
 
