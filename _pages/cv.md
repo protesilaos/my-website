@@ -7,7 +7,7 @@ layout: page
 
 Protesilaos Stavrou
 
-Website: https://protesilaos.com  
+Website: <https://protesilaos.com>  
 Email: <public@protesilaos.com>  
 Residence: Cyprus (Troodos mountain range)
 
