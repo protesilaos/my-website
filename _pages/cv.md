@@ -69,7 +69,7 @@ in all aspects of my life.
   hosts all the technical documentation of my Emacs packages.  My
   publications are provided for free and in freedom.
 
-- **2012 -- 2015:** Worked as a parliamentary assistant at the European
+- **2012 -- 2016:** Worked as a parliamentary assistant at the European
   Parliament.  Also did some minor freelancing jobs related to
   European Union politics.
 
