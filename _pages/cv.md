@@ -15,13 +15,16 @@ Residence: Cyprus (Troodos mountain range)
 
 I am a self-taught programmer and philosopher.
 
-I maintain lots of packages for GNU Emacs, including the `modus-themes`
+I maintain [lots of packages for GNU
+Emacs](https://protesilaos.com/emacs), including the `modus-themes`
 which are a part of core Emacs and the increasingly popular `denote`
-note-taking system.  My code focuses on clarity, correctness, and
-composability.  I place great emphasis on documentation.  The manuals
-I write are thorough and comprehensive.  All my themes (`modus-themes`
-and `ef-themes` projects) are designed in accordance with accessibility
-standards for colour contrast---inclusiveness is of paramount
+note-taking system ([watch its
+demo](https://protesilaos.com/codelog/2022-06-18-denote-demo/)).  My
+code focuses on clarity, correctness, and composability.  I place
+great emphasis on documentation.  All the manuals I write are thorough
+and comprehensive.  My themes (`modus-themes` and `ef-themes`
+projects) are designed in accordance with accessibility standards for
+colour contrast (WCAG AA and WCAG AAA)---inclusiveness is of paramount
 importance.
 
 I talk, write, and do philosophy.  I generally try to express myself
@@ -45,6 +48,7 @@ in all aspects of my life.
 - HTML
 - CSS
 - Jekyll
+- Colour palette design
 
 ## Activities
 
@@ -61,8 +65,8 @@ in all aspects of my life.
 
 - **2011 -- Present:** Launched my personal website, protesilaos.com,
   which now contains more than 1000 publications on a range of topics,
-  including politics, programming, and philosophy.  The website also
-  hosts all the technical documentation of my Emacs packages.  All my
+  including philosophy, programming, and politics.  The website also
+  hosts all the technical documentation of my Emacs packages.  My
   publications are provided for free and in freedom.
 
 - **2012 -- 2015:** Worked as a parliamentary assistant at the European
@@ -73,12 +77,12 @@ in all aspects of my life.
 
 - Bachelor's Degree in European Politics, Economics, and Law from the
   European University Cyprus (2012).
-- Self-taught philosopher.
 - Self-taught programmer.
+- Self-taught philosopher.
 - Native Greek speaker.
 - Proficient English speaker.
 - Competent with French.
-- Good with Spanish.
+- Decent with Spanish.
 - Rudimentary understanding of Portuguese and Italian.
 
 ## Publications
