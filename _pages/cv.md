@@ -24,8 +24,9 @@ code focuses on clarity, correctness, and composability.  I place
 great emphasis on documentation.  All the manuals I write are thorough
 and comprehensive.  My themes (`modus-themes` and `ef-themes`
 projects) are designed in accordance with accessibility standards for
-colour contrast (WCAG AA and WCAG AAA)---inclusiveness is of paramount
-importance.
+colour contrast (WCAG AA and WCAG AAA), as well as to empower users
+with red-green or blue-yellow colour deficiency (deuteranopia and
+tritanopia, respectively)---inclusiveness is of paramount importance.
 
 I talk, write, and do philosophy.  I generally try to express myself
 in plain terms and make my thoughts relatable to everyone.  I consider
