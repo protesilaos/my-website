@@ -67,7 +67,7 @@ soon!
 
 The advice I get pertains to the CV, which I already covered, and to
 the sort of skills I should pursue.  Most people tell me that web
-development is the most marketable field.  I admit that as an
+development is the most marketable field.  I admit that, as an
 outsider, I am discouraged by the sheer complexity of all the tooling
 and frameworks involved.  I will continue researching the JavaScript
 world.  My first impression is that the much-touted marketability is
