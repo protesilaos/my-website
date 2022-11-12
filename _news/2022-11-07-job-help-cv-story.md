@@ -5,6 +5,12 @@ layout: vlog
 mediaid: "rtLrdFH6eJk"
 ---
 
+**UPDATE 2022-11-12 07:49 +0200**: Read [the status update on my job
+search](https://protesilaos.com/news/2022-11-12-job-status-update/).
+In short, nothing to show for yet.
+
+* * *
+
 This video is my public plea to find employment.  It comes with an
 explanation of why I am in this situation and why my CV is
 underwhelming/useless.

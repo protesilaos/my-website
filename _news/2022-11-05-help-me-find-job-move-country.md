@@ -3,6 +3,12 @@ title: "Please help me find a job and move country"
 excerpt: "My public plea for a new job and place to live."
 ---
 
+**UPDATE 2022-11-12 07:49 +0200**: Read [the status update on my job
+search](https://protesilaos.com/news/2022-11-12-job-status-update/).
+In short, nothing to show for yet.
+
+* * *
+
 **UPDATE 2022-11-07 09:06 +0200:** I published a video where I explain
 my problem and talk about my underwhelming CV:
 <https://protesilaos.com/news/2022-11-07-job-help-cv-story/>
