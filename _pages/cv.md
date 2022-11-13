@@ -34,7 +34,7 @@ my theories "practical", in the sense that I put them to the test and
 live by those precepts.
 
 I am an original thinker, an independent spirit, a patient and
-attentive listener, a polific writer, as well as a disciplined person
+attentive listener, a prolific writer, as well as a disciplined person
 in all aspects of my life.
 
 ## Skills
