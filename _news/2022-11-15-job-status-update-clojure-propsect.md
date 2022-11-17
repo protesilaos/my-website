@@ -19,7 +19,7 @@ job](https://protesilaos.com/news/2022-11-07-job-help-cv-story/):
 * The underlying problem is the same: I need a job and I will have to
   relocate.  But now I am not desperate to accept the first offer that
   comes my way.
-* I do not want to adapt a decision about my future under extreme
+* I do not want to adopt a decision about my future under extreme
   duress.  It has to be something I will not regret.
 * I started learning Clojure and I explain why I picked it over
   Python, JavaScript, Ruby, and Common Lisp.  In short: (i) there is
