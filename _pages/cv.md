@@ -50,6 +50,7 @@ in all aspects of my life.
 - CSS
 - Jekyll
 - Colour palette design
+- Arch Linux
 
 ## Activities
 
