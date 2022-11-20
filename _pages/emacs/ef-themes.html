@@ -357,12 +357,13 @@ whether it is monospaced or not.
 </p>
 
 <p>
-When <code>ef-themes-mixed-fonts</code> is set to a non-<code>nil</code> value, faces such as
-Org tables, inline code, code blocks, and the like, are rendered in a
-monospaced font at all times.  The user can thus set their default font
-family to a proportionately spaced font without worrying about breaking
-the alignment of relevant elements, or if they simply prefer the
-aesthetics of mixed mono and proportionately spaced font families.
+When <code>ef-themes-mixed-fonts</code> is set to a non-<code>nil</code> value, faces such
+as for Org tables, inline code, code blocks, and the like, are
+rendered in a monospaced font at all times.  The user can thus set
+their default font family to a proportionately spaced font without
+worrying about breaking the alignment of relevant elements, or if they
+simply prefer the aesthetics of mixed mono and proportionately spaced
+font families.
 </p>
 
 <p>
@@ -372,9 +373,10 @@ activation of the built-in <code>variable-pitch-mode</code>.
 </p>
 
 <p>
-To get consistent typography, the user may need to edit the font family
-of the <code>fixed-pitch</code> face.  The <code>fontaine</code> package on GNU ELPA (by
-Protesilaos) can be helpful in that regard.
+To get consistent typography, the user may need to edit the font
+family of the <code>fixed-pitch</code> and <code>variable-pitch</code> faces.  The
+<code>fontaine</code> package on GNU ELPA (by Protesilaos) can be helpful in this
+regard.
 </p>
 </div>
 </div>
@@ -385,10 +387,10 @@ Protesilaos) can be helpful in that regard.
 <p>
 The user option <code>ef-themes-variable-pitch-ui</code> controls whether the
 elements of the User Interface (UI) use a proportionately spaced font.
-By default (a <code>nil</code> value), all UI elements use the default font family.
-When this user option is set to a non-<code>nil</code> value, all UI elements will
-inherit the face <code>variable-pitch</code> instead thus rendering them in a
-proportionately spaced font.
+By default (a <code>nil</code> value), all UI elements use the default font
+family.  When this user option is set to a non-<code>nil</code> value, all UI
+elements will inherit the face <code>variable-pitch</code>, thus rendering them
+in a proportionately spaced font.
 </p>
 
 <p>
@@ -403,9 +405,10 @@ In this context, the UI elements are:
 </ul>
 
 <p>
-To get consistent typography, the user may need to edit the font family
-of the <code>variable-pitch</code> face.  The <code>fontaine</code> package on GNU ELPA (by
-Protesilaos) can be helpful in that regard.
+To get consistent typography, the user may need to edit the font
+family of the <code>fixed-pitch</code> and <code>variable-pitch</code> faces.  The
+<code>fontaine</code> package on GNU ELPA (by Protesilaos) can be helpful in this
+regard.
 </p>
 </div>
 </div>
@@ -512,12 +515,12 @@ will retain the original aesthetic for that level.  For example:
 <pre class="src src-emacs-lisp">(setq ef-themes-headings
       '((1 . t)           ; keep the default style
         (2 . (variable-pitch 1.2))
-        (t . (variable-pitch)))) ; style for all other headings
+        (t . (variable-pitch)))) ; style for all unspecified headings
 
 (setq ef-themes-headings
       '((1 . (variable-pitch 1.6))
         (2 . (1.3))
-        (t . t))) ; default style for all other levels
+        (t . t))) ; default style for all unspecified levels
 </pre>
 </div>
 </div>
@@ -844,11 +847,12 @@ approach of putting those pieces together.
 </p>
 
 <p>
-To customize faces we use the built-in <code>custom-set-faces</code>.  The value it
-accepts has the same syntax as that found in <code>ef-themes.el</code>,
-specifically the <code>ef-themes-faces</code> constant.  It thus is easy to copy
-lines from there and tweak them.  Let&rsquo;s pick a couple of font-lock faces
-(used in all programming modes, among others):
+To customize faces in a way that mirrors the Ef themes&rsquo; source code,
+we use the built-in <code>custom-set-faces</code>.  The value it accepts has the
+same syntax as that found in <code>ef-themes.el</code>, specifically the
+<code>ef-themes-faces</code> constant.  It thus is easy to copy lines from there
+and tweak them.  Let&rsquo;s pick a couple of font-lock faces (used in all
+programming modes, among others):
 </p>
 
 <div class="org-src-container">
@@ -868,10 +872,10 @@ This function is added to the `ef-themes-post-load-hook'."
 </div>
 
 <p>
-Each item in the Ef themes collection has its own color mapping.  So the
-color value of the <code>comment</code> variable will differ from theme-to-theme.
-For the purpose of our demonstration, we make variables look like
-comments and comments like variables:
+Each item in the Ef themes collection has its own color mapping.  So
+the color value of the <code>comment</code> variable will differ from theme to
+theme.  For the purpose of our demonstration, we make variables look
+like comments and comments like variables:
 </p>
 
 <div class="org-src-container">
@@ -974,9 +978,17 @@ hook works everywhere.
 </p>
 
 <p>
+The downside of the theme-agnostic hook is that any functions added to
+it will likely not be able to benefit from macro calls that read the
+active theme, such as <code>ef-themes-with-colors</code> (the Modus themes have
+an equivalent macro).  Not all Emacs themes have the same
+capabilities.
+</p>
+
+<p>
 In this document, we always mention <code>ef-themes-post-load-hook</code> though
 the user can replace it with <code>after-enable-theme-hook</code> should they need
-to.
+to (provided they understand the implications).
 </p>
 </div>
 </div>
