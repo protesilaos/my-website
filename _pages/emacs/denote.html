@@ -831,7 +831,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org07f9f14">
+<pre class="example" id="orgea59198">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1039,7 +1039,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org9e5688c">
+<pre class="example" id="orgbbfb903">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1136,7 +1136,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgc713c62">
+<pre class="example" id="org83eaae8">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1156,7 +1156,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgdd12813">
+<pre class="example" id="orgfc4abc6">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1420,7 +1420,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org2495ffa">
+<pre class="example" id="orgc27da65">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1432,7 +1432,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgbdc9b42">
+<pre class="example" id="org71ff519">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1446,7 +1446,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org2af00bd">
+<pre class="example" id="orgb02eef9">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1460,7 +1460,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org987165e">
+<pre class="example" id="orga5c1de2">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1729,7 +1729,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org0763ed7">
+<pre class="example" id="orgf395112">
 - link1
 - link2
 - link3
@@ -1747,7 +1747,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org7c81388">
+<pre class="example" id="orga39c8b5">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1956,7 +1956,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgf224f43">
+<pre class="example" id="orge8abc9d">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1971,7 +1971,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org59f3404">
+<pre class="example" id="orgd5e09d8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2219,24 +2219,25 @@ facility.  Start by loading the relevant library:
 </div>
 
 <p>
-A dynamic block gets its contents by evaluating a given function.  The
-function and its parameters are stated in the opening <code>#+BEGIN</code> line
-of the block.  Typing <code>C-c C-c</code> with point on that line runs the
-function, with the given arguments, and populates the block&rsquo;s contents
-accordingly.
+A dynamic block gets its contents by evaluating a given function,
+depending on the type of block.  The type of block and its parameters
+are stated in the opening <code>#+BEGIN</code> line of the block.  Typing <code>C-c C-c</code>
+with point on that line runs the function, with the given arguments,
+and populates the block&rsquo;s contents accordingly.
 </p>
 
 <p>
 Denote leverages Org dynamic blocks to streamline the inclusion of (i)
-links that match a given search query and (ii) backlinks to the
-current note.
+links to notes whose name matches a given search query (like
+<code>denote-link-add-links</code>) and (ii) backlinks to the current note (like
+<code>denote-link-add-backlinks</code>).
 </p>
 
 <p>
-The two blocks that Denote registers are named <code>denote-links</code> and
-<code>denote-backlinks</code>.  The latter does not accept any parameters, while
-the former does, which we explain below by also demonstrating how
-dynamic blocks are written.
+These two types of blocks are named <code>denote-links</code> and <code>denote-backlinks</code>
+respectively.  The latter does not accept any parameters, while the
+former does, which we explain below by also demonstrating how dynamic
+blocks are written.
 </p>
 
 <p>
@@ -2252,7 +2253,7 @@ A dynamic block looks like this:
 
 <p>
 Here we have the <code>denote-links</code> type, with the <code>:regexp</code> parameter.
-The value of the <code>:regexp</code> parameter iss the same as that of the
+The value of the <code>:regexp</code> parameter is the same as that of the
 command <code>denote-link-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  The
 linked entry provides practical examples of patterns that make good
 use of Denote&rsquo;s file-naming scheme (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
@@ -2286,15 +2287,15 @@ Becomes something like this once we type <code>C-c C-c</code> with point on the
 
 <p>
 The dynamic block takes care to keep the list in order and to add any
-missing links.
+missing links when the block is evaluated anew.
 </p>
 
 <p>
-Depending on one&rsquo;s workflow, an additional dynamic block can be
-included in the file to list only those links which are missing from
-the original dynamic block (e.g. due to new notes being added over
-time).  Adding the <code>:missing-only</code> parameter with a non-<code>nil</code> value
-achieves this effect.  The <code>#+BEGIN</code> line looks like this:
+Depending on one&rsquo;s workflow, the dynamic block can be instructed to
+list only those links which are missing from the current buffer
+(similar to <code>denote-link-add-missing-links</code>).  Adding the <code>:missing-only</code>
+parameter with a non-<code>nil</code> value achieves this effect. The <code>#+BEGIN</code> line
+looks like this:
 </p>
 
 <pre class="example">
@@ -2676,7 +2677,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orge191558">
+<pre class="example" id="orga606f1e">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3873,7 +3874,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org52a3238">
+<pre class="example" id="org926b636">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -3972,22 +3973,26 @@ Denote, feel welcome to tell us about it (<a href="#h:1ebe4865-c001-4747-a6f2-0f
 </p>
 
 <ul class="org-ul">
-<li>David Wilson (SystemCrafters), <i>Generating a Blog Site from Denote
+<li>David Wilson (SystemCrafters): <i>Generating a Blog Site from Denote
 Entries</i>, 2022-09-09, <a href="https://www.youtube.com/watch?v=5R7ad5xz5wo">https://www.youtube.com/watch?v=5R7ad5xz5wo</a>.</li>
 
-<li>David Wilson (SystemCrafters), <i>Trying Out Prot&rsquo;s Denote, an Org
+<li>David Wilson (SystemCrafters): <i>Trying Out Prot&rsquo;s Denote, an Org
 Roam Alternative?</i>, 2022-07-15, <a href="https://www.youtube.com/watch?v=QcRY_rsX0yY">https://www.youtube.com/watch?v=QcRY_rsX0yY</a>.</li>
 
-<li>Jeremy Friesen, <i>Denote Emacs Configuration</i>, 2022-10-02,
+<li>Jeremy Friesen: <i>Denote Emacs Configuration</i>, 2022-10-02,
 <a href="https://takeonrules.com/2022/10/09/denote-emacs-configuration/">https://takeonrules.com/2022/10/09/denote-emacs-configuration/</a></li>
 
-<li>Jeremy Friesen, <i>Exploring the Denote Emacs Package</i>, 2022-10-01,
+<li>Jeremy Friesen: <i>Exploring the Denote Emacs Package</i>, 2022-10-01,
 <a href="https://takeonrules.com/2022/10/01/exploring-the-denote-emacs-package/">https://takeonrules.com/2022/10/01/exploring-the-denote-emacs-package/</a></li>
 
-<li>Jeremy Friesen, <i>Migration Plan for Org-Roam Notes to Denote</i>,
+<li>Jeremy Friesen: <i>Migration Plan for Org-Roam Notes to Denote</i>,
 2022-10-02, <a href="https://takeonrules.com/2022/10/02/migration-plan-for-org-roam-notes-to-denote/">https://takeonrules.com/2022/10/02/migration-plan-for-org-roam-notes-to-denote/</a></li>
 
-<li>Peter Prevos, <i>Simulating Text Files with R to Test the Emacs Denote
+<li>Jeremy Friesen: <i>Project Dispatch Menu with Org Mode Metadata,
+Denote, and Transient</i>, 2022-11-19,
+<a href="https://takeonrules.com/2022/11/19/project-dispatch-menu-with-org-mode-metadata-denote-and-transient/">https://takeonrules.com/2022/11/19/project-dispatch-menu-with-org-mode-metadata-denote-and-transient/</a></li>
+
+<li>Peter Prevos: <i>Simulating Text Files with R to Test the Emacs Denote
 Package</i>, 2022-07-28, <a href="https://lucidmanager.org/productivity/testing-denote-package/">https://lucidmanager.org/productivity/testing-denote-package/</a>.</li>
 </ul>
 </div>
