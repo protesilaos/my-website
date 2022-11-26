@@ -1,10 +1,11 @@
 ---
 title: "Emacs: my new 'altcaps' package"
-excerpt: "The 'altcaps' package for Emacs helps the user to apply alternating letter casing to convey sarcasm or mockery."
+excerpt: "The 'altcaps' package for Emacs helps the user apply alternating letter casing to convey sarcasm or mockery."
 ---
 
-The `altcaps` package for Emacs helps the user to apply alternating
-letter casing to convey sarcasm or mockery.  For example, convert this:
+The `altcaps` package for Emacs helps the user apply alternating
+letter casing to convey sarcasm or mockery.  For example, convert
+this:
 
 ```
 I respect the authorities
