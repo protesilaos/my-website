@@ -72,23 +72,6 @@ designed by me).
 + Backronym: Extremely Fatigued of Themes Having Exaggerated Markings,
   Embellishments, and Sparkles.
 
-## Agitate
-
-Agitate is a collection of commands or potentially useful functions
-that expand on the available version control features of Emacs.  Those
-are meant to complement a workflow that relies on the built-in Version
-Control framework and its accoutrements (`diff-mode.el`,
-`log-view.el`, `log-edit.el`, `vc-git.el`, and potentially others).
-
-+ Package name (GNU ELPA): `agitate`
-+ Official manual: <https://protesilaos.com/emacs/agitate>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/agitate>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/agitate>
-    + GitLab: <https://gitlab.com/protesilaos/agitate>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/agitate>
-+ Backronym: Another Git Interface Trying to Agitate Tranquil Emacsers
-
 ## Fontaine
 
 Fontaine allows the user to define detailed font configurations and set
@@ -227,6 +210,23 @@ love letters, respectively.
 + Mailing list: <https://lists.sr.ht/~protesilaos/notmuch-indicator>
 + Backronym: notmuch-... Increasingly in Need of Displaying
   Inconsequential Counters Alongside Trivia that Obscure Reality.
+
+## Agitate (experimental)
+
+Agitate is a collection of commands or potentially useful functions
+that expand on the available version control features of Emacs.  Those
+are meant to complement a workflow that relies on the built-in Version
+Control framework and its accoutrements (`diff-mode.el`,
+`log-view.el`, `log-edit.el`, `vc-git.el`, and potentially others).
+
++ Package name (GNU ELPA): `agitate`
++ Official manual: <https://protesilaos.com/emacs/agitate>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/agitate>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/agitate>
+    + GitLab: <https://gitlab.com/protesilaos/agitate>
++ Mailing list: <https://lists.sr.ht/~protesilaos/agitate>
++ Backronym: Another Git Interface Trying to Agitate Tranquil Emacsers
 
 ## The official Emacs TUTORIAL in Greek
 
