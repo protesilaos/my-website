@@ -3,9 +3,10 @@ title: "Comment on Einstein's loneliness"
 excerpt: "Excerpt from an exchange where I comment on the loneliness of a famous person."
 ---
 
-What follows is an excerpt from a recent exchange.  The identity of my
-correspondent remains private.  The quoted part, which appears as
-indented on my website, is the point I am commenting on.
+What follows is an excerpt from a recent exchange that is shared with
+permission.  The identity of my correspondent remains private.  The
+quoted part, which appears as indented on my website, is the point I
+am commenting on.
 
 * * *
 
