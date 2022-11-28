@@ -1,0 +1,72 @@
+---
+title: 'Emacs: aLtCaPs version 1.1.0'
+excerpt: 'Information about the latest version of my text-transformation package for GNU Emacs.  It helps convey sarcasm or mockery.'
+---
+
+Transform words to alternating letter casing in order to convey
+sarcasm or mockery.  For example, convert `I respect the authorities`
+to `i ReSpEcT tHe AuThOrItIeS`.
+
++ Package name (GNU ELPA): `altcaps`
++ Official manual: <https://protesilaos.com/emacs/altcaps>
++ Change log: <https://protesilaos.com/emacs/altcaps-changelog>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/altcaps>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/altcaps>
+    + GitLab: <https://gitlab.com/protesilaos/altcaps>
++ Mailing list: <https://lists.sr.ht/~protesilaos/altcaps>
++ Backronyms: Alternating Letters Transform Casual Asides to Playful
+  Statements.  ALTCAPS Lets Trolls Convert Aphorisms to Proper
+  Shitposts.
+
+Below are the release notes.
+
+* * *
+
+## New user option
+
+Introduced the user option `altcaps-force-character-casing`.  It
+forces the given letter casing for specified characters.  Its value is
+an alist of `(CHARACTER . CASE)` pairs.  `CHARACTER` is a single
+character (satisfies the `characterp` condition), while `CASE` is the
+`upcase` or `downcase` symbol (code sample further below).
+
+The idea is to always render certain characters in lower or upper
+case, in consideration of their legibility in context.  For example,
+the default altcaps algorithm produces this:
+
+    iLlIcIt IlLiBeRaL sIlLiNeSs
+
+Whereas if the value of this variable declares `i` to always be
+lowercase and `L` uppercase, then we get this:
+
+    iLLiCiT iLLiBeRaL siLLiNeSs
+
+The code to do this:
+
+```elisp
+(setq altcaps-force-character-casing
+      '((?i . downcase)
+        (?l . upcase)))
+```
+
+Thanks to Cédric Barreteau for the idea of forcing a given letter case
+on specified characters.  I think that giving users the option keeps
+our code simple, while providing a useful point of customisation.
+
+Cédric is the author of the nvim-altcaps, which is a plugin for NeoVim
+based on my `altcaps` idea: <https://github.com/cbarrete/nvim-altcaps>.
+
+
+## Improvements to documentation
+
+-   Wrote a `README.md` which contains basic information about the
+    project, including links to the official Git repos, its mirrors on
+    GitHub/GitLab, as well as the project's mailing list.  This file is
+    useful for Git forges that have trouble parsing an Org file (the
+    manual is `README.org`, which the GNU ELPA machinery converts into a
+    proper Info manual).
+-   Added missing index entries to the manual for our commands and the
+    new user option.
+-   Wrote this very `CHANGELOG.org`, which is helpful for those who
+    inspect the Git repository.
