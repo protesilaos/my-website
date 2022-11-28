@@ -53,12 +53,13 @@ Shitposts.</li>
 </ul>
 </li>
 <li><a href="#h:3969ff63-f4dc-42f7-a4d1-51f96b92dee2">4. Sample configuration</a></li>
-<li><a href="#h:fc833dcb-9a79-4383-a32d-06e45f2c36c0">5. GNU Free Documentation License</a></li>
-<li><a href="#h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2">6. Indices</a>
+<li><a href="#h:399afb8b-7bb3-40b4-b10f-3123714d9614">5. Acknowledgements</a></li>
+<li><a href="#h:fc833dcb-9a79-4383-a32d-06e45f2c36c0">6. GNU Free Documentation License</a></li>
+<li><a href="#h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2">7. Indices</a>
 <ul>
-<li><a href="#h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff">6.1. Function index</a></li>
-<li><a href="#h:2fd825da-94c6-4ef1-b9cf-50f74fdce595">6.2. Variable index</a></li>
-<li><a href="#h:056cd344-b097-4b07-8340-377d90e4a8ee">6.3. Concept index</a></li>
+<li><a href="#h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff">7.1. Function index</a></li>
+<li><a href="#h:2fd825da-94c6-4ef1-b9cf-50f74fdce595">7.2. Variable index</a></li>
+<li><a href="#h:056cd344-b097-4b07-8340-377d90e4a8ee">7.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -143,6 +144,50 @@ Do-What-I-Mean style.  With an active region, call <code>altcaps-region</code>.
 Else invoke <code>altcaps-word</code> with optional <code>NUM</code>, per that command&rsquo;s
 functionality (read its documentation).</dd>
 </dl>
+
+<p>
+[ The following is part of 1.1.0-dev. ]
+</p>
+
+<p>
+The user option <code>altcaps-force-character-casing</code> forces the given
+letter casing for specified characters.  Its value is an alist of
+<code>(CHARACTER . CASE)</code> pairs.  <code>CHARACTER</code> is a single character
+(satisfies the <code>characterp</code> condition), while <code>CASE</code> is the <code>upcase</code>
+or <code>downcase</code> symbol (code sample further below).
+</p>
+
+<p>
+The idea is to always render certain characters in lower or upper
+case, in consideration of their legibility in context.  For example,
+the default altcaps algorithm produces this:
+</p>
+
+<pre class="example">
+iLlIcIt IlLiBeRaL sIlLiNeSs
+</pre>
+
+
+<p>
+Whereas if the value of this variable declares <code>i</code> to always be lower
+case and <code>L</code> uppercase, then we get this:
+</p>
+
+<pre class="example">
+iLLiCiT iLLiBeRaL siLLiNeSs
+</pre>
+
+
+<p>
+The code to do this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq altcaps-force-character-casing
+      '((?i . downcase)
+        (?l . upcase)))
+</pre>
+</div>
 </div>
 </div>
 
@@ -222,6 +267,11 @@ Everything is in place to set up the package.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'altcaps)
 
+;; Force letter casing for certain characters (for legibility).
+(setq altcaps-force-character-casing
+      '((?i . downcase)
+        (?l . upcase)))
+
 ;; We do not bind any keys, but you are free to do so:
 (define-key global-map (kbd "C-x C-a") #'altcaps-dwim)
 
@@ -235,8 +285,31 @@ Everything is in place to set up the package.
 </div>
 </div>
 
+<div id="outline-container-h:399afb8b-7bb3-40b4-b10f-3123714d9614" class="outline-2">
+<h2 id="h:399afb8b-7bb3-40b4-b10f-3123714d9614"><span class="section-number-2">5.</span> Acknowledgements</h2>
+<div class="outline-text-2" id="text-h:399afb8b-7bb3-40b4-b10f-3123714d9614">
+<p>
+aLtCaPs is meant to be a collective effort.  Every bit of help
+matters.
+</p>
+
+<dl class="org-dl">
+<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+
+<dt>Ideas and/or user feedback</dt><dd>Cédric Barreteau.</dd>
+</dl>
+
+<p>
+Cédric is the author of an <code>altcaps</code>-inspired package for NeoVim, from
+whence I got the idea of forcing a given letter case for certain
+characters (I do it with the <code>altcaps-force-character-casing</code> user
+option): <a href="https://github.com/cbarrete/nvim-altcaps">https://github.com/cbarrete/nvim-altcaps</a>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:fc833dcb-9a79-4383-a32d-06e45f2c36c0" class="outline-2">
-<h2 id="h:fc833dcb-9a79-4383-a32d-06e45f2c36c0"><span class="section-number-2">5.</span> GNU Free Documentation License</h2>
+<h2 id="h:fc833dcb-9a79-4383-a32d-06e45f2c36c0"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:fc833dcb-9a79-4383-a32d-06e45f2c36c0">
 <pre>
 
@@ -697,24 +770,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2" class="outline-2">
-<h2 id="h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2"><span class="section-number-2">6.</span> Indices</h2>
+<h2 id="h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:b1e2d4b5-73f6-4757-9db6-a5a8e8d3d0d2">
 </div>
 
 <div id="outline-container-h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff" class="outline-3">
-<h3 id="h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff"><span class="section-number-3">6.1.</span> Function index</h3>
+<h3 id="h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:f77bf3cd-36d5-4c23-a2f1-152a9a6e62ff">
 </div>
 </div>
 
 <div id="outline-container-h:2fd825da-94c6-4ef1-b9cf-50f74fdce595" class="outline-3">
-<h3 id="h:2fd825da-94c6-4ef1-b9cf-50f74fdce595"><span class="section-number-3">6.2.</span> Variable index</h3>
+<h3 id="h:2fd825da-94c6-4ef1-b9cf-50f74fdce595"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:2fd825da-94c6-4ef1-b9cf-50f74fdce595">
 </div>
 </div>
 
 <div id="outline-container-h:056cd344-b097-4b07-8340-377d90e4a8ee" class="outline-3">
-<h3 id="h:056cd344-b097-4b07-8340-377d90e4a8ee"><span class="section-number-3">6.3.</span> Concept index</h3>
+<h3 id="h:056cd344-b097-4b07-8340-377d90e4a8ee"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:056cd344-b097-4b07-8340-377d90e4a8ee">
 -->
 </div>
