@@ -116,6 +116,7 @@ to `i ReSpEcT tHe AuThOrItIeS`.
 
 + Package name (GNU ELPA): `altcaps`
 + Official manual: <https://protesilaos.com/emacs/altcaps>
++ Change log: <https://protesilaos.com/emacs/altcaps-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/altcaps>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/altcaps>
