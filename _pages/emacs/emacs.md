@@ -72,6 +72,27 @@ designed by me).
 + Backronym: Extremely Fatigued of Themes Having Exaggerated Markings,
   Embellishments, and Sparkles.
 
+## Standard themes
+
+The `standard-themes` are a pair of light and dark themes for GNU
+Emacs.  They emulate the out-of-the-box looks of Emacs (which
+technically do NOT constitute a theme) while bringing to them thematic
+consistency, customizability, and extensibility.  In practice, the
+Standard themes take the default style of the font-lock and Org faces,
+complement it with a wider colour palette, address some
+inconsistencies, and apply established semantic patterns across all
+interfaces.
+
++ Package name (GNU ELPA): `standard-themes`
++ Official manual: <https://protesilaos.com/emacs/standard-themes>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/standard-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/standard-themes>
+    + GitLab: <https://gitlab.com/protesilaos/standard-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/standard-themes>
++ Backronym: Standard Themes Are Not Derivatives but the
+  Affectionately Reimagined Default ... themes.
+
 ## Fontaine
 
 Fontaine allows the user to define detailed font configurations and set
