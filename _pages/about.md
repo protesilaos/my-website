@@ -141,7 +141,8 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [SourceHut](https://sr.ht/~protesilaos/)
 * [GitLab](https://gitlab.com/protesilaos)
 * [GitHub](https://github.com/protesilaos)
-* [YouTube](https://www.youtube.com/c/ProtesilaosStavrou)
+* [YouTube](https://www.youtube.com/@protesilaos)
+* [SoundCloud](https://soundcloud.com/protesilaos)
 * [Odysee](https://odysee.com/@protesilaos:69b6498b147014fe819188848f8961657f3bf6f3)
 
 Note that my active Git repositories are on SourceHut (migrating there
