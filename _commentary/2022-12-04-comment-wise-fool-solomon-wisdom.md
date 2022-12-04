@@ -70,12 +70,12 @@ for the Greek word).  To not take oneself too seriously in this way is
 to be humble.  This links to the point of not showing off.
 
 To me, the word "fool" does not mean "unintelligent".  It rather
-describes a disposition of not thinking holistically.  The fool does not
-try to understand the factors in their interplay and, generally, does
-not maintain a consistently honest approach to all matters in life.
-This is why fools do not recognise the limits of their humanity.  It is
-also is why fools have a propensity of showing off, but also of not
-perceiving subtlety.
+describes a disposition of not thinking holistically.  The fool does
+not try to understand the factors in their interplay and, generally,
+does not maintain a consistently honest approach to all matters in
+life.  This is why fools do not recognise the limits of their
+humanity.  It is also why fools have a propensity of showing off, but
+also of not perceiving subtlety.
 
 The fool cannot discern that which is nuanced in a person because the
 fool is too self-centred and thus thinks that everyone must also be
