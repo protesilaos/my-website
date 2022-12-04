@@ -1,6 +1,6 @@
 ---
 title: "Comment on the wise and the fool (wisdom of Solomon)"
-excerpt: "Excerpt from an exchange where I comment on matters of wisdom, foolinshness, and related concepts."
+excerpt: "Excerpt from an exchange where I comment on matters of wisdom, foolishness, and related concepts."
 ---
 
 Below is an excerpt from a recent exchange that I reproduce with
