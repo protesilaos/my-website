@@ -1,0 +1,105 @@
+---
+layout: page
+title: 'Change Log of the Standard Themes'
+excerpt: "Like the default theme but more consistent."
+permalink: /emacs/standard-themes-changelog
+---
+
+<p>
+This document contains the release notes for each tagged commit on the
+project's main git repository: <a href="https://git.sr.ht/~protesilaos/standard-themes">https://git.sr.ht/~protesilaos/standard-themes</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/standard-themes">https://protesilaos.com/emacs/standard-themes</a>.
+</p>
+
+<div id="outline-container-h:f7a5799c-279c-4dfb-96ae-3eba58ee582e" class="outline-2">
+<h2 id="h:f7a5799c-279c-4dfb-96ae-3eba58ee582e">Version 1.1.0 on 2022-12-06</h2>
+<div class="outline-text-2" id="text-h:f7a5799c-279c-4dfb-96ae-3eba58ee582e">
+</div>
+
+<div id="outline-container-h:d7fa8d0c-b49c-447a-a24c-4dc18c6d755b" class="outline-3">
+<h3 id="h:d7fa8d0c-b49c-447a-a24c-4dc18c6d755b">The <code>standard-themes-headings</code> now covers the Org agenda</h3>
+<div class="outline-text-3" id="text-h:d7fa8d0c-b49c-447a-a24c-4dc18c6d755b">
+<p>
+The user option <code>standard-themes-headings</code> lets the user control the
+height, weight, and use of proportionately spaced fonts
+(<code>variable-pitch</code>) on a per-heading basis.  Different combinations are
+possible, as explained in the option's doc string on the corresponding
+entry in the manual.
+</p>
+
+<p>
+I have now made it possible to specify the <code>agenda-date</code> and
+<code>agenda-structure</code> keys.  Both pertain to the Org agenda.  The former
+applies to date headings, while the latter styles the headings of each
+"block" of content.  In a generic agenda buffer, that block heading is
+the first line which reads <code>Week-agenda (W49):</code> or something like
+that, though we find such headings in more places as well.
+</p>
+
+<p>
+Here is a sample with various stylistic variants per heading:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq standard-themes-headings ; read the manual's entry or the doc string
+      '((0 . (variable-pitch light 1.9))
+        (1 . (variable-pitch light 1.8))
+        (2 . (semilight 1.7))
+        (3 . (semilight 1.6))
+        (4 . (1.5)) ; absence of weight means "regular"
+        (5 . (1.4))
+        (6 . (bold 1.3))
+        (7 . (bold 1.2))
+        (agenda-date . (semilight 1.5))
+        (agenda-structure . (variable-pitch light 1.9))
+        (t . (variable-pitch 1.1))))
+</pre>
+</div>
+
+<p>
+Note that Org re-uses heading levels past 8.  This means that level 9
+will look the same as level 1.  This is not the theme's doing.  Check
+the user options <code>org-level-faces</code>, <code>org-n-level-faces</code> for ways to
+change this.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:9c95de58-9d0c-44dd-bc24-63ce7691806e" class="outline-3">
+<h3 id="h:9c95de58-9d0c-44dd-bc24-63ce7691806e"><code>M-x theme-choose-variant</code> works as expected</h3>
+<div class="outline-text-3" id="text-h:9c95de58-9d0c-44dd-bc24-63ce7691806e">
+<p>
+Users of Emacs 29 have access to the command <code>theme-choose-variant</code>:
+it toggles between two themes of the same family.  If the family
+has more members, it uses minibuffer completion instead.
+</p>
+
+<p>
+I registered the appropriate theme properties to make this work as
+intended.  However, it is still possible to use the command
+<code>standard-themes-toggle</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:33e6d85e-42cc-4a30-87d5-47d9b81cc769" class="outline-3">
+<h3 id="h:33e6d85e-42cc-4a30-87d5-47d9b81cc769">Stylistic refinements</h3>
+<div class="outline-text-3" id="text-h:33e6d85e-42cc-4a30-87d5-47d9b81cc769">
+<ul class="org-ul">
+<li>Simplified the Magit blame faces to avoid exaggerations.</li>
+<li>Revised the colours of day headings in the <code>M-x calendar</code> buffer.
+Weekends stand out, as is the case with physical calendars and many
+established apps.</li>
+<li>Made the <code>edmacro-label</code> face stand out in its context.  Otherwise
+it was difficult to spot.  This is for Emacs 29 and applies to
+headings in the keyboard macro editing buffer (e.g. with <code>C-x C-k
+  C-e</code> (<code>kmacro-edit-macro-repeat</code>)).</li>
+<li>Added support for the <code>powerline</code> package.</li>
+</ul>
+</div>
+</div>
+</div>
