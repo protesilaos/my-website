@@ -45,3 +45,7 @@ too corporeal.
 
 Let us then consider: which is the way to Puglia?  Asking for
 friend...
+
+**UPDATE 2022-12-07 09:28 +0200:** The ~3-hour video of _La Notte
+della Taranta_ 2022 edition, if you are really feeling it:
+<https://www.youtube.com/watch?v=5da7NE8iRxE>.
