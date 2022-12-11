@@ -15,9 +15,6 @@ layout: page
 * Email: <public@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
   for further information)
 
-The following is an expanded version of [my Curriculum Vitae
-(CV)](https://protesilaos.com/cv/).
-
 ## Profile
 
 In my teens I was a semi-professional football (soccer) player and, at
@@ -35,7 +32,8 @@ a specialisation in the European Union's Economic and Monetary Union.
 Now I am nominally committed to agricultural activities in a remote
 mountainous region in Cyprus, though the prevailing conditions (the
 pandemic, persistent economic recession...) mean that I am oscillating
-between states of under- and un- employment.
+between states of under- and un- employment.  I am now searching for
+alternatives and am hoping for the best.
 
 Those granted, I am just a philosopher.  I spend much of my time doing
 philosophy, whether that is by thinking or writing.  I also program my
