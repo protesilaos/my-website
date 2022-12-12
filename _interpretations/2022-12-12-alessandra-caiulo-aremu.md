@@ -169,7 +169,7 @@ root meaning:
 - `kuta` is a variant of the Italian `cuta`, which is the "tail".
 
 - Words such as `sou` (you) and `lio` (a little) are also found in
-  Cypriot Greek.  Same for the pronounciation of `che` (and) `chero`
+  Cypriot Greek.  Same for the pronunciation of `che` (and) `chero`
   (weather) and `ghizzi` (touches), which in Cypriot Greek are
   `τζιαι`, `τζιαιρό` and `γγίζζει`, respectively, although the
   latter's double `z` sounds like `zee`, not `chi`.
