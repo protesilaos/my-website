@@ -14,13 +14,13 @@ provides every other piece of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.1.0, released on 2022-10-20.  Any reference to
+1.2.0, released on 2022-12-16.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.2.0-dev.
+Current development target is 1.3.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -118,10 +118,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:edf9b651-86eb-4d5f-bade-3c9e270082f0">11.6. Use Embark to collect minibuffer candidates</a></li>
 <li><a href="#h:76198fab-d6d2-4c67-9ccb-7a08cc883952">11.7. Search file contents</a></li>
 <li><a href="#h:1bba4c1e-6812-4749-948f-57df4fd49b36">11.8. Bookmark the directory with the notes</a></li>
-<li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">11.9. Use the consult-notes package</a></li>
-<li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">11.10. Treat your notes as a project</a></li>
-<li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">11.11. Variants of <code>denote-open-or-create</code></a></li>
-<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">11.12. Variants of <code>denote-link-or-create</code></a></li>
+<li><a href="#h:226d66e4-b7de-4617-87e2-a7f2d6f007dd">11.9. Use the <code>citar-denote</code> package for bibliography notes</a></li>
+<li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">11.10. Use the <code>consult-notes</code> package</a></li>
+<li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">11.11. Treat your notes as a project</a></li>
+<li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">11.12. Variants of <code>denote-open-or-create</code></a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">11.13. Variants of <code>denote-link-or-create</code></a></li>
 </ul>
 </li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">12. Installation</a>
@@ -832,7 +833,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org8a726a2">
+<pre class="example" id="org8f73b1e">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -930,10 +931,6 @@ sufficient.  The manual shall be expanded accordingly.
 <h3 id="h:8458f716-f9c2-4888-824b-2bf01cc5850a"><span class="section-number-3">3.4.</span> Exclude certain directories from all operations</h3>
 <div class="outline-text-3" id="text-h:8458f716-f9c2-4888-824b-2bf01cc5850a">
 <p>
-[ Part of 1.2.0-dev. ]
-</p>
-
-<p>
 The user option <code>denote-excluded-directories-regexp</code> instructs all
 Denote functions that read or check file/directory names to omit
 directories that match the given regular expression.  The regexp needs
@@ -969,10 +966,6 @@ The match is performed with <code>string-match-p</code>.
 <div id="outline-container-h:69e518ee-ed43-40ab-a5f4-c780a23e5358" class="outline-3">
 <h3 id="h:69e518ee-ed43-40ab-a5f4-c780a23e5358"><span class="section-number-3">3.5.</span> Exclude certain keywords from being inferred</h3>
 <div class="outline-text-3" id="text-h:69e518ee-ed43-40ab-a5f4-c780a23e5358">
-<p>
-[ Part of 1.2.0-dev. ]
-</p>
-
 <p>
 The user option <code>denote-excluded-keywords-regexp</code> omits keywords that
 match a regular expression from the list of inferred keywords.
@@ -1068,7 +1061,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org3358ee1">
+<pre class="example" id="org6ba6e72">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1165,7 +1158,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgf3b27a5">
+<pre class="example" id="org6ea1580">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1185,7 +1178,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3c8b3cf">
+<pre class="example" id="org708ab70">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1449,7 +1442,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgaf48abc">
+<pre class="example" id="org167bcc1">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1461,7 +1454,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org621235e">
+<pre class="example" id="orga29597f">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1475,7 +1468,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgce6ef52">
+<pre class="example" id="orgd944194">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1489,7 +1482,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org3a19a5f">
+<pre class="example" id="orgaa8afe7">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1758,7 +1751,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgb3c1625">
+<pre class="example" id="org38e867a">
 - link1
 - link2
 - link3
@@ -1776,7 +1769,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org80c89e7">
+<pre class="example" id="orgbf41ed4">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1948,11 +1941,6 @@ type <code>M-p</code> with the default key bindings, which calls <code>previous-
 </p>
 
 <p>
-[ The above paragraph describes functionality that is part of
-  1.2.0-dev. ]
-</p>
-
-<p>
 With optional <code>ID-ONLY</code> as a prefix argument create a link with just
 the file&rsquo;s identifier.  This has the same meaning as in <code>denote-link</code>.
 </p>
@@ -1969,11 +1957,6 @@ which helps with discoverability.
 <h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.6.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
-[ Refactored as part of 1.2.0-dev to optionally show
-  the context of links. ]
-</p>
-
-<p>
 The command <code>denote-link-backlinks</code> produces a bespoke buffer which
 displays backlinks to the current note.  A &ldquo;backlink&rdquo; is a link back
 to the present entry.
@@ -1985,7 +1968,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org3c546bd">
+<pre class="example" id="org5309007">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2000,7 +1983,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgfc8ffd4">
+<pre class="example" id="org855ae13">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2232,10 +2215,6 @@ its standand attachments&rsquo; facility).
 <div id="outline-container-h:8b542c50-dcc9-4bca-8037-a36599b22779" class="outline-2">
 <h2 id="h:8b542c50-dcc9-4bca-8037-a36599b22779"><span class="section-number-2">9.</span> Use Org dynamic blocks</h2>
 <div class="outline-text-2" id="text-h:8b542c50-dcc9-4bca-8037-a36599b22779">
-<p>
-[ Part of 1.2.0-dev. ]
-</p>
-
 <p>
 Denote can optionally integrate with Org mode&rsquo;s &ldquo;dynamic blocks&rdquo;
 facility.  Start by loading the relevant library:
@@ -2711,7 +2690,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org0f708fc">
+<pre class="example" id="orgc871174">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -2903,8 +2882,29 @@ for working with directories, including bookmarks.
 </div>
 </div>
 
+<div id="outline-container-h:226d66e4-b7de-4617-87e2-a7f2d6f007dd" class="outline-3">
+<h3 id="h:226d66e4-b7de-4617-87e2-a7f2d6f007dd"><span class="section-number-3">11.9.</span> Use the <code>citar-denote</code> package for bibliography notes</h3>
+<div class="outline-text-3" id="text-h:226d66e4-b7de-4617-87e2-a7f2d6f007dd">
+<p>
+Peter Prevos has produced the <code>citar-denote</code> package which makes it
+possible to write notes on BibTeX entries with the help of the <code>citar</code>
+package.  These notes have the citation&rsquo;s unique key associated with
+them in the file&rsquo;s front matter.  They also get a configurable keyword
+in their file name, making it easy to find them in Dired and/or
+retrieve them with the various Denote methods.
+</p>
+
+<p>
+With <code>citar-denote</code>, the user leverages standard minibuffer completion
+mechanisms (e.g. with the help of the <code>vertico</code> and <code>embark</code> packages)
+to manage bibliographic notes and access those notes with ease.  The
+package&rsquo;s documentation covers the details: <a href="https://github.com/pprevos/citar-denote/">https://github.com/pprevos/citar-denote/</a>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d" class="outline-3">
-<h3 id="h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d"><span class="section-number-3">11.9.</span> Use the consult-notes package</h3>
+<h3 id="h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d"><span class="section-number-3">11.10.</span> Use the <code>consult-notes</code> package</h3>
 <div class="outline-text-3" id="text-h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">
 <p>
 If you are already using <code>consult</code> (which is a brilliant package), you
@@ -2928,19 +2928,20 @@ notes, while <code>b</code> does the same for books.
 <p>
 To search all your notes with grep (or ripgrep if installed &#x2013; see
 <code>consult-notes-use-rg</code> variable) use the command
-<code>consult-notes-search-in-all-notes</code>. This will employ grep/ripgrep for searching
-terms in all the directories set in <code>consult-notes-sources</code>.
+<code>consult-notes-search-in-all-notes</code>. This will employ grep/ripgrep for
+searching terms in all the directories set in <code>consult-notes-sources</code>.
 </p>
 
 <p>
-Note that <code>consult-notes</code> is in its early stages of development.  Expect
-improvements in the near future (written on 2022-06-22 16:48 +0300).
+Note that <code>consult-notes</code> is in its early stages of development.
+Expect improvements in the near future (written on 2022-06-22 16:48
++0300).
 </p>
 </div>
 </div>
 
 <div id="outline-container-h:fad3eb08-ddc7-43e4-ba28-210d89668037" class="outline-3">
-<h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">11.10.</span> Treat your notes as a project</h3>
+<h3 id="h:fad3eb08-ddc7-43e4-ba28-210d89668037"><span class="section-number-3">11.11.</span> Treat your notes as a project</h3>
 <div class="outline-text-3" id="text-h:fad3eb08-ddc7-43e4-ba28-210d89668037">
 <p>
 Emacs has a built-in library for treating a directory tree as a
@@ -2984,7 +2985,7 @@ Git).
 </div>
 
 <div id="outline-container-h:ad91ca39-cf10-4e16-b224-fdf78f093883" class="outline-3">
-<h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">11.11.</span> Variants of <code>denote-open-or-create</code></h3>
+<h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">11.12.</span> Variants of <code>denote-open-or-create</code></h3>
 <div class="outline-text-3" id="text-h:ad91ca39-cf10-4e16-b224-fdf78f093883">
 <p>
 The command <code>denote-open-or-create</code> prompts to visit a file in the
@@ -3055,7 +3056,7 @@ For templates, refer to `denote-templates'."
 </div>
 
 <div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
-<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">11.12.</span> Variants of <code>denote-link-or-create</code></h3>
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">11.13.</span> Variants of <code>denote-link-or-create</code></h3>
 <div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
 <p>
 The command <code>denote-link-or-create</code> uses <code>denote-link</code> on a <code>TARGET</code>
@@ -3415,9 +3416,7 @@ from existing notes and combine them into a list with
 <dl class="org-dl">
 <dt>Function <code>denote-keywords-sort</code></dt><dd>Sort <code>KEYWORDS</code> if
 <code>denote-sort-keywords</code> is non-nil.  <code>KEYWORDS</code> is a list of strings,
-per <code>denote-keywords-prompt</code>.  [ This function is part of
-1.2.0-dev.  Before, the keywords were sorted by the
-<code>denote-keywords-prompt</code>. ]</dd>
+per <code>denote-keywords-prompt</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3603,8 +3602,7 @@ to prepopulate the minibuffer.</dd>
 keywords.  In the case of multiple entries, those are separated by
 the <code>crm-sepator</code>, which typically is a comma.  In such a scenario,
 the output is sorted with <code>string-lessp</code>.  To sort the return value,
-use <code>denote-keywords-sort</code>.  [ The <code>denote-keywords-sort</code> is part of
-1.2.0-dev. ]</dd>
+use <code>denote-keywords-sort</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3683,8 +3681,7 @@ period.</li>
 
 <li><code>:date-function</code> is a function that can format a date.  See the
 functions <code>denote--date-iso-8601</code>, <code>denote--date-rfc3339</code>, and
-<code>denote--date-org-timestamp</code>. [This property is part of
-1.2.0-dev.]</li>
+<code>denote--date-org-timestamp</code>.</li>
 
 <li><code>:front-matter</code> is either a string passed to <code>format</code> or a
 variable holding such a string.  The <code>format</code> function accepts
@@ -3719,13 +3716,11 @@ of the <code>:keywords-value-function</code>.</li>
 
 <li><code>:link</code> is a string, or variable holding a string, that
 specifies the format of a link.  See the variables
-<code>denote-org-link-format</code>, <code>denote-md-link-format</code>.  [This
-property is part of 1.2.0-dev.]</li>
+<code>denote-org-link-format</code>, <code>denote-md-link-format</code>.</li>
 
 <li><code>:link-in-context-regexp</code> is a regular expression that is used
 to match the aforementioned link format.  See the variables
-<code>denote-org-link-in-context-regexp</code>, <code>denote-md-link-in-context-regexp</code>.
-[This property is part of 1.2.0-dev.]</li>
+<code>denote-org-link-in-context-regexp</code>, <code>denote-md-link-in-context-regexp</code>.</li>
 </ol>
 
 <p>
@@ -3761,41 +3756,36 @@ front matter.  It is passed to <code>format</code> with arguments <code>TITLE</c
 <dl class="org-dl">
 <dt>Variable <code>denote-org-link-format</code></dt><dd>Format of Org link to note.
 The value is passed to <code>format</code> with <code>IDENTIFIER</code> and <code>TITLE</code>
-arguments, in this order.  Also see <code>denote-org-link-in-context-regexp</code>.
-[This variable is part of 1.2.0-dev.]</dd>
+arguments, in this order.  Also see <code>denote-org-link-in-context-regexp</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-md-link-format</code></dt><dd>Format of Markdown link to note.
 The <code>%N$s</code> notation used in the default value is for <code>format</code> as the
 supplied arguments are <code>IDENTIFIER</code> and <code>TITLE</code>, in this order.
-Also see <code>denote-md-link-in-context-regexp</code>.  [This variable is part
-of 1.2.0-dev.]</dd>
+Also see <code>denote-md-link-in-context-regexp</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-id-only-link-format</code></dt><dd>Format of identifier-only
 link to note.  The value is passed to <code>format</code> with <code>IDENTIFIER</code> as
-its sole argument.    Also see <code>denote-id-only-link-in-context-regexp</code>.
-[This variable is part of 1.2.0-dev.]</dd>
+its sole argument.    Also see <code>denote-id-only-link-in-context-regexp</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-org-link-in-context-regexp</code></dt><dd>Regexp to match an
-Org link in its context.  The format of such links is <code>denote-org-link-format</code>.
-[This variable is part of 1.2.0-dev.]</dd>
+Org link in its context.  The format of such links is <code>denote-org-link-format</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-md-link-in-context-regexp</code></dt><dd>Regexp to match an
-Markdown link in its context.  The format of such links is <code>denote-md-link-format</code>.
-[This variable is part of 1.2.0-dev.]</dd>
+Markdown link in its context.  The format of such links is <code>denote-md-link-format</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-id-only-link-in-context-regexp</code></dt><dd>Regexp to match
 an identifier-only link in its context.  The format of such links is
-<code>denote-id-only-link-format</code>.  [This variable is part of 1.2.0-dev.]</dd>
+<code>denote-id-only-link-format</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3806,17 +3796,17 @@ mattter.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-date-org-timestamp</code></dt><dd>Format <code>DATE</code> using the Org
-inactive timestamp notation.  [This function is part of 1.2.0-dev.]</dd>
+inactive timestamp notation.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-date-rfc3339</code></dt><dd>Format <code>DATE</code> using the RFC3339
-specification.  [This function is part of 1.2.0-dev.]</dd>
+specification.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-date-iso-8601</code></dt><dd>Format <code>DATE</code> according to ISO
-8601 standard.  [This function is part of 1.2.0-dev.]</dd>
+8601 standard.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3909,7 +3899,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org91188cc">
+<pre class="example" id="orgb98cc19">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
