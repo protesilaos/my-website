@@ -16,6 +16,419 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/denote">https://protesilaos.com/emacs/denote</a>.
 </p>
 
+<div id="outline-container-h:92478a05-4a69-413c-8d95-1dacbcf6af2c" class="outline-2">
+<h2 id="h:92478a05-4a69-413c-8d95-1dacbcf6af2c">Version 1.2.0 on 2022-12-12</h2>
+<div class="outline-text-2" id="text-h:92478a05-4a69-413c-8d95-1dacbcf6af2c">
+</div>
+
+<div id="outline-container-h:bc0e173a-3b9f-427c-9fb0-d435a5ef127e" class="outline-3">
+<h3 id="h:bc0e173a-3b9f-427c-9fb0-d435a5ef127e">Denote now requires Emacs version 28.1 or higher</h3>
+<div class="outline-text-3" id="text-h:bc0e173a-3b9f-427c-9fb0-d435a5ef127e">
+<p>
+With the help of Noboru Ota (nobiot), we realised that Denote was
+broken on Emacs 27 for quite a while.  The fact that we received no
+feedback about it suggests that this change is the best course of
+action going forward.  Discussion:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C86r0yvzm12.fsf%40nobiot.com%3E#%3C86sfja78ik.fsf@nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86r0yvzm12.fsf%40nobiot.com%3E#%3C86sfja78ik.fsf@nobiot.com%3E</a>
+</p>
+
+<p>
+Emacs 27 lacks certain Xref facilities that we need for the
+backlinking facility.  It was holding us back for no good reason,
+while also adding to the maintenance burden.
+</p>
+
+<p>
+If you are using Denote on Emacs 27 and things are working for you,
+there is no need to update the package.  Do it when you also upgrade
+Emacs to a newer version.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:dafbdbae-36f1-487a-94c8-2762568a766e" class="outline-3">
+<h3 id="h:dafbdbae-36f1-487a-94c8-2762568a766e">Display context in backlinks' buffer</h3>
+<div class="outline-text-3" id="text-h:dafbdbae-36f1-487a-94c8-2762568a766e">
+<p>
+By default, the generic backlinks' buffer, which can be displayed with
+the command <code>denote-link-backlinks</code> (alias <code>denote-link-show-backlinks-buffer</code>),
+only shows the file names of the linked notes.
+</p>
+
+<p>
+We have made it possible to produce a more informative view by showing
+the context of the link and also listing all links per file.  This is
+done by setting the user option <code>denote-backlinks-show-context</code> to a
+non-nil value.
+</p>
+
+<p>
+To illustrate the difference, this is the default backlinks' buffer:
+</p>
+
+<pre class="example" id="orgdbab648">
+Backlinks to "On being honest" (20220614T130812)
+------------------------------------------------
+
+20220614T145606--let-this-glance-become-a-stare__journal.txt
+20220616T182958--feeling-butterflies-in-your-stomach__journal.txt
+</pre>
+
+<p>
+And this is the one with <code>denote-backlinks-show-context</code> enabled:
+</p>
+
+<pre class="example" id="orga1016de">
+Backlinks to "On being honest" (20220614T130812)
+------------------------------------------------
+
+20220614T145606--let-this-glance-become-a-stare__journal.txt
+37: growing into it: [[denote:20220614T130812][On being honest]].
+64: As I said in [[denote:20220614T130812][On being honest]] I have never
+20220616T182958--feeling-butterflies-in-your-stomach__journal.txt
+62: indifference.  In [[denote:20220614T130812][On being honest]] I alluded
+</pre>
+
+<p>
+Granted, here we show plain text though in Emacs the results have the
+appropriate colours of the active theme and are easier to read.
+</p>
+
+<p>
+Thanks to Noboru Ota (nobiot) for implementing this feature.  We
+discussed it at length on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C86r0yvzm12.fsf%40nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86r0yvzm12.fsf%40nobiot.com%3E</a>.
+</p>
+
+<p>
+Noboru has assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:f7904a57-22c0-446f-b7e3-7a736332002c" class="outline-3">
+<h3 id="h:f7904a57-22c0-446f-b7e3-7a736332002c">Dynamic Org blocks for lists of Denote links</h3>
+<div class="outline-text-3" id="text-h:f7904a57-22c0-446f-b7e3-7a736332002c">
+<p>
+Denote now includes the <code>denote-org-dblock</code> library.  Activate it
+thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Register Denote's Org dynamic blocks
+(require 'denote-org-dblock)
+</pre>
+</div>
+
+<p>
+A dynamic block gets its contents by evaluating a given function,
+depending on the type of block.  The type of block and its parameters
+are stated in the opening <code>#+BEGIN</code> line of the block.  Typing <code>C-c
+C-c</code> with point on that line runs the function, with the given
+arguments, and populates the block's contents accordingly.
+</p>
+
+<p>
+What Denote has is ways to write blocks that produce a list of links
+matching a given regular expression while conforming with some other
+parameters.  The manual explains how to use this powerful feature
+(which is necessarily specific to the Org file type):
+<a href="https://protesilaos.com/emacs/denote#h:8b542c50-dcc9-4bca-8037-a36599b22779">https://protesilaos.com/emacs/denote#h:8b542c50-dcc9-4bca-8037-a36599b22779</a>.
+</p>
+
+<p>
+Thanks to Elias Storms for authoring <code>denote-org-dblock</code> and for
+discussing this issue at length with me on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3Cm2sfisexx7.fsf%40MBA21.fritz.box%3E">https://lists.sr.ht/~protesilaos/denote/%3Cm2sfisexx7.fsf%40MBA21.fritz.box%3E</a>.
+</p>
+
+<p>
+Elias has assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e8a7d08c-cdf0-4207-92c1-391415b8371f" class="outline-3">
+<h3 id="h:e8a7d08c-cdf0-4207-92c1-391415b8371f">Integration with the built-in project.el and xref.el libraries</h3>
+<div class="outline-text-3" id="text-h:e8a7d08c-cdf0-4207-92c1-391415b8371f">
+<p>
+Denote was already using Xref internally but has now gained more
+capabilities which help it find files more effectively.  With the help
+of Emacs' standard project library, all file-related prompts (e.g. to
+add a link) search all items in the <code>denote-directory</code> regardless of
+whether the user is in a subdirectory or not.
+</p>
+
+<p>
+All Denote commands benefit from this refactoring.  One such request
+to "Make <code>denote-open-or-create</code> work better across subfolders" was
+made in issue 114 on the GitHub mirror:
+<a href="https://github.com/protesilaos/denote/issues/114">https://github.com/protesilaos/denote/issues/114</a>.
+</p>
+
+<p>
+Thanks to Noboru Ota (nobiot) for introducing this feature together
+with a new system of "modules" for incorporating additional built-in
+functionality:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://lists.sr.ht/~protesilaos/denote/%3C86a64ooxyi.fsf%40nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86a64ooxyi.fsf%40nobiot.com%3E</a></li>
+<li><a href="https://lists.sr.ht/~protesilaos/denote/%3C86k03f4iq6.fsf%40nobiot.com%3E">https://lists.sr.ht/~protesilaos/denote/%3C86k03f4iq6.fsf%40nobiot.com%3E</a></li>
+</ul>
+
+<p>
+I will not document the new user option <code>denote-modules</code> right now as
+my ongoing job search prevented me from exploring the full potential
+of this feature.  I promise to do it for the next version of Denote
+and update the manual accordingly.  Nevertheless, the doc string of
+<code>denote-modules</code> already provides all one needs to get started.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:5a003d44-7ad0-4c92-b908-ec7cf016b2dd" class="outline-3">
+<h3 id="h:5a003d44-7ad0-4c92-b908-ec7cf016b2dd">Re-use last input in "do or create" commands</h3>
+<div class="outline-text-3" id="text-h:5a003d44-7ad0-4c92-b908-ec7cf016b2dd">
+<p>
+The commands <code>denote-open-or-create</code>, <code>denote-link-or-create</code> first
+prompt for an existing note.  If they find it, they act on it,
+otherwise they prompt for the creation of a new note to operate on.
+</p>
+
+<p>
+At the first prompt, it is common to use regular expressions and
+out-of-order pattern matching (such as with the <code>orderless</code> package),
+so the input can be something like <code>_test ^2022 some title</code>, which we
+obviously don't want to automatically reuse as the new note's actual
+title.
+</p>
+
+<p>
+To this end, and to accommodate all workflows, we leverage Emacs'
+minibuffer history to make the last input accessible with <code>M-p</code> at the
+minibuffer prompt (<code>M-x previous-history-element</code>).  The text is
+available for further editing before it is submitted as the new note's
+title.  Simple, effective, and flexible!
+</p>
+
+<p>
+Thanks to Guo Yong for starting the discussion that led me to this
+improvement:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3CNF6pFBq--3-9%40tutanota.com%3E">https://lists.sr.ht/~protesilaos/denote/%3CNF6pFBq--3-9%40tutanota.com%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e73a4e76-6c00-4691-8893-8f885c26f306" class="outline-3">
+<h3 id="h:e73a4e76-6c00-4691-8893-8f885c26f306">Add support for any file type</h3>
+<div class="outline-text-3" id="text-h:e73a4e76-6c00-4691-8893-8f885c26f306">
+<p>
+Denote provides the user option <code>denote-file-type</code> which specifies the
+file type to use for new notes.  Options include Org mode (the
+default), Markdown+YAML, Markdown+TOML, and plain text.  Furthermore,
+there exists the convenience command <code>denote-type</code> (alias
+<code>denote-create-note-using-type</code>) which prompts for a file type to use
+when creating a new note (I normally write in plain text, but
+sometimes switch to Org or Markdown).
+</p>
+
+<p>
+The variable <code>denote-file-types</code> (which is NOT a user option)
+specifies all the parameters of what a "file type" means, such as how
+to format its front matter, what style of date+time to use, which file
+type extension to write, how to rename the file, what style of link to
+apply, and so on.  Advanced users can now edit this variable to either
+register new file types or redefine the behaviour of existing ones.
+Read this comprehensive guide on how to do it:
+<a href="https://protesilaos.com/codelog/2022-10-30-demo-denote-custom-file-type/">https://protesilaos.com/codelog/2022-10-30-demo-denote-custom-file-type/</a>.
+</p>
+
+<p>
+I repeat: this is for advanced users or, anyhow, for those who are
+prepared to maintain some custom code in their setup.  The guide is
+accessible though and I am always willing to help anyone in need of
+assistance.
+</p>
+
+<p>
+A relevant request for such a feature can be found in issue 86 on the
+GitHub mirror: <a href="https://github.com/protesilaos/denote/issues/86">https://github.com/protesilaos/denote/issues/86</a>.
+</p>
+
+<p>
+The <code>denote-file-types</code> were introduced by Jean-Philippe Gagné Guay in
+pull request 89 at the GitHub mirror and were part of Denote version
+0.6.0: <a href="https://github.com/protesilaos/denote/pull/89">https://github.com/protesilaos/denote/pull/89</a>.  I have made
+lots of changes since then to make all parts of Denote work with it
+and to parameterise its various facets.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:04f42aab-d8fe-4c4a-b865-3bb0655e2631" class="outline-3">
+<h3 id="h:04f42aab-d8fe-4c4a-b865-3bb0655e2631">Exclude certain directories from all operations</h3>
+<div class="outline-text-3" id="text-h:04f42aab-d8fe-4c4a-b865-3bb0655e2631">
+<p>
+The user option <code>denote-excluded-directories-regexp</code> instructs all
+Denote functions that read or check file/directory names to omit
+directories that match the given regular expression.  The regexp needs
+to match only the name of the directory, not its full path.
+</p>
+
+<p>
+Affected operations include file prompts and functions that return the
+available files in the <code>denote-directory</code>.  File prompts are used by
+several commands, such as <code>denote-link</code> and <code>denote-subdirectory</code>.
+Functions that check for files include <code>denote-directory-files</code> and
+<code>denote-directory-subdirectories</code>.
+</p>
+
+<p>
+Thanks to Graham Marlow for the contribution which was done in pull
+request 112 on the GitHub mirror:
+<a href="https://github.com/protesilaos/denote/pull/112">https://github.com/protesilaos/denote/pull/112</a>.
+</p>
+
+<p>
+The original contribution, with the subsequent tweaks I made to it, is
+within the eligible line count and thus does not require copyright
+assignment to the Free Software Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:226ba85e-1f5e-45f5-956a-f5e8a95c397e" class="outline-3">
+<h3 id="h:226ba85e-1f5e-45f5-956a-f5e8a95c397e">Exclude certain keywords from being inferred</h3>
+<div class="outline-text-3" id="text-h:226ba85e-1f5e-45f5-956a-f5e8a95c397e">
+<p>
+The user option <code>denote-excluded-keywords-regexp</code> omits keywords that
+match a regular expression from the list of inferred keywords.
+</p>
+
+<p>
+Keywords are inferred from file names and provided at relevant prompts
+as completion candidates when the user option <code>denote-infer-keywords</code>
+is non-nil.
+</p>
+
+<p>
+Thanks to Stefan Thesing for proposing this idea in issue 115 on the
+GitHub mirror: <a href="https://github.com/protesilaos/denote/issues/115">https://github.com/protesilaos/denote/issues/115</a>.
+</p>
+
+<p>
+[ Other people participate in that thread and there may be something
+  more coming out of it. ]
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:ff16633f-5fb8-4935-9e2f-044ec998d3f7" class="outline-3">
+<h3 id="h:ff16633f-5fb8-4935-9e2f-044ec998d3f7">Use the <code>citar-denote</code> package for bibliography notes</h3>
+<div class="outline-text-3" id="text-h:ff16633f-5fb8-4935-9e2f-044ec998d3f7">
+<p>
+Peter Prevos has produced the <code>citar-denote</code> package which makes it
+possible to write notes on BibTeX entries with the help of the <code>citar</code>
+package.  These notes have the citation's unique key associated with
+them in the file's front matter.  They also get a configurable keyword
+in their file name, making it easy to find them in Dired and/or
+retrieve them with the various Denote methods.
+</p>
+
+<p>
+With <code>citar-denote</code>, the user leverages standard minibuffer completion
+mechanisms (e.g. with the help of the <code>vertico</code> and <code>embark</code> packages)
+to manage bibliographic notes and access those notes with ease.  The
+package's documentation covers the details: <a href="https://github.com/pprevos/citar-denote/">https://github.com/pprevos/citar-denote/</a>.
+</p>
+
+<p>
+Thanks to Peter Prevos for developing this package and for mentioning
+it on the Denote mailing list:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C877cz0e96r.fsf%40prevos.net%3E">https://lists.sr.ht/~protesilaos/denote/%3C877cz0e96r.fsf%40prevos.net%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:5cc2076d-d4d2-45be-b28e-9ec67eca82b4" class="outline-3">
+<h3 id="h:5cc2076d-d4d2-45be-b28e-9ec67eca82b4">New functions and variables for developers</h3>
+<div class="outline-text-3" id="text-h:5cc2076d-d4d2-45be-b28e-9ec67eca82b4">
+<p>
+Developers or users who maintain custom code now have access to:
+</p>
+
+<ul class="org-ul">
+<li>Function <code>denote-keywords-sort</code></li>
+<li>Function <code>denote-keywords-prompt</code></li>
+</ul>
+
+<p>
+Plus all the following which are related to the aforementioned <code>denote-file-types</code>:
+</p>
+
+<ul class="org-ul">
+<li>Variable <code>denote-org-link-format</code></li>
+<li>Variable <code>denote-md-link-format</code></li>
+<li>Variable <code>denote-id-only-link-format</code></li>
+<li>Variable <code>denote-org-link-in-context-regexp</code></li>
+<li>Variable <code>denote-md-link-in-context-regexp</code></li>
+<li>Variable <code>denote-id-only-link-in-context-regexp</code></li>
+<li>Function <code>denote-date-org-timestamp</code></li>
+<li>Function <code>denote-date-rfc3339</code></li>
+<li>Function <code>denote-date-iso-8601</code></li>
+</ul>
+
+<p>
+Again, users can implement support for ANY FILE TYPE and use it to
+write notes in, either as their default choice or on-demand.  If
+anything, this highlights the flexibility of Denote.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:acbb0cf7-ad17-495e-85d2-821cbbfc3158" class="outline-3">
+<h3 id="h:acbb0cf7-ad17-495e-85d2-821cbbfc3158">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:acbb0cf7-ad17-495e-85d2-821cbbfc3158">
+<ul class="org-ul">
+<li>Added the <code>denote-keywords-sort</code> function.  The intent is to
+abstract the task of sorting the keywords.  Before, it was handled
+by the <code>denote-keywords-prompt</code>, which meant that keywords were not
+sorted when the <code>denote</code> function was called from Lisp.  Thanks to
+Florian for bringing this matter to my attention, providing relevant
+feedback, and fixing an omission of mine in <code>denote-rename-file</code>:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3C166689879712.8.6808878344988686135.71824507%40aboulafia.org%3E">https://lists.sr.ht/~protesilaos/denote/%3C166689879712.8.6808878344988686135.71824507%40aboulafia.org%3E</a>.</li>
+
+<li>Expanded the manual's entry on directory "silos" to include more
+code examples.  Thanks to Viktor Haag for asking a question on the
+mailing list that inspired me to produce this entry:
+<a href="https://lists.sr.ht/~protesilaos/denote/%3CCANnkwC6NLd0VneUEqFrjh7TCUBLBgEtLCcPwM37JDvJXJCShVQ%40mail.gmail.com%3E">https://lists.sr.ht/~protesilaos/denote/%3CCANnkwC6NLd0VneUEqFrjh7TCUBLBgEtLCcPwM37JDvJXJCShVQ%40mail.gmail.com%3E</a>.</li>
+
+<li>Included a section in the manual with a non-exhaustive list of
+references to publications about Denote.  As of this writing, it
+includes entries from David Wilson (SystemCrafters), Jack Baty,
+Jeremy Friesen, and Peter Prevos.  If you have an article about
+Denote, please contact me about it directly or on the Denote mailing
+list and I will add it to the manual.</li>
+
+<li><p>
+Tweaked how Org's HTML export produces links in order to avoid
+broken subdirectory paths.  Thanks to Thibaut Benjamin for the
+contribution, which was done in pull request 116 on the GitHub
+mirror: <a href="https://github.com/protesilaos/denote/pull/116">https://github.com/protesilaos/denote/pull/116</a>.
+</p>
+
+<p>
+The change concerns a single line and thus Thibaut requires no
+copyright assignment to the Free Software Foundation.
+</p></li>
+
+<li>Expanded the manual where necessary.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd" class="outline-2">
 <h2 id="h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd">Version 1.1.0 on 2022-10-20</h2>
 <div class="outline-text-2" id="text-h:8e0f536a-ab3b-4cab-82f7-529bc0e40dbd">
@@ -1022,7 +1435,7 @@ Denote used to format tags in Org files by separating them with two
 spaces:
 </p>
 
-<pre class="example" id="orgdc61968">
+<pre class="example" id="org31ec117">
 #+filetags:  tag1  tag2
 </pre>
 
@@ -1032,7 +1445,7 @@ Org.  The Org documentation stipulates that tags be separated by the
 colon sign.  The above would then be written thus:
 </p>
 
-<pre class="example" id="org60dbd51">
+<pre class="example" id="org35bc391">
 #+filetags:  :tag1:tag2:
 </pre>
 
@@ -2329,7 +2742,7 @@ My thanks for their participation in the discussions go to Jean-Philippe
 Gagné Guay, Kaushal Modi, and Shreyas Ragavan.
 </p>
 
-<pre class="example" id="orge1fc46f">
+<pre class="example" id="org3fbad9b">
 commit f35ef05cb451f265213c3aafc1e62c425b1ff043
 Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 Date:   Sun Jul 3 17:34:38 2022 +0300
@@ -2536,7 +2949,7 @@ remains constant.  For completeness, this is how they look:
 </pre>
 </div>
 
-<pre class="example" id="org961b024">
+<pre class="example" id="org8e120d7">
   title:      Sample plain text
   date:       2022-06-10
   tags:       denote  testing
