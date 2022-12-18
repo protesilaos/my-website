@@ -30,7 +30,7 @@ m'outo kalo chero
 Vasta to peton aspro
 mavre vasta tes ale
 stavri kulor de mare
-che i kuta diu nifti
+che i kuta en diu nihti
 
 Kaímeno pros sti talassa
 ego se kanonó
@@ -55,7 +55,7 @@ lio ghizzi to nero
 Βαστάς (έχεις) στο πέτον (στήθος) άσπρο
 μαύρο βαστάς στα φτερά
 πλάτη σε χρώμα της θάλασσας
-και η ουρά στα δυό κοφτή
+και η ουρά στα δυό ανοιχτή
 
 Καημένος μπρος στη θάλασσα
 εγώ σε κανονώ (σε συλλογίζομαι;---δες σημειώσεις παρακάτω)
@@ -80,7 +80,7 @@ in this fine weather
 [You] Hold (have) white on the chest
 black [you] hold on the wings
 back in the colour of the sea
-and the tail split in two
+and the tail open in two
 
 While grieving I stand by the sea
 I canonise you (I contemplate you?---see notes below)
