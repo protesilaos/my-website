@@ -69,6 +69,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:eedd0b6b-9f84-48bc-8871-620934506aa6">5.8. Option for command prompts</a></li>
 <li><a href="#h:8540fd7a-7633-4eb9-af4b-4f160568f79a">5.9. Option for headings</a></li>
 <li><a href="#h:827e4fff-0416-4eba-a364-a6588f80b768">5.10. Style of region highlight</a></li>
+<li><a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">5.11. Palette overrides</a></li>
 </ul>
 </li>
 <li><a href="#h:59c399d6-5dca-4686-b793-255be8bffc31">6. Loading a theme</a></li>
@@ -702,6 +703,98 @@ Other examples:
 (setq standard-themes-region '(intense no-extend neutral))
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:34fe0582-960b-45dc-af5d-23c8f3e9d724" class="outline-3">
+<h3 id="h:34fe0582-960b-45dc-af5d-23c8f3e9d724"><span class="section-number-3">5.11.</span> Palette overrides</h3>
+<div class="outline-text-3" id="text-h:34fe0582-960b-45dc-af5d-23c8f3e9d724">
+<p>
+[ Part of 1.2.0-dev. ]
+</p>
+
+<p>
+The Standard themes define their own color palette as well as semantic
+color mappings.  The former is the set of color values such as what
+shade of blue to use.  The latter refers to associations between a
+color value and a syntactic construct, such as a <code>variable</code> for
+variables in programming modes or <code>heading-1</code> for level 1 headings in
+Org and others.
+</p>
+
+<p>
+The definition is stored in the variable <code>NAME-palette</code>, where <code>NAME</code>
+is the symbol of the theme, such as <code>standard-light</code>.  Overrides for
+those associations are specified in the variable <code>NAME-palette-overrides</code>.
+</p>
+
+<p>
+The variable <code>standard-themes-common-palette-overrides</code> is available
+for shared values.  It is advised to only use this for mappings that
+do not specify a color value directly.  This way, the text remains
+legible by getting the theme-specific color value it needs.
+</p>
+
+<p>
+All associations take the form of <code>(KEY VALUE)</code> pairs.  For example,
+the <code>standard-light-palette</code> contains <code>(blue-warmer "#3a5fcd")</code>.
+Semantic color mappings are the same, though the <code>VALUE</code> is one of the
+named colors of the theme.  For instance, <code>standard-light-palette</code>
+maps the aforementioned like <code>(link blue-warmer)</code>.
+</p>
+
+<p>
+The easiest way to learn about a theme&rsquo;s definition is to use the
+command <code>describe-variable</code> (bound to <code>C-h v</code> by default) and then
+search for the <code>NAME-palette</code>.  The resulting Help buffer will look
+like this:
+</p>
+
+<pre class="example" id="org410d855">
+standard-light-palette is a variable defined in ‘standard-light-theme.el’.
+
+Its value is shown below.
+
+The ‘standard-light’ palette.
+
+  This variable may be risky if used as a file-local variable.
+
+Value:
+((bg-main "#ffffff")
+ (fg-main "#000000")
+ (bg-dim "#ededed")
+
+[... Shortened for the purposes of this manual.]
+</pre>
+
+<p>
+The user can study this information to identify the overrides they
+wish to make.  Then they can specify them and re-load the theme for
+changes to take effect.  Sample of how to override a color value and a
+semantic mapping:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq standard-light-palette-overrides
+      '((blue-warmer "#5230ff") ; original value is #3a5fcd
+        (variable blue-warmer))) ; original value is yellow-cooler
+</pre>
+</div>
+
+<p>
+The overrides can contain as many associations as the user needs.
+</p>
+
+<p>
+Changes to color values are reflected in the preview of the theme&rsquo;s
+palette (<a href="#h:1eebe221-0d0c-43e8-877a-202d2f15ef34">Preview theme colors</a>).  They are shown at the top of the
+buffer.  In the above example, the first instance of <code>blue-warmer</code> is
+the override and the second is the original one.
+</p>
+
+<p>
+Contact me if you need further help with this.
+</p>
 </div>
 </div>
 </div>
