@@ -833,7 +833,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org8f73b1e">
+<pre class="example" id="orgc654946">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -902,6 +902,27 @@ modes, we can do something like this:
  (org-mode . ((org-hide-emphasis-markers . t)
               (org-hide-macro-markers . t)
               (org-hide-leading-stars . t))))
+</pre>
+</div>
+
+<p>
+IMPORTANT If your silo contains sub-directories of notes, you
+should replace <code>default-directory</code> in the above examples with an
+absolute path to your silo directory, otherwise links from files
+within the sub-directories cannot be made to files in the parent
+directory. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Directory Local Variables.  For more information evaluate:
+;;;
+;;;     (info "(emacs) Directory Variables")
+  ((nil . ((denote-directory . "~/my-silo")
+           (denote-known-keywords . ("food" "drink"))
+           (denote-infer-keywords . nil)))
+   (org-mode . ((org-hide-emphasis-markers . t)
+                (org-hide-macro-markers . t)
+                (org-hide-leading-stars . t))))
 </pre>
 </div>
 
@@ -1061,7 +1082,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org6ba6e72">
+<pre class="example" id="org60060c8">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1158,7 +1179,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org6ea1580">
+<pre class="example" id="orgc628df2">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1178,7 +1199,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org708ab70">
+<pre class="example" id="orgd6e51e9">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1442,7 +1463,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org167bcc1">
+<pre class="example" id="org38a291d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1454,7 +1475,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga29597f">
+<pre class="example" id="orgd70bef3">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1468,7 +1489,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgd944194">
+<pre class="example" id="org1f1babc">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1482,7 +1503,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgaa8afe7">
+<pre class="example" id="org04f19b0">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1751,7 +1772,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org38e867a">
+<pre class="example" id="org9a24254">
 - link1
 - link2
 - link3
@@ -1769,7 +1790,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgbf41ed4">
+<pre class="example" id="org8ea65f1">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1968,7 +1989,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org5309007">
+<pre class="example" id="orgb2ddf89">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -1983,7 +2004,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org855ae13">
+<pre class="example" id="orgfd29385">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2690,7 +2711,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgc871174">
+<pre class="example" id="org08c882a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3899,7 +3920,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgb98cc19">
+<pre class="example" id="org0970816">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -4530,9 +4551,9 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 Benjamin Kästner, Charanjit Singh, Clemens Radermacher, Colin
 McLear, Damien Cassou, Elias Storms, Eshel Yaron, Florian, Graham
 Marlow, Hilde Rhyne, Jack Baty, Jean-Philippe Gagné Guay, Jürgen
-Hötzel, Kaushal Modi, Kyle Meyer, Marc Fargas, Noboru Ota (nobiot),
-Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier,
-Thibaut Benjamin.</dd>
+Hötzel, Kaushal Modi, Kyle Meyer, Marc Fargas, Matthew Lemon, Noboru
+Ota (nobiot), Peter Prevos, Philip Kaludercic, Quiliro Ordóñez,
+Stefan Monnier, Thibaut Benjamin.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Alan Schmitt, Alfredo
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Elias Storms,
