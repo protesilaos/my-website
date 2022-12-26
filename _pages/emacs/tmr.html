@@ -37,6 +37,7 @@ Current development target is 0.5.0-dev.
 </ul></li>
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a></li>
+<li>Backronym: TMR May Ring; Timer Must Run</li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -267,8 +268,11 @@ to send notifications (<a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">Sound a
 </p>
 
 <p>
-TMR does not specify any global key bindings.  The user must configure
-their own (<a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">Sample configuration</a>).
+TMR does not specify global key bindings.  Instead, it sets up the
+<code>tmr-prefix-map</code>, which specifies keys for the relevant commands (part
+of 0.5.0-dev).  The user has the option to either bind
+the map to a prefix key, such as <code>C-c t</code> (so <code>tmr</code> is <code>C-c t t</code>), or
+bind individual commands to the desired keys (<a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">Sample configuration</a>).
 </p>
 </div>
 
@@ -280,7 +284,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code>.  The data i
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="orgb25d7a7">
+<pre class="example" id="org248cb0b">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -396,7 +400,7 @@ configuration:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'savehist)
 (setq savehist-file (locate-user-emacs-file "savehist"))
-(setq history-length 10000)
+(setq history-length 500)
 (setq history-delete-duplicates t)
 (setq savehist-save-minibuffer-history t)
 (add-hook 'after-init-hook #'savehist-mode)
@@ -480,28 +484,16 @@ Everything is in place to set up the package.
 <h2 id="h:69eeb3fb-f11d-431e-ae16-2d9b322871cc"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Load the `tmr' library
-(require 'tmr)
+<pre class="src src-emacs-lisp">  ;; set to nil to disable the sound
+  (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
-;; set to nil to disable the sound
-(setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
+  (setq tmr-notification-urgency 'normal)
 
-(setq tmr-notification-urgency 'normal)
+  ;; Read the `tmr-descriptions-list' doc string
+  (setq tmr-descriptions-list 'tmr-description-history)
 
-;; Read the `tmr-descriptions-list' doc string
-(setq tmr-descriptions-list 'tmr-description-history)
-
-;; OPTIONALLY set global key bindings:
-(let ((map global-map))
-  (define-key map (kbd "C-c t t") #'tmr)
-  (define-key map (kbd "C-c t T") #'tmr-with-description)
-  (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
-  (define-key map (kbd "C-c t c") #'tmr-clone)
-  (define-key map (kbd "C-c t k") #'tmr-cancel)
-  (define-key map (kbd "C-c t s") #'tmr-reschedule)
-  (define-key map (kbd "C-c t e") #'tmr-edit-description)
-  (define-key map (kbd "C-c t r") #'tmr-remove)
-  (define-key map (kbd "C-c t R") #'tmr-remove-finished))
+  ;; OPTIONALLY set global prefix bindings (autoloaded):
+  (define-key global-map "\C-ct" 'tmr-prefix-map)
 </pre>
 </div>
 </div>
@@ -511,30 +503,16 @@ Everything is in place to set up the package.
 <h2 id="h:64711ce4-c023-4f6e-b9aa-b43942013423"><span class="section-number-2">5.</span> Integration with Embark</h2>
 <div class="outline-text-2" id="text-h:64711ce4-c023-4f6e-b9aa-b43942013423">
 <p>
-The <code>embark</code> package provides standards-compliant infrastructure to run
-context-dependent actions on all sorts of targets (symbol at point,
-current completion candidate, etc.).  TMR is set up to make its timer
-objects recognisable by Embark.  All the user needs is something like
-the following glue code:
+The <code>embark</code> package provides standards-compliant infrastructure to
+run context-dependent actions on all sorts of targets (symbol at
+point, current completion candidate, etc.).  TMR is set up to make its
+timer objects recognisable by Embark.  All the user needs is something
+like the following glue code:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar tmr-action-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "k" #'tmr-remove)
-    (define-key map "r" #'tmr-remove)
-    (define-key map "R" #'tmr-remove-finished)
-    (define-key map "c" #'tmr-clone)
-    (define-key map "e" #'tmr-edit-description)
-    (define-key map "s" #'tmr-reschedule)
-    map))
-
-(with-eval-after-load 'embark
-  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
-  (cl-loop
-   for cmd the key-bindings of tmr-action-map
-   if (commandp cmd) do
-   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+<pre class="src src-emacs-lisp">(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map)))
 </pre>
 </div>
 </div>
