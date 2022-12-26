@@ -128,7 +128,7 @@ timers in a nice grid.
     + GitHub: <https://github.com/protesilaos/tmr>
     + GitLab: <https://gitlab.com/protesilaos/tmr>
 + Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
-+ Backronym: TMR May Ring; Time Must Run
++ Backronym: TMR May Ring; Timer Must Run
 
 ## aLtCaPs
 
@@ -330,7 +330,7 @@ The README file in the git repository covers all the technicalities.
     + GitLab: <https://gitlab.com/protesilaos/iosevka-comfy>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
 + Sample pictures: <https://protesilaos.com/emacs/iosevka-comfy-pictures>
-+ Backronym: Iosevka (Could Only Modify a Font, Yes)
++ Backronym: Iosevka ... Could Only Modify a Font, Yes
 
 ## Minibuffer and Completions in Tandem (mct.el)
 
