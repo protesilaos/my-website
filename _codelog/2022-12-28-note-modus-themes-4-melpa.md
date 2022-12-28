@@ -104,8 +104,8 @@ primarily from the green-blue side of the spectrum:
 
 Don't like yellow comments?  How about changing the value to
 `red-faint`?  The 10x developer programs with yellow strings?  Peak
-productivity is now within your grasp!  You are vociferous about
-keywords being blue?  Make overrides, not war.
+productivity is now within your grasp!  You are vociferous, thinking
+that keywords should be blue?  Make overrides, not war.
 
 You get the idea.  And remember that I am here to help.
 
