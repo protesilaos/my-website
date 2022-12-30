@@ -104,12 +104,14 @@ Current development target is 4.0.0-dev.
 <li><a href="#h:bd75b43a-0bf1-45e7-b8b4-20944ca8b7f8">5.11.2.5. Make prompts more or less colorful</a></li>
 <li><a href="#h:d959f789-0517-4636-8780-18123f936f91">5.11.2.6. Make completion matches more or less colorful</a></li>
 <li><a href="#h:26f53daa-0065-48dc-88ab-6a718d16cd95">5.11.2.7. Make comments yellow and strings green</a></li>
-<li><a href="#h:943063da-7b27-4ba4-9afe-f8fe77652fd1">5.11.2.8. Make use of alternative styles for code syntax</a></li>
-<li><a href="#h:259cf8f5-48ec-4b13-8a69-5d6387094468">5.11.2.9. Make matching parenthesis more or less intense</a></li>
-<li><a href="#h:4f6b6ca3-f5bb-4830-8312-baa232305360">5.11.2.10. Make box buttons more or less gray</a></li>
-<li><a href="#h:b57bb50b-a863-4ea8-bb38-6de2275fa868">5.11.2.11. Make TODO and DONE more or less intense</a></li>
-<li><a href="#h:11297984-85ea-4678-abe9-a73aeab4676a">5.11.2.12. Make headings more or less colorful</a></li>
-<li><a href="#h:a5af0452-a50f-481d-bf60-d8143f98105f">5.11.2.13. Make Org agenda more or less colorful</a></li>
+<li><a href="#h:c8767172-bf11-4c96-81dc-e736c464fc9c">5.11.2.8. Make code syntax use the old alt-syntax style</a></li>
+<li><a href="#h:943063da-7b27-4ba4-9afe-f8fe77652fd1">5.11.2.9. Make use of alternative styles for code syntax</a></li>
+<li><a href="#h:259cf8f5-48ec-4b13-8a69-5d6387094468">5.11.2.10. Make matching parenthesis more or less intense</a></li>
+<li><a href="#h:4f6b6ca3-f5bb-4830-8312-baa232305360">5.11.2.11. Make box buttons more or less gray</a></li>
+<li><a href="#h:b57bb50b-a863-4ea8-bb38-6de2275fa868">5.11.2.12. Make TODO and DONE more or less intense</a></li>
+<li><a href="#h:11297984-85ea-4678-abe9-a73aeab4676a">5.11.2.13. Make headings more or less colorful</a></li>
+<li><a href="#h:a5af0452-a50f-481d-bf60-d8143f98105f">5.11.2.14. Make Org agenda more or less colorful</a></li>
+<li><a href="#h:7da7a4ad-5d3a-4f11-9796-5a1abed0f0c4">5.11.2.15. Make mail citations and headers more or less colorful</a></li>
 </ul>
 </li>
 </ul>
@@ -2029,6 +2031,10 @@ reproduce the effect, but also how to tweak it to one&rsquo;s liking.
 </p>
 
 <p>
+<a href="#h:c8767172-bf11-4c96-81dc-e736c464fc9c">Make code syntax use the old alt-syntax style</a>.
+</p>
+
+<p>
 <a href="#h:943063da-7b27-4ba4-9afe-f8fe77652fd1">Make use of alternative styles for code syntax</a>.
 </p>
 
@@ -2062,8 +2068,106 @@ reproduce the effect, but also how to tweak it to one&rsquo;s liking.
 </div>
 </div>
 
+<div id="outline-container-h:c8767172-bf11-4c96-81dc-e736c464fc9c" class="outline-5">
+<h5 id="h:c8767172-bf11-4c96-81dc-e736c464fc9c"><span class="section-number-5">5.11.2.8.</span> Make code syntax use the old alt-syntax style</h5>
+<div class="outline-text-5" id="text-h:c8767172-bf11-4c96-81dc-e736c464fc9c">
+<p>
+This is one of our practical examples to override the semantic colors
+of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>).  In
+this section we show how to reproduce what previous versions of the
+Modus themes provided as a stylistic alternative for code syntax.  The
+upside of using overrides for this purpose is that we can tweak the
+style to our liking, but first let&rsquo;s start with its recreation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; These overrides are common to all Modus themes.  We also provide
+;; theme-specific options, such as `modus-operandi-palette-overrides'.
+;;
+;; In general, the theme-specific overrides are better for overriding
+;; color values, such as redefining what `blue-faint' looks like.  The
+;; common overrides are best used for changes to semantic color
+;; mappings, as we show below.
+
+
+;; The old "alt-syntax"
+(setq modus-themes-common-palette-overrides
+      '((builtin magenta)
+        (comment fg-dim)
+        (constant magenta-cooler)
+        (docstring magenta-faint)
+        (docmarkup green-faint)
+        (fnname magenta-warmer)
+        (keyword cyan)
+        (preprocessor cyan-cooler)
+        (string red-cooler)
+        (type magenta-cooler)
+        (variable blue-warmer)
+        (rx-construct magenta-warmer)
+        (rx-backslash blue-cooler)))
+</pre>
+</div>
+
+<p>
+The &ldquo;alt-syntax&rdquo; could optionally use green strings and yellow
+comments (<a href="#h:26f53daa-0065-48dc-88ab-6a718d16cd95">Make comments yellow and strings green</a>):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Same as above, but with yellow comments and green strings
+(setq modus-themes-common-palette-overrides
+      '((builtin magenta)
+        (comment yellow-faint)
+        (constant magenta-cooler)
+        (docstring green-faint)
+        (docmarkup magenta-faint)
+        (fnname magenta-warmer)
+        (keyword cyan)
+        (preprocessor cyan-cooler)
+        (string green-cooler)
+        (type magenta-cooler)
+        (variable blue-warmer)
+        (rx-construct magenta-warmer)
+        (rx-backslash blue-cooler)))
+</pre>
+</div>
+
+<p>
+The standard &ldquo;alt-syntax&rdquo; has red strings.  As such, it is interesting
+to experiment with faintly red colored comments:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Like the old "alt-syntax" but with faint red comments
+(setq modus-themes-common-palette-overrides
+      '((builtin magenta)
+        (comment red-faint)
+        (constant magenta-cooler)
+        (docstring magenta-faint)
+        (docmarkup green-faint)
+        (fnname magenta-warmer)
+        (keyword cyan)
+        (preprocessor cyan-cooler)
+        (string red-cooler)
+        (type magenta-cooler)
+        (variable blue-warmer)
+        (rx-construct magenta-warmer)
+        (rx-backslash blue-cooler)))
+</pre>
+</div>
+
+<p>
+The user can always mix and match styles to their liking.
+</p>
+
+<p>
+<a href="#h:943063da-7b27-4ba4-9afe-f8fe77652fd1">Make use of alternative styles for code syntax</a>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:943063da-7b27-4ba4-9afe-f8fe77652fd1" class="outline-5">
-<h5 id="h:943063da-7b27-4ba4-9afe-f8fe77652fd1"><span class="section-number-5">5.11.2.8.</span> Make use of alternative styles for code syntax</h5>
+<h5 id="h:943063da-7b27-4ba4-9afe-f8fe77652fd1"><span class="section-number-5">5.11.2.9.</span> Make use of alternative styles for code syntax</h5>
 <div class="outline-text-5" id="text-h:943063da-7b27-4ba4-9afe-f8fe77652fd1">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2082,6 +2186,10 @@ theme palette.
 
 <p>
 <a href="#h:26f53daa-0065-48dc-88ab-6a718d16cd95">Make comments yellow and strings green</a>.
+</p>
+
+<p>
+<a href="#h:c8767172-bf11-4c96-81dc-e736c464fc9c">Make code syntax use the old alt-syntax style</a>.
 </p>
 
 <div class="org-src-container">
@@ -2159,7 +2267,7 @@ theme palette.
 </div>
 
 <div id="outline-container-h:259cf8f5-48ec-4b13-8a69-5d6387094468" class="outline-5">
-<h5 id="h:259cf8f5-48ec-4b13-8a69-5d6387094468"><span class="section-number-5">5.11.2.9.</span> Make matching parenthesis more or less intense</h5>
+<h5 id="h:259cf8f5-48ec-4b13-8a69-5d6387094468"><span class="section-number-5">5.11.2.10.</span> Make matching parenthesis more or less intense</h5>
 <div class="outline-text-5" id="text-h:259cf8f5-48ec-4b13-8a69-5d6387094468">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2192,7 +2300,7 @@ to enable underlines for those highlights.
 </div>
 
 <div id="outline-container-h:4f6b6ca3-f5bb-4830-8312-baa232305360" class="outline-5">
-<h5 id="h:4f6b6ca3-f5bb-4830-8312-baa232305360"><span class="section-number-5">5.11.2.10.</span> Make box buttons more or less gray</h5>
+<h5 id="h:4f6b6ca3-f5bb-4830-8312-baa232305360"><span class="section-number-5">5.11.2.11.</span> Make box buttons more or less gray</h5>
 <div class="outline-text-5" id="text-h:4f6b6ca3-f5bb-4830-8312-baa232305360">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2223,7 +2331,7 @@ inactive ones.
 </div>
 
 <div id="outline-container-h:b57bb50b-a863-4ea8-bb38-6de2275fa868" class="outline-5">
-<h5 id="h:b57bb50b-a863-4ea8-bb38-6de2275fa868"><span class="section-number-5">5.11.2.11.</span> Make TODO and DONE more or less intense</h5>
+<h5 id="h:b57bb50b-a863-4ea8-bb38-6de2275fa868"><span class="section-number-5">5.11.2.12.</span> Make TODO and DONE more or less intense</h5>
 <div class="outline-text-5" id="text-h:b57bb50b-a863-4ea8-bb38-6de2275fa868">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2266,7 +2374,7 @@ to subdue them.
 </div>
 
 <div id="outline-container-h:11297984-85ea-4678-abe9-a73aeab4676a" class="outline-5">
-<h5 id="h:11297984-85ea-4678-abe9-a73aeab4676a"><span class="section-number-5">5.11.2.12.</span> Make headings more or less colorful</h5>
+<h5 id="h:11297984-85ea-4678-abe9-a73aeab4676a"><span class="section-number-5">5.11.2.13.</span> Make headings more or less colorful</h5>
 <div class="outline-text-5" id="text-h:11297984-85ea-4678-abe9-a73aeab4676a">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2328,7 +2436,7 @@ match styles at will.
 </div>
 
 <div id="outline-container-h:a5af0452-a50f-481d-bf60-d8143f98105f" class="outline-5">
-<h5 id="h:a5af0452-a50f-481d-bf60-d8143f98105f"><span class="section-number-5">5.11.2.13.</span> Make Org agenda more or less colorful</h5>
+<h5 id="h:a5af0452-a50f-481d-bf60-d8143f98105f"><span class="section-number-5">5.11.2.14.</span> Make Org agenda more or less colorful</h5>
 <div class="outline-text-5" id="text-h:a5af0452-a50f-481d-bf60-d8143f98105f">
 <p>
 This is one of our practical examples to override the semantic colors
@@ -2396,6 +2504,80 @@ A third example that makes the agenda more blue:
         (date-scheduled blue)
         (date-weekday fg-main)
         (date-weekend fg-dim)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:7da7a4ad-5d3a-4f11-9796-5a1abed0f0c4" class="outline-5">
+<h5 id="h:7da7a4ad-5d3a-4f11-9796-5a1abed0f0c4"><span class="section-number-5">5.11.2.15.</span> Make mail citations and headers more or less colorful</h5>
+<div class="outline-text-5" id="text-h:7da7a4ad-5d3a-4f11-9796-5a1abed0f0c4">
+<p>
+This is one of our practical examples to override the semantic colors
+of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>).  In
+this section we show how to change the coloration of email message
+headers and citations.  Before we show the code, this is the anatomy
+of a message:
+</p>
+
+<pre class="example" id="org1cfbd09">
+From: Protesilaos &lt;info@protesilaos.com&gt;
+To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
+Subject: Test subject
+--- Headers above this line; message and citations below ---
+This is some sample text
+
+&gt; &gt; Older quote
+&gt; Newer quote
+</pre>
+
+<p>
+We thus have the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; These overrides are common to all Modus themes.  We also provide
+;; theme-specific options, such as `modus-operandi-palette-overrides'.
+;;
+;; In general, the theme-specific overrides are better for overriding
+;; color values, such as redefining what `blue-faint' looks like.  The
+;; common overrides are best used for changes to semantic color
+;; mappings, as we show below.
+
+
+;; Reduce the intensity of mail citations and headers
+(setq modus-themes-common-palette-overrides
+      '((mail-cite-0 cyan-faint)
+        (mail-cite-1 yellow-faint)
+        (mail-cite-2 green-faint)
+        (mail-cite-3 red-faint)
+        (mail-part olive)
+        (mail-recipient indigo)
+        (mail-subject maroon)
+        (mail-other slate)))
+
+;; Make mail citations more intense; adjust the headers accordingly
+(setq modus-themes-common-palette-overrides
+      '((mail-cite-0 blue)
+        (mail-cite-1 yellow)
+        (mail-cite-2 green)
+        (mail-cite-3 magenta)
+        (mail-part magenta-cooler)
+        (mail-recipient cyan)
+        (mail-subject red-warmer)
+        (mail-other cyan-cooler)))
+
+;; Make all citations faint and neutral; make most headers green but
+;; use red for the subject lie so that it stands out
+(setq modus-themes-common-palette-overrides
+      '((mail-cite-0 fg-dim)
+        (mail-cite-1 fg-alt)
+        (mail-cite-2 fg-dim)
+        (mail-cite-3 fg-alt)
+        (mail-part yellow-cooler)
+        (mail-recipient green-cooler)
+        (mail-subject red-cooler)
+        (mail-other green)))
 </pre>
 </div>
 </div>
@@ -3364,7 +3546,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org84dd5e8">
+<pre class="example" id="org0e0f6ed">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5070,7 +5252,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org47b39bf">
+<pre class="example" id="org89e1c27">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5115,7 +5297,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org36f3a1a">
+<pre class="example" id="org93d7ada">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -5487,7 +5669,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgbf6e389">
+<pre class="example" id="orgaffb065">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5560,32 +5742,32 @@ Adrian Manea, Aleksei Pirogov, Alex Griffin, Alex Koen, Alex
 Peitsinis, Alexey Shmalko, Alok Singh, Anders Johansson, André
 Alexandre Gomes, Andrew Tropin, Antonio Hernández Blas, Arif Rezai,
 Augusto Stoffel, Basil L. Contovounesios, Burgess
-Chang, Christian Tietze, Christopher Dimech, Christopher League,
-Damien Cassou, Daniel Mendler, Dario Gjorgjevski, David Edmondson,
-Davor Rotim, Divan Santana, Eliraz Kedmi, Emanuele Michele Alberto
-Monterosso, Farasha Euker, Feng Shu, Gautier Ponsinet, Gerry
-Agbobada, Gianluca Recchia, Gonçalo Marrafa, Guilherme Semente,
-Gustavo Barros, Hörmetjan Yiltiz, Ilja Kocken, Iris Garcia, Ivan
-Popovych, James Ferguson, Jeremy Friesen, Jerry Zhang, Johannes
-Grødem, John Haman, Jonas Collberg, Jorge Morais, Joshua O&rsquo;Connor,
-Julio C. Villasante, Kenta Usami, Kevin Fleming, Kévin Le Gouguec,
-Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Len Trigg, Lennart
-C. Karssen, Luis Miguel Castañeda, Magne Hov, Manuel Uberti, Mark
-Bestley, Mark Burton, Mark Simpson, Markus Beppler, Matt Armstrong,
-Matthias Fuchs, Mattias Engdegård, Mauro Aranda, Maxime Tréca,
-Michael Goldenberg, Morgan Smith, Morgan Willcock, Murilo Pereira,
-Nicky van Foreest, Nicolas De Jaeghere, Pablo Stafforini, Paul
-Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic,
-Pierre Téchoueyres, Przemysław Kryger, Robert Hepple, Roman Rudakov,
-Ryan Phillips, Rytis Paškauskas, Rudolf Adamkovič, Sam Kleinman,
-Samuel Culpepper, Saša Janiška, Shreyas Ragavan, Simon Pugnet,
-Tassilo Horn, Thibaut Verron, Thomas Heartman, Togan Muftuoglu, Tony
-Zorman, Trey Merkley, Tomasz Hołubowicz, Toon Claes, Uri Sharf,
-Utkarsh Singh, Vincent Foley.  As well as users: Ben, CsBigDataHub1,
-Emacs Contrib, Eugene, Fourchaux, Fredrik, Moesasji, Nick, Summer
-Emacs, TheBlob42, Trey, bepolymathe, bit9tream, derek-upham, doolio,
-fleimgruber, gitrj95, iSeeU, jixiuf, okamsn, pRot0ta1p, soaringbird,
-tumashu, wakamenod.</dd>
+Chang, Charlotte Van Petegem, Christian Tietze, Christopher Dimech,
+Christopher League, Damien Cassou, Daniel Mendler, Dario
+Gjorgjevski, David Edmondson, Davor Rotim, Divan Santana, Eliraz
+Kedmi, Emanuele Michele Alberto Monterosso, Farasha Euker, Feng Shu,
+Gautier Ponsinet, Gerry Agbobada, Gianluca Recchia, Gonçalo Marrafa,
+Guilherme Semente, Gustavo Barros, Hörmetjan Yiltiz, Ilja Kocken,
+Iris Garcia, Ivan Popovych, James Ferguson, Jeremy Friesen, Jerry
+Zhang, Johannes Grødem, John Haman, Jonas Collberg, Jorge Morais,
+Joshua O&rsquo;Connor, Julio C. Villasante, Kenta Usami, Kevin Fleming,
+Kévin Le Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Len
+Trigg, Lennart C. Karssen, Luis Miguel Castañeda, Magne Hov, Manuel
+Uberti, Mark Bestley, Mark Burton, Mark Simpson, Markus Beppler,
+Matt Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro Aranda,
+Maxime Tréca, Michael Goldenberg, Morgan Smith, Morgan Willcock,
+Murilo Pereira, Nicky van Foreest, Nicolas De Jaeghere, Pablo
+Stafforini, Paul Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu,
+Philip Kaludercic, Pierre Téchoueyres, Przemysław Kryger, Robert
+Hepple, Roman Rudakov, Ryan Phillips, Rytis Paškauskas, Rudolf
+Adamkovič, Sam Kleinman, Samuel Culpepper, Saša Janiška, Shreyas
+Ragavan, Simon Pugnet, Tassilo Horn, Thibaut Verron, Thomas
+Heartman, Togan Muftuoglu, Tony Zorman, Trey Merkley, Tomasz
+Hołubowicz, Toon Claes, Uri Sharf, Utkarsh Singh, Vincent Foley.  As
+well as users: Ben, CsBigDataHub1, Emacs Contrib, Eugene, Fourchaux,
+Fredrik, Moesasji, Nick, Summer Emacs, TheBlob42, Trey, bepolymathe,
+bit9tream, derek-upham, doolio, fleimgruber, gitrj95, iSeeU, jixiuf,
+okamsn, pRot0ta1p, soaringbird, tumashu, wakamenod.</dd>
 
 <dt>Packaging</dt><dd>Basil L. Contovounesios, Eli Zaretskii,
 Glenn Morris, Mauro Aranda, Richard Stallman, Stefan Kangas (core
