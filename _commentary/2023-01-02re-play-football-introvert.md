@@ -4,8 +4,8 @@ excerpt: "Excerpt from an exchange where I comment on the topic of playing a tea
 ---
 
 The following is an excerpt from a recent exchange.  I am asked about
-this both because I am introvert and was a football player for many
-years in a semi-professional capacity.  The identity of my
+this both because I am introvert and was a football (soccer) player
+for many years in a semi-professional capacity.  The identity of my
 correspondent remains a secret and this information is shared with
 their permission.
 
