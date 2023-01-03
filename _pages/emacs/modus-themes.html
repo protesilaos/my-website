@@ -75,8 +75,9 @@ Current development target is 4.1.0-dev.
 </li>
 <li><a href="#h:3f3c3728-1b34-437d-9d0c-b110f5b161a9">4. Enable and load</a>
 <ul>
-<li><a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">4.1. Sample configuration with and without use-package</a></li>
-<li><a href="#h:e68560b3-7fb0-42bc-a151-e015948f8a35">4.2. Differences between loading and enabling</a></li>
+<li><a href="#h:b66b128d-54a4-4265-b59f-4d1ea2feb073">4.1. The <code>require-theme</code> for built-in Emacs themes</a></li>
+<li><a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">4.2. Sample configuration with and without use-package</a></li>
+<li><a href="#h:e68560b3-7fb0-42bc-a151-e015948f8a35">4.3. Differences between loading and enabling</a></li>
 </ul>
 </li>
 <li><a href="#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f">5. Customization options</a>
@@ -533,11 +534,12 @@ new changes to take effect.
 </p>
 
 <p>
-This is how a basic setup could look like:
+This is how a basic setup could look like (<a href="#h:b66b128d-54a4-4265-b59f-4d1ea2feb073">The require-theme for built-in Emacs themes</a>):
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require'.
+(require-theme 'modus-themes)
 
 ;; Add all your customizations prior to loading the themes.
 (setq modus-themes-italic-constructs t
@@ -572,8 +574,39 @@ This is how a basic setup could look like:
 </p>
 </div>
 
+<div id="outline-container-h:b66b128d-54a4-4265-b59f-4d1ea2feb073" class="outline-3">
+<h3 id="h:b66b128d-54a4-4265-b59f-4d1ea2feb073"><span class="section-number-3">4.1.</span> The <code>require-theme</code> for built-in Emacs themes</h3>
+<div class="outline-text-3" id="text-h:b66b128d-54a4-4265-b59f-4d1ea2feb073">
+<p>
+The version of the Modus themes that is included in Emacs CANNOT use
+the standard <code>require</code>.  This is because the built-in themes are not
+included in the <code>load-path</code> (not my decision).  The <code>require-theme</code>
+function must be used in this case as a replacement.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require-theme 'modus-themes)
+
+;; All customizations here
+(setq modus-themes-bold-constructs t
+      modus-themes-italic-constructs t)
+
+;; Maybe define some palette overrides, such as by using our presets
+(setq modus-themes-common-palette-overrides
+      modus-themes-preset-overrides-intense)
+
+;; Load the theme of choice (built-in themes are always "safe" so they
+;; do not need the `no-require' argument of `load-theme').
+(load-theme 'modus-operandi)
+
+(define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:e979734c-a9e1-4373-9365-0f2cd36107b8" class="outline-3">
-<h3 id="h:e979734c-a9e1-4373-9365-0f2cd36107b8"><span class="section-number-3">4.1.</span> Sample configuration with and without use-package</h3>
+<h3 id="h:e979734c-a9e1-4373-9365-0f2cd36107b8"><span class="section-number-3">4.2.</span> Sample configuration with and without use-package</h3>
 <div class="outline-text-3" id="text-h:e979734c-a9e1-4373-9365-0f2cd36107b8">
 <p>
 What follows is a variant of what we demonstrate in the previous
@@ -589,9 +622,15 @@ package configurations in their setup.  We use this as an example:
 <pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require'.
 (use-package emacs
   :init
+  (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in Modus themes
+
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil)
+
+  ;; Maybe define some palette overrides, such as by using our presets
+  (setq modus-themes-common-palette-overrides
+        modus-themes-preset-overrides-intense)
   :config
   ;; Load the theme of your choice.
   (load-theme 'modus-operandi)
@@ -606,6 +645,10 @@ package configurations in their setup.  We use this as an example:
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil)
+
+  ;; Maybe define some palette overrides, such as by using our presets
+  (setq modus-themes-common-palette-overrides
+        modus-themes-preset-overrides-intense)
   :config
   ;; Load the theme of your choice.
   (load-theme 'modus-operandi :no-confim)
@@ -618,27 +661,18 @@ The same without <code>use-package</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require':
-;; Add all your customizations prior to loading the themes
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil)
-
-;; Load the theme of your choice:
-(load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
-
-(define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
-
-
-
-;;; For packaged versions which must use `require':
-(require 'modus-themes)
+<pre class="src src-emacs-lisp">(require 'modus-themes) ; OR for the built-in themes: (require-theme 'modus-themes)
 
 ;; Add all your customizations prior to loading the themes
 (setq modus-themes-italic-constructs t
       modus-themes-bold-constructs nil)
 
+;; Maybe define some palette overrides, such as by using our presets
+(setq modus-themes-common-palette-overrides
+      modus-themes-preset-overrides-intense)
+
 ;; Load the theme of your choice:
-(load-theme 'modus-operandi :no-confim) ;; OR (load-theme 'modus-vivendi :no-confim)
+(load-theme 'modus-operandi :no-confim)
 
 (define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
 </pre>
@@ -659,7 +693,7 @@ package declaration of the themes.
 </div>
 
 <div id="outline-container-h:e68560b3-7fb0-42bc-a151-e015948f8a35" class="outline-3">
-<h3 id="h:e68560b3-7fb0-42bc-a151-e015948f8a35"><span class="section-number-3">4.2.</span> Differences between loading and enabling</h3>
+<h3 id="h:e68560b3-7fb0-42bc-a151-e015948f8a35"><span class="section-number-3">4.3.</span> Differences between loading and enabling</h3>
 <div class="outline-text-3" id="text-h:e68560b3-7fb0-42bc-a151-e015948f8a35">
 <p>
 The reason we recommend <code>load-theme</code> instead of the other option of
@@ -2495,7 +2529,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org6ffbdc1">
+<pre class="example" id="orgc1efffa">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -3744,7 +3778,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org424cc8b">
+<pre class="example" id="org7936c4c">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5452,7 +5486,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org321f78d">
+<pre class="example" id="orge118db2">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5497,7 +5531,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org6486c56">
+<pre class="example" id="org7d6f22b">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -5869,7 +5903,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org3d6594b">
+<pre class="example" id="org3ed72f1">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
