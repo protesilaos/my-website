@@ -1,6 +1,7 @@
 ---
 title: "Re: How to play football as an introvert?"
 excerpt: "Excerpt from an exchange where I comment on the topic of playing a team sport (association football) as an introverted person."
+redirect_from: /commentary/2023-01-02re-play-football-introvert/
 ---
 
 The following is an excerpt from a recent exchange.  I am asked about
