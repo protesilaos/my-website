@@ -123,6 +123,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">11.11. Treat your notes as a project</a></li>
 <li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">11.12. Variants of <code>denote-open-or-create</code></a></li>
 <li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">11.13. Variants of <code>denote-link-or-create</code></a></li>
+<li><a href="#h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">11.14. Using the tree-based file prompt for select commands</a></li>
 </ul>
 </li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">12. Installation</a>
@@ -833,7 +834,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgbf0d20c">
+<pre class="example" id="org2a87379">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1082,7 +1083,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgfb216cf">
+<pre class="example" id="orgeddae20">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1179,7 +1180,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org2901965">
+<pre class="example" id="org12364d9">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1199,7 +1200,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org71fab6a">
+<pre class="example" id="org618791e">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1463,7 +1464,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgabb124c">
+<pre class="example" id="org3802051">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1475,7 +1476,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org59aa2c7">
+<pre class="example" id="org6e04346">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1489,7 +1490,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org3ec3200">
+<pre class="example" id="org9d84d47">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1503,7 +1504,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org23b9f1a">
+<pre class="example" id="orga8828a7">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1772,7 +1773,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgb1aafa9">
+<pre class="example" id="orga1d0394">
 - link1
 - link2
 - link3
@@ -1790,7 +1791,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgf180bcc">
+<pre class="example" id="orgd118134">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1989,7 +1990,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org50bc42e">
+<pre class="example" id="org7eac6ec">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2004,7 +2005,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orge30f625">
+<pre class="example" id="org2fdc21a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2283,7 +2284,9 @@ A dynamic block looks like this:
 <p>
 Here we have the <code>denote-links</code> type, with the <code>:regexp</code> parameter.
 The value of the <code>:regexp</code> parameter is the same as that of the
-command <code>denote-link-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  The
+command <code>denote-link-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  It
+can only use the notation of the <code>rx</code> macro, as explained in the Emacs
+Lisp Reference Manual (evaluate: <code>(info "(elisp) Rx Notation")</code>).  The
 linked entry provides practical examples of patterns that make good
 use of Denote&rsquo;s file-naming scheme (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
 </p>
@@ -2711,7 +2714,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org124cea6">
+<pre class="example" id="orgc1315a8">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3160,6 +3163,53 @@ For templates, refer to `denote-templates'."
   (interactive)
   (let ((denote-prompts '(template title keywords)))
     (call-interactively #'denote-link-or-create)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa" class="outline-3">
+<h3 id="h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa"><span class="section-number-3">11.14.</span> Using the tree-based file prompt for select commands</h3>
+<div class="outline-text-3" id="text-h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">
+<p>
+Older versions of Denote had a file prompt that resembled that of the
+standard <code>find-file</code> command (bound to <code>C-x C-f</code> by default).  This
+means that it used a tree-based method of navigating the filesystem by
+selecting the specific directory and then the given file.
+</p>
+
+<p>
+Currently, Denote flattens the file prompt so that every file in the
+<code>denote-directory</code> and its subdirectories can be matched from anywhere
+using the power of Emacs&rsquo; minibuffer completion (such as with the help
+of the <code>orderless</code> package in addition to built-in options).
+</p>
+
+<p>
+Users who need the old behaviour on a per-command basis can define
+their own wrapper functions as shown in the following code block.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; This is the old `denote-file-prompt' that we renamed to
+;; `denote-file-prompt-original' for clarity.
+(defun denote-file-prompt-original (&amp;optional initial-text)
+  "Prompt for file with identifier in variable `denote-directory'.
+With optional INITIAL-TEXT, use it to prepopulate the minibuffer."
+  (read-file-name "Select note: " (denote-directory) nil nil initial-text
+                  (lambda (f)
+                    (or (denote-file-has-identifier-p f)
+                        (file-directory-p f)))))
+
+;; Our wrapper command that changes the current `denote-file-prompt'
+;; to the functionality of `denote-file-prompt-original' only when
+;; this command is used.
+(defun my-denote-link ()
+  "Call `denote-link' but use Denote's original file prompt.
+See `denote-file-prompt-original'."
+  (interactive)
+  (cl-letf (((symbol-function 'denote-file-prompt) #'denote-file-prompt-original))
+    (call-interactively #'denote-link)))
 </pre>
 </div>
 </div>
@@ -3926,7 +3976,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org3426edd">
+<pre class="example" id="org069b1be">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -4576,9 +4626,10 @@ Quiliro Ordóñez, Stefan Monnier, Stefan Thesing, Thibaut Benjamin.</dd>
 Borrás, Benjamin Kästner, Colin McLear, Damien Cassou, Elias Storms,
 Federico Stilman, Florian, Frank Ehmsen, Guo Yong, Hanspeter Gisler,
 Jack Baty, Jeremy Friesen, Juanjo Presa, Johan Bolmsjö, Kaushal
-Modi, M. Hadi Timachi, Paul van Gelder, Peter Prevos, Shreyas
-Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, Viktor
-Haag, Yi Liu, Ypot, atanasj, hpgisler, pRot0ta1p, sienic, sundar bp.</dd>
+Modi, M. Hadi Timachi, Mirko Hernandez, Paul van Gelder, Peter
+Prevos, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck,
+Taoufik, Viktor Haag, Yi Liu, Ypot, atanasj, hpgisler, pRot0ta1p,
+sienic, sundar bp.</dd>
 </dl>
 
 <p>
