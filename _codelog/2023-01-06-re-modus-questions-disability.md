@@ -45,7 +45,7 @@ brightness set to its maximum value.
 
 Actually, don't try that on yourself.  A few seconds will already give
 you the hint you need: legibility is for everyone and inconsiderate
-choices will harm even those with eagle-eye vision.
+choices will harm even those with eagle-eyed vision.
 
 Accessible colour combinations have the inherent benefit of avoiding
 awkward pairings.  Again, this is not about disability.  Try to read a
@@ -154,7 +154,7 @@ those effects actually improve accessibility is another discussion.  I
 consider them a gimmick (and is one of the reasons I prefer to do as
 much as possible within Emacs instead of web apps).  By the way, I
 recently bought an Android smartphone, which I only use to make videos
-while walking: it's accessibility leaves much to be desired and I would
+while walking: its accessibility leaves much to be desired and I would
 rather have those "millions of dollars" invested in some better cause.
 
 Companies have a built-in incentive to reinvent their design every few
