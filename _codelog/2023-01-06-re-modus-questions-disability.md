@@ -6,7 +6,7 @@ excerpt: "My comprehensive answers to whether the Modus themes for Emacs are onl
 The following is an exchange that took place [on the mailing list of
 the Modus
 themes](https://lists.sr.ht/~protesilaos/modus-themes/%3CCA%2BddoUx0GFb15oQ%3Du%3Dy7oBcZanQn8As3uN50Aj%3D%3DwXTh-Tm31w%40mail.gmail.com%3E).
-I am reproducing here as it will probably reach a wider audience.
+I am reproducing it here as it will probably reach a wider audience.
 
 * * *
 
