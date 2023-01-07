@@ -32,10 +32,11 @@ full-time job_ but only a one-off project that I fulfilled at the
 start of December.  Nothing has changed: I still need a job and will
 have to change countries.
 
-Currently, I am in contact with a prospective employer.  I do not know
+~~Currently, I am in contact with a prospective employer.  I do not know
 what will come out of it, given my irregular skill set.  I will write
 more when I have results: maybe some time in early 2023.  There is no
-point is publishing scenaria.
+point in publishing scenaria.~~ **UPDATE 2023-01-07 05:35 +0200**: I
+keep searching.
 
 ## Commitment to Clojure
 
