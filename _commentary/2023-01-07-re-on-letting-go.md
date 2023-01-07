@@ -16,9 +16,9 @@ with permission and the identity of the person remains private.
 > reply was useful to me in performing a catharsis and I did gain some
 > different perspective on life, albeit trivial.
 >
-> > When you overdo it, when you over-commit to a cause you are >
-> necessarily fully invested in it; you are obsessed with it; you >
-> cannot let go of it; you become it.
+> > When you overdo it, when you over-commit to a cause you are
+> > necessarily fully invested in it; you are obsessed with it; you
+> > cannot let go of it; you become it.
 
 Yes, I remember that quote of mine and am happy to read from you
 again!
