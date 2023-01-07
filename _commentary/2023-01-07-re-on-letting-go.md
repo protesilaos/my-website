@@ -25,9 +25,9 @@ again!
 
 > Quoting the book of Ecc.:
 >
-> > The race is not to the swift, nor the battle to the strong, >
-> neither yet bread to the wise, nor yet riches to men of >
-> understanding, nor yet favour to men of skill.
+> > The race is not to the swift, nor the battle to the strong,
+> > neither yet bread to the wise, nor yet riches to men of
+> > understanding, nor yet favour to men of skill.
 >
 > I had autistically devoted myself to various endeavours, with
 > unhealthy amounts of time and energy spent in them, failing to /live
