@@ -189,6 +189,517 @@ You are welcome!
 All the best,  
 Prot
 
---  
-Protesilaos Stavrou  
-<https://protesilaos.com>
+* * *
+
+**UPDATE 2023-01-08 08:58 +0200** Below is the follow-up discussion:
+<https://lists.sr.ht/~protesilaos/modus-themes/%3C875ydhzf75.fsf%40protesilaos.com%3E>.
+
+* * *
+
+> As I do not have a reading disability, I am especially glad that my
+> cohort is included in what modus targets.
+>
+> In the interest of investigating how to improve modus' defaults, in
+> the next section, I will pretend that you were defending the following
+> statement: "Modus's default contrast levels are ideal for their
+> respective target usage scenarios.",
+
+That is not the premise of the themes' design.  "Ideal" cannot be
+reconciled with the point I made that there is no such thing as a
+one-size-fits-all.  The ideal cannot exist.  The themes are highly
+customisable in an attempt to accommodate as many use-cases as possible.
+There are many factors involved and it is still possible that the themes
+are not suitable for a given user.
+
+>  and I will play the part of the attacker.  I will try to address your
+> points that directly relate to this. If I miss or misinterpret any of
+> them or if anything is unclear, please let me know.
+
+I am fine with this approach.  It helps us discuss aspects of the design
+that are not obvious.
+
+> My main and strongest argument is that there exist studies supporting
+> the fact that, though high contrast increases visual recognition, it
+> increases visual stress over long periods; ergo, high contrast may not
+> be generally desirable for those without reading disabilities. If you
+> want to skip to this strongest argument, search for "science."
+
+I have checked several of those in the past.  The methodologies always
+come with caveats and/or are not directly applicable to our
+applications.  "Science" in this case is not about natural constants but
+the nuanced interplay between multiple factors and the individual's
+subjectivity.  There is room for interpretation and scope for further
+research.
+
+> > Legibility benefits everyone.  When we spend long hours in front of
+> > the computer, we need the optimal setup that does not tire out our
+> > eyes. This is not just a function of colour though and it is a
+> > mistake to think of accessibility as a one-size-fits-all.
+>
+> Agreed; however, modus-operandi/vivendi each contains only **one** set
+> of default values that **all** of its users will interact with (at
+> first, at least).
+
+The themes are highly customisable.  We can only start with one set of
+defaults.  I admit that the out-of-the-box experience is not suitable
+for everyone and would expect this to be true for every theme.
+
+> The most reasonable method of choosing this set is probably to go for
+> the utilitarian philosophy, i.e., to maximize the cumulative sum of
+> "value" across all usages, i.e., by optimizing the following elisp
+> sexp: `(seq-reduce #'+ (seq-map
+> #'get-value-that-modus-operandi-gives-for-usage
+> all-modus-operandi-usages) 0)` (Idem for modus-vivendi, mutatis
+> mutandis)
+>
+> ```
+> <details>
+> <summary>Note</summary>
+> <be>
+> ```
+>
+> (Hopefully, this markdown dropdown works wherever you're reading it!)
+
+I use plain text: the markdown does not do anything.  I get the point
+though.
+
+> In practice, it is probably impossible to obtain a complete
+> `all-modus-operandi-usages` list (and doing so would be an invasion of
+> privacy!). Further, `#'get-value-that-modus-operandi-gives-for-usage`
+> is probably impossible to define. What does "value" mean? How does one
+> conclusively measure "productivity increases"? How does one
+> conclusively measure "enjoyment"? AFAIK these are all poorly defined
+> terms and/or open questions, but even so, it is useful to consider
+> them.
+
+I agree with your questions.  It is why there is room for
+interpretation.
+
+> Therefore, a theme designer has to make many guesses and
+> approximations based on intuition rather than hard evidence or logic.
+
+A quote of what I wrote a long time ago which is consistent with this
+(though the rest of the article may not be applicable code-wise):
+
+    My opinion is that this endeavour stands at the intersection of art
+    and science.  We employ scientific insight in support of our
+    choices, while we exercise artistic judgement or freedom in
+    interpreting the propriety of every result in its particular
+    context.  And we do so in a non-dogmatic way, meaning that we are
+    prepared at all times to review our work and challenge our
+    assumptions.
+
+    <https://protesilaos.com/codelog/2021-01-11-modus-themes-review-select-faint-colours/>
+
+> Henceforth, let us refer to "the cumulative sum of value across all
+> target users." by the shorthand *value*.
+
+Fine.
+
+> > we need to account for typography, the settings of the monitor for
+> > brightness and sharpness (among others), and how the overall
+> > environment affects the distribution of light.
+>
+> Agreed; however, as modus has no control over these variables, a theme
+> designer has to guess which defaults will maximize *value* across the
+> distribution of these variables formed by the theme's usage scenarios.
+
+I think those guesses will still leave something to be desired.  It
+ultimately is up to the user to take care of their setup.  In the
+manual, I have a section that mentions those other factors:
+<https://protesilaos.com/emacs/modus-themes#h:f60cc2ae-129d-47c0-9849-4f6bbd87d8be>
+
+On some GNU/Linux distros the default monospaced font is Liberation
+Mono: it has problems with too faint typographic colour (how pronounced
+the text looks).  The otherwise excellent Source Code Pro, which might
+be the default on Arch Linux with the GNOME desktop, is too thin and
+hard to read at some point sizes.
+
+Using modus-vivendi right now, if I switch my font to Source Code Pro at
+height 90, I get a "halo effect" around the text that gives it a
+red/pink tint.  The other factors remain constant: this change alone
+makes Emacs inaccessible for me.  Note that I use small text in general
+and the height 90 is not a problem per se.
+
+My point is that colour alone, no matter its intensity, does not
+guarantee optimal results for any given user.
+
+> > When we target accessible colour combinations, we already preclude
+> > those bad design choices from ever occurring.
+>
+> Agreed; however, this doesn't imply that one cannot avoid these bad
+> design choices without accessible color combinations. I.e., this does
+> not prove that accessible color combinations are necessary for good
+> design (in the sense that you described).
+
+In such a case, that is an implicit use of legibility criteria.
+Granted, the contrast ratio may be lower, but the intent is the same:
+make the text readable.  I used those extreme examples to illustrate
+this point, not to defend a specific target of contrast.  Same for my
+original comment about legibility being for everyone and then remarking
+that "legibility" is not a one-size-fits-all.
+
+>> If Modus is too much, there is always my 'ef-themes'
+>
+> AFAIU 'ef-themes' have the objective disadvantage of not supporting as
+> many packages as modus does.
+> They also have the subjective disadvantage of not being built into
+> Emacs. To me, this is a disadvantage because it makes it so that the
+> chances that the package is maintained when you lose interest are
+> lower.
+
+I think the "built into Emacs" notion can be misleading.  The code
+will not be more maintainable if it is in Emacs, because we still need
+someone to take care of it.  That "someone" can do the same work in a
+fork outside emacs.git and share their package on GNU ELPA, MELPA, or
+whatever.  Some of my favourite packages are not a part of Emacs
+(e.g. `vertico`, `consult`, `orderless`, `notmuch`, `magit`, `denote`
+(in no particular order)).
+
+[ If anything, maintaining a project independent of Emacs is easier in
+  terms of paperwork/workflow. ]
+
+Just focusing on the code, my themes have not been affected at all by
+their inclusion in Emacs, let alone improved.
+
+The themes are practically "shipped with Emacs": they are still
+developed externally.  This means that the actual work of maintaining
+the package is not "part of Emacs", in the sense that Emacs maintainers
+do not partake in the process.
+
+Sure, them being built-in is convenient for users (and extra work for
+me), though their inclusion as such does not provide sufficient
+information about the quality and maintainability of the package.  If a
+package is good, it is good regardless of whether it is in emacs.git.
+If it has a community of eager developers around it, one/some will step
+up to maintain it, regardless of where its code is.
+
+To your other point, the `ef-themes` support many packages and more
+can be included.  The difference between them and the `modus-themes`
+is small in this regard.
+
+>> Every hue against shades of grey looks awkward, even if it passes the
+>> 7:1 contrast ratio.
+>
+> - "Looks awkward" seems too subjective of a statement to be a basis of
+> design that targets a general audience. How do you know it looks
+> awkward for the target usage? Do you know of data that supports it?
+> - Shades of gray vary wildly, and dark modes that I estimate closer to
+> optimal *value* go for the very dark shades. For example, the editor
+> portion on Intellij IDEA's [new dark
+> theme](https://www.jetbrains.com/help/idea/new-ui.html#7f7ba68)
+> - In my experience, making changes and building new habits is almost
+> always somewhat awkward. Have you given these shades of grey enough
+> time to properly assess their awkwardness?
+
+I have used and developed such themes before and am no longer fond of
+them (to varying degrees of dissatisfaction):
+
+- <https://protesilaos.com/prot16/> (this is the oldest and least methodical)
+- <https://protesilaos.com/tempus-themes/>
+
+Yes, the "looks awkward" is subjective as is theme design at-large.  The
+Intellij sample you provide does not appeal to me as I find lots of the
+colours shown there to exhibit the kind of awkwardness I allude to.
+
+Grey is problematic in terms of contrast because it competes for
+attention with the foreground and thus limits the available hues that
+can be contrasted/compared with each other: it does not give differently
+coloured text the chance to stand out relative to each other.  For
+general syntax highlighting this is mostly fine, though it is a problem
+for semantic/significant colour-coding.
+
+We have this robust constraint with the Modus themes when some colours
+need to be displayed on the mode line, which is grey by default.  The
+colour-coding of errors, warnings, and other information on the mode
+line is not as good as it should be because the hueness of those
+indicators is "absorbed" (outcompeted) by the underlying grey
+background.  The colours we use look similar due to the limitations
+imposed by the underlying grey.
+
+[The following paragraph is not directly related to our discussion, but
+I include it as it is relavant for my project.]
+
+The Intellij sample uses "warm" colours for text highlighting (orange,
+yellow, ...).  The light variant, however, applies "cool" colours to the
+same constructs (blue, purple, ...).  The two themes are unrelated in
+this regard.  Whereas when we switch between the Modus themes, we want
+to retain all the paradigms we establish: there has to be inter-theme
+consistency as well, otherwise we just have two standalone themes that
+happen to be packaged together.
+
+>> What we need to consider here is the application in question. YouTube
+>> does not produce an Org agenda, for example, or something like the
+>> Magit buffers and general programming syntax highlighting.
+>
+> I completely agree. And probably one of the most notable differences
+> is that an Emacs theme that maximizes *value* probably needs to
+> optimize for long reading sessions, whereas youtube.com, google.com,
+> and most applications that use material design do not.
+
+Indeed.  Design-wise, those websites/apps are controlled environments,
+where their designers influence aspects such as padding, line spacing,
+and typography.  We do not have this luxury when providing an Emacs
+theme.  Whatever we offer will always be a compromise in this regard
+(unless we ship a theme that actively rewrites parts of Emacs beside
+modifying faces).
+
+> Therefore, I looked into the contrast levels of the dark themes of
+> other applications that probably optimize for long-reading-session
+> usage. I looked only into dark themes because I suspect that in the
+> area of light themes, given that black text on a white background is
+> so ubiquitous, users are generally uncomfortable with and unwilling to
+> give a chance to anything other than that, and so theme designers,
+> including those involved in million-dollar R&D projects, do not
+> deviate from that even if doing so could bring measurable advantages
+> for the willing user.
+
+There are plenty of light themes that are not black-on-white, by the
+way.  Perhaps the most popular among them is Solarized by Ethan
+Schoonover: I consider it one of the best colour schemes for coding,
+although I still find it inaccessible at my preferred text size and
+lighting conditions (not counting derivatives of Solarized which amplify
+the contrast, as those are no longer the original and I have not tried
+them).
+
+> Note that this choice by theme designers makes sense from the
+> utilitarian perspective, given that *value* probably must take comfort
+> into account.
+>
+> - Kindle cloud reader: uses black background but uses light gray text
+> instead of white (non-full contrast)
+> screenshot: https://imgur.com/a/6DRKbXn
+>
+> If you'd like to take a look, you can "buy" [this free
+> book](https://www.amazon.com/Masterpieces-you-have-read-before-ebook/dp/B07QDJRRXF/ref=sr_1_3?keywords=Public+Domain+Books&qid=1673019195&s=digital-text&sr=1-3)
+> and then open it [here](https://read.amazon.com/kindle-library).
+
+The problem here is that we are still not comparing the same
+use-cases.  This book has uniform colouration: what it does is
+perfectly fine.  Try scenaria where we need to impose some sort of
+structure, like nested quotes in an email/message buffer, syntax
+highlighting, differentiation of "main" and "ancillary" elements like
+Org paragraph text and the `PROPERTIES` drawers, and so on.  Consider,
+further, that this "structure" cannot be brought about with changes to
+padding, indentation, and the like, the way an ebook/website design
+can.  If grey is our base colour, the secondary ones will have to be
+even more faint, at which point they will not be as usable.
+
+This is a matter of visual rhythm and why the context matters.  If all
+elements look about the same, it is hard to find what we are looking
+for.  When we read a book, we focus on that.  In that scenario, the
+ebook you show is okay.  But in Emacs we can have all sorts of buffers
+side-by-side, each displaying different types of information.  The book
+is a controlled environment, whereas how a user will set up their
+workflow with Emacs is largely unknown.
+
+My experience over the years tells me that the visual rhythm must be
+varied (text with different levels of intensity for different types of
+constructs).  Whether this variance should be pronounced or subdued is a
+matter of preference, hence the extensive customisability of the themes,
+including the preset overrides for "faint" or "intense" styles.
+
+> - Intellij IDEA [new dark
+> theme](https://www.jetbrains.com/help/idea/new-ui.html#7f7ba68): uses
+> dark gray background and light gray text (non-full contrast)
+> If you'd like to take a look, the monetarily-free community edition
+> can be downloaded
+> [here](https://www.jetbrains.com/idea/download/#section=linux). Then,
+> in settings, enable New UI.
+
+I have seen it before and would not use it for the reasons I explained
+concerning grey.
+
+> However, we can only speculate on what these designs are optimizing
+> for (e.g., how much of the design was done for marketing?). A much
+> better place to look at is science.
+>
+> The following quote is from the introduction of a scientific paper
+> with DOI "10.1117/1.oe.53.11.113102" (which you can view in
+> https://sci-hub.se/ by pasting the DOI in the "enter your reference"
+> text box).
+>
+>  > According to Knoblauch et al., a large contrast in luminance
+>  > increases visual recognition,12 whereas the continuity of the
+>  > contrast has contributed to visual discomfort.
+>
+> The introduction talks more about this, and it references a few other
+> studies that support this statement.
+
+I feel we are not making one-to-one comparisons.  This is specifically
+about smartphone displays and covers black and white tones.  The method
+shifts the tones over time.  How much of that relates to the kind of
+considerations that apply to an Emacs-centric workflow?  Think about
+Org, Magit, Grep, shells, prog-mode, completions, extending a region
+with isearch, displaying key bindings and active arguments/values with
+transient.el, etc..  Then add to this the fact that those can be
+displayed side-by-side in an Emacs frame.
+
+Moreover, consider the form factor of a monitor that may be considerably
+wider than that of a palm/phone and how that influences one's peripheral
+vision (your eyes do not focus on a narrow strip of intense light).
+
+We do not have a monochromatic theme and we do not work in a controlled
+environment.  Trying to find the optimal relationship between black and
+white is not sufficient in our case: we must also factor in how those
+two enable all other colours (and meaningful colour-coding).  We will
+still need to err on the side of caution or otherwise make some sort of
+compromise in our choices about default values.
+
+>> As a theme designer, I do not determine how a buffer is generated, so
+>> I must operate at a different level of abstraction that requires more
+>> adaptability.
+>
+> I understand that this point indeed synergizes with black or white
+> backgrounds, as those increases the available set of colors that
+> satisfy all constraints, but it is a point against the requirement of
+> a 7:1 ratio (lowering the required ratio would open up more colors and
+> give more adaptability).
+
+There is an inescapable trade-off.  The 7:1 contrast (which is not
+perfect, by the way) is, in my view, a design that is consistent with
+the notion of "err on the side of caution".  It prioritises legibility
+at the expense of aesthetics.  Yes, the range of colours is more limited
+compared to lower contrast ratios, though it still is more than what we
+use.
+
+Think about Solarized for a moment and consider "thematic consistency".
+Just because its lower contrast allows more colours does not mean that
+those would also fit in with the theme: they would look ugly by virtue
+of deviating considerably from the established patterns.  Try to pick
+colours that would feel natural for Solarized and you will notice that
+your choices are much more limited than you think would be possible by
+the lower contrast ratio.
+
+The adaptability you allude to is central to the Modus themes and is
+provided via their numerous customisation options.  The user can lower
+the contrast substantially by overriding the relevant colours.
+
+The WCAG guidelines on colour contrast rest on assumptions about text
+size and weight.  The rule is that the larger or heavier the font, the
+lower the contrast can be.  I would add that the greater the
+padding/spacing, the easier it is to spot something.  Same for larger
+surface areas, as we already discussed.  And same for the lower the
+"competition for attention" between adjacent colours.
+
+Test the following with any Modus theme, ceteris paribus, and consider
+which one is more comfortable:
+
+- Put this text in an empty buffer and set the font to your regular
+  reading height:
+
+```elisp
+(setq this-is-a-test "ts")
+```
+
+- Now evaluate those three in separate sessions and decide when the string
+  value "ts" is easier to read:
+
+```elisp
+(modus-themes-with-colors
+  (set-face-attribute 'font-lock-string-face nil :box `(:line-width -3 :color ,string)))
+
+(modus-themes-with-colors
+  (set-face-attribute 'font-lock-string-face nil :box `(:line-width -3 :color ,border)))
+
+(modus-themes-with-colors
+  (set-face-attribute 'font-lock-string-face nil :box `(:line-width -3 :color ,bg-dim)))
+```
+
+Do you prefer the default or one of the boxed styles?  And which of the
+boxes?  My point here is that we cannot opine about colour relations in
+abstract: the context matters.  You can see that the addition of a
+prominent box that is tightly framing the text and competes for
+attention with it makes things more difficult.  How much "more"?  That
+will depend on the specifics of each case.
+
+>> By the way, I recently bought an Android smartphone, which I only use
+>> to make videos while walking: it's accessibility leaves much to be
+>> desired and I would rather have those "millions of dollars" invested
+>> in some better cause.
+>
+> That's interesting. I've interacted very little with accessibility
+> options anywhere, but I was under the impression that Google put a lot
+> of effort into this. I wonder if your smartphone's Android flavor
+> customized away some of Google's work or if there was some important
+> setting you didn't enable. My impressions could also be wrong, of
+> course.
+
+Maybe it deviates from Google's guidelines, as it is a Samsung device.
+Though Samsung is a giant in its own right.  At any rate, I did not mean
+to use this as an argument for my points, so let's ignore it for now.
+Sorry for the tangent!
+
+>> Companies have a built-in incentive to reinvent their design every
+>> few years so they can peddle the same tired products as brand
+>> new. Whereas with Emacs and free software at-large we should aim for
+>> a timeless design that is not driven by the pressure of greedy
+>> investors for year-on-year fiscal growth. Just because Google and
+>> friends do things a certain way does not mean we must copy them
+>> uncritically. The context matters.
+>
+> I agree, and, in accordance with "The context matters," the presence
+> of this built-in incentive does not mean we should immediately discard
+> their advancements as mere marketing tactics. Marketing is very
+> complex, as it deeply relates to human psychology, which is an
+> unsolved question. One could guess that marketing is complex based on
+> the very fact that large companies spending a lot on it still seem to
+> be viewed negatively by most or, at least, many (e.g., Meta, Apple,
+> Amazon, Google). As a result, often, the more lucrative endeavor is to
+> make the best product one can.
+
+Indeed, marketing is complex and should not be discounted qua marketing.
+Though the pressing need to redesign everything every so often is driven
+by outside factors and must then be rationalised accordingly.  My view
+is that a megacorporation reinventing their visual identity does not
+necessarily mean that they are making some genuine advances in the
+field.  Plus, we still have to consider the use-cases that are pertinent
+to Emacs.
+
+>> This is a misleading test.  When we talk about legibility, we care
+>> about text, not objects with a large surface area. I can easily
+>> discern such large objects even if they have the faintest of greys.
+>
+> That is a great point - I should've probably thought of this and,
+> thus, perhaps not shared that link.
+
+No worries!  It is relevant in other ways and I do factor it in.  When
+we have a coloured background, we need to account for its approximate
+surface area as well as its duration (if transient) in order to
+estimate its optimal intensity.  This is why `isearch` matches are
+more colourful than, say, the default background of the fringes.
+
+What your example shows correctly, and what I do as well, is that the
+more permanent and large an area is, the less intensity it requires to
+stand out.
+
+> Finally, I have more questions:
+> - Do you have scientific and/or data-driven references that support
+> any part of modus-themes' design (e.g. the colour theory)? I scanned a
+> few modus-themes posts and google-searched `site:protesilaos.com DOI`
+> but found nothing.
+
+No, nothing specific beside the W3C's guidelines which themselves are
+subject to interpretation.  I have read many studies over the years but
+this ultimately is "art", strictly speaking.  I have done tests with
+neighbours on different monitors, including this last month, with a
+variety of typographic settings and have also read lots of feedback from
+users.  None of this is exact.  I will not hide behind papers that I do
+not consider relevant to the specifics of the case.
+
+Even the 7:1 contrast ratio is problematic in many cases, such as a
+coloured background with a two-letter-long small text that has no
+padding around it.
+
+If I market my themes as exact science, I am simply lying.  So I won't.
+
+> Why did you make the tinted versions?
+
+Because many users where using the old overrides I had in the manual
+which produced approximations of those versions.  People told me they
+found them pleasant to work with.
+
+> Is there a different colour theory for the tinted versions? If so,
+> have you discussed or can you discuss more about it?
+
+No, it is the same idea.
