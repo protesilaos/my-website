@@ -84,8 +84,8 @@ spontaneous.  In modern days, zeibekiko is taught in dance schools as
 a type of ballet for dummies: it has a lightness to it that does not
 capture the complex mental state of the original.  The "heavy
 zeibekiko", then, encapsulates one's justified, even if poorly
-expressed, frustration and indignation with the state of their life
-and the world at-large.
+expressed, indignation with the state of their life and the world
+at-large.
 
 Those who perform such a dance, the titular protagonists who always
 smile, are the stray souls of our society.  They have no credentials,
