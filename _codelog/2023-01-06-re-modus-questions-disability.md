@@ -703,3 +703,253 @@ found them pleasant to work with.
 > have you discussed or can you discuss more about it?
 
 No, it is the same idea.
+
+* * *
+
+**UPDATE 2023-01-09 03:49 +0200:** What follows is the final part of
+this exchange:
+<https://lists.sr.ht/~protesilaos/modus-themes/%3C875ydhzf75.fsf%40protesilaos.com%3E#%3C87fscktr43.fsf@protesilaos.com%3E>.
+
+* * *
+
+> You have convinced me that modus has very good defaults for its target
+> audience and that my previous implicit proposition of having modus
+> declare that its target audience is only people with reading
+> disabilities was bad.
+
+I think this exchange is informative.  It touches on aspects of the
+design that we usually don't talk about.  Thank you for giving me this
+opportunity!
+
+Taking a step back, the mistake I did with the tempus-themes (from my
+pre-Emacs days) was to place too much emphasis on colour contrast in
+abstract.  This means that I was thinking in terms of the relations
+between colour values themselves.  I did not have a critical eye for the
+application of those colours---and their combinations---in their
+context.  The distillation of this realisation is that a colour scheme
+is not a theme (and a theme in Emacs is not a fully fledged
+architecture).
+
+In the tempus-themes I avoided maximum contrast for the kind of reasons
+you alluded to.  Yet in the context of applications that require a
+variety of colour-coding paradigms, I realised that I was making a
+subtle mistake: I was moving towards the imposition of a uniform visual
+rhythm.  This is not about the minimum contrast ratio or desired target,
+but the overall distribution of contrast in combinations between
+adjacent colours in the given interface.  We do not want all foreground
+values to "speak" at the same pitch as then we cannot discern patterns
+as easily.  We need some variety between relative highs and lows.  This
+is what the maximum contrast between black and white enables for Modus:
+sufficient manoeuvring space while also conforming with the 7:1 target
+for colour contrast against the background.
+
+With the `ef-themes`, say, `ef-night` or `ef-summer` I do the same
+thing except the target is much lower.  As such, there is no need for
+a black-and-white combination as a starting point.
+
+> In the next two sections (separated via --- ), I comment on the parts
+> of your reply that most led me to understand (feel free to skip if
+> uninterested).
+
+I am interested and always read everything: it helps me understand
+things better.
+
+> I was thinking only of text-to-background, and so I thought that the
+> 21:1 from the black/white pairing was excessive. I finally understood
+> some key points about how these choices deeply affect the relationship
+> between the accent colors:
+
+I did that for years and know exactly how it feels.
+
+> Regarding non-black or non-white backgrounds:
+>
+> > Grey [...] does not give differently coloured text the chance to
+> > stand out relative to each other.
+>
+> Regarding non-black or non-white text:
+>
+> > If grey is our base colour, the secondary ones will have to be
+> > even fainter, at which point they will not be as usable.
+>
+> (for me, the key to this understanding was simulating how the math for
+> calculating accent colors is different with black or white vs gray)
+
+Yes, that makes sense.  I noticed those constraints while I was
+developing the understanding that "a colour scheme is not a theme".  It
+all comes down to decisions such as how to denote active/inactive mode
+lines, tabs, Magit diff hunks, the region, etc. while still keeping
+those legible and colour-codable (if needed).
+
+> And I finally understood the next point explains distinguishable
+> accent colors are much more important for Emacs themes
+> that-control-only-color than most other applications' themes; one has
+> to account for the absolute worst case where there are no other
+> distinguishing mechanisms (e.g., padding):
+>
+> > Try scenaria where we need to impose some sort of structure, like
+> > nested quotes in an email/message buffer, syntax highlighting,
+> > differentiation of "main" and "ancillary" elements like Org
+> > paragraph text and the PROPERTIES drawers, and so on.  Consider,
+> > further, that this "structure" cannot be brought about with
+> > changes to padding, indentation, and the like, the way an
+> > book/website design can.
+>
+> I think this situation is indeed very unique, and therefore one is
+> unlikely to find high-quality science that properly addresses it.
+
+If I had full control over every aspect of the design, I would place
+more emphasis on typography and the use of negative space.  For
+instance, using symbols or appropriate indicators helps reduce reliance
+on colour.  To give a crude example, imagine a ⚠️ emoji next to an Org
+agenda scheduled item: it gives us the freedom to reduce the saturation
+of the applicable colour because we now have another element of
+differentiation that helps the user discern the pattern.
+
+As one user put it nicely, my role is that of the gardener NOT the
+architect: I have to work with what is available and do not get to
+refactor Emacs in the service of the theme.
+
+> > > - Why did you make the tinted versions?
+> >
+> > Because many users where using the old overrides I had in the manual
+> > which produced approximations of those versions.  People told me they
+> > found them pleasant to work with.
+>
+> I expect that many users (including myself) will have a preference for
+> it. Given that:
+> - light-grey-on-dark-grey is so ubiquitous for dark modes
+> - most emacs users use other applications besides emacs
+> - most people tend to stay close to defaults (I wonder if this holds
+> when replacing "people" with "emacs users", but I think it does),
+> A think a very reasonable approach for such users is to use
+> modus-tinted for consistency across applications and increase their
+> monitor's contrast if need be.
+>
+> Also, I see the tinted themes mentioned very prominently in the
+> modus-themes manual. That is exactly the approach I would have taken
+> as well, given their popularity.
+
+Yes, this makes sense.
+
+> I'd like to clarify some things I may have expressed poorly. If you
+> had already understood them originally, and therefore this
+> clarification is unneeded, feel free to skip it:
+
+Thanks for taking the time to do this!
+
+> > > I will pretend that you were defending the following statement:
+> > > "Modus's default contrast levels are ideal for their respective
+> > > target usage scenarios.",
+> >
+> > That is not the premise of the themes' design.  "Ideal" cannot be
+> > reconciled with the point I made that there is no such thing as a
+> > one-size-fits-all.  The ideal cannot exist.
+>
+> If the definition of "ideal" is "optimal for each individual usage,"
+> (which I henceforth assume you are using), your statement is
+> objectively true (assuming a 'normal' definition of  "individual"
+> here), and proving so is simple (both in practice and in theory):
+>     each usage is individual THEREFORE each usage can have different
+> product settings for optimal product value THEREFORE there can be no
+> one product setting that maximizes product value across all usages.
+> I hope the above is clear; I could express these *value*-related ideas
+> better with logical and mathematical symbols, but I don't know whether
+> they are part of your vocabulary. Further, this is far from being
+> formal proof (for example, there are a bunch of things I didn't
+> formally define), but hopefully, the logic I am trying to convey is
+> clear.
+
+Yes, this is clear and is what I had in mind.  Basically, we have to
+make compromises and perform a leap of faith in the face of uncertainty.
+
+> I was using another definition of "ideal": "maximizes the cumulative
+> sum of value across all target usages" (previously explained). This
+> one *can* exist in theory (assuming one has a formal definition of
+> "value"), but in practice, it cannot (because of many problems
+> previously discussed, e.g., the fact that we *do not* in fact, have a
+> formal definition of value).
+
+I intuitively agree with you.  The problem is one of application.
+
+> Note that I use "usage" and not "user"; a single user can have
+> multiple usages: e.g., modus-operandi during the day and modus-vivendi
+> at night.
+
+Good point!
+
+[ We could say that "you" are not "the same" because you are a function
+  of an environment that has undergone change, but this is not changing
+  the point. ]
+
+> Tangent: in fact, a definition closer to reality is to define each
+> instant of time as a separate usage. This definition could be used in
+> practice as the basis for an optimization target of software with AI
+> components capable of continuously scanning the user's eyes and brain
+> and dynamically and continuously adapting the theme based on the
+> readings. Of course, such an application is far from the context of
+> modus, and I don't see how this definition would be useful for modus;
+> ergo, I labeled it a tangent.
+
+In general, I am always open to improvements and to understand those
+concepts better.  Evidence of this eagerness is the recent revision of
+some grey values that I slightly intensified to avoid scenaria of
+"invisible" backgrounds (e.g. with monitors that have inaccurate colour
+reproduction capabilities).
+
+> > I admit that the out-of-the-box experience is not suitable for
+> > everyone and would expect this to be true for every theme.
+>
+> Right, and with your definition of "ideal," you can repeat that
+> sentence substituting "would expect this to be true" for the much
+> stronger "is true," and it would remain correct (following what I
+> previously "proved").
+
+Agreed.
+
+> I clarify these things so I can ask: Do you agree that my definition
+> of "ideal" is probably what one should strive for with their product,
+> as it is probably the closest thing to "one-size-fits-all"?
+
+Conceptually yes.  The tricky part is to express that as the finished
+article.  Once you get into the technicalities of the theme, you realise
+that "the devil is in the details".
+
+> > The code will not be more maintainable if it is in Emacs, because
+> > we still need someone to take care of it.
+>
+> You're right. I believe there is an unformalized consensus that all
+> files in the emacs source are in scope for maintenance by Emacs
+> maintainers. However, Emacs is unfortunately undermaintained (one
+> example of this is eshell, which is notoriously lacking in
+> documentation). So, this consensus does not mean much by itself.
+
+Emacs is understaffed and underfunded (actually not funded at all, as
+far as I can tell).  Maintaining emacs.git right now is a Herculean
+task and I think the inclusion of even more packages (like the
+`modus-themes`) adds to the maintenance burden.
+
+I feel that a more sustainable approach is this notion that has been
+floating around on the Emacs development mailing list (emacs-devel) of
+producing an Emacs tarball that bundles packages from GNU ELPA.  This
+would allow the maintainers to decouple the true "core Emacs" from all
+the extras like Org, the `modus-themes`, and a zillion other packages.
+The end-product would still be the same for the user, but internally
+the work would be reorganised in a more decentralised fashion.
+
+The organisation model is currently centralist-and-centralising with
+one/two maintainers having to oversee a ton of work across multiple
+subsystems.  It works right now because the current maintainers are
+tenacious, but we are still overly reliant on individual availability.
+
+Just look at the situation with ido-mode: icomplete.el developed
+functionality to replace (mimic?, duplicate?) Ido in the form of
+fido-mode and has since defined a total of four minor modes.  Instead
+of streamlining the experience, we ended up with Ido plus all the
+Icomplete variants (plus the standard *Completions* buffer).  If Ido
+is still a thing, why have Fido?  Maintaining all that does not come
+for free.
+
+Anyhow, this is running off on a tangent.  I am happy that the
+`modus-themes` are built into Emacs ("shipped with Emacs", as I wrote
+before) though I prefer to think about the bigger picture.
+
