@@ -32,7 +32,7 @@ manifest in a variety of situations, depending on the dog's breed but
 also their upbringing.
 
 Dogs will bite as the final act of self-defence, or when hunting, or
-while fighting with other dogs over territory, resources, breeding
+while fighting with other dogs over territory, resources, mating
 rights.  Any dog can and will bite given the right circumstances or
 triggers.  A non-exhaustive list of body language you should be aware of
 (these may appear together, though not always---it is important to
