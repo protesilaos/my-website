@@ -5,7 +5,7 @@ excerpt: "Excerpt from an exchange of views where I discuss some of the ideas th
 
 What follows is an excerpt from a private exchange.  I am reproducing
 it with permission, without disclosing the identity of my
-correspondent.  This is a follow-up to video presentation I did
+correspondent.  This is a follow-up to a video presentation I did
 yesterday "on hedonism and presence":
 <https://protesilaos.com/books/2023-01-09-hedonism-presence/>.
 
@@ -80,7 +80,7 @@ inherently reckless.  Yet seeking pleasure can be done responsibility
 because we have knowledge and are purposeful in our actions, hence the
 falsehood of this dichotomy.  Also, arguing that pleasure is
 inherently irresponsible is problematic for the person who makes that
-claim: does not person not seek any pleasure in their life?  Maybe
+claim: does the person not seek any pleasure in their life?  Maybe
 they do it in a balanced way, which is precisely what I talked about.
 
 Combating a naive version of a theory is like making an argument
@@ -143,7 +143,7 @@ through fire and steel and was not simply brought about organically to
 fill in the vacuum that was created by some self-induced state of social
 despair among polytheists.  This includes parts of modern-day Greece
 under the Roman Empire, the Baltic countries during the Prussian
-Crusade, African tribes in the ear of slave trade to the Americas, the
+Crusade, African tribes in the era of slave trade to the Americas, the
 treatment of native American populations...
 
 The history of ideas is dirty and we already get a sense of this from
@@ -212,10 +212,10 @@ not generalise those as "good VS bad" or anything along those lines.
 
 Personally, I think atheism is inconsistent with science because it
 constitutes a prior truth: the person claims to know that there is no
-god yet has no means of providing it definitively.  The only
-dubitative view, in this regard, is agnosticism.  Namely: the central
-theological topic is obscure and we have no sufficient method to prove
-or disapprove the verity of our views about it.
+god, yet has no means of proving it definitively.  The only dubitative
+view, in this regard, is agnosticism.  Namely: the central theological
+topic is obscure and we have no sufficient method to prove or
+disapprove the verity of our views about it.
 
 Still, what matters is the way a person behaves.  One can be a theist
 and still act godlessly (e.g. commit genocide) and one can be an
