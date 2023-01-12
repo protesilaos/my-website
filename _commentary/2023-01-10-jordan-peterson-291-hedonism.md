@@ -63,8 +63,8 @@ the context of that comment.
 With regard to the title of the video---"How to combat Hedonism"---it
 already frames hedonism as an inimical force and expects us to take
 this as a given.  Before we even listen to the arguments, we are
-already expected to pick a side.  At around the 46:00 mark in the
-video, Peterson describes hedonism as impulsive, short-sighted, and
+expected to pick a side.  At around the 46:00 mark in the video,
+Peterson describes hedonism as impulsive, short-sighted, and
 essentially naive as it _"backfires on you the next day"_.  This is
 exactly what I asked in my latest presentation: why take this school
 of thought, or any belief for that matter, and argue against its naive
@@ -76,7 +76,7 @@ want is to take the argument seriously and not essentially make fun of
 it.  This is why I said that we have the conventional wisdom where
 hedonism is necessarily bad: it sets up an artificial divide between
 responsibility and recklessness where the pursuit of pleasure is
-inherently reckless.  Yet seeking pleasure can be done responsibility
+inherently reckless.  Yet seeking pleasure can be done responsibly
 because we have knowledge and are purposeful in our actions, hence the
 falsehood of this dichotomy.  Also, arguing that pleasure is
 inherently irresponsible is problematic for the person who makes that
@@ -115,7 +115,7 @@ Fair to Peterson though, at the 1:32:00 mark he says that "it is not
 even hedonism, it is narrow, impulsive, immature 2-year-old hedonism".
 This is exactly my thought, so I would suggest we don't call it
 "hedonism" at all and be honest about it at the outset.  Which means
-that all the talks about hedonists being manic and impulsive was a
+that all the talk about hedonists being manic and impulsive was a
 straw argument and we just wasted our time giving too much value to
 the stupidity of "2-year-olds".
 
