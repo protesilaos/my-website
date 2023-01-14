@@ -119,6 +119,21 @@ comfortable point sizes.
 + Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
 + Backronym: Fonts, Ornaments, and Neat Typography Are Irrelevant in Non-graphical Emacs
 
+## Substitute
+
+⚠️ WORK-IN-PROGRESS ⚠️
+
+Efficiently replace targets in the buffer or context.
+
++ Package name (GNU ELPA): `substitute` (not available yet)
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/substitute>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/substitute>
+    + GitLab: <https://gitlab.com/protesilaos/substitute>
++ Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Backronym: Some Utilities Built to Substitute Things Independent of
+  Their Utterances, Thoroughly and Easily.
+
 ## TMR
 
 TMR is an Emacs package that provides facilities for setting timers
