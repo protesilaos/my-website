@@ -63,3 +63,14 @@ You can [contact me privately](https://protesilaos.com/contact) about
 this topic or, if you want a public discussion, use my "general
 issues" mailing list by sending an email to:
 <a href="mailto:~protesilaos/general-issues@lists.sr.ht">~protesilaos/general-issues@lists.sr.ht</a>.
+
+## Sources
+
++ Package name (GNU ELPA): `substitute` (not available yet)
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/substitute>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/substitute>
+    + GitLab: <https://gitlab.com/protesilaos/substitute>
++ Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Backronym: Some Utilities Built to Substitute Things Independent of
+  Their Utterances, Thoroughly and Easily.
