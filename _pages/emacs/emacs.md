@@ -131,7 +131,7 @@ Efficiently replace targets in the buffer or context.
     + GitHub: <https://github.com/protesilaos/substitute>
     + GitLab: <https://gitlab.com/protesilaos/substitute>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
-+ Backronym: Some Utilities Built to Substitute Things Independent of
++ Backronym: Some Utilities Built to Substitute Targets Independent of
   Their Utterances, Thoroughly and Easily.
 
 ## TMR
