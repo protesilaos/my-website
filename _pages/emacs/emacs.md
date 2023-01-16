@@ -121,11 +121,21 @@ comfortable point sizes.
 
 ## Substitute
 
-⚠️ WORK-IN-PROGRESS ⚠️
-
 Efficiently replace targets in the buffer or context.
 
-+ Package name (GNU ELPA): `substitute` (not available yet)
+Substitute is a set of commands that perform text replacement (i)
+throughout the buffer, (ii) limited to the current definition (per
+`narrow-to-defun`), (iii) from point to the end of the buffer, and
+(iv) from point to the beginning of the buffer.
+
+These substitutions are meant to be as quick as possible and, as such,
+differ from the standard `query-replace` (which I still use).  The
+provided commands prompt for substitute text and perform the
+substitution outright.
+
+**Video demo:** <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
+
++ Package name (GNU ELPA): `substitute`
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/substitute>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/substitute>
