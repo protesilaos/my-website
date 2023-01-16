@@ -67,7 +67,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.2. Create note using Org capture</a></li>
-<li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.3. Maintain separate directory silos for notes</a></li>
+<li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.3. Maintain separate directory silos for notes</a>
+<ul>
+<li><a href="#h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">3.3.1. Use custom commands to select a silo</a></li>
+</ul>
+</li>
 <li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.4. Exclude certain directories from all operations</a></li>
 <li><a href="#h:69e518ee-ed43-40ab-a5f4-c780a23e5358">3.5. Exclude certain keywords from being inferred</a></li>
 </ul>
@@ -830,11 +834,15 @@ the silos.
 </p>
 
 <p>
+<a href="#h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">Use custom commands to select a silo</a>.
+</p>
+
+<p>
 In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2a87379">
+<pre class="example" id="orgd9b8781">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -946,6 +954,74 @@ to experiment with the best setup for their workflow.
 Feel welcome to ask for help if the information provided herein is not
 sufficient.  The manual shall be expanded accordingly.
 </p>
+</div>
+
+<div id="outline-container-h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0" class="outline-4">
+<h4 id="h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0"><span class="section-number-4">3.3.1.</span> Use custom commands to select a silo</h4>
+<div class="outline-text-4" id="text-h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">
+<p>
+We implement silos as directory-local values of the user option
+<code>denote-directory</code>.  This means that all Denote commands read from the
+local value if they are invoked from that context.  For example, is
+<code>~/Videos/recordings</code> is a silo and <code>~/Documents/notes</code> is the
+default/global value of <code>denote-directory</code> all Denote commands will
+read the video&rsquo;s path when called from there (e.g. by using Emacs&rsquo;
+<code>dired</code>); any other context reads the global value.
+</p>
+
+<p>
+<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>.
+</p>
+
+<p>
+There are cases where the user (i) wants to maintain multiple silos
+and (ii) prefers an interactive way to switch between them without
+going through Dired.  Since this is specific to the user&rsquo;s workflow,
+it is easier to have some custom code for it.  The following should be
+added to the user&rsquo;s Denote configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar my-denote-silo-directories
+  `("/home/prot/Videos/recordings"
+    "/home/prot/Documents/books"
+    ;; You don't actually need to include the `denote-directory' here
+    ;; if you use the regular commands in their global context.  I am
+    ;; including it for completeness.
+    ,denote-directory)
+  "List of file paths pointing to my Denote silos.
+This is a list of strings.")
+
+(defvar my-denote-commands-for-silos
+  '(denote
+    denote-date
+    denote-subdirectory
+    denote-template
+    denote-type)
+  "List of Denote commands to call after selecting a silo.
+This is a list of symbols that specify the note-creating
+interactive functions that Denote provides.")
+
+(defun my-denote-pick-silo-then-command (silo command)
+  "Select SILO and run Denote COMMAND in it.
+SILO is a file path from `my-denote-silo-directories', while
+COMMAND is one among `my-denote-commands-for-silos'."
+  (interactive
+   (list (completing-read "Select a silo: " my-denote-silo-directories nil t)
+         (intern (completing-read
+                  "Run command in silo: "
+                  my-denote-commands-for-silos nil t))))
+  (let ((denote-directory silo))
+    (call-interactively command)))
+</pre>
+</div>
+
+<p>
+With this in place, <code>M-x my-denote-pick-silo-then-command</code> will use
+minibuffer completion to select a silo among the predefined options
+and then ask for the command to run in that context.
+</p>
+</div>
 </div>
 </div>
 
@@ -1083,7 +1159,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgeddae20">
+<pre class="example" id="orgb1fcf5e">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1180,7 +1256,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org12364d9">
+<pre class="example" id="orgafed12b">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1200,7 +1276,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org618791e">
+<pre class="example" id="orgf0d821e">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1464,7 +1540,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org3802051">
+<pre class="example" id="orgfc6e4a0">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1476,7 +1552,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6e04346">
+<pre class="example" id="org05cc543">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1490,7 +1566,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org9d84d47">
+<pre class="example" id="org4c451fa">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1504,7 +1580,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orga8828a7">
+<pre class="example" id="orgd4665bd">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -1773,7 +1849,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orga1d0394">
+<pre class="example" id="org858f1ad">
 - link1
 - link2
 - link3
@@ -1791,7 +1867,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd118134">
+<pre class="example" id="org88bc41d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -1990,7 +2066,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org7eac6ec">
+<pre class="example" id="org895afc4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2005,7 +2081,7 @@ note occurs.  It also shows multiple occurances, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org2fdc21a">
+<pre class="example" id="org2edcbe8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2714,7 +2790,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgc1315a8">
+<pre class="example" id="org9deba55">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3976,7 +4052,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org069b1be">
+<pre class="example" id="orgf7bd314">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -4629,7 +4705,7 @@ Jack Baty, Jeremy Friesen, Juanjo Presa, Johan Bolmsjö, Kaushal
 Modi, M. Hadi Timachi, Mirko Hernandez, Paul van Gelder, Peter
 Prevos, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck,
 Taoufik, Viktor Haag, Yi Liu, Ypot, atanasj, hpgisler, pRot0ta1p,
-sienic, sundar bp.</dd>
+rbenit68, sienic, sundar bp.</dd>
 </dl>
 
 <p>
