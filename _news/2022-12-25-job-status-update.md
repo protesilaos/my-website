@@ -3,6 +3,14 @@ title: "Status update on job search and relocation"
 excerpt: "A brief summary of my search for a job and the need to relocate away from Cyprus."
 ---
 
+**UPDATE 2023-01-16 13:41 +0200:** I am on a trial with a local
+entity.  It is for an entry-level web development position.  The first
+round runs until February.  Maybe there will be another afterwards.  I
+will post a new update if/when I get the job.  It is not clear yet.
+Hoping for the best!
+
+* * *
+
 This is a follow-up to my recent status updates on my search for a
 permanent job and option of moving countries.
 
@@ -35,8 +43,9 @@ have to change countries.
 ~~Currently, I am in contact with a prospective employer.  I do not know
 what will come out of it, given my irregular skill set.  I will write
 more when I have results: maybe some time in early 2023.  There is no
-point in publishing scenaria.~~ **UPDATE 2023-01-07 05:35 +0200**: I
-keep searching.
+point in publishing scenaria.~~
+
+~~**UPDATE 2023-01-07 05:35 +0200**: I keep searching.~~
 
 ## Commitment to Clojure
 
