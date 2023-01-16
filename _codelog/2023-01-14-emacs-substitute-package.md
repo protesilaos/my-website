@@ -3,6 +3,11 @@ title: "Emacs: introduction to 'substitute' (my new package?)"
 excerpt: "My new 'substitute' package for Emacs helps quickly replace a target in various ways."
 ---
 
+**UPDATE 2023-01-16 19:13 +0200:** I did add the package.  Video demo
+here: <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>.
+
+* * *
+
 I just set up the Git repositories of `substitute` for Emacs.
 Substitute is a set of commands that perform text replacement (i)
 throughout the buffer, (ii) limited to the current definition (per
