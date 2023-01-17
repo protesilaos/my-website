@@ -109,8 +109,8 @@ just commenting on a snippet of text and may be wrong.
 
 * * *
 
-Below is the second part of the exhange (I got separate permission for
-it as well).  The quoted/indented text is from my correspondent.
+Below is the second part of the exchange (I got separate permission
+for it as well).  The quoted/indented text is from my correspondent.
 
 * * *
 
