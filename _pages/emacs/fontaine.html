@@ -46,6 +46,7 @@ Current development target is 0.5.0-dev.
 <li><a href="#h:62d716b4-44f7-4078-85d2-29a7da8ca253">2. Overview</a>
 <ul>
 <li><a href="#h:35bc7f51-6368-4718-ad25-b276a1f2cc08">2.1. Shared and implicit fallback values for presets</a></li>
+<li><a href="#h:9604c817-9b01-46d6-9455-58b8c393e441">2.2. Inherit the properties of another named preset</a></li>
 </ul>
 </li>
 <li><a href="#h:031b9bea-d42b-4be0-82c7-42712cde94cc">3. Installation</a>
@@ -76,7 +77,7 @@ Current development target is 0.5.0-dev.
 <h2 id="h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f">
 <p>
-Copyright (C) 2022  Free Software Foundation, Inc.
+Copyright (C) 2022-2023  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -476,6 +477,66 @@ intend to change their values).  We then have this transformation:
 </div>
 </div>
 </div>
+
+<div id="outline-container-h:9604c817-9b01-46d6-9455-58b8c393e441" class="outline-3">
+<h3 id="h:9604c817-9b01-46d6-9455-58b8c393e441"><span class="section-number-3">2.2.</span> Inherit the properties of another named preset</h3>
+<div class="outline-text-3" id="text-h:9604c817-9b01-46d6-9455-58b8c393e441">
+<p>
+[ Part of 0.5.0-dev. ]
+</p>
+
+<p>
+When defining multiple presets, we may need to duplicate properties
+and then make tweaks to individual values.  Suppose we want to have
+two distinct presets for presentations: one is for coding related
+demonstrations and the other for prose.  Both must have some common
+styles, but must define distinct font families each of which is
+suitable for the given task.  In this case, we do not want to fall
+back to the generic <code>t</code> preset and we also do not wish to duplicate
+properties manually, potentially making mistakes in the process.
+Fontaine thus provides a method of inheriting a named preset&rsquo;s
+properties.  Here is the idea:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((regular
+         :default-height 100)
+        (code-demo
+         :default-family "Source Code Pro"
+         :default-weight semilight
+         :default-height 170
+         :variable-pitch-family "Sans"
+         :bold-weight extrabold)
+        (prose-demo
+         :inherit code-demo ; copy the `code-demo' properties
+         :default-family "Sans"
+         :variable-pitch-family "Serif"
+         :default-height 220)
+        (t
+         :default-family "Monospace"
+         ;; more generic fallback properties here...
+         )))
+</pre>
+</div>
+
+<p>
+In this scenario, the <code>regular</code> preset gets all its properties from
+the <code>t</code> preset.  We omit them here in the interest of brevity (see the
+default value of <code>fontaine-presets</code> and its documentation for the
+details).  In turn, the <code>code-demo</code> specifies more properites and
+falls back to <code>t</code> for any property not explicitly referenced.
+Finally, the <code>prose-demo</code> copies everything in <code>code-demo</code>, overrides
+any property therein, and falls back to <code>t</code> for every other property.
+</p>
+
+<p>
+In the interest of simplicity, Fontaine does not support recursive
+inheritance.  If there is a compelling need for it, we can add it in
+future versions.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:031b9bea-d42b-4be0-82c7-42712cde94cc" class="outline-2">
@@ -718,7 +779,7 @@ Fontaine is meant to be a collective effort.  Every bit of help matters.
 <dt>Contributions to the code or manual</dt><dd>Christopher League, Eli
 Zaretskii, Florent Teissier, Terry F. Torrey.</dd>
 
-<dt>Ideas and user feedback</dt><dd>Ted Reed.</dd>
+<dt>Ideas and user feedback</dt><dd>Joe Higton, Ted Reed.</dd>
 </dl>
 </div>
 </div>
