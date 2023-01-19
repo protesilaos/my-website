@@ -3,11 +3,18 @@ title: "Status update on job search and relocation"
 excerpt: "A brief summary of my search for a job and the need to relocate away from Cyprus."
 ---
 
-**UPDATE 2023-01-16 13:41 +0200:** I am on a trial with a local
+**UPDATE 2023-01-19 14:06 +0200:** The trial I mentioned in the
+previous edit is no more.  I have no other contacts.  I will think
+about my next steps and make an announcement before the end of this
+week.
+
+* * *
+
+~~**UPDATE 2023-01-16 13:41 +0200:** I am on a trial with a local
 entity.  It is for an entry-level web development position.  The first
 round runs until February.  Maybe there will be another afterwards.  I
 will post a new update if/when I get the job.  It is not clear yet.
-Hoping for the best!
+Hoping for the best!~~
 
 * * *
 
