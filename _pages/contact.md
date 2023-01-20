@@ -13,8 +13,12 @@ hours (usually much sooner).  If you think you have not received a
 message from me after a reasonable amount of time, check your "spam"
 folder.
 
+I provide coaching and services on Emacs, Linux, and Life in general.
+Check the details and email me about it, if it interests you:
+<https://protesilaos.com/coach>
+
 You do not need permission to reuse or adapt my work.  Just do it under
-copyleft terms.  See the [license page](https://protesilaos.com/license/).
+copyleft terms.  See the license page: <https://protesilaos.com/license>.
 
 I do not use social media.
 

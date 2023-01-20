@@ -12,6 +12,7 @@ layout: page
 * Birth place: Greece
 * Birth year: 1988
 * Residence: Cyprus (Troodos mountain range)
+* Occupation: [Private coach on Emacs, Linux, and Life](https://protesilaos.com/coach/)
 * Email: <public@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
   for further information)
 
