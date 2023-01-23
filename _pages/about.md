@@ -30,11 +30,8 @@ politics-related fields (parliamentary assistant at the European
 Parliament, independent researcher and external contractor, etc.), with
 a specialisation in the European Union's Economic and Monetary Union.
 
-Now I am nominally committed to agricultural activities in a remote
-mountainous region in Cyprus, though the prevailing conditions (the
-pandemic, persistent economic recession...) mean that I am oscillating
-between states of under- and un- employment.  I am now searching for
-alternatives and am hoping for the best.
+Now I am providing coaching services on Emacs, Linux, and general Life
+issues.  More details here: <https://protesilaos.com/coach/>.
 
 Those granted, I am just a philosopher.  I spend much of my time doing
 philosophy, whether that is by thinking or writing.  I also program my
