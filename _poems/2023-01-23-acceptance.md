@@ -26,9 +26,9 @@ Why is beauty so readily recognisable yet undefinable?
 It makes no sense
 Travel my dear in search of nothing
 Seek not the simulacrum of certainty
-Dream of that one kiss that amazes you
+Dream of that one kiss that excites you
 Paths converge and diverge
 As memories fade and hopes arise
-And remember the kind words of the philosopher:
+And remember the kind words of the sage:
 "Why should it?  Why should it make sense to you?"
 ```
