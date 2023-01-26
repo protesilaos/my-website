@@ -80,18 +80,24 @@ You never have to do it in advance, unless you absolutely want to.
 The same is true for common services, though I might ask for 1/3
 advance payment in case of a complex/difficult project.
 
-I prefer bank transfers, though I am willing to adapt in case an
-alternative is available.  Please let me know about it.
+The payment methods are as follows:
 
-Use a direct bank transfer via the [International Bank Account Number
-(IBAN)](https://en.wikipedia.org/wiki/International_Bank_Account_Number).
-My IBAN is `CY23 0090 0520 0005 2010 0144 6252`.  Make sure you are
-specifying my full name, namely, `Protesilaos Stavrou`, and are using
-the Euro (EUR) currency.  Though you most likely do not need this, the
-BIC SWIFT code of my bank's branch is `ABKLCY2N`.
+1. **GitHub Sponsors** one-time donation.  GitHub does not charge
+   extra fees and you can make one-off payments of an arbitrary value
+   even though the main method is for small recurring/monthly
+   contributions: <https://github.com/sponsors/protesilaos>.
 
-Another option is GitHub Sponsors, as it does not charge extra fees
-and you can make one-off payments: <https://github.com/sponsors/protesilaos>.
+2. Send a payment **via PayPal**: <https://www.paypal.me/protesilaos>.
+   PayPal takes a small percentage to process the transaction.
+
+3. Use a **direct bank transfer** via the [International Bank Account
+   Number (IBAN)](https://en.wikipedia.org/wiki/International_Bank_Account_Number).
+   My IBAN is `CY23 0090 0520 0005 2010 0144 6252`.  Make sure you are
+   specifying my full name, namely, `Protesilaos Stavrou`, and are
+   using the Euro (EUR) currency.  Though you most likely do not need
+   this, the BIC SWIFT code of my bank's branch is `ABKLCY2N`.
+   Depending on your country, bank transfers may either be the
+   cheapest option or the most expensive one, so please double-check.
 
 ## Prospective students
 
