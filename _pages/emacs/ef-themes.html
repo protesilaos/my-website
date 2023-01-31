@@ -80,13 +80,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:5b74bd9e-e7f2-46b3-af2e-7c45b2e69245">9. Use colors from the active Ef theme</a></li>
 <li><a href="#h:152326a3-9356-4158-8adb-83c42c2ef117">10. Do-It-Yourself customizations</a>
 <ul>
-<li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.1. The general approach to advanced DIY changes</a></li>
-<li><a href="#h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">10.2. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.3. Add support for hl-todo</a></li>
-<li><a href="#h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">10.4. Make the mode line like the <code>modus-themes</code> default</a></li>
-<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.5. Configure bold and italic faces</a></li>
-<li><a href="#h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">10.6. Tweak <code>org-modern</code> timestamps</a></li>
-<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.7. Tweak goto-address-mode faces</a></li>
+<li><a href="#h:cc1633d3-8e83-45b5-b258-804935f9ee0d">10.1. Get a single color from the palette</a></li>
+<li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.2. The general approach to advanced DIY changes</a></li>
+<li><a href="#h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">10.3. A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.4. Add support for hl-todo</a></li>
+<li><a href="#h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">10.5. Make the mode line like the <code>modus-themes</code> default</a></li>
+<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.6. Configure bold and italic faces</a></li>
+<li><a href="#h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">10.7. Tweak <code>org-modern</code> timestamps</a></li>
+<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.8. Tweak goto-address-mode faces</a></li>
 </ul>
 </li>
 <li><a href="#h:34afcc9a-a5f1-4023-b01a-abf5b8a6199d">11. Faces defined by the Ef themes</a></li>
@@ -671,7 +672,7 @@ search for the <code>ef-NAME-palette</code>.  The resulting Help buffer will loo
 like this:
 </p>
 
-<pre class="example" id="org40a9bb0">
+<pre class="example" id="orgb84b172">
 ef-summer-palette is a variable defined in ‘ef-summer-theme.el’.
 
 Its value is shown below.
@@ -944,8 +945,83 @@ their liking.
 </p>
 </div>
 
+<div id="outline-container-h:cc1633d3-8e83-45b5-b258-804935f9ee0d" class="outline-3">
+<h3 id="h:cc1633d3-8e83-45b5-b258-804935f9ee0d"><span class="section-number-3">10.1.</span> Get a single color from the palette</h3>
+<div class="outline-text-3" id="text-h:cc1633d3-8e83-45b5-b258-804935f9ee0d">
+<p>
+[ Part of 0.11.0-dev. ]
+</p>
+
+<p>
+<a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">The general approach to advanced DIY changes</a>.
+</p>
+
+<p>
+The fuction <code>ef-themes-get-color-value</code> can be called from Lisp to
+return the value of a color from the active Ef theme palette.  It
+takea a <code>COLOR</code> argument and an optional <code>OVERRIDES</code>.
+</p>
+
+<p>
+<code>COLOR</code> is a symbol that represents a named color entry in the
+palette.
+</p>
+
+<p>
+<a href="#h:8dd67bf5-879e-46e5-b277-5bac141f53d1">Preview theme colors</a>.
+</p>
+
+<p>
+If the value is the name of another color entry in the palette (so a
+mapping), this function recurs until it finds the underlying color
+value.
+</p>
+
+<p>
+With an optional <code>OVERRIDES</code> argument as a non-nil value, it accounts
+for palette overrides.  Else it reads only the default palette.
+</p>
+
+<p>
+<a href="#h:4b923795-4b23-4345-81e5-d1c108a84b6a">Palette overrides</a>.
+</p>
+
+<p>
+If <code>COLOR</code> is not present in the palette, this function returns the
+<code>unspecified</code> symbol, which is safe when used as a face attribute&rsquo;s
+value.
+</p>
+
+<p>
+An example with <code>ef-summer</code> to show how this function behaves
+with/without overrides and when recursive mappings are introduced.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Here we show the recursion of palette mappings.  In general, it is
+;; better for the user to specify named colors to avoid possible
+;; confusion with their configuration, though those still work as
+;; expected.
+(setq ef-themes-common-palette-overrides
+      '((cursor red)
+        (prompt cursor)
+        (variable prompt)))
+
+;; Ignore the overrides and get the original value.
+(ef-themes-get-color-value 'variable)
+;; =&gt; "#5250ef"
+
+;; Read from the overrides and deal with any recursion to find the
+;; underlying value.
+(ef-themes-get-color-value 'variable :overrides)
+;; =&gt; "#d3303a"
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:ec0adf54-c037-4c53-81b8-7eab2303794d" class="outline-3">
-<h3 id="h:ec0adf54-c037-4c53-81b8-7eab2303794d"><span class="section-number-3">10.1.</span> The general approach to advanced DIY changes</h3>
+<h3 id="h:ec0adf54-c037-4c53-81b8-7eab2303794d"><span class="section-number-3">10.2.</span> The general approach to advanced DIY changes</h3>
 <div class="outline-text-3" id="text-h:ec0adf54-c037-4c53-81b8-7eab2303794d">
 <p>
 When the user wants to customize Emacs faces there are two
@@ -1062,7 +1138,7 @@ where necessary.
 </div>
 
 <div id="outline-container-h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d" class="outline-3">
-<h3 id="h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d"><span class="section-number-3">10.2.</span> A theme-agnostic hook for theme loading</h3>
+<h3 id="h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d"><span class="section-number-3">10.3.</span> A theme-agnostic hook for theme loading</h3>
 <div class="outline-text-3" id="text-h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">
 <p>
 The themes are designed with the intent to be useful to Emacs users of
@@ -1130,7 +1206,7 @@ to (provided they understand the implications).
 </div>
 
 <div id="outline-container-h:19c549dc-d13f-45c4-a727-3618591d5c4f" class="outline-3">
-<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.3.</span> Add support for hl-todo</h3>
+<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.4.</span> Add support for hl-todo</h3>
 <div class="outline-text-3" id="text-h:19c549dc-d13f-45c4-a727-3618591d5c4f">
 <p>
 The <code>hl-todo</code> package provides the user option <code>hl-todo-keyword-faces</code>:
@@ -1179,7 +1255,7 @@ commands for previewing the palette (<a href="#h:8dd67bf5-879e-46e5-b277-5bac141
 </div>
 
 <div id="outline-container-h:69ea8788-33b9-42f9-a4f1-92ee22074d2b" class="outline-3">
-<h3 id="h:69ea8788-33b9-42f9-a4f1-92ee22074d2b"><span class="section-number-3">10.4.</span> Make the mode line like the <code>modus-themes</code> default</h3>
+<h3 id="h:69ea8788-33b9-42f9-a4f1-92ee22074d2b"><span class="section-number-3">10.5.</span> Make the mode line like the <code>modus-themes</code> default</h3>
 <div class="outline-text-3" id="text-h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">
 <p>
 The Ef themes do not use a <code>:box</code> attribute for their mode lines, while
@@ -1227,7 +1303,7 @@ To this:
 </div>
 
 <div id="outline-container-h:8c0b05b7-5624-4051-844c-3c4882658782" class="outline-3">
-<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.5.</span> Configure bold and italic faces</h3>
+<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.6.</span> Configure bold and italic faces</h3>
 <div class="outline-text-3" id="text-h:8c0b05b7-5624-4051-844c-3c4882658782">
 <p>
 The Ef themes do not hardcode a <code>:weight</code> or <code>:slant</code> attribute in the
@@ -1303,7 +1379,7 @@ provides the means to configure font families via faces.
 </div>
 
 <div id="outline-container-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d" class="outline-3">
-<h3 id="h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d"><span class="section-number-3">10.6.</span> Tweak <code>org-modern</code> timestamps</h3>
+<h3 id="h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d"><span class="section-number-3">10.7.</span> Tweak <code>org-modern</code> timestamps</h3>
 <div class="outline-text-3" id="text-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">
 <p>
 The <code>org-modern</code> package uses faces and text properties to make Org
@@ -1345,7 +1421,7 @@ For any further issues, you are welcome to ask for help.
 </div>
 
 <div id="outline-container-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189" class="outline-3">
-<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.7.</span> Tweak goto-address-mode faces</h3>
+<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.8.</span> Tweak goto-address-mode faces</h3>
 <div class="outline-text-3" id="text-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">
 <p>
 The built-in <code>goto-address-mode</code> uses heuristics to identify URLs and
