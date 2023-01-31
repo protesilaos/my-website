@@ -136,6 +136,7 @@ substitution outright.
 **Video demo:** <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
 
 + Package name (GNU ELPA): `substitute`
++ Official manual: <https://protesilaos.com/emacs/substitute>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/substitute>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/substitute>
