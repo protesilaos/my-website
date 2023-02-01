@@ -78,12 +78,13 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:a4d62b3e-0f90-4016-829a-6b6ff8ff7c23">8. Use colors from the active Standard theme</a></li>
 <li><a href="#h:a4f7a8fb-11a5-4e32-897b-f930b7d5c043">9. Do-It-Yourself customizations</a>
 <ul>
-<li><a href="#h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7">9.1. The general approach to advanced DIY changes</a></li>
-<li><a href="#h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a">9.2. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87">9.3. Add support for hl-todo</a></li>
-<li><a href="#h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8">9.4. Configure bold and italic faces</a></li>
-<li><a href="#h:8c88f697-a14e-468d-935c-7576934e7092">9.5. Tweak <code>org-modern</code> timestamps</a></li>
-<li><a href="#h:7d0b7091-63d1-49b3-992d-cd24d3103782">9.6. Tweak goto-address-mode faces</a></li>
+<li><a href="#h:cc1633d3-8e83-45b5-b258-804935f9ee0d">9.1. Get a single color from the palette</a></li>
+<li><a href="#h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7">9.2. The general approach to advanced DIY changes</a></li>
+<li><a href="#h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a">9.3. A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87">9.4. Add support for hl-todo</a></li>
+<li><a href="#h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8">9.5. Configure bold and italic faces</a></li>
+<li><a href="#h:8c88f697-a14e-468d-935c-7576934e7092">9.6. Tweak <code>org-modern</code> timestamps</a></li>
+<li><a href="#h:7d0b7091-63d1-49b3-992d-cd24d3103782">9.7. Tweak goto-address-mode faces</a></li>
 </ul>
 </li>
 <li><a href="#h:2553eaca-d9f7-4cb0-9b0b-63e1a22a40e7">10. Faces defined by the Standard themes</a></li>
@@ -788,7 +789,7 @@ search for the <code>NAME-palette</code>.  The resulting Help buffer will look
 like this:
 </p>
 
-<pre class="example" id="orge910547">
+<pre class="example" id="orga43b297">
 standard-light-palette is a variable defined in ‘standard-light-theme.el’.
 
 Its value is shown below.
@@ -889,6 +890,10 @@ These two functions are also called by the command
 <h2 id="h:1eebe221-0d0c-43e8-877a-202d2f15ef34"><span class="section-number-2">7.</span> Preview theme colors</h2>
 <div class="outline-text-2" id="text-h:1eebe221-0d0c-43e8-877a-202d2f15ef34">
 <p>
+[ Updated as part of 1.2.0-dev. ]
+</p>
+
+<p>
 The command <code>standard-themes-preview-colors</code> uses minibuffer
 completion to select an item from the Standard themes and then
 produces a buffer with previews of its color palette entries.  The
@@ -900,6 +905,35 @@ buffer has a naming scheme which reflects the given choice, like
 The command <code>standard-themes-preview-colors-current</code> skips the
 minibuffer selection process and just produces a preview for the
 current Standard theme.
+</p>
+
+<p>
+When called with a prefix argument (<code>C-u</code> with the default key
+bindings), these commands will show a preview of the palette&rsquo;s
+semantic color mappings instead of the named colors.
+</p>
+
+<p>
+Aliases for those commands are <code>standard-themes-list-colors</code> and
+<code>standard-themes-list-colors-current</code>.
+</p>
+
+<p>
+Overrides to color values are reflected in the buffers produced by the
+aforementioned commands (<a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">Palette overrides</a>).
+</p>
+
+<p>
+Each row shows a foreground and background coloration using the
+underlying value it references.  For example a line with <code>#b3303a</code> (a
+shade of red) will show red text followed by a stripe with that same
+color as a backdrop.
+</p>
+
+<p>
+The name of the buffer describes the given Standard theme and what the
+contents are, such as <code>*standard-light-list-colors*</code> for named colors
+and <code>=*standard-light-list-mappings*</code> for the semantic color mappings.
 </p>
 </div>
 </div>
@@ -956,8 +990,88 @@ liking, often by employing the <code>standard-themes-with-colors</code> macro
 </p>
 </div>
 
+<div id="outline-container-h:cc1633d3-8e83-45b5-b258-804935f9ee0d" class="outline-3">
+<h3 id="h:cc1633d3-8e83-45b5-b258-804935f9ee0d"><span class="section-number-3">9.1.</span> Get a single color from the palette</h3>
+<div class="outline-text-3" id="text-h:cc1633d3-8e83-45b5-b258-804935f9ee0d">
+<p>
+[ Part of 1.2.0-dev. ]
+</p>
+
+<p>
+<a href="#h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7">The general approach to advanced DIY changes</a>.
+</p>
+
+<p>
+The fuction <code>standard-themes-get-color-value</code> can be called from Lisp
+to return the value of a color from the active Standard theme palette.
+It takea a <code>COLOR</code> argument and an optional <code>OVERRIDES</code>.
+</p>
+
+<p>
+<code>COLOR</code> is a symbol that represents a named color entry in the
+palette.
+</p>
+
+<p>
+<a href="#h:1eebe221-0d0c-43e8-877a-202d2f15ef34">Preview theme colors</a>.
+</p>
+
+<p>
+If the value is the name of another color entry in the palette (so a
+mapping), this function recurs until it finds the underlying color
+value.
+</p>
+
+<p>
+With an optional <code>OVERRIDES</code> argument as a non-nil value, it accounts
+for palette overrides.  Else it reads only the default palette.
+</p>
+
+<p>
+<a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">Palette overrides</a>.
+</p>
+
+<p>
+With optional <code>THEME</code> as a symbol among <code>standard-themes-collection</code>,
+use the palette of that item.  Else use the current Standard theme.
+</p>
+
+<p>
+If <code>COLOR</code> is not present in the palette, this function returns the
+<code>unspecified</code> symbol, which is safe when used as a face attribute&rsquo;s
+value.
+</p>
+
+<p>
+An example with <code>standard-light</code> to show how this function behaves
+with/without overrides and when recursive mappings are introduced.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Here we show the recursion of palette mappings.  In general, it is
+;; better for the user to specify named colors to avoid possible
+;; confusion with their configuration, though those still work as
+;; expected.
+(setq standard-themes-common-palette-overrides
+      '((cursor red)
+        (prompt cursor)
+        (variable prompt)))
+
+;; Ignore the overrides and get the original value.
+(standard-themes-get-color-value 'variable)
+;; =&gt; "#a0522d"
+
+;; Read from the overrides and deal with any recursion to find the
+;; underlying value.
+(standard-themes-get-color-value 'variable :overrides)
+;; =&gt; "#b3303a"
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7" class="outline-3">
-<h3 id="h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7"><span class="section-number-3">9.1.</span> The general approach to advanced DIY changes</h3>
+<h3 id="h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7"><span class="section-number-3">9.2.</span> The general approach to advanced DIY changes</h3>
 <div class="outline-text-3" id="text-h:a6d48445-c215-4f2e-b0ff-c83b0c673fa7">
 <p>
 When the user wants to customize Emacs faces there are two
@@ -1076,7 +1190,7 @@ where necessary.
 </div>
 
 <div id="outline-container-h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a" class="outline-3">
-<h3 id="h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a"><span class="section-number-3">9.2.</span> A theme-agnostic hook for theme loading</h3>
+<h3 id="h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a"><span class="section-number-3">9.3.</span> A theme-agnostic hook for theme loading</h3>
 <div class="outline-text-3" id="text-h:4296ba7b-7bad-4dbe-9ce8-da20c957c99a">
 <p>
 The themes are designed with the intent to be useful to Emacs users of
@@ -1144,7 +1258,7 @@ they need to (provided they understand the implications).
 </div>
 
 <div id="outline-container-h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87" class="outline-3">
-<h3 id="h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87"><span class="section-number-3">9.3.</span> Add support for hl-todo</h3>
+<h3 id="h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87"><span class="section-number-3">9.4.</span> Add support for hl-todo</h3>
 <div class="outline-text-3" id="text-h:f9017f6b-a59d-4512-8d52-9e8ab5a59f87">
 <p>
 The <code>hl-todo</code> package provides the user option <code>hl-todo-keyword-faces</code>:
@@ -1193,7 +1307,7 @@ commands for previewing the palette (<a href="#h:1eebe221-0d0c-43e8-877a-202d2f1
 </div>
 
 <div id="outline-container-h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8" class="outline-3">
-<h3 id="h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8"><span class="section-number-3">9.4.</span> Configure bold and italic faces</h3>
+<h3 id="h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8"><span class="section-number-3">9.5.</span> Configure bold and italic faces</h3>
 <div class="outline-text-3" id="text-h:2c92df8a-02c5-4124-82f8-e3ccdef1a4f8">
 <p>
 The Standard themes do not hardcode a <code>:weight</code> or <code>:slant</code> attribute in the
@@ -1269,7 +1383,7 @@ provides the means to configure font families via faces.
 </div>
 
 <div id="outline-container-h:8c88f697-a14e-468d-935c-7576934e7092" class="outline-3">
-<h3 id="h:8c88f697-a14e-468d-935c-7576934e7092"><span class="section-number-3">9.5.</span> Tweak <code>org-modern</code> timestamps</h3>
+<h3 id="h:8c88f697-a14e-468d-935c-7576934e7092"><span class="section-number-3">9.6.</span> Tweak <code>org-modern</code> timestamps</h3>
 <div class="outline-text-3" id="text-h:8c88f697-a14e-468d-935c-7576934e7092">
 <p>
 The <code>org-modern</code> package uses faces and text properties to make Org
@@ -1311,7 +1425,7 @@ For any further issues, you are welcome to ask for help.
 </div>
 
 <div id="outline-container-h:7d0b7091-63d1-49b3-992d-cd24d3103782" class="outline-3">
-<h3 id="h:7d0b7091-63d1-49b3-992d-cd24d3103782"><span class="section-number-3">9.6.</span> Tweak goto-address-mode faces</h3>
+<h3 id="h:7d0b7091-63d1-49b3-992d-cd24d3103782"><span class="section-number-3">9.7.</span> Tweak goto-address-mode faces</h3>
 <div class="outline-text-3" id="text-h:7d0b7091-63d1-49b3-992d-cd24d3103782">
 <p>
 The built-in <code>goto-address-mode</code> uses heuristics to identify URLs and
