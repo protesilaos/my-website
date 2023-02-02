@@ -78,7 +78,7 @@ Current development target is 0.5.0-dev.
 <h2 id="h:c002f811-ea06-4123-988b-a73183581fb9"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:c002f811-ea06-4123-988b-a73183581fb9">
 <p>
-Copyright (C) 2021-2022  Free Software Foundation, Inc.
+Copyright (C) 2021-2023  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -191,9 +191,13 @@ timer.
 </p>
 
 <p>
-An alternative to the <code>tmr</code> command is <code>tmr-with-description</code>.  The
+[ The <code>tmr-with-details</code> is part of 0.5.0-dev. ]
+</p>
+
+<p>
+An alternative to the <code>tmr</code> command is <code>tmr-with-details</code>.  The
 difference between the two is that the latter always prompts for a
-description.
+description and if the timer should be acknowledged.
 </p>
 
 <p>
@@ -202,12 +206,24 @@ timer object.
 </p>
 
 <p>
+[ The <code>tmr-toggle-acknowledge</code> is part of 0.5.0-dev. ]
+</p>
+
+<p>
+The command <code>tmr-toggle-acknowledge</code> toggles the acknowledge flag of a
+given timer object.  A timer that needs to be acknowledged prompts for
+confirmation after it elapses.  The user can either confirm and thus
+dismiss the timer, or set a new duration for the next reminder, using
+the familiar TMR input.
+</p>
+
+<p>
 The user option <code>tmr-descriptions-list</code> defines the completion
 candidates that are shown at the description prompt.  Its value can be
 either a list of strings or the symbol of a variable that holds a list
 of strings.  The default value of <code>tmr-description-history</code>, is the name
 of a variable that contains input provided by the user at the relevant
-prompt of the <code>tmr</code> and <code>tmr-with-description</code> commands.
+prompt of the <code>tmr</code> and <code>tmr-with-details</code> commands.
 </p>
 
 <p>
@@ -224,7 +240,7 @@ The <code>tmr-cancel</code> command cancels running timers without erasesing the
 from the list of created timer objects.  Timers at the completion prompt
 are described by the exact time they were set and the input that was
 used to create them, including the optional description that <code>tmr</code> and
-<code>tmr-with-description</code> accept.
+<code>tmr-with-details</code> accept.
 </p>
 
 <p>
@@ -285,7 +301,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 placed in the <code>*tmr-tabulated-view*</code> buffer and looks like this:
 </p>
 
-<pre class="example" id="org5c941b1">
+<pre class="example" id="orgedf7b33">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -485,16 +501,20 @@ Everything is in place to set up the package.
 <h2 id="h:69eeb3fb-f11d-431e-ae16-2d9b322871cc"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  ;; set to nil to disable the sound
+<pre class="src src-emacs-lisp">  ;; Set to nil to disable the sound
   (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
+  ;; Desktop notification urgency level
   (setq tmr-notification-urgency 'normal)
 
   ;; Read the `tmr-descriptions-list' doc string
   (setq tmr-descriptions-list 'tmr-description-history)
 
-  ;; OPTIONALLY set global prefix bindings (autoloaded):
+  ;; Set global prefix bindings (autoloaded):
   (define-key global-map "\C-ct" 'tmr-prefix-map)
+
+  ;; Alternatively bind tmr command (autoloaded):
+  (define-key global-map "\C-ct" 'tmr)
 </pre>
 </div>
 </div>
