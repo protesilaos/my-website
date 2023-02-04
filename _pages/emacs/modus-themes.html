@@ -118,6 +118,8 @@ Current development target is 4.1.0-dev.
 <li><a href="#h:b5cab69d-d7cb-451c-8ff9-1f545ceb6caf">5.11.2.19. Make mouse highlights more or less colorful</a></li>
 <li><a href="#h:03dbd5af-6bae-475e-85a2-cec189f69598">5.11.2.20. Make language underlines less colorful</a></li>
 <li><a href="#h:b6466f51-cb58-4007-9ebe-53a27af655c7">5.11.2.21. Make line numbers use alternative styles</a></li>
+<li><a href="#h:b3761482-bcbf-4990-a41e-4866fb9dad15">5.11.2.22. Make diffs use only a foreground</a></li>
+<li><a href="#h:16389ea1-4cb6-4b18-9409-384324113541">5.11.2.23. Make deuteranopia diffs red and blue instead of yellow and blue</a></li>
 </ul>
 </li>
 </ul>
@@ -1136,7 +1138,7 @@ Symbol: <code>modus-themes-completions</code> (<code>alist</code> type propertie
 <p>
 This affects Company, Corfu, Flx, Icomplete/Fido, Ido, Ivy, Orderless,
 Vertico, and the standard <code>*Completions*</code> buffer.  The value is an
-alist of expressions, each of which takes the form of <code>(KEY . LIST-OF-PROPERTIES)</code>.  
+alist of expressions, each of which takes the form of <code>(KEY . LIST-OF-PROPERTIES)</code>.
 <code>KEY</code> is a symbol, while <code>PROPERTIES</code> is a list.  Here is a sample,
 followed by a description of the particularities:
 </p>
@@ -2647,7 +2649,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org8a597e6">
+<pre class="example" id="org3a61a21">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -2863,6 +2865,135 @@ this section we show how to affect the <code>display-line-numbers-mode</code>.
         (fg-line-number-active fg-main)
         (bg-line-number-inactive bg-inactive)
         (bg-line-number-active bg-cyan-intense)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:b3761482-bcbf-4990-a41e-4866fb9dad15" class="outline-5">
+<h5 id="h:b3761482-bcbf-4990-a41e-4866fb9dad15"><span class="section-number-5">5.11.2.22.</span> Make diffs use only a foreground</h5>
+<div class="outline-text-5" id="text-h:b3761482-bcbf-4990-a41e-4866fb9dad15">
+<p>
+[ Part of 4.1.0-dev. ]
+</p>
+
+<p>
+This is one of our practical examples to override the semantic colors
+of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>).  In
+this section we show how to change diff buffers (e.g. in <code>magit</code>) to
+only use color-coded text without any added background.  What we
+basically do is to disable the applicable backgrounds and then
+intensify the foregrounds.  Since the deuteranopia-optimized themes do
+not use the red-green color coding, we make an extra set of
+adjustments for them by overriding their palettes directly instead of
+just using the &ldquo;common&rdquo; overrides.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Diffs with only foreground colours.  Word-wise ("refined") diffs
+;; have a gray background to draw attention to themselves.
+(setq modus-themes-common-palette-overrides
+      '((bg-added           unspecified)
+        (bg-added-faint     unspecified)
+        (bg-added-refine    bg-inactive)
+        (fg-added           green)
+        (fg-added-intense   green-intense)
+
+        (bg-changed         unspecified)
+        (bg-changed-faint   unspecified)
+        (bg-changed-refine  bg-inactive)
+        (fg-changed         yellow)
+        (fg-changed-intense yellow-intense)
+
+        (bg-removed         unspecified)
+        (bg-removed-faint   unspecified)
+        (bg-removed-refine  bg-inactive)
+        (fg-removed         red)
+        (fg-removed-intense red-intense)
+
+        (bg-diff-context    unspecified)))
+
+;; Because deuteranopia cannot use the typical red-yellow-green
+;; combination, we need to arrange for a yellow-purple-blue sequence.
+;; Notice that the above covers the "common" overrides, so we do not
+;; need to reproduce the whole list of them.
+(setq modus-operandi-deuteranopia-palette-overrides
+      '((fg-added           blue)
+        (fg-added-intense   blue-intense)
+
+        (fg-changed         magenta-cooler)
+        (fg-changed-intense magenta-intense)
+
+        (fg-removed         yellow-warmer)
+        (fg-removed-intense yellow-intense)))
+
+(setq modus-vivendi-deuteranopia-palette-overrides
+      '((fg-added           blue)
+        (fg-added-intense   blue-intense)
+
+        (fg-changed         magenta-cooler)
+        (fg-changed-intense magenta-intense)
+
+        (fg-removed         yellow)
+        (fg-removed-intense yellow-intense)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:16389ea1-4cb6-4b18-9409-384324113541" class="outline-5">
+<h5 id="h:16389ea1-4cb6-4b18-9409-384324113541"><span class="section-number-5">5.11.2.23.</span> Make deuteranopia diffs red and blue instead of yellow and blue</h5>
+<div class="outline-text-5" id="text-h:16389ea1-4cb6-4b18-9409-384324113541">
+<p>
+[ Part of 4.1.0-dev. ]
+</p>
+
+<p>
+This is one of our practical examples to override the semantic colors
+of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>).  In
+this section we show how to implement a red+blue color coding for
+diffs in the themes <code>modus-operandi-deuteranopia</code> and
+<code>modus-vivendi-deuteranopia</code>.  As those themes are optimized for users
+with red-green color deficiency, they do not use the typical red+green
+color coding for diffs, defaulting instead to yellow+blue which are
+discernible.  Users with deuteranomaly or, generally, those who like a
+different aesthetic, can use the following to make diffs use the
+red+yellow+blue color coding for removed, changed, and added lines
+respectively.  This is achieved by overriding the &ldquo;changed&rdquo; and
+&ldquo;removed&rdquo; entries to use the colors of regular <code>modus-operandi</code> and
+<code>modus-vivendi</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq modus-operandi-deuteranopia-palette-overrides
+      '((bg-changed         "#ffdfa9")
+        (bg-changed-faint   "#ffefbf")
+        (bg-changed-refine  "#fac090")
+        (bg-changed-fringe  "#d7c20a")
+        (fg-changed         "#553d00")
+        (fg-changed-intense "#655000")
+
+        (bg-removed         "#ffd8d5")
+        (bg-removed-faint   "#ffe9e9")
+        (bg-removed-refine  "#f3b5af")
+        (bg-removed-fringe  "#d84a4f")
+        (fg-removed         "#8f1313")
+        (fg-removed-intense "#aa2222")))
+
+(setq modus-vivendi-deuteranopia-palette-overrides
+      '((bg-changed         "#363300")
+        (bg-changed-faint   "#2a1f00")
+        (bg-changed-refine  "#4a4a00")
+        (bg-changed-fringe  "#8a7a00")
+        (fg-changed         "#efef80")
+        (fg-changed-intense "#c0b05f")
+
+        (bg-removed         "#4f1119")
+        (bg-removed-faint   "#380a0f")
+        (bg-removed-refine  "#781a1f")
+        (bg-removed-fringe  "#b81a1f")
+        (fg-removed         "#ffbfbf")
+        (fg-removed-intense "#ff9095")))
 </pre>
 </div>
 </div>
@@ -4020,7 +4151,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgdd224d9">
+<pre class="example" id="org48b57ad">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5728,7 +5859,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgd39c6f6">
+<pre class="example" id="orgec9e9f9">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -5773,7 +5904,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org7e5c3c3">
+<pre class="example" id="orgcb0acba">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6145,7 +6276,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org18a9ebe">
+<pre class="example" id="orgf66af9a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
