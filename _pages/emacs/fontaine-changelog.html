@@ -15,6 +15,101 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>.
 </p>
 
+<div id="outline-container-h:bb9803bd-6491-4b58-a685-822b0247fffc" class="outline-2">
+<h2 id="h:bb9803bd-6491-4b58-a685-822b0247fffc">Version 1.0.0 on 2023-02-11</h2>
+<div class="outline-text-2" id="text-h:bb9803bd-6491-4b58-a685-822b0247fffc">
+<p>
+Fontaine has been in a stable state for several months now.  I am thus
+increasing the major version number to reflect this fact.  Otherwise,
+this is a small release with only one sizeable addition.
+</p>
+</div>
+
+<div id="outline-container-h:f842797f-5b46-40e4-adc3-e98b289d85bf" class="outline-3">
+<h3 id="h:f842797f-5b46-40e4-adc3-e98b289d85bf">Inherit the properties of another named preset</h3>
+<div class="outline-text-3" id="text-h:f842797f-5b46-40e4-adc3-e98b289d85bf">
+<p>
+Preset font configuration can now optionally inherit (and thus extend)
+the properties of another named preset.
+</p>
+
+<p>
+When defining multiple presets, we may need to duplicate properties
+and then make tweaks to individual values.  Suppose we want to have
+two distinct presets for presentations: one is for coding related
+demonstrations and the other for prose.  Both must have some common
+styles, but must define distinct font families each of which is
+suitable for the given task.  In this case, we do not want to fall
+back to the generic <code>t</code> preset (per the default behaviour) and we also
+do not wish to duplicate properties manually, potentially making
+mistakes in the process.  Fontaine thus provides a method of
+inheriting a named preset's properties by using the <code>:inherit</code>
+property with a value that references the name of another preset
+(technically, the <code>car</code> of that list).  Here is the idea:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((regular
+         :default-height 100)
+        (code-demo
+         :default-family "Source Code Pro"
+         :default-weight semilight
+         :default-height 170
+         :variable-pitch-family "Sans"
+         :bold-weight extrabold)
+        (prose-demo
+         :inherit code-demo ; copy the `code-demo' properties
+         :default-family "Sans"
+         :variable-pitch-family "Serif"
+         :default-height 220)
+        (t
+         :default-family "Monospace"
+         ;; more generic fallback properties here...
+         )))
+</pre>
+</div>
+
+<p>
+In this scenario, the <code>regular</code> preset gets all its properties from
+the <code>t</code> preset.  We omit them here in the interest of brevity (see the
+default value of <code>fontaine-presets</code> and its documentation for the
+details).  In turn, the <code>code-demo</code> specifies more properties and
+falls back to <code>t</code> for any property not explicitly referenced therein.
+Finally, the <code>prose-demo</code> copies everything in <code>code-demo</code>, overrides
+every property it specifies, and falls back to <code>t</code> for every other
+property.
+</p>
+
+<p>
+In the interest of simplicity, Fontaine does not support recursive
+inheritance.  If there is a compelling need for it, we can add it in
+future versions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d44c3958-e7d2-4190-93cf-92d983eb8e02" class="outline-3">
+<h3 id="h:d44c3958-e7d2-4190-93cf-92d983eb8e02">Bug fixes</h3>
+<div class="outline-text-3" id="text-h:d44c3958-e7d2-4190-93cf-92d983eb8e02">
+<ul class="org-ul">
+<li>Fixed a faulty setup for the <code>:height</code> attribute of the <code>bold</code> face.
+Using the commands <code>fontaine-set-preset</code> or <code>fontaine-set-face-font</code>
+with a prefix argument (<code>C-u</code> with default key bindings) does not
+produce an error anymore.  The prefix argument limits the operation
+to the current frame.</li>
+
+<li>Updated the <code>Commentary</code> section of <code>fontaine.el</code> to use the
+FONTAINE backronym I have had on my website for a long time.
+Namely, I changed <code>FONTs Are Irrelevant in Non-graphical Emacs</code>,
+which was cheating on a few letters, to <code>Fonts, Ornaments, and Neat
+  Typography Are Irrelevant in Non-graphical Emacs</code>.  What do you mean
+this is not a bug fix? 🙃</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:757a185d-d367-4712-8313-ad17265e597f" class="outline-2">
 <h2 id="h:757a185d-d367-4712-8313-ad17265e597f">Version 0.4.0 on 2022-09-07</h2>
 <div class="outline-text-2" id="text-h:757a185d-d367-4712-8313-ad17265e597f">
