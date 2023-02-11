@@ -134,6 +134,25 @@ to the beginning of the buffer (alias <code>substitute-target-to-beginning-of-bu
 </ol>
 
 <p>
+[ The <code>substitute-fixed-letter-case</code> and the <code>FIXED-CASE</code> prefix
+  argument for all commands is part of 0.2.0-dev. ]
+</p>
+
+<p>
+All of the aforementioned commands accept an optional prefix argument
+(<code>C-u</code> with the default key bindings).  This passes the <code>FIXED-CASE</code>
+argument, which means that the substitution will not try to preserve
+the letter casing of the target text.  Concretely, targeting <code>test</code>
+and <code>TEST</code> with a substitute of <code>test-new</code> will make both of those
+lower case.  Whereas without the prefix argument the result would be
+<code>test-new</code> and <code>TEST-NEW</code>.  In many cases this is the desired effect.
+To always have fixed letter casing, set the user option
+<code>substitute-fixed-letter-case</code> to a non-nil value.  Doing so is the
+same as always calling the aforementioned commands with a prefix
+argument.
+</p>
+
+<p>
 Every substitution triggers the <code>substitute-post-replace-functions</code>.
 This special hook runs any function assigned to it with four
 arguments: <code>TARGET</code>, <code>SUB</code>, <code>COUNT</code>, and <code>SCOPE</code>. For a reference
@@ -223,8 +242,13 @@ Everything is in place to set up the package.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'substitute)
 
-;; If you do not like visual feedback on the matching target.  Default is t.
+;; Set this to nil if you do not like visual feedback on the matching
+;; target.  Default is t.
 (setq substitute-highlight nil)
+
+;; Set this to t if you want to always treat the letter casing
+;; literally.
+(setq substitute-fixed-letter-case t)
 
 ;; If you want a message reporting the matches that changed in the
 ;; given context.  We don't do it by default.
@@ -256,7 +280,7 @@ matters.
 <dt>Contributions to code or the manual</dt><dd>Ed Tavinor, Kostas Andreadis,
 Wang Chunye.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Tomasz Hołubowicz.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Tomasz Hołubowicz, revrari.</dd>
 </dl>
 </div>
 </div>
