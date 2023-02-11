@@ -14,13 +14,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.4.0, released on 2022-09-07.  Any reference to
+1.0.0, released on 2023-02-11.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.5.0-dev.
+Current development target is 1.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -36,6 +36,8 @@ Current development target is 0.5.0-dev.
 </ul></li>
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/fontaine">https://lists.sr.ht/~protesilaos/fontaine</a></li>
+<li>Backronym: Fonts, Ornaments, and Neat Typography Are Irrelevant in
+Non-graphical Emacs.</li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -229,6 +231,10 @@ Are Irrelevant in Non-graphical Emacs (because that is actually true).
 <div id="outline-container-h:35bc7f51-6368-4718-ad25-b276a1f2cc08" class="outline-3">
 <h3 id="h:35bc7f51-6368-4718-ad25-b276a1f2cc08"><span class="section-number-3">2.1.</span> Shared and implicit fallback values for presets</h3>
 <div class="outline-text-3" id="text-h:35bc7f51-6368-4718-ad25-b276a1f2cc08">
+<p>
+<a href="#h:9604c817-9b01-46d6-9455-58b8c393e441">Inherit the properties of another named preset</a>.
+</p>
+
 <p>
 The user option <code>fontaine-presets</code> may look like this (though check its
 default value before you make any edits):
@@ -482,7 +488,7 @@ intend to change their values).  We then have this transformation:
 <h3 id="h:9604c817-9b01-46d6-9455-58b8c393e441"><span class="section-number-3">2.2.</span> Inherit the properties of another named preset</h3>
 <div class="outline-text-3" id="text-h:9604c817-9b01-46d6-9455-58b8c393e441">
 <p>
-[ Part of 0.5.0-dev. ]
+<a href="#h:35bc7f51-6368-4718-ad25-b276a1f2cc08">Shared and implicit fallback values for presets</a>.
 </p>
 
 <p>
@@ -492,10 +498,12 @@ two distinct presets for presentations: one is for coding related
 demonstrations and the other for prose.  Both must have some common
 styles, but must define distinct font families each of which is
 suitable for the given task.  In this case, we do not want to fall
-back to the generic <code>t</code> preset and we also do not wish to duplicate
-properties manually, potentially making mistakes in the process.
-Fontaine thus provides a method of inheriting a named preset&rsquo;s
-properties.  Here is the idea:
+back to the generic <code>t</code> preset (per the default behaviour) and we also
+do not wish to duplicate properties manually, potentially making
+mistakes in the process.  Fontaine thus provides a method of
+inheriting a named preset&rsquo;s properties by using the <code>:inherit</code>
+property with a value that references the name of another preset
+(technically, the <code>car</code> of that list).  Here is the idea:
 </p>
 
 <div class="org-src-container">
@@ -524,10 +532,11 @@ properties.  Here is the idea:
 In this scenario, the <code>regular</code> preset gets all its properties from
 the <code>t</code> preset.  We omit them here in the interest of brevity (see the
 default value of <code>fontaine-presets</code> and its documentation for the
-details).  In turn, the <code>code-demo</code> specifies more properites and
-falls back to <code>t</code> for any property not explicitly referenced.
+details).  In turn, the <code>code-demo</code> specifies more properties and
+falls back to <code>t</code> for any property not explicitly referenced therein.
 Finally, the <code>prose-demo</code> copies everything in <code>code-demo</code>, overrides
-any property therein, and falls back to <code>t</code> for every other property.
+every property it specifies, and falls back to <code>t</code> for every other
+property.
 </p>
 
 <p>
