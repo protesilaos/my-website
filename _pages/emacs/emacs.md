@@ -91,9 +91,9 @@ Emacs.  They emulate the out-of-the-box looks of Emacs (which
 technically do NOT constitute a theme) while bringing to them thematic
 consistency, customizability, and extensibility.  In practice, the
 Standard themes take the default style of the font-lock and Org faces,
-complement it with a wider colour palette, address some
+complement it with a wider and hamronious colour palette, address many
 inconsistencies, and apply established semantic patterns across all
-interfaces.
+interfaces by supporting a large number of packages.
 
 + Package name (GNU ELPA): `standard-themes`
 + Official manual: <https://protesilaos.com/emacs/standard-themes>

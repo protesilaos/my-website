@@ -15,6 +15,199 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/standard-themes">https://protesilaos.com/emacs/standard-themes</a>.
 </p>
 
+<div id="outline-container-org54be3a9" class="outline-2">
+<h2 id="org54be3a9">Version 1.2.0 on 2023-02-16</h2>
+<div class="outline-text-2" id="text-org54be3a9">
+</div>
+<div id="outline-container-org95a6a01" class="outline-3">
+<h3 id="org95a6a01">Support for palette overrides</h3>
+<div class="outline-text-3" id="text-org95a6a01">
+<p>
+It is now possible to override the palette of each Standard theme.
+This is the same feature that I implemented for the <code>modus-themes</code>,
+except it is a bit more limited in scope (the Modus themes are
+maximalist due to their accessibility target).
+</p>
+
+<p>
+Overrides allow the user to tweak the presentation of either or both
+themes, such as to change the colour value of individual entries
+and/or remap how named colours are applied to semantic code
+constructs.
+</p>
+
+<p>
+For example, the user can change what the exact value of <code>blue-warmer</code>
+is and then, say, make comments use a shade of green instead of red.
+</p>
+
+<p>
+There are three user options to this end:
+</p>
+
+<ul class="org-ul">
+<li><code>standard-themes-common-palette-overrides</code> which covers both themes.</li>
+<li><code>standard-dark-palette-overrides</code> which concerns the dark theme.</li>
+<li><code>standard-light-palette-overrides</code> which is for the light theme.</li>
+</ul>
+
+<p>
+The theme-specific overrides take precedence over the "common" ones.
+</p>
+
+<p>
+The theme's palette with named colors can be previewed with the
+commands <code>standard-themes-preview-colors</code> and
+<code>standard-themes-preview-colors-current</code>.  When called with a
+universal prefix argument (<code>C-u</code> with default key bindings) these
+commands produce a preview of the semantic colour mappings (e.g. what
+colour applies to level 2 headings).
+</p>
+
+<p>
+Use the preview as a reference to find entries to override.  And
+consult the manual for the technicalities.
+</p>
+
+<p>
+Thanks to Clemens Radermacher for fixing a mistake I made in the code
+that produces the palette previews.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7c0c5d2" class="outline-3">
+<h3 id="org7c0c5d2">Added the function <code>standard-themes-get-color-value</code></h3>
+<div class="outline-text-3" id="text-org7c0c5d2">
+<p>
+It returns the colour value of named <code>COLOR</code> for the current Standard
+theme.
+</p>
+
+<p>
+<code>COLOR</code> is a symbol that represents a named colour entry in the
+palette.
+</p>
+
+<p>
+If the value is the name of another colour entry in the palette (so a
+mapping), recur until you find the underlying colour value.
+</p>
+
+<p>
+With optional <code>OVERRIDES</code> as a non-nil value, account for palette
+overrides.  Else use the default palette.
+</p>
+
+<p>
+With optional <code>THEME</code> as a symbol among <code>standard-themes-items</code>, use
+the palette of that item.  Else use the current Standard theme.
+</p>
+
+<p>
+If <code>COLOR</code> is not present in the palette, return the <code>unspecified</code>
+symbol, which is safe when used as a face attribute's value.
+</p>
+
+<p>
+The manual provides this information and also links to relevant
+entries.  The example it uses, with the <code>standard-light</code> as current:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Here we show the recursion of palette mappings.  In general, it is
+;; better for the user to specify named colors to avoid possible
+;; confusion with their configuration, though those still work as
+;; expected.
+(setq standard-themes-common-palette-overrides
+      '((cursor red)
+        (prompt cursor)
+        (variable prompt)))
+
+;; Ignore the overrides and get the original value.
+(standard-themes-get-color-value 'variable)
+;; =&gt; "#a0522d"
+
+;; Read from the overrides and deal with any recursion to find the
+;; underlying value.
+(standard-themes-get-color-value 'variable :overrides)
+;; =&gt; "#b3303a"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9da147" class="outline-3">
+<h3 id="orge9da147">New user option <code>standard-themes-disable-other-themes</code></h3>
+<div class="outline-text-3" id="text-orge9da147">
+<p>
+This user option is set to <code>t</code> by default.  This means that loading a
+Standard theme with the command <code>standard-themes-toggle</code> or the
+functions <code>standard-theme-load-dark</code>,  <code>standard-theme-load-light</code>
+will disable all <code>custom-enabled-themes</code>.
+</p>
+
+<p>
+When the value of this user option is nil, themes are loaded without
+disabling other entries outside their family.  This retains the
+original (and in my opinion bad for most users) behaviour of Emacs
+where it blithely blends multiple enabled themes.
+</p>
+
+<p>
+I consider the blending a bad default because it undoes the work of
+the designer and often leads to highly inaccessible and unpredictable
+combinations.  Sure, experts can blend themes which is an argument in
+favour of making that behaviour opt-in.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orged808dc" class="outline-3">
+<h3 id="orged808dc">Other changes</h3>
+<div class="outline-text-3" id="text-orged808dc">
+<ul class="org-ul">
+<li><p>
+Refined the <code>standard-dark</code> theme's <code>bg-hl-line</code> background.  This
+makes it easier to read the underlying text of the currently
+highlighted line in hl-line-mode.
+</p>
+
+<p>
+Thanks to Manuel Uberti for the feedback on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/standard-themes/%3C6e218fc0-f2dc-e03f-4e42-da0cbf9bd79b%40inventati.org%3E">https://lists.sr.ht/~protesilaos/standard-themes/%3C6e218fc0-f2dc-e03f-4e42-da0cbf9bd79b%40inventati.org%3E</a>.
+</p></li>
+
+<li>Clarified some statements in the documentation about the palette
+overrides.  Thanks to Tassilo Horn for the feedback on the mailing
+list: <a href="https://lists.sr.ht/~protesilaos/standard-themes/%3C87cz8bjrwz.fsf%40gnu.org%3E">https://lists.sr.ht/~protesilaos/standard-themes/%3C87cz8bjrwz.fsf%40gnu.org%3E</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org33c3868" class="outline-3">
+<h3 id="org33c3868">Acknowledgement</h3>
+<div class="outline-text-3" id="text-org33c3868">
+<p>
+Thanks to Fritz Grabo who provided feedback via a private channel.
+With it, I was able to better understand the underlying patterns of
+the out-of-the-box Emacs faces and thus design the <code>standard-themes</code>
+accordingly.  This information is shared with permission.
+</p>
+
+<p>
+As a reminder, the Standard themes are an interpretation of the
+default Emacs faces (which technically are not a "theme").  I have
+expanded the effective palette with harmonious entries, made mappings
+that are consistent with the patterns found in some base faces, and
+extended support for lots of packages.  At first sight, the Standard
+themes look like what you get with an unconfigured Emacs.  Though make
+no mistake: they are far more detail-oriented.
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:f7a5799c-279c-4dfb-96ae-3eba58ee582e" class="outline-2">
 <h2 id="h:f7a5799c-279c-4dfb-96ae-3eba58ee582e">Version 1.1.0 on 2022-12-06</h2>
 <div class="outline-text-2" id="text-h:f7a5799c-279c-4dfb-96ae-3eba58ee582e">
