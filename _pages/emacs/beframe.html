@@ -15,7 +15,7 @@ to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on 2023-02-13.  Any reference to
+0.1.1, released on 2023-02-14.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
@@ -58,7 +58,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:f8d6a174-6167-43cf-b122-d1e53bea1b47">4.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">5. Sample configuration</a></li>
+<li><a href="#h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">5. Sample configuration</a>
+<ul>
+<li><a href="#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">5.1. Integration with Consult</a></li>
+<li><a href="#h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">5.2. Integration with Ibuffer</a></li>
+</ul>
+</li>
 <li><a href="#h:06177a5c-be37-4722-b18b-ecbcffe5816d">6. COPYING</a></li>
 <li><a href="#h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">7. GNU Free Documentation License</a></li>
 <li><a href="#h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">8. Indices</a>
@@ -126,19 +131,23 @@ The <code>beframe-mode</code> does the following:
 beframes all commands that read that variable.  This includes the
 likes of <code>switch-to-buffer</code>, <code>next-buffer</code>, and <code>previous-buffer</code>.</li>
 
-<li>Add a filter to newly created frames so that their
-<code>buffer-predicate</code> parameter beframes buffers.</li>
-
+<li><p>
+Add a filter to newly created frames so that their
+<code>buffer-predicate</code> parameter beframes buffers.
+</p></li>
 <li><p>
 Renames newly created frames so that they have a potentially more
-meaningful title.
+meaningful title.  The user option <code>beframe-rename-function</code>
+specifies the function that handles this process.  When its value is
+nil, no renaming is performed.
 </p></li>
 <li>When the user option <code>beframe-functions-in-frames</code> contains a list
 of functions, it makes them run with <code>other-frame-prefix</code>, meaning
-that they are called in a new frame.  The default value of that
-user option affects the <code>project.el</code> project-switching selection:
-the new project buffer appears in its own frame and, thus, becomes
-part of a beframed list of buffers, isolated from all other frames.</li>
+that they are called in a new frame.  For example, the user can add
+a list that includes <code>project-prompt-project-dir</code> from the built-in
+<code>project</code> library.  With that the new project buffer appears in its
+own frame and, thus, becomes part of a beframed list of buffers,
+isolated from all other frames.</li>
 </ul>
 
 <p>
@@ -258,6 +267,87 @@ Everything is in place to set up the package.
 ;; `switch-to-buffer' only shows a list of beframed buffers.
 (define-key global-map (kbd "C-x B") #'beframe-switch-buffer)
 </pre>
+</div>
+</div>
+
+<div id="outline-container-h:1c2d3d64-aa7b-4585-a418-ccedbb548b38" class="outline-3">
+<h3 id="h:1c2d3d64-aa7b-4585-a418-ccedbb548b38"><span class="section-number-3">5.1.</span> Integration with Consult</h3>
+<div class="outline-text-3" id="text-h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">
+<p>
+The <code>consult</code> package by Daniel Mendler provides several commands that
+enhance the standard minibuffer interface of Emacs.  One of them is
+<code>consult-buffer</code> which lists buffers, recent files, bookmarks, and
+possibly other sources in a single interface.  With <code>consult-buffer</code>
+the user can see previews of the given completion candidate and also
+narrow to a specific source.
+</p>
+
+<p>
+It is possible to add beframed buffers to the list of sources the
+<code>consult-buffer</code> command reads from. Just add the following to the
+<code>beframe</code> configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar consult-buffer-sources)
+(declare-function consult--buffer-state "consult")
+
+(with-eval-after-load 'consult
+  (defface beframe-buffer
+    '((t :inherit font-lock-string-face))
+    "Face for `consult' framed buffers.")
+
+  (defvar beframe--consult-source
+    `( :name     "Frame-specific buffers (current frame)"
+       :narrow   ?F
+       :category buffer
+       :face     beframe-buffer
+       :history  beframe-history
+       :items    ,#'beframe--buffer-names
+       :action   ,#'switch-to-buffer
+       :state    ,#'consult--buffer-state))
+
+  (add-to-list 'consult-buffer-sources 'beframe--consult-source))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:ae6c4c6b-179a-4d35-86b5-8b63bf614697" class="outline-3">
+<h3 id="h:ae6c4c6b-179a-4d35-86b5-8b63bf614697"><span class="section-number-3">5.2.</span> Integration with Ibuffer</h3>
+<div class="outline-text-3" id="text-h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">
+<p>
+This is not perfect because frames can have duplicate buffers, but it
+works:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(with-eval-after-load 'ibuffer
+  (defun beframe--buffer-in-frame (buf frame)
+    "Return non-nil if BUF is in FRAME."
+    (memq buf (beframe--buffer-list (beframe--frame-object frame))))
+
+  (defun beframe--frame-name-list ()
+    "Return list with frame names."
+    (mapcar #'car (make-frame-names-alist)))
+
+  (defun beframe-generate-ibuffer-filter-groups ()
+    "Create a set of ibuffer filter groups based on the vc root dirs of buffers."
+    (mapcar
+     (lambda (frame)
+       (list (format "%s" frame)
+             (list 'predicate 'beframe--buffer-in-frame '(current-buffer) frame)))
+     (beframe--frame-name-list)))
+
+  (setq ibuffer-saved-filter-groups
+        `(("Frames" ,@(beframe-generate-ibuffer-filter-groups))))
+
+  (define-ibuffer-filter frame
+      "Limit current view to buffers in frames."
+    (:description "frame")
+    (memq buf (beframe--buffer-list))))
+</pre>
+</div>
 </div>
 </div>
 </div>
