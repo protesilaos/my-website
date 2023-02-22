@@ -6,7 +6,9 @@ excerpt: 'How to tweak Git to display Emacs Lisp function names or Org headings 
 **Update 2021-01-26 20:30 +0200:** Fixed link to dotfiles.  
 **Update 2021-01-27 13:55 +0200:** Tweaked Org regexp to avoid bold text at
 the beginning of the line.  
-**Update 2021-01-27 16:39 +0200:** Added Annex.
+**Update 2021-01-27 16:39 +0200:** Added Annex.  
+**Update 2023-02-22 20:47 +0200:** Hugo suggests to include the
+`#+title` keyword for Org.
 {:.info}
 
 Today I learnt how to instruct `git` to read the syntactically relevant
@@ -174,3 +176,16 @@ selected forms even when indented:
 
 I like the idea and am excited to see what else we can do with this and
 other "hidden gems" of Git.
+
+* * *
+
+Hugo contacted me in private to suggested the following variant for
+Org, which captures the `#+title` keyword (typically placed at the top
+of the file):
+
+```
+[diff "org"]
+   xfuncname = "^(\\*+ +.*|#\\+title:.*)$"
+```
+
+I am sharing this with Hugo's permission.
