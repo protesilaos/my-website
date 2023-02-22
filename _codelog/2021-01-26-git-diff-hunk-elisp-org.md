@@ -188,4 +188,11 @@ of the file):
    xfuncname = "^(\\*+ +.*|#\\+title:.*)$"
 ```
 
-I am sharing this with Hugo's permission.
+I am sharing this with Hugo's permission.  The relevant part from the
+message:
+
+> I read your article about informative git diff headers for lisp and org
+> files recently. It's great, but I noticed that changes in org files
+> which are not under a headline (i.e. changes in an introduction or
+> abstract written right at the beginning) have no informative header. I
+> found that matching the title worked quite well: [...]
