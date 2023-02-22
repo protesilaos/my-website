@@ -27,6 +27,376 @@ For further details, please consult these additional resources:
 <dt>Screenshots</dt><dd><a href="https://protesilaos.com/emacs/modus-themes-pictures">https://protesilaos.com/emacs/modus-themes-pictures</a></dd>
 </dl>
 
+<div id="outline-container-h:d028f117-8a74-4c0c-b838-9f6bf2b43c19" class="outline-2">
+<h2 id="h:d028f117-8a74-4c0c-b838-9f6bf2b43c19">4.1.0</h2>
+<div class="outline-text-2" id="text-h:d028f117-8a74-4c0c-b838-9f6bf2b43c19">
+</div>
+
+<div id="outline-container-h:262e2f5f-4db0-4549-a5ba-4e57cd2edc6a" class="outline-3">
+<h3 id="h:262e2f5f-4db0-4549-a5ba-4e57cd2edc6a">Recursive semantic colour mapping</h3>
+<div class="outline-text-3" id="text-h:262e2f5f-4db0-4549-a5ba-4e57cd2edc6a">
+<p>
+Version 4 of the Modus themes changed how all colour-related
+customisations are done.  Instead of multiple user options with
+hard-coded stylistic presets, users have access to a comprehensive
+system of "named colours" and "semantic colour mappings".  The former
+is an association between a name, like <code>blue-warmer</code>, and a colour
+value such as <code>#3548cf</code>.  While semantic colour mappings are
+associations between syntactic/interface constructs and named colours,
+such as what value level 2 headings have.
+</p>
+
+<p>
+When overriding the palette users can now define semantic colour
+mappings whose value is another such mapping.  This recursion
+simplifies how multiple overrides are defined.
+</p>
+
+<p>
+The manual offers extensive guidance on the topic of palette
+overrides.  There are many sections that include code samples that are
+ready for use.
+</p>
+
+<p>
+The addition of recursive semantic colour mappings solves a problem
+reported by Imran Khan on the mailing list where they were trying to
+do what made sense (recursion) but the old code did not permit as
+much:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3Cb7ca4702162fd575593f8ded28d9a888.contact%40imrankhan.live%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3Cb7ca4702162fd575593f8ded28d9a888.contact%40imrankhan.live%3E</a>.
+</p>
+
+<p>
+I was aware of that constraint from before the release of version
+4.0.0 but was hesitant to implement recursion prior to getting some
+feedback on the new palette overriding feature.
+</p>
+
+<p>
+Also thanks to Christian Tietze for participating in that discussion
+on the mailing list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:6ba1437f-e55f-4c3a-9c03-b0035293b4a2" class="outline-3">
+<h3 id="h:6ba1437f-e55f-4c3a-9c03-b0035293b4a2">Extract an arbitrary colour from a given theme's palette</h3>
+<div class="outline-text-3" id="text-h:6ba1437f-e55f-4c3a-9c03-b0035293b4a2">
+<p>
+I formalised the function <code>modus-themes-get-color-value</code> and
+documented it at length.  It accepts a <code>COLOR</code> argument, which
+represents an entry in the palette (named colour or semantic colour
+value), as well as optional <code>OVERRIDES</code> and <code>THEME</code> arguments.  When
+<code>OVERRIDES</code> is non-nil, <code>modus-themes-get-color-value</code> will read from
+the overrides, otherwise it will only consult the default palette
+value.  The <code>THEME</code> argument specifies which theme's palette to use.
+In the absence of <code>THEME</code>, the current one is used.
+</p>
+
+<p>
+I already had the "get colour" functionality internally, but was
+inspired to make it public after checking Sacha Chua's blog post
+"Making highlight-sexp follow modus-themes-toggle":
+<a href="https://sachachua.com/blog/2023/01/making-highlight-sexp-follow-modus-themes-toggle/">https://sachachua.com/blog/2023/01/making-highlight-sexp-follow-modus-themes-toggle/</a>.
+Sacha was using a private function from the themes, which would have
+been problematic if I would ever move things around.
+</p>
+
+<p>
+Remember to read the documentation of <code>modus-themes-list-colors</code>.
+That command shows a preview of the named colours.  When called with a
+prefix argument (<code>C-u</code> by default), it shows a preview of the semantic
+colour mappings.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:5af072da-38f6-44d0-9342-e799f0196006" class="outline-3">
+<h3 id="h:5af072da-38f6-44d0-9342-e799f0196006">Option to disable other themes while loading Modus</h3>
+<div class="outline-text-3" id="text-h:5af072da-38f6-44d0-9342-e799f0196006">
+<p>
+In the past, we used to disable all other themes while loading a Modus
+theme.  I revised this for version 4 because I learnt that some users
+use "themes" as bundles of arbitrary configurations.
+</p>
+
+<p>
+With the addition of the <code>modus-themes-disable-other-themes</code> user
+option, which is non-nil by default, I am restoring the old behaviour:
+when loading a Modus theme all other themes are disabled.
+</p>
+
+<p>
+This happens when the theme is loaded with the commands
+<code>modus-themes-toggle</code> and <code>modus-themes-select</code>, or via Lisp with the
+function <code>modus-themes-load-theme</code>.
+</p>
+
+<p>
+Users who need to run multiple themes can set this option to a nil
+value.  (Personally, I use minor modes for such stylistic bundles and
+never have to worry about <code>(mapc #'disable-theme custom-enabled-themes)</code>.)
+</p>
+
+<p>
+Thanks to Tony Zorman for the feedback on the mailing list, which led
+me to the introduction of this user option:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C874jtew0gp.fsf%40hyperspace%3E#%3C87bkne84d2.fsf@hyperspace%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C874jtew0gp.fsf%40hyperspace%3E#%3C87bkne84d2.fsf@hyperspace%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d43ef5cb-10dd-4c33-9429-2289a5fb2506" class="outline-3">
+<h3 id="h:d43ef5cb-10dd-4c33-9429-2289a5fb2506">Renamed the named colours for bg-{added,changed,removed}-intense</h3>
+<div class="outline-text-3" id="text-h:d43ef5cb-10dd-4c33-9429-2289a5fb2506">
+<p>
+They are now called <code>bg-added-fringe</code>, <code>bg-changed-fringe</code>,
+<code>bg-removed-fringe</code>.  Please update any palette overrides to reflect
+this renaming.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:220d4361-7245-4632-998e-c0e2ee3b5f7d" class="outline-3">
+<h3 id="h:220d4361-7245-4632-998e-c0e2ee3b5f7d">Documented how to override diffs for more optional combinations</h3>
+<div class="outline-text-3" id="text-h:220d4361-7245-4632-998e-c0e2ee3b5f7d">
+<p>
+The manual includes details (with copy-pastable code) on how to
+achieve foreground-only diffs and/or how to have red+blue diffs
+instead of the default red+green or the deuteranopia yellow+blue.
+</p>
+
+<p>
+Thanks to Andrew Tropin for requesting this feature.  We used to
+provide this style in earlier versions of the themes, but now it is
+much more flexible.  Andrew's request was done via a private channel
+and the information is shared with permission.
+</p>
+
+<p>
+[ Since we are here, also thanks to Andrew for keeping the Guix
+  package of the Modus themes up to date. ]
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:fdcff629-22c1-4203-9104-4f732c59f731" class="outline-3">
+<h3 id="h:fdcff629-22c1-4203-9104-4f732c59f731">Stylistic changes</h3>
+<div class="outline-text-3" id="text-h:fdcff629-22c1-4203-9104-4f732c59f731">
+<ul class="org-ul">
+<li><p>
+Guaranteed consistency between all of the line-related faces of the
+<code>consult</code> package.  We use the <code>shadow</code> face in all interfaces where
+line numbers are contextual information (Occur, Grep,&#x2026;).  With
+Consult, this was not the case for commands like <code>consult-line</code>.
+</p>
+
+<p>
+Thanks to Daniel Mendler (also known as @minad) for bringing this
+matter to my attention:
+<a href="https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E">https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E</a>.
+</p></li>
+
+<li>Refined all diff colours for fringes and reduced the saturation for
+added lines in <code>modus-operandi-deuteranopia</code>, <code>modus-vivendi-deuteranopia-theme</code>.
+Thanks to Andrew Tropin for showing me some usability issues with
+the previous styles.  This was done via a private channel and the
+information is shared with permission.</li>
+
+<li>Instructed the <code>dashboard</code> icons to retain their underlying colour.
+The default value of the <code>dashboard-items-face</code> made all icons use
+the same colour, detracting from their distinctiveness.  Thanks to
+Thanos Apollo for bringing this matter to my attention.  It was done
+via a private channel and the information is shared with permission.</li>
+
+<li>Amplified the intensity of the <code>#+begin_src</code> text when the user
+option opts for <code>(setq modus-themes-org-blocks 'gray-background)</code>.
+The text is now easier to discern.  That user option makes the
+inside of the block have a gray background and the begin/end lines
+to have a more intense gray, giving off a "blocky" impression.</li>
+
+<li>Made the <code>compilation-warning</code> face also inherit the
+<code>modus-themes-bold</code> face.  This means that it responds to the value
+of the user option <code>modus-themes-bold-constructs</code>, the same way the
+other compilation-related mode line faces do.  Thanks to Manuel
+Giraud for informing me about the inconsistency in
+<code>compilation-warning</code>.  This was done via a private channel and the
+information is shared with permission.</li>
+
+<li>Calibrated the hueness of the "nuanced" backgrounds in the
+<code>modus-operandi-tinted</code> and <code>modus-vivendi-tinted</code> themes.  These
+tweaks are necessary to retain thematic consistency.</li>
+
+<li>Reset <code>mu4e-header-highlight-face</code> to its intended style.  I made a
+mistake before: I did not want the <code>highlight</code> face to be used in
+this case as it is too intense.  Sorry!</li>
+
+<li>Toned down the highlight line of the <code>ctrlf</code> and <code>swiper</code> packages.
+I mistakenly used the <code>highlight</code> before, which is too intense for
+the purposes of an ancillary background colour.</li>
+
+<li>Applied "nuanced" backgrounds to the tinted Org blocks.  This fixes
+an error of mine where I amplified the background colouration of Org
+blocks.  This concerns the case where the user option
+<code>modus-themes-org-blocks</code> has a <code>tinted-background</code> value.  Thanks
+to Mark Bestley for informing me about this in issue 60 on the
+GitHub mirror:
+<a href="https://github.com/protesilaos/modus-themes/issues/60#issuecomment-1374530488">https://github.com/protesilaos/modus-themes/issues/60#issuecomment-1374530488</a>.</li>
+
+<li>Removed the hardcoding of the <code>italic</code> style in three faces, opting
+instead to make them subject to the user option <code>modus-themes-italic-constructs</code>.
+The faces are  <code>marginalia-documentation</code>, <code>markup-attribute-face</code>,
+and <code>org-agenda-calendar-sexp</code>.</li>
+
+<li>Tweaked the Org agenda deadline and today schedule to use a bold
+weight only when the user option <code>modus-themes-bold-constructs</code> is
+set to a non-nil value.  Thanks to Marko Kocic for reporting an
+issue that brought this matter to my attention:
+
+<ul class="org-ul">
+<li><a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C35588839.256749.1673272214728%40office.mailbox.org%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C35588839.256749.1673272214728%40office.mailbox.org%3E</a></li>
+<li><a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C874jszvk5g.fsf%40protesilaos.com%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C874jszvk5g.fsf%40protesilaos.com%3E</a></li>
+<li><a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C87ilhfu101.fsf%40protesilaos.com%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C87ilhfu101.fsf%40protesilaos.com%3E</a></li>
+</ul></li>
+
+<li>Enforced the main foreground colour in the faces <code>highlight</code> and
+<code>secondary-selection</code>.  This should have always been there to avoid
+awkward colour combinations.  I realised it was missing after
+corresponding with Edgar Vincent on a relevant topic:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C878ri95h1q.fsf%40posteo.net%3E#%3C87ilhc7usc.fsf@posteo.net%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C878ri95h1q.fsf%40posteo.net%3E#%3C87ilhc7usc.fsf@posteo.net%3E</a>.</li>
+
+<li>Made the <code>eglot-mode-line</code> face conditionally bold, by subjecting it
+to the user option <code>modus-themes-bold-constructs</code>.</li>
+
+<li>Ensure that the background of the <code>company</code> package's popup is the
+same as that of the <code>corfu</code> package.  This is a subtle neutral
+value.</li>
+
+<li>Fixed the hue of the <code>org-habit</code> "ready" faces.  It should be green
+and I made a mistake here.  The <code>modus-operandi-deuteranopia</code> and
+<code>modus-vivendi-deuteranopia</code> themes do change the underlying hues
+though, as green is not suitable for them.</li>
+
+<li>Simplified the <code>keycast</code> faces so that (i) they do not use a <code>:box</code>
+attribute that can look awkward in some cases and (ii) the name of
+the given command is not colourised to avoid exaggerations with the
+use of colour.</li>
+
+<li>Made the <code>powerline-active1</code> face inherit from <code>mode-line</code> instead
+of <code>mode-line-active</code>.  The latter only exists in newer versions of
+Emacs and we do not want to make the themes break in older versions.
+Thanks to TitusMu for identifying this and reporting it in issue 64 on
+the GitHub mirror: <a href="https://github.com/protesilaos/modus-themes/issues/64">https://github.com/protesilaos/modus-themes/issues/64</a>.</li>
+
+<li>Decoupled all <code>ediff</code> faces from their <code>diff-mode</code> counterparts.
+Ediff does not depend on <code>diff-mode</code>, so we want to make each set of
+faces stand on its own.  Thanks to Bernd Rellermeyer for pointing
+out this implicit dependency in issue 68 on the GitHub mirror:
+<a href="https://github.com/protesilaos/modus-themes/issues/68">https://github.com/protesilaos/modus-themes/issues/68</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:14d1f1b0-00e0-4275-a06c-9e34daf6411a" class="outline-3">
+<h3 id="h:14d1f1b0-00e0-4275-a06c-9e34daf6411a">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:14d1f1b0-00e0-4275-a06c-9e34daf6411a">
+<ul class="org-ul">
+<li>Improved the clarity and robustness of the code that does the work
+of <code>modus-themes-list-colors</code>.</li>
+
+<li>Refined the colour value of the <code>blue-warmer</code> named colour for all
+the light themes.  It is a tiny bit darker than before.</li>
+
+<li>Introduced a <code>t</code> fallback value for the user option
+<code>modus-themes-completions</code>.  It makes it easier to apply the same
+styles for the selection line and matching characters.</li>
+
+<li>Documented how to not extend the active region background.</li>
+
+<li>Explained how to make tabs more or less colourful by using palette
+overrides.</li>
+
+<li>Removed obsolete and redundant statements from the documentation the
+user option <code>modus-themes-completions</code>.  There was (i) an outdated
+reference to the <code>background</code> value, which is no longer supported,
+and (ii) a statement about the standard Completions' buffer that was
+not useful.  Thanks to Rudolf Adamkovič for informing me about this:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3Cm2tu1211qz.fsf%40me.com%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3Cm2tu1211qz.fsf%40me.com%3E</a>.</li>
+
+<li>Rephrase the statement <code>"*Completions* buffer"</code> in the documentation
+in the interest of clarity.  Thanks to Rudolf Adamkovič for the
+suggestion:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3Cm2tu1211qz.fsf%40me.com%3E#%3Cm2eds43htz.fsf@me.com%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3Cm2tu1211qz.fsf%40me.com%3E#%3Cm2eds43htz.fsf@me.com%3E</a>.</li>
+
+<li><p>
+Updated the sample configuration of the themes with <code>use-package</code> in
+the interest of simplicity.  Thanks to Sergey Nichiporchik for the
+contribution.  Sergey's contribution is within the ~15 line limit
+and thus does not require copyright assignment to the Free Software
+Foundation.
+</p>
+
+<p>
+This was done in merge request 59 on the GitLab mirror:
+<a href="https://gitlab.com/protesilaos/modus-themes/-/merge_requests/59">https://gitlab.com/protesilaos/modus-themes/-/merge_requests/59</a>.
+</p>
+
+<p>
+The prepatory discussion took place in issue 310 on the same mirror:
+<a href="https://gitlab.com/protesilaos/modus-themes/-/issues/310">https://gitlab.com/protesilaos/modus-themes/-/issues/310</a>.
+</p>
+
+<p>
+Weeks later I further simplified the relevant samples for the sake
+of uniformity with the generic package setup.  Thanks to Zoltan
+Kiraly for informing me about the fact that the <code>:bind</code> keyword
+delays the load of the package until the given command is invoked:
+<a href="https://github.com/protesilaos/modus-themes/pull/67">https://github.com/protesilaos/modus-themes/pull/67</a>.
+</p>
+
+<p>
+Streamlining the configuration makes it easier for me to propose one
+set of basic configurations without the need to know what a
+configuration macro is doing behind the scenes.
+</p></li>
+
+<li>Fixed an example colour in the documentation.  Thanks to Russell Sim
+for spotting the error of me using <code>bg-blue</code> instead of
+<code>bg-blue-intense</code>:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3Cyger0wa9gsn.fsf%40simopolis.xyz%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3Cyger0wa9gsn.fsf%40simopolis.xyz%3E</a>.</li>
+
+<li>Defined the missing <code>modus-themes-nuanced-{red,green,yellow,blue,magenta,cyan}</code> faces.
+Those are used internally to avoid repetition, though users can also
+rely on them for their personal configurations (same for all other
+Modus faces).</li>
+
+<li>Improved the documentation on how to have a borderless mode line
+style by using the palette overrides.</li>
+
+<li>Updated the manual's entry on the <code>pdf-tools</code> backdrop to make it
+use the new conventions that have been in place since version 4 of
+the themes.  Thanks to Utkarsh Singh for the patches:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/patches/37902">https://lists.sr.ht/~protesilaos/modus-themes/patches/37902</a>.</li>
+
+<li>Add an explicit notice that the version of the themes that is built
+into Emacs must use the <code>require-theme</code> function instead of the
+familiar <code>require</code>.  Built-in themes are not considered "code", due
+to old conventions, and are not part of the <code>load-path</code> that
+<code>require</code> reads from.  This is not up to the theme to decide.
+Interested users must simply know about this important technicality.
+Thanks to Koen van Greevenbroek for reporting the problem that
+helped me identify this issue:
+<a href="https://lists.sr.ht/~protesilaos/modus-themes/%3C31038fd76868fa3d07c9a429dfed8fd6ac374bb8.camel%40posteo.net%3E">https://lists.sr.ht/~protesilaos/modus-themes/%3C31038fd76868fa3d07c9a429dfed8fd6ac374bb8.camel%40posteo.net%3E</a>.</li>
+
+<li>Clarified the wording of the <code>modus-themes-with-colors</code> setup for
+custom faces.  It explains when this macro should be called.  Thanks
+to user bangedorrunt for the feedback in issue 59 on the GitHub
+mirror: <a href="https://github.com/protesilaos/modus-themes/issues/59">https://github.com/protesilaos/modus-themes/issues/59</a>.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:cd353ccc-daf5-4ee5-885a-b3f21be92b66" class="outline-2">
 <h2 id="h:cd353ccc-daf5-4ee5-885a-b3f21be92b66">4.0.0</h2>
 <div class="outline-text-2" id="text-h:cd353ccc-daf5-4ee5-885a-b3f21be92b66">
@@ -1054,7 +1424,7 @@ Miscellaneous
 
   These prompts are consistent with how 'load-theme' works, but not
   with what the user of 'modus-themes-toggle' has come to expect.
-  
+
   Users who do not like to maintain a 'custom-file' (like me) are thus
   penalised each time they invoke the command.
 
@@ -2289,13 +2659,13 @@ Changes to supported faces or packages
 * Improved the colours used by 'avy' to always guarantee constrast in
   hueness between side-by-side characters with a variety of user
   settings.  I tried various styles, such as:
-      
+
       (setq avy-style 'pre)
       (setq avy-style 'at-full)
 
   For the sake of completeness, I also ran tests by modifying the
   'avy-lead-faces' (which is a 'defconst', not a 'defcustom'):
-      
+
       (setq avy-lead-faces
             '(avy-lead-face
               avy-lead-face-0
@@ -2322,7 +2692,7 @@ Changes to supported faces or packages
   Avy styles.  Thanks to Daniel Mendler (Vertico's developer) for the
   reminder:
   &lt;https://gitlab.com/protesilaos/modus-themes/-/commit/404a9658196debdde95a51148fc62c5b2faccfb9#note_856454659&gt;.
-  
+
 * Applied warmer though still not saturated colours for Org clocking
   overlays.  The previous style could be mistaken for a mouse highlight
   or the highlighted line if 'modus-themes-hl-line' included the
