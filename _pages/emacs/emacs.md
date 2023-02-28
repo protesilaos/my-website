@@ -98,6 +98,7 @@ interfaces by supporting a large number of packages.
 + Package name (GNU ELPA): `standard-themes`
 + Official manual: <https://protesilaos.com/emacs/standard-themes>
 + Change log: <https://protesilaos.com/emacs/standard-themes-changelog>
++ Sample pictures: <https://protesilaos.com/emacs/standard-themes-pictures>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/standard-themes>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/standard-themes>
