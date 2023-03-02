@@ -64,13 +64,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">5.2. Integration with Ibuffer</a></li>
 </ul>
 </li>
-<li><a href="#h:06177a5c-be37-4722-b18b-ecbcffe5816d">6. COPYING</a></li>
-<li><a href="#h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">7. GNU Free Documentation License</a></li>
-<li><a href="#h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">8. Indices</a>
+<li><a href="#h:809bde28-beeb-473f-99b0-0116da23b03e">6. Acknowledgements</a></li>
+<li><a href="#h:06177a5c-be37-4722-b18b-ecbcffe5816d">7. COPYING</a></li>
+<li><a href="#h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">8. GNU Free Documentation License</a></li>
+<li><a href="#h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">9. Indices</a>
 <ul>
-<li><a href="#h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">8.1. Function index</a></li>
-<li><a href="#h:1ac097c0-4826-4a57-a80b-e6151636a161">8.2. Variable index</a></li>
-<li><a href="#h:fa918b9e-98a0-403e-8e98-577119f00a23">8.3. Concept index</a></li>
+<li><a href="#h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">9.1. Function index</a></li>
+<li><a href="#h:1ac097c0-4826-4a57-a80b-e6151636a161">9.2. Variable index</a></li>
+<li><a href="#h:fa918b9e-98a0-403e-8e98-577119f00a23">9.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -84,7 +85,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <code>beframe</code> enables a frame-oriented Emacs workflow where each frame has
 access to the list of buffers visited therein.  In the interest of
 brevity, we call buffers that belong to frames &ldquo;beframed&rdquo;.  Beframing
-is achieved in two main ways:
+is achieved in three main ways:
 </p>
 
 <ol class="org-ol">
@@ -98,6 +99,15 @@ limited to those that the current frame knows about.</li>
 <code>read-buffer-function</code> to one that filters buffers per frame.  As
 such, commands like <code>switch-to-buffer</code>, <code>next-buffer</code>, and
 <code>previous-buffer</code> automatically work in a beframed way.</li>
+</ol>
+
+<ol class="org-ol">
+<li>The command <code>beframe-buffer-menu</code> produces a dedicated buffer with
+a list of buffers for the current frame.  This is the counterpart
+of <code>beframe-switch-buffer</code>.  When called with a prefix argument
+(<code>C-u</code> with default key bindings), it prompts for a frame whose
+buffers it will display.  [ <code>beframe-buffer-menu</code> is part of
+0.2.0-dev. ]</li>
 </ol>
 
 <p>
@@ -136,6 +146,18 @@ The user option <code>beframe-kill-frame-scratch-buffer</code> is the counterpar
 of <code>beframe-create-frame-scratch-buffer</code>.  It kills the frame-specific
 scratch buffer after the frame is deleted.  Set this user option to
 <code>nil</code> to disable the killing of such buffers.
+</p>
+
+<p>
+The command <code>beframe-assume-frame-buffers</code> (alias
+<code>beframe-add-frame-buffers</code>) prompts for a frame and then copies its
+buffer list into the current frame.
+</p>
+
+<p>
+The command <code>beframe-unassume-frame-buffers</code> (alias
+<code>beframe-remove-frame-buffers</code>) prompts for a frame and then removes
+its buffer list from the current frame.
 </p>
 </div>
 </div>
@@ -291,6 +313,11 @@ Everything is in place to set up the package.
 ;; do not need this command if you enable `beframe-mode', as
 ;; `switch-to-buffer' only shows a list of beframed buffers.
 (define-key global-map (kbd "C-x B") #'beframe-switch-buffer)
+
+;; Replace the generic `buffer-menu'.  With a prefix argument, this
+;; commands prompts for a frame.  Call the `buffer-menu' via M-x if
+;; you absolutely need the global list of buffers.
+(define-key global-map (kbd "C-x C-b") #'beframe-buffer-menu)
 </pre>
 </div>
 </div>
@@ -377,8 +404,24 @@ works:
 </div>
 </div>
 
+<div id="outline-container-h:809bde28-beeb-473f-99b0-0116da23b03e" class="outline-2">
+<h2 id="h:809bde28-beeb-473f-99b0-0116da23b03e"><span class="section-number-2">6.</span> Acknowledgements</h2>
+<div class="outline-text-2" id="text-h:809bde28-beeb-473f-99b0-0116da23b03e">
+<p>
+Beframe is meant to be a collective effort.  Every bit of help
+matters.
+</p>
+
+<dl class="org-dl">
+<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+
+<dt>Ideas and/or user feedback</dt><dd>Karan Ahlawat, Karthik Chikmagalur.</dd>
+</dl>
+</div>
+</div>
+
 <div id="outline-container-h:06177a5c-be37-4722-b18b-ecbcffe5816d" class="outline-2">
-<h2 id="h:06177a5c-be37-4722-b18b-ecbcffe5816d"><span class="section-number-2">6.</span> COPYING</h2>
+<h2 id="h:06177a5c-be37-4722-b18b-ecbcffe5816d"><span class="section-number-2">7.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:06177a5c-be37-4722-b18b-ecbcffe5816d">
 <p>
 Copyright (C) 2023  Free Software Foundation, Inc.
@@ -403,7 +446,7 @@ modify this GNU manual.”
 </div>
 
 <div id="outline-container-h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8" class="outline-2">
-<h2 id="h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
+<h2 id="h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8"><span class="section-number-2">8.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">
 <pre>
 
@@ -864,24 +907,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0" class="outline-2">
-<h2 id="h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0"><span class="section-number-2">8.</span> Indices</h2>
+<h2 id="h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0"><span class="section-number-2">9.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">
 </div>
 
 <div id="outline-container-h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd" class="outline-3">
-<h3 id="h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd"><span class="section-number-3">8.1.</span> Function index</h3>
+<h3 id="h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd"><span class="section-number-3">9.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">
 </div>
 </div>
 
 <div id="outline-container-h:1ac097c0-4826-4a57-a80b-e6151636a161" class="outline-3">
-<h3 id="h:1ac097c0-4826-4a57-a80b-e6151636a161"><span class="section-number-3">8.2.</span> Variable index</h3>
+<h3 id="h:1ac097c0-4826-4a57-a80b-e6151636a161"><span class="section-number-3">9.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:1ac097c0-4826-4a57-a80b-e6151636a161">
 </div>
 </div>
 
 <div id="outline-container-h:fa918b9e-98a0-403e-8e98-577119f00a23" class="outline-3">
-<h3 id="h:fa918b9e-98a0-403e-8e98-577119f00a23"><span class="section-number-3">8.3.</span> Concept index</h3>
+<h3 id="h:fa918b9e-98a0-403e-8e98-577119f00a23"><span class="section-number-3">9.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:fa918b9e-98a0-403e-8e98-577119f00a23">
 -->
 </div>
