@@ -3,6 +3,7 @@ title: "Emacs: 'beframe' package demo"
 excerpt: "Video demonstration of my new 'beframe' package for Emacs. It helps me isolate buffers on a per-frame basis."
 layout: vlog
 mediaid: "SYEBbHmOkFY"
+redirect_from: /codelog/2023-02-28=emacs-beframe-demo/
 ---
 
 In this video I showcase my new package for Emacs.  `beframe` enables
