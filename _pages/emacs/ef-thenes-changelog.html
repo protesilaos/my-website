@@ -15,6 +15,379 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/ef-themes">https://protesilaos.com/emacs/ef-themes</a>.
 </p>
 
+<div id="outline-container-org3905ac9" class="outline-2">
+<h2 id="org3905ac9">Version 0.11.0 on 2023-03-13</h2>
+<div class="outline-text-2" id="text-org3905ac9">
+</div>
+<div id="outline-container-org8bd24dc" class="outline-3">
+<h3 id="org8bd24dc">New options to override the colour palette</h3>
+<div class="outline-text-3" id="text-org8bd24dc">
+<p>
+It is now possible to tweak the colour values of each theme's palette
+and to change how named colours are mapped to semantic constructs.
+Concretely, each theme's palette consists of two subsets: (i) named
+colours that associate an arbitrary symbol, like <code>blue-warmer</code> to a
+colour value such as <code>#5250ef</code>, and (ii) semantic colour mappings that
+assign a named colour to constructs like <code>date-weekend</code>.
+</p>
+
+<p>
+[ For a video demo of the same idea that I implemented in the
+  <code>modus-themes</code>, check <i>mutatis mutandis</i>:
+  <a href="https://protesilaos.com/codelog/2022-12-17-modus-themes-v4-demo/">https://protesilaos.com/codelog/2022-12-17-modus-themes-v4-demo/</a>. ]
+</p>
+
+<p>
+The feature is not as fully fledged as in my <code>modus-themes</code> because
+the latter have a broader scope than the <code>ef-themes</code>.  Still, it is
+comprehensive and will likely cover the needs of users who want to
+tinker with colours.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a22f74" class="outline-3">
+<h3 id="org7a22f74">The "preview palette" commands have new aliases</h3>
+<div class="outline-text-3" id="text-org7a22f74">
+<p>
+The command <code>ef-themes-preview-colors</code> can now also be called with
+<code>ef-themes-list-colors</code>.  Same for <code>ef-themes-preview-colors-current</code>
+which is also known as <code>ef-themes-list-colors-current</code>.
+</p>
+
+<p>
+These new names make it easier to "preview" or "list" the given
+palette entries.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfda48c1" class="outline-3">
+<h3 id="orgfda48c1">Palette preview commands can show semantic colour mappings</h3>
+<div class="outline-text-3" id="text-orgfda48c1">
+<p>
+When called with a prefix argument (<code>C-u</code> with default key bindings),
+the commands <code>ef-themes-preview-colors</code>, <code>ef-themes-preview-colors-current</code>
+will produce a buffer with the mappings specified in the given palette
+and in user-defined overrides.  Whereas their normal behaviour without
+the prefix argument is to list all the named colours.
+</p>
+
+<p>
+In this context, "named colours" are associations between a symbol and
+a colour value like <code>(blue-warmer "#5250ef")</code>, whereas "semantic
+colour mappings" describe associations between an abstract construct
+of the interface and a named colour, such as <code>(variable blue-warmer)</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2c578e" class="outline-3">
+<h3 id="orge2c578e">Automatically disable other themes when loading an Ef theme</h3>
+<div class="outline-text-3" id="text-orge2c578e">
+<p>
+The user option <code>ef-themes-disable-other-themes</code> makes the commands
+that load an Ef theme run <code>disable-theme</code> on anything that is not part
+of the collection.  These commands are <code>ef-themes-select</code>,
+<code>ef-themes-toggle</code>, <code>ef-themes-load-random</code>.
+</p>
+
+<p>
+The user option is enabled by default.  The reason is that Emacs will
+blithely blend multiple themes that a user loads, leading to a design
+that ranges from mildly annoying to outright unusable.  It is a bad
+default behaviour that hinders accessibility.
+</p>
+
+<p>
+Expert users who know what they are doing when blending themes can
+simply disable this user option (or not use the Ef commands for
+loading a theme).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4bf03a4" class="outline-3">
+<h3 id="org4bf03a4">Stylistic changes</h3>
+<div class="outline-text-3" id="text-org4bf03a4">
+</div>
+<div id="outline-container-org1a95d81" class="outline-4">
+<h4 id="org1a95d81">Refined deuteranopia warning colours</h4>
+<div class="outline-text-4" id="text-org1a95d81">
+<p>
+[ "Deuteranopia" is the technical term for red-green colour deficiency. ]
+</p>
+
+<p>
+This concerns the themes <code>ef-deuteranopia-dark</code> and
+<code>ef-deuteranopia-light</code>.  The slightly adjusted colours help further
+differentiate certain constructs in various contexts, such as the Org
+agenda buffer where <code>SCHEDULED</code> and <code>DEADLINE</code> items need to be told
+apart.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6755732" class="outline-4">
+<h4 id="org6755732">Implemented appropriate colour-coded foregrounds in Magit/diff-mode</h4>
+<div class="outline-text-4" id="text-org6755732">
+<p>
+<code>diff-mode</code> and Magit diff buffers now affect the text colour of the
+added/removed/changed lines to improve their usability.  Before, the
+combination was of a colour-coded background with the main foreground,
+which could make it a bit harder to track lines.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5065a19" class="outline-4">
+<h4 id="org5065a19">Removed the bold weight from Magit diff hunk headings</h4>
+<div class="outline-text-4" id="text-org5065a19">
+<p>
+Inactive diff hunk headings do not need to be bold, as they are
+already easy to tell apart from their context.  The added bold is
+useful for the currently selected diff hunk, as it draws attention to
+it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04ac77a" class="outline-4">
+<h4 id="org04ac77a">Revised all mail-related semantic colour mappings</h4>
+<div class="outline-text-4" id="text-org04ac77a">
+<p>
+Buffers such as those of viewing messages with Notmuch, Mu4e, Gnus
+have more appropriate colour combinations in the interest of avoiding
+exaggerations.  Same for the message composition buffers (e.g. what we
+get with the <code>compose-mail</code> command and its email-client-specific
+counterparts).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9bb0b44" class="outline-4">
+<h4 id="org9bb0b44">The background of Notmuch message headers is more noticeable</h4>
+<div class="outline-text-4" id="text-org9bb0b44">
+<p>
+The <code>notmuch</code> email client for Emacs has a thread-based view of
+messages where each email starts with its own header.  The slightly
+more noticeable background makes it easier to discern where a new
+message starts.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2dd0ad5" class="outline-4">
+<h4 id="org2dd0ad5">Added support for the powerline package</h4>
+<div class="outline-text-4" id="text-org2dd0ad5">
+<p>
+I added support for this package because other packages depend on it.
+Note though that I have encountered visual glitches with <code>powerline</code>.
+Those occur while switching themes and require a re-run of the
+Powerline setup with <code>M-x powerline-reset</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf058838" class="outline-4">
+<h4 id="orgf058838">Removed the background colour from <code>consult</code> lines</h4>
+<div class="outline-text-4" id="text-orgf058838">
+<p>
+The default value of <code>consult-line-number-prefix</code> inherits from the
+<code>line-number</code> face.  The Ef themes make the latter inherit from
+<code>default</code> in order to have the lines increase/decrease in font size
+when the user calls the <code>text-scale-adjust</code> command.  This arrangement
+meant that Consult was implicitly getting the main background which
+caused commands like <code>consult-line</code> to not be highlighted from their
+absolute beginning but only after the line number.
+</p>
+
+<p>
+Thanks to Daniel Mendler for bringing this matter to my attention:
+<a href="https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E">https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbef100c" class="outline-4">
+<h4 id="orgbef100c">Defined <code>consult-file</code> to look the same as file names in Grep buffers</h4>
+<div class="outline-text-4" id="text-orgbef100c">
+<p>
+This face is used when the user option <code>vertico-group-format</code> is set
+to nil.  With this change, we keep things consistent in the common
+workflow of using <code>consult-grep</code> and exporting to a grep buffer via
+<code>embark-export</code>.  The packages involved are <code>vertico</code>, <code>consult</code>,
+<code>embark</code>.
+</p>
+
+<p>
+Thanks to Daniel Mendler for bringing this matter to my attention:
+<a href="https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E#%3C37f01118-1102-d0a9-ce8d-5101f3d44679@daniel-mendler.de%3E">https://lists.sr.ht/~protesilaos/ef-themes/%3Cb03413a6-cb77-615d-145d-db4eb710bfca%40daniel-mendler.de%3E#%3C37f01118-1102-d0a9-ce8d-5101f3d44679@daniel-mendler.de%3E</a>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga09e5f3" class="outline-4">
+<h4 id="orga09e5f3">Made <code>eglot-diagnostic-tag-unnecessary-face</code> a warning</h4>
+<div class="outline-text-4" id="text-orga09e5f3">
+<p>
+By default it inherits the <code>shadow</code> face, which makes it
+counter-intuitive as it dims the text instead of bringing it to our
+attention.  The intent of <code>eglot-diagnostic-tag-unnecessary-face</code> is
+to highlight unused symbols, so this is better presented as an
+informational warning.
+</p>
+
+<p>
+Thanks to Augusto Stoffel for bringing this matter to my attention.
+This was done via a private channel and the information is shared with
+permission.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc18b8c1" class="outline-4">
+<h4 id="orgc18b8c1">Configured <code>dashboard</code> icons to retain their underlying colour</h4>
+<div class="outline-text-4" id="text-orgc18b8c1">
+<p>
+The default value of the <code>dashboard-items-face</code> made all icons use the
+same colour, detracting from their distinctiveness.  Thanks to Thanos
+Apollo for bringing this matter to my attention.  It was done via a
+private channel and the information is shared with permission.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org59da0c6" class="outline-4">
+<h4 id="org59da0c6">Removed the bold weight from Org agenda deadline/scheduled</h4>
+<div class="outline-text-4" id="text-org59da0c6">
+<p>
+This makes agenda buffers less noisy.  The original intent was to
+differentiate current/imminent from past/future items, though I feel
+that was the wrong design.  We first want to deal with current tasks
+and do not want to feel overwhelmed by the design.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge23c48c" class="outline-4">
+<h4 id="orge23c48c">Removed the bold weight from regular expression constructs</h4>
+<div class="outline-text-4" id="text-orge23c48c">
+<p>
+This was used for escaped parentheses and the like.  It was making
+certain strings harder to read, such as:
+</p>
+
+<pre class="example" id="org5e96f58">
+"\\(?:\\.\\(?:m\\(?:kv\\|p4\\)\\|ogg\\|webm\\)\\)"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb682caa" class="outline-4">
+<h4 id="orgb682caa">Retrieve any colour value from the palette</h4>
+<div class="outline-text-4" id="text-orgb682caa">
+<p>
+[ This is for do-it-yourself users who need to apply colours in custom
+  code they maintain.  As such, it is a bit technical.  Skip to the
+  next heading if you are not such a user. ]
+</p>
+
+<p>
+The fuction <code>ef-themes-get-color-value</code> can be called from Lisp to
+return the value of a color from the active Ef theme palette.  It
+takea a <code>COLOR</code> argument and an optional <code>OVERRIDES</code>.
+</p>
+
+<p>
+<code>COLOR</code> is a symbol that represents a named color entry in the
+palette.
+</p>
+
+<p>
+<a href="https://protesilaos.com/emacs/ef-themes#h:8dd67bf5-879e-46e5-b277-5bac141f53d1">https://protesilaos.com/emacs/ef-themes#h:8dd67bf5-879e-46e5-b277-5bac141f53d1</a>
+</p>
+
+<p>
+If the value is the name of another color entry in the palette (so a
+mapping), this function recurs until it finds the underlying color
+value.
+</p>
+
+<p>
+With an optional <code>OVERRIDES</code> argument as a non-nil value, it accounts
+for palette overrides.  Else it reads only the default palette.
+</p>
+
+<p>
+<a href="https://protesilaos.com/emacs/ef-themes#h:4b923795-4b23-4345-81e5-d1c108a84b6a">https://protesilaos.com/emacs/ef-themes#h:4b923795-4b23-4345-81e5-d1c108a84b6a</a>
+</p>
+
+<p>
+With optional <code>THEME</code> as a symbol among <code>ef-themes-collection</code>, use
+the palette of that item.  Else use the current Ef theme.
+</p>
+
+<p>
+If <code>COLOR</code> is not present in the palette, this function returns the
+<code>unspecified</code> symbol, which is safe when used as a face attribute's
+value.
+</p>
+
+<p>
+An example with <code>ef-summer</code> to show how this function behaves
+with/without overrides and when recursive mappings are introduced.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Here we show the recursion of palette mappings.  In general, it is
+;; better for the user to specify named colors to avoid possible
+;; confusion with their configuration, though those still work as
+;; expected.
+(setq ef-themes-common-palette-overrides
+      '((cursor red)
+        (prompt cursor)
+        (variable prompt)))
+
+;; Ignore the overrides and get the original value.
+(ef-themes-get-color-value 'variable)
+;; =&gt; "#5250ef"
+
+;; Read from the overrides and deal with any recursion to find the
+;; underlying value.
+(ef-themes-get-color-value 'variable :overrides)
+;; =&gt; "#d3303a"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org40a6c18" class="outline-4">
+<h4 id="org40a6c18">Miscellaneous</h4>
+<div class="outline-text-4" id="text-org40a6c18">
+<ul class="org-ul">
+<li>Recalibrated the mouse hover background of the <code>ef-frost</code> theme to
+stand out a bit more than before.  This is a minor usability
+enhancement.</li>
+
+<li>Revised the <code>keycast-key</code> face for easier use and thematic
+consistency.  It has a faint border around it but is otherwise
+consistent with what was present before.</li>
+
+<li>Improved how the palette preview is rendered.</li>
+
+<li>Made several internal tweaks that keep the code clean and reusable.</li>
+
+<li>Clarified the wording of various statements in the manual.</li>
+
+<li>Expanded the outline headings of all theme files.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:763e6cf6-78b4-43a0-a582-7b00ce9210cc" class="outline-2">
 <h2 id="h:763e6cf6-78b4-43a0-a582-7b00ce9210cc">Version 0.10.0 on 2022-12-02</h2>
 <div class="outline-text-2" id="text-h:763e6cf6-78b4-43a0-a582-7b00ce9210cc">
@@ -719,7 +1092,7 @@ plans with the <code>ef-themes</code> and how maintainable the project is:
 <a href="https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html">https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html</a>.
 </p>
 
-<pre class="example" id="org4acf4b6">
+<pre class="example" id="org147f926">
 From: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 To: Philip Kaludercic &lt;philipk@posteo.net&gt;, emacs-devel@gnu.org
 Subject: Re: [elpa] externals/ef-themes b6fc326946: Add ef-bio theme

@@ -81,7 +81,7 @@ designed by me).
     + GitHub: <https://github.com/protesilaos/ef-themes>
     + GitLab: <https://gitlab.com/protesilaos/ef-themes>
 + Mailing list: <https://lists.sr.ht/~protesilaos/ef-themes>
-+ Backronym: Extremely Fatigued of Themes Having Exaggerated Markings,
++ Backronym: Extremely Fatigued by Themes Having Exaggerated Markings,
   Embellishments, and Sparkles.
 
 ## Standard themes
