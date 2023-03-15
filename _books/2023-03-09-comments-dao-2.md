@@ -1,5 +1,5 @@
 ---
-title: "Comments on Dao #2"
+title: "Comments on Dao #2 (on moderation and the Delphic maxims)"
 excerpt: "A work on philosophy by Protesilaos Stavrou about Dao De Jing by Lao Zi.  Episode 2 in the series."
 layout: vlog
 mediaid: "xYDE3X6QyGg"
@@ -11,7 +11,7 @@ the book and is concerned with understanding the extremes and
 interconnectedness, dealing with uncertainty, maintaining the right
 disposition in life, and behaving in moderation.
 
-The previous episode is "Comments on Dao #1":
+The previous episode is "Comments on Dao #1 (Cosmos, Logos, Tropos)":
 <https://protesilaos.com/books/2023-03-06-comments-dao-1/>
 
 I also mentioned my video "Comfort zone and impostor feelings":

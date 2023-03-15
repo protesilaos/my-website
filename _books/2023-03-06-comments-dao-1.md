@@ -1,5 +1,5 @@
 ---
-title: "Comments on Dao #1"
+title: "Comments on Dao #1 (Cosmos, Logos, Tropos)"
 excerpt: "A work on philosophy by Protesilaos Stavrou about Dao De Jing by Lao Zi.  Episode 1 in the series."
 layout: vlog
 mediaid: "c2yw6HQNj_Y"
