@@ -20,7 +20,7 @@ commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.3.0-dev.
+Current development target is 2.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -294,10 +294,16 @@ Obligations, Tasks, and Engagements.
 <div class="outline-text-2" id="text-h:17896c8c-d97a-4faa-abf6-31df99746ca6">
 <p>
 There are five ways to write a note with Denote: invoke the <code>denote</code>,
-<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>, <code>denote-template</code>
-commands, or leverage the <code>org-capture-templates</code> by setting up a
-template which calls the function <code>denote-org-capture</code>.  We explain all
-of those in the subsequent sections.
+<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>,
+<code>denote-template</code>, <code>denote-signature</code> commands, or leverage the
+<code>org-capture-templates</code> by setting up a template which calls the
+function <code>denote-org-capture</code>.  We explain all of those in the
+subsequent sections.
+</p>
+
+<p>
+[ The <code>denote-signature</code> and related are part of
+2.0.0-dev. ]
 </p>
 </div>
 
@@ -397,6 +403,16 @@ like 2022-06-16 or a date plus time: 2022-06-16 14:30.  Without the
 <li><code>template</code>: Prompts for a KEY among the <code>denote-templates</code>.  The value
 of that KEY is used to populate the new note with content, which is
 added after the front matter (<a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">The denote-templates option</a>).</li>
+
+<li><code>signature</code>: - Prompts for an arbitrary string that can be used to
+establish a sequential relationship between files (e.g. 1, 1a, 1b,
+1b1, 1b2, &#x2026;).  Signatures have no strictly defined function and
+are up to the user to apply as they see fit.  One use-case is to
+implement Niklas Luhmann&rsquo;s Zettelkasten system for a sequence of
+notes (Folgezettel).  Signatures are not included in a file&rsquo;s front
+matter and are not shown in the description of a link.  They are
+reserved solely for creating a sequence in a file listing, at least
+for the time being. [Part of 2.0.0-dev.]</li>
 </ul>
 
 <p>
@@ -441,8 +457,9 @@ Finally, this user option only affects the interactive use of the
 <code>denote</code> command (advanced users can call it from Lisp).  For ad-hoc
 interactive actions that do not change the default behaviour of the
 <code>denote</code> command, users can invoke these convenience commands:
-<code>denote-type</code>, <code>denote-subdirectory</code>, <code>denote-date</code>.  They are described
-in the subsequent section (<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).
+<code>denote-type</code>, <code>denote-subdirectory</code>, <code>denote-date</code>,
+<code>denote-signature</code>.  They are described in the subsequent section
+(<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).
 </p>
 </div>
 </div>
@@ -624,6 +641,22 @@ set to <code>'(template title keywords)</code>.
 <p>
 The <code>denote-create-note-with-template</code> is an alias of the command
 <code>denote-template</code>, meant to help with discoverability.
+</p></dd>
+
+<dt>Create note with a signature</dt><dd><p>
+The <code>denote-signature</code> command first
+prompts for an arbitrary string to use in the optional <code>SIGNATURE</code>
+field of the file name and then asks for a title and keywords.
+Signatures are arbitrary strings of alphanumeric characters which
+can be used to establish sequential relations between file at the
+level of their file name (e.g. 1, 1a, 1b, 1b1, 1b2, &#x2026;). [Part of
+2.0.0-dev.]
+</p>
+
+<p>
+The <code>denote-create-note-using-signature</code> is an alias of the command
+<code>denote-signature</code> intended to make the functionality more
+discoverable. [Also part of 2.0.0-dev.]
 </p></dd>
 </dl>
 </div>
@@ -817,7 +850,7 @@ the <code>denote-org-capture-specifiers</code>.
 <h3 id="h:95b78582-9086-47e8-967f-62373e2369a0"><span class="section-number-3">3.3.</span> Create note with specific prompts using Org capture</h3>
 <div class="outline-text-3" id="text-h:95b78582-9086-47e8-967f-62373e2369a0">
 <p>
-[ Part of 1.3.0-dev. ]
+[ Part of 2.0.0-dev. ]
 </p>
 
 <p>
@@ -975,7 +1008,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org36efd22">
+<pre class="example" id="orge80712f">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1292,7 +1325,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orga2ecf29">
+<pre class="example" id="orgb4b85a3">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1389,7 +1422,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org7e8e601">
+<pre class="example" id="orgb4d285d">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1409,7 +1442,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgbbabbd0">
+<pre class="example" id="orgfa36f52">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1498,7 +1531,7 @@ respective front matter.
 <h3 id="h:85b65995-89fd-4978-bba3-7bb6c8d6f945"><span class="section-number-3">4.5.</span> Rename file by changing only its file type</h3>
 <div class="outline-text-3" id="text-h:85b65995-89fd-4978-bba3-7bb6c8d6f945">
 <p>
-[ Part of 1.3.0-dev. ]
+[ Part of 2.0.0-dev. ]
 </p>
 
 <p>
@@ -1538,7 +1571,7 @@ difference between old and new file names.
 <h2 id="h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d"><span class="section-number-2">5.</span> The file-naming scheme</h2>
 <div class="outline-text-2" id="text-h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">
 <p>
-Notes are stored the <code>denote-directory</code>.  The default path is
+Notes are stored in the <code>denote-directory</code>.  The default path is
 <code>~/Documents/notes</code>.  The <code>denote-directory</code> can be a flat listing,
 meaning that it has no subdirectories, or it can be a directory tree.
 Either way, Denote takes care to only consider &ldquo;notes&rdquo; as valid
@@ -1547,7 +1580,8 @@ directories.
 </p>
 
 <p>
-Every note produced by Denote follows this pattern (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>):
+Every note produced by Denote follows this pattern by default
+(<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>):
 </p>
 
 <pre class="example">
@@ -1560,7 +1594,7 @@ The <code>DATE</code> field represents the date in year-month-day format followe
 by the capital letter <code>T</code> (for &ldquo;time&rdquo;) and the current time in
 hour-minute-second notation.  The presentation is compact:
 <code>20220531T091625</code>.  The <code>DATE</code> serves as the unique identifier of each
-note.
+note and, as such, is also known as the file&rsquo;s ID or identifier.
 </p>
 
 <p>
@@ -1621,10 +1655,57 @@ invoking <code>M-x re-builder</code>).
 </p>
 
 <p>
+As an optional extension to the above, file names can include a string
+of alphanumeric characters in the <code>SIGNATURE</code> field.  Signatures have
+no clearly defined purpose and are up to the user to define.  One
+use-case is to use them to establish sequential relations between
+files (e.g. 1, 1a, 1b, 1b1, 1b2, &#x2026;).  A full file name with a
+signature looks like this:
+</p>
+
+<pre class="example">
+DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
+</pre>
+
+
+<p>
+The <code>SIGNATURE</code> field is anchored by the equals sign and thus retains
+the aforementioned searching/anchoring feature of <code>--</code> and <code>__</code>.
+</p>
+
+<p>
+Signatures are an optional extension to Denote&rsquo;s file-naming scheme.
+They can be added to newly created files on demand, with the command
+<code>denote-signature</code>, or by modifying the value of the user option
+<code>denote-prompts</code>.
+</p>
+
+<p>
+The <code>denote-prompts</code> can be configured in such ways to yield the
+following file name permutations:
+</p>
+
+<pre class="example">
+DATE.EXT
+DATE--TITLE.EXT
+DATE__KEYWORDS.EXT
+DATE==SIGNATURE.EXT
+DATE==SIGNATURE--TITLE.EXT
+DATE==SIGNATURE--TITLE__KEYWORDS.EXT
+DATE==SIGNATURE__KEYWORDS.EXT
+</pre>
+
+
+<p>
+When in doubt, stick to the default design.
+</p>
+
+<p>
 While Denote is an Emacs package, notes should work long-term and not
 depend on the functionality of a specific program.  The file-naming
 scheme we apply guarantees that a listing is readable in a variety of
-contexts.
+contexts.  The Denote file-naming scheme is, in essence, an effective,
+low-tech invention.
 </p>
 </div>
 
@@ -1654,8 +1735,8 @@ are converted into hyphens.  Keywords are always downcased.</li>
 <h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.2.</span> Features of the file-naming scheme for searching or filtering</h3>
 <div class="outline-text-3" id="text-h:1a953736-86c2-420b-b566-fb22c97df197">
 <p>
-File names have three fields and two sets of field delimiters between
-them:
+By default, file names have three fields and two sets of field
+delimiters between them:
 </p>
 
 <pre class="example">
@@ -1664,32 +1745,47 @@ DATE--TITLE__KEYWORDS.EXTENSION
 
 
 <p>
-The first field delimiter is the double hyphen, while the second is the
-double underscore.  These practically serve as anchors for easier
-searching.  Consider this example:
+When a signature is present, this becomes:
 </p>
 
 <pre class="example">
-20220621T062327--introduction-to-denote__denote_emacs.txt
+DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
 </pre>
 
 
 <p>
-You will notice that there are two matches for the word <code>denote</code>: one in
-the title field and another in the keywords&rsquo; field.  Because of the
-distinct field delimiters, if we search for <code>-denote</code> we only match the
-first instance while <code>_denote</code> targets the second one.  When sorting
-through your notes, this kind of specificity is invaluable&#x2014;and you get
-it for free from the file names alone!
+[ Signatures are part of 2.0.0-dev. ]
 </p>
 
 <p>
-Users can get a lot of value out of this simple arrangement, even if
-they have no knowledge of regular expressions.  One thing to consider,
-for maximum effect, is to avoid using multi-word keywords as those get
-hyphenated like the title and will thus interfere with the above: either
-set the user option <code>denote-allow-multi-word-keywords</code> to nil or simply
-insert single words at the relevant prompts.
+Field delimiters practically serve as anchors for easier searching.
+Consider this example:
+</p>
+
+<pre class="example">
+20220621T062327==1a2--introduction-to-denote__denote_emacs.txt
+</pre>
+
+
+<p>
+You will notice that there are two matches for the word <code>denote</code>: one
+in the title field and another in the keywords&rsquo; field.  Because of the
+distinct field delimiters, if we search for <code>-denote</code> we only match
+the first instance while <code>_denote</code> targets the second one.  When
+sorting through your notes, this kind of specificity is
+invaluable&#x2014;and you get it for free from the file names alone!
+Similarly, a search for <code>=1</code> will show all notes that are related to
+each other by virtue of their signature.
+</p>
+
+<p>
+Users can get a lot of value out of this simple yet effective
+arrangement, even if they have no knowledge of regular expressions.
+One thing to consider, for maximum effect, is to avoid using
+multi-word keywords as those get hyphenated like the title and will
+thus interfere with the above: either set the user option
+<code>denote-allow-multi-word-keywords</code> to nil or simply insert single
+words at the relevant prompts.
 </p>
 </div>
 </div>
@@ -1712,7 +1808,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgadecda3">
+<pre class="example" id="org7c9c609">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1724,7 +1820,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf02484b">
+<pre class="example" id="org04a65a3">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1738,7 +1834,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org5a0ec9e">
+<pre class="example" id="orgee8b88c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1752,7 +1848,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgd0ea1fb">
+<pre class="example" id="org687ef14">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2021,7 +2117,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org0eb48f7">
+<pre class="example" id="org28866e7">
 - link1
 - link2
 - link3
@@ -2039,7 +2135,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orga2432f8">
+<pre class="example" id="org3cffc23">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2238,7 +2334,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org60bc65a">
+<pre class="example" id="orgcfef587">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2253,7 +2349,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org36bdaa9">
+<pre class="example" id="orgb52947b">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2962,7 +3058,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org8cef5a4">
+<pre class="example" id="org24eb653">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3626,6 +3722,7 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c n n") #'denote)
   (define-key map (kbd "C-c n N") #'denote-type)
   (define-key map (kbd "C-c n d") #'denote-date)
+  (define-key map (kbd "C-c n z") #'denote-signature) ; "zettelkasten" mnemonic
   (define-key map (kbd "C-c n s") #'denote-subdirectory)
   (define-key map (kbd "C-c n t") #'denote-template)
   ;; If you intend to use Denote with a variety of file types, it is
@@ -3703,13 +3800,18 @@ creation (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming sche
 </dl>
 
 <dl class="org-dl">
+<dt>Variable <code>denote-signature-regexp</code></dt><dd>Regular expression to match
+the <code>SIGNATURE</code> field in a file name.</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Variable <code>denote-title-regexp</code></dt><dd>Regular expression to match the
-TITLE field in a file name (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
+<code>TITLE</code> field in a file name (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-keywords-regexp</code></dt><dd>Regular expression to match the
-KEYWORDS field in a file name (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
+<code>KEYWORDS</code> field in a file name (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3738,6 +3840,11 @@ its name, and use one of the extensions implied by
 <dl class="org-dl">
 <dt>Function <code>denote-file-has-identifier-p</code></dt><dd>Return non-nil if <code>FILE</code>
 has a Denote identifier.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-file-has-signature-p</code></dt><dd>Return non-nil if <code>FILE</code>
+has a signature. [Part of 2.0.0-dev.]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -3887,6 +3994,12 @@ function.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-retrieve-filename-signature</code></dt><dd>Extract signature
+from <code>FILE</code> name, if present, else return nil. [Part of
+2.0.0-dev.]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-retrieve-or-create-file-identifier</code></dt><dd><p>
 Return
 <code>FILE</code> identifier, generating one if appropriate.  The conditions
@@ -3936,6 +4049,11 @@ from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-keywords-line</code></dt><dd>Return keywords line
 from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-signature-prompt</code></dt><dd>Prompt for signature
+string. [Part of 2.0.0-dev.]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -4004,7 +4122,7 @@ and <code>embark</code>).</dd>
 note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
 <code>KEYWORDS</code>, and <code>FILE-TYPE</code> arguments are given by the renaming
 command and are used to construct new front matter values if
-appropriate.  [Part of 1.3.0-dev.]</dd>
+appropriate.  [Part of 2.0.0-dev.]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -4013,7 +4131,7 @@ outright according to <code>FILE-TYPE</code>.  Do the same as
 <code>denote-rewrite-front-matter</code> for keywords, but do not ask for
 confirmation.  This is for use in <code>denote-keywords-add</code>,
 <code>denote-keywords-remove</code>, <code>denote-dired-rename-marked-files</code>, or
-related.  [Part of 1.3.0-dev.]</dd>
+related.  [Part of 2.0.0-dev.]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -4263,7 +4381,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org31fe9a0">
+<pre class="example" id="orgb4464ad">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
