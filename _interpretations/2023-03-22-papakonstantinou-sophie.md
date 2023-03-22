@@ -152,7 +152,7 @@ To survive in these conditions it is necessary to let go of the notion
 that promises are inviolable.  Circumstances change rapidly.  What
 once was is no more.  What is stands in contradiction to what was.
 The self is a variable for it is a function of the interplay between
-ever changing factors.  Promises are the privilege of those who live
+ever-changing factors.  Promises are the privilege of those who live
 in the security of apparent predictability and constancy.  The
 precariat cannot access such a world.  It subsists in the
 ever-evolving present.
