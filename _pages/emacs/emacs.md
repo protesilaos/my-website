@@ -51,9 +51,6 @@ such as videos.  Naming files in a constistent way makes their
 filtering and retrieval considerably easier.  Denote provides relevant
 facilities to rename files, regardless of file type.
 
-[Watch the video demo that was produced before version 0.1.0 of the
-package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
-
 + Package name (GNU ELPA): `denote`
 + Official manual: <https://protesilaos.com/emacs/denote>
 + Change log: <https://protesilaos.com/emacs/denote-changelog>
@@ -62,6 +59,7 @@ package](https://protesilaos.com/codelog/2022-06-18-denote-demo/).
     + GitHub: <https://github.com/protesilaos/denote>
     + GitLab: <https://gitlab.com/protesilaos/denote>
 + Mailing list: <https://lists.sr.ht/~protesilaos/denote>
++ Video demo: <https://protesilaos.com/codelog/2022-06-18-denote-demo/>
 + Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
   Note Only The Epiphenomenal.
 
@@ -113,8 +111,6 @@ interfaces by supporting a large number of packages.
 access to the list of buffers visited therein.  In the interest of
 brevity, we call buffers that belong to frames "beframed".
 
-**Video demo:** <https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/>
-
 + Package name (GNU ELPA): `beframe`
 + Official manual: <https://protesilaos.com/emacs/beframe>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/beframe>
@@ -122,6 +118,7 @@ brevity, we call buffers that belong to frames "beframed".
     + GitHub: <https://github.com/protesilaos/beframe>
     + GitLab: <https://gitlab.com/protesilaos/beframe>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Video demo: <https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/>
 + Backronym: Buffers Encapsulated in Frames Realise Advanced
   Management of Emacs.
 
@@ -158,8 +155,6 @@ differ from the standard `query-replace` (which I still use).  The
 provided commands prompt for substitute text and perform the
 substitution outright.
 
-**Video demo:** <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
-
 + Package name (GNU ELPA): `substitute`
 + Official manual: <https://protesilaos.com/emacs/substitute>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/substitute>
@@ -167,6 +162,7 @@ substitution outright.
     + GitHub: <https://github.com/protesilaos/substitute>
     + GitLab: <https://gitlab.com/protesilaos/substitute>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Video demo: <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
 + Backronym: Some Utilities Built to Substitute Targets Independent of
   Their Utterances, Thoroughly and Easily.
 
@@ -251,7 +247,6 @@ or not.  It also provides some optional aesthetic tweaks which come into
 effect when the buffer-local `logos-focus-mode` is enabled.  The manual
 shows how to extend the code to achieve the desired result.
 
-[Watch the demo of the original version of logos.el](https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/)
 (all my videos since early 2022 use `logos`).
 
 + Package name (GNU ELPA): `logos`
@@ -262,6 +257,7 @@ shows how to extend the code to achieve the desired result.
     + GitHub: <https://github.com/protesilaos/logos>
     + GitLab: <https://gitlab.com/protesilaos/logos>
 + Mailing list: <https://lists.sr.ht/~protesilaos/logos>
++ Video demo: <https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/>
 + Backronyms: `^L` Only Generates Ostensible Slides; Logos Optionally Goes through Outline Sections
 
 ## Pulsar
