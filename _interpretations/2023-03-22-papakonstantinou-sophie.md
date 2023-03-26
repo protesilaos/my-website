@@ -59,8 +59,8 @@ and subsequent commentary:
 κλειστό φερμουάρ, παγωνιά
 και σκισμένο φουλάρι
 Ξένη πόλη, ξένοι όλοι
-μα εσύ καρφωμένη
-όπως άλλοτε στο ίδιο φανάρι
+κι εσύ σαν ελπίδα αδέσποτη
+στο ίδιο φανάρι
 
 Ένα θύμα κι άλλο θύμα
 δυο ανύποπτα μαύρα μπουφάν
@@ -112,13 +112,13 @@ I saw you yesternight
 untied hair all red
 on the shoulders
 Black ash next to the megaphone
-the tires smell suspiciously to the cops
+the tires smell suspiciously to the police officers
 Ten past three, years ten
 closed zipper, cold
 and shredded scarf
 Alien town, all aliens
-but you pinned
-like before on the same traffic light
+and you like stray hope
+on the same traffic light
 
 One victim and another victim
 two unassuming black jackets
