@@ -50,28 +50,34 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:9979c363-d7b6-4382-b2ce-a93f64043b4b">1. Overview</a></li>
-<li><a href="#h:5b751614-8749-4aa8-aaed-f181beaddc57">2. Features of <code>beframe-mode</code></a></li>
-<li><a href="#h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2">3. Integration with the <code>consult</code> package</a></li>
-<li><a href="#h:62cdea75-5d49-4f8e-a11b-83fca49fb92b">4. Installation</a>
+<li><a href="#h:97b140d0-677d-427d-b9c4-631dc36dbab7">2. Assuming and unassuming buffers</a>
 <ul>
-<li><a href="#h:813b78cc-83e8-4d75-b7a9-6722ffd905cd">4.1. GNU ELPA package</a></li>
-<li><a href="#h:f8d6a174-6167-43cf-b122-d1e53bea1b47">4.2. Manual installation</a></li>
+<li><a href="#h:dc12ca87-9ba7-4d11-89c8-653bf19015a1">2.1. Assuming buffers</a></li>
+<li><a href="#h:8fb895ac-7f99-4c92-b15a-18871b30c7b9">2.2. Unassuming buffers</a></li>
 </ul>
 </li>
-<li><a href="#h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">5. Sample configuration</a>
+<li><a href="#h:5b751614-8749-4aa8-aaed-f181beaddc57">3. Features of <code>beframe-mode</code></a></li>
+<li><a href="#h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2">4. Integration with the <code>consult</code> package</a></li>
+<li><a href="#h:62cdea75-5d49-4f8e-a11b-83fca49fb92b">5. Installation</a>
 <ul>
-<li><a href="#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">5.1. Integration with Consult</a></li>
-<li><a href="#h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">5.2. Integration with Ibuffer</a></li>
+<li><a href="#h:813b78cc-83e8-4d75-b7a9-6722ffd905cd">5.1. GNU ELPA package</a></li>
+<li><a href="#h:f8d6a174-6167-43cf-b122-d1e53bea1b47">5.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:809bde28-beeb-473f-99b0-0116da23b03e">6. Acknowledgements</a></li>
-<li><a href="#h:06177a5c-be37-4722-b18b-ecbcffe5816d">7. COPYING</a></li>
-<li><a href="#h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">8. GNU Free Documentation License</a></li>
-<li><a href="#h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">9. Indices</a>
+<li><a href="#h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">6. Sample configuration</a>
 <ul>
-<li><a href="#h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">9.1. Function index</a></li>
-<li><a href="#h:1ac097c0-4826-4a57-a80b-e6151636a161">9.2. Variable index</a></li>
-<li><a href="#h:fa918b9e-98a0-403e-8e98-577119f00a23">9.3. Concept index</a></li>
+<li><a href="#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">6.1. Integration with Consult</a></li>
+<li><a href="#h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">6.2. Integration with Ibuffer</a></li>
+</ul>
+</li>
+<li><a href="#h:809bde28-beeb-473f-99b0-0116da23b03e">7. Acknowledgements</a></li>
+<li><a href="#h:06177a5c-be37-4722-b18b-ecbcffe5816d">8. COPYING</a></li>
+<li><a href="#h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">9. GNU Free Documentation License</a></li>
+<li><a href="#h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">10. Indices</a>
+<ul>
+<li><a href="#h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">10.1. Function index</a></li>
+<li><a href="#h:1ac097c0-4826-4a57-a80b-e6151636a161">10.2. Variable index</a></li>
+<li><a href="#h:fa918b9e-98a0-403e-8e98-577119f00a23">10.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -147,23 +153,100 @@ of <code>beframe-create-frame-scratch-buffer</code>.  It kills the frame-specifi
 scratch buffer after the frame is deleted.  Set this user option to
 <code>nil</code> to disable the killing of such buffers.
 </p>
+</div>
+</div>
+
+<div id="outline-container-h:97b140d0-677d-427d-b9c4-631dc36dbab7" class="outline-2">
+<h2 id="h:97b140d0-677d-427d-b9c4-631dc36dbab7"><span class="section-number-2">2.</span> Assuming and unassuming buffers</h2>
+<div class="outline-text-2" id="text-h:97b140d0-677d-427d-b9c4-631dc36dbab7">
+<p>
+[ Part of 0.2.0-dev. ]
+</p>
 
 <p>
+Beframe makes it possible to add or remove buffers from the list of
+buffers associated with the current frame.  This provides for a
+flexible workflow where buffers can be beframed but consolidated on
+demand into new lists.
+</p>
+</div>
+
+<div id="outline-container-h:dc12ca87-9ba7-4d11-89c8-653bf19015a1" class="outline-3">
+<h3 id="h:dc12ca87-9ba7-4d11-89c8-653bf19015a1"><span class="section-number-3">2.1.</span> Assuming buffers</h3>
+<div class="outline-text-3" id="text-h:dc12ca87-9ba7-4d11-89c8-653bf19015a1">
+<p>
+[ Part of 0.2.0-dev. ]
+</p>
+
+<p>
+To assume buffers is to include them from the buffer list associated
+with the current frame.
+</p>
+
+<ul class="org-ul">
+<li><p>
 The command <code>beframe-assume-frame-buffers</code> (alias
 <code>beframe-add-frame-buffers</code>) prompts for a frame and then copies its
 buffer list into the current frame.
+</p></li>
+<li><p>
+The command <code>beframe-assume-buffers</code> (alias <code>beframe-add-buffers</code>)
+adds buffers from a given frame to the current frame.  In
+interactive use, the command first prompts for a frame and then asks
+about the list of buffers therein.  The to-be-assumed buffer list is
+compiled with <code>completing-read-multiple</code>.  This means that the user
+can select multiple buffers, each separated by the <code>crm-separator</code>
+(typically a comma).
+</p></li>
+<li><p>
+The command <code>beframe-assume-buffers-all-frames</code> prompts with
+minibuffer completion for a list of buffers to assume.  The
+interface is the same as that of <code>beframe-assume-buffers</code> except
+that there is no prompt for a frame: buffers belong to the
+consolidated buffer list (all frames).
+</p></li>
+<li>The command <code>beframe-assume-all-buffers-no-prompts</code> unconditionally
+assumes the consolidated buffer list.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:8fb895ac-7f99-4c92-b15a-18871b30c7b9" class="outline-3">
+<h3 id="h:8fb895ac-7f99-4c92-b15a-18871b30c7b9"><span class="section-number-3">2.2.</span> Unassuming buffers</h3>
+<div class="outline-text-3" id="text-h:8fb895ac-7f99-4c92-b15a-18871b30c7b9">
+<p>
+[ Part of 0.2.0-dev. ]
 </p>
 
 <p>
+To unassume buffers is to omit them from the buffer list associated
+with the current frame.
+</p>
+
+<ul class="org-ul">
+<li><p>
 The command <code>beframe-unassume-frame-buffers</code> (alias
 <code>beframe-remove-frame-buffers</code>) prompts for a frame and then removes
 its buffer list from the current frame.
-</p>
+</p></li>
+<li><p>
+The command <code>beframe-unassume-buffers</code> (alias
+<code>beframe-remove-buffers</code>) removes buffers from the current frame.
+In interactive use, the to-be-unassumed buffer list is compiled with
+<code>completing-read-multiple</code>.  This means that the user can select
+multiple buffers, each separated by the <code>crm-separator</code> (typically a
+comma).
+</p></li>
+<li>The command <code>beframe-unassume-all-buffers-no-prompts</code> unconditionally
+unassumes the consolidated buffer list, but preserves the list
+stored in the user option <code>beframe-global-buffers</code>.</li>
+</ul>
+</div>
 </div>
 </div>
 
 <div id="outline-container-h:5b751614-8749-4aa8-aaed-f181beaddc57" class="outline-2">
-<h2 id="h:5b751614-8749-4aa8-aaed-f181beaddc57"><span class="section-number-2">2.</span> Features of <code>beframe-mode</code></h2>
+<h2 id="h:5b751614-8749-4aa8-aaed-f181beaddc57"><span class="section-number-2">3.</span> Features of <code>beframe-mode</code></h2>
 <div class="outline-text-2" id="text-h:5b751614-8749-4aa8-aaed-f181beaddc57">
 <p>
 The <code>beframe-mode</code> does the following:
@@ -205,7 +288,7 @@ be revised to have more features and/or greater flexibility.
 </div>
 
 <div id="outline-container-h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2" class="outline-2">
-<h2 id="h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2"><span class="section-number-2">3.</span> Integration with the <code>consult</code> package</h2>
+<h2 id="h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2"><span class="section-number-2">4.</span> Integration with the <code>consult</code> package</h2>
 <div class="outline-text-2" id="text-h:4d154a72-2ae2-43d6-a599-8a739cb2a8c2">
 <p>
 The <code>consult</code> package by Daniel Mendler (also known as @minad)
@@ -228,12 +311,12 @@ by <code>SPC</code>.
 </div>
 
 <div id="outline-container-h:62cdea75-5d49-4f8e-a11b-83fca49fb92b" class="outline-2">
-<h2 id="h:62cdea75-5d49-4f8e-a11b-83fca49fb92b"><span class="section-number-2">4.</span> Installation</h2>
+<h2 id="h:62cdea75-5d49-4f8e-a11b-83fca49fb92b"><span class="section-number-2">5.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:62cdea75-5d49-4f8e-a11b-83fca49fb92b">
 </div>
 
 <div id="outline-container-h:813b78cc-83e8-4d75-b7a9-6722ffd905cd" class="outline-3">
-<h3 id="h:813b78cc-83e8-4d75-b7a9-6722ffd905cd"><span class="section-number-3">4.1.</span> GNU ELPA package</h3>
+<h3 id="h:813b78cc-83e8-4d75-b7a9-6722ffd905cd"><span class="section-number-3">5.1.</span> GNU ELPA package</h3>
 <div class="outline-text-3" id="text-h:813b78cc-83e8-4d75-b7a9-6722ffd905cd">
 <p>
 The package is available as <code>beframe</code>.  Simply do:
@@ -259,7 +342,7 @@ use the version of the package from the GNU-devel ELPA archive.  Read:
 </div>
 
 <div id="outline-container-h:f8d6a174-6167-43cf-b122-d1e53bea1b47" class="outline-3">
-<h3 id="h:f8d6a174-6167-43cf-b122-d1e53bea1b47"><span class="section-number-3">4.2.</span> Manual installation</h3>
+<h3 id="h:f8d6a174-6167-43cf-b122-d1e53bea1b47"><span class="section-number-3">5.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:f8d6a174-6167-43cf-b122-d1e53bea1b47">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
@@ -298,7 +381,7 @@ Everything is in place to set up the package.
 </div>
 
 <div id="outline-container-h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7" class="outline-2">
-<h2 id="h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7"><span class="section-number-2">5.</span> Sample configuration</h2>
+<h2 id="h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7"><span class="section-number-2">6.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'beframe)
@@ -323,7 +406,7 @@ Everything is in place to set up the package.
 </div>
 
 <div id="outline-container-h:1c2d3d64-aa7b-4585-a418-ccedbb548b38" class="outline-3">
-<h3 id="h:1c2d3d64-aa7b-4585-a418-ccedbb548b38"><span class="section-number-3">5.1.</span> Integration with Consult</h3>
+<h3 id="h:1c2d3d64-aa7b-4585-a418-ccedbb548b38"><span class="section-number-3">6.1.</span> Integration with Consult</h3>
 <div class="outline-text-3" id="text-h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">
 <p>
 The <code>consult</code> package by Daniel Mendler provides several commands that
@@ -386,7 +469,7 @@ and then appropriately modify the <code>:items</code> field of the
 </div>
 
 <div id="outline-container-h:ae6c4c6b-179a-4d35-86b5-8b63bf614697" class="outline-3">
-<h3 id="h:ae6c4c6b-179a-4d35-86b5-8b63bf614697"><span class="section-number-3">5.2.</span> Integration with Ibuffer</h3>
+<h3 id="h:ae6c4c6b-179a-4d35-86b5-8b63bf614697"><span class="section-number-3">6.2.</span> Integration with Ibuffer</h3>
 <div class="outline-text-3" id="text-h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">
 <p>
 This is not perfect because frames can have duplicate buffers, but it
@@ -425,7 +508,7 @@ works:
 </div>
 
 <div id="outline-container-h:809bde28-beeb-473f-99b0-0116da23b03e" class="outline-2">
-<h2 id="h:809bde28-beeb-473f-99b0-0116da23b03e"><span class="section-number-2">6.</span> Acknowledgements</h2>
+<h2 id="h:809bde28-beeb-473f-99b0-0116da23b03e"><span class="section-number-2">7.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:809bde28-beeb-473f-99b0-0116da23b03e">
 <p>
 Beframe is meant to be a collective effort.  Every bit of help
@@ -444,7 +527,7 @@ Chikmagalur.</dd>
 </div>
 
 <div id="outline-container-h:06177a5c-be37-4722-b18b-ecbcffe5816d" class="outline-2">
-<h2 id="h:06177a5c-be37-4722-b18b-ecbcffe5816d"><span class="section-number-2">7.</span> COPYING</h2>
+<h2 id="h:06177a5c-be37-4722-b18b-ecbcffe5816d"><span class="section-number-2">8.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:06177a5c-be37-4722-b18b-ecbcffe5816d">
 <p>
 Copyright (C) 2023  Free Software Foundation, Inc.
@@ -469,7 +552,7 @@ modify this GNU manual.”
 </div>
 
 <div id="outline-container-h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8" class="outline-2">
-<h2 id="h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8"><span class="section-number-2">8.</span> GNU Free Documentation License</h2>
+<h2 id="h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8"><span class="section-number-2">9.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:f8e6ccb5-bb10-4b3e-bc38-919e92faf7a8">
 <pre>
 
@@ -930,24 +1013,24 @@ to permit their use in free software.
 </div>
 
 <div id="outline-container-h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0" class="outline-2">
-<h2 id="h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0"><span class="section-number-2">9.</span> Indices</h2>
+<h2 id="h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0"><span class="section-number-2">10.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:6d31360d-5e3e-4a2c-b2a6-477164e0d2e0">
 </div>
 
 <div id="outline-container-h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd" class="outline-3">
-<h3 id="h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd"><span class="section-number-3">9.1.</span> Function index</h3>
+<h3 id="h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd"><span class="section-number-3">10.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:8a652b9c-65b7-4948-a64d-9b599c7b2cdd">
 </div>
 </div>
 
 <div id="outline-container-h:1ac097c0-4826-4a57-a80b-e6151636a161" class="outline-3">
-<h3 id="h:1ac097c0-4826-4a57-a80b-e6151636a161"><span class="section-number-3">9.2.</span> Variable index</h3>
+<h3 id="h:1ac097c0-4826-4a57-a80b-e6151636a161"><span class="section-number-3">10.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:1ac097c0-4826-4a57-a80b-e6151636a161">
 </div>
 </div>
 
 <div id="outline-container-h:fa918b9e-98a0-403e-8e98-577119f00a23" class="outline-3">
-<h3 id="h:fa918b9e-98a0-403e-8e98-577119f00a23"><span class="section-number-3">9.3.</span> Concept index</h3>
+<h3 id="h:fa918b9e-98a0-403e-8e98-577119f00a23"><span class="section-number-3">10.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:fa918b9e-98a0-403e-8e98-577119f00a23">
 -->
 </div>
