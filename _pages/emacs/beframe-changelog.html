@@ -1,0 +1,188 @@
+---
+layout: page
+title: 'Change log of Beframe (beframe.el)'
+subtitle: 'Isolate Emacs buffers per frame'
+excerpt: "Beframe (beframe.el) provides facilities to isolate Emacs buffers per frame."
+permalink: /emacs/beframe-changelog
+---
+
+<p>
+This document contains the release notes for each tagged commit on the
+project's main git repository: <a href="https://git.sr.ht/~protesilaos/beframe">https://git.sr.ht/~protesilaos/beframe</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
+</p>
+
+<div id="outline-container-orgf545614" class="outline-2">
+<h2 id="orgf545614">0.2.0</h2>
+<div class="outline-text-2" id="text-orgf545614">
+<p>
+There were no release notes for the initial version of Beframe.  Watch
+the video demo I produced on 2023-02-28 to get an overview of what
+this package is all about:
+<a href="https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/">https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/</a>.
+</p>
+
+<p>
+In short: beframe your buffers, not your outlook.  Oops that is for
+the philosophy blog! 🙃
+</p>
+</div>
+
+<div id="outline-container-org5e947d9" class="outline-3">
+<h3 id="org5e947d9">A beframed buffer menu</h3>
+<div class="outline-text-3" id="text-org5e947d9">
+<p>
+The command <code>beframe-buffer-menu</code> produces a dedicated buffer with a
+list of buffers for the current frame.  This is the counterpart of
+<code>beframe-switch-buffer</code>.  When called with a prefix argument (<code>C-u</code>
+with default key bindings), it prompts for a frame whose buffers it
+will display.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfbf5dc9" class="outline-3">
+<h3 id="orgfbf5dc9">Frame-specific scratch buffer</h3>
+<div class="outline-text-3" id="text-orgfbf5dc9">
+<p>
+The user option <code>beframe-create-frame-scratch-buffer</code> allows
+<code>beframe-mode</code> to create a frame-specific scratch buffer that runs the
+<code>initial-major-mode</code>.  This is done upon the creation of a new frame
+and the scratch buffer is named after the frame it belongs to.  For
+example, if the frame is called <code>modus-themes</code>, the corresponding
+scratch buffer is <code>*scratch for modus-themes*</code>.  Set this user option
+to <code>nil</code> to disable the creation of such scratch buffers.
+</p>
+
+<p>
+The user option <code>beframe-kill-frame-scratch-buffer</code> is the counterpart
+of <code>beframe-create-frame-scratch-buffer</code>.  It kills the frame-specific
+scratch buffer after the frame is deleted.  Set this user option to
+<code>nil</code> to disable the killing of such buffers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc606508" class="outline-3">
+<h3 id="orgc606508">Assuming and unassuming buffers</h3>
+<div class="outline-text-3" id="text-orgc606508">
+<p>
+Beframe makes it possible to add or remove buffers from the list of
+buffers associated with the current frame.  This provides for a
+flexible workflow where buffers can be initially beframed yet
+consolidated into new lists on demand.
+</p>
+</div>
+
+<div id="outline-container-org2f8b1c5" class="outline-4">
+<h4 id="org2f8b1c5">Assuming buffers</h4>
+<div class="outline-text-4" id="text-org2f8b1c5">
+<p>
+To assume buffers is to include them in the buffer list associated
+with the current frame.
+</p>
+
+<ul class="org-ul">
+<li>The command <code>beframe-assume-frame-buffers</code> (alias
+<code>beframe-add-frame-buffers</code>) prompts for a frame and then copies its
+buffer list into the current frame.</li>
+
+<li>The command <code>beframe-assume-buffers</code> (alias <code>beframe-add-buffers</code>)
+adds buffers from a given frame to the current frame.  In
+interactive use, the command first prompts for a frame and then asks
+about the list of buffers therein.  The to-be-assumed buffer list is
+compiled with <code>completing-read-multiple</code>.  This means that the user
+can select multiple buffers, each separated by the <code>crm-separator</code>
+(typically a comma).</li>
+
+<li>The command <code>beframe-assume-buffers-all-frames</code> prompts with
+minibuffer completion for a list of buffers to assume.  The
+interface is the same as that of <code>beframe-assume-buffers</code> except
+that there is no prompt for a frame: buffers belong to the
+consolidated buffer list (all frames).</li>
+
+<li>The command <code>beframe-assume-all-buffers-no-prompts</code> unconditionally
+assumes the consolidated buffer list.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org604542b" class="outline-4">
+<h4 id="org604542b">Unassuming buffers</h4>
+<div class="outline-text-4" id="text-org604542b">
+<p>
+To unassume buffers is to omit them from the buffer list associated with
+the current frame.
+</p>
+
+<ul class="org-ul">
+<li>The command <code>beframe-unassume-frame-buffers</code> (alias
+<code>beframe-remove-frame-buffers</code>) prompts for a frame and then removes
+its buffer list from the current frame.</li>
+
+<li>The command <code>beframe-unassume-buffers</code> (alias
+<code>beframe-remove-buffers</code>) removes buffers from the current frame.
+In interactive use, the to-be-unassumed buffer list is compiled with
+<code>completing-read-multiple</code>.  This means that the user can select
+multiple buffers, each separated by the <code>crm-separator</code> (typically a
+comma).</li>
+
+<li>The command <code>beframe-unassume-all-buffers-no-prompts</code> unconditionally
+unassumes the consolidated buffer list, but preserves the list
+stored in the user option <code>beframe-global-buffers</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0369c7" class="outline-3">
+<h3 id="orgb0369c7">Sort beframed buffers from Lisp</h3>
+<div class="outline-text-3" id="text-orgb0369c7">
+<p>
+This is courtesy of Tony Zorman:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C87edq4n3qt.fsf%40hyperspace%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C87edq4n3qt.fsf%40hyperspace%3E</a>.
+</p>
+
+<blockquote>
+<p>
+commit dfa4678c208e1e5c41413f2d39416f84c21f28ff
+Author: Tony Zorman &lt;soliditsallgood@mailbox.org&gt;
+Date:   Sat Mar 4 11:48:17 2023 +0100
+</p>
+
+<p>
+Add the ability to sort the buffer list
+</p>
+
+<p>
+Some completion libraries, like consult, give the user the option to
+sort the list of buffers according to some strategy.  For example,
+sorting by visibility—in the sense that one is first shown hidden
+buffers, then visible ones, and only then the current buffer—may be
+preferrable when deciding to switch buffers via consult-buffer.
+</p>
+
+<p>
+Since beframe.el can be used as a consult source (see the manual),
+endowing beframe&#x2013;buffer-list with an arbitrary sort function greatly
+improves the synergy between the two libraries.
+</p>
+
+<p>
+beframe.el | 56 <del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del>++</del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del>---------&#x2013;&#x2014;
+1 file changed, 42 insertions(+), 14 deletions(-)
+</p>
+</blockquote>
+
+<p>
+The manual explains how this works in practice:
+<a href="https://protesilaos.com/emacs/beframe#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">https://protesilaos.com/emacs/beframe#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38</a>.
+Thanks to Tony Zorman for including the reference to the sorting mechanism!
+</p>
+</div>
+</div>
+</div>
