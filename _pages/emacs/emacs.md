@@ -113,6 +113,7 @@ brevity, we call buffers that belong to frames "beframed".
 
 + Package name (GNU ELPA): `beframe`
 + Official manual: <https://protesilaos.com/emacs/beframe>
++ Change log: <https://protesilaos.com/emacs/beframe-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/beframe>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/beframe>
