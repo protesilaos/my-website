@@ -38,8 +38,6 @@ equivalent for your interface/context).
 
 Make sure to **send me your public key**, else I will not be able to
 reply to you.
-{:.info}
-
 
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -84,11 +82,11 @@ LcTMf+xqUg8la8k=
 
 This key is valid as of 2023-03-20 with an expiry set to 2025-03-20.
 Any older key should be discarded.
-{:.warn}
+{:.critical}
 
 I encourage you to learn how to use encryption for your email
 communications and establish it as your default method for trusted
 contacts.  You do not need to be a tech wizard to implement it.  Get
 started with this excellent guide by the Free Software Foundation on
 [email self-defence](https://emailselfdefense.fsf.org/en/).
-{:.note}
+
