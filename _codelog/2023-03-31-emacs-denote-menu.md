@@ -35,6 +35,37 @@ easier to discover.
 Note that this is a development snapshot.  I may still tweak things
 and also cover the `context-menu-mode`, though the intent is clear.
 
+**UPDATE 2023-03-31 19:51 +0300**.  I added support for
+`context-menu-mode`.  Also made lots of other tweaks.
+
+```
+commit ecccc046beb502efecb9c4f3e3d845b122a8b34c
+Author: Protesilaos Stavrou <info@protesilaos.com>
+Date:   Fri Mar 31 19:50:31 2023 +0300
+
+    Document integration with context-menu-mode (also see 2a1d5eb)
+
+ README.org | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+
+commit 2a1d5eb8f668724e5b37e085e64ff00d44f3eb1a
+Author: Protesilaos Stavrou <info@protesilaos.com>
+Date:   Fri Mar 31 19:43:24 2023 +0300
+
+    Add code to integrate menu with context-menu-mode
+
+    Enable it with:
+
+            (add-hook 'context-menu-functions #'denote-context-menu)
+
+    Read what I published about the menu:
+    <https://protesilaos.com/codelog/2023-03-31-emacs-denote-menu/>.
+
+ denote.el | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+```
+
 * * *
 
 Denote is a simple note-taking tool for Emacs.  It is based on the idea
