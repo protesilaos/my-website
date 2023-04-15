@@ -110,7 +110,9 @@ to philosophers about programming.  Another relevant introduction is [My
 life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
 (2021-10-29).  A comprehensive [interview with InfoQ China on Emacs and
 life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-life/)
-may also prove useful (2022-04-10).
+may also prove useful (2022-04-10).  Same for the one I did with
+_Syntopikon_ on [Emacs, politics,
+philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emacs-life/) (2023-04-15).
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
 for Outstanding New Free Software Contributor_.  I received it in my
