@@ -8,7 +8,7 @@ redirect_from:
 layout: page
 ---
 
-* Name: Protesilaos (Πρωτεσίλαος)
+* Name: Protesilaos (Protésilaos, Πρωτεσίλαος)
 * Birth place: Greece
 * Birth year: 1988
 * Residence: Cyprus (Troodos mountain range)
