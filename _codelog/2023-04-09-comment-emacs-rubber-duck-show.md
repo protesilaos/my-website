@@ -173,11 +173,11 @@ Here are some general thoughts and comments on
   like becoming a karate master over the weekend.  Perhaps you have
   heard about the "golden fleece", Jason and the Argonauts.  There is
   a reason the golden fleece is the stuff of myth and why the
-  Argonauts in the original story all meet a tragic end.  The moral of
-  the myth is to not pursue things that seem to solve all your
-  problems, while neglecting what is practical and actualisable.  The
-  Argonauts set out on this long, open-ended adventure for the "killer
-  app" only to end up worse off.
+  protagonists among the Argonauts in the original story meet a tragic
+  end.  The moral of the myth is to not pursue things that seem to
+  solve all your problems, while neglecting what is practical and
+  actualisable.  The Argonauts set out on this long, open-ended
+  adventure for the "killer app" only to end up worse off.
 
 * More generally, I think it is a mistake to make decisions solely on
   the basis of what will work in one's career.  That is the mindset of
