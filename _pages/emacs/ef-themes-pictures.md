@@ -111,6 +111,14 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-duo-dark-listing.png' | absolute_url }}"><img alt="ef-duo-dark theme listing sample" src="{{'/assets/images/ef/ef-duo-dark-listing.png' | absolute_url }}"/></a>
 
+## ef-symbiosis
+
+<a href="{{'/assets/images/ef/ef-symbiosis.png' | absolute_url }}"><img alt="ef-symbiosis theme sample" src="{{'/assets/images/ef/ef-symbiosis.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-symbiosis-magit.png' | absolute_url }}"><img alt="ef-symbiosis theme magit sample" src="{{'/assets/images/ef/ef-symbiosis-magit.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-symbiosis-listing.png' | absolute_url }}"><img alt="ef-symbiosis theme listing sample" src="{{'/assets/images/ef/ef-symbiosis-listing.png' | absolute_url }}"/></a>
+
 ## ef-bio
 
 <a href="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"><img alt="ef-bio theme sample" src="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"/></a>
