@@ -5,92 +5,118 @@ permalink: /cv/
 layout: page
 ---
 
-Protesilaos Stavrou
+## Basic information
 
-Website: <https://protesilaos.com>  
-Email: <public@protesilaos.com>  
-Residence: Cyprus (Troodos mountain range)
+- Name: Protesilaos Stavrou
+- Personal website: <https://protesilaos.com>
+- Email: <public@protesilaos.com>
+- Nationality: Greece
+- Residence: Cyprus
+- Birth year: 1988
 
-## Profile
+## Profile: Expertise and Accomplishments
 
-I am a self-taught programmer and philosopher.
+### I am an expert on GNU Emacs and the Elisp programming language.
 
-I maintain [lots of packages for GNU
-Emacs](https://protesilaos.com/emacs), including the `modus-themes`
-which are a part of core Emacs and the increasingly popular `denote`
-note-taking system ([watch its
-demo](https://protesilaos.com/codelog/2022-06-18-denote-demo/)).  My
-code focuses on clarity, correctness, and composability.  I place
-great emphasis on documentation.  All the manuals I write are thorough
-and comprehensive.  My themes (`modus-themes` and `ef-themes`
-projects) are designed in accordance with accessibility standards for
-colour contrast (WCAG AA and WCAG AAA), as well as to empower users
-with red-green or blue-yellow colour deficiency (deuteranopia and
-tritanopia, respectively)---inclusiveness is of paramount importance.
+In the past four years, I have authored, distributed free of charge, many Emacs packages:
+- <https://github.com/protesilaos>
+- <https://gitlab.com/protesilaos>
+- <https://git.sr.ht/~protesilaos>
 
-I talk, write, and do philosophy.  I generally try to express myself
-in plain terms and make my thoughts relatable to everyone.  I consider
-my theories "practical", in the sense that I put them to the test and
-live by those precepts.
+My Emacs packages include:
+- Modus themes (they are built into core Emacs version 28 or higher) 
+- Denote
+- Ef (εὖ) themes
+- Standard themes
+- Beframe
+- Fontaine
+- Substitute
+- TMR
+- aLtCaPs
+- sxhkdrc-mode
+- Logos
+- Pulsar
+- Lin
+- Cursory
+- Notmuch Indicator
+- Agitate
+- Minibuffer and Completions in Tandem
+- Mandoura
+- Research
 
-I am an original thinker, an independent spirit, a patient and
-attentive listener, a prolific writer, as well as a disciplined person
-in all aspects of my life.
+### I am a teacher, philosopher, public speaker, writer, and advocate for free, open-source software. I am proficient in English, Greek and French.
+
+- Gave an invited oral presentation (in English) at EmacsConf 2021 (<https://emacsconf.org/2021/talks/freedom/>)
+- Published over 100 YouTube videos (all in English) on Emacs
+- Published over 200 YouTube videos (all in English) on a variety of topics
+- Wrote in English the user manuals and release notes (change logs) for all my Emacs packages
+- Wrote in Greek the official Emacs TUTORIAL, which is part of core Emacs version 29
+- Wrote >1000 publications (all in English) on a variety of topics including Emacs, Elisp programming, and philosophy (all freely available on my personal website)
+- Teach private lessons on Emacs and Elisp
+- Provide people with free technical support and advice on Emacs and programming
+- Distribute all my Emacs work for free and in freedom
+
+### My media interviews
+
+#### I was interviewed by Yuvraj Singh of Syntopiskon.
+
+Title: An Interview with Protesilaos Stavrou
+
+The full interview is available at <https://www.syntopikon.com/workflows/protesilaos-stavrou/>
+
+#### I was interviewed and featured by InfoQ China, a global community platform.
+
+Title: 隐居、反内卷，不意味着躺平｜专访 2021 年度「杰出新自由软件贡献者奖」得主
+The full interview is available at <https://www.infoq.cn/article/4c6hFLTCOwQzxUQE4CIL>
+
+A related article on me published by InfoQ China: 
+Title: 30岁文转码：从哲学家变成知名软件项目核心开发
+The article is available at <https://www.infoq.cn/article/ny5whxy6astyr0vgnpl7>
+
+#### I was interviewed by Brown University (USA).
+
+The full interview is available at
+<https://browninterviews.org/stand-up-and-tell-people-that-you-cannot-just-be-the-red-carpet-upon-which-others-will-parade-brown-interviews-protesilaos-stavrou/>
+
+## Awards
+
+The FSF 2021 Award for Outstanding New Free Software Contributor 
+
+The Free Software Foundation (FSF) awarded me this prestigious award
+for my contributions to Emacs and its global community and for my
+dedication to software freedom
+(<https://www.fsf.org/awards/onfsc-award>). I gave an acceptance
+speech (in English) and an oral presentation (in English) entitled
+“Living in freedom with GNU Emacs” at the global 2022 LibrePlanet
+Conference (<https://libreplanet.org>).
 
 ## Skills
 
-- Writing
-- Public speaking (video format)
-- Conceptual analysis
-- Technical documentation
-- Emacs Lisp
+- Emacs and Elisp
 - Git
 - Shell (Bash)
 - HTML
 - CSS
 - Jekyll
-- Colour palette design
-- Arch Linux
-
-## Activities
-
-- **2019 -- Present:** Started working with Emacs.  Learnt to program
-  in Emacs Lisp, without a background in programming.  I maintain more
-  than 10 packages and have contributed to core Emacs, among other
-  projects in the community.  The Free Software Foundation awarded me
-  the *2021 Award for Outstanding New Free Software Contributor*:
-  <https://www.fsf.org/awards/onfsc-award>.
-
-- **2016 -- Present:** Switched my computer to the GNU/Linux operating
-  system and began learning about Unix tools.  My distribution of
-  choice is Arch Linux.
-
-- **2011 -- Present:** Launched my personal website, protesilaos.com,
-  which now contains more than 1000 publications on a range of topics,
-  including philosophy, programming, and politics.  The website also
-  hosts all the technical documentation of my Emacs packages.  My
-  publications are provided for free and in freedom.
-
-- **2012 -- 2016:** Worked as a parliamentary assistant at the European
-  Parliament.  Also did some minor freelancing jobs related to
-  European Union politics.
+- Linux operating system
+- Technical documentation
+- Color theme and palette designs
+- Public speaking (in English and in video format)
+- Writing (in multiple languages and on a variety of topics)
+- Proficient in English, Greek and French
+- Philosophy (including Taoism and Confucianism)
 
 ## Education
 
-- Bachelor's Degree in European Politics, Economics, and Law from the
-  European University Cyprus (2012).
-- Self-taught programmer.
-- Self-taught philosopher.
-- Native Greek speaker.
-- Proficient English speaker.
-- Competent with French.
-- Decent with Spanish.
-- Rudimentary understanding of Portuguese and Italian.
+2012
+Bachelor’s Degree in European Politics, Economics, and Law from the European University Cyprus
 
-## Publications
+## Work Experience
 
-{% assign indices = site.data.indices %}
+2016-
+Freelancer
 
-{% for i in indices %}
--  <strong><a href="{{ i.url | absolute_url }}">{{ i.name }}</a> :: </strong> {{ i.description }}
-{% endfor %}
+2012-2016
+A parliamentary assistant at the European Parliament
+An independent researcher in European affairs
+
