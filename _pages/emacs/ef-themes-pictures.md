@@ -63,6 +63,14 @@ perception of what is on display.
 
 <a href="{{'/assets/images/ef/ef-summer-listing.png' | absolute_url }}"><img alt="ef-summer theme listing sample" src="{{'/assets/images/ef/ef-summer-listing.png' | absolute_url }}"/></a>
 
+## ef-kassio
+
+<a href="{{'/assets/images/ef/ef-kassio.png' | absolute_url }}"><img alt="ef-kassio theme sample" src="{{'/assets/images/ef/ef-kassio.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-kassio-magit.png' | absolute_url }}"><img alt="ef-kassio theme magit sample" src="{{'/assets/images/ef/ef-kassio-magit.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-kassio-listing.png' | absolute_url }}"><img alt="ef-kassio theme listing sample" src="{{'/assets/images/ef/ef-kassio-listing.png' | absolute_url }}"/></a>
+
 ## ef-trio-light
 
 <a href="{{'/assets/images/ef/ef-trio-light.png' | absolute_url }}"><img alt="ef-trio-light theme sample" src="{{'/assets/images/ef/ef-trio-light.png' | absolute_url }}"/></a>
