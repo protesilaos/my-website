@@ -36,6 +36,24 @@ Below are the release notes.
 
 * * *
 
+| Family                          | Shapes | Spacing | Style      | Ligatures |
+|---------------------------------+--------+---------+------------+-----------|
+| Iosevka Comfy                   | Sans   | Compact | Monospaced | Yes       |
+| Iosevka Comfy Fixed             | Sans   | Compact | Monospaced | No        |
+| Iosevka Comfy Duo               | Sans   | Compact | Duospaced  | Yes       |
+|---------------------------------+--------+---------+------------+-----------|
+| Iosevka Comfy Motion            | Slab   | Compact | Monospaced | Yes       |
+| Iosevka Comfy Motion Fixed      | Slab   | Compact | Monospaced | No        |
+| Iosevka Comfy Motion Duo        | Slab   | Compact | Duospaced  | Yes       |
+|---------------------------------+--------+---------+------------+-----------|
+| Iosevka Comfy Wide              | Sans   | Wide    | Monospaced | Yes       |
+| Iosevka Comfy Wide Fixed        | Sans   | Wide    | Monospaced | No        |
+| Iosevka Comfy Wide Duo          | Sans   | Wide    | Duospaced  | Yes       |
+|---------------------------------+--------+---------+------------+-----------|
+| Iosevka Comfy Wide Motion       | Slab   | Wide    | Monospaced | Yes       |
+| Iosevka Comfy Wide Motion Fixed | Slab   | Wide    | Monospaced | No        |
+| Iosevka Comfy Wide Motion Duo   | Slab   | Wide    | Duospaced  | Yes       |
+
 Quote from the README about the available styles:
 
 > Iosevka Comfy comes in four sets of three: two sans-serif and two
