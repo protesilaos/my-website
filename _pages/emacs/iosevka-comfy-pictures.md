@@ -4,10 +4,14 @@ excerpt: 'Demo of my custom build of the Iosevka font, which I call "Iosevka Com
 permalink: /emacs/iosevka-comfy-pictures
 ---
 
-The following screen shots correspond to version `1.1.0` and were taken
-on 2022-10-19.  The typeface is [Iosevka Comfy, my modified version of
-Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy) at point size
-13, else an Emacs `:height` face attribute of 130.
+The following screen shots correspond to version `1.2.0` and were
+taken on 2023-04-27.  The typeface is [Iosevka Comfy, my modified
+version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
+
+The `iosevka-comfy` and `iosevka-comfy-motion`, i.e. the compact
+forms, are presented at point size 10 (Emacs `:height` 100).  The wide
+forms are shown at point size 8 (Emacs `:height` 80) to make them all
+look similar.
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
@@ -16,22 +20,14 @@ perception of what is on display.
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy.png' | absolute_url }}"><img alt="iosevka-comfy" src="{{'/assets/images/iosevka-comfy/iosevka-comfy.png' | absolute_url }}"/></a>
 
-## iosevka-comfy-duo
-
-<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-duo.png' | absolute_url }}"><img alt="iosevka-comfy-duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-duo.png' | absolute_url }}"/></a>
-
 ## iosevka-comfy-motion
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion.png' | absolute_url }}"><img alt="iosevka-comfy-motion" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion.png' | absolute_url }}"/></a>
-
-## iosevka-comfy-motion-duo
-
-<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion-duo.png' | absolute_url }}"><img alt="iosevka-comfy-motion-duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion-duo.png' | absolute_url }}"/></a>
 
 ## iosevka-comfy-wide
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide.png' | absolute_url }}"><img alt="iosevka-comfy-wide" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide.png' | absolute_url }}"/></a>
 
-## iosevka-comfy-wide-duo
+## iosevka-comfy-wide-motion
 
-<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-duo.png' | absolute_url }}"><img alt="iosevka-comfy-wide-duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-duo.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion.png' | absolute_url }}"><img alt="iosevka-comfy-wide-motion" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion.png' | absolute_url }}"/></a>
