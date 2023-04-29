@@ -80,7 +80,11 @@ permalink: /cn/cv/
 
 FSF 2021年度杰出新自由软件贡献者奖
 
-自由软件基金会（FSF）授予我这个享有盛誉的奖项，以表彰我对Emacs及其全球社区的贡献，以及我对软件自由运动的奉献（<https://www.fsf.org/awards/onfsc-award）。我在2022年LibrePlanet全球会议（https://libreplanet.org）上用英文发表了获奖感言，并做了题为“与GNU> Emacs一起生活在自由中”的演讲（英文）。
+自由软件基金会（FSF）授予我这个享有盛誉的奖项，以表彰我对Emacs及其全球
+社区的贡献，以及我对软件自由运动的奉献
+（<https://www.fsf.org/awards/onfsc-award>）。我在2022年LibrePlanet全
+球会议（<https://libreplanet.org>）上用英文发表了获奖感言，并做了题为
+“与GNU Emacs一起生活在自由中”的演讲（英文）。
 
 ## 技能
 
