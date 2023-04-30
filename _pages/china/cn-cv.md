@@ -7,7 +7,7 @@ permalink: /cn/cv/
 ## 基本信息
 
 - 姓名: Protesilaos Stavrou （普罗特西拉奥斯 斯塔夫鲁）
-- 中文: 施道一
+- 中文名字: 施道一
 - 个人网站: <https://protesilaos.com>
 - 电子邮箱: <public@protesilaos.com>
 - 国籍: 希腊
