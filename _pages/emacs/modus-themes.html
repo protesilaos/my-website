@@ -145,8 +145,9 @@ Current development target is 4.2.0-dev.
 <li><a href="#h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">6.19. Backdrop for pdf-tools</a></li>
 <li><a href="#h:b40aca50-a3b2-4c43-be58-2c26fcd14237">6.20. Toggle themes without reloading them</a></li>
 <li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.21. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">6.22. Custom hl-todo colors</a></li>
-<li><a href="#h:439c9e46-52e2-46be-b1dc-85841dd99671">6.23. Add support for solaire-mode</a></li>
+<li><a href="#h:43bcb5d0-e25f-470f-828c-662cee9e21f1">6.22. Use more spacious padding in Emacs frames</a></li>
+<li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">6.23. Custom hl-todo colors</a></li>
+<li><a href="#h:439c9e46-52e2-46be-b1dc-85841dd99671">6.24. Add support for solaire-mode</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">7. Face coverage</a>
@@ -2707,7 +2708,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="orge983bbf">
+<pre class="example" id="orga4f2ae5">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4287,7 +4288,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org88f7044">
+<pre class="example" id="org410400a">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4529,8 +4530,111 @@ need to (provided they understand the implications).
 </div>
 </div>
 
+<div id="outline-container-h:43bcb5d0-e25f-470f-828c-662cee9e21f1" class="outline-3">
+<h3 id="h:43bcb5d0-e25f-470f-828c-662cee9e21f1"><span class="section-number-3">6.22.</span> Use more spacious padding in Emacs frames</h3>
+<div class="outline-text-3" id="text-h:43bcb5d0-e25f-470f-828c-662cee9e21f1">
+<p>
+By default, Emacs frames try to maximize the number of characters that
+fit in the current visible portion of the buffer.  Users may prefer to
+have some extra padding instead.  This can make Emacs frames look more
+pleasant, but also make it easier to identify the currently active
+window.
+</p>
+
+<p>
+The way to implement such padding is two-fold:
+</p>
+
+<ol class="org-ol">
+<li>Instrument Emacs to use a higher value for the
+<code>internal-border-width</code> of all frames, as well as for the
+<code>right-divider-width</code>.  The former concerns the outer boundaries of
+Emacs frames, while the latter pertains to dividers between Emacs
+windows.</li>
+
+<li>Make the relevant faces invisible by changing the value of their
+relevant attributes to that of the current theme&rsquo;s main background.</li>
+</ol>
+
+<p>
+The parameters of Emacs frames are specified in the variables
+<code>initial-frame-alist</code> and <code>default-frame-alist</code>.  The &ldquo;initial frame&rdquo;
+refers to the first frame that appears on Emacs startup.  The
+&ldquo;default&rdquo; refers to the fallback values that apply to all other frames
+that Emacs creates (unless those are explicitly overridden by a
+bespoke <code>make-frame</code> call).
+</p>
+
+<p>
+In detail, first we use the same values for the two frame alist variables:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(dolist (var '(default-frame-alist initial-frame-alist))
+  (add-to-list var '(right-divider-width . 20))
+  (add-to-list var '(internal-border-width . 20)))
+</pre>
+</div>
+
+<p>
+What the <code>dolist</code> does is to call <code>add-to-list</code> for the two variables
+we specify there.  This economizes on typing.
+</p>
+
+<p>
+Then we define a function that makes the relevant faces invisible.
+The reason we do this with a function is so we can hook it to the
+&ldquo;post load&rdquo; phase of a theme, thus applying the new background value
+(otherwise you keep the old background, which likely means that the
+faces will no longer be invisible).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun prot-emacs-invisible-dividers ()
+  "Make window dividers invisible.
+Add this to the `modus-themes-post-load-hook'."
+  (let ((bg (face-background 'default)))
+    (custom-set-faces
+     `(fringe ((t :background ,bg :foreground ,bg)))
+     `(window-divider ((t :background ,bg :foreground ,bg)))
+     `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
+     `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
+
+(add-hook 'modus-themes-post-load-hook #'prot-emacs-invisible-dividers)
+</pre>
+</div>
+
+<p>
+The above will work only for themes that belong to the Modus family.
+For users of Emacs version 29 or higher, there exists a theme-agnostic
+hook that takes a function with one argument&#x2014;that of the theme&#x2014;and
+calls in the the &ldquo;post enable&rdquo; phase of theme loading.  Here is the
+above snippet, with the necessary tweaks:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun prot-emacs-invisible-dividers (_theme)
+  "Make window dividers for THEME invisible."
+  (let ((bg (face-background 'default)))
+    (custom-set-faces
+     `(fringe ((t :background ,bg :foreground ,bg)))
+     `(window-divider ((t :background ,bg :foreground ,bg)))
+     `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
+     `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
+
+(add-hook 'enable-theme-functions #'prot-emacs-invisible-dividers)
+</pre>
+</div>
+
+<p>
+Users of older versions of Emacs can read the entry herein about
+defining their own theme-agnostic hook (<a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">A theme-agnostic hook for theme loading</a>).
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:2ef83a21-2f0a-441e-9634-473feb940743" class="outline-3">
-<h3 id="h:2ef83a21-2f0a-441e-9634-473feb940743"><span class="section-number-3">6.22.</span> Custom hl-todo colors</h3>
+<h3 id="h:2ef83a21-2f0a-441e-9634-473feb940743"><span class="section-number-3">6.23.</span> Custom hl-todo colors</h3>
 <div class="outline-text-3" id="text-h:2ef83a21-2f0a-441e-9634-473feb940743">
 <p>
 The <code>hl-todo</code> package provides the user option
@@ -4577,7 +4681,7 @@ otherwise the defaults are not always legible.
 </div>
 
 <div id="outline-container-h:439c9e46-52e2-46be-b1dc-85841dd99671" class="outline-3">
-<h3 id="h:439c9e46-52e2-46be-b1dc-85841dd99671"><span class="section-number-3">6.23.</span> Add support for solaire-mode</h3>
+<h3 id="h:439c9e46-52e2-46be-b1dc-85841dd99671"><span class="section-number-3">6.24.</span> Add support for solaire-mode</h3>
 <div class="outline-text-3" id="text-h:439c9e46-52e2-46be-b1dc-85841dd99671">
 <p>
 The <code>solaire-mode</code> package dims the background of what it considers
@@ -6003,7 +6107,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org035db9c">
+<pre class="example" id="orgd46f3d7">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6048,7 +6152,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org08ce0b9">
+<pre class="example" id="orgc6712c6">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6420,7 +6524,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org5fd64af">
+<pre class="example" id="orgbe8ab31">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
