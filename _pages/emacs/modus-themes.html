@@ -145,7 +145,7 @@ Current development target is 4.2.0-dev.
 <li><a href="#h:ff69dfe1-29c0-447a-915c-b5ff7c5509cd">6.19. Backdrop for pdf-tools</a></li>
 <li><a href="#h:b40aca50-a3b2-4c43-be58-2c26fcd14237">6.20. Toggle themes without reloading them</a></li>
 <li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">6.21. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:43bcb5d0-e25f-470f-828c-662cee9e21f1">6.22. Use more spacious padding in Emacs frames</a></li>
+<li><a href="#h:43bcb5d0-e25f-470f-828c-662cee9e21f1">6.22. Use more spacious margins or padding in Emacs frames</a></li>
 <li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">6.23. Custom hl-todo colors</a></li>
 <li><a href="#h:439c9e46-52e2-46be-b1dc-85841dd99671">6.24. Add support for solaire-mode</a></li>
 </ul>
@@ -2708,7 +2708,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="orga4f2ae5">
+<pre class="example" id="org4b27574">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4288,7 +4288,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org410400a">
+<pre class="example" id="orgbff266b">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4531,7 +4531,7 @@ need to (provided they understand the implications).
 </div>
 
 <div id="outline-container-h:43bcb5d0-e25f-470f-828c-662cee9e21f1" class="outline-3">
-<h3 id="h:43bcb5d0-e25f-470f-828c-662cee9e21f1"><span class="section-number-3">6.22.</span> Use more spacious padding in Emacs frames</h3>
+<h3 id="h:43bcb5d0-e25f-470f-828c-662cee9e21f1"><span class="section-number-3">6.22.</span> Use more spacious margins or padding in Emacs frames</h3>
 <div class="outline-text-3" id="text-h:43bcb5d0-e25f-470f-828c-662cee9e21f1">
 <p>
 By default, Emacs frames try to maximize the number of characters that
@@ -4546,8 +4546,8 @@ The way to implement such padding is two-fold:
 </p>
 
 <ol class="org-ol">
-<li>Instrument Emacs to use a higher value for the
-<code>internal-border-width</code> of all frames, as well as for the
+<li>In the <code>early-init.el</code> file instruct Emacs to use a higher value
+for the <code>internal-border-width</code> of all frames, as well as for the
 <code>right-divider-width</code>.  The former concerns the outer boundaries of
 Emacs frames, while the latter pertains to dividers between Emacs
 windows.</li>
@@ -4570,7 +4570,9 @@ In detail, first we use the same values for the two frame alist variables:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(dolist (var '(default-frame-alist initial-frame-alist))
+<pre class="src src-emacs-lisp">;; This must go in the early-init.el so that it applies to the initial
+;; frame.
+(dolist (var '(default-frame-alist initial-frame-alist))
   (add-to-list var '(right-divider-width . 20))
   (add-to-list var '(internal-border-width . 20)))
 </pre>
@@ -6107,7 +6109,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgd46f3d7">
+<pre class="example" id="orgdc886c2">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6152,7 +6154,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgc6712c6">
+<pre class="example" id="org8b281a1">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6524,7 +6526,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgbe8ab31">
+<pre class="example" id="org4044083">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
