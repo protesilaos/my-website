@@ -4,6 +4,9 @@ excerpt: "Translation of my coaching page in Chinese."
 permalink: /cn/coach/
 ---
 
+✏️ 请看我的中文简历: <https://protesilaos.com/cn/cv>.  
+{:.info}
+
 我提供关于Emacs, Linux和生活、人生方面的私人课程和服务。我作为老师、教
 练的技能包括：
 
