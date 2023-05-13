@@ -276,8 +276,8 @@ symbol, display spec and attributes:
    'prot-base
    `(default ((,class :background ,main-bg :foreground ,main-fg)))
    `(cursor ((,class :background ,red)))
-   `(font-lock-builtin-face ((,class :foreground ,blue))))
-   `(font-lock-string-face ((,class :foreground ,green))))
+   `(font-lock-builtin-face ((,class :foreground ,blue)))
+   `(font-lock-string-face ((,class :foreground ,green)))))
 
 (provide-theme 'prot-base)
 
@@ -290,7 +290,7 @@ directory read by Emacs.  Say you put it in `~/.emacs.d/themes/`.  To
 inform Emacs about it, evaluate this:
 
 ```elisp
-(add-to-list 'load-path "~/.emacs.d/themes/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 ```
 
 With the theme written at `~/.emacs.d/themes/prot-base-theme.el`, you
