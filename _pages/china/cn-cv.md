@@ -10,6 +10,8 @@ permalink: /cn/cv/
 - 中文名字: 施道一
 - 个人网站: <https://protesilaos.com>
 - 电子邮箱: <public@protesilaos.com>
+- 抖 音: <https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE>
+  (ID: `65118858653`).
 - 国籍: 希腊
 - 居住地: 塞浦路斯
 - 性别: 男

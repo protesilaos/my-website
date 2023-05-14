@@ -106,7 +106,9 @@ Emacs软件包，（4）我在 Linux 上的自定义工作环境，（5）以及
 
 ## 联系我
 
-这个网页上有我的联系方式：<https://protesilaos.com/contact/>
+- 这个网页上有我的联系方式：<https://protesilaos.com/contact/>
+- 抖 音: <https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE>
+  (ID: `65118858653`).
 
 我期待着您的来件。您不必对我使用尊称，如“先生”等。请叫我的希腊名字
 "Protesilaos"，我的中文名字“施道一” ，或者我的昵称"Prot"。
