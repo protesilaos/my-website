@@ -140,9 +140,14 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [GitLab](https://gitlab.com/protesilaos)
 * [GitHub](https://github.com/protesilaos)
 * [YouTube](https://www.youtube.com/@protesilaos)
-* [SoundCloud](https://soundcloud.com/protesilaos)
 * [Odysee](https://odysee.com/@protesilaos:69b6498b147014fe819188848f8961657f3bf6f3)
+* [Douyin 抖音](https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE) (Chinese TikTok) (or use ID: `65118858653`).
+* IRC and Reddit: `protesilaos`.
 
-Note that my active Git repositories are on SourceHut (migrating there
-as of 2022-04-07).  For select projects, mirrors are available on GitLab
-and GitHub.
+1. My active Git repositories are on SourceHut.  For select projects,
+   mirrors are available on GitLab and GitHub.
+2. The Douyin/TikTok account is not maintained by me (I don't know
+   Chinese).  This is done by friends of mine in China who want to
+   help me by sharing some of my publications.
+3. I seldom use IRC/Reddit.  The username is there "just in case" I
+   ever need it.
