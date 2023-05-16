@@ -118,7 +118,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:82dc1203-d689-44b2-9a6c-b37776209651">10. Minibuffer histories</a></li>
 <li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">11. Extending Denote</a>
 <ul>
-<li><a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">11.1. Keep a journal or diary</a></li>
+<li><a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">11.1. Keep a journal or diary</a>
+<ul>
+<li><a href="#h:4af1f81e-e93a-43cc-b344-960032a16d42">11.1.1. Journaling with a timer</a></li>
+</ul>
+</li>
 <li><a href="#h:2f8090f1-50af-4965-9771-d5a91a0a87bd">11.2. Create a note with the region&rsquo;s contents</a></li>
 <li><a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">11.3. Split an Org subtree into its own note</a></li>
 <li><a href="#h:ea173a01-69ef-4574-89a7-6e60ede02f13">11.4. Narrow the list of files in Dired</a></li>
@@ -1011,7 +1015,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org62421f4">
+<pre class="example" id="org7cac275">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1357,7 +1361,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgb753e65">
+<pre class="example" id="orgfa993a0">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1454,7 +1458,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgd889fb3">
+<pre class="example" id="org797364d">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1474,7 +1478,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgdaa879c">
+<pre class="example" id="orga229c08">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1847,7 +1851,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgd110ef3">
+<pre class="example" id="org43f88aa">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1859,7 +1863,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org0ddc54a">
+<pre class="example" id="orgf102884">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1873,7 +1877,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgca5a96c">
+<pre class="example" id="org03428d9">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1887,7 +1891,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org56a0448">
+<pre class="example" id="org2ef42b4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2156,7 +2160,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgf27a38e">
+<pre class="example" id="org4e7fa2b">
 - link1
 - link2
 - link3
@@ -2174,7 +2178,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org10477db">
+<pre class="example" id="org980753c">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2373,7 +2377,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgaab73b7">
+<pre class="example" id="orgf352f66">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2388,7 +2392,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org3ff64c0">
+<pre class="example" id="orgd26e297">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2854,6 +2858,41 @@ Of course, you can always set up the function so that it asks for a
 </div>
 
 <p>
+The above snippets do not check if a daily entry exists: they always
+create a new one.  The idea is that one may want to write multiple
+journal entries per day.  Another approach is to create a single entry
+on a given day, in which case the command must be repurposed to
+surface the existing note, if present.  As with <code>my-denote-journal</code>
+above, the title is formatted as <code>Tuesday 14 June 2022</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-journal ()
+  "Create an entry tagged 'journal' with the date as its title.
+If a journal for the current day exists, visit it.  If multiple
+entries exist, prompt with completion for a choice between them.
+Else create a new file."
+  (interactive)
+  (let* ((today (format-time-string "%A %e %B %Y"))
+         (string (denote-sluggify today))
+         (files (denote-directory-files-matching-regexp string)))
+    (cond
+     ((&gt; (length files) 1)
+      (find-file (completing-read "Select file: " files nil :require-match)))
+     (files
+      (find-file (car files)))
+     (t
+      (denote
+       today
+       '("journal"))))))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:4af1f81e-e93a-43cc-b344-960032a16d42" class="outline-4">
+<h4 id="h:4af1f81e-e93a-43cc-b344-960032a16d42"><span class="section-number-4">11.1.1.</span> Journaling with a timer</h4>
+<div class="outline-text-4" id="text-h:4af1f81e-e93a-43cc-b344-960032a16d42">
+<p>
 Sometimes journaling is done with the intent to hone one&rsquo;s writing
 skills.  Perhaps you are learning a new language or wish to communicate
 your ideas with greater clarity and precision.  As with everything that
@@ -2908,6 +2947,7 @@ Sources for <code>tmr</code>:
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/tmr">https://lists.sr.ht/~protesilaos/tmr</a></li>
 </ul>
+</div>
 </div>
 </div>
 
@@ -3097,7 +3137,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org307125f">
+<pre class="example" id="orge5e4ea3">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4377,6 +4417,20 @@ strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
 matter <code>KEYWORDS</code> for org file type.  <code>KEYWORDS</code> is a list of
 strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
 </dl>
+
+<p>
+[ The following two functions are part of 2.0.0-dev. ]
+</p>
+
+<dl class="org-dl">
+<dt>Function <code>denote-link-return-links</code></dt><dd>Return list of links in
+current or optional <code>FILE</code>.  Also see <code>denote-link-return-backlinks</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-link-return-backlinks</code></dt><dd>Return list of links in
+current or optional <code>FILE</code>.  Also see <code>denote-link-return-links</code>.</dd>
+</dl>
 </div>
 </div>
 
@@ -4399,7 +4453,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgc772993">
+<pre class="example" id="org248abf1">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4409,7 +4463,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgdc81068">
+<pre class="example" id="orgc17bf8b">
 emacs -Q
 </pre>
 
@@ -4421,7 +4475,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org61da8e3">
+<pre class="example" id="org594d79c">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4487,7 +4541,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgfb67e99">
+<pre class="example" id="org52635ea">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5138,7 +5192,7 @@ Florian, Graham Marlow, Hilde Rhyne, Jack Baty, Jean-Philippe Gagné
 Guay, Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kyle Meyer, Marc
 Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
 Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier, Stefan
-Thesing, Thibaut Benjamin, Tomasz Hołubowicz.</dd>
+Thesing, Thibaut Benjamin, Tomasz Hołubowicz, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Alfredo Borrás, Benjamin Kästner, Colin McLear, Damien
