@@ -1,6 +1,6 @@
 ---
 title: 'Screen shots of the Modus themes for Emacs'
-subtitle: 'Demonstrating some options for various interfaces'
+subtitle: 'Demonstrating default styles for various interfaces'
 excerpt: 'Demo of the Modus themes for Emacs, showcasing a wide range of options and interfaces.'
 permalink: /emacs/modus-themes-pictures
 redirect_from:
@@ -14,8 +14,8 @@ defaults, but note that **the themes are highly customisable**: we
 simply cannot produce screenshots for the zillions of stylistic
 variations.
 
-What you see here corresponds to version `4.0.0-dev`, done on
-2022-12-28.  The typeface is [my modified version of
+What you see here corresponds to version `4.2.0-dev`, done on
+2023-05-18.  The typeface is [my modified version of
 Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).  **Enlarge the
 image**, because the smaller size can affect your perception of what
 is on display.
@@ -25,9 +25,11 @@ In each heading, the themes appear in this order:
 - `modus-operandi`
 - `modus-operandi-tinted`
 - `modus-operandi-deuteranopia`
+- `modus-operandi-tritanopia`
 - `modus-vivendi`
 - `modus-vivendi-tinted`
 - `modus-vivendi-deuteranopia`
+- `modus-vivendi-tritanopia`
 
 ## Code
 
@@ -37,11 +39,15 @@ In each heading, the themes appear in this order:
 
 <a href="{{'/assets/images/modus/modus-operandi-deuteranopia-code.png' | absolute_url}}"><img alt="modus-operandi-deuteranopia theme code sample" src="{{'/assets/images/modus/modus-operandi-deuteranopia-code.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/modus/modus-operandi-tritanopia-code.png' | absolute_url}}"><img alt="modus-operandi-tritanopia theme code sample" src="{{'/assets/images/modus/modus-operandi-tritanopia-code.png' | absolute_url }}"/></a>
+
 <a href="{{'/assets/images/modus/modus-vivendi-code.png' | absolute_url}}"><img alt="modus-vivendi theme code sample" src="{{'/assets/images/modus/modus-vivendi-code.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-tinted-code.png' | absolute_url}}"><img alt="modus-vivendi-tinted theme code sample" src="{{'/assets/images/modus/modus-vivendi-tinted-code.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-deuteranopia-code.png' | absolute_url}}"><img alt="modus-vivendi-deuteranopia theme code sample" src="{{'/assets/images/modus/modus-vivendi-deuteranopia-code.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/modus/modus-vivendi-tritanopia-code.png' | absolute_url}}"><img alt="modus-vivendi-tritanopia theme code sample" src="{{'/assets/images/modus/modus-vivendi-tritanopia-code.png' | absolute_url }}"/></a>
 
 ## Org
 
@@ -51,12 +57,15 @@ In each heading, the themes appear in this order:
 
 <a href="{{'/assets/images/modus/modus-operandi-deuteranopia-org.png' | absolute_url}}"><img alt="modus-operandi-deuteranopia theme org sample" src="{{'/assets/images/modus/modus-operandi-deuteranopia-org.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/modus/modus-operandi-tritanopia-org.png' | absolute_url}}"><img alt="modus-operandi-tritanopia theme org sample" src="{{'/assets/images/modus/modus-operandi-tritanopia-org.png' | absolute_url }}"/></a>
+
 <a href="{{'/assets/images/modus/modus-vivendi-org.png' | absolute_url}}"><img alt="modus-vivendi theme org sample" src="{{'/assets/images/modus/modus-vivendi-org.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-tinted-org.png' | absolute_url}}"><img alt="modus-vivendi-tinted theme org sample" src="{{'/assets/images/modus/modus-vivendi-tinted-org.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-deuteranopia-org.png' | absolute_url}}"><img alt="modus-vivendi-deuteranopia theme org sample" src="{{'/assets/images/modus/modus-vivendi-deuteranopia-org.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/modus/modus-vivendi-tritanopia-org.png' | absolute_url}}"><img alt="modus-vivendi-tritanopia theme org sample" src="{{'/assets/images/modus/modus-vivendi-tritanopia-org.png' | absolute_url }}"/></a>
 
 ## Magit
 
@@ -66,11 +75,15 @@ In each heading, the themes appear in this order:
 
 <a href="{{'/assets/images/modus/modus-operandi-deuteranopia-magit.png' | absolute_url}}"><img alt="modus-operandi-deuteranopia theme magit sample" src="{{'/assets/images/modus/modus-operandi-deuteranopia-magit.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/modus/modus-operandi-tritanopia-magit.png' | absolute_url}}"><img alt="modus-operandi-tritanopia theme magit sample" src="{{'/assets/images/modus/modus-operandi-tritanopia-magit.png' | absolute_url }}"/></a>
+
 <a href="{{'/assets/images/modus/modus-vivendi-magit.png' | absolute_url}}"><img alt="modus-vivendi theme magit sample" src="{{'/assets/images/modus/modus-vivendi-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-tinted-magit.png' | absolute_url}}"><img alt="modus-vivendi-tinted theme magit sample" src="{{'/assets/images/modus/modus-vivendi-tinted-magit.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-deuteranopia-magit.png' | absolute_url}}"><img alt="modus-vivendi-deuteranopia theme magit sample" src="{{'/assets/images/modus/modus-vivendi-deuteranopia-magit.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/modus/modus-vivendi-tritanopia-magit.png' | absolute_url}}"><img alt="modus-vivendi-tritanopia theme magit sample" src="{{'/assets/images/modus/modus-vivendi-tritanopia-magit.png' | absolute_url }}"/></a>
 
 ## Notmuch
 
@@ -80,8 +93,12 @@ In each heading, the themes appear in this order:
 
 <a href="{{'/assets/images/modus/modus-operandi-deuteranopia-notmuch.png' | absolute_url}}"><img alt="modus-operandi-deuteranopia theme notmuch sample" src="{{'/assets/images/modus/modus-operandi-deuteranopia-notmuch.png' | absolute_url }}"/></a>
 
+<a href="{{'/assets/images/modus/modus-operandi-tritanopia-notmuch.png' | absolute_url}}"><img alt="modus-operandi-tritanopia theme notmuch sample" src="{{'/assets/images/modus/modus-operandi-tritanopia-notmuch.png' | absolute_url }}"/></a>
+
 <a href="{{'/assets/images/modus/modus-vivendi-notmuch.png' | absolute_url}}"><img alt="modus-vivendi theme notmuch sample" src="{{'/assets/images/modus/modus-vivendi-notmuch.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-tinted-notmuch.png' | absolute_url}}"><img alt="modus-vivendi-tinted theme notmuch sample" src="{{'/assets/images/modus/modus-vivendi-tinted-notmuch.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/modus/modus-vivendi-deuteranopia-notmuch.png' | absolute_url}}"><img alt="modus-vivendi-deuteranopia theme notmuch sample" src="{{'/assets/images/modus/modus-vivendi-deuteranopia-notmuch.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/modus/modus-vivendi-tritanopia-notmuch.png' | absolute_url}}"><img alt="modus-vivendi-tritanopia theme notmuch sample" src="{{'/assets/images/modus/modus-vivendi-tritanopia-notmuch.png' | absolute_url }}"/></a>
