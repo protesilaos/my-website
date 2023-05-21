@@ -134,9 +134,22 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:8907f4bc-992a-45bc-a60e-267ed1ce9c2d">11.10. Use the <code>consult-notes</code> package</a></li>
 <li><a href="#h:472db709-27de-4a1f-a171-c3fe0a7a9be8">11.11. Use the <code>denote-menu</code> package</a></li>
 <li><a href="#h:fad3eb08-ddc7-43e4-ba28-210d89668037">11.12. Treat your notes as a project</a></li>
-<li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">11.13. Variants of <code>denote-open-or-create</code></a></li>
-<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">11.14. Variants of <code>denote-link-or-create</code></a></li>
-<li><a href="#h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">11.15. Using the tree-based file prompt for select commands</a></li>
+<li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">11.13. Make variants of <code>denote-open-or-create</code></a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">11.14. Make variants of <code>denote-link-or-create</code></a></li>
+<li><a href="#h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">11.15. Use the tree-based file prompt for select commands</a></li>
+<li><a href="#h:e666ced6-da75-4bdb-9be3-82c2f4455ee9">11.16. Rename files with Denote in the Image Dired thumbnails buffer</a></li>
+<li><a href="#h:4a8c4546-26b3-4195-8b2c-b08a519986a4">11.17. Avoid duplicate identifiers when exporting Denote notes</a>
+<ul>
+<li><a href="#h:67669d9d-17c3-45bd-8227-da57d8bc3b73">11.17.1. Export Denote notes with Org Mode</a>
+<ul>
+<li><a href="#h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">11.17.1.1. Manually configure Org export</a></li>
+<li><a href="#h:7a61a370-78e5-42a1-9650-98fee140723f">11.17.1.2. Automatically store Org exports in another folder</a></li>
+<li><a href="#h:2f3451ed-2fc4-4f36-bcf2-112939963e20">11.17.1.3. Org Mode Publishing</a></li>
+</ul>
+</li>
+<li><a href="#h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">11.17.2. Export Denote notes with Markdown</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#h:f3bdac2c-4704-4a51-948c-a789a2589790">12. Installation</a>
@@ -1015,7 +1028,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org7cac275">
+<pre class="example" id="org434f8ad">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1361,7 +1374,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgfa993a0">
+<pre class="example" id="orgf958997">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1458,7 +1471,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org797364d">
+<pre class="example" id="orgf509a06">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1478,7 +1491,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga229c08">
+<pre class="example" id="orgb19a091">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1851,7 +1864,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org43f88aa">
+<pre class="example" id="orgeb6abd4">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1863,7 +1876,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf102884">
+<pre class="example" id="org8a68f91">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1877,7 +1890,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org03428d9">
+<pre class="example" id="orgca63f76">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1891,7 +1904,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org2ef42b4">
+<pre class="example" id="orgc29d19d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2160,7 +2173,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org4e7fa2b">
+<pre class="example" id="org5e127ac">
 - link1
 - link2
 - link3
@@ -2178,7 +2191,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org980753c">
+<pre class="example" id="org06eaee2">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2377,7 +2390,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgf352f66">
+<pre class="example" id="org16c4d4f">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2392,7 +2405,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgd26e297">
+<pre class="example" id="org5deef42">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3137,7 +3150,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orge5e4ea3">
+<pre class="example" id="org61b8fa0">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3460,7 +3473,7 @@ Git).
 </div>
 
 <div id="outline-container-h:ad91ca39-cf10-4e16-b224-fdf78f093883" class="outline-3">
-<h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">11.13.</span> Variants of <code>denote-open-or-create</code></h3>
+<h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">11.13.</span> Make variants of <code>denote-open-or-create</code></h3>
 <div class="outline-text-3" id="text-h:ad91ca39-cf10-4e16-b224-fdf78f093883">
 <p>
 The command <code>denote-open-or-create</code> prompts to visit a file in the
@@ -3531,7 +3544,7 @@ For templates, refer to `denote-templates'."
 </div>
 
 <div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
-<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">11.14.</span> Variants of <code>denote-link-or-create</code></h3>
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">11.14.</span> Make variants of <code>denote-link-or-create</code></h3>
 <div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
 <p>
 The command <code>denote-link-or-create</code> uses <code>denote-link</code> on a <code>TARGET</code>
@@ -3614,7 +3627,7 @@ For templates, refer to `denote-templates'."
 </div>
 
 <div id="outline-container-h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa" class="outline-3">
-<h3 id="h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa"><span class="section-number-3">11.15.</span> Using the tree-based file prompt for select commands</h3>
+<h3 id="h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa"><span class="section-number-3">11.15.</span> Use the tree-based file prompt for select commands</h3>
 <div class="outline-text-3" id="text-h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">
 <p>
 Older versions of Denote had a file prompt that resembled that of the
@@ -3656,6 +3669,244 @@ See `denote-file-prompt-original'."
   (cl-letf (((symbol-function 'denote-file-prompt) #'denote-file-prompt-original))
     (call-interactively #'denote-link)))
 </pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:e666ced6-da75-4bdb-9be3-82c2f4455ee9" class="outline-3">
+<h3 id="h:e666ced6-da75-4bdb-9be3-82c2f4455ee9"><span class="section-number-3">11.16.</span> Rename files with Denote in the Image Dired thumbnails buffer</h3>
+<div class="outline-text-3" id="text-h:e666ced6-da75-4bdb-9be3-82c2f4455ee9">
+<p>
+Just as with the <code>denote-dired-rename-marked-files</code>, we can use Denote
+in the Image Dired buffer (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files at once</a>).  Here is
+the custom code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(autoload 'image-dired--with-marked "image-dired")
+(autoload 'image-dired-original-file-name "image-dired-util")
+
+(defun my-denote-image-dired-rename-marked-files (keywords)
+  "Like `denote-dired-rename-marked-files' but for Image Dired.
+Prompt for KEYWORDS and rename all marked files in the Image
+Dired buffer to have a Denote-style file name with the given
+KEYWORDS.
+
+IMPORTANT NOTE: if there are marked files in the corresponding
+Dired buffers, those will be targeted as well.  This is not the
+fault of Denote: it is how Dired and Image Dired work in tandem.
+To only rename the marked thumbnails, start by unmarking
+everything in Dired.  Then mark the items in Image Dired and
+invoke this command."
+  (interactive (list (denote-keywords-prompt)) image-dired-thumbnail-mode)
+  (image-dired--with-marked
+   (when-let* ((file (image-dired-original-file-name))
+               (dir (file-name-directory file))
+               (id (denote-retrieve-or-create-file-identifier file))
+               (file-type (denote-filetype-heuristics file))
+               (title (denote--retrieve-title-or-filename file file-type))
+               (extension (file-name-extension file t))
+               (new-name (denote-format-file-name dir id keywords title extension))
+               (default-directory dir))
+     (denote-rename-file-and-buffer file new-name))))
+</pre>
+</div>
+
+<p>
+While the <code>my-denote-image-dired-rename-marked-files</code> renames files in
+the helpful Denote-compliant way, users may still need to not prepend
+a unique identifier and not sluggify (hyphenate and downcase) the
+image&rsquo;s existing file name.  To this end, the following custom command
+can be used instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-image-dired-rename-marked-files (keywords)
+  "Like `denote-dired-rename-marked-files' but for Image Dired.
+Prompt for keywords and rename all marked files in the Image
+Dired buffer to have Denote-style keywords, but none of the other
+conventions of Denote's file-naming scheme."
+  (interactive (list (denote-keywords-prompt)) image-dired-thumbnail-mode)
+  (image-dired--with-marked
+   (when-let* ((file (image-dired-original-file-name))
+               (dir (file-name-directory file))
+               (file-type (denote-filetype-heuristics file))
+               (title (denote--retrieve-title-or-filename file file-type))
+               (extension (file-name-extension file t))
+               (kws (denote--keywords-combine keywords))
+               (new-name (concat dir title "__" kws extension))
+               (default-directory dir))
+     (denote-rename-file-and-buffer file new-name))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:4a8c4546-26b3-4195-8b2c-b08a519986a4" class="outline-3">
+<h3 id="h:4a8c4546-26b3-4195-8b2c-b08a519986a4"><span class="section-number-3">11.17.</span> Avoid duplicate identifiers when exporting Denote notes</h3>
+<div class="outline-text-3" id="text-h:4a8c4546-26b3-4195-8b2c-b08a519986a4">
+<p>
+When exporting Denote notes to, for example, an HTML or PDF file,
+there is a high probability that the same file name is used with a new
+extension.  This is problematic because it creates files with
+duplicate identifiers.  The <code>20230515T085612--example_keyword.org</code>
+produces a <code>20230515T085612--example_keyword.pdf</code>.  Any link to the
+<code>20230515T085612</code> will thus break: it does not honor Denote&rsquo;s
+expectation of finding unique identifiers.  This is not the fault of
+Denote: exporting is done by the user without Denote&rsquo;s involvement.
+</p>
+
+<p>
+Org Mode and Markdown use different approaches to exporting files.  No
+recommended method is available for plain text files as there is no
+standardised export functionality for this format (the user can always
+create a new note using the file type they want on a case-by-case
+basis: <a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).
+</p>
+</div>
+
+<div id="outline-container-h:67669d9d-17c3-45bd-8227-da57d8bc3b73" class="outline-4">
+<h4 id="h:67669d9d-17c3-45bd-8227-da57d8bc3b73"><span class="section-number-4">11.17.1.</span> Export Denote notes with Org Mode</h4>
+<div class="outline-text-4" id="text-h:67669d9d-17c3-45bd-8227-da57d8bc3b73">
+<p>
+Org Mode has a built-in configurable export engine.  You can prevent
+duplicate identifiers when exporting manually for each exported file
+or by advising the Org export function.
+</p>
+</div>
+
+<div id="outline-container-h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb" class="outline-5">
+<h5 id="h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb"><span class="section-number-5">11.17.1.1.</span> Manually configure Org export</h5>
+<div class="outline-text-5" id="text-h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">
+<p>
+Insert <code>#+export_file_name: FILENAME</code> in the front matter before
+exporting to force a filename called whatever the value of <code>FILENAME</code>
+is.  The <code>FILENAME</code> does not specify the file type extension, such as
+<code>.pdf</code>.  This is up to the export engine.  For example, a Denote note
+with a complete file name of <code>20230515T085612--example_keyword.org</code>
+and a front matter entry of <code>#+export_file_name: hello</code> will be
+exported as <code>hello.pdf</code>.
+</p>
+
+<p>
+The advantage of this manual method is that it gives the user full
+control over the resulting file name.  The disadvantage is that it
+depends on the user&rsquo;s behaviour.  Forgetting to add a new name can
+lead to duplicate identifiers, as already noted in the introduction to
+this section (<a href="#h:4a8c4546-26b3-4195-8b2c-b08a519986a4">Export Denote notes</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:7a61a370-78e5-42a1-9650-98fee140723f" class="outline-5">
+<h5 id="h:7a61a370-78e5-42a1-9650-98fee140723f"><span class="section-number-5">11.17.1.2.</span> Automatically store Org exports in another folder</h5>
+<div class="outline-text-5" id="text-h:7a61a370-78e5-42a1-9650-98fee140723f">
+<p>
+It is possible to automatically place all exports in another folder by
+making Org&rsquo;s function <code>org-export-output-file-name</code> create the target
+directory if needed and move the exported file there.  Remember that
+advising Elisp code must be handled with care, as it might break the
+original function in subtle ways.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar my-org-export-output-directory-prefix "./export_"
+  "Prefix of directory used for org-mode export.
+
+The single dot means that the directory is created on the same
+level as the one where the Org file that performs the exporting
+is.  Use two dots to place the directory on a level above the
+current one.
+
+If this directory is part of `denote-directory', make sure it is
+not read by Denote.  See `denote-excluded-directories-regexp'.
+This way there will be no known duplicate Denote identifiers
+produced by the Org export mechanism.")
+
+(defun my-org-export-create-directory (fn extension &amp;rest args)
+  "Move Org export file to its appropriate directory.
+
+Append the file type EXTENSION of the exported file to
+`my-org-export-output-directory-prefix' and, if absent, create a
+directory named accordingly.
+
+Install this as advice around `org-export-output-file-name'.  The
+EXTENSION is supplied by that function.  ARGS are its remaining
+arguments."
+  (let ((export-dir (format "%s%s" my-org-export-output-directory-prefix extension)))
+    (unless (file-directory-p export-dir)
+      (make-directory export-dir)))
+  (apply fn extension args))
+
+(advice-add #'org-export-output-file-name :around #'my-org-export-create-directory)
+</pre>
+</div>
+
+<p>
+The target export directory should not be a subdirectory of
+<code>denote-directory</code>, as that will result in duplicate identifiers.
+Exclude it with the <code>denote-excluded-directories-regexp</code> user option
+(<a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">Exclude certain directories from all operations</a>).
+</p>
+
+<p>
+[ NOTE: I (Protesilaos) am not a LaTeX user and cannot test the
+  following. ]
+</p>
+
+<p>
+Using a different directory will require some additional configuration
+when exporting using LaTeX.  The export folder cannot be inside the
+path of the <code>denote-directory</code> to prevent Denote from recognising it
+as an attachment:
+<a href="https://emacs.stackexchange.com/questions/45751/org-export-to-different-directory">https://emacs.stackexchange.com/questions/45751/org-export-to-different-directory</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:2f3451ed-2fc4-4f36-bcf2-112939963e20" class="outline-5">
+<h5 id="h:2f3451ed-2fc4-4f36-bcf2-112939963e20"><span class="section-number-5">11.17.1.3.</span> Org Mode Publishing</h5>
+<div class="outline-text-5" id="text-h:2f3451ed-2fc4-4f36-bcf2-112939963e20">
+<p>
+Org Mode also has a publishing tool for exporting a collection of
+files. Some user might apply this approach to convert their note
+collection to a public or private website.
+</p>
+
+<p>
+The <code>org-publish-project-alist</code> variable drives the publishing
+process, including the publishing directory.
+</p>
+
+<p>
+The publishing directory should not be a subdirectory of
+<code>denote-directory</code>, as that will result in duplicate identifiers.
+Exclude it with the <code>denote-excluded-directories-regexp</code> user option
+(<a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">Exclude certain directories from all operations</a>).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e" class="outline-4">
+<h4 id="h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e"><span class="section-number-4">11.17.2.</span> Export Denote notes with Markdown</h4>
+<div class="outline-text-4" id="text-h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">
+<p>
+Exporting from Markdown requires an external processor (e.g.,
+Markdown.pl, Pandoc, or MultiMarkdown).  The <code>markdown-command</code>
+variable defines the command line used in export, for example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq markdown-command "multimarkdown")
+</pre>
+</div>
+
+<p>
+The export process thus occurs outside of Emacs.  Users need to read
+the documentation of their preferred processor to prevent the creation
+of duplicate Denote identifiers.
+</p>
 </div>
 </div>
 </div>
@@ -4453,7 +4704,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org248abf1">
+<pre class="example" id="org35b0170">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4463,7 +4714,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc17bf8b">
+<pre class="example" id="org5ffb44a">
 emacs -Q
 </pre>
 
@@ -4475,7 +4726,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org594d79c">
+<pre class="example" id="org8959cbe">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4541,7 +4792,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org52635ea">
+<pre class="example" id="org5970bf7">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
