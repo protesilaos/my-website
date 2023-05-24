@@ -363,7 +363,8 @@ piece of functionality does.
     + GitHub: <https://github.com/protesilaos/dotfiles>
     + GitLab: <https://gitlab.com/protesilaos/dotfiles>
 + Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
-+ Backronym: Do Observe, Transpose, Examine, or Mirror All Configs, Stranger
++ Backronym: Do Observe, Transpose, Examine, or Mirror All
+  Configurations, Stranger
 
 ## Iosevka Comfy
 
