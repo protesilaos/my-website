@@ -1028,7 +1028,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org82bb132">
+<pre class="example" id="org83fe203">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1374,7 +1374,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgbfbf50d">
+<pre class="example" id="org3ce90be">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1471,7 +1471,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgf235e53">
+<pre class="example" id="org0726b9b">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1491,7 +1491,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf5e4c6e">
+<pre class="example" id="org816d031">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1874,7 +1874,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc8d63a1">
+<pre class="example" id="orgec92588">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1886,7 +1886,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org898da5a">
+<pre class="example" id="orgb8d8f6c">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1900,7 +1900,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org3da7b4d">
+<pre class="example" id="orge3ef826">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1914,7 +1914,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgab6f6cf">
+<pre class="example" id="org38ded1b">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2183,7 +2183,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org36da17d">
+<pre class="example" id="org141cf03">
 - link1
 - link2
 - link3
@@ -2201,7 +2201,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org30ccc1f">
+<pre class="example" id="org395f13d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2400,7 +2400,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org7932030">
+<pre class="example" id="orgef658f5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2415,7 +2415,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgb524038">
+<pre class="example" id="org60a00b2">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3160,7 +3160,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgf6ec004">
+<pre class="example" id="orgbdcf79c">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4050,11 +4050,23 @@ Everything is in place to set up the package.
 ;; showed in this manual.  We define it here and add it to a key binding
 ;; below.
 (defun my-denote-journal ()
-  "Create an entry tagged 'journal', while prompting for a title."
+  "Create an entry tagged 'journal' with the date as its title.
+If a journal for the current day exists, visit it.  If multiple
+entries exist, prompt with completion for a choice between them.
+Else create a new file."
   (interactive)
-  (denote
-   (denote-title-prompt)
-   '("journal")))
+  (let* ((today (format-time-string "%A %e %B %Y"))
+         (string (denote-sluggify today))
+         (files (denote-directory-files-matching-regexp string)))
+    (cond
+     ((&gt; (length files) 1)
+      (find-file (completing-read "Select file: " files nil :require-match)))
+     (files
+      (find-file (car files)))
+     (t
+      (denote
+       today
+       '("journal"))))))
 
 ;; Denote DOES NOT define any key bindings.  This is for the user to
 ;; decide.  For example:
@@ -4715,7 +4727,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org081ebd6">
+<pre class="example" id="org18a36d2">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4725,7 +4737,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org97e7382">
+<pre class="example" id="orga1655b8">
 emacs -Q
 </pre>
 
@@ -4737,7 +4749,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org6666538">
+<pre class="example" id="org3dd8c5c">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4803,7 +4815,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orge9ff91b">
+<pre class="example" id="org6bdb8f6">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
