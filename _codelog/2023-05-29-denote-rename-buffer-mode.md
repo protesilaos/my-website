@@ -30,6 +30,11 @@ implementation details of `denote-rename-buffer-with-title` or
 `denote-rename-buffer-with-identifier` for guidance on how to write a
 custom function.
 
+Note that renaming a _buffer_ is not the same as renaming a _file_
+(Denote can do both).  The former is just for ease-of-use inside of
+Emacs.  Whereas the latter is for writing changes to disk, making them
+available to all programs.
+
 I don't know when I will be able to release version `2.0.0`.
 Hopefully soon.
 
