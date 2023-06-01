@@ -1029,7 +1029,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2f45824">
+<pre class="example" id="org96b3abe">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1383,7 +1383,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org657b810">
+<pre class="example" id="org0323b77">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1480,7 +1480,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orged7633d">
+<pre class="example" id="org376f197">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1500,7 +1500,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orged58180">
+<pre class="example" id="org629b1c0">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1883,7 +1883,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgf04d6c6">
+<pre class="example" id="org3afdf7d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1895,7 +1895,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6747465">
+<pre class="example" id="orgc202ffb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1909,7 +1909,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orga79830d">
+<pre class="example" id="org51b9e45">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1923,7 +1923,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge09f14c">
+<pre class="example" id="org1cdc52d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2192,7 +2192,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org97d86e6">
+<pre class="example" id="orgc6cbbab">
 - link1
 - link2
 - link3
@@ -2210,7 +2210,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd5a7e47">
+<pre class="example" id="org0bb7940">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2409,7 +2409,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org5c4bb5c">
+<pre class="example" id="org7dba12e">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2424,7 +2424,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org6bc3b5e">
+<pre class="example" id="orgf360fef">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3093,9 +3093,21 @@ Delete the original subtree."
   (interactive)
   (if-let ((text (org-get-entry))
            (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment)))
-      (progn
-        (delete-region (org-entry-beginning-position) (org-entry-end-position))
-        (denote heading (org-get-tags) 'org)
+      (let ((element (org-element-at-point))
+            (tags (org-get-tags)))
+        (delete-region (org-entry-beginning-position)
+                       (save-excursion (org-end-of-subtree t) (point)))
+        (denote heading
+                tags
+                'org
+                nil
+                (or
+                 ;; Check PROPERTIES drawer for :created: or :date:
+                 (org-element-property :CREATED element)
+                 (org-element-property :DATE element)
+                 ;; Check the subtree for CLOSED
+                 (org-element-property :raw-value
+                                       (org-element-property :closed element))))
         (insert text))
     (user-error "No subtree to extract; aborting")))
 </pre>
@@ -3219,7 +3231,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgb9ae16b">
+<pre class="example" id="org023794e">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4802,7 +4814,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org94dda06">
+<pre class="example" id="orge635e52">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4812,7 +4824,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org916d034">
+<pre class="example" id="org0b829cf">
 emacs -Q
 </pre>
 
@@ -4824,7 +4836,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orge7adf9d">
+<pre class="example" id="org8b9d78b">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4890,7 +4902,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orge5240bd">
+<pre class="example" id="org432e44a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5541,7 +5553,8 @@ Florian, Graham Marlow, Hilde Rhyne, Jack Baty, Jean-Philippe Gagné
 Guay, Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kyle Meyer, Marc
 Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
 Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier, Stefan
-Thesing, Thibaut Benjamin, Tomasz Hołubowicz, relict007.</dd>
+Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar,
+relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Alfredo Borrás, Benjamin Kästner, Colin McLear, Damien
