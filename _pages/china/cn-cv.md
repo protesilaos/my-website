@@ -21,7 +21,7 @@ permalink: /cn/cv/
 
 ### 我是GNU Emacs和Elisp（一种编程语言）方面的专家。
 
-在过去4年里，我独自编写并免费分发、维护了19个Emacs 软件包：
+在过去4年里，我独自编写并免费分发、维护了20个Emacs 软件包：
 - <https://github.com/protesilaos>
 - <https://gitlab.com/protesilaos>
 - <https://git.sr.ht/~protesilaos>
@@ -46,6 +46,7 @@ permalink: /cn/cv/
 - Minibuffer and Completions in Tandem
 - Mandoura
 - Research
+- spacious-padding
 
 ### 我是一名老师、哲学家、演说家、作家和自由开源软件的倡导者。我精通英语、希腊语和法语。
 
@@ -61,32 +62,37 @@ permalink: /cn/cv/
 
 ### 媒体对我的采访
 
-#### 我被Syntopikon的记者Yuvraj Singh采访。
+- 我被Syntopikon的记者Yuvraj Singh采访：
 
-专访标题：“对Protesilaos Stavrou的采访”
-全文可在此阅读：<https://www.syntopikon.com/workflows/protesilaos-stavrou/>
+  专访标题：“对Protesilaos Stavrou的采访”:
+  <https://www.syntopikon.com/workflows/protesilaos-stavrou/>
 
-#### “InfoQ中国”（一家全球性社区网站）采访了我并为我做了专题报道。
+- “InfoQ中国”（一家全球性社区网站）采访了我并为我做了专题报道：
 
-专访标题：“隐居、反内卷，不意味着躺平｜专访2021年度「杰出新自由软件贡献者奖」得主”
-全文可在此阅读：<https://www.infoq.cn/article/4c6hFLTCOwQzxUQE4CIL>
+  专访标题：“隐居、反内卷，不意味着躺平｜专访2021年度「杰出新自由软件贡
+  献者奖」得主”: <https://www.infoq.cn/article/4c6hFLTCOwQzxUQE4CIL>
 
-相关介绍我的文章：“30岁文转码：从哲学家变成知名软件项目核心开发”
-全文可在此阅读：<https://www.infoq.cn/article/ny5whxy6astyr0vgnpl7>
+  相关介绍我的文章：“30岁文转码：从哲学家变成知名软件项目核心开发”:
+  <https://www.infoq.cn/article/ny5whxy6astyr0vgnpl7>
 
-#### 我被美国布朗大学采访。
-
-全文可在此阅读：<https://browninterviews.org/stand-up-and-tell-people-that-you-cannot-just-be-the-red-carpet-upon-which-others-will-parade-brown-interviews-protesilaos-stavrou/>
+- 我被美国布朗大学采访:  
+  <https://browninterviews.org/stand-up-and-tell-people-that-you-cannot-just-be-the-red-carpet-upon-which-others-will-parade-brown-interviews-protesilaos-stavrou/>
 
 ## 获奖
 
-FSF 2021年度杰出新自由软件贡献者奖
+1. FSF 2021年度杰出新自由软件贡献者奖
 
-自由软件基金会（FSF）授予我这个享有盛誉的奖项，以表彰我对Emacs及其全球
-社区的贡献，以及我对软件自由运动的奉献
-（<https://www.fsf.org/awards/onfsc-award>）。我在2022年LibrePlanet全
-球会议（<https://libreplanet.org>）上用英文发表了获奖感言，并做了题为
-“与GNU Emacs一起生活在自由中”的演讲（英文）。
+   自由软件基金会（FSF）授予我这个享有盛誉的奖项，以表彰我对Emacs及其全球
+   社区的贡献，以及我对软件自由运动的奉献
+   （<https://www.fsf.org/awards/onfsc-award>）。我在2022年LibrePlanet全
+   球会议（<https://libreplanet.org>）上用英文发表了获奖感言，并做了题为
+   “与GNU Emacs一起生活在自由中”的演讲（英文）。
+
+2. 谷歌颁发给我的 Google’s Open Source Peer Bonus Program 奖
+
+   2023 年 5 月，我获得了谷歌颁发的 Google’s Open Source Peer Bonus
+   Program 奖，以表彰我为 Emacs 开发、维护的 Modus themes（谷歌的颁奖公告：
+   <https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html>）
 
 ## 技能
 
