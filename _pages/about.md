@@ -41,6 +41,10 @@ their inherent recreational or educational value.
 I care about human connections and hope my publications will help in
 that regard.
 
+As of Spring 2023 I am building a hut (i.e. makeshift construction) in
+the mountains of Cyprus.  I am doing this to address my accommodation
+woes: I am priced out of the market for rent.
+
 ### Work on philosophy
 
 I talk, write, and do philosophy.  I generally try to express myself
