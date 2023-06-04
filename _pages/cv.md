@@ -105,15 +105,15 @@ My Emacs packages include:
 
 ## Education
 
-2012
+2012  
 Bachelor’s Degree in European Politics, Economics, and Law from the European University Cyprus
 
 ## Work Experience
 
-2016-
+2016-  
 Freelancer
 
-2012-2016
-A parliamentary assistant at the European Parliament
+2012-2016  
+A parliamentary assistant at the European Parliament  
 An independent researcher in European affairs
 
