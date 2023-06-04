@@ -118,7 +118,15 @@ On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
 for Outstanding New Free Software Contributor_.  I received it in my
 mail in late August 2022.  Here is the announcement, which also includes
 all links to the backstory, as well as a video of me showing the
-physical item: <https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/> (pictures too!).
+physical item:
+<https://protesilaos.com/codelog/2022-09-01-emacs-fsf-award/>
+(pictures too!).
+
+In May 2023 I received the _Google Open Source Peer Bonus Program_
+  award for my Emacs `modus-themes`:
+  <https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html>.
+  Relevant essay of mine on _Accessibility and software freedom_:
+  <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
 
 ## protesilaos.com
 
