@@ -43,6 +43,7 @@ My Emacs packages include:
 - Minibuffer and Completions in Tandem
 - Mandoura
 - Research
+- spacious-padding
 
 ### I am a teacher, philosopher, public speaker, writer, and advocate for free, open-source software. I am proficient in English, Greek and French.
 
@@ -58,37 +59,33 @@ My Emacs packages include:
 
 ### My media interviews
 
-#### I was interviewed by Yuvraj Singh of Syntopiskon.
+- Yuvraj Singh of Syntopikon:
+  <https://www.syntopikon.com/workflows/protesilaos-stavrou/>
 
-Title: An Interview with Protesilaos Stavrou
+- InfoQ China: 隐居、反内卷，不意味着躺平｜专访 2021 年度「杰出新自由
+  软件贡献者奖」得主 (<https://www.infoq.cn/article/4c6hFLTCOwQzxUQE4CIL>).
 
-The full interview is available at <https://www.syntopikon.com/workflows/protesilaos-stavrou/>
+- A related article on me published by InfoQ China: 30岁文转码：从哲学
+  家变成知名软件项目核心开发 (<https://www.infoq.cn/article/ny5whxy6astyr0vgnpl7>).
 
-#### I was interviewed and featured by InfoQ China, a global community platform.
-
-Title: 隐居、反内卷，不意味着躺平｜专访 2021 年度「杰出新自由软件贡献者奖」得主
-The full interview is available at <https://www.infoq.cn/article/4c6hFLTCOwQzxUQE4CIL>
-
-A related article on me published by InfoQ China: 
-Title: 30岁文转码：从哲学家变成知名软件项目核心开发
-The article is available at <https://www.infoq.cn/article/ny5whxy6astyr0vgnpl7>
-
-#### I was interviewed by Brown University (USA).
-
-The full interview is available at
-<https://browninterviews.org/stand-up-and-tell-people-that-you-cannot-just-be-the-red-carpet-upon-which-others-will-parade-brown-interviews-protesilaos-stavrou/>
+- Brown University (USA) Interviews: <https://browninterviews.org/stand-up-and-tell-people-that-you-cannot-just-be-the-red-carpet-upon-which-others-will-parade-brown-interviews-protesilaos-stavrou/>
 
 ## Awards
 
-The FSF 2021 Award for Outstanding New Free Software Contributor 
+- The FSF 2021 Award for Outstanding New Free Software Contributor 
 
-The Free Software Foundation (FSF) awarded me this prestigious award
-for my contributions to Emacs and its global community and for my
-dedication to software freedom
-(<https://www.fsf.org/awards/onfsc-award>). I gave an acceptance
-speech (in English) and an oral presentation (in English) entitled
-“Living in freedom with GNU Emacs” at the global 2022 LibrePlanet
-Conference (<https://libreplanet.org>).
+  The Free Software Foundation (FSF) awarded me this prestigious award
+  for my contributions to Emacs and its global community and for my
+  dedication to software freedom (<https://www.fsf.org/awards/onfsc-award>).
+  I gave an acceptance speech and an oral presentation entitled
+  “Living in freedom with GNU Emacs” at the global 2022 LibrePlanet
+  Conference (<https://libreplanet.org>).
+
+- Google Open Source Peer Bonus Program for my Emacs `modus-themes`:
+  <https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html>.
+  
+  Relevant essay of mine on _Accessibility and software freedom_:
+  <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
 
 ## Skills
 
