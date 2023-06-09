@@ -14,13 +14,13 @@ of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.3.0, released on 2022-09-04.  Any reference to
+1.0.0, released on 2023-06-09.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.4.0-dev.
+Current development target is 1.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -36,6 +36,7 @@ Current development target is 0.4.0-dev.
 </ul></li>
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/cursory">https://lists.sr.ht/~protesilaos/cursory</a></li>
+<li>Backronym: Cursor Usability Requires Styles Objectively Rated Yearlong</li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -69,7 +70,7 @@ Current development target is 0.4.0-dev.
 <h2 id="h:acadd212-7168-48b2-aded-f257d5fafeb3"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:acadd212-7168-48b2-aded-f257d5fafeb3">
 <p>
-Copyright (C) 2022  Free Software Foundation, Inc.
+Copyright (C) 2022-2023  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -95,21 +96,25 @@ modify this GNU manual.”
 <div class="outline-text-2" id="text-h:5266a2c2-ae71-4018-b597-98952f46b81d">
 <p>
 Cursory provides a thin wrapper around built-in variables that affect
-the style of the Emacs cursor on graphical terminals.  The intent is to
-allow the user to define preset configurations such as &ldquo;block with slow
-blinking&rdquo; or &ldquo;bar with fast blinking&rdquo; and set them on demand.
+the style of the Emacs cursor on graphical terminals.  The intent is
+to allow the user to define preset configurations such as &ldquo;block with
+slow blinking&rdquo; or &ldquo;bar with fast blinking&rdquo; and set them on demand.
+The use-case for such presets is to adapt to evolving interface
+requirements and concomitant levels of expected comfort, such as in
+the difference between writing and reading.
 </p>
 
 <p>
 The user option <code>cursory-presets</code> holds the presets.  The command
-<code>cursory-set-preset</code> is used to select one among them.  Selection
-supports minibuffer completion when there are multiple presets, else
-sets the single preset outright.
+<code>cursory-set-preset</code> is applies one among them.  The command supports
+minibuffer completion when there are multiple presets, else sets the
+single preset outright.
 </p>
 
 <p>
-Presets consist of a list of properties that govern the cursor type in
-the active and inactive windows, as well as cursor blinking variables.
+Presets consist of an arbitrary symbol broadly described the style set
+followed by a list of properties that govern the cursor type in the
+active and inactive windows, as well as cursor blinking variables.
 They look like this:
 </p>
 
@@ -117,6 +122,7 @@ They look like this:
 <pre class="src src-emacs-lisp">(bar
  :cursor-type (bar . 2)
  :cursor-in-non-selected-windows hollow
+ :blink-cursor-mode 1
  :blink-cursor-blinks 10
  :blink-cursor-interval 0.5
  :blink-cursor-delay 0.2)
@@ -135,16 +141,55 @@ references.
 <p>
 A property of <code>:blink-cursor-mode</code> is also available.  It is a numeric
 value of either <code>1</code> or <code>-1</code> and is given to the function
-<code>blink-cursor-mode</code> (<code>1</code> is to enable, <code>-1</code> is to disable the mode).
+<code>blink-cursor-mode</code>: <code>1</code> is to enable, <code>-1</code> is to disable the mode.
 </p>
 
 <p>
-A preset whose car is <code>t</code> is treated as the default option.  This makes
-it possible to specify multiple presets without duplicating their
-properties.  The other presets beside <code>t</code> act as overrides of the
-defaults and, as such, need only consist of the properties that change
-from the default.  See the original value of this variable for how that
-is done:
+Presets can inherit from each other.  Using the special <code>:inherit</code>
+property, like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq cursory-presets
+      '(
+        ;; Sample code here ...
+        (bar
+         :cursor-type (bar . 2)
+         :cursor-in-non-selected-windows hollow
+         :blink-cursor-mode 1
+         :blink-cursor-blinks 10
+         :blink-cursor-interval 0.5
+         :blink-cursor-delay 0.2)
+
+        (bar-no-other-window
+         :inherit bar
+         :cursor-in-non-selected-windows nil)
+        ;; More sample code here ...
+        ))
+</pre>
+</div>
+
+<p>
+In the above example, the <code>bar-no-other-window</code> is the same as <code>bar</code>
+except for the value of <code>:cursor-in-non-selected-windows</code>.
+</p>
+
+<p>
+The value given to the <code>:inherit</code> property corresponds to the name of
+another named preset (unquoted).  This tells the relevant Cursory
+functions to get the properties of that given preset and blend them
+with those of the current one.  The properties of the current preset
+take precedence over those of the inherited one, thus overriding them.
+</p>
+
+<p>
+A preset whose car is <code>t</code> is treated as the default option.  This
+makes it possible to specify multiple presets without duplicating
+their properties.  Presets beside <code>t</code> act as overrides of the defaults
+and, as such, need only consist of the properties that change from the
+default.  In the case of an <code>:inherit</code>, properties are first taken
+from the inherited preset and then the default one.  See the original
+value of this variable for how that is done:
 </p>
 
 <div class="org-src-container">
@@ -156,9 +201,15 @@ is done:
     (bar
      :cursor-type (bar . 2)
      :blink-cursor-interval 0.5)
+    (bar-no-other-window
+     :inherit bar
+     :cursor-in-non-selected-windows nil)
     (underscore
      :cursor-type (hbar . 3)
      :blink-cursor-blinks 50)
+    (underscore-thin-other-window
+     :inherit underscore
+     :cursor-in-non-selected-windows (hbar . 1))
     (t ; the default values
      :cursor-type box
      :cursor-in-non-selected-windows hollow
@@ -186,13 +237,22 @@ The default behaviour of <code>cursory-set-preset</code> is to change cursors
 globally.  The user can, however, limit the effect to the current
 buffer.  With interactive use, this is done by invoking the command with
 a universal prefix argument (<code>C-u</code> by default).  When called from Lisp,
-the LOCAL argument must be non-nil.
+the LOCAL argument must be non-nil, thus:
 </p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(cursory-set-preset 'bar :local)
+</pre>
+</div>
 
 <p>
 The function <code>cursory-store-latest-preset</code> is used to save the last
 selected style in the <code>cursory-latest-state-file</code>.  The value can then
 be restored with the <code>cursory-restore-latest-preset</code> function.
+</p>
+
+<p>
+<a href="#h:b3c38cda-48d3-4715-9c46-6b9844a6da86">Sample configuration</a>.
 </p>
 </div>
 </div>
