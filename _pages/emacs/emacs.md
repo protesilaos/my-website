@@ -331,9 +331,12 @@ more of a reminder of the point's location on the vertical axis.
 ## Cursory
 
 Cursory provides a thin wrapper around built-in variables that affect
-the style of the Emacs cursor.  The intent is to allow the user to
-define preset configurations such as "block with slow blinking" or "bar
-with fast blinking" and set them on demand.
+the style of the Emacs cursor on graphical terminals.  The intent is
+to allow the user to define preset configurations such as "block with
+slow blinking" or "bar with fast blinking" and set them on demand.
+The use-case for such presets is to adapt to evolving interface
+requirements and concomitant levels of expected comfort, such as in
+the difference between writing and reading.
 
 + Package name (GNU ELPA): `cursory`
 + Official manual: <https://protesilaos.com/emacs/cursory>
@@ -343,7 +346,7 @@ with fast blinking" and set them on demand.
     + GitHub: <https://github.com/protesilaos/cursory>
     + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Mailing list: <https://lists.sr.ht/~protesilaos/cursory>
-+ Backronym: Cursors are Undeniably Reduced a Simple, Ordinary Role Yearround
++ Backronym: Cursor Usability Requires Styles Objectively Rated Yearlong
 
 ## Notmuch Indicator
 
