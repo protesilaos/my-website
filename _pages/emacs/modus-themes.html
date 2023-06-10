@@ -2719,7 +2719,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="orgef70e2e">
+<pre class="example" id="org109c1f8">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -3943,23 +3943,23 @@ have something like this:
 
 <p>
 You could then use a variant of the following to inherit from a face
-that uses the styles you want and also to preserve the properties
-applied by the <code>org-todo</code> face (in case there is a difference between the
-two):
+that uses the styles you want and also to preserve the attributes
+applied by the <code>org-todo</code> face (in case there is a difference between
+the two):
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq org-todo-keyword-faces
-      '(("MEET" . '(bold org-todo))
-        ("STUDY" . '(warning org-todo))
-        ("WRITE" . '(shadow org-todo))))
+      '(("MEET" . (:inherit (bold org-todo)))
+        ("STUDY" . (:inherit (warning org-todo)))
+        ("WRITE" . (:inherit (shadow org-todo)))))
 </pre>
 </div>
 
 <p>
 This will refashion the keywords you specify, while letting the other
-items in <code>org-todo-keywords</code> use their original styles (which are defined
-in the <code>org-todo</code> and <code>org-done</code> faces).
+items in <code>org-todo-keywords</code> use their original styles, which are
+defined in the <code>org-todo</code> and <code>org-done</code> faces.
 </p>
 
 <p>
@@ -3975,15 +3975,20 @@ If you want back the defaults, try specifying just the <code>org-todo</code> fac
 </div>
 
 <p>
-When you inherit from multiple faces, you need to quote the list as
+Or set <code>org-todo-keyword-faces</code> to <code>nil</code>.
+</p>
+
+<p>
+When you inherit from multiple faces, you need to do it the way it is
 shown further above.  The order is significant: the first entry is
-applied on top of the second, overriding any properties that are
-explicitly set for both of them: any property that is not specified is
-not overridden, so, for example, if <code>org-todo</code> has a background and a
-foreground, while <code>font-lock-type-face</code> only has a foreground, the merged
-face will include the background of the former and the foreground of the
-latter.  If you do not want to blend multiple faces, you do not need a
-quoted list.  A pattern of <code>keyword . face</code> will suffice.
+applied on top of the second, overriding any attributes that are
+explicitly set for both of them: any attribute that is not specified
+is not overridden, so, for example, if <code>org-todo</code> has a background and
+a foreground, while <code>font-lock-type-face</code> only has a foreground, the
+merged face will include the background of the former and the
+foreground of the latter.  If you do not want to blend multiple faces,
+you only specify one by name without parentheses or an <code>:inherit</code>
+keyword.  A pattern of <code>keyword . face</code> will suffice.
 </p>
 
 <p>
@@ -3993,9 +3998,9 @@ configuration of the priority cookies:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq org-priority-faces
-      '((?A . '(bold org-priority))
+      '((?A . (:inherit (bold org-priority)))
         (?B . org-priority)
-        (?C . '(shadow org-priority))))
+        (?C . (:inherit (shadow org-priority)))))
 </pre>
 </div>
 
@@ -4298,7 +4303,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgf664581">
+<pre class="example" id="orgad7fcb1">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -6122,7 +6127,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgfe56261">
+<pre class="example" id="org29a700b">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6167,7 +6172,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgf955094">
+<pre class="example" id="org5792a09">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6540,7 +6545,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org9662e9b">
+<pre class="example" id="orgc9cfe46">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
