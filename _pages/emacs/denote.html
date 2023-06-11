@@ -1029,7 +1029,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org96b3abe">
+<pre class="example" id="org65b95c0">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1149,7 +1149,7 @@ sufficient.  The manual shall be expanded accordingly.
 <p>
 We implement silos as directory-local values of the user option
 <code>denote-directory</code>.  This means that all Denote commands read from the
-local value if they are invoked from that context.  For example, is
+local value if they are invoked from that context.  For example, if
 <code>~/Videos/recordings</code> is a silo and <code>~/Documents/notes</code> is the
 default/global value of <code>denote-directory</code> all Denote commands will
 read the video&rsquo;s path when called from there (e.g. by using Emacs&rsquo;
@@ -1168,6 +1168,11 @@ it is easier to have some custom code for it.  The following should be
 added to the user&rsquo;s Denote configuration:
 </p>
 
+<p>
+[ NOTE that the variable <code>denote-user-enforced-denote-directory</code> is
+  part of 2.0.0-dev. ]
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defvar my-denote-silo-directories
   `("/home/prot/Videos/recordings"
@@ -1177,7 +1182,7 @@ added to the user&rsquo;s Denote configuration:
     ;; including it for completeness.
     ,denote-directory)
   "List of file paths pointing to my Denote silos.
-This is a list of strings.")
+  This is a list of strings.")
 
 (defvar my-denote-commands-for-silos
   '(denote
@@ -1186,19 +1191,19 @@ This is a list of strings.")
     denote-template
     denote-type)
   "List of Denote commands to call after selecting a silo.
-This is a list of symbols that specify the note-creating
-interactive functions that Denote provides.")
+  This is a list of symbols that specify the note-creating
+  interactive functions that Denote provides.")
 
 (defun my-denote-pick-silo-then-command (silo command)
   "Select SILO and run Denote COMMAND in it.
-SILO is a file path from `my-denote-silo-directories', while
-COMMAND is one among `my-denote-commands-for-silos'."
+  SILO is a file path from `my-denote-silo-directories', while
+  COMMAND is one among `my-denote-commands-for-silos'."
   (interactive
    (list (completing-read "Select a silo: " my-denote-silo-directories nil t)
          (intern (completing-read
                   "Run command in silo: "
                   my-denote-commands-for-silos nil t))))
-  (let ((denote-directory silo))
+  (let ((denote-user-enforced-denote-directory silo))
     (call-interactively command)))
 </pre>
 </div>
@@ -1207,6 +1212,24 @@ COMMAND is one among `my-denote-commands-for-silos'."
 With this in place, <code>M-x my-denote-pick-silo-then-command</code> will use
 minibuffer completion to select a silo among the predefined options
 and then ask for the command to run in that context.
+</p>
+
+<p>
+Note the use of the variable <code>user-enforced-denote-directory</code>. This
+variable is specially meant for custom commands to select silos. When
+it is set, it overrides the global default value of <code>denote-directory</code>
+as well as the value provided by the <code>.dir-locals.el</code> file. Use it
+only when writing wrapper functions like
+<code>my-denote-pick-silo-then-command</code>.
+</p>
+
+<p>
+To see another example of a wrapper function that uses
+<code>user-enforced-denote-directory</code>, see:
+</p>
+
+<p>
+<a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">Extending Denote: Split an Org subtree into its own note</a>.
 </p>
 </div>
 </div>
@@ -1383,7 +1406,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org0323b77">
+<pre class="example" id="orgd99f94c">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1480,7 +1503,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org376f197">
+<pre class="example" id="orgca4f642">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1500,7 +1523,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org629b1c0">
+<pre class="example" id="org26ba1f0">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1883,7 +1906,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org3afdf7d">
+<pre class="example" id="org07e6459">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1895,7 +1918,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgc202ffb">
+<pre class="example" id="orgacc8a56">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1909,7 +1932,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org51b9e45">
+<pre class="example" id="orgfbabd0a">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1923,7 +1946,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org1cdc52d">
+<pre class="example" id="orgb07adbc">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2192,7 +2215,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc6cbbab">
+<pre class="example" id="orgd6a50bf">
 - link1
 - link2
 - link3
@@ -2210,7 +2233,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-link
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0bb7940">
+<pre class="example" id="org426b5c2">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2409,7 +2432,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org7dba12e">
+<pre class="example" id="orgdf5c313">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2424,7 +2447,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgf360fef">
+<pre class="example" id="org1c39426">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3080,21 +3103,32 @@ file.  The contents of the subtree become the contents of the new note
 and are removed from the old one.
 </p>
 
+<p>
+[ NOTE that the variable <code>denote-user-enforced-denote-directory</code> is
+  part of 2.0.0-dev. ]
+</p>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-denote-org-extract-subtree ()
+<pre class="src src-emacs-lisp">(defun my-denote-org-extract-subtree (&amp;optional silo)
   "Create new Denote note using current Org subtree.
 Make the new note use the Org file type, regardless of the value
 of `denote-file-type'.
+
+With an optional SILO argument as a prefix (\\[universal-argument]),
+ask user to select a SILO from `my-denote-silo-directories'.
 
 Use the subtree title as the note's title.  If available, use the
 tags of the heading are used as note keywords.
 
 Delete the original subtree."
-  (interactive)
+  (interactive
+   (list (when current-prefix-arg
+           (completing-read "Select a silo: " my-denote-silo-directories nil t))))
   (if-let ((text (org-get-entry))
            (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment)))
       (let ((element (org-element-at-point))
-            (tags (org-get-tags)))
+            (tags (org-get-tags))
+            (denote-user-enforced-denote-directory silo))
         (delete-region (org-entry-beginning-position)
                        (save-excursion (org-end-of-subtree t) (point)))
         (denote heading
@@ -3231,7 +3265,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org023794e">
+<pre class="example" id="org5a0b8ae">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4320,10 +4354,19 @@ per <code>denote-keywords-prompt</code>.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-directory</code></dt><dd>Return path of the variable
+<dt>Function <code>denote-directory</code></dt><dd><p>
+Return path of the variable
 <code>denote-directory</code> as a proper directory, also because it accepts a
 directory-local value for what we internally refer to as &ldquo;silos&rdquo;
-(<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
+(<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).  Custom Lisp code can
+<code>let</code> bind the value of the variable <code>denote-user-enforced-denote-directory</code>
+to override what this function returns.
+</p>
+
+<p>
+[ NOTE that the variable <code>denote-user-enforced-denote-directory</code> is
+  part of 2.0.0-dev. ]
+</p></dd>
 </dl>
 
 <dl class="org-dl">
@@ -4814,7 +4857,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orge635e52">
+<pre class="example" id="org57fa784">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4824,7 +4867,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org0b829cf">
+<pre class="example" id="org74211cb">
 emacs -Q
 </pre>
 
@@ -4836,7 +4879,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org8b9d78b">
+<pre class="example" id="org2aa2d5a">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4902,7 +4945,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org432e44a">
+<pre class="example" id="org6bf98a1">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5561,10 +5604,10 @@ Schmitt, Alfredo Borrás, Benjamin Kästner, Colin McLear, Damien
 Cassou, Elias Storms, Federico Stilman, Florian, Frank Ehmsen, Guo
 Yong, Hanspeter Gisler, Jack Baty, Jeremy Friesen, Jonathan Sahar,
 Juanjo Presa, Johan Bolmsjö, Kai von Fintel, Kaushal Modi, M. Hadi
-Timachi, Mirko Hernandez, Paul van Gelder, Peter Prevos, Shreyas
-Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, Viktor
-Haag, Wade Mealing, Yi Liu, Ypot, atanasj, doolio, drcxd, hpgisler,
-pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
+Timachi, Mirko Hernandez, Niall Dooley, Paul van Gelder, Peter
+Prevos, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck,
+Taoufik, Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj, doolio,
+drcxd, hpgisler, pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
 </dl>
 
 <p>
