@@ -25,38 +25,11 @@ results, **click to enlarge the pictures**.
 
 <a href="{{'/assets/images/ef/ef-cyprus.png' | absolute_url }}"><img alt="ef-cyprus theme sample" src="{{'/assets/images/ef/ef-cyprus.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-cyprus-magit.png' | absolute_url }}"><img alt="ef-cyprus theme magit sample" src="{{'/assets/images/ef/ef-cyprus-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-cyprus-git.png' | absolute_url }}"><img alt="ef-cyprus theme git sample" src="{{'/assets/images/ef/ef-cyprus-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-cyprus-listing.png' | absolute_url }}"><img alt="ef-cyprus theme listing sample" src="{{'/assets/images/ef/ef-cyprus-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-cyprus-mail.png' | absolute_url }}"><img alt="ef-cyprus theme mail sample" src="{{'/assets/images/ef/ef-cyprus-mail.png' | absolute_url }}"/></a>
 
-## Comparison between ef-day, ef-cyprus, ef-duo-light
-
-Check out those somewhat related themes.  Each triplet of images is in
-the order of `ef-day`, `ef-cyprus`, `ef-duo-light`.
-
-### Code and Org
-
-<a href="{{'/assets/images/ef/ef-day.png' | absolute_url }}"><img alt="ef-day theme sample" src="{{'/assets/images/ef/ef-day.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-cyprus.png' | absolute_url }}"><img alt="ef-cyprus theme sample" src="{{'/assets/images/ef/ef-cyprus.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"><img alt="ef-duo-light theme sample" src="{{'/assets/images/ef/ef-duo-light.png' | absolute_url }}"/></a>
-
-### Magit (indicative of diffs and logs)
-
-<a href="{{'/assets/images/ef/ef-day-magit.png' | absolute_url }}"><img alt="ef-day theme magit sample" src="{{'/assets/images/ef/ef-day-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-cyprus-magit.png' | absolute_url }}"><img alt="ef-cyprus theme magit sample" src="{{'/assets/images/ef/ef-cyprus-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-duo-light-magit.png' | absolute_url }}"><img alt="ef-duo-light theme magit sample" src="{{'/assets/images/ef/ef-duo-light-magit.png' | absolute_url }}"/></a>
-
-### Email listing (indicative of other listings)
-
-<a href="{{'/assets/images/ef/ef-day-listing.png' | absolute_url }}"><img alt="ef-day theme listing sample" src="{{'/assets/images/ef/ef-day-listing.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-cyprus-listing.png' | absolute_url }}"><img alt="ef-cyprus theme listing sample" src="{{'/assets/images/ef/ef-cyprus-listing.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-duo-light-listing.png' | absolute_url }}"><img alt="ef-duo-light theme listing sample" src="{{'/assets/images/ef/ef-duo-light-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-cyprus-org.png' | absolute_url }}"><img alt="ef-cyprus theme org sample" src="{{'/assets/images/ef/ef-cyprus-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 0.9.0 (next stable release)
 

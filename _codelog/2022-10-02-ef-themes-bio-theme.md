@@ -18,32 +18,11 @@ here: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
 <a href="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"><img alt="ef-bio theme sample" src="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"><img alt="ef-bio theme magit sample" src="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-bio-git.png' | absolute_url }}"><img alt="ef-bio theme git sample" src="{{'/assets/images/ef/ef-bio-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"><img alt="ef-bio theme listing sample" src="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-bio-mail.png' | absolute_url }}"><img alt="ef-bio theme mail sample" src="{{'/assets/images/ef/ef-bio-mail.png' | absolute_url }}"/></a>
 
-## Comparison of ef-bio, ef-night, ef-trio-dark
-
-Just a sample with two other dark themes from the `ef-themes`
-collection.
-
-<a href="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"><img alt="ef-bio theme sample" src="{{'/assets/images/ef/ef-bio.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-night.png' | absolute_url }}"><img alt="ef-night theme sample" src="{{'/assets/images/ef/ef-night.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"><img alt="ef-trio-dark theme sample" src="{{'/assets/images/ef/ef-trio-dark.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"><img alt="ef-bio theme magit sample" src="{{'/assets/images/ef/ef-bio-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-night-magit.png' | absolute_url }}"><img alt="ef-night theme magit sample" src="{{'/assets/images/ef/ef-night-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-trio-dark-magit.png' | absolute_url }}"><img alt="ef-trio-dark theme magit sample" src="{{'/assets/images/ef/ef-trio-dark-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"><img alt="ef-bio theme listing sample" src="{{'/assets/images/ef/ef-bio-listing.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-night-listing.png' | absolute_url }}"><img alt="ef-night theme listing sample" src="{{'/assets/images/ef/ef-night-listing.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-trio-dark-listing.png' | absolute_url }}"><img alt="ef-trio-dark theme listing sample" src="{{'/assets/images/ef/ef-trio-dark-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-bio-org.png' | absolute_url }}"><img alt="ef-bio theme org sample" src="{{'/assets/images/ef/ef-bio-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 0.7.0 (next stable release)
 

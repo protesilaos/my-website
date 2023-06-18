@@ -29,28 +29,11 @@ explains more.
 
 <a href="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"><img alt="ef-frost theme sample" src="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"><img alt="ef-frost theme magit sample" src="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-frost-git.png' | absolute_url }}"><img alt="ef-frost theme git sample" src="{{'/assets/images/ef/ef-frost-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"><img alt="ef-frost theme listing sample" src="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-frost-mail.png' | absolute_url }}"><img alt="ef-frost theme mail sample" src="{{'/assets/images/ef/ef-frost-mail.png' | absolute_url }}"/></a>
 
-## Comparison between ef-light and ef-frost
-
-There is no other light theme quite like `ef-frost`.  The closest is
-`ef-light`, which is more colourful as those pictures demonstrate
-(each theme in the collection has a unique colour mapping and its own
-colour palette).
-
-<a href="{{'/assets/images/ef/ef-light.png' | absolute_url }}"><img alt="ef-light theme sample" src="{{'/assets/images/ef/ef-light.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"><img alt="ef-frost theme sample" src="{{'/assets/images/ef/ef-frost.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-light-magit.png' | absolute_url }}"><img alt="ef-light theme magit sample" src="{{'/assets/images/ef/ef-light-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"><img alt="ef-frost theme magit sample" src="{{'/assets/images/ef/ef-frost-magit.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"><img alt="ef-light theme listing sample" src="{{'/assets/images/ef/ef-light-listing.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"><img alt="ef-frost theme listing sample" src="{{'/assets/images/ef/ef-frost-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-frost-org.png' | absolute_url }}"><img alt="ef-frost theme org sample" src="{{'/assets/images/ef/ef-frost-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 0.7.0 (next stable release)
 

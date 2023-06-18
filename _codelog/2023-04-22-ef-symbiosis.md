@@ -16,9 +16,11 @@ accurate results, **click to enlarge the image** (or just install
 
 <a href="{{'/assets/images/ef/ef-symbiosis.png' | absolute_url }}"><img alt="ef-symbiosis theme sample" src="{{'/assets/images/ef/ef-symbiosis.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-symbiosis-magit.png' | absolute_url }}"><img alt="ef-symbiosis theme magit sample" src="{{'/assets/images/ef/ef-symbiosis-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-symbiosis-git.png' | absolute_url }}"><img alt="ef-symbiosis theme git sample" src="{{'/assets/images/ef/ef-symbiosis-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-symbiosis-listing.png' | absolute_url }}"><img alt="ef-symbiosis theme listing sample" src="{{'/assets/images/ef/ef-symbiosis-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-symbiosis-mail.png' | absolute_url }}"><img alt="ef-symbiosis theme mail sample" src="{{'/assets/images/ef/ef-symbiosis-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-symbiosis-org.png' | absolute_url }}"><img alt="ef-symbiosis theme org sample" src="{{'/assets/images/ef/ef-symbiosis-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 1.0.0 (next stable release)
 

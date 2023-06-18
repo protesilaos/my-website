@@ -24,17 +24,21 @@ here: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
 <a href="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"><img alt="ef-tritanopia-light theme sample" src="{{'/assets/images/ef/ef-tritanopia-light.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-light-magit.png' | absolute_url }}"><img alt="ef-tritanopia-light theme magit sample" src="{{'/assets/images/ef/ef-tritanopia-light-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-light-git.png' | absolute_url }}"><img alt="ef-tritanopia-light theme git sample" src="{{'/assets/images/ef/ef-tritanopia-light-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"><img alt="ef-tritanopia-light theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-light-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-light-mail.png' | absolute_url }}"><img alt="ef-tritanopia-light theme mail sample" src="{{'/assets/images/ef/ef-tritanopia-light-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-light-org.png' | absolute_url }}"><img alt="ef-tritanopia-light theme org sample" src="{{'/assets/images/ef/ef-tritanopia-light-org.png' | absolute_url }}"/></a>
 
 ## ef-tritanopia-dark
 
 <a href="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme sample" src="{{'/assets/images/ef/ef-tritanopia-dark.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-dark-magit.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme magit sample" src="{{'/assets/images/ef/ef-tritanopia-dark-magit.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-git.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme git sample" src="{{'/assets/images/ef/ef-tritanopia-dark-git.png' | absolute_url }}"/></a>
 
-<a href="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme listing sample" src="{{'/assets/images/ef/ef-tritanopia-dark-listing.png' | absolute_url }}"/></a>
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-mail.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme mail sample" src="{{'/assets/images/ef/ef-tritanopia-dark-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-tritanopia-dark-org.png' | absolute_url }}"><img alt="ef-tritanopia-dark theme org sample" src="{{'/assets/images/ef/ef-tritanopia-dark-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 0.8.0 (next stable release)
 
