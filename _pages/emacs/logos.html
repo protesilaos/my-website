@@ -14,13 +14,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.0.0, released on 2022-10-19.  Any reference to
+1.1.0, released on 2023-06-20.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.1.0-dev.
+Current development target is 1.2.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -61,7 +61,7 @@ Goes through Outline Sections</li>
 <li><a href="#h:e18f828f-f9a8-4821-b73b-46793be57abb">5.3. Automatically reveal Org or Outline subtree</a></li>
 <li><a href="#h:bba965c6-7451-4c76-84d6-7e03c99ed546">5.4. Recenter at the top upon page motion</a></li>
 <li><a href="#h:3464ada8-c55d-4179-9d54-c2f87e284ac7">5.5. Use outlines and page breaks</a></li>
-<li><a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">5.6. Leverage logos-focus-mode-extra-functions</a>
+<li><a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">5.6. Leverage logos-focus-mode-hook</a>
 <ul>
 <li><a href="#h:ef719925-8d0b-479a-a87e-32b727578bfc">5.6.1. Conditionally toggle org-indent-mode</a></li>
 <li><a href="#h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">5.6.2. Disable menu-bar and tool-bar</a></li>
@@ -309,8 +309,8 @@ it is possible to use file variables as described in the Emacs manual.</li>
               logos-scroll-lock nil
               logos-olivetti nil)
 
-;; Also check this manual for `logos-focus-mode-extra-functions'.  It is
-;; a hook that lets you extend `logos-focus-mode'.
+;; Also check this manual for `logos-focus-mode-hook'.  It lets you
+;; extend `logos-focus-mode'.
 
 (let ((map global-map))
   (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
@@ -417,7 +417,7 @@ This is the relevant snippet from <code>logos.el</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun logos--reveal-entry ()
+<pre class="src src-emacs-lisp">(defun logos-reveal-entry ()
   "Reveal Org or Outline entry."
   (cond
    ((and (eq major-mode 'org-mode)
@@ -427,19 +427,19 @@ This is the relevant snippet from <code>logos.el</code>:
         (bound-and-true-p outline-minor-mode))
     (outline-show-entry))))
 
-(add-hook 'logos-page-motion-hook #'logos--reveal-entry)
+(add-hook 'logos-page-motion-hook #'logos-reveal-entry)
 </pre>
 </div>
 
 <p>
 Users may prefer to reveal the entire subtree instead of the current
 entry: the heading at point and all of its subheadings.  In this case,
-one may override the definition of <code>logos--reveal-entry</code>:
+one may override the definition of <code>logos-reveal-entry</code>:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; glue code to expand an Org/Outline heading
-(defun logos--reveal-entry ()
+(defun logos-reveal-entry ()
   "Reveal Org or Outline entry."
   (cond
    ((and (eq major-mode 'org-mode)
@@ -464,11 +464,11 @@ placement invoke the <code>recenter</code> function with a numeric argument.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; place point at the top when changing pages
-(defun my-logos--recenter-top ()
+(defun my-logos-recenter-top ()
   "Use `recenter' to reposition the view at the top."
   (recenter 0))
 
-(add-hook 'logos-page-motion-hook #'my-logos--recenter-top)
+(add-hook 'logos-page-motion-hook #'my-logos-recenter-top)
 </pre>
 </div>
 
@@ -486,7 +486,7 @@ accordingly:
 <pre class="src src-emacs-lisp">(defvar my-logos-no-recenter-top-modes 
   '(emacs-lisp-mode lisp-interaction-mode))
 
-(defun my-logos--recenter-top ()
+(defun my-logos-recenter-top ()
   "Use `recenter' to reposition the view at the top."
   (unless (memq major-mode my-logos-no-recenter-top-modes)
     (recenter 0)))
@@ -498,7 +498,7 @@ Or simply exclude all programming modes:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-logos--recenter-top ()
+<pre class="src src-emacs-lisp">(defun my-logos-recenter-top ()
   "Use `recenter' to reposition the view at the top."
   (unless (derived-mode-p 'prog-mode)
     (recenter 0)))
@@ -550,14 +550,14 @@ outline and the page delimiters:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
-      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" (default-value 'page-delimiter)))
-        (org-mode . ,(format "\\(^\\*+ +\\|%s\\)" (default-value 'page-delimiter)))))
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos-page-delimiter))
+        (org-mode . ,(format "\\(^\\*+ +\\|%s\\)" logos-page-delimiter))))
 </pre>
 </div>
 
 <p>
-The form <code>,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter)</code> expands
-to <code>"\\(^;;;+ \\|^\\)"</code>.
+The form <code>,(format "\\(^;;;+ \\|%s\\)" logos-page-delimiter)</code>
+expands to <code>"\\(^;;;+ \\|^^L\\)"</code> where <code>^L</code> is the actual control character.
 </p>
 
 <p>
@@ -568,8 +568,8 @@ pattern).  Putting it all together:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
-      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
-        (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))))
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos-page-delimiter))
+        (org-mode . ,(format "\\(^\\*+ +\\|^-\\{5\\}$\\|%s\\)" logos-page-delimiter))))
 </pre>
 </div>
 
@@ -584,23 +584,24 @@ end result can look like this:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq logos-outline-regexp-alist
-      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos--page-delimiter))
-        (org-mode . ,(format "\\(^\\*\\{1,3\\} +\\|^-\\{5\\}$\\|%s\\)" logos--page-delimiter))))
+      `((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos-page-delimiter))
+        (org-mode . ,(format "\\(^\\*\\{1,3\\} +\\|^-\\{5\\}$\\|%s\\)" logos-page-delimiter))))
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8" class="outline-3">
-<h3 id="h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8"><span class="section-number-3">5.6.</span> Leverage logos-focus-mode-extra-functions</h3>
+<h3 id="h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8"><span class="section-number-3">5.6.</span> Leverage logos-focus-mode-hook</h3>
 <div class="outline-text-3" id="text-h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">
 <p>
-The <code>logos-focus-mode-extra-functions</code> is a normal hook that runs when
-<code>logos-focus-mode</code> is enabled.  Each function is run without an argument
-and looks like those in <code>logos.el</code>.  An example that sets a variable is
-<code>logos--buffer-read-only</code>; one that sets a mode is <code>logos--scroll-lock</code>;
-another that sets the mode of an external package is <code>logos--olivetti</code>;
-while <code>logos--hide-fringe</code> provides yet another useful sample.
+The <code>logos-focus-mode-hook</code> is a normal hook that runs when
+<code>logos-focus-mode</code> is enabled.  Each function is called without an
+argument and looks like those in <code>logos.el</code>.  An example that sets a
+variable is <code>logos--buffer-read-only</code>; one that sets a mode is
+<code>logos--scroll-lock</code>; another that sets the mode of an external
+package is <code>logos--olivetti</code>; while <code>logos--hide-fringe</code> provides yet
+another useful sample.
 </p>
 
 <p>
@@ -614,9 +615,8 @@ use the <code>logos-focus-mode-hook</code> instead.
 <h4 id="h:ef719925-8d0b-479a-a87e-32b727578bfc"><span class="section-number-4">5.6.1.</span> Conditionally toggle org-indent-mode</h4>
 <div class="outline-text-4" id="text-h:ef719925-8d0b-479a-a87e-32b727578bfc">
 <p>
-Here is a snippet that relies on <code>logos-focus-mode-extra-functions</code> to
-extend the functionality of <code>logos-focus-mode</code> at the user level
-(<a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">Leverage logos-focus-mode-extra-functions</a>).
+Here is a snippet that relies on the <code>logos-focus-mode-hook</code> to extend
+the functionality of <code>logos-focus-mode</code> (<a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">Leverage logos-focus-mode-hook</a>).
 </p>
 
 <div class="org-src-container">
@@ -628,10 +628,10 @@ extend the functionality of <code>logos-focus-mode</code> at the user level
   (when my-logos-org-indent
     ;; Disable `org-indent-mode' when `logos-focus-mode' is enabled and
     ;; restore it when `logos-focus-mode' is disabled.  The
-    ;; `logos--mode' function takes care of the technicalities.
-    (logos--mode 'org-indent-mode -1)))
+    ;; `logos-set-mode-arg' function takes care of the technicalities.
+    (logos-set-mode-arg 'org-indent-mode -1)))
 
-(add-hook 'logos-focus-mode-extra-functions #'my-logos-org-indent)
+(add-hook 'logos-focus-mode-hook #'my-logos-org-indent)
 </pre>
 </div>
 
@@ -646,10 +646,10 @@ not needed, the following will suffice:
   "Set `my-logos-org-indent' in `logos-focus-mode'."
   ;; Disable `org-indent-mode' when `logos-focus-mode' is enabled and
   ;; restore it when `logos-focus-mode' is disabled.  The
-  ;; `logos--mode' function takes care of the technicalities.
-  (logos--mode 'org-indent-mode -1))
+  ;; `logos-set-mode-arg' function takes care of the technicalities.
+  (logos-set-mode-arg 'org-indent-mode -1))
 
-(add-hook 'logos-focus-mode-extra-functions #'my-logos-org-indent)
+(add-hook 'logos-focus-mode-hook #'my-logos-org-indent)
 </pre>
 </div>
 </div>
@@ -667,15 +667,15 @@ to disable the <code>menu-bar-mode</code> and <code>tool-bar-mode</code> when ac
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Assuming the `menu-bar-mode' is enabled by default...
 (defun my-logos-hide-menu-bar ()
-  (logos--mode 'menu-bar-mode -1))
+  (logos-set-mode-arg 'menu-bar-mode -1))
 
-(add-hook 'logos-focus-mode-extra-functions #'my-logos-hide-menu-bar)
+(add-hook 'logos-focus-mode-hook #'my-logos-hide-menu-bar)
 
 ;; Assuming the `tool-bar-mode' is enabled by default...
 (defun my-logos-hide-tool-bar ()
-  (logos--mode 'tool-bar-mode -1))
+  (logos-set-mode-arg 'tool-bar-mode -1))
 
-(add-hook 'logos-focus-mode-extra-functions #'my-logos-hide-tool-bar)
+(add-hook 'logos-focus-mode-hook #'my-logos-hide-tool-bar)
 </pre>
 </div>
 
