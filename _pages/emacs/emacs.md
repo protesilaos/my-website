@@ -82,29 +82,6 @@ designed by me).
 + Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
   Embellishments, and Sparkles.
 
-## Standard themes
-
-The `standard-themes` are a pair of light and dark themes for GNU
-Emacs.  They emulate the out-of-the-box looks of Emacs (which
-technically do NOT constitute a theme) while bringing to them thematic
-consistency, customizability, and extensibility.  In practice, the
-Standard themes take the default style of the font-lock and Org faces,
-complement it with a wider and hamronious colour palette, address many
-inconsistencies, and apply established semantic patterns across all
-interfaces by supporting a large number of packages.
-
-+ Package name (GNU ELPA): `standard-themes`
-+ Official manual: <https://protesilaos.com/emacs/standard-themes>
-+ Change log: <https://protesilaos.com/emacs/standard-themes-changelog>
-+ Sample pictures: <https://protesilaos.com/emacs/standard-themes-pictures>
-+ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/standard-themes>
-  - Mirrors:
-    + GitHub: <https://github.com/protesilaos/standard-themes>
-    + GitLab: <https://gitlab.com/protesilaos/standard-themes>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/standard-themes>
-+ Backronym: Standard Themes Are Not Derivatives but the
-  Affectionately Reimagined Default ... themes.
-
 ## Beframe
 
 `beframe` enables a frame-oriented Emacs workflow where each frame has
@@ -366,6 +343,30 @@ love letters, respectively.
 + Mailing list: <https://lists.sr.ht/~protesilaos/notmuch-indicator>
 + Backronym: notmuch-... Increasingly in Need of Displaying
   Inconsequential Counters Alongside Trivia that Obscure Reality.
+
+
+## Standard themes
+
+The `standard-themes` are a pair of light and dark themes for GNU
+Emacs.  They emulate the out-of-the-box looks of Emacs (which
+technically do NOT constitute a theme) while bringing to them thematic
+consistency, customizability, and extensibility.  In practice, the
+Standard themes take the default style of the font-lock and Org faces,
+complement it with a wider and hamronious colour palette, address many
+inconsistencies, and apply established semantic patterns across all
+interfaces by supporting a large number of packages.
+
++ Package name (GNU ELPA): `standard-themes`
++ Official manual: <https://protesilaos.com/emacs/standard-themes>
++ Change log: <https://protesilaos.com/emacs/standard-themes-changelog>
++ Sample pictures: <https://protesilaos.com/emacs/standard-themes-pictures>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/standard-themes>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/standard-themes>
+    + GitLab: <https://gitlab.com/protesilaos/standard-themes>
++ Mailing list: <https://lists.sr.ht/~protesilaos/standard-themes>
++ Backronym: Standard Themes Are Not Derivatives but the
+  Affectionately Reimagined Default ... themes.
 
 ## The official Emacs TUTORIAL in Greek
 
