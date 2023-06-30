@@ -46,4 +46,15 @@ that point."
   (funcall 'bookmark-save))
 
 (advice-add 'bookmark-set-internal :after 'prot/bookmark-save-no-prompt)
+
+;; After publishing the above, I learnt about this variable, which has
+;; the same effect as `prot/bookmark-save-no-prompt':
+(setq bookmark-save-flag 1)
+
+;; If you are using the wonderful `consult' package, set up the
+;; register preview facility with its more informative presentation:
+(setq register-preview-delay 0.8
+      register-preview-function #'consult-register-format)
 ```
+
+**UPDATE 2023-06-30 22:33 +0300:** Add two more snippets to the code block.
