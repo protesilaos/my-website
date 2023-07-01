@@ -153,7 +153,7 @@ throughout the buffer, (ii) limited to the current definition (per
 These substitutions are meant to be as quick as possible and, as such,
 differ from the standard `query-replace` (which I still use).  The
 provided commands prompt for substitute text and perform the
-substitution outright.
+substitution outright, without moving the point.
 
 + Package name (GNU ELPA): `substitute`
 + Official manual: <https://protesilaos.com/emacs/substitute>
