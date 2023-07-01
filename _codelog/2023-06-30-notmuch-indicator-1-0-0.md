@@ -31,12 +31,12 @@ Below are the release notes.
 
 * The fix I did that prevented the display of duplicate counters is now
   formalised in a tagged release.  I observed a bug while starting
-  from 0 emails, with 'notmuch-indicator-hide-empty-counters' set to
+  from 0 emails, with `notmuch-indicator-hide-empty-counters` set to
   non-nil.  The indicator would show multiple counters for the same
   search terms.  Whereas we always want to start from a clean state.
 
-* The 'notmuch-indicator-refresh' is a public function that supersedes
-  the now-deprecated private function 'notmuch-indicator--refresh'.
+* The `notmuch-indicator-refresh` is a public function that supersedes
+  the now-deprecated private function `notmuch-indicator--refresh`.
   The difference is one of forward guidance in how we maintain the
   package: this way we tell users that the given symbol is stable and
   will not change without notice.
