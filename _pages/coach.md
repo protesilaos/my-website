@@ -131,3 +131,7 @@ me know about the specifics of your case and I will adapt accordingly.
 I look forward to you message: <https://protesilaos.com/contact/>.
 There is no need for formalities such as "Sir".  Call me by my name or
 nickname: "Protesilaos" or "Prot".
+
+🪷 This page is also available in Chinese: <https://protesilaos.com/cn/coach/>.
+Courtesy of an anonymous volunteer.  
+{:.info}
