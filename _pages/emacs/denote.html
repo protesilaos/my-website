@@ -227,15 +227,16 @@ modify this GNU manual.”
 <div class="outline-text-2" id="text-h:a09b70a2-ae0b-4855-ac14-1dddfc8e3241">
 <p>
 Denote aims to be a simple-to-use, focused-in-scope, and effective
-note-taking tool for Emacs.
+note-taking and file-naming tool for Emacs.
 </p>
 
 <p>
-Denote is based on the idea that notes should follow a predictable and
+Denote is based on the idea that files should follow a predictable and
 descriptive file-naming scheme.  The file name must offer a clear
-indication of what the note is about, without reference to any other
-metadata.  Denote basically streamlines the creation of such files
-while providing facilities to link between them.
+indication of what the contents are about, without reference to any
+other metadata.  Denote basically streamlines the creation of such
+files or file names while providing facilities to link between them
+(where those files are editable).
 </p>
 
 <p>
@@ -1029,7 +1030,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org65b95c0">
+<pre class="example" id="org7bd6039">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1406,7 +1407,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgd99f94c">
+<pre class="example" id="orgb50110f">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1503,7 +1504,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgca4f642">
+<pre class="example" id="org5952fbc">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1523,7 +1524,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org26ba1f0">
+<pre class="example" id="orgecd6366">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1906,7 +1907,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org07e6459">
+<pre class="example" id="org862d219">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1918,7 +1919,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgacc8a56">
+<pre class="example" id="orgfea3d84">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1932,7 +1933,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgfbabd0a">
+<pre class="example" id="org19946b1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1946,7 +1947,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgb07adbc">
+<pre class="example" id="orgca6ddbe">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2210,12 +2211,17 @@ other links.
 <h3 id="h:9bec2c83-36ca-4951-aefc-7187c5463f90"><span class="section-number-3">7.2.</span> Insert links matching a regexp</h3>
 <div class="outline-text-3" id="text-h:9bec2c83-36ca-4951-aefc-7187c5463f90">
 <p>
-The command <code>denote-link-add-links</code> adds links at point matching a
+[ The <code>denote-add-links</code> is the new name of <code>denote-link-add-links</code>,
+  as part of 2.0.0-dev. ]
+</p>
+
+<p>
+The command <code>denote-add-links</code> adds links at point matching a
 regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgd6a50bf">
+<pre class="example" id="org36a3264">
 - link1
 - link2
 - link3
@@ -2229,11 +2235,11 @@ pointless).
 </p>
 
 <p>
-When called with a prefix argument (<code>C-u</code>) <code>denote-link-add-links</code> will
+When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</code> will
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org426b5c2">
+<pre class="example" id="orga409a8e">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2289,15 +2295,20 @@ purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
 <h3 id="h:0c1fdaab-5a6b-4792-9694-fed53cd042e6"><span class="section-number-3">7.3.</span> Insert links, but only those missing from current buffer</h3>
 <div class="outline-text-3" id="text-h:0c1fdaab-5a6b-4792-9694-fed53cd042e6">
 <p>
-As a variation on the <code>denote-link-add-links</code> command, one may wish to
-only include &rsquo;missing links&rsquo;, i.e. links that are not yet present in
-the current file.
+[ The <code>denote-add-missing-links</code> is the new name of
+  <code>denote-link-add-missing-links</code>, as part of 2.0.0-dev. ]
 </p>
 
 <p>
-This can be achieved with <code>denote-link-add-missing-links</code>. The command
-is similar to <code>denote-link-add-links</code>, but will only include links to
-notes that are not yet linked to (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).
+As a variation on the <code>denote-add-links</code> command, one may wish to only
+include &rsquo;missing links&rsquo;, i.e. links that are not yet present in the
+current file.
+</p>
+
+<p>
+This can be achieved with <code>denote-add-missing-links</code>. The command is
+similar to <code>denote-add-links</code>, but will only include links to notes
+that are not yet linked to (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).
 </p>
 </div>
 </div>
@@ -2307,11 +2318,11 @@ notes that are not yet linked to (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f
 <div class="outline-text-3" id="text-h:9cbb692e-5d8a-44a6-9193-899a07872a07">
 <p>
 The command <code>denote-link-dired-marked-notes</code> is similar to
-<code>denote-link-add-links</code> in that it inserts in the buffer a typographic
-list of links to Denote notes (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  Though
-instead of reading a regular expression, it lets the user mark files in
-Dired and link to them.  This should be easier for users of all skill
-levels, instead of having to write a potentially complex regular
+<code>denote-add-links</code> in that it inserts in the buffer a typographic list
+of links to Denote notes (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  Though
+instead of reading a regular expression, it lets the user mark files
+in Dired and link to them.  This should be easier for users of all
+skill levels, instead of having to write a potentially complex regular
 expression.
 </p>
 
@@ -2421,9 +2432,10 @@ which helps with discoverability.
 <h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.6.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
-The command <code>denote-link-backlinks</code> produces a bespoke buffer which
+The command <code>denote-backlinks</code> produces a bespoke buffer which
 displays backlinks to the current note.  A &ldquo;backlink&rdquo; is a link back
-to the present entry.
+to the present entry. [ The <code>denote-backlinks</code> is the new name of
+<code>denote-link-backlinks</code>, as part of 2.0.0-dev.]
 </p>
 
 <p>
@@ -2432,7 +2444,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgdf5c313">
+<pre class="example" id="org085f69a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2447,7 +2459,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org1c39426">
+<pre class="example" id="org866fdf3">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2492,7 +2504,7 @@ to the relevant environment variable.
 
 <p>
 Backlinks to the current file can also be visited by using the
-minibuffer completion interface with the <code>denote-link-find-backlink</code>
+minibuffer completion interface with the <code>denote-find-backlink</code>
 command (<a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">Visiting linked files via the minibuffer</a>).
 </p>
 
@@ -2531,8 +2543,8 @@ the like.
 </p>
 
 <p>
-The commands <code>denote-link-add-links</code>, <code>denote-link-dired-marked-notes</code>
-are suited for this task.
+The commands <code>denote-add-links</code>, <code>denote-link-dired-marked-notes</code> are
+suited for this task.
 </p>
 
 <p>
@@ -2575,20 +2587,23 @@ knowledge derived from the deliberate self-reflection.
 Denote has a major-mode-agnostic mechanism to collect all linked file
 references in the current buffer and return them as an appropriately
 formatted list.  This list can then be used in interactive commands.
-The <code>denote-link-find-file</code> is such a command.  It uses minibuffer
-completion to visit a file that is linked to from the current note.  The
-candidates have the correct metadata, which is ideal for integration
-with other standards-compliant tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).  For instance,
-a package such as <code>marginalia</code> will display accurate annotations, while
-the <code>embark</code> package will be able to work its magic such as in exporting
-the list into a filtered Dired buffer (i.e. a familiar Dired listing
-with only the files of the current minibuffer session).
+The <code>denote-find-link</code> is such a command.  It uses minibuffer
+completion to visit a file that is linked to from the current note.
+The candidates have the correct metadata, which is ideal for
+integration with other standards-compliant tools (<a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">Extending Denote</a>).
+For instance, a package such as <code>marginalia</code> will display accurate
+annotations, while the <code>embark</code> package will be able to work its magic
+such as in exporting the list into a filtered Dired buffer (i.e. a
+familiar Dired listing with only the files of the current minibuffer
+session).  [ The <code>denote-find-link</code> is the new name of
+<code>denote-link-find-file</code>, as part of 2.0.0-dev.]
 </p>
 
 <p>
 To visit backlinks to the current note via the minibuffer, use
-<code>denote-link-find-backlink</code>.  This is an alternative to placing
-backlinks in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The backlinks&rsquo; buffer</a>).
+<code>denote-find-backlink</code>.  This is an alternative to placing backlinks
+in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The backlinks&rsquo; buffer</a>). [The command is renamed
+as part of 2.0.0-dev.]
 </p>
 </div>
 </div>
@@ -2598,11 +2613,21 @@ backlinks in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d70
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
-<code>denote-link-insert-link</code>.  The <code>denote-link-backlinks</code> can also be used
-as <code>denote-link-show-backlinks-buffer</code>.  While <code>denote-link-add-links</code>
-is aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
-these aliases is to offer alternative, more descriptive names of select
-commands.
+<code>denote-insert-link</code>.  The <code>denote-backlinks</code> can also be used as
+<code>denote-show-backlinks-buffer</code>.  While <code>denote-add-links</code> is
+aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
+these aliases is to offer alternative, more descriptive names of
+select commands.
+</p>
+
+<p>
+[ The <code>denote-insert-link</code> is the new name of <code>denote-link-insert-link</code>,
+  as part of 2.0.0-dev.]
+</p>
+
+<p>
+[ The <code>denote-show-backlinks-buffer</code> is the new name of
+  <code>denote-link-show-backlinks-buffer</code>, as part of 2.0.0-dev.]
 </p>
 </div>
 </div>
@@ -2751,8 +2776,8 @@ and populates the block&rsquo;s contents accordingly.
 <p>
 Denote leverages Org dynamic blocks to streamline the inclusion of (i)
 links to notes whose name matches a given search query (like
-<code>denote-link-add-links</code>) and (ii) backlinks to the current note (similar to
-<code>denote-link-find-backlink</code>).
+<code>denote-add-links</code>) and (ii) backlinks to the current note (similar to
+<code>denote-find-backlink</code>).
 </p>
 
 <p>
@@ -2776,8 +2801,8 @@ A dynamic block looks like this:
 <p>
 Here we have the <code>denote-links</code> type, with the <code>:regexp</code> parameter.
 The value of the <code>:regexp</code> parameter is the same as that of the
-command <code>denote-link-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  It
-can only use the notation of the <code>rx</code> macro, as explained in the Emacs
+command <code>denote-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  It can
+only use the notation of the <code>rx</code> macro, as explained in the Emacs
 Lisp Reference Manual (evaluate: <code>(info "(elisp) Rx Notation")</code>).  The
 linked entry provides practical examples of patterns that make good
 use of Denote&rsquo;s file-naming scheme (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
@@ -2817,9 +2842,9 @@ missing links when the block is evaluated anew.
 <p>
 Depending on one&rsquo;s workflow, the dynamic block can be instructed to
 list only those links which are missing from the current buffer
-(similar to <code>denote-link-add-missing-links</code>).  Adding the <code>:missing-only</code>
-parameter with a non-<code>nil</code> value achieves this effect. The <code>#+BEGIN</code> line
-looks like this:
+(similar to <code>denote-add-missing-links</code>).  Adding the <code>:missing-only</code>
+parameter with a non-<code>nil</code> value achieves this effect. The <code>#+BEGIN</code>
+line looks like this:
 </p>
 
 <pre class="example">
@@ -3265,7 +3290,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org5a0b8ae">
+<pre class="example" id="org73702d7">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3351,13 +3376,13 @@ interest of brevity).
 </p>
 
 <p>
-For our purposes, Embark can be used to produce a Dired listing directly
-from the minibuffer.  Suppose the current note has links to three other
-notes.  You might use the <code>denote-link-find-file</code> command to pick one
-via the minibuffer.  But why not turn those three links into their own
-Dired listing?  While in the minibuffer, invoke <code>embark-act</code> which you
-may have already bound to <code>C-.</code> and then follow it up with <code>E</code> (for the
-<code>embark-export</code> command).
+For our purposes, Embark can be used to produce a Dired listing
+directly from the minibuffer.  Suppose the current note has links to
+three other notes.  You might use the <code>denote-find-link</code> command to
+pick one via the minibuffer.  But why not turn those three links into
+their own Dired listing?  While in the minibuffer, invoke <code>embark-act</code>
+which you may have already bound to <code>C-.</code> and then follow it up with
+<code>E</code> (for the <code>embark-export</code> command).
 </p>
 
 <p>
@@ -4188,10 +4213,10 @@ Else create a new file."
   ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
   ;; `markdown-mode-map', and/or `text-mode-map'.
   (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
-  (define-key map (kbd "C-c n I") #'denote-link-add-links)
-  (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-  (define-key map (kbd "C-c n f f") #'denote-link-find-file)
-  (define-key map (kbd "C-c n f b") #'denote-link-find-backlink)
+  (define-key map (kbd "C-c n I") #'denote-add-links)
+  (define-key map (kbd "C-c n b") #'denote-backlinks)
+  (define-key map (kbd "C-c n f f") #'denote-find-link)
+  (define-key map (kbd "C-c n f b") #'denote-find-backlink)
   ;; Note that `denote-rename-file' can work from any context, not just
   ;; Dired bufffers.  That is why we bind it here to the `global-map'.
   (define-key map (kbd "C-c n r") #'denote-rename-file)
@@ -4857,7 +4882,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org57fa784">
+<pre class="example" id="orgec2c8eb">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4867,7 +4892,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org74211cb">
+<pre class="example" id="org9a0380c">
 emacs -Q
 </pre>
 
@@ -4879,7 +4904,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org2aa2d5a">
+<pre class="example" id="org3690f77">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4945,7 +4970,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6bf98a1">
+<pre class="example" id="org2bd25fb">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5010,7 +5035,7 @@ ends of this prefigured binary.  Though we can think about it.</li>
 This would be useful for some sort of &ldquo;export&rdquo; operation where the
 absolute file path is necessary and where the Denote linking mechanism
 is not available.  Though this could be handled by the exporter, by
-doing something like what <code>denote-link-find-file</code> does.</li>
+doing something like what <code>denote-find-link</code> does.</li>
 
 <li>Add command that rewrites full names in links, if they are invalid.
 This would complement the renaming mechanism.  Personally, I think old
