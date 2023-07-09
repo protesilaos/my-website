@@ -24,9 +24,9 @@ Below are the release notes.
 
 * * *
 
-The `dired-preview` package was in a public testing phase from DATE
-until today.  In the meantime, lots of changes have been made in the
-interest of usability and robustness.
+The `dired-preview` package was in a public testing phase from
+2023-06-25 until today.  In the meantime, lots of changes have been
+made in the interest of usability and robustness.
 
 
 ## Global and buffer-local modes
