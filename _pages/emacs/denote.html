@@ -139,16 +139,17 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">12.14. Make variants of <code>denote-link-or-create</code></a></li>
 <li><a href="#h:8f9e0971-8b30-4e7b-af79-8fed257dbcfa">12.15. Use the tree-based file prompt for select commands</a></li>
 <li><a href="#h:e666ced6-da75-4bdb-9be3-82c2f4455ee9">12.16. Rename files with Denote in the Image Dired thumbnails buffer</a></li>
-<li><a href="#h:4a8c4546-26b3-4195-8b2c-b08a519986a4">12.17. Avoid duplicate identifiers when exporting Denote notes</a>
+<li><a href="#h:2d5ee9bf-e8f2-426c-8bf7-bf78bc88d1ee">12.17. Rename files with Denote using <code>dired-preview</code></a></li>
+<li><a href="#h:4a8c4546-26b3-4195-8b2c-b08a519986a4">12.18. Avoid duplicate identifiers when exporting Denote notes</a>
 <ul>
-<li><a href="#h:67669d9d-17c3-45bd-8227-da57d8bc3b73">12.17.1. Export Denote notes with Org Mode</a>
+<li><a href="#h:67669d9d-17c3-45bd-8227-da57d8bc3b73">12.18.1. Export Denote notes with Org Mode</a>
 <ul>
-<li><a href="#h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">12.17.1.1. Manually configure Org export</a></li>
-<li><a href="#h:7a61a370-78e5-42a1-9650-98fee140723f">12.17.1.2. Automatically store Org exports in another folder</a></li>
-<li><a href="#h:2f3451ed-2fc4-4f36-bcf2-112939963e20">12.17.1.3. Org Mode Publishing</a></li>
+<li><a href="#h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">12.18.1.1. Manually configure Org export</a></li>
+<li><a href="#h:7a61a370-78e5-42a1-9650-98fee140723f">12.18.1.2. Automatically store Org exports in another folder</a></li>
+<li><a href="#h:2f3451ed-2fc4-4f36-bcf2-112939963e20">12.18.1.3. Org Mode Publishing</a></li>
 </ul>
 </li>
-<li><a href="#h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">12.17.2. Export Denote notes with Markdown</a></li>
+<li><a href="#h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">12.18.2. Export Denote notes with Markdown</a></li>
 </ul>
 </li>
 </ul>
@@ -1030,7 +1031,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgbea2eb3">
+<pre class="example" id="orge887399">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1407,7 +1408,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org40cd233">
+<pre class="example" id="org50c399c">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1511,7 +1512,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge29379f">
+<pre class="example" id="orgdf7b0fe">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1531,7 +1532,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org2914ec3">
+<pre class="example" id="orgfd1f42d">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1914,7 +1915,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org87c9ac8">
+<pre class="example" id="orgf89d17d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1926,7 +1927,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org2f1e9cb">
+<pre class="example" id="org3e95ded">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1940,7 +1941,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org90e138d">
+<pre class="example" id="org42629e1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1954,7 +1955,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org22840b3">
+<pre class="example" id="org2c9fb74">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2228,7 +2229,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgd1477e5">
+<pre class="example" id="orgc969677">
 - link1
 - link2
 - link3
@@ -2246,7 +2247,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9e64196">
+<pre class="example" id="org218b268">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2451,7 +2452,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgb5a37bb">
+<pre class="example" id="orgc2c7aee">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2466,7 +2467,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org861e88a">
+<pre class="example" id="orgbdde4ae">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3297,7 +3298,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgee4ef38">
+<pre class="example" id="org6a528f9">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -3824,6 +3825,10 @@ See `denote-file-prompt-original'."
 <h3 id="h:e666ced6-da75-4bdb-9be3-82c2f4455ee9"><span class="section-number-3">12.16.</span> Rename files with Denote in the Image Dired thumbnails buffer</h3>
 <div class="outline-text-3" id="text-h:e666ced6-da75-4bdb-9be3-82c2f4455ee9">
 <p>
+<a href="#h:2d5ee9bf-e8f2-426c-8bf7-bf78bc88d1ee">Rename files with Denote using <code>dired-preview</code></a>
+</p>
+
+<p>
 Just as with the <code>denote-dired-rename-marked-files</code>, we can use Denote
 in the Image Dired buffer (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files at once</a>).  Here is
 the custom code:
@@ -3889,8 +3894,70 @@ conventions of Denote's file-naming scheme."
 </div>
 </div>
 
+<div id="outline-container-h:2d5ee9bf-e8f2-426c-8bf7-bf78bc88d1ee" class="outline-3">
+<h3 id="h:2d5ee9bf-e8f2-426c-8bf7-bf78bc88d1ee"><span class="section-number-3">12.17.</span> Rename files with Denote using <code>dired-preview</code></h3>
+<div class="outline-text-3" id="text-h:2d5ee9bf-e8f2-426c-8bf7-bf78bc88d1ee">
+<p>
+The <code>dired-preview</code> package (by me/Protesilaos) automatically displays
+a preview of the file at point in Dired.  This can be helpful in
+tandem with Denote when we want to rename multiple files by taking a
+quick look at their contents.
+</p>
+
+<p>
+The command <code>denote-dired-rename-marked-files</code> will generate
+Denote-style file names based on the keywords it prompts for.
+Identifiers are derived from each file&rsquo;s modification date
+(<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files at once</a>).  There is no need for any custom
+code in this scenario.
+</p>
+
+<p>
+As noted in the section about Image Dired, the user may sometimes not
+need a fully fledged Denote-style file name but only append Denote-like
+keywords to each file name (e.g. <code>Original Name__denote_test.jpg</code>
+instead of <code>20230710T195843--original-name__denote_test.jpg</code>).
+</p>
+
+<p>
+<a href="#h:e666ced6-da75-4bdb-9be3-82c2f4455ee9">Rename files with Denote in the Image Dired thumbnails buffer</a>
+</p>
+
+<p>
+In such a workflow, it is unlikely to be dealing with ordinary text
+files where front matter can be helpful.  A custom command does not
+need to behave like what Denote provides out-of-the-box, but can
+instead append keywords to file names without conducting any further
+actions.  We thus have:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-dired-rename-marked-files-keywords-only ()
+  "Like `denote-dired-rename-marked-files' but only for keywords in file names.
+
+Prompt for keywords and rename all marked files in the Dired
+buffer to only have Denote-style keywords, but none of the other
+conventions of Denote's file-naming scheme."
+  (interactive nil dired-mode)
+  (if-let ((marks (dired-get-marked-files)))
+      (let ((keywords (denote-keywords-prompt)))
+        (dolist (file marks)
+          (let* ((dir (file-name-directory file))
+                 (file-type (denote-filetype-heuristics file))
+                 (title (denote--retrieve-title-or-filename file file-type))
+                 (extension (file-name-extension file t))
+                 (kws (denote--keywords-combine keywords))
+                 (new-name (concat dir title "__" kws extension)))
+            (denote-rename-file-and-buffer file new-name)))
+        (revert-buffer))
+    (user-error "No marked files; aborting")))
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:4a8c4546-26b3-4195-8b2c-b08a519986a4" class="outline-3">
-<h3 id="h:4a8c4546-26b3-4195-8b2c-b08a519986a4"><span class="section-number-3">12.17.</span> Avoid duplicate identifiers when exporting Denote notes</h3>
+<h3 id="h:4a8c4546-26b3-4195-8b2c-b08a519986a4"><span class="section-number-3">12.18.</span> Avoid duplicate identifiers when exporting Denote notes</h3>
 <div class="outline-text-3" id="text-h:4a8c4546-26b3-4195-8b2c-b08a519986a4">
 <p>
 When exporting Denote notes to, for example, an HTML or PDF file,
@@ -3913,7 +3980,7 @@ basis: <a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands fo
 </div>
 
 <div id="outline-container-h:67669d9d-17c3-45bd-8227-da57d8bc3b73" class="outline-4">
-<h4 id="h:67669d9d-17c3-45bd-8227-da57d8bc3b73"><span class="section-number-4">12.17.1.</span> Export Denote notes with Org Mode</h4>
+<h4 id="h:67669d9d-17c3-45bd-8227-da57d8bc3b73"><span class="section-number-4">12.18.1.</span> Export Denote notes with Org Mode</h4>
 <div class="outline-text-4" id="text-h:67669d9d-17c3-45bd-8227-da57d8bc3b73">
 <p>
 Org Mode has a built-in configurable export engine.  You can prevent
@@ -3923,7 +3990,7 @@ or by advising the Org export function.
 </div>
 
 <div id="outline-container-h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb" class="outline-5">
-<h5 id="h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb"><span class="section-number-5">12.17.1.1.</span> Manually configure Org export</h5>
+<h5 id="h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb"><span class="section-number-5">12.18.1.1.</span> Manually configure Org export</h5>
 <div class="outline-text-5" id="text-h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">
 <p>
 Insert <code>#+export_file_name: FILENAME</code> in the front matter before
@@ -3946,7 +4013,7 @@ this section (<a href="#h:4a8c4546-26b3-4195-8b2c-b08a519986a4">Export Denote no
 </div>
 
 <div id="outline-container-h:7a61a370-78e5-42a1-9650-98fee140723f" class="outline-5">
-<h5 id="h:7a61a370-78e5-42a1-9650-98fee140723f"><span class="section-number-5">12.17.1.2.</span> Automatically store Org exports in another folder</h5>
+<h5 id="h:7a61a370-78e5-42a1-9650-98fee140723f"><span class="section-number-5">12.18.1.2.</span> Automatically store Org exports in another folder</h5>
 <div class="outline-text-5" id="text-h:7a61a370-78e5-42a1-9650-98fee140723f">
 <p>
 It is possible to automatically place all exports in another folder by
@@ -4012,7 +4079,7 @@ as an attachment:
 </div>
 
 <div id="outline-container-h:2f3451ed-2fc4-4f36-bcf2-112939963e20" class="outline-5">
-<h5 id="h:2f3451ed-2fc4-4f36-bcf2-112939963e20"><span class="section-number-5">12.17.1.3.</span> Org Mode Publishing</h5>
+<h5 id="h:2f3451ed-2fc4-4f36-bcf2-112939963e20"><span class="section-number-5">12.18.1.3.</span> Org Mode Publishing</h5>
 <div class="outline-text-5" id="text-h:2f3451ed-2fc4-4f36-bcf2-112939963e20">
 <p>
 Org Mode also has a publishing tool for exporting a collection of
@@ -4036,7 +4103,7 @@ Exclude it with the <code>denote-excluded-directories-regexp</code> user option
 </div>
 
 <div id="outline-container-h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e" class="outline-4">
-<h4 id="h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e"><span class="section-number-4">12.17.2.</span> Export Denote notes with Markdown</h4>
+<h4 id="h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e"><span class="section-number-4">12.18.2.</span> Export Denote notes with Markdown</h4>
 <div class="outline-text-4" id="text-h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">
 <p>
 Exporting from Markdown requires an external processor (e.g.,
@@ -4889,7 +4956,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org4492bd7">
+<pre class="example" id="orga1920d2">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4899,7 +4966,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org489dede">
+<pre class="example" id="org73071ba">
 emacs -Q
 </pre>
 
@@ -4911,7 +4978,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org9767972">
+<pre class="example" id="orga4e3376">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -4977,7 +5044,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgdd66b99">
+<pre class="example" id="orgd81bbee">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
