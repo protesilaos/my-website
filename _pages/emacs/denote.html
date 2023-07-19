@@ -1031,7 +1031,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org28ad4dd">
+<pre class="example" id="org5114336">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1394,7 +1394,15 @@ attributes to determine the last modified date and format it as an
 identifier.</li>
 
 <li>As a fallback, derive an identifier from the current time.</li>
+
+<li>If the resulting identifier is not unique among the files in the
+variable `denote-directory&rsquo;, increment it such that it becomes
+unique.</li>
 </ul>
+
+<p>
+[ The check for duplicate identifiers is part of 2.0.0-dev. ]
+</p>
 
 <p>
 The default <code>TITLE</code> is retrieved from a line starting with a title field
@@ -1408,7 +1416,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgcd2ae01">
+<pre class="example" id="orgbb9eca5">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1456,54 +1464,63 @@ not&#x2014;manage such files).
 <h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.2.</span> Rename multiple files at once</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
 <p>
+[ The optional <code>SKIP-FRONT-MATTER-PROMPT</code> and <code>NO-UNIQUE-ID-CHECK</code> are added to
+  <code>denote-dired-rename-marked-files</code> as part of 2.0.0-dev. ]
+</p>
+
+<p>
 The <code>denote-dired-rename-marked-files</code> command renames marked files in
-Dired to conform with our file-naming scheme.  The operation does the
-following:
+Dired to conform with our file-naming scheme.  Specifically, it does
+the following:
 </p>
 
 <ul class="org-ul">
-<li>the file&rsquo;s existing file name is retained and becomes the <code>TITLE</code>
-field, per Denote&rsquo;s file-naming scheme;</li>
+<li>retains the file&rsquo;s existing name and make it the <code>TITLE</code> field, per
+Denote&rsquo;s file-naming scheme;</li>
 
-<li>the <code>TITLE</code> is sluggified and downcased, per our conventions;</li>
+<li>downcases and sluggifies the <code>TITLE</code>, per our conventions;</li>
 
-<li>an identifier is prepended to the <code>TITLE</code>;</li>
+<li>prepends an identifier to the <code>TITLE</code>;</li>
 
-<li>the file&rsquo;s extension is retained;</li>
+<li>preserves the file&rsquo;s extension, if any;</li>
 
-<li>a prompt is asked once for the <code>KEYWORDS</code> field and the input is
-applied to all file names;</li>
+<li>prompts once for <code>KEYWORDS</code> and applies the user&rsquo;s input to the
+corresponding field in the file name;</li>
 
-<li>if the file is recognized as a Denote note, this command adds or
-rewrites front matter to include the new keywords.  A confirmation
-to carry out this step is performed once at the outset, unless
-optional <code>SKIP-FRONT-MATTER-PROMPT</code> is non-nil (such as with a
-universal prefix argument).  Note that the affected buffers are not
-saved.  The user can thus check them to confirm that the new front
-matter does not cause any problems (e.g. with the command
-<code>diff-buffer-with-file</code>).  Multiple buffers can be saved with
-<code>save-some-buffers</code> (read its doc string).  The addition of front
-matter takes place only if the given file has the appropriate file
-type extension (per the user option <code>denote-file-type</code>).</li>
+<li>adds or rewrites existing front matter to the underlying file, if it
+is recognized as a Denote note (per the <code>denote-file-type</code> user
+option), such that it includes the new keywords.</li>
+
+<li><p>
+prompts at the outset for a confirmation, unless optional
+<code>SKIP-FRONT-MATTER-PROMPT</code> is non-nil (such as with a universal
+prefix argument).
+</p>
+
+<p>
+[ Note that the affected buffers are not saved.  Users can thus
+  check them to confirm that the new front matter does not cause any
+  problems (e.g. with the `diff-buffer-with-file&rsquo; command).  Multiple
+  buffers can be saved in one go with `save-some-buffers&rsquo; (read its
+  doc string). ]
+</p></li>
 </ul>
 
 <p>
-[ The optional <code>SKIP-FRONT-MATTER-PROMPT</code> is added to
-  <code>denote-dired-rename-marked-files</code> as part of 2.0.0-dev. ]
+With the optional <code>NO-UNIQUE-ID-CHECK</code> as non-nil (such as as a double
+prefix argument), it does not process the file identifiers of the
+marked files for potential duplicates.  The default is to check for
+duplicates and increment them such that they become unique.  The
+reason this optional argument exists is for those who want to speed up
+the process, perhaps because they know ahead of time all identifiers
+will be unique or do not care about them.
 </p>
 
 <p>
-With optional <code>ENSURE-UNIQUE-IDS</code> as a double prefix argument,
-process the file identifiers of the marked files to ensure there
-is no duplicate among them.  When renaming files in Dired, it is
-possible to produce duplicate identifiers.  This can happen when
-multiple files share the same modification time, which can be
-casually done with the <code>touch</code> command, <code>git</code>, and others.
-</p>
-
-<p>
-[ The optional <code>ENSURE-UNIQUE-IDS</code> is added to
-  <code>denote-dired-rename-marked-files</code> as part of 2.0.0-dev. ]
+[ When renaming files in Dired, it is possible to produce duplicate
+  identifiers.  This can happen when multiple files share the same
+  modification time, which can be casually done with the `touch&rsquo;
+  command, `git&rsquo;, and others. ]
 </p>
 </div>
 </div>
@@ -1526,7 +1543,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgd5e55e8">
+<pre class="example" id="orga5432ec">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1546,7 +1563,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org64b08da">
+<pre class="example" id="orgca4cd48">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1929,7 +1946,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org39b544e">
+<pre class="example" id="org75fb2df">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1941,7 +1958,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org2237755">
+<pre class="example" id="org5c3afeb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1955,7 +1972,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orga25b65f">
+<pre class="example" id="orgee68b5a">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1969,7 +1986,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org4a7b0d3">
+<pre class="example" id="org36fcd3b">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2243,7 +2260,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org2988a62">
+<pre class="example" id="orgb316414">
 - link1
 - link2
 - link3
@@ -2261,7 +2278,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd3a483e">
+<pre class="example" id="org1fd4037">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2466,7 +2483,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org081b0c3">
+<pre class="example" id="org1375376">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2481,7 +2498,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orga1c17d5">
+<pre class="example" id="orgdee3d10">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3312,7 +3329,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org081289b">
+<pre class="example" id="orgbd0542d">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4984,7 +5001,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org736586a">
+<pre class="example" id="orgc8ce7f2">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4994,7 +5011,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org6cced2a">
+<pre class="example" id="orgdb15015">
 emacs -Q
 </pre>
 
@@ -5006,7 +5023,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org667ab9e">
+<pre class="example" id="org6fc2c9c">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5072,7 +5089,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgcfbc7c6">
+<pre class="example" id="org0acdba5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -5729,13 +5746,13 @@ Vedang Manerikar, relict007.</dd>
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Alfredo Borrás, Benjamin Kästner, Colin McLear, Damien
 Cassou, Elias Storms, Federico Stilman, Florian, Frank Ehmsen, Guo
-Yong, Hanspeter Gisler, Jack Baty, Jay Rajput, Jeremy Friesen,
-Jonathan Sahar, Johan Bolmsjö, Juanjo Presa, Kai von Fintel, Kaushal
-Modi, M. Hadi Timachi, Mirko Hernandez, Niall Dooley, Paul van
-Gelder, Peter Prevos, Shreyas Ragavan, Stefan Thesing, Summer Emacs,
-Sven Seebeck, Taoufik, Viktor Haag, Wade Mealing, Yi Liu, Ypot,
-atanasj, doolio, drcxd, hpgisler, pRot0ta1p, rbenit68, relict007,
-sienic, sundar bp.</dd>
+Yong, Hanspeter Gisler, Jack Baty, Jay Rajput, Jean-Charles
+Bagneris, Jeremy Friesen, Jonathan Sahar, Johan Bolmsjö, Juanjo
+Presa, Kai von Fintel, Kaushal Modi, M. Hadi Timachi, Mirko
+Hernandez, Niall Dooley, Paul van Gelder, Peter Prevos, Shreyas
+Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, Viktor
+Haag, Wade Mealing, Yi Liu, Ypot, atanasj, doolio, drcxd, hpgisler,
+pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
 </dl>
 
 <p>
