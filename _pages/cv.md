@@ -18,7 +18,7 @@ layout: page
 
 ### I am an expert on GNU Emacs and the Elisp programming language.
 
-In the past four years, I have authored, distributed free of charge, many Emacs packages:
+In the past four years, I have authored and distributed free of charge, many Emacs packages:
 - <https://github.com/protesilaos>
 - <https://gitlab.com/protesilaos>
 - <https://git.sr.ht/~protesilaos>
