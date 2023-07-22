@@ -8,9 +8,11 @@ Refer to the [official manual](https://protesilaos.com/emacs/ef-themes)
 for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
-The following screen shots correspond to version `1.2.0-dev`.  They
-were taken on 2023-06-18.  The typeface is [Iosevka Comfy, my modified
-version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
+The following screen shots correspond to version `1.2.0-dev`, except
+for the `ef-maris-light` and `ef-maris-dark` which are part of
+`1.3.0-dev`.  The screen shots were taken on 2023-06-18, while the
+"Maris" ones were done on 2023-07-22.  The typeface is [Iosevka Comfy,
+my modified version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
@@ -27,6 +29,7 @@ This section contains:
 - `ef-frost`
 - `ef-kassio`
 - `ef-light`
+- `ef-maris-light`
 - `ef-spring`
 - `ef-summer`
 - `ef-trio-light`
@@ -112,6 +115,16 @@ This section contains:
 
 <a href="{{'/assets/images/ef/ef-light-org.png' | absolute_url }}"><img alt="ef-light theme org sample" src="{{'/assets/images/ef/ef-light-org.png' | absolute_url }}"/></a>
 
+### ef-maris-light
+
+<a href="{{'/assets/images/ef/ef-maris-light.png' | absolute_url }}"><img alt="ef-maris-light theme sample" src="{{'/assets/images/ef/ef-maris-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-light-git.png' | absolute_url }}"><img alt="ef-maris-light theme git sample" src="{{'/assets/images/ef/ef-maris-light-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-light-mail.png' | absolute_url }}"><img alt="ef-maris-light theme mail sample" src="{{'/assets/images/ef/ef-maris-light-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-light-org.png' | absolute_url }}"><img alt="ef-maris-light theme org sample" src="{{'/assets/images/ef/ef-maris-light-org.png' | absolute_url }}"/></a>
+
 ### ef-spring
 
 <a href="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"/></a>
@@ -163,6 +176,7 @@ This section contains:
 - `ef-deuteranopia-dark`
 - `ef-duo-dark`
 - `ef-elea-dark`
+- `ef-maris-dark`
 - `ef-night`
 - `ef-symbiosis`
 - `ef-trio-dark`
@@ -238,6 +252,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-elea-dark-mail.png' | absolute_url }}"><img alt="ef-elea-dark theme mail sample" src="{{'/assets/images/ef/ef-elea-dark-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-elea-dark-org.png' | absolute_url }}"><img alt="ef-elea-dark theme org sample" src="{{'/assets/images/ef/ef-elea-dark-org.png' | absolute_url }}"/></a>
+
+### ef-maris-dark
+
+<a href="{{'/assets/images/ef/ef-maris-dark.png' | absolute_url }}"><img alt="ef-maris-dark theme sample" src="{{'/assets/images/ef/ef-maris-dark.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-dark-git.png' | absolute_url }}"><img alt="ef-maris-dark theme git sample" src="{{'/assets/images/ef/ef-maris-dark-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-dark-mail.png' | absolute_url }}"><img alt="ef-maris-dark theme mail sample" src="{{'/assets/images/ef/ef-maris-dark-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-maris-dark-org.png' | absolute_url }}"><img alt="ef-maris-dark theme org sample" src="{{'/assets/images/ef/ef-maris-dark-org.png' | absolute_url }}"/></a>
 
 ### ef-night
 
