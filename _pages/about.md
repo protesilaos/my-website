@@ -132,6 +132,11 @@ award for my Emacs `modus-themes`:
 Relevant essay of mine on _Accessibility and software freedom_:
 <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
 
+In July 2023, the Free Software Foundation published a "working
+together" series that features a brief comment of mine on GNU Emacs.
+Links to all relevant sources here:
+<https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
+
 ## protesilaos.com
 
 This website has been online since 2011.  It contains more than 1000
