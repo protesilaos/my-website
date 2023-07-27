@@ -5,7 +5,7 @@ layout: vlog
 mediaid: "ZEfpyhvNh_A"
 ---
 
-Just another video blog on my hut.  I have effectively closed the
+Just another video blog about my hut.  I have effectively closed the
 construction.  It is good enough for summertime, though I still need
 to do a lot more work ahead of the coming winter.  I was on a tight
 schedule and could not wait any longer, thus prioritising the
