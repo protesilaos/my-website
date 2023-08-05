@@ -8,8 +8,12 @@ redirect_from:
 ---
 
 <p>
-This page is a work-in-progress.  I started it on 2023-05-24 as a
-successor to my old Emacs literate configuration file.
+This page is the successor to my old Emacs literate configuration
+file.  I no longer use Org to maintain my Emacs setup.  Instead,
+everything is done directly with Emacs Lisp.  The purpose of this
+document is to describe my setup and list the contents of all the
+relevant files I am loading.  <b>Last revised and exported on
+2023-08-05 10:26:38 +0300.</b>
 </p>
 
 <div id="table-of-contents" role="doc-toc">
@@ -17,7 +21,19 @@ successor to my old Emacs literate configuration file.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:23952262-063e-4c3b-a8af-4fd67d91c2d5">1. About this page</a></li>
-<li><a href="#h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">2. Anatomy of my Emacs configuration</a></li>
+<li><a href="#h:64c1c9f5-1218-4ff3-8e35-41e56c74f038">2. Details of my Emacs build</a></li>
+<li><a href="#h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">3. Anatomy of my Emacs configuration</a>
+<ul>
+<li><a href="#h:9fe6c0b6-7978-42f5-a099-268f6c51fddf">3.1. Overview of my Emacs configuration</a></li>
+<li><a href="#h:06bc66da-6e6d-4abc-81a0-52599a7ee3d8">3.2. The anatomy of my Emacs in detail</a></li>
+</ul>
+</li>
+<li><a href="#h:42cbed76-6039-410f-bca8-22aecb63121a">4. Contents of all files in my setup</a>
+<ul>
+<li><a href="#h:7b7b5898-09f7-4128-8af0-4041f67cb729">4.1. early-init.el</a></li>
+<li><a href="#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974">4.2. init.el</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -26,9 +42,10 @@ successor to my old Emacs literate configuration file.
 <h2 id="h:23952262-063e-4c3b-a8af-4fd67d91c2d5"><span class="section-number-2">1.</span> About this page</h2>
 <div class="outline-text-2" id="text-h:23952262-063e-4c3b-a8af-4fd67d91c2d5">
 <p>
-Herein you will find documentation about my  files for
-Emacs.  <b>This is not a literate configuration</b>: it is ordinary Emacs
-Lisp code that I am writing about in a separate file.
+Herein you will find documentation about my files for Emacs. <b>This is
+not a literate configuration</b>: it is ordinary Emacs Lisp code. I am
+writing about it in this separate file to explain how my setup is
+organised.
 </p>
 
 <ul class="org-ul">
@@ -43,24 +60,71 @@ Lisp code that I am writing about in a separate file.
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/dotfiles">https://lists.sr.ht/~protesilaos/dotfiles</a></li>
 <li>Backronym: Do Observe, Transpose, Examine, or Mirror All
-Configurations, Stranger</li>
+Configurations, Stranger (dotemacs); Dotfiles Operate Transparently
+For the Included Linux and Emacs Setups (dotfiles).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:64c1c9f5-1218-4ff3-8e35-41e56c74f038" class="outline-2">
+<h2 id="h:64c1c9f5-1218-4ff3-8e35-41e56c74f038"><span class="section-number-2">2.</span> Details of my Emacs build</h2>
+<div class="outline-text-2" id="text-h:64c1c9f5-1218-4ff3-8e35-41e56c74f038">
+<p>
+I track the trunk of emacs.git, as I am the maintainer of several
+Emacs packages and a contributor to Emacs core.  Users of Arch Linux
+can refer to this <code>PKGBUILD</code> I maintain for my purposes:
+</p>
+
+<ul class="org-ul">
+<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/emacs-arch-linux-pkgbuild">https://git.sr.ht/~protesilaos/emacs-arch-linux-pkgbuild</a>
+<ul class="org-ul">
+<li>Mirrors
+<ul class="org-ul">
+<li>GitHub: <a href="https://github.com/protesilaos/emacs-arch-linux-pkgbuild">https://github.com/protesilaos/emacs-arch-linux-pkgbuild</a></li>
+<li>GitLab: <a href="https://gitlab.com/protesilaos/emacs-arch-linux-pkgbuild">https://gitlab.com/protesilaos/emacs-arch-linux-pkgbuild</a></li>
+</ul></li>
+</ul></li>
+<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/general-issues">https://lists.sr.ht/~protesilaos/general-issues</a></li>
+<li>Backronym for &ldquo;PKGBUILD &#x2026; of Emacs&rdquo;: Package Knowhow Germane to
+Building Unapologetically Individuated Local Design &#x2026; of Emacs.</li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-h:103d6f5a-bdb1-4b49-946a-708a83c79a7d" class="outline-2">
-<h2 id="h:103d6f5a-bdb1-4b49-946a-708a83c79a7d"><span class="section-number-2">2.</span> Anatomy of my Emacs configuration</h2>
+<h2 id="h:103d6f5a-bdb1-4b49-946a-708a83c79a7d"><span class="section-number-2">3.</span> Anatomy of my Emacs configuration</h2>
 <div class="outline-text-2" id="text-h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">
+</div>
+
+<div id="outline-container-h:9fe6c0b6-7978-42f5-a099-268f6c51fddf" class="outline-3">
+<h3 id="h:9fe6c0b6-7978-42f5-a099-268f6c51fddf"><span class="section-number-3">3.1.</span> Overview of my Emacs configuration</h3>
+<div class="outline-text-3" id="text-h:9fe6c0b6-7978-42f5-a099-268f6c51fddf">
+<dl class="org-dl">
+<dt><code>early-init.el</code></dt><dd>Optimisations for starting up Emacs and setting
+the basics.</dd>
+<dt><code>init.el</code></dt><dd>Defines foundational blocks of my system and loads the
+individual configuration modules.</dd>
+<dt><code>prot-emacs-modules</code> directory</dt><dd>Includes all my configuration
+modules.  These simply tweak packages and are not meant to define
+extra functionality.</dd>
+<dt><code>prot-lisp</code> directory</dt><dd>Custom packages</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-h:06bc66da-6e6d-4abc-81a0-52599a7ee3d8" class="outline-3">
+<h3 id="h:06bc66da-6e6d-4abc-81a0-52599a7ee3d8"><span class="section-number-3">3.2.</span> The anatomy of my Emacs in detail</h3>
+<div class="outline-text-3" id="text-h:06bc66da-6e6d-4abc-81a0-52599a7ee3d8">
 <p>
 I have built my setup from scratch and am observing best practices
 with regard to how Emacs expects things to run.  I do not use the
 Emacs daemon, as I have encountered instabilities with it.  Instead, I
-run a single instance, that I launch at startup, and then configure it
-to act as the server.  This means that I can still connect to the
-running session via <code>emacsclient</code>, which is useful when I want to
-evaluate Elisp code from outside of Emacs (e.g. with the <code>delight</code>
-shell script that switches the entire &ldquo;environment&rdquo; theme of my tiling
-window manager&#x2014;see my dotfiles for the technicalities).
+run a single instance of Emacs and then configure it to act as the
+server.  This means that I can still connect to the running session
+via <code>emacsclient</code>, which is useful when I want to evaluate Elisp code
+from outside of Emacs (e.g. with the <code>delight</code> shell script that
+switches the entire &ldquo;environment&rdquo; theme of my tiling window
+manager&#x2014;see my dotfiles for the technicalities).
 </p>
 
 <p>
@@ -77,10 +141,6 @@ is the place where I:
 <ul class="org-ul">
 <li>Set up the parameters of the initial and all future frames.</li>
 
-<li>Make the <code>custom-file</code> disposable because I consider persistent
-configurations outside my hand-written code to be highly
-problematic.</li>
-
 <li>Optimise the early initialisation phase to speed up startup time.</li>
 
 <li>Define functions that test whether my environment is using a light
@@ -92,30 +152,40 @@ when I launch Emacs.</li>
 </ul></dd>
 
 <dt>The <code>init.el</code> file</dt><dd>This is the main configuration file that Emacs
-uses.  Mine defines some user options that are intended for the
-<code>prot-emacs-pre-custom.el</code> file (more below) and then goes on to
+uses.  Mine defines some user options that are intended for use in
+the <code>prot-emacs-pre-custom.el</code> file (more below) and then goes on to
 handle the substantive parts of my configuration.  Concretely:
 
 <ul class="org-ul">
-<li>Registers my <code>prot-lisp/</code> and <code>prot-emacs-modules/</code> in the Emacs
-<code>load-path</code>.  Read further below for what these are.</li>
+<li>Make the <code>custom-file</code> disposable because I consider persistent
+configurations outside my hand-written code to be highly
+problematic.</li>
 
-<li>Arranges my package archives and ensures that the packages I
+<li>Register my <code>prot-lisp/</code> and <code>prot-emacs-modules/</code> in the Emacs
+<code>load-path</code>.  Read further below for what these directories
+contain.</li>
+
+<li>Load all the modules of my setup in the appropriate order.</li>
+
+<li>Arrange my package archives and ensures that the packages I
 develop are drawn from the <code>elpa-devel</code> archive.  Read here for
-all my packages: <a href="https://protesilaos.com/emacs">https://protesilaos.com/emacs</a>.</li>
+all my packages: <a href="https://protesilaos.com/emacs">https://protesilaos.com/emacs</a>.  I install my
+packages from <code>elpa-devel</code> just to be sure that their installation
+works properly.</li>
 
-<li>Defines the Lisp Macros that are used throughout my setup, such as
+<li>Define the Lisp Macros that are used throughout my setup, such as
 <code>prot-emacs-package</code> and <code>prot-emacs-keybind</code>.  Why not
 <code>use-package</code>, especially now that it is built into Emacs?
 Because (i) I do not like many aspects of its behaviour, such as
 key bindings &ldquo;magically&rdquo; delaying the load of a package, and (ii)
-I have no use for most of its functionality.</li>
-
-<li>Loads all the modules of my setup in the appropriate order.</li>
+I have no use for most of its functionality.  Writing my own Lisp
+macros helps me practice my coding skills and get exactly what I
+want.</li>
 </ul></dd>
 
-<dt>The <code>prot-emacs-modules</code> directory</dt><dd>This is where I store all the
-individual components of my Emacs setup.  The directory resides as a
+<dt>The <code>prot-emacs-modules</code> directory</dt><dd><p>
+This is where I store all the
+individual components of my Emacs setup.  The directory is a
 subdirectory of <code>~/.emacs.d/</code>.  All files are prefixed with
 <code>prot-emacs-</code>, followed by a word that broadly describes their scope
 of application, such as <code>prot-emacs-font</code>, <code>prot-emacs-window</code>&#x2026;
@@ -125,7 +195,13 @@ the set of configurations as a <i>feature</i> that can then be loaded via
 essence a variable whose value is the entirety of the file that has
 a <code>provide</code> call to it.  Features are symbols that are named after
 the file name minus its file type extension: <code>prot-emacs-font</code> is
-the feature provided by <code>prot-emacs-font.el</code>.</dd>
+the feature provided by <code>prot-emacs-font.el</code>.
+</p>
+
+<p>
+Modules are intended only for configuration purposes.  They do not
+define any major variables/functions.
+</p></dd>
 
 <dt>The <code>prot-lisp</code> directory</dt><dd>As with the aforementioned modules,
 this directory is a subdirectory of <code>~/.emacs.d/</code>.  This is where I
@@ -135,10 +211,10 @@ fact, many of my actual packages started out as <code>prot-lisp</code>
 experiments.  Each file is written in accordance with the
 conventions on Emacs packaging, even though they are only intended
 for use in my setup and are not polished to the level of my actual
-public-facing packages (meaning the one listed here:
+public-facing packages (meaning the ones listed here:
 <a href="https://protesilaos.com/emacs">https://protesilaos.com/emacs</a>).</dd>
 
-<dt>The <code>prot-emacs-pre-custom</code> file</dt><dd>It is evaluated before the
+<dt>The <code>prot-emacs-pre-custom</code> file</dt><dd>It is evaluated <i>before</i> the
 modules are loaded.  It is intended for users of my configuration
 who want to:
 
@@ -159,7 +235,622 @@ setup is loaded.  Here they can include whatever code they want.</dd>
 
 <dt>The <code>prot-emacs.org</code> file</dt><dd>The source of what you are currently
 reading.  It is not pertinent to the configuration of Emacs.  All it
-does is to document the rest of my code.</dd>
+does is document the rest of my code.</dd>
 </dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:42cbed76-6039-410f-bca8-22aecb63121a" class="outline-2">
+<h2 id="h:42cbed76-6039-410f-bca8-22aecb63121a"><span class="section-number-2">4.</span> Contents of all files in my setup</h2>
+<div class="outline-text-2" id="text-h:42cbed76-6039-410f-bca8-22aecb63121a">
+<p>
+The following sections produce the contents of all the files that form
+part of my Emacs setup.  ⚠️ This is a work-in-progress: not all files
+are included herein, though the plan is to add everything.
+</p>
+</div>
+
+<div id="outline-container-h:7b7b5898-09f7-4128-8af0-4041f67cb729" class="outline-3">
+<h3 id="h:7b7b5898-09f7-4128-8af0-4041f67cb729"><span class="section-number-3">4.1.</span> early-init.el</h3>
+<div class="outline-text-3" id="text-h:7b7b5898-09f7-4128-8af0-4041f67cb729">
+<p>
+As explained earlier, this is the first file that my Emacs reads at
+startup (<a href="#h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">Anatomy of my Emacs configuration</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; early-init.el --- Early Init File -*- lexical-binding: t -*-
+
+;; Copyright (c) 2020-2023  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+
+;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "30.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This file is free software: you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by the
+;; Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This file is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this file.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+;;; Commentary:
+
+;; See my dotfiles: https://git.sr.ht/~protesilaos/dotfiles
+
+;;; Code:
+
+(defvar prot-emacs-tiling-window-manager-regexp
+  "\\(?:\\(?:bsp\\|herbstluft\\)wm\\)"
+  "Regular expression to match desired tiling window managers.
+See definition of `prot-emacs-with-desktop-session'.")
+
+(defmacro prot-emacs-with-desktop-session (&amp;rest body)
+  "Expand BODY if desktop session is not a tiling window manager.
+See `prot-emacs-tiling-window-manager-regexp' for what
+constitutes a matching tiling window manager."
+  (declare (indent 0))
+  `(when-let* ((session (getenv "DESKTOP_SESSION"))
+               ((not (string-match-p session prot-emacs-tiling-window-manager-regexp))))
+     ,@body))
+
+(defun prot-emacs-add-to-list (list element)
+  "Add to symbol of LIST the given ELEMENT.
+Simplified version of `add-to-list'."
+  (set list (cons element (symbol-value list))))
+
+(prot-emacs-with-desktop-session
+  (mapc
+   (lambda (var)
+     (prot-emacs-add-to-list var '(width . (text-pixels . 1200)))
+     (prot-emacs-add-to-list var '(height . (text-pixels . 900)))
+     (prot-emacs-add-to-list var '(scroll-bar-width  . 12)))
+   '(default-frame-alist initial-frame-alist)))
+
+(setq frame-resize-pixelwise t
+      frame-inhibit-implied-resize t
+      use-dialog-box t ; only for mouse events, which I seldom use
+      use-file-dialog nil
+      inhibit-splash-screen t
+      inhibit-startup-screen t
+      inhibit-x-resources t
+      inhibit-startup-echo-area-message user-login-name ; read the docstring
+      inhibit-startup-buffer-menu t)
+
+;; I do not use those graphical elements by default, but I do enable
+;; them from time-to-time for testing purposes or to demonstrate
+;; something.
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
+;; Temporarily increase the garbage collection threshold.  These
+;; changes help shave off about half a second of startup time.
+(defvar prot-emacs--gc-cons-threshold gc-cons-threshold)
+
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; Same idea as above for the `file-name-handler-alist'.
+(defvar prot-emacs--file-name-handler-alist file-name-handler-alist)
+
+(setq file-name-handler-alist nil)
+
+;; Same idea as above for the `vc-handled-backends'.
+(defvar prot-emacs--vc-handled-backends vc-handled-backends)
+
+(setq vc-handled-backends nil)
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold prot-emacs--gc-cons-threshold
+                  file-name-handler-alist prot-emacs--file-name-handler-alist
+                  vc-handled-backends prot-emacs--vc-handled-backends)))
+
+;; Initialise installed packages at this early stage, by using the
+;; available cache.  I had tried a setup with this set to nil in the
+;; early-init.el, but (i) it ended up being slower and (ii) various
+;; package commands, like `describe-package', did not have an index of
+;; packages to work with, requiring a `package-refresh-contents'.
+(setq package-enable-at-startup t)
+
+;;;; General theme code
+
+(defun prot-emacs-theme-gsettings-dark-p ()
+  "Return non-nil if gsettings (GNOME) has a dark theme.
+Return nil if the DESKTOP_SESSION is either bspwm or
+herbstluftwm, per the configuration of my dotfiles.  Also check
+the `delight' shell script."
+  (prot-emacs-with-desktop-session
+    (string-match-p
+     "dark"
+     (shell-command-to-string "gsettings get org.gnome.desktop.interface color-scheme"))))
+
+(defun prot-emacs-theme-twm-dark-p ()
+  "Return non-nil if my custom setup has a dark theme.
+I place a file in ~/.config/prot-xtwm-active-theme which contains
+a single word describing my system-wide theme.  This is part of
+my dotfiles.  Check my `delight' shell script for more."
+  (when-let ((file "~/.config/prot-xtwm-active-theme")
+             ((file-exists-p file)))
+      (string-match-p
+       "dark"
+       (with-temp-buffer
+         (insert-file-contents file)
+         (buffer-substring-no-properties (point-min) (point-max))))))
+
+(defun prot-emacs-theme-environment-dark-p ()
+  "Return non-nil if environment theme is dark."
+  (or (prot-emacs-theme-twm-dark-p)
+      (prot-emacs-theme-gsettings-dark-p)))
+
+(defun prot-emacs-re-enable-frame-theme (_frame)
+  "Re-enable active theme, if any, upon FRAME creation.
+Add this to `after-make-frame-functions' so that new frames do
+not retain the generic background set by the function
+`prot-emacs-avoid-initial-flash-of-light'."
+  (when-let ((theme (car custom-enabled-themes)))
+    (enable-theme theme)))
+
+;; NOTE 2023-02-05: The reason the following works is because (i) the
+;; `mode-line-format' is specified again and (ii) the
+;; `prot-emacs-theme-gsettings-dark-p' will load a dark theme.
+(defun prot-emacs-avoid-initial-flash-of-light ()
+  "Avoid flash of light when starting Emacs, if needed.
+New frames are instructed to call `prot-emacs-re-enable-frame-theme'."
+  (when (prot-emacs-theme-environment-dark-p)
+    (setq mode-line-format nil)
+    (set-face-attribute 'default nil :background "#000000" :foreground "#ffffff")
+    (set-face-attribute 'mode-line nil :background "#000000" :foreground "#ffffff" :box 'unspecified)
+    (add-hook 'after-make-frame-functions #'prot-emacs-re-enable-frame-theme)))
+
+(prot-emacs-avoid-initial-flash-of-light)
+
+(add-hook 'after-init-hook (lambda () (set-frame-name "home")))
+
+;;; early-init.el ends here
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:dae63bd9-93a8-41c4-af1b-d0f39ba50974" class="outline-3">
+<h3 id="h:dae63bd9-93a8-41c4-af1b-d0f39ba50974"><span class="section-number-3">4.2.</span> init.el</h3>
+<div class="outline-text-3" id="text-h:dae63bd9-93a8-41c4-af1b-d0f39ba50974">
+<p>
+This is where I define the Lisp macros used in my setup and load all
+the invidiual modules.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; init.el --- Personal configuration file -*- lexical-binding: t -*-
+
+;; Copyright (c) 2019-2023  Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+
+;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "30.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This file is free software: you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by the
+;; Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This file is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this file.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+;;; Commentary:
+
+;; See my dotfiles: &lt;https://git.sr.ht/~protesilaos/dotfiles&gt;
+
+;;; Code:
+
+(defgroup prot-emacs nil
+  "User options for my dotemacs."
+  :group 'file)
+
+;; For those who use my dotfiles and need an easy way to write their
+;; own extras on top of what I already load: search below for the files
+;; prot-emacs-pre-custom.el and prot-emacs-post-custom.el
+
+(defcustom prot-emacs-load-theme-family 'modus
+  "Set of themes to load.
+Valid values are the symbols `ef', `modus', and `standard', which
+reference the `ef-themes', `modus-themes', and `standard-themes',
+respectively.
+
+A nil value does not load any of the above (use Emacs without a
+theme).
+
+This user option must be set in the `prot-emacs-pre-custom.el'
+file.  If that file exists in the Emacs directory, it is loaded
+before all other modules of my setup."
+  :group 'prot-emacs
+  :type '(choice :tag "Set of themes to load" :value modus
+                 (const :tag "The `ef-themes' module" ef)
+                 (const :tag "The `modus-themes' module" modus)
+                 (const :tag "The `standard-themes' module" standard)
+                 (const :tag "Do not load a theme module" nil)))
+
+(defcustom prot-emacs-completion-ui 'vertico
+  "Choose minibuffer completion UI between `mct' or `vertico'."
+  :group 'prot-emacs
+  :type '(choice :tag "Minibuffer user interface"
+                 (const :tag "The `mct' module" mct)
+                 (const :tag "The `vertico' module" vertico)))
+
+(defcustom prot-emacs-omit-packages nil
+  "List of package names to not load.
+This instructs the relevant macros to not `require' the given
+package.  In the case of `prot-emacs-elpa-package', the package
+will not be installed if it is not already available on the
+system.
+
+This user option must be set in the `prot-emacs-pre-custom.el'
+file.  If that file exists in the Emacs directory, it is loaded
+before all other modules of my setup."
+  :group 'prot-emacs
+  :type '(repeat symbol))
+
+;; Some basic settings
+(setq frame-title-format '("%b"))
+(setq ring-bell-function 'ignore)
+(setq use-short-answers t)
+(setq native-comp-async-report-warnings-errors 'silent) ; Emacs 28 with native compilation
+(setq native-compile-prune-cache t) ; Emacs 29
+(setq make-backup-files nil)
+(setq backup-inhibited nil) ; Not sure if needed, given `make-backup-files'
+(setq create-lockfiles nil)
+
+;; Disable the damn thing by making it disposable.
+(setq custom-file (make-temp-file "emacs-custom-"))
+
+;; There is also the greek-postfix style.  This is for inserting
+;; accents.  I am used to the standard use of a prefix.
+(setq default-input-method "greek")
+
+;; Enable these
+(dolist (c '(narrow-to-region narrow-to-page upcase-region downcase-region))
+  (put c 'disabled nil))
+
+;; And disable these
+(dolist (c '(eshell project-eshell overwrite-mode iconify-frame diary))
+  (put c 'disabled t))
+
+;; Always start with *scratch*
+(setq initial-buffer-choice t)
+
+;;;; Packages
+
+(dolist (path '("prot-lisp" "prot-emacs-modules"))
+  (add-to-list 'load-path (locate-user-emacs-file path)))
+
+(require 'package)
+
+(with-eval-after-load 'project-vc
+  (setq package-vc-register-as-project nil)) ; Emacs 30
+
+(add-hook 'package-menu-mode-hook #'hl-line-mode)
+
+;; Also read: &lt;https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/&gt;
+(setq package-archives
+      '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+        ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")))
+
+;; Highest number gets priority (what is not mentioned has priority 0)
+(setq package-archive-priorities
+      '(("gnu-elpa" . 3)
+        ("melpa" . 2)
+        ("nongnu" . 1)))
+
+;; I want to use my own packages from specific repositories.  All
+;; others will rely on `package-archive-priorities'.  I do this to
+;; test that the packaged version works as intended.
+(defvar prot-emacs-my-packages
+  '(agitate
+    altcaps
+    beframe
+    cursory
+    denote
+    dired-preview
+    ef-themes
+    fontaine
+    lin
+    logos
+    mct
+    modus-themes
+    notmuch-indicator
+    pulsar
+    spacious-padding
+    standard-themes
+    substitute
+    sxhkdrc-mode
+    tmr)
+  "List of symbols representing the packages I develop/maintain.")
+
+(setq package-pinned-packages
+      `(,@(mapcar
+           (lambda (package)
+             (cons package "gnu-elpa-devel"))
+           prot-emacs-my-packages)))
+
+(setq custom-safe-themes t)
+
+(defun prot-emacs-package-install (package &amp;optional method)
+  "Install PACKAGE with optional METHOD.
+
+If METHOD is nil or the `builtin' symbol, PACKAGE is not
+installed as it is considered part of Emacs.
+
+If METHOD is a string, it must be a URL pointing to the version
+controlled repository of PACKAGE.  Installation is done with
+`package-vc-install'.
+
+If METHOD is a quoted list, it must have a form accepted by
+`package-vc-install' such as:
+
+\\='(denote :url \"https://git.sr.ht/~protesilaos/denote\" :branch \"main\")
+
+If METHOD is any other non-nil value, install PACKAGE using
+`package-install'."
+  (unless (or (eq method 'builtin) (null method))
+    (unless (package-installed-p package)
+      (when (or (stringp method) (listp method))
+        (package-vc-install method))
+      (unless package-archive-contents
+        (package-refresh-contents))
+      (package-install package))))
+
+(defvar prot-emacs-loaded-packages nil)
+
+(defmacro prot-emacs-package (package &amp;rest body)
+  "Require PACKAGE with BODY configurations.
+
+PACKAGE is an unquoted symbol that is passed to `require'.  It
+thus conforms with `featurep'.
+
+BODY consists of ordinary Lisp expressions.  There are,
+nevertheless, two unquoted plists that are treated specially:
+
+1. (:install METHOD)
+2. (:delay NUMBER)
+
+These plists can be anywhere in BODY and are not part of its
+final expansion.
+
+The :install property is the argument passed to
+`prot-emacs-package-install' and has the meaning of METHOD
+described therein.
+
+The :delay property makes the evaluation of PACKAGE with the
+expanded BODY happen with `run-with-timer'.
+
+Also see `prot-emacs-configure'."
+  (declare (indent 1))
+  (unless (memq package prot-emacs-omit-packages)
+    (let (install delay)
+      (dolist (element body)
+        (when (plistp element)
+          (pcase (car element)
+            (:install (setq install (cdr element)
+                            body (delq element body)))
+            (:delay (setq delay (cadr element)
+                          body (delq element body))))))
+      (let ((common `(,(when install
+                         `(prot-emacs-package-install ',package ,@install))
+                      (require ',package)
+                      (add-to-list 'prot-emacs-loaded-packages ',package)
+                      ,@body
+                      ;; (message "Prot Emacs loaded package: %s" ',package)
+                      )))
+        (cond
+         ((featurep package)
+          `(progn ,@body))
+         (delay
+          `(run-with-timer ,delay nil (lambda () ,@(delq nil common))))
+         (t
+          `(progn ,@(delq nil common))))))))
+
+;; Samples of `prot-emacs-package' (expand them with `pp-macroexpand-last-sexp').
+
+;; (prot-emacs-package denote
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (:install '(denote . (:url "https://git.sr.ht/~protesilaos/denote" :branch "main")))
+;;   (:delay 5)
+;;   (setq denote-file-type nil))
+;;
+;; (prot-emacs-package denote
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (:install "https://git.sr.ht/~protesilaos/denote")
+;;   (:delay 5)
+;;   (setq denote-file-type nil))
+;;
+;; (prot-emacs-package denote
+;;   (:delay 5)
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (:install "https://git.sr.ht/~protesilaos/denote")
+;;   (setq denote-file-type nil))
+;;
+;; (prot-emacs-package denote
+;;   (:install "https://git.sr.ht/~protesilaos/denote")
+;;   (:delay 5)
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (setq denote-file-type nil))
+;;
+;; (prot-emacs-package denote
+;;   (:delay 5)
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (setq denote-file-type nil))
+;;
+;; (prot-emacs-package denote
+;;   (setq denote-directory "path/to/dir")
+;;   (define-key global-map (kbd "C-c n") #'denote)
+;;   (setq denote-file-type nil))
+
+(defmacro prot-emacs-configure (&amp;rest body)
+  "Evaluate BODY as a `progn'.
+BODY consists of ordinary Lisp expressions.  The sole exception
+is an unquoted plist of the form (:delay NUMBER) which evaluates
+BODY with NUMBER seconds of `run-with-timer'.
+
+Note that `prot-emacs-configure' does not try to autoload
+anything.  Use it only for forms that evaluate regardless.
+
+Also see `prot-emacs-package'."
+  (declare (indent 0))
+  (let (delay)
+    (dolist (element body)
+      (when (plistp element)
+        (pcase (car element)
+          (:delay (setq delay (cadr element)
+                        body (delq element body))))))
+    (if delay
+        `(run-with-timer ,delay nil (lambda () ,@body))
+      `(progn ,@body))))
+
+
+(defmacro prot-emacs-keybind (keymap &amp;rest definitions)
+  "Expand key binding DEFINITIONS for the given KEYMAP.
+DEFINITIONS is a sequence of string and command pairs."
+  (declare (indent 1))
+  (unless (zerop (% (length definitions) 2))
+    (error "Uneven number of key+command pairs"))
+  (let ((keys (seq-filter #'stringp definitions))
+        ;; We do accept nil as a definition: it unsets the given key.
+        (commands (seq-remove #'stringp definitions)))
+    `(when-let (((keymapp ,keymap))
+                (map ,keymap))
+       ,@(mapcar
+          (lambda (pair)
+            (unless (and (null (car pair))
+                         (null (cdr pair)))
+              `(define-key map (kbd ,(car pair)) ,(cdr pair))))
+          (cl-mapcar #'cons keys commands)))))
+
+;; Sample of `prot-emacs-keybind'
+
+;; (prot-emacs-keybind global-map
+;;   "C-z" nil
+;;   "C-x b" #'switch-to-buffer
+;;   "C-x C-c" nil
+;;   "C-x k" #'kill-buffer)
+
+(defmacro prot-emacs-abbrev (table &amp;rest definitions)
+  "Expand abbrev DEFINITIONS for the given TABLE.
+DEFINITIONS is a sequence of string pairs mapping the
+abbreviation to its expansion."
+  (declare (indent 1))
+  (unless (zerop (% (length definitions) 2))
+    (error "Uneven number of key+command pairs"))
+  `(when-let (((abbrev-table-p ,table))
+              (table ,table))
+     ,@(mapcar
+        (lambda (pair)
+          (when-let ((abbrev (car pair))
+                     (expansion (cadr pair)))
+            `(define-abbrev table ,abbrev ,expansion)))
+        (seq-split definitions 2))))
+
+(defun prot-emacs-return-loaded-packages ()
+  "Return a list of all loaded packages.
+Here packages include both `prot-emacs-loaded-packages' and
+`package-activated-list'.  The latter only covers what is found
+in the `package-archives', whereas the former is for anything
+that is expanded with the `prot-emacs-package' macro."
+  (delete-dups (append prot-emacs-loaded-packages package-activated-list)))
+
+(defvar prot-emacs-package-form-regexp
+  "^(\\(prot-emacs-package\\|prot-emacs-keybind\\|prot-emacs-abbrev\\|require\\) +'?\\([0-9a-zA-Z-]+\\)"
+  "Regexp to add packages to `lisp-imenu-generic-expression'.")
+
+(eval-after-load 'lisp-mode
+  `(add-to-list 'lisp-imenu-generic-expression
+                (list "Packages" ,prot-emacs-package-form-regexp 2)))
+
+(defconst prot-emacs-font-lock-keywords
+  '(("(\\(prot-emacs-package\\)\\_&gt;[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
+     (2 font-lock-constant-face nil t))
+    ("(\\(prot-emacs-\\(keybind\\|abbrev\\)\\)\\_&gt;[ \t']*\\(\\(\\sw\\|\\s_\\)+\\)?"
+     (3 font-lock-variable-name-face nil t))))
+
+(font-lock-add-keywords 'emacs-lisp-mode prot-emacs-font-lock-keywords)
+
+;; For those who use my dotfiles and need an easy way to write their
+;; own extras on top of what I already load.  The file must exist at
+;; ~/.emacs.d/prot-emacs-pre-custom.el
+;;
+;; The purpose of this file is for the user to define their
+;; preferences BEFORE loading any of the modules.  For example, the
+;; user option `prot-emacs-omit-packages' lets the user specify which
+;; packages not to load.  Search for all `defcustom' forms in this
+;; file for other obvious customisations.
+(load (locate-user-emacs-file "prot-emacs-pre-custom.el") :no-error :no-message)
+
+(require 'prot-emacs-essentials)
+(pcase prot-emacs-load-theme-family
+  ('ef (require 'prot-emacs-ef-themes))
+  ('modus (require 'prot-emacs-modus-themes))
+  ('standard (require 'prot-emacs-standard-themes)))
+(require 'prot-emacs-theme-extras)
+(require 'prot-emacs-font)
+(require 'prot-emacs-modeline)
+(require 'prot-emacs-completion-common)
+(pcase prot-emacs-completion-ui
+  ('mct (require 'prot-emacs-completion-mct))
+  ('vertico (require 'prot-emacs-completion-vertico)))
+(require 'prot-emacs-search)
+(require 'prot-emacs-dired)
+(require 'prot-emacs-window)
+(require 'prot-emacs-git)               ; git, diff, and related
+(require 'prot-emacs-write)             ; denote, logos, etc.
+(require 'prot-emacs-org)               ; org, calendar, appt
+(require 'prot-emacs-langs)
+(require 'prot-emacs-email)
+(when (executable-find "notmuch")
+  (require 'prot-emacs-email-notmuch))
+(require 'prot-emacs-web)               ; eww, elfeed, rcirc
+
+(setq safe-local-variable-values
+      '((org-hide-leading-stars . t)
+        (org-hide-macro-markers . t)))
+
+;; For those who use my dotfiles and need an easy way to write their
+;; own extras on top of what I already load.  The file must exist at
+;; ~/.emacs.d/user-emacs.el OR ~/.emacs.d/prot-emacs-post-custom.el
+;;
+;; The purpose of the "post customisations" is to make tweaks to what
+;; I already define, such as to change the default theme.  See above
+;; for the `prot-emacs-pre-custom.el' to make changes BEFORE loading
+;; any of my other configurations.
+(load (locate-user-emacs-file "prot-emacs-post-custom.el") :no-error :no-message)
+
+;;; init.el ends here
+</pre>
+</div>
+</div>
 </div>
 </div>
