@@ -407,8 +407,9 @@ piece of functionality does.
     + GitHub: <https://github.com/protesilaos/dotfiles>
     + GitLab: <https://gitlab.com/protesilaos/dotfiles>
 + Mailing list: <https://lists.sr.ht/~protesilaos/dotfiles>
-+ Backronym: Do Observe, Transpose, Examine, and Mirror All
-  Configurations, Stranger
++ Backronym: Do Observe, Transpose, Examine, or Mirror All
+  Configurations, Stranger (dotemacs); Dotfiles Operate Transparently
+  For the Included Linux and Emacs Setups (dotfiles).
 
 ## Iosevka Comfy
 
