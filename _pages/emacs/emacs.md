@@ -500,7 +500,7 @@ Control framework and its accoutrements (`diff-mode.el`,
 + Mailing list: <https://lists.sr.ht/~protesilaos/agitate>
 + Backronym: Another Git Interface Trying to Agitate Tranquil Emacsers
 
-## Custom Emacs build for Arch Linux
+## Custom Emacs build for Arch Linux (PKGBUILD)
 
 This is just like every other package recipe for Arch.  We provide a
 PKGBUILD and then `pacman` does the rest.  The project's README file
@@ -512,8 +512,7 @@ describes the procedure. ⛔ For experts only!
     + GitLab: <https://gitlab.com/protesilaos/emacs-arch-linux-pkgbuild>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
 + Backronym for "PKGBUILD ... of Emacs": Package Knowhow Germane to
-  Building Unapologetically Individuated Local Deployments ... of
-  Emacs.
+  Building Unapologetically Individuated Local Design ... of Emacs.
 
 * * *
 
