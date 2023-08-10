@@ -1,7 +1,6 @@
 ---
-title: 'Screen shots of the Modus themes for Emacs'
-subtitle: 'Demonstrating some options for various interfaces'
-excerpt: 'Demo of the Modus themes for Emacs, showcasing a wide range of options and interfaces.'
+title: 'Screen shots of the Standard themes for GNU Emacs'
+excerpt: 'Demo of the Standard themes for Emacs.'
 permalink: /emacs/standard-themes-pictures
 ---
 
