@@ -10,9 +10,71 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.com/emacs/pulsar</a>.
 </p>
 
-<div id="outline-container-org7e834d9" class="outline-2">
-<h2 id="org7e834d9">Version 0.5.0 on 2022-08-19</h2>
-<div class="outline-text-2" id="text-org7e834d9">
+<div id="outline-container-h:0d09da86-29be-461e-8ef6-1e93a07b756b" class="outline-2">
+<h2 id="h:0d09da86-29be-461e-8ef6-1e93a07b756b">Version 1.0.0 on 2023-08-12</h2>
+<div class="outline-text-2" id="text-h:0d09da86-29be-461e-8ef6-1e93a07b756b">
+<ul class="org-ul">
+<li>The <code>next-buffer</code> and <code>previous-buffer</code> commands are added to the
+default value of the user option <code>pulsar-pulse-functions</code>.  They
+will now trigger a pulse effect after they are called (if
+<code>pulsar-mode</code> is enabled in the current buffer or
+<code>pulsar-global-mode</code> is in use).</li>
+
+<li>The command <code>pulsar-recenter-middle</code> is now an alias for
+<code>pulsar-recenter-center</code>, instead of being the original name.  Users
+do not need to change anything on their end: this is just an
+internal arrangement to use a name that corresponds to the one of
+the underlying "recenter" mechanism.</li>
+
+<li><p>
+The Lisp macro that was used to derive the Pulsar "recenter"
+commands has been removed.  The commands are <code>pulsar-recenter-top</code>
+and <code>pulsar-recenter-center</code>.  I originally thought the macro would
+be useful in more places, but I ended up relying on it only twice.
+</p>
+
+<p>
+Thanks to Ryan Kaskel for pointing out an intermediate typo/error I
+made while redefining the macro and before I decided to remove it
+altogether.  This was done as a comment on the GitHub mirror:
+<a href="https://github.com/protesilaos/pulsar/commit/c5086de779a0226d72eca4d5cba8c7689bc278b2#r123397272">https://github.com/protesilaos/pulsar/commit/c5086de779a0226d72eca4d5cba8c7689bc278b2#r123397272</a>.
+</p></li>
+
+<li>The Lisp macro <code>pulsar-pulse-with-face</code> is renamed to
+<code>pulsar-define-pulse-with-face</code>.  Its definition is updated to
+simplify how a Pulsar function is defined with a given face.
+Examples of such functions are <code>pulsar-pulse-line-red</code>,
+<code>pulsar-pulse-line-blue</code>.</li>
+
+<li>Pulsar now retrieves the absolute beginning of the minibuffer
+prompt.  This means that a pulse in the minibuffer will cover the
+text of the prompt, as opposed to only affecting the input area.  As
+such, the pulse is visible even if the minibuffer is empty
+(e.g. what happens with the default completion setup when calling
+<code>M-x</code>).</li>
+
+<li><p>
+The manual provides instructions on how to set up Pulsar to produce
+a pulse when the minibuffer is activated.  It cannot be done with
+the <code>pulsar-pulse-functions</code>, though the setup is not too involved.
+In short:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+
+  ;; OR something like this, replacing "blue" with one among red,
+  ;; green, yellow, magenta, cyan:
+  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line-blue)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:20bf677d-bcef-4606-8cc2-ebd49bfc057b" class="outline-2">
+<h2 id="h:20bf677d-bcef-4606-8cc2-ebd49bfc057b">Version 0.5.0 on 2022-08-19</h2>
+<div class="outline-text-2" id="text-h:20bf677d-bcef-4606-8cc2-ebd49bfc057b">
 <ul class="org-ul">
 <li>Added convenience functions/commands to pulse a line using one of the
 provided faces.  These can be used interactively or via Lisp (e.g. be
@@ -82,9 +144,9 @@ manual.</li>
 </div>
 </div>
 
-<div id="outline-container-orge7465d0" class="outline-2">
-<h2 id="orge7465d0">Version 0.4.0 on 2022-07-19</h2>
-<div class="outline-text-2" id="text-orge7465d0">
+<div id="outline-container-h:762631cc-f60c-42b1-977b-00fd71c1a37e" class="outline-2">
+<h2 id="h:762631cc-f60c-42b1-977b-00fd71c1a37e">Version 0.4.0 on 2022-07-19</h2>
+<div class="outline-text-2" id="text-h:762631cc-f60c-42b1-977b-00fd71c1a37e">
 <ul class="org-ul">
 <li>Added the user option <code>pulsar-pulse-on-window-change</code>.  This covers
 all commands or functions that affect the current window, so there is
@@ -112,9 +174,9 @@ to the code.</li>
 </div>
 </div>
 
-<div id="outline-container-org4d1092e" class="outline-2">
-<h2 id="org4d1092e">Version 0.3.0 on 2022-04-08</h2>
-<div class="outline-text-2" id="text-org4d1092e">
+<div id="outline-container-h:e0cd59e1-7a0b-47b5-b9fe-a20e1fa196f0" class="outline-2">
+<h2 id="h:e0cd59e1-7a0b-47b5-b9fe-a20e1fa196f0">Version 0.3.0 on 2022-04-08</h2>
+<div class="outline-text-2" id="text-h:e0cd59e1-7a0b-47b5-b9fe-a20e1fa196f0">
 <ul class="org-ul">
 <li>Changed the source repository from GitLab to SourceHut:
 <a href="https://git.sr.ht/~protesilaos/pulsar">https://git.sr.ht/~protesilaos/pulsar</a>.  Use the mailing list to
@@ -163,9 +225,9 @@ GitLab mirror: <a href="https://gitlab.com/protesilaos/pulsar/-/issues/12">https
 </div>
 </div>
 
-<div id="outline-container-orgd24c175" class="outline-2">
-<h2 id="orgd24c175">Version 0.2.0 on 2022-03-16</h2>
-<div class="outline-text-2" id="text-orgd24c175">
+<div id="outline-container-h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c" class="outline-2">
+<h2 id="h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c">Version 0.2.0 on 2022-03-16</h2>
+<div class="outline-text-2" id="text-h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c">
 <ul class="org-ul">
 <li>Fixed an inconsistency that was present when Emacs was running in a
 server-client model where the highlight would never pulse but instead
@@ -202,9 +264,9 @@ would only reach the last character on the line).</li>
 </div>
 </div>
 
-<div id="outline-container-orgedddb32" class="outline-2">
-<h2 id="orgedddb32">Version 0.1.0 on 2022-03-14</h2>
-<div class="outline-text-2" id="text-orgedddb32">
+<div id="outline-container-h:92a23377-d4d9-43ea-a2d4-00a23ec37f57" class="outline-2">
+<h2 id="h:92a23377-d4d9-43ea-a2d4-00a23ec37f57">Version 0.1.0 on 2022-03-14</h2>
+<div class="outline-text-2" id="text-h:92a23377-d4d9-43ea-a2d4-00a23ec37f57">
 <p>
 Initial release of the package.  Please read the manual.
 </p>
