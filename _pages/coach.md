@@ -37,8 +37,8 @@ Some examples of private lessons you may be interested in:
   manager.
 - Clarify the statements of a manual or technical documentation and
   provide concrete examples.
-- Be a talking buddy to aid in the practice of English.  We can
-  discuss any subject: what really matters is for you to use the
+- Be a talking buddy to aid in the practice of English or Greek.  We
+  can discuss any subject: what really matters is for you to use the
   language without hesitation.
 - Encourage you to be more spontaneous and talk without a script.
 - Expound on philosophical themes that have practical applications in
