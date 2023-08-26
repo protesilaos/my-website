@@ -1,5 +1,5 @@
 ---
-title: "Vlog: making a "bar" for the hut (plus philosophy talk)"
+title: "Vlog: making a 'bar' for the hut (plus philosophy talk)"
 excerpt: "I was doing some carpentry work for my hut and decided to also talk philosophy."
 layout: vlog
 mediaid: "4HYWCPuqWKU"
