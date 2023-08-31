@@ -24,8 +24,8 @@ commentary.
 
 Μάνα δε φυτέψαμε ούτε ένα λουλούδι
 κι ακριβοπληρώσαμε δυο σπυριά ζωή
-μάνα δεν τελειώσαμε ούτε ένα τραγούδι
-ήλιο ζητιανέψαμε κι έχουμε καεί
+Μάνα δεν τελειώσαμε ούτε ένα τραγούδι
+Ήλιο ζητιανέψαμε κι έχουμε καεί
 
 Έσβησε η ασετυλίνη, χίμηξε σκοτάδι
 Βούλιαξε στη Μυτιλήνη το στερνό καράβι
@@ -34,8 +34,8 @@ commentary.
 
 Μάνα δε φυτέψαμε ούτε ένα λουλούδι
 κι ακριβοπληρώσαμε δυο σπυριά ζωή
-μάνα δεν τελειώσαμε ούτε ένα τραγούδι
-ήλιο ζητιανέψαμε κι έχουμε καεί
+Μάνα δεν τελειώσαμε ούτε ένα τραγούδι
+Ήλιο ζητιανέψαμε κι έχουμε καεί
 ```
 
 ```
@@ -46,14 +46,14 @@ Lyrics:       Lefteris Papadopoulos
 Music:        Manos Loizos
 
 The koboloí [rosary] broke, the beads scattered
-a crew of men began lamenting
 A crew of men began lamenting
-The koboloí [rosary] broke, the beads scattered
+A crew of men began lamenting
+The koboloí broke, the beads scattered
 
 Mother we did not plant a single flower
 and paid dearly for two grains of life
 Mother we did not finish a single song
-we begged for sun and got burnt
+We begged for sun and got burnt
 
 The acetylene run out, darkness ensued
 The last ship sunk at Mytiline
@@ -63,7 +63,7 @@ The acetylene run out, darkness ensued
 Mother we did not plant a single flower
 and paid dearly for two grains of life
 Mother we did not finish a single song
-we begged for sun and got burnt
+We begged for sun and got burnt
 ```
 
 What counts in life are our deeds, not our intentions.  We can draw
