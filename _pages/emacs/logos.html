@@ -64,7 +64,7 @@ Goes through Outline Sections</li>
 <li><a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">5.6. Leverage logos-focus-mode-hook</a>
 <ul>
 <li><a href="#h:ef719925-8d0b-479a-a87e-32b727578bfc">5.6.1. Conditionally toggle org-indent-mode</a></li>
-<li><a href="#h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">5.6.2. Disable menu-bar and tool-bar</a></li>
+<li><a href="#h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">5.6.2. Disable menu-bar, tool-bar, tab-bar, tab-line</a></li>
 </ul>
 </li>
 <li><a href="#h:6a254fa0-5706-4032-8a8b-233ffb1f0e6b">5.7. Update fringe color on theme switch</a></li>
@@ -619,35 +619,16 @@ Here is a snippet that relies on the <code>logos-focus-mode-hook</code> to exten
 the functionality of <code>logos-focus-mode</code> (<a href="#h:a2540f2f-1159-4e5c-a486-e1f2cb63fee8">Leverage logos-focus-mode-hook</a>).
 </p>
 
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar my-logos-org-indent nil
-  "When t, disable `org-indent-mode' during `logos-focus-mode'.")
-
-(defun my-logos-org-indent ()
-  "Set `my-logos-org-indent' in `logos-focus-mode'."
-  (when my-logos-org-indent
-    ;; Disable `org-indent-mode' when `logos-focus-mode' is enabled and
-    ;; restore it when `logos-focus-mode' is disabled.  The
-    ;; `logos-set-mode-arg' function takes care of the technicalities.
-    (logos-set-mode-arg 'org-indent-mode -1)))
-
-(add-hook 'logos-focus-mode-hook #'my-logos-org-indent)
-</pre>
-</div>
-
 <p>
-The <code>my-logos-org-indent</code> variable lets the user opt in and out of this
-feature, by setting it to t or nil, respectively.  If such a toggle is
-not needed, the following will suffice:
+It disables <code>org-indent-mode</code> when <code>logos-focus-mode</code> is enabled and
+restores it when <code>logos-focus-mode</code> is disabled.  The
+<code>logos-set-mode-arg</code> function takes care of the technicalities.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defun my-logos-org-indent ()
-  "Set `my-logos-org-indent' in `logos-focus-mode'."
-  ;; Disable `org-indent-mode' when `logos-focus-mode' is enabled and
-  ;; restore it when `logos-focus-mode' is disabled.  The
-  ;; `logos-set-mode-arg' function takes care of the technicalities.
-  (logos-set-mode-arg 'org-indent-mode -1))
+  (when logos-focus-mode
+    (logos-set-mode-arg 'org-indent-mode -1)))
 
 (add-hook 'logos-focus-mode-hook #'my-logos-org-indent)
 </pre>
@@ -656,34 +637,47 @@ not needed, the following will suffice:
 </div>
 
 <div id="outline-container-h:8914f8fc-e6e9-440e-b037-f934e08ee1ae" class="outline-4">
-<h4 id="h:8914f8fc-e6e9-440e-b037-f934e08ee1ae"><span class="section-number-4">5.6.2.</span> Disable menu-bar and tool-bar</h4>
+<h4 id="h:8914f8fc-e6e9-440e-b037-f934e08ee1ae"><span class="section-number-4">5.6.2.</span> Disable menu-bar, tool-bar, tab-bar, tab-line</h4>
 <div class="outline-text-4" id="text-h:8914f8fc-e6e9-440e-b037-f934e08ee1ae">
 <p>
-Continuing with the examples in this section of the manual, this is how
-to disable the <code>menu-bar-mode</code> and <code>tool-bar-mode</code> when activating the
-<code>logos-focus-mode</code>.
+Continuing with the examples in this section of the manual, the code
+block below shows how to disable the <code>menu-bar-mode</code>, <code>tool-bar-mode</code>,
+<code>tab-bar-mode</code>, and <code>tab-line-mode</code> when <code>logos-focus-mode</code> is
+enabled.  If the modes are already disabled, the corresponding
+function does nothing.  Otherwise it toggles the mode off/on when
+<code>logos-focus-mode</code> is enabled/disabled.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Assuming the `menu-bar-mode' is enabled by default...
 (defun my-logos-hide-menu-bar ()
-  (logos-set-mode-arg 'menu-bar-mode -1))
+  (when logos-focus-mode
+    (logos-set-mode-arg 'menu-bar-mode -1)))
 
 (add-hook 'logos-focus-mode-hook #'my-logos-hide-menu-bar)
 
 ;; Assuming the `tool-bar-mode' is enabled by default...
 (defun my-logos-hide-tool-bar ()
-  (logos-set-mode-arg 'tool-bar-mode -1))
+  (when logos-focus-mode
+    (logos-set-mode-arg 'tool-bar-mode -1)))
 
 (add-hook 'logos-focus-mode-hook #'my-logos-hide-tool-bar)
+
+;; Assuming the `tab-bar-mode' is enabled by default...
+(defun my-logos-hide-tab-bar ()
+  (when logos-focus-mode
+    (logos-set-mode-arg 'tab-bar-mode -1)))
+
+(add-hook 'logos-focus-mode-hook #'my-logos-hide-tab-bar)
+
+;; Assuming the `tab-line-mode' is enabled by default...
+(defun my-logos-hide-tab-line ()
+  (when logos-focus-mode
+    (logos-set-mode-arg 'tab-line-mode -1)))
+
+(add-hook 'logos-focus-mode-hook #'my-logos-hide-tab-line)
 </pre>
 </div>
-
-<p>
-If those modes are already disabled, the following have no effect.
-Otherwise they toggle the bars off while <code>logos-focus-mode</code> is enabled
-and then restore them back on when <code>logos-focus-mode</code> is disabled.
-</p>
 </div>
 </div>
 </div>
@@ -762,8 +756,8 @@ Logos is meant to be a collective effort.  Every bit of help matters.
 Vincent, Lucy McPhail, Omar Antolín Camarena, Philip Kaludercic,
 Remco van &rsquo;t Veer, and user Ypot.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Daniel Mendler, Dave Abrahams, Marcel
-Ventosa, Xiaoduan, Ypot.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Daniel Mendler, Dave Abrahams, Lasse
+Lindner, Marcel Ventosa, Xiaoduan, Ypot.</dd>
 </dl>
 </div>
 </div>
