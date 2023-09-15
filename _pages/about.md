@@ -137,6 +137,14 @@ together" series that features a brief comment of mine on GNU Emacs.
 Links to all relevant sources here:
 <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
 
+## Publications about me
+
+These are articles other people have written in which I am mentioned
+prominently.  I do not know if the list is exhaustive.
+
+- Summer Emacs: _Zeus and Prot_, 2023-08-29,
+  <https://summeremacs.github.io/posts/zeus-and-prot/>
+
 ## protesilaos.com
 
 This website has been online since 2011.  It contains more than 1000
