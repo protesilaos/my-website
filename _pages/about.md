@@ -137,7 +137,7 @@ together" series that features a brief comment of mine on GNU Emacs.
 Links to all relevant sources here:
 <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
 
-## Publications about me
+## Publications referencing me
 
 These are articles other people have written in which I am mentioned
 prominently.  I do not know if the list is exhaustive.
