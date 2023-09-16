@@ -15,7 +15,7 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.1.0, released on N/A.  Any reference
+0.1.0, released on 2023-07-08.  Any reference
 to a newer feature which does not yet form part of the latest tagged
 Git commit, is explicitly marked as such.
 </p>
@@ -45,7 +45,11 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:475b7969-8a84-4ae6-9bf8-3a7cb741cd64">1. COPYING</a></li>
-<li><a href="#h:b518b406-ed29-4739-9b55-fd633e957b22">2. Overview</a></li>
+<li><a href="#h:b518b406-ed29-4739-9b55-fd633e957b22">2. Overview</a>
+<ul>
+<li><a href="#h:25135eb2-04a9-403e-bc3a-8ee287ac36cf">2.1. How to tweak the placement of the preview window</a></li>
+</ul>
+</li>
 <li><a href="#h:30b9c20c-071d-4943-a9a7-e8d7e7ea33e3">3. Installation</a>
 <ul>
 <li><a href="#h:9dfb9c7c-a57b-472a-bdf6-5fb88f9ebe74">3.1. GNU ELPA package</a></li>
@@ -134,6 +138,39 @@ implement only what I consider necessary without upsetting existing
 users.
 </p>
 </div>
+
+<div id="outline-container-h:25135eb2-04a9-403e-bc3a-8ee287ac36cf" class="outline-3">
+<h3 id="h:25135eb2-04a9-403e-bc3a-8ee287ac36cf"><span class="section-number-3">2.1.</span> How to tweak the placement of the preview window</h3>
+<div class="outline-text-3" id="text-h:25135eb2-04a9-403e-bc3a-8ee287ac36cf">
+<p>
+The user option <code>dired-preview-display-action-alist-function</code>
+speficies a function to handle the display of the preview.  The
+default value will place the preview either to the right or the
+bottom side window, depending on the available width.
+</p>
+
+<p>
+Users can specify their own conditions with something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-dired-preview-to-the-right ()
+  "My preferred `dired-preview-display-action-alist-function'."
+  '((display-buffer-in-side-window)
+    (side . right)
+    (width . 0.3)))
+
+(setq dired-preview-display-action-alist-function #'my-dired-preview-to-the-right)
+</pre>
+</div>
+
+<p>
+Note that the <code>display-buffer</code> mechanism is inherently complex and
+powerful.  As such, this user option must be treated with care as a
+false value will break things.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:30b9c20c-071d-4943-a9a7-e8d7e7ea33e3" class="outline-2">
@@ -216,7 +253,18 @@ Remember to read the doc string of each of these variables or functions.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'dired-preview)
 
-(add-hook 'dired-mode-hook #'dired-preview-mode)
+;; Default values for demo purposes
+(setq dired-preview-delay 0.7)
+(setq dired-preview-max-size (expt 2 20))
+(setq dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)"))
+
+;; Enable `dired-preview-mode' in a given Dired buffer or do it
+;; globally:
+(dired-preview-global-mode 1)
 </pre>
 </div>
 </div>
@@ -234,7 +282,7 @@ matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Bruno Boal, Christian Tietze,
-Karthik Chikmagalur.</dd>
+Karthik Chikmagalur, Stefan Monnier, Philip Kaludercic, Nofint.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Bruno Boal, Ed Hamilton, Karthik
 Chikmagalur, Peter Prevos.</dd>
