@@ -72,6 +72,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.4. Maintain separate directory silos for notes</a>
 <ul>
 <li><a href="#h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">3.4.1. Use custom commands to select a silo</a></li>
+<li><a href="#h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">3.4.2. The <code>denote-silo-extras.el</code></a></li>
 </ul>
 </li>
 <li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.5. Exclude certain directories from all operations</a></li>
@@ -1026,7 +1027,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org00dca6b">
+<pre class="example" id="orgd387cff">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1144,6 +1145,13 @@ sufficient.  The manual shall be expanded accordingly.
 <h4 id="h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0"><span class="section-number-4">3.4.1.</span> Use custom commands to select a silo</h4>
 <div class="outline-text-4" id="text-h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">
 <p>
+[ As part of 2.1.0-dev, the contents of this section
+  are formally provided in the file <code>denote-silo-extras.el</code>.  We keep
+  this here for existing users.  Otherwise consult the new entry in
+  the manual (<a href="#h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">The <code>denote-silo-extras.el</code></a>). ]
+</p>
+
+<p>
 We implement silos as directory-local values of the user option
 <code>denote-directory</code>.  This means that all Denote commands read from the
 local value if they are invoked from that context.  For example, if
@@ -1222,6 +1230,53 @@ To see another example of a wrapper function that uses
 
 <p>
 <a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">Extending Denote: Split an Org subtree into its own note</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85" class="outline-4">
+<h4 id="h:e43baf95-f201-4fec-8620-c0eb5eaa1c85"><span class="section-number-4">3.4.2.</span> The <code>denote-silo-extras.el</code></h4>
+<div class="outline-text-4" id="text-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">
+<p>
+[ Part of 2.1.0-dev. ]
+</p>
+
+<p>
+The <code>denote-silo-extras.el</code> provides optional convenience functions for
+working with silos (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>).
+Start by loading the relevant library:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Register Denote's Org dynamic blocks
+(require 'denote-silo-extras)
+</pre>
+</div>
+
+<p>
+The user option <code>denote-silo-extras-directories</code> specifies a list of
+directories that the user has set up as <code>denote-directory</code> silos.
+</p>
+
+<p>
+The command <code>denote-silo-extras-create-note</code> prompts for a directory
+among <code>denote-silo-extras-directories</code> and runs the <code>denote</code> command
+from there.
+</p>
+
+<p>
+Similar to the above, the command <code>denote-silo-extras-open-or-create</code>
+prompts for a directory among <code>denote-silo-extras-directories</code> and runs
+the <code>denote-open-or-create</code> command from there.
+</p>
+
+<p>
+The command <code>denote-silo-extras-select-silo-then-command</code> prompts with
+minibuffer completion for a directory among <code>denote-silo-extras-directories</code>.
+Once the user selects a silo, a second prompt asks for a Denote
+note-creation command to call from inside that silo (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
+The list of available commands is specified in the user option
+<code>denote-silo-extras-commands</code>.
 </p>
 </div>
 </div>
@@ -1398,7 +1453,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgfe1f318">
+<pre class="example" id="orgf4f8266">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1520,7 +1575,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org8e4c32d">
+<pre class="example" id="org76b7c40">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1540,7 +1595,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3ff981b">
+<pre class="example" id="org3f5cc0a">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1906,7 +1961,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orge80155d">
+<pre class="example" id="org8517110">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1918,7 +1973,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgfba3262">
+<pre class="example" id="orgd63ebe0">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1932,7 +1987,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1545b78">
+<pre class="example" id="org4ee8bb0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -1946,7 +2001,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgd0d48c1">
+<pre class="example" id="org49004cf">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2215,7 +2270,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org351171d">
+<pre class="example" id="orgfdf76b4">
 - link1
 - link2
 - link3
@@ -2233,7 +2288,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org8201995">
+<pre class="example" id="org3829a35">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2432,7 +2487,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4fa6b3f">
+<pre class="example" id="org68031df">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2447,7 +2502,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org49a9aa0">
+<pre class="example" id="orgf4e752b">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3257,7 +3312,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org8a750c7">
+<pre class="example" id="orgff9e742">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4912,7 +4967,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org2042459">
+<pre class="example" id="orgf8702ef">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4922,7 +4977,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org1a81235">
+<pre class="example" id="org6d85da5">
 emacs -Q
 </pre>
 
@@ -4934,7 +4989,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgc173e88">
+<pre class="example" id="org20bfa31">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5000,7 +5055,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org2f24da9">
+<pre class="example" id="org76be630">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
