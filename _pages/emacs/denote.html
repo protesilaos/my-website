@@ -1027,7 +1027,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgd387cff">
+<pre class="example" id="orgb944266">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1453,7 +1453,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="orgf4f8266">
+<pre class="example" id="org07dadba">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1575,7 +1575,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org76b7c40">
+<pre class="example" id="org8184a42">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1595,7 +1595,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3f5cc0a">
+<pre class="example" id="org77f0ff7">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1961,7 +1961,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org8517110">
+<pre class="example" id="orgfce89c8">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1973,7 +1973,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgd63ebe0">
+<pre class="example" id="orge8a8f42">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1987,7 +1987,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4ee8bb0">
+<pre class="example" id="org839d1ca">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2001,7 +2001,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org49004cf">
+<pre class="example" id="org7dead5d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2270,7 +2270,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgfdf76b4">
+<pre class="example" id="org24a9e41">
 - link1
 - link2
 - link3
@@ -2288,7 +2288,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3829a35">
+<pre class="example" id="org4d289f6">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2487,7 +2487,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org68031df">
+<pre class="example" id="org856f097">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2502,7 +2502,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgf4e752b">
+<pre class="example" id="org836dba0">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2966,89 +2966,70 @@ specialised third-party packages.  This section covers the details.
 <h3 id="h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92"><span class="section-number-3">12.1.</span> Keep a journal or diary</h3>
 <div class="outline-text-3" id="text-h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">
 <p>
-While there are subtle technical differences between a journal and a
-diary, we will consider those equivalent in the interest of brevity:
-they both describe a personal space that holds a record of your thoughts
-about your experiences and/or view of events in the world.
+[ Rewritten as part of 2.1.0-dev, which now includes
+  the optional <code>denote-journal-extras.el</code> file that the user can load
+  as part of their Denote setup. ]
 </p>
 
 <p>
-Suppose you are committed to writing an entry every day.  Unlike what we
-demonstrated before, your writing will follow a regular naming pattern.
-You know that the title of the new note must always look like <code>Tuesday
-14 June 2022</code> and the keyword has to be <code>journal</code> or <code>diary</code>.  As such,
-you want to automate the task instead of being prompted each time, as is
-the norm with <code>denote</code> and the relevant commands (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
-This is easy to accomplish because <code>denote</code> can be called from Lisp and
-given the required arguments of <code>TITLE</code> and <code>KEYWORDS</code> directly.  All
-you need is a simple wrapper function:
+Denote provides a general-purpose mechanism to create new files that
+broadly count as &ldquo;notes&rdquo; (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  Such files can be daily
+entries in a journal.  While it is possible to use the generic
+<code>denote</code> command to maintain a journal, we provide an optional set of
+convenience options and commands as part of <code>denote-journal-extras.el</code>.
+To use those, add the following the Denote configuration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-denote-journal ()
-  "Create an entry tagged 'journal' with the date as its title."
-  (interactive)
-  (denote
-   (format-time-string "%A %e %B %Y") ; format like Tuesday 14 June 2022
-   '("journal"))) ; multiple keywords are a list of strings: '("one" "two")
+<pre class="src src-emacs-lisp">(require 'denote-journal-extras.el)
 </pre>
 </div>
 
 <p>
-By invoking <code>my-denote-journal</code> you will go straight into the newly
-created note and commit to your writing outright.
+The command <code>denote-journal-extras-new-entry</code> creates a new entry in
+the journal.  Such a file has the <code>denote-journal-extras-keyword</code>,
+which is <code>journal</code> by default (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).  The user can
+set this keyword to an arbitrary string (single word is preferred).
+New journal entries can be stored in the <code>denote-directory</code> or
+subdirectory thereof.  To make it easier for the user, the new journal
+entry will be placed in <code>denote-journal-extras-directory</code>, which
+defaults to a subdirectory of <code>denote-directory</code> called <code>journal</code>.
 </p>
 
 <p>
-Of course, you can always set up the function so that it asks for a
-<code>TITLE</code> but still automatically applies the <code>journal</code> tag:
+Furthermore, the command <code>denote-journal-extras-new-entry</code> will use
+the current date as the title of the new entry.  The exact format is
+controlled by the user option <code>denote-journal-extras-title-format</code>.
+Refer to its documentation for the available formats.  If the value of
+this user option is <code>nil</code>, then <code>denote-journal-extras-new-entry</code> will
+prompt for a title.
 </p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun denote-journal-with-title ()
-  "Create an entry tagged 'journal', while prompting for a title."
-  (interactive)
-  (denote
-   (denote-title-prompt) ; ask for title, instead of using human-readable date
-   '("journal")))
-</pre>
-</div>
 
 <p>
-The above snippets do not check if a daily entry exists: they always
-create a new one.  The idea is that one may want to write multiple
-journal entries per day.  Another approach is to create a single entry
-on a given day, in which case the command must be repurposed to
-surface the existing note, if present.  As with <code>my-denote-journal</code>
-above, the title is formatted as <code>Tuesday 14 June 2022</code>.
+In terms of workflow, using the current date as the title is better
+for maintaining a daily journal.  A prompt for an arbitrary title is
+more suitable for those who like to keep a record of something like a
+thought or event (though this can also be achieved by the regular
+<code>denote</code> command or maybe <code>denote-subdirectory</code>).
 </p>
 
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-denote-journal ()
-  "Create an entry tagged 'journal' with the date as its title.
-If a journal for the current day exists, visit it.  If multiple
-entries exist, prompt with completion for a choice between them.
-Else create a new file."
-  (interactive)
-  (let* ((today (format-time-string "%A %e %B %Y"))
-         (string (denote-sluggify today))
-         (files (denote-directory-files-matching-regexp string)))
-    (cond
-     ((&gt; (length files) 1)
-      (find-file (completing-read "Select file: " files nil :require-match)))
-     (files
-      (find-file (car files)))
-     (t
-      (denote
-       today
-       '("journal"))))))
-</pre>
-</div>
+<p>
+The <code>denote-journal-extras-new-entry</code> command calls the normal hook
+<code>denote-journa-extras-hook</code> after it is done.  The user can leverage
+this to produce consequences therefrom, such as to set a timer with
+the <code>tmr</code> package from GNU ELPA (<a href="#h:4af1f81e-e93a-43cc-b344-960032a16d42">Journaling with a timer</a>).
+</p>
 </div>
 
 <div id="outline-container-h:4af1f81e-e93a-43cc-b344-960032a16d42" class="outline-4">
 <h4 id="h:4af1f81e-e93a-43cc-b344-960032a16d42"><span class="section-number-4">12.1.1.</span> Journaling with a timer</h4>
 <div class="outline-text-4" id="text-h:4af1f81e-e93a-43cc-b344-960032a16d42">
+<p>
+[ Revised as part of 2.1.0-dev to conform with how we
+  now tend to the needs of users who use Denote for journaling
+  purposes (<a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">Keep a journal or diary</a>). ]
+</p>
+
 <p>
 Sometimes journaling is done with the intent to hone one&rsquo;s writing
 skills.  Perhaps you are learning a new language or wish to communicate
@@ -3060,30 +3041,51 @@ write, write!
 <p>
 One way to test your progress is to set a timer.  It helps you gauge
 your output and its quality.  To use a timer with Emacs, consider the
-<code>tmr</code> package:
+<code>tmr</code> package.  A new timer can be set with something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-denote-journal-with-tmr ()
-  "Like `my-denote-journal', but also set a 10-minute timer.
-The `tmr' command is part of the `tmr' package."
-  (interactive)
-  (denote
-   (format-time-string "%A %e %B %Y")
-   '("journal"))
-  (tmr "10" "Practice writing in my journal")) ; set 10 minute timer with a description
+<pre class="src src-emacs-lisp">;; Set 10 minute timer with the given description
+(tmr "10" "Practice writing in my journal")
+</pre>
+</div>
+
+<p>
+To make this timer start as soon as a new journal entry is created
+with the command <code>denote-journal-extras-new-entry</code>, add a function to
+the <code>denote-journa-extras-hook</code>.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Add an anonymous function, which is more difficult to modify after
+;; the fact:
+(add-hook 'denote-journa-extras-hook (lambda ()
+                                       (tmr "10" "Practice writing in my journal")))
+
+;; Or write a small function that you can then modify without
+;; revaluating the hook:
+(defun my-denote-tmr ()
+  (tmr "10" "Practice writing in my journal"))
+
+(add-hook 'denote-journa-extras-hook 'my-denote-tmr)
+
+;; Or to make it fully featured, define variables for the duration and
+;; the description and set it up so that you only need to modify
+;; those:
+(defvar my-denote-tmr-duration "10")
+
+(defvar my-denote-tmr-description "Practice writing in my journal")
+
+(defun my-denote-tmr ()
+  (tmr my-denote-tmr-duration my-denote-tmr-description))
+
+(add-hook 'denote-journa-extras-hook 'my-denote-tmr)
 </pre>
 </div>
 
 <p>
 Once the timer elapses, stop writing and review your performance.
 Practice makes perfect!
-</p>
-
-<p>
-[ As Denote matures, we may add hooks to control what happens before or
-  after the creation of a new note.  We shall also document more
-  examples of tasks that can be accomplished with this package. ]
 </p>
 
 <p>
@@ -3312,7 +3314,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgff9e742">
+<pre class="example" id="orgde482f9">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4264,32 +4266,9 @@ Everything is in place to set up the package.
 ;; OR if only want it in `denote-dired-directories':
 (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
-;; Here is a custom, user-level command from one of the examples we
-;; showed in this manual.  We define it here and add it to a key binding
-;; below.
-(defun my-denote-journal ()
-  "Create an entry tagged 'journal' with the date as its title.
-If a journal for the current day exists, visit it.  If multiple
-entries exist, prompt with completion for a choice between them.
-Else create a new file."
-  (interactive)
-  (let* ((today (format-time-string "%A %e %B %Y"))
-         (string (denote-sluggify today))
-         (files (denote-directory-files-matching-regexp string)))
-    (cond
-     ((&gt; (length files) 1)
-      (find-file (completing-read "Select file: " files nil :require-match)))
-     (files
-      (find-file (car files)))
-     (t
-      (denote
-       today
-       '("journal"))))))
-
 ;; Denote DOES NOT define any key bindings.  This is for the user to
 ;; decide.  For example:
 (let ((map global-map))
-  (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
   (define-key map (kbd "C-c n n") #'denote)
   (define-key map (kbd "C-c n N") #'denote-type)
   (define-key map (kbd "C-c n d") #'denote-date)
@@ -4967,7 +4946,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgf8702ef">
+<pre class="example" id="org3afc9fd">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4977,7 +4956,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org6d85da5">
+<pre class="example" id="orgc938e0a">
 emacs -Q
 </pre>
 
@@ -4989,7 +4968,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org20bfa31">
+<pre class="example" id="org51c66c5">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5055,7 +5034,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org76be630">
+<pre class="example" id="org5c3ae2e">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
