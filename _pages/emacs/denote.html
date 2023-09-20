@@ -317,12 +317,14 @@ Obligations, Tasks, and Engagements.
 <h2 id="h:17896c8c-d97a-4faa-abf6-31df99746ca6"><span class="section-number-2">3.</span> Points of entry</h2>
 <div class="outline-text-2" id="text-h:17896c8c-d97a-4faa-abf6-31df99746ca6">
 <p>
-There are five ways to write a note with Denote: invoke the <code>denote</code>,
-<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>,
+There are five main ways to write a note with Denote: invoke the
+<code>denote</code>, <code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>,
 <code>denote-template</code>, <code>denote-signature</code> commands, or leverage the
 <code>org-capture-templates</code> by setting up a template which calls the
 function <code>denote-org-capture</code>.  We explain all of those in the
-subsequent sections.
+subsequent sections.  Other more specialised commands exist as well,
+which one shall learn about as they read through this manual.  We do
+not want to overwhelm the user with options at this stage.
 </p>
 </div>
 
@@ -1027,7 +1029,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgb944266">
+<pre class="example" id="orgdca7518">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1453,7 +1455,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org07dadba">
+<pre class="example" id="org5942e5a">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1575,7 +1577,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org8184a42">
+<pre class="example" id="org6a0874c">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1595,7 +1597,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org77f0ff7">
+<pre class="example" id="org3c1b206">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1961,7 +1963,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgfce89c8">
+<pre class="example" id="org3544b0f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1973,7 +1975,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orge8a8f42">
+<pre class="example" id="orgfc2e888">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1987,7 +1989,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org839d1ca">
+<pre class="example" id="org5a5e8a1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2001,7 +2003,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org7dead5d">
+<pre class="example" id="org942ce54">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2270,7 +2272,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org24a9e41">
+<pre class="example" id="org1d89327">
 - link1
 - link2
 - link3
@@ -2288,7 +2290,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org4d289f6">
+<pre class="example" id="org7812d3d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2487,7 +2489,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org856f097">
+<pre class="example" id="orgaa8f695">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2502,7 +2504,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org836dba0">
+<pre class="example" id="org5a4b71b">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3015,9 +3017,19 @@ thought or event (though this can also be achieved by the regular
 
 <p>
 The <code>denote-journal-extras-new-entry</code> command calls the normal hook
-<code>denote-journa-extras-hook</code> after it is done.  The user can leverage
+<code>denote-journal-extras-hook</code> after it is done.  The user can leverage
 this to produce consequences therefrom, such as to set a timer with
 the <code>tmr</code> package from GNU ELPA (<a href="#h:4af1f81e-e93a-43cc-b344-960032a16d42">Journaling with a timer</a>).
+</p>
+
+<p>
+The command <code>denote-journal-extras-new-or-existing-entry</code> locates an
+existing journal entry or creates a new one.  A journal entry is one
+that has <code>denote-journal-extras-keyword</code> as part of its file name.  If
+there are multiple journal entries for the current date, it prompts
+for one among them using minibuffer completion.  If there is only one,
+it visits it outright.  If there is no journal entry, it creates one
+by calling <code>denote-journal-extra-new-entry</code> (as described above).
 </p>
 </div>
 
@@ -3053,21 +3065,21 @@ your output and its quality.  To use a timer with Emacs, consider the
 <p>
 To make this timer start as soon as a new journal entry is created
 with the command <code>denote-journal-extras-new-entry</code>, add a function to
-the <code>denote-journa-extras-hook</code>.  For example:
+the <code>denote-journal-extras-hook</code>.  For example:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; Add an anonymous function, which is more difficult to modify after
 ;; the fact:
-(add-hook 'denote-journa-extras-hook (lambda ()
-                                       (tmr "10" "Practice writing in my journal")))
+(add-hook 'denote-journal-extras-hook (lambda ()
+                                        (tmr "10" "Practice writing in my journal")))
 
 ;; Or write a small function that you can then modify without
 ;; revaluating the hook:
 (defun my-denote-tmr ()
   (tmr "10" "Practice writing in my journal"))
 
-(add-hook 'denote-journa-extras-hook 'my-denote-tmr)
+(add-hook 'denote-journal-extras-hook 'my-denote-tmr)
 
 ;; Or to make it fully featured, define variables for the duration and
 ;; the description and set it up so that you only need to modify
@@ -3079,7 +3091,7 @@ the <code>denote-journa-extras-hook</code>.  For example:
 (defun my-denote-tmr ()
   (tmr my-denote-tmr-duration my-denote-tmr-description))
 
-(add-hook 'denote-journa-extras-hook 'my-denote-tmr)
+(add-hook 'denote-journal-extras-hook 'my-denote-tmr)
 </pre>
 </div>
 
@@ -3114,31 +3126,58 @@ Sources for <code>tmr</code>:
 <h3 id="h:2f8090f1-50af-4965-9771-d5a91a0a87bd"><span class="section-number-3">12.2.</span> Create a note with the region&rsquo;s contents</h3>
 <div class="outline-text-3" id="text-h:2f8090f1-50af-4965-9771-d5a91a0a87bd">
 <p>
-Sometimes it makes sense to gather notes in a single file and later
-review it to make multiple notes out of it.  With the following code,
-the user marks a region and then invokes the command
-<code>my-denote-create-new-note-from-region</code>: it prompts for a title and
-keywords and then uses the region&rsquo;s contents to fill in the newly
-created note.
+[ Rewritten as part of 2.1.0-dev to include the
+  <code>denote-region</code> command which supersedes a custom function that was
+  once documented herein. ]
+</p>
+
+<p>
+The command <code>denote-region</code> takes the contents of the active region
+and then prompts for a title and keywords.  Once a new note is
+created, it inserts the contents of the region therein.  This is
+useful to quickly elaborate on some snippet of text or capture it for
+future reference.
+</p>
+
+<p>
+If there is no active region, <code>denote-region</code> simply calls the
+<code>denote</code> command which will behave the way it does ordinarily.
+</p>
+
+<p>
+When the <code>denote-region</code> command is called with an active region, it
+finalises its work by calling <code>denote-region-after-new-note-functions</code>.
+This is an abnormal hook, meaning that the functions added to it are
+called with arguments.  The arguments are two, representing the
+beginning and end positions of the newly inserted text.
+</p>
+
+<p>
+A common use-case for Org mode users is to call the command
+<code>org-insert-structure-template</code> after a region is inserted.  Emacs
+will thus prompt for a structure template, such as the one
+corresponding to a source block.  In this case the function added to
+<code>denote-region-after-new-note-functions</code> does not actually need
+aforementioned arguments: it can simply declare those as ignored by
+prefixing the argument names with an underscore (an underscore is
+enough, but it is better to include a name for clarity).  For example,
+the following will prompt for a structure template as soon as
+<code>denote-region</code> is done:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun my-denote-create-new-note-from-region (beg end)
-  "Create note whose contents include the text between BEG and END.
-Prompt for title and keywords of the new note."
-  (interactive "r")
-  (if-let (((region-active-p))
-           (text (buffer-substring-no-properties beg end)))
-      (progn
-        (denote (denote-title-prompt) (denote-keywords-prompt))
-        (insert text))
-    (user-error "No region is available")))
+<pre class="src src-emacs-lisp">(defun my-denote-region-org-structure-template (_beg _end)
+  (when (derived-mode-p 'org-mode)
+    (activate-mark)
+    (call-interactively 'org-insert-structure-template)))
+
+(add-hook 'denote-region-after-new-note-functions #'my-denote-region-org-structure-template)
 </pre>
 </div>
 
 <p>
-Have a different workflow?  Feel welcome to discuss it in any of our
-official channels (<a href="#h:1ebe4865-c001-4747-a6f2-0fe45aad71cd">Contributing</a>).
+Remember that <code>denote-region-after-new-note-functions</code> are not called
+if <code>denote-region</code> is used without an active region.
 </p>
 </div>
 </div>
@@ -3314,7 +3353,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgde482f9">
+<pre class="example" id="org1d0ad24">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4270,6 +4309,7 @@ Everything is in place to set up the package.
 ;; decide.  For example:
 (let ((map global-map))
   (define-key map (kbd "C-c n n") #'denote)
+  (define-key map (kbd "C-c n c") #'denote-region) ; "contents" mnemonic
   (define-key map (kbd "C-c n N") #'denote-type)
   (define-key map (kbd "C-c n d") #'denote-date)
   (define-key map (kbd "C-c n z") #'denote-signature) ; "zettelkasten" mnemonic
@@ -4946,7 +4986,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org3afc9fd">
+<pre class="example" id="org1aca48b">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -4956,7 +4996,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc938e0a">
+<pre class="example" id="orgb3f99d8">
 emacs -Q
 </pre>
 
@@ -4968,7 +5008,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org51c66c5">
+<pre class="example" id="org7f2be12">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5034,7 +5074,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org5c3ae2e">
+<pre class="example" id="org193db42">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
