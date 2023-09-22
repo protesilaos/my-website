@@ -86,13 +86,14 @@ Current development target is 4.4.0-dev.
 <li><a href="#h:adb0c49a-f1f9-4690-868b-013a080eed68">5.2. Disable other themes</a></li>
 <li><a href="#h:b25714f6-0fbe-41f6-89b5-6912d304091e">5.3. Bold constructs</a></li>
 <li><a href="#h:977c900d-0d6d-4dbb-82d9-c2aae69543d6">5.4. Italic constructs</a></li>
-<li><a href="#h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b">5.5. Mixed fonts</a></li>
-<li><a href="#h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1">5.6. Command prompts</a></li>
-<li><a href="#h:f1c20c02-7b34-4c35-9c65-99170efb2882">5.7. Completion UIs</a></li>
-<li><a href="#h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">5.8. Org mode blocks</a></li>
-<li><a href="#h:271eff19-97aa-4090-9415-a6463c2f9ae1">5.9. Heading styles</a></li>
-<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.10. UI typeface</a></li>
-<li><a href="#h:34c7a691-19bb-4037-8d2f-67a07edab150">5.11. Palette overrides</a></li>
+<li><a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">5.5. Option for which themes to toggle</a></li>
+<li><a href="#h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b">5.6. Mixed fonts</a></li>
+<li><a href="#h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1">5.7. Command prompts</a></li>
+<li><a href="#h:f1c20c02-7b34-4c35-9c65-99170efb2882">5.8. Completion UIs</a></li>
+<li><a href="#h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">5.9. Org mode blocks</a></li>
+<li><a href="#h:271eff19-97aa-4090-9415-a6463c2f9ae1">5.10. Heading styles</a></li>
+<li><a href="#h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">5.11. UI typeface</a></li>
+<li><a href="#h:34c7a691-19bb-4037-8d2f-67a07edab150">5.12. Palette overrides</a></li>
 </ul>
 </li>
 <li><a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">6. Advanced customization</a>
@@ -515,7 +516,7 @@ theme of their preference by adding either form to their init file:
 </div>
 
 <p>
-Remember that the Modus themes are six themes (<a href="#h:f0f3dbcb-602d-40cf-b918-8f929c441baf">Overview</a>).  Adapt the
+Remember that there are multiple Modus themes (<a href="#h:f0f3dbcb-602d-40cf-b918-8f929c441baf">Overview</a>).  Adapt the
 above snippet accordingly.
 </p>
 
@@ -584,6 +585,43 @@ This is how a basic setup could look like (<a href="#h:b66b128d-54a4-4265-b59f-4
 
 <p>
 <a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">Sample configuration with and without use-package</a>.
+</p>
+
+<p>
+To disable other themes before loading a Modus theme, use something
+like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(mapc #'disable-theme custom-enabled-themes)
+(load-theme 'modus-operandi :no-confirm)
+</pre>
+</div>
+
+<p>
+Instead of using the basic <code>load-theme</code> function, users can rely on
+the <code>modus-themes-load-theme</code>.  It accepts a single argument, which is
+a symbol representing the Modus theme of choice, such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-load-theme 'modus-operandi)
+</pre>
+</div>
+
+<p>
+The <code>modus-themes-load-theme</code> takes care to disable other themes, if
+the user opts in (<a href="#h:adb0c49a-f1f9-4690-868b-013a080eed68">Option for disabling other themes while loading Modus</a>).
+After loading the theme of choice, this function calls the
+hook <code>modus-themes-after-load-theme-hook</code> (alias <code>modus-themes-post-load-hook</code>).
+Users can add their own functions to this hook to make further
+customizations (<a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">Advanced customization</a>).
+</p>
+
+<p>
+The commands <code>modus-themes-toggle</code> and <code>modus-themes-select</code> use
+<code>modus-themes-load-theme</code> internally (<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>).
+The aforementioned hold true for them as well.
 </p>
 </div>
 
@@ -904,9 +942,9 @@ Possible values:
 When the value is non-<code>nil</code>, the commands <code>modus-themes-toggle</code> and
 <code>modus-themes-select</code>, as well as the <code>modus-themes-load-theme</code>
 function, will disable all other themes while loading the specified
-Modus theme.  This is done to ensure that Emacs does not blend two or
-more themes: such blends lead to awkward results that undermine the
-work of the designer.
+Modus theme (<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>).  This is done to
+ensure that Emacs does not blend two or more themes: such blends lead
+to awkward results that undermine the work of the designer.
 </p>
 
 <p>
@@ -1007,8 +1045,45 @@ Advanced users may also want to configure the exact attributes of the
 </div>
 </div>
 
+<div id="outline-container-h:4fbfed66-5a89-447a-a07d-a03f6819c5bd" class="outline-3">
+<h3 id="h:4fbfed66-5a89-447a-a07d-a03f6819c5bd"><span class="section-number-3">5.5.</span> Option for which themes to toggle</h3>
+<div class="outline-text-3" id="text-h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">
+<p>
+Brief: Choose to Modus themes to toggle between
+</p>
+
+<p>
+Symbol: <code>modus-themes-to-toggle</code> (<code>list</code> type)
+</p>
+
+<p>
+Default value: <code>'(modus-operandi modus-vivendi)</code>
+</p>
+
+<p>
+Possible values:
+</p>
+
+<ul class="org-ul">
+<li><code>modus-operandi</code></li>
+<li><code>modus-vivendi</code></li>
+<li><code>modus-operandi-tinted</code></li>
+<li><code>modus-vivendi-tinted</code></li>
+<li><code>modus-operandi-deuteranopia</code></li>
+<li><code>modus-vivendi-deuteranopia</code></li>
+<li><code>modus-operandi-tritanopia</code></li>
+<li><code>modus-vivendi-tritanopia</code></li>
+</ul>
+
+<p>
+Specify two themes to toggle between using the command
+<code>modus-themes-toggle</code>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b" class="outline-3">
-<h3 id="h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b"><span class="section-number-3">5.5.</span> Option for font mixing</h3>
+<h3 id="h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b"><span class="section-number-3">5.6.</span> Option for font mixing</h3>
 <div class="outline-text-3" id="text-h:115e6c23-ee35-4a16-8cef-e2fcbb08e28b">
 <p>
 Brief: Toggle the use of monospaced fonts for spacing-sensitive
@@ -1049,7 +1124,7 @@ the <code>fixed-pitch</code> face.
 </div>
 
 <div id="outline-container-h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1" class="outline-3">
-<h3 id="h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1"><span class="section-number-3">5.6.</span> Option for command prompt styles</h3>
+<h3 id="h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1"><span class="section-number-3">5.7.</span> Option for command prompt styles</h3>
 <div class="outline-text-3" id="text-h:db5a9a7c-2928-4a28-b0f0-6f2b9bd52ba1">
 <p>
 Brief: Control the style of command prompts (e.g. minibuffer, shell, IRC
@@ -1133,7 +1208,7 @@ In user configuration files the form may look like this:
 </div>
 
 <div id="outline-container-h:f1c20c02-7b34-4c35-9c65-99170efb2882" class="outline-3">
-<h3 id="h:f1c20c02-7b34-4c35-9c65-99170efb2882"><span class="section-number-3">5.7.</span> Option for completion framework aesthetics</h3>
+<h3 id="h:f1c20c02-7b34-4c35-9c65-99170efb2882"><span class="section-number-3">5.8.</span> Option for completion framework aesthetics</h3>
 <div class="outline-text-3" id="text-h:f1c20c02-7b34-4c35-9c65-99170efb2882">
 <p>
 Brief: Set the overall style of completion framework interfaces.
@@ -1227,7 +1302,7 @@ Is the same as:
 </div>
 
 <div id="outline-container-h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2" class="outline-3">
-<h3 id="h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2"><span class="section-number-3">5.8.</span> Option for org-mode block styles</h3>
+<h3 id="h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2"><span class="section-number-3">5.9.</span> Option for org-mode block styles</h3>
 <div class="outline-text-3" id="text-h:b7e328c0-3034-4db7-9cdf-d5ba12081ca2">
 <p>
 Brief: Set the overall style of Org code blocks, quotes, and the like.
@@ -1288,7 +1363,7 @@ quote/verse blocks require setting
 </div>
 
 <div id="outline-container-h:271eff19-97aa-4090-9415-a6463c2f9ae1" class="outline-3">
-<h3 id="h:271eff19-97aa-4090-9415-a6463c2f9ae1"><span class="section-number-3">5.9.</span> Option for the headings' overall style</h3>
+<h3 id="h:271eff19-97aa-4090-9415-a6463c2f9ae1"><span class="section-number-3">5.10.</span> Option for the headings' overall style</h3>
 <div class="outline-text-3" id="text-h:271eff19-97aa-4090-9415-a6463c2f9ae1">
 <p>
 Brief: Heading styles with optional list of values per heading level.
@@ -1449,7 +1524,7 @@ done in older versions of the themes).
 </div>
 
 <div id="outline-container-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac" class="outline-3">
-<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.10.</span> Option for variable-pitch font in UI elements</h3>
+<h3 id="h:16cf666c-5e65-424c-a855-7ea8a4a1fcac"><span class="section-number-3">5.11.</span> Option for variable-pitch font in UI elements</h3>
 <div class="outline-text-3" id="text-h:16cf666c-5e65-424c-a855-7ea8a4a1fcac">
 <p>
 Brief: Toggle the use of proportionately spaced (<code>variable-pitch</code>) fonts
@@ -1492,7 +1567,7 @@ is done by assigning the <code>variable-pitch</code> face to the relevant items.
 </div>
 
 <div id="outline-container-h:34c7a691-19bb-4037-8d2f-67a07edab150" class="outline-3">
-<h3 id="h:34c7a691-19bb-4037-8d2f-67a07edab150"><span class="section-number-3">5.11.</span> Option for palette overrides</h3>
+<h3 id="h:34c7a691-19bb-4037-8d2f-67a07edab150"><span class="section-number-3">5.12.</span> Option for palette overrides</h3>
 <div class="outline-text-3" id="text-h:34c7a691-19bb-4037-8d2f-67a07edab150">
 <p>
 This section describes palette overrides in detail.  For a simpler
@@ -2719,7 +2794,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org5166727">
+<pre class="example" id="org99c6eb9">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -3858,12 +3933,12 @@ To reset the font family, one can use this:
 
 <p>
 To ensure that the effects persist after switching between the Modus
-themes (such as with M-x modus-themes-toggle), the user needs to
-write their configurations to a function and pass it to the
-<code>modus-themes-after-load-theme-hook</code>.  This is necessary because themes
-set the styles of faces upon activation, overriding prior values where
-conflicts occur between the previous and the current states (otherwise
-changing themes would not be possible).
+themes (such as with M-x modus-themes-toggle), the user
+needs to write their configurations to a function and pass it to the
+<code>modus-themes-after-load-theme-hook</code> (<a href="#h:3f3c3728-1b34-437d-9d0c-b110f5b161a9">Enable and load</a>).  This is
+necessary because themes set the styles of faces upon activation,
+overriding prior values where conflicts occur between the previous and
+the current states (otherwise changing themes would not be possible).
 </p>
 
 <p>
@@ -4303,7 +4378,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgcead8a7">
+<pre class="example" id="orgb571ae1">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4400,7 +4475,8 @@ The idea is to assign that function to a hook that gets called when
 when you only use one theme.  However it has the downside of setting the
 background color value only at render time.  In other words, the face
 remapping function does not get evaluated anew whenever the theme
-changes, such as upon invoking M-x modus-themes-toggle.
+changes, such as upon invoking M-x modus-themes-toggle
+(<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>).
 </p>
 
 <p>
@@ -4813,7 +4889,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>avy</li>
 <li>bbdb</li>
 <li>binder</li>
-<li>breadcrumb [Part of 4.4.0-dev]</li>
+<li>breadcrumb</li>
 <li>bongo</li>
 <li>boon</li>
 <li>bookmark</li>
@@ -4831,7 +4907,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>completions</li>
 <li>consult</li>
 <li>corfu</li>
-<li>corfu-candidate-overlay [Part of 4.4.0-dev]</li>
+<li>corfu-candidate-overlay</li>
 <li>corfu-quick</li>
 <li>counsel*</li>
 <li>cperl-mode</li>
@@ -4872,7 +4948,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>epa</li>
 <li>erc</li>
 <li>ert</li>
-<li>erts-mode [Part of 4.4.0-dev.]</li>
+<li>erts-mode</li>
 <li>eshell</li>
 <li>eshell-fringe-status</li>
 <li>evil* (evil-mode)</li>
@@ -4944,10 +5020,10 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>mpdel</li>
 <li>mu4e</li>
 <li>multiple-cursors</li>
-<li>nerd-icons [Part of 4.4.0-dev.]</li>
-<li>nerd-icons-completion [Part of 4.4.0-dev.]</li>
-<li>nerd-icons-dired [Part of 4.4.0-dev.]</li>
-<li>nerd-icons-ibuffer [Part of 4.4.0-dev.]</li>
+<li>nerd-icons</li>
+<li>nerd-icons-completion</li>
+<li>nerd-icons-dired</li>
+<li>nerd-icons-ibuffer</li>
 <li>neotree</li>
 <li>notmuch</li>
 <li>num3-mode</li>
@@ -6137,7 +6213,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgc783181">
+<pre class="example" id="orgcb323fc">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6182,7 +6258,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org937df38">
+<pre class="example" id="org3ccbf7a">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6555,7 +6631,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org3db9b59">
+<pre class="example" id="orgdf409c0">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6638,13 +6714,13 @@ Euker, Feng Shu, Gautier Ponsinet, Gerry Agbobada, Gianluca Recchia,
 Gonçalo Marrafa, Guilherme Semente, Gustavo Barros, Hörmetjan
 Yiltiz, Ilja Kocken, Imran Khan, Iris Garcia, Ivan Popovych, James
 Ferguson, Jeremy Friesen, Jerry Zhang, Johannes Grødem, John Haman,
-Jonas Collberg, Jorge Morais, Joshua O&rsquo;Connor, Julio C. Villasante,
-Kenta Usami, Kevin Fleming, Kévin Le Gouguec, Kevin Kainan Li,
-Kostadin Ninev, Laith Bahodi, Lasse Lindner, Len Trigg, Lennart
-C. Karssen, Luis Miguel Castañeda, Magne Hov, Manuel Giraud, Manuel
-Uberti, Mark Bestley, Mark Burton, Mark Simpson, Marko Kocic, Markus
-Beppler, Matt Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro
-Aranda, Maxime Tréca, Michael Goldenberg, Morgan Smith, Morgan
+John Wick, Jonas Collberg, Jorge Morais, Joshua O&rsquo;Connor, Julio
+C. Villasante, Kenta Usami, Kevin Fleming, Kévin Le Gouguec, Kevin
+Kainan Li, Kostadin Ninev, Laith Bahodi, Lasse Lindner, Len Trigg,
+Lennart C. Karssen, Luis Miguel Castañeda, Magne Hov, Manuel Giraud,
+Manuel Uberti, Mark Bestley, Mark Burton, Mark Simpson, Marko Kocic,
+Markus Beppler, Matt Armstrong, Matthias Fuchs, Mattias Engdegård,
+Mauro Aranda, Maxime Tréca, Michael Goldenberg, Morgan Smith, Morgan
 Willcock, Murilo Pereira, Nicky van Foreest, Nicolas De Jaeghere,
 Nicolas Semrau, Olaf Meeuwissen, Oliver Epper, Pablo Stafforini,
 Paul Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu, Philip
