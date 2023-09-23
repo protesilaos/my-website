@@ -59,7 +59,7 @@ To recap:
 
 Now the other news:
 
-- I still think `` by Daniel Mendler is the best User Interface
+- I still think `vertico` by Daniel Mendler is the best User Interface
   for the minibuffer.  Where relevant in my Emacs coaching sessions, I
   always recommend Vertico: <https://protesilaos.com/coach>.  It is
   robust and highly configurable.  What MCT does, Vertico does better.
