@@ -14,13 +14,13 @@ of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.5.0, released on 2022-02-08.  Any reference
+1.0.0, released on 2023-09-24.  Any reference
 to a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.6.0-dev.
+Current development target is 1.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -688,14 +688,38 @@ allude to the underlying function: <code>completion-in-region</code>.</li>
 
 <p>
 The former scenario is what MCT has supported since its inception.
-Enable <code>mct-mode</code> to get started.  There was a time where
-MCT also supported in-buffer completion but this was discontinued in
-version <code>1.0.0</code> of the package as it was not good enough.
+Enable <code>mct-mode</code> to get started.  There was a time where MCT also
+supported in-buffer completion but this was discontinued in version
+<code>1.0.0</code> of the package as Emacs 29 gained the requisite capabilities.
+To get the familiar MCT key bindings for in-buffer completion, use
+these in your init file:
 </p>
 
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Get the key bindings
+(let ((map completion-in-region-mode-map))
+  (define-key map (kbd "C-n") #'minibuffer-next-completion)
+  (define-key map (kbd "C-p") #'minibuffer-previous-completion)
+  (define-key map (kbd "RET") #'minibuffer-choose-completion))
+
+;; Tweak the appearance
+(setq completions-format 'one-column)
+(setq completion-show-help nil)
+(setq completion-auto-help t)
+
+;; Optionally, tweak the appearance further
+(setq completions-detailed t)
+(setq completion-show-inline-help nil)
+(setq completions-max-height 6)
+(setq completions-highlight-face 'completions-highlight)
+</pre>
+</div>
+
 <p>
-For in-buffer completion, use the <code>corfu</code> package by Daniel Mendler
-(<a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">Alternatives</a>).
+Note that the in-buffer completions will produce a new buffer window
+below the current one.  Some users find this intrusive.  In such a
+case, the use of a popup box is better.  Consider the <code>corfu</code> package
+by Daniel Mendler, which uses such a popup (<a href="#h:c9ddedea-e279-4233-94dc-f8d32367a954">Alternatives</a>).
 </p>
 </div>
 </div>
@@ -714,18 +738,12 @@ establishes.
 <h3 id="h:68c61a76-1d64-4f62-a77a-52e7b66a68fe"><span class="section-number-3">4.1.</span> Cyclic behaviour for mct-mode</h3>
 <div class="outline-text-3" id="text-h:68c61a76-1d64-4f62-a77a-52e7b66a68fe">
 <p>
-[ As part of 0.6.0-dev the <code>mct-minibuffer-mode</code> is
-  called <code>mct-mode</code>.  The <code>mct-region-mode</code> (for in-buffer completion)
-  is removed. ]
-</p>
-
-<p>
 When <code>mct-mode</code> is enabled, some new keymaps are activated
 which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="org1a3ee8a">
+<pre class="example" id="orgd402e6d">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -1155,10 +1173,6 @@ Use `mct-sort-sort-by-alpha-length' if no history is available."
 <h3 id="h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef"><span class="section-number-3">8.2.</span> Indicator for completing-read-multiple</h3>
 <div class="outline-text-3" id="text-h:162f232d-1e9d-4756-90d3-d6bf5bb4d8ef">
 <p>
-[ Part of 0.6.0-dev ]
-</p>
-
-<p>
 Previous versions of MCT would prepend a <code>[CRM]</code> tag to the minibuffer
 prompt of commands powered by <code>completing-read-multiple</code>.  While this is a
 nice usability enhancement, it is not specific to MCT and thus should
@@ -1166,13 +1180,23 @@ not be part of <code>mct.el</code>.  Use this in your init file instead:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Copied from Daniel Mendler's `vertico' library:
-;; &lt;https://github.com/minad/vertico&gt;.
-(defun my-crm-indicator (args)
-  "Add prompt indicator to `completing-read-multiple' filter ARGS."
-  (cons (concat "[CRM] " (car args)) (cdr args)))
+<pre class="src src-emacs-lisp">;; Add prompt indicator to `completing-read-multiple'.  We display
+;; [`completing-read-multiple': &lt;separator&gt;], e.g.,
+;; [`completing-read-multiple': ,] if the separator is a comma.  This
+;; is adapted from the README of the `vertico' package by Daniel
+;; Mendler.  I made some small tweaks to propertize the segments of
+;; the prompt.
+(defun crm-indicator (args)
+  (cons (format "[`crm-separator': %s]  %s"
+                (propertize
+                 (replace-regexp-in-string
+                  "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                  crm-separator)
+                 'face 'error)
+                (car args))
+        (cdr args)))
 
-(advice-add #'completing-read-multiple :filter-args #'my-crm-indicator)
+(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 </pre>
 </div>
 </div>
@@ -1181,10 +1205,6 @@ not be part of <code>mct.el</code>.  Use this in your init file instead:
 <div id="outline-container-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2" class="outline-3">
 <h3 id="h:9a6746dd-0be9-4e29-ac40-0af9612d05a2"><span class="section-number-3">8.3.</span> Ido-style navigation through directories</h3>
 <div class="outline-text-3" id="text-h:9a6746dd-0be9-4e29-ac40-0af9612d05a2">
-<p>
-[ Part of 0.6.0-dev ]
-</p>
-
 <p>
 Older versions of MCT had a command for file navigation that would
 delete the whole directory component before point, effectively going
