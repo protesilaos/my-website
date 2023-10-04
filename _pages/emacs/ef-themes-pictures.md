@@ -15,7 +15,10 @@ for the `ef-maris-light` and `ef-maris-dark` which are part of
 my modified version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
-perception of what is on display.
+perception of what is on display.  Also note that dark themes are best
+reviewed against a dark backdrop, otherwise it is very hard to discern
+subtle differences in colour.
+
 
 ## Light themes
 
@@ -30,6 +33,7 @@ This section contains:
 - `ef-kassio`
 - `ef-light`
 - `ef-maris-light`
+- `ef-melissa-light`
 - `ef-spring`
 - `ef-summer`
 - `ef-trio-light`
@@ -125,6 +129,16 @@ This section contains:
 
 <a href="{{'/assets/images/ef/ef-maris-light-org.png' | absolute_url }}"><img alt="ef-maris-light theme org sample" src="{{'/assets/images/ef/ef-maris-light-org.png' | absolute_url }}"/></a>
 
+### ef-melissa-light
+
+<a href="{{'/assets/images/ef/ef-melissa-light.png' | absolute_url }}"><img alt="ef-melissa-light theme sample" src="{{'/assets/images/ef/ef-melissa-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-light-git.png' | absolute_url }}"><img alt="ef-melissa-light theme git sample" src="{{'/assets/images/ef/ef-melissa-light-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-light-mail.png' | absolute_url }}"><img alt="ef-melissa-light theme mail sample" src="{{'/assets/images/ef/ef-melissa-light-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"><img alt="ef-melissa-light theme org sample" src="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"/></a>
+
 ### ef-spring
 
 <a href="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"/></a>
@@ -177,6 +191,7 @@ This section contains:
 - `ef-duo-dark`
 - `ef-elea-dark`
 - `ef-maris-dark`
+- `ef-melissa-dark`
 - `ef-night`
 - `ef-symbiosis`
 - `ef-trio-dark`
@@ -262,6 +277,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-maris-dark-mail.png' | absolute_url }}"><img alt="ef-maris-dark theme mail sample" src="{{'/assets/images/ef/ef-maris-dark-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-maris-dark-org.png' | absolute_url }}"><img alt="ef-maris-dark theme org sample" src="{{'/assets/images/ef/ef-maris-dark-org.png' | absolute_url }}"/></a>
+
+### ef-melissa-dark
+
+<a href="{{'/assets/images/ef/ef-melissa-dark.png' | absolute_url }}"><img alt="ef-melissa-dark theme sample" src="{{'/assets/images/ef/ef-melissa-dark.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-dark-git.png' | absolute_url }}"><img alt="ef-melissa-dark theme git sample" src="{{'/assets/images/ef/ef-melissa-dark-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-dark-mail.png' | absolute_url }}"><img alt="ef-melissa-dark theme mail sample" src="{{'/assets/images/ef/ef-melissa-dark-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-melissa-dark-org.png' | absolute_url }}"><img alt="ef-melissa-dark theme org sample" src="{{'/assets/images/ef/ef-melissa-dark-org.png' | absolute_url }}"/></a>
 
 ### ef-night
 
