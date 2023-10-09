@@ -109,14 +109,30 @@ editor but I actually talk philosophy, such as:
   2022).
 
 In a manner of speaking, I just talk to programmers about philosophy and
-to philosophers about programming.  Another relevant introduction is [My
-'Brown University Interviews' on Emacs and
+to philosophers about programming.
+
+## Interviews and other media
+
+- My ['Brown University Interviews' on Emacs and
 life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
-(2021-10-29).  A comprehensive [interview with InfoQ China on Emacs and
+(2021-10-29).
+
+- A comprehensive [interview with InfoQ China on Emacs and
 life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-life/)
-may also prove useful (2022-04-10).  Same for the one I did with
-_Syntopikon_ on [Emacs, politics,
-philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emacs-life/) (2023-04-15).
+may also prove useful (2022-04-10).
+
+- Interview with _Syntopikon_ on [Emacs, politics,
+philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emacs-life/)
+(2023-04-15).
+
+- Satirical publication by Summer Emacs [Zeus and Prot](https://summeremacs.github.io/posts/zeus-and-prot/) (2023-08-29).
+
+- Free Software Foundation entry in the "working together" series that
+  features a brief comment of mine on GNU Emacs.  Links to all
+  relevant sources here:
+  <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
+
+## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
 for Outstanding New Free Software Contributor_.  I received it in my
@@ -131,19 +147,6 @@ award for my Emacs `modus-themes`:
 <https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html>.
 Relevant essay of mine on _Accessibility and software freedom_:
 <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
-
-In July 2023, the Free Software Foundation published a "working
-together" series that features a brief comment of mine on GNU Emacs.
-Links to all relevant sources here:
-<https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
-
-## Publications referencing me
-
-These are articles other people have written in which I am mentioned
-prominently.  I do not know if the list is exhaustive.
-
-- Summer Emacs: _Zeus and Prot_, 2023-08-29,
-  <https://summeremacs.github.io/posts/zeus-and-prot/>
 
 ## protesilaos.com
 
