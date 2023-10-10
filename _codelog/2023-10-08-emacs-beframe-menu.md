@@ -3,6 +3,12 @@ title: "Emacs: Beframe has its own menu-bar-mode entry"
 excerpt: "My 'beframe' package for Emacs registers a submenu that makes its commands easier to discover."
 ---
 
+**UPDATE 2023-10-10 15:53 +0300:** I moved the menu inside of the
+"Buffers" submenu.  Updated the screenshots to better showcase the
+effect.
+
+* * *
+
 I just implemented a `menu-bar-mode` submenu for my `beframe` package.
 What Beframe does, in short, is to limit buffers to the frame in which
 they were displayed.  Multiple frames thus have their own buffer list,
@@ -10,12 +16,11 @@ even though the complete buffer list is still available for
 programs/commands to retrieve.  Beframe lets the user assume buffers
 from other frames or unassume them from the current frame.  This is a
 powerful way of using Emacs in tandem with your desktop environment or
-window manager of choice (I am using `herbstluftwm` in the following
-screenshots---check my dotfiles: <https://git.sr.ht/~protesilaos/dotfiles>).
+window manager of choice.
 
-Back to the matter at hand, the menu is available somewhere after the
-"Tools" entry.  The relevant Beframe commands are activated when more
-than one frame is available.  Otherwise they are greyed out.
+The new menu is available inside the "Buffers" entry.  The relevant
+Beframe commands are activated when more than one frame is available.
+Otherwise they are greyed out.
 
 Here is the idea, first with a single and then with multiple frames:
 
