@@ -92,7 +92,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
 <ul>
 <li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">5.1. Sluggified title, keywords, and signature</a></li>
-<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.2. Features of the file-naming scheme for searching or filtering</a></li>
+<li><a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">5.2. Contol the letter casing of file names</a></li>
+<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.3. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
@@ -1032,7 +1033,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf096a91">
+<pre class="example" id="orgfb45620">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1456,7 +1457,7 @@ for confirmation, showing the difference between old and new file names.
 For example:
 </p>
 
-<pre class="example" id="org0966a0a">
+<pre class="example" id="org3773e83">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1513,7 +1514,8 @@ the following:
 <li>retains the file&rsquo;s existing name and make it the <code>TITLE</code> field, per
 Denote&rsquo;s file-naming scheme;</li>
 
-<li>downcases and sluggifies the <code>TITLE</code>, per our conventions;</li>
+<li>sluggifies the <code>TITLE</code> and adjusts its letter casing, per our
+conventions (<a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">Contol the letter casing of file names</a>);</li>
 
 <li>prepends an identifier to the <code>TITLE</code>;</li>
 
@@ -1578,7 +1580,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge65af75">
+<pre class="example" id="orgf2cd155">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1598,7 +1600,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org5bfb041">
+<pre class="example" id="org7b533f2">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1750,8 +1752,9 @@ note and, as such, is also known as the file&rsquo;s ID or identifier.
 </p>
 
 <p>
-The <code>TITLE</code> field is the title of the note, as provided by the user.  It
-automatically gets downcased and hyphenated.  An entry about &ldquo;Economics
+The <code>TITLE</code> field is the title of the note, as provided by the user.
+It automatically gets downcased by default and is also hyphenated
+(<a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">Contol the letter casing of file names</a>).  An entry about &ldquo;Economics
 in the Euro Area&rdquo; produces an <code>economics-in-the-euro-area</code> string for
 the <code>TITLE</code> of the file name.
 </p>
@@ -1879,20 +1882,101 @@ holds the relevant value.  In simple terms:
 <ul class="org-ul">
 <li>What we count as &ldquo;illegal characters&rdquo; are converted into hyphens.</li>
 
-<li>Input for a file title is hyphenated and downcased.  The original
-value is preserved in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).</li>
+<li>Input for a file title is hyphenated.  The original value is
+preserved in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).</li>
 
 <li>Keywords should not have spaces or other delimiters.  If they do, they
-are converted into hyphens.  Keywords are always downcased.</li>
+are converted into hyphens.</li>
 
 <li>Signatures are like the above, but use the equals sign instead of
 hyphens.</li>
 </ul>
+
+<p>
+All file name components are downcases by default, though users can
+configure this behaviour (<a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">Contol the letter casing of file names</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:6ae1ab8c-5e36-4216-8e93-f37f4447582c" class="outline-3">
+<h3 id="h:6ae1ab8c-5e36-4216-8e93-f37f4447582c"><span class="section-number-3">5.2.</span> Contol the letter casing of file names</h3>
+<div class="outline-text-3" id="text-h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">
+<p>
+[ Part of 2.1.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-file-name-letter-casing</code> controls the letter
+casing of the individual components of file names (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
+The default method is to downcase everything.
+</p>
+
+<p>
+The value of this user option is an alist where each element is a cons
+cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
+default value:
+</p>
+
+<pre class="example" id="orgbeca86a">
+'((title . downcase)
+  (signature . downcase)
+  (keywords . downcase)
+  (t . downcase))
+</pre>
+
+<p>
+What these cons cells of <code>(COMPONENT . METHOD)</code> are:
+</p>
+
+<ul class="org-ul">
+<li>The <code>COMPONENT</code> is an unquoted symbol among <code>title</code>, <code>signature</code>,
+<code>keywords</code>, which refer to the corresponding component of the file
+name.  The special <code>t</code> <code>COMPONENT</code> is a fallback value in case the
+others are not specified.</li>
+
+<li><p>
+The <code>METHOD</code> is the letter casing scheme, which is an unquoted
+symbol of either <code>downcase</code> or <code>verbatim</code>.  A nil value has the same
+meaning as <code>downcase</code>.  Other non-nil <code>METHOD</code> types are reserved
+for possible future use.
+</p>
+
+<p>
+The <code>downcase</code> <code>METHOD</code> converts user input for the given
+<code>COMPONENT</code> into lower case.  The benefit of this approach (which is
+the default behaviour) is that file names remain consistent over the
+long-term.  The user never needs to account for varying letter
+casing while working with them.
+</p>
+
+<p>
+The <code>verbatim</code> <code>METHOD</code> means that Denote will not affect the letter
+casing of user input when generating the given file name <code>COMPONENT</code>.
+Conventions like CamelCase or camelCase are respected.  The user
+thus assumes responsibility to keep file names in a good state over
+the long term.
+</p></li>
+</ul>
+
+<p>
+As an example, we can downcase the title, but preserve the letter
+casing of the signature and keyword components with this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-file-name-letter-casing
+      '((title . downcase)
+        (signature . verbatim)
+        (keywords . verbatim)
+        (t . downcase)))
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-h:1a953736-86c2-420b-b566-fb22c97df197" class="outline-3">
-<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.2.</span> Features of the file-naming scheme for searching or filtering</h3>
+<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.3.</span> Features of the file-naming scheme for searching or filtering</h3>
 <div class="outline-text-3" id="text-h:1a953736-86c2-420b-b566-fb22c97df197">
 <p>
 By default, file names have three fields and two sets of field
@@ -1964,7 +2048,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgdc72e3e">
+<pre class="example" id="org8e3a72f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -1976,7 +2060,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org27a7ee3">
+<pre class="example" id="org6c57bb7">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -1990,7 +2074,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgd257bd0">
+<pre class="example" id="org61b292a">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2004,7 +2088,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org87e86bd">
+<pre class="example" id="orgd7c49c2">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2279,7 +2363,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orga60a1d5">
+<pre class="example" id="orge866013">
 - link1
 - link2
 - link3
@@ -2297,7 +2381,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgcd44452">
+<pre class="example" id="org41dea52">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2535,7 +2619,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgf581214">
+<pre class="example" id="org0f6926c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2550,7 +2634,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgc42f7c1">
+<pre class="example" id="orga507168">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3399,7 +3483,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org5a873da">
+<pre class="example" id="orgae261cf">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5055,7 +5139,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org15c4b69">
+<pre class="example" id="org1d8e437">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5065,7 +5149,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org2581a4a">
+<pre class="example" id="orgd7345e1">
 emacs -Q
 </pre>
 
@@ -5077,7 +5161,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org132a645">
+<pre class="example" id="orge096db2">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5143,7 +5227,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgfabc5f6">
+<pre class="example" id="orgbe208c3">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
