@@ -337,13 +337,14 @@ love letters, respectively.
 
 + Package name (GNU ELPA): `notmuch-indicator`
 + Official manual: <https://protesilaos.com/emacs/notmuch-indicator>
++ Change log: <https://protesilaos.com/emacs/notmuch-indicator-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/notmuch-indicator>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/notmuch-indicator>
     + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/notmuch-indicator>
-+ Backronym: notmuch-... Increasingly in Need of Displaying
-  Inconsequential Counters Alongside Trivia that Obscure Reality.
++ Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
++ Backronym: notmuch-... Interested in Notmuch Data Indicators that
+  Count Any Terms Ordinarily Requested.
 
 ## Dired Preview
 
