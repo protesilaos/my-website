@@ -336,6 +336,7 @@ realistically is like: `@50 😱1000 💕0` for unread messages, bills, and
 love letters, respectively.
 
 + Package name (GNU ELPA): `notmuch-indicator`
++ Official manual: <https://protesilaos.com/emacs/notmuch-indicator>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/notmuch-indicator>
   - Mirrors:
     + GitHub: <https://github.com/protesilaos/notmuch-indicator>
