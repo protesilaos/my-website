@@ -1,5 +1,5 @@
 ---
-title: "Vlog:  the hut's Greek strawberry tree"
+title: "Vlog: the hut's Greek strawberry tree"
 excerpt: "I show part of the work I did this morning to plant two beautiful trees at the front of my hut."
 layout: vlog
 mediaid: "6lCUhReAjt4"

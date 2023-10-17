@@ -1,5 +1,5 @@
 ---
-title: "Vlog: insulating the hut's roof
+title: "Vlog: insulating the hut's roof"
 excerpt: "I resumed construction work now that my wrist is feeling better. I worked for several hours on the hut's roof."
 layout: vlog
 mediaid: "gao5eaa3rQg"
