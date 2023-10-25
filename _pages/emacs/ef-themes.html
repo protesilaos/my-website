@@ -70,8 +70,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:621d3bb9-5967-4f97-b253-7470bba9168c">5.3. Enable mixed fonts</a></li>
 <li><a href="#h:7c3d1057-c4a7-43b3-b91b-9887264d4072">5.4. UI typeface</a></li>
 <li><a href="#h:a7a02817-e324-43e9-a7d8-fde024530af6">5.5. Option for headings</a></li>
-<li><a href="#h:1d5fa3d8-a769-455a-aac7-5c1b925bb10b">5.6. Style of region highlight</a></li>
-<li><a href="#h:4b923795-4b23-4345-81e5-d1c108a84b6a">5.7. Palette overrides</a></li>
+<li><a href="#h:4b923795-4b23-4345-81e5-d1c108a84b6a">5.6. Palette overrides</a></li>
+<li><a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">5.7. Stylistic variants using palette overrides</a>
+<ul>
+<li><a href="#h:c8605d37-66e1-42aa-986e-d7514c3af6fe">5.7.1. Make the region more intense</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#h:75d74aea-d17f-497f-a3b8-f0bf4c372de0">6. Loading a theme</a></li>
@@ -83,11 +87,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:cc1633d3-8e83-45b5-b258-804935f9ee0d">10.1. Get a single color from the palette</a></li>
 <li><a href="#h:ec0adf54-c037-4c53-81b8-7eab2303794d">10.2. The general approach to advanced DIY changes</a></li>
 <li><a href="#h:1dbea3c9-de9a-4bb4-b540-654bea70ba4d">10.3. A theme-agnostic hook for theme loading</a></li>
-<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.4. Add support for hl-todo</a></li>
-<li><a href="#h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">10.5. Make the mode line like the <code>modus-themes</code> default</a></li>
-<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.6. Configure bold and italic faces</a></li>
-<li><a href="#h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">10.7. Tweak <code>org-modern</code> timestamps</a></li>
-<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.8. Tweak goto-address-mode faces</a></li>
+<li><a href="#h:a5140c9c-18b2-45db-8021-38d0b5074116">10.4. Do not extend the region background</a></li>
+<li><a href="#h:19c549dc-d13f-45c4-a727-3618591d5c4f">10.5. Add support for hl-todo</a></li>
+<li><a href="#h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">10.6. Make the mode line like the <code>modus-themes</code> default</a></li>
+<li><a href="#h:8c0b05b7-5624-4051-844c-3c4882658782">10.7. Configure bold and italic faces</a></li>
+<li><a href="#h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">10.8. Tweak <code>org-modern</code> timestamps</a></li>
+<li><a href="#h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">10.9. Tweak goto-address-mode faces</a></li>
 </ul>
 </li>
 <li><a href="#h:34afcc9a-a5f1-4023-b01a-abf5b8a6199d">11. Faces defined by the Ef themes</a></li>
@@ -250,10 +255,6 @@ Everything is in place to set up the package.
 ;; They are nil by default...
 (setq ef-themes-mixed-fonts t
       ef-themes-variable-pitch-ui t)
-
-;; Read the doc string or manual for this one.  The symbols can be
-;; combined in any order.
-(setq ef-themes-region '(intense no-extend neutral))
 
 ;; Disable all other themes to avoid awkward blending:
 (mapc #'disable-theme custom-enabled-themes)
@@ -565,66 +566,8 @@ This will retain the original aesthetic for that level.  For example:
 </div>
 </div>
 
-<div id="outline-container-h:1d5fa3d8-a769-455a-aac7-5c1b925bb10b" class="outline-3">
-<h3 id="h:1d5fa3d8-a769-455a-aac7-5c1b925bb10b"><span class="section-number-3">5.6.</span> Style of region highlight</h3>
-<div class="outline-text-3" id="text-h:1d5fa3d8-a769-455a-aac7-5c1b925bb10b">
-<p>
-The user option <code>ef-themes-region</code> controls the appearance of the
-<code>region</code> face (the highlighted selection of an area).
-</p>
-
-<p>
-The value it accepts is a list of symbols.
-</p>
-
-<p>
-If <code>nil</code> or an empty list (the default), use a subtle background for
-the region and preserve the color of selected text.
-</p>
-
-<p>
-The <code>no-extend</code> symbol limits the highlighted area to the end of the
-line, so that it does not reach the edge of the window.
-</p>
-
-<p>
-The <code>neutral</code> symbol makes the highlighted area&rsquo;s background gray (or
-more gray, depending on the theme).
-</p>
-
-<p>
-The <code>intense</code> symbol amplifies the intensity of the highlighted area&rsquo;s
-background color.  It also overrides any text color to keep it
-legible.
-</p>
-
-<p>
-Combinations of those symbols are expressed in any order.
-</p>
-
-<p>
-In user configuration files the form may look like this:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq ef-themes-region '(intense no-extend))
-</pre>
-</div>
-
-<p>
-Other examples:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq ef-themes-region '(intense))
-(setq ef-themes-region '(intense no-extend neutral))
-</pre>
-</div>
-</div>
-</div>
-
 <div id="outline-container-h:4b923795-4b23-4345-81e5-d1c108a84b6a" class="outline-3">
-<h3 id="h:4b923795-4b23-4345-81e5-d1c108a84b6a"><span class="section-number-3">5.7.</span> Palette overrides</h3>
+<h3 id="h:4b923795-4b23-4345-81e5-d1c108a84b6a"><span class="section-number-3">5.6.</span> Palette overrides</h3>
 <div class="outline-text-3" id="text-h:4b923795-4b23-4345-81e5-d1c108a84b6a">
 <p>
 Each Ef theme specifies a color palette that declares named color
@@ -848,7 +791,72 @@ is the override and the second is the original one.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h:df1199d8-eaba-47db-805d-6b568a577bf3" class="outline-3">
+<h3 id="h:df1199d8-eaba-47db-805d-6b568a577bf3"><span class="section-number-3">5.7.</span> Stylistic variants using palette overrides</h3>
+<div class="outline-text-3" id="text-h:df1199d8-eaba-47db-805d-6b568a577bf3">
+<p>
+[ Part of 1.4.0-dev. ]
+</p>
+
+<p>
+This section contains practical examples of overriding the palette of
+the themes (<a href="#h:4b923795-4b23-4345-81e5-d1c108a84b6a">Palette overrides</a>). Users can copy the code to their init
+file, evaluate it, and then re-load the theme for changes to take
+effect. To apply overrides at startup simply define them before the
+call that loads the theme.
+</p>
 </div>
+
+<div id="outline-container-h:c8605d37-66e1-42aa-986e-d7514c3af6fe" class="outline-4">
+<h4 id="h:c8605d37-66e1-42aa-986e-d7514c3af6fe"><span class="section-number-4">5.7.1.</span> Make the region more intense</h4>
+<div class="outline-text-4" id="text-h:c8605d37-66e1-42aa-986e-d7514c3af6fe">
+<p>
+[ Part of 1.4.0-dev. ]
+</p>
+
+<p>
+This is one of our practical examples to override the semantic colors
+of the Ef themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>). Here we
+show how to make the region override the underlying text colors(i.e.
+to be more legible) and how to make the background more intense.
+</p>
+
+<p>
+<a href="#h:a5140c9c-18b2-45db-8021-38d0b5074116">Do not extend the region background</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; These overrides are common to all Ef themes.  We also provide
+;; theme-specific options, such as `ef-summer-palette-overrides'.
+;;
+;; In general, the theme-specific overrides are better for overriding
+;; color values, such as redefining what `blue-faint' looks like.  The
+;; common overrides are best used for changes to semantic color
+;; mappings, as we show below.
+;;
+;; Use the command `ef-themes-preview-colors' or its variant
+;; `ef-themes-preview-colors-current' to review the available palette
+;; entries.
+
+
+;; Use an intense background combined with the theme's intense
+;; foreground.
+(setq ef-themes-common-palette-overrides
+      '((bg-region bg-magenta-intense)
+        (fg-region fg-intense)))
+
+;; Same idea as above, but less pronounced.
+(setq ef-themes-common-palette-overrides
+      '((bg-region bg-magenta-subtle)
+        (fg-region fg-main)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 
 <div id="outline-container-h:75d74aea-d17f-497f-a3b8-f0bf4c372de0" class="outline-2">
 <h2 id="h:75d74aea-d17f-497f-a3b8-f0bf4c372de0"><span class="section-number-2">6.</span> Loading a theme</h2>
@@ -1367,8 +1375,31 @@ to (provided they understand the implications).
 </div>
 </div>
 
+<div id="outline-container-h:a5140c9c-18b2-45db-8021-38d0b5074116" class="outline-3">
+<h3 id="h:a5140c9c-18b2-45db-8021-38d0b5074116"><span class="section-number-3">10.4.</span> Do not extend the region background</h3>
+<div class="outline-text-3" id="text-h:a5140c9c-18b2-45db-8021-38d0b5074116">
+<p>
+By the default, the background of the <code>region</code> face extends from the
+end of the line to the edge of the window.  To limit it to the end of
+the line, we need to override the face&rsquo;s <code>:extend</code> attribute.  Adding
+this to the Emacs configuration file will suffice:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Do not extend `region' background past the end of the line.
+(custom-set-faces
+ '(region ((t :extend nil))))
+</pre>
+</div>
+
+<p>
+<a href="#h:c8605d37-66e1-42aa-986e-d7514c3af6fe">Make the region more intense</a>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:19c549dc-d13f-45c4-a727-3618591d5c4f" class="outline-3">
-<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.4.</span> Add support for hl-todo</h3>
+<h3 id="h:19c549dc-d13f-45c4-a727-3618591d5c4f"><span class="section-number-3">10.5.</span> Add support for hl-todo</h3>
 <div class="outline-text-3" id="text-h:19c549dc-d13f-45c4-a727-3618591d5c4f">
 <p>
 The <code>hl-todo</code> package provides the user option <code>hl-todo-keyword-faces</code>:
@@ -1417,7 +1448,7 @@ commands for previewing the palette (<a href="#h:8dd67bf5-879e-46e5-b277-5bac141
 </div>
 
 <div id="outline-container-h:69ea8788-33b9-42f9-a4f1-92ee22074d2b" class="outline-3">
-<h3 id="h:69ea8788-33b9-42f9-a4f1-92ee22074d2b"><span class="section-number-3">10.5.</span> Make the mode line like the <code>modus-themes</code> default</h3>
+<h3 id="h:69ea8788-33b9-42f9-a4f1-92ee22074d2b"><span class="section-number-3">10.6.</span> Make the mode line like the <code>modus-themes</code> default</h3>
 <div class="outline-text-3" id="text-h:69ea8788-33b9-42f9-a4f1-92ee22074d2b">
 <p>
 The Ef themes do not use a <code>:box</code> attribute for their mode lines, while
@@ -1465,7 +1496,7 @@ To this:
 </div>
 
 <div id="outline-container-h:8c0b05b7-5624-4051-844c-3c4882658782" class="outline-3">
-<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.6.</span> Configure bold and italic faces</h3>
+<h3 id="h:8c0b05b7-5624-4051-844c-3c4882658782"><span class="section-number-3">10.7.</span> Configure bold and italic faces</h3>
 <div class="outline-text-3" id="text-h:8c0b05b7-5624-4051-844c-3c4882658782">
 <p>
 The Ef themes do not hardcode a <code>:weight</code> or <code>:slant</code> attribute in the
@@ -1541,7 +1572,7 @@ provides the means to configure font families via faces.
 </div>
 
 <div id="outline-container-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d" class="outline-3">
-<h3 id="h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d"><span class="section-number-3">10.7.</span> Tweak <code>org-modern</code> timestamps</h3>
+<h3 id="h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d"><span class="section-number-3">10.8.</span> Tweak <code>org-modern</code> timestamps</h3>
 <div class="outline-text-3" id="text-h:32e3b7b2-3b53-4ec2-bd4e-fa24235e447d">
 <p>
 The <code>org-modern</code> package uses faces and text properties to make Org
@@ -1583,7 +1614,7 @@ For any further issues, you are welcome to ask for help.
 </div>
 
 <div id="outline-container-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189" class="outline-3">
-<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.8.</span> Tweak goto-address-mode faces</h3>
+<h3 id="h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189"><span class="section-number-3">10.9.</span> Tweak goto-address-mode faces</h3>
 <div class="outline-text-3" id="text-h:d42f726c-44e5-4dd6-b77e-e6ca0bab3189">
 <p>
 The built-in <code>goto-address-mode</code> uses heuristics to identify URLs and
