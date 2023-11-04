@@ -83,7 +83,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
 <ul>
-<li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a></li>
+<li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a>
+<ul>
+<li><a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">4.1.1. The <code>denote-rename-no-confirm</code> option</a></li>
+</ul>
+</li>
 <li><a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">4.2. Rename a single file based on its front matter</a></li>
 <li><a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">4.3. Rename multiple files interactively</a></li>
 <li><a href="#h:f365ff7e-2140-4e14-a92f-666ae97382a4">4.4. Rename multiple files at once by asking only for keywords</a></li>
@@ -1089,7 +1093,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org1a0ed9a">
+<pre class="example" id="orgdda5b06">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1528,9 +1532,14 @@ are collected, ask for confirmation, showing the difference between
 old and new file names. For example:
 </p>
 
-<pre class="example" id="orgbd0fc47">
+<pre class="example" id="org60c0c37">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
+
+<p>
+Do not ask for confirmation if the <code>denote-rename-no-confirm</code> option
+is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+</p>
 
 <p>
 Read the file type extension (like <code>.txt</code>) from the underlying file
@@ -1578,6 +1587,37 @@ scheme. The latter is a convenience we provide, since we already have
 all the requisite mechanisms in place.
 </p>
 </div>
+
+<div id="outline-container-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7" class="outline-4">
+<h4 id="h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7"><span class="section-number-4">4.1.1.</span> The <code>denote-rename-no-confirm</code> option</h4>
+<div class="outline-text-4" id="text-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">
+<p>
+[ Part of 2.1.0-dev. ]
+</p>
+
+<p>
+The default behaviour of the <code>denote-rename-file</code> command is to ask
+for an affirmative answer as a final step before changing the file
+name and, where relevant, inserting or updating the corresponding
+front matter (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).
+</p>
+
+<p>
+Remember that <code>denote-rename-file</code> does not save the underlying buffer
+it modifies. It leaves it unsaved so that the user can review what
+happened, such as by invoking the command <code>diff-buffer-with-file</code>.
+</p>
+
+<p>
+Specialised commands that build on top of <code>denote-rename-file</code> may
+internally bind this user option to a non-nil value in order to
+perform their operation (e.g. <code>denote-dired-rename-files</code> goes through
+each marked Dired file, prompting for the information to use, but
+carries out the renaming without asking for confirmation (buffers
+remain unsaved)).
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373" class="outline-3">
@@ -1604,7 +1644,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgc498ad7">
+<pre class="example" id="org8c11867">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1624,7 +1664,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgd75a9d4">
+<pre class="example" id="org5754a76">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2011,7 +2051,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgee33a8d">
+<pre class="example" id="org0061eaf">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2141,7 +2181,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org9449d8e">
+<pre class="example" id="org9791321">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2153,7 +2193,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org73d5896">
+<pre class="example" id="orga27c2b8">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2167,7 +2207,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb1c3333">
+<pre class="example" id="orge8a4f2e">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2181,7 +2221,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org84fbd02">
+<pre class="example" id="org2a4cf4c">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2456,7 +2496,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org36917df">
+<pre class="example" id="org823c140">
 - link1
 - link2
 - link3
@@ -2474,7 +2514,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgda5adde">
+<pre class="example" id="org5288fa7">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2712,7 +2752,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgeb43fd9">
+<pre class="example" id="org8b0a918">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2727,7 +2767,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgdfe4881">
+<pre class="example" id="org2f994f6">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3808,7 +3848,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org3c0602b">
+<pre class="example" id="orge2239a8">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4887,7 +4927,7 @@ dehyphenate <code>STR</code>, inverting <code>denote-sluggify</code>.  Basically
 
 <dl class="org-dl">
 <dt>Function <code>denote-sluggify-signature</code></dt><dd>Make <code>STR</code> an appropriate
-slug for signatures.</dd>
+slug for signatures (<a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">Contol the letter casing of file names</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5015,17 +5055,14 @@ from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-signature-prompt</code></dt><dd>Prompt for signature string
-and apply <code>denote-sluggify-signature</code> to it. With optional
-<code>DEFAULT-SIGNATURE</code> use it as the default minibuffer value. With
-optional <code>PROMPT-TEXT</code> use it in the minibuffer instead of the
-default prompt. Previous inputs at this prompt are available for
-minibuffer completion. Consider <code>savehist-mode</code> to persist
+<dt>Function <code>denote-signature-prompt</code></dt><dd>Prompt for signature string.
+With optional <code>DEFAULT-SIGNATURE</code> use it as the default minibuffer
+value. With optional <code>PROMPT-TEXT</code> use it in the minibuffer instead
+of the default prompt. Previous inputs at this prompt are available
+for minibuffer completion. Consider <code>savehist-mode</code> to persist
 minibuffer histories between sessions. [ The <code>DEFAULT-SIGNATURE</code> and
 <code>PROMPT-TEXT</code> arguments, as well as previous input completion, are
-added as part of 2.1.0-dev. Same for the parsing
-application of <code>denote-sluggify-signature</code> to the user input (this
-was always the intent). ]</dd>
+added as part of 2.1.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5360,7 +5397,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orge1b5d94">
+<pre class="example" id="orgbd90339">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5370,7 +5407,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org88e2227">
+<pre class="example" id="org476ebf5">
 emacs -Q
 </pre>
 
@@ -5382,7 +5419,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orga2ff16c">
+<pre class="example" id="orgc859d56">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5448,7 +5485,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgf1001b0">
+<pre class="example" id="org5ffe3d7">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6108,7 +6145,7 @@ Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kyle
 Meyer, Marc Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid
 Behrnd, Peter Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan
 Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
-Manerikar, ezchi, relict007.</dd>
+Manerikar, ezchi, mentalisttraceur, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Alfredo Borrás, Ashton Wiersdorf, Benjamin Kästner, Colin
@@ -6117,10 +6154,10 @@ Frédéric Willem Frank Ehmsen, Guo Yong, Hanspeter Gisler, Jack Baty,
 Jay Rajput, Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen,
 Jonathan Sahar, Johan Bolmsjö, Juanjo Presa, Kai von Fintel, Kaushal
 Modi, M. Hadi Timachi, Mark Olson, Mirko Hernandez, Niall Dooley,
-Paul van Gelder, Peter Prevos, Suhail Singh, Shreyas Ragavan, Stefan
-Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Viktor
-Haag, Wade Mealing, Yi Liu, Ypot, atanasj, doolio, drcxd, hpgisler,
-pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
+Paul van Gelder, Peter Prevos, Peter Smith, Suhail Singh, Shreyas
+Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ
+Stankus, Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj, doolio,
+drcxd, hpgisler, pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
 </dl>
 
 <p>
