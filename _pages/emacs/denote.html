@@ -1093,7 +1093,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgdda5b06">
+<pre class="example" id="org8348d9d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1532,7 +1532,7 @@ are collected, ask for confirmation, showing the difference between
 old and new file names. For example:
 </p>
 
-<pre class="example" id="org60c0c37">
+<pre class="example" id="org9a43ee0">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1644,7 +1644,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org8c11867">
+<pre class="example" id="orgd0e6757">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1664,7 +1664,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org5754a76">
+<pre class="example" id="org3d40955">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2051,7 +2051,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org0061eaf">
+<pre class="example" id="orgdedf928">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2181,7 +2181,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org9791321">
+<pre class="example" id="org6546e93">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2193,7 +2193,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga27c2b8">
+<pre class="example" id="orgbf368cb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2207,7 +2207,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge8a4f2e">
+<pre class="example" id="orgc3e4f57">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2221,7 +2221,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org2a4cf4c">
+<pre class="example" id="org060ca39">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2496,7 +2496,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org823c140">
+<pre class="example" id="orgcd5b773">
 - link1
 - link2
 - link3
@@ -2514,7 +2514,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org5288fa7">
+<pre class="example" id="orgd681ae3">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2752,7 +2752,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org8b0a918">
+<pre class="example" id="org2fba0e5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2767,7 +2767,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org2f994f6">
+<pre class="example" id="orgb3a4a5f">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3848,7 +3848,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orge2239a8">
+<pre class="example" id="org0f7b48d">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4988,7 +4988,8 @@ from <code>FILE</code> name, if present, else return nil.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-create-unique-file-identifier</code></dt><dd><p>
 Create a new unique
-<code>FILE</code> identifier.  The conditions are as follows:
+<code>FILE</code> identifier.  Test that the identifier is unique among
+<code>USED-IDS</code>.  The conditions are as follows:
 </p>
 
 <ul class="org-ul">
@@ -4999,11 +5000,6 @@ modified date and format it as an identifier.</li>
 
 <li>As a fallback, derive an identifier from the current time.</li>
 </ul>
-
-<p>
-With optional <code>USED-IDS</code> as a hash table of identifiers, test that the
-identifier is unique among them.
-</p>
 
 <p>
 With optional <code>USED-IDS</code> as nil, test that the identifier is unique
@@ -5397,7 +5393,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgbd90339">
+<pre class="example" id="orgad9fea3">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5407,7 +5403,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org476ebf5">
+<pre class="example" id="org0e98dfd">
 emacs -Q
 </pre>
 
@@ -5419,7 +5415,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgc859d56">
+<pre class="example" id="orged0d710">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5485,7 +5481,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org5ffe3d7">
+<pre class="example" id="orgeb3e850">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
