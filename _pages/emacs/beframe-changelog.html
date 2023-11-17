@@ -16,8 +16,100 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
 </p>
 
+<div id="outline-container-h:9a00ab34-a07f-4bb3-9397-6b1383fcebca" class="outline-2">
+<h2 id="h:9a00ab34-a07f-4bb3-9397-6b1383fcebca">1.0.0 on 2023-11-17</h2>
+<div class="outline-text-2" id="text-h:9a00ab34-a07f-4bb3-9397-6b1383fcebca">
+<p>
+<code>beframe</code> is in a stable state. This release formalises a set of
+stability enhancements and quality-of-life improvements.
+</p>
+</div>
+
+<div id="outline-container-h:e1aec53d-ed00-4eed-8763-78f7ad9c307d" class="outline-3">
+<h3 id="h:e1aec53d-ed00-4eed-8763-78f7ad9c307d">The menu bar helps you discover Beframe commands</h3>
+<div class="outline-text-3" id="text-h:e1aec53d-ed00-4eed-8763-78f7ad9c307d">
+<p>
+A submenu with Beframe commands is available to users of
+<code>menu-bar-mode</code>. It is available at <code>Buffers &gt; BEFRAME buffers</code>. Check
+the original announcement, which includes screenshots:
+<a href="https://protesilaos.com/codelog/2023-10-08-emacs-beframe-menu/">https://protesilaos.com/codelog/2023-10-08-emacs-beframe-menu/</a>.
+</p>
+
+<p>
+[ As an aside, never tell a new user to add <code>(menu-bar-mode -1)</code> to
+  their Emacs init file. It is not helpful. ]
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:377b869e-a552-41e7-8e52-343a434a77af" class="outline-3">
+<h3 id="h:377b869e-a552-41e7-8e52-343a434a77af">The sample integration with <code>consult</code> can flip between recent buffers</h3>
+<div class="outline-text-3" id="text-h:377b869e-a552-41e7-8e52-343a434a77af">
+<p>
+In the manual of <code>beframe</code> there is a section about augmenting the
+<code>consult-buffer</code> command with a new source of beframed buffers
+(buffers specific to the current frame). Edgar Vincent made a change
+that sorts buffers by last viewed, meaning that the previous buffer is
+at the top of the list. The change is within the ~15 line limit and
+thus Edgar does not need to assign copyright to the Free Software
+Foundation. Discussed on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C878r97fxmc.fsf%40protesilaos.com%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C878r97fxmc.fsf%40protesilaos.com%3E</a>.
+</p>
+
+<p>
+Refer to the manual for the code to integrate <code>beframe</code> with <code>consult</code>:
+<a href="https://protesilaos.com/emacs/beframe#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">https://protesilaos.com/emacs/beframe#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38</a>.
+</p>
+
+<p>
+NOTE that you do not need <code>consult</code> to use <code>beframe</code>: (i) the
+<code>beframe-mode</code> makes the regular <code>switch-to-buffer</code> work in a beframed
+way and/or (ii) use the <code>beframe-buffer-menu</code> to get a list of the
+beframed buffers (call the latter command with a prefix key (<code>C-u</code> by
+default) to select a frame whose buffers you want to list).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d64e0861-15a7-40ad-8ece-aba232840fb8" class="outline-3">
+<h3 id="h:d64e0861-15a7-40ad-8ece-aba232840fb8">The <code>beframe-rename-function</code> can take a <code>nil</code> value</h3>
+<div class="outline-text-3" id="text-h:d64e0861-15a7-40ad-8ece-aba232840fb8">
+<p>
+This was always the intent, though the code did not honour it. Thanks
+to Karthik Chikmagalur for reporting the bug on the mailing list:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C87a5w8yi1n.fsf%40gmail.com%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C87a5w8yi1n.fsf%40gmail.com%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:494d4a62-567e-4886-af96-fa9e93e48083" class="outline-3">
+<h3 id="h:494d4a62-567e-4886-af96-fa9e93e48083">General refinements</h3>
+<div class="outline-text-3" id="text-h:494d4a62-567e-4886-af96-fa9e93e48083">
+<ul class="org-ul">
+<li>Commands that prompt for a frame (e.g. <code>beframe-assume-frame-buffers</code>)
+no longer try to perform their work if a single Emacs frame is
+available. Instead, they return a <code>user-error</code>.</li>
+
+<li>The buffer that was current when a new frame was created is no
+longer part of the new frame's buffer list. This means that the new
+frame starts clean, including only the buffer specified in the user
+option <code>beframe-global-buffers</code>.</li>
+
+<li>The code that renames a new frame based is better at inferring the
+correct name. It now finds the <code>project.el</code> name, if available. The
+manual explains how to use Beframe with projects:
+<a href="https://protesilaos.com/emacs/beframe#h:5b751614-8749-4aa8-aaed-f181beaddc57">https://protesilaos.com/emacs/beframe#h:5b751614-8749-4aa8-aaed-f181beaddc57</a>
+(to me, this is a killer feature).</li>
+
+<li>Simplified how frames are set up. This guarantees that our functions
+are called in the desired order.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:59120517-f6e0-4bb8-a495-c5eb40654d6a" class="outline-2">
-<h2 id="h:59120517-f6e0-4bb8-a495-c5eb40654d6a">0.3.0</h2>
+<h2 id="h:59120517-f6e0-4bb8-a495-c5eb40654d6a">0.3.0 on 2023-05-21</h2>
 <div class="outline-text-2" id="text-h:59120517-f6e0-4bb8-a495-c5eb40654d6a">
 </div>
 
@@ -141,7 +233,7 @@ with the style of <code>beframe.el</code>.</li>
 </div>
 
 <div id="outline-container-h:ba53a28d-7e85-4c9b-9770-22abb9263473" class="outline-2">
-<h2 id="h:ba53a28d-7e85-4c9b-9770-22abb9263473">0.2.0</h2>
+<h2 id="h:ba53a28d-7e85-4c9b-9770-22abb9263473">0.2.0 on 2023-03-27</h2>
 <div class="outline-text-2" id="text-h:ba53a28d-7e85-4c9b-9770-22abb9263473">
 <p>
 There were no release notes for the initial version of Beframe.  Watch
