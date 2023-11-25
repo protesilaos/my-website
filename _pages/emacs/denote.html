@@ -113,14 +113,13 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">7.1. Adding a single link</a></li>
 <li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">7.2. Insert links matching a regexp</a></li>
 <li><a href="#h:066e5221-9844-474b-8858-398398646f86">7.3. Insert link to file with signature</a></li>
-<li><a href="#h:0c1fdaab-5a6b-4792-9694-fed53cd042e6">7.4. Insert links, but only those missing from current buffer</a></li>
-<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.5. Insert links from marked files in Dired</a></li>
-<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.6. Link to an existing note or create a new one</a></li>
-<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.7. The backlinks&rsquo; buffer</a></li>
-<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.8. Writing metanotes</a></li>
-<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.9. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">7.10. Link to a note or create it if missing</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.11. Miscellaneous information about links</a></li>
+<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.4. Insert links from marked files in Dired</a></li>
+<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.5. Link to an existing note or create a new one</a></li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.6. The backlinks&rsquo; buffer</a></li>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.7. Writing metanotes</a></li>
+<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.8. Visiting linked files via the minibuffer</a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">7.9. Link to a note or create it if missing</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.10. Miscellaneous information about links</a></li>
 </ul>
 </li>
 <li><a href="#h:98c732ac-da0e-4ebd-a0e3-5c47f9075e51">8. Choose which commands to prompt for</a></li>
@@ -132,7 +131,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">11. Use Org dynamic blocks</a>
 <ul>
-<li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">11.1. Org dynamic block to insert file contents</a></li>
+<li><a href="#org37e9afc">11.1. Org dynamic blocks to insert links or backlinks</a></li>
+<li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">11.2. Org dynamic block to insert file contents</a></li>
 </ul>
 </li>
 <li><a href="#h:82dc1203-d689-44b2-9a6c-b37776209651">12. Minibuffer histories</a></li>
@@ -1092,7 +1092,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf8294b8">
+<pre class="example" id="orgea51876">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1522,7 +1522,7 @@ are collected, ask for confirmation, showing the difference between
 old and new file names. For example:
 </p>
 
-<pre class="example" id="orga95e7bc">
+<pre class="example" id="org4234e1a">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1624,7 +1624,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org84cadb4">
+<pre class="example" id="org460d9ee">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1644,7 +1644,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgdb30c5e">
+<pre class="example" id="orgcc05d95">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1998,7 +1998,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org4fcd4ab">
+<pre class="example" id="org85ff1b9">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2128,7 +2128,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org7ff35bc">
+<pre class="example" id="org31b9d60">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2140,7 +2140,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orge5008f2">
+<pre class="example" id="org2b033b5">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2154,7 +2154,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org918ce35">
+<pre class="example" id="org7867b19">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2168,7 +2168,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org16c85cd">
+<pre class="example" id="orgd6e5228">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2437,7 +2437,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org5c34a12">
+<pre class="example" id="orgc31c1a9">
 - link1
 - link2
 - link3
@@ -2455,7 +2455,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9ff164a">
+<pre class="example" id="org0728140">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2533,25 +2533,8 @@ function.
 </div>
 </div>
 
-<div id="outline-container-h:0c1fdaab-5a6b-4792-9694-fed53cd042e6" class="outline-3">
-<h3 id="h:0c1fdaab-5a6b-4792-9694-fed53cd042e6"><span class="section-number-3">7.4.</span> Insert links, but only those missing from current buffer</h3>
-<div class="outline-text-3" id="text-h:0c1fdaab-5a6b-4792-9694-fed53cd042e6">
-<p>
-As a variation on the <code>denote-add-links</code> command, one may wish to only
-include &rsquo;missing links&rsquo;, i.e. links that are not yet present in the
-current file.
-</p>
-
-<p>
-This can be achieved with <code>denote-add-missing-links</code>. The command is
-similar to <code>denote-add-links</code>, but will only include links to notes
-that are not yet linked to (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).
-</p>
-</div>
-</div>
-
 <div id="outline-container-h:9cbb692e-5d8a-44a6-9193-899a07872a07" class="outline-3">
-<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">7.5.</span> Insert links from marked files in Dired</h3>
+<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">7.4.</span> Insert links from marked files in Dired</h3>
 <div class="outline-text-3" id="text-h:9cbb692e-5d8a-44a6-9193-899a07872a07">
 <p>
 The command <code>denote-link-dired-marked-notes</code> is similar to
@@ -2589,7 +2572,7 @@ for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking note
 </div>
 
 <div id="outline-container-h:9e41e7df-2aac-4835-94c5-659b6111e6de" class="outline-3">
-<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.6.</span> Link to an existing note or create a new one</h3>
+<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.5.</span> Link to an existing note or create a new one</h3>
 <div class="outline-text-3" id="text-h:9e41e7df-2aac-4835-94c5-659b6111e6de">
 <p>
 In one&rsquo;s note-taking workflow, there may come a point where they are
@@ -2675,7 +2658,7 @@ which helps with discoverability.
 </div>
 
 <div id="outline-container-h:c73f1f68-e214-49d5-b369-e694f6a5d708" class="outline-3">
-<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.7.</span> The backlinks&rsquo; buffer</h3>
+<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">7.6.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
 The command <code>denote-backlinks</code> produces a bespoke buffer which
@@ -2689,7 +2672,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orga354e60">
+<pre class="example" id="org2f3e227">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2704,7 +2687,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org19d16b3">
+<pre class="example" id="orgf6bf589">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2776,7 +2759,7 @@ Reproducing it here for the sake of convenience:
 </div>
 
 <div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
-<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.8.</span> Writing metanotes</h3>
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">7.7.</span> Writing metanotes</h3>
 <div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
 <p>
 A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
@@ -2826,7 +2809,7 @@ knowledge derived from the deliberate self-reflection.
 </div>
 
 <div id="outline-container-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4" class="outline-3">
-<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.9.</span> Visiting linked files via the minibuffer</h3>
+<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">7.8.</span> Visiting linked files via the minibuffer</h3>
 <div class="outline-text-3" id="text-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">
 <p>
 Denote has a major-mode-agnostic mechanism to collect all linked file
@@ -2852,7 +2835,7 @@ in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The bac
 </div>
 
 <div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
-<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">7.10.</span> Link to a note or create it if missing</h3>
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">7.9.</span> Link to a note or create it if missing</h3>
 <div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
 <p>
 During a writing session, it is possible that a thought occurs which
@@ -2920,7 +2903,7 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 </div>
 
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.11.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.10.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -3142,8 +3125,24 @@ own function and assigning it to the <code>denote-rename-buffer-function</code>.
 <h2 id="h:8b542c50-dcc9-4bca-8037-a36599b22779"><span class="section-number-2">11.</span> Use Org dynamic blocks</h2>
 <div class="outline-text-2" id="text-h:8b542c50-dcc9-4bca-8037-a36599b22779">
 <p>
+[ Revised as part of 2.2.0-dev. ]
+</p>
+
+<p>
 Denote can optionally integrate with Org mode&rsquo;s &ldquo;dynamic blocks&rdquo;
-facility.  Start by loading the relevant library:
+facility. This means that it can use special blocks that are evaluated
+with <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) to generate their contents.
+The following subsections describe the types of Org dynamic blocks
+provided by Denote.
+</p>
+
+<ul class="org-ul">
+<li><a href="#org37e9afc">Org dynamic blocks to insert links or backlinks</a></li>
+<li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">Org dynamic block to insert file contents</a></li>
+</ul>
+
+<p>
+Start by loading the relevant extension:
 </p>
 
 <div class="org-src-container">
@@ -3152,119 +3151,18 @@ facility.  Start by loading the relevant library:
 </div>
 
 <p>
-A dynamic block gets its contents by evaluating a given function,
-depending on the type of block. The type of block and its parameters
-are stated in the opening <code>#+BEGIN</code> line of the block. Typing <code>C-c C-x
-C-u</code> (<code>org-dblock-update</code>) with point on that line runs the function,
-with the given arguments, and populates the block&rsquo;s contents
-accordingly.
+A dynamic block gets its contents by evaluating a function that
+corresponds to the type of block. The block type and its parameters
+are stated in the opening <code>#+BEGIN</code> line. Typing <code>C-c C-x C-u</code>
+(<code>org-dblock-update</code>) with point on that line runs (or re-runs) the
+associated function with the given parameters and populates the
+block&rsquo;s contents accordingly.
 </p>
 
 <p>
-Denote leverages Org dynamic blocks to streamline the inclusion of (i)
-links to notes whose name matches a given search query (like
-<code>denote-add-links</code>) and (ii) backlinks to the current note (similar to
-<code>denote-find-backlink</code>).
+Dynamic blocks are particularly useful for metanote entries that
+reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">Writing metanotes</a>).
 </p>
-
-<p>
-These two types of blocks are named <code>denote-links</code> and <code>denote-backlinks</code>
-respectively.  The latter does not accept any parameters, while the
-former does, which we explain below by also demonstrating how dynamic
-blocks are written.
-</p>
-
-<p>
-A dynamic block looks like this:
-</p>
-
-<pre class="example">
-#+BEGIN: denote-links :regexp "_journal"
-
-#+END:
-</pre>
-
-
-<p>
-Here we have the <code>denote-links</code> type, with the <code>:regexp</code> parameter.
-The value of the <code>:regexp</code> parameter is the same as that of the
-command <code>denote-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).  It can
-only use the notation of the <code>rx</code> macro, as explained in the Emacs
-Lisp Reference Manual (evaluate: <code>(info "(elisp) Rx Notation")</code>).  The
-linked entry provides practical examples of patterns that make good
-use of Denote&rsquo;s file-naming scheme (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
-</p>
-
-<p>
-In this example, we instruct Org to produce a list of all notes that
-include the <code>journal</code> keyword in their file name (keywords in file
-names are prefixed with the underscore).  So the following:
-</p>
-
-<pre class="example">
-#+BEGIN: denote-links :regexp "_journal"
-
-#+END:
-</pre>
-
-
-<p>
-Becomes something like this once we type <code>C-c C-c</code> with point on the
-<code>#+BEGIN</code> line (Org makes the links look prettier by default):
-</p>
-
-<pre class="example">
-#+BEGIN: denote-links :regexp "_journal"
-- [[denote:20220616T182958][Feeling butterflies in your stomach]]
-- [[denote:20220818T221036][Between friend and stranger]]
-#+END:
-</pre>
-
-
-<p>
-The dynamic block takes care to keep the list in order and to add any
-missing links when the block is evaluated anew.
-</p>
-
-<p>
-Depending on one&rsquo;s workflow, the dynamic block can be instructed to
-list only those links which are missing from the current buffer
-(similar to <code>denote-add-missing-links</code>).  Adding the <code>:missing-only</code>
-parameter with a non-<code>nil</code> value achieves this effect. The <code>#+BEGIN</code>
-line looks like this:
-</p>
-
-<pre class="example">
-#+BEGIN: denote-links :regexp "_journal" :missing-only t
-</pre>
-
-
-<p>
-To reverse the order links appear in, add <code>:reverse t</code> to the
-<code>#+BEGIN</code> line.
-</p>
-
-<p>
-The <code>denote-links</code> block can also accept a <code>:block-name</code> parameter
-with a string value that names the block.  Once the dynamic block is
-evaluated, a <code>#+NAME</code> is prepended to the block&rsquo;s contents.  This can
-be referenced in other source blocks to parse the named block&rsquo;s
-contents as input of another process.  The details are beyond the
-scope of Denote.
-</p>
-
-<p>
-As for the <code>denote-backlinks</code> dynamic block type, it simply produces a
-list of notes that link to the current file.  It accepts no parameters
-and looks like this:
-</p>
-
-<pre class="example">
-#+BEGIN: denote-backlinks
-
-#+END:
-</pre>
-
 
 <p>
 The Org manual describes the technicalities of Dynamic Blocks.
@@ -3275,15 +3173,87 @@ Evaluate:
 <pre class="src src-emacs-lisp">(info "(org) Dynamic Blocks")
 </pre>
 </div>
+</div>
+
+<div id="outline-container-org37e9afc" class="outline-3">
+<h3 id="org37e9afc"><span class="section-number-3">11.1.</span> Org dynamic blocks to insert links or backlinks</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+[ Refactored as part of 2.2.0-dev. The <code>denote-links</code>
+  parameters <code>:reverse</code> and <code>:missing-only</code> are no longer supported.
+  The <code>denote-backlinks</code> also no longer accepts <code>:reverse</code>. ]
+</p>
 
 <p>
-Dynamic blocks are particularly useful for metanote entries that
-reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">Writing metanotes</a>).
+The <code>denote-links</code> block can be inserted at point with the command
+<code>denote-org-dblock-insert-links</code> or by manually including the
+following in an Org file:
 </p>
+
+<pre class="example">
+#+BEGIN: denote-links :regexp "YOUR REGEXP HERE" :id-only nil
+
+#+END:
+</pre>
+
+
+<p>
+The <code>denote-links</code> block is also registered as an option for the
+command <code>org-dynamic-block-insert-dblock</code>.
+</p>
+
+<p>
+Type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with point on the <code>#+BEGIN</code>
+line to update the block.
+</p>
+
+<ul class="org-ul">
+<li>The <code>:regexp</code> parameter is mandatory. Its value is a string and its
+behaviour is the same as that of the <code>denote-add-links</code> command
+(<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>). Concretely, it produces a
+typographic list of links to files matching the giving regular
+expression. The value of the <code>:regexp</code> parameter may also be of the
+form read by the <code>rx</code> macro (Lisp notation instead of a string), as
+explained in the Emacs Lisp Reference Manual (evaluate this code to
+read the documentation: <code>(info "(elisp) Rx Notation")</code>). Note that
+you do not need to write an actual regular expression to get
+meaningful results: even something like <code>_journal</code> will work to
+include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:id-only</code> parameter is optional. It accepts a <code>t</code> value, in
+which case links are inserted without a description text but only
+with the identifier of the given file. This has the same meaning as
+with the <code>denote-link</code> command and related facilities (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).</li>
+
+<li>An optional <code>:block-name</code> parameter can be specified with a string
+value to add a <code>#+name</code> to the results. This is useful for further
+processing using Org facilities (a feature that is outside Denote&rsquo;s
+purview).</li>
+</ul>
+
+<p>
+The same as above except for the <code>:regexp</code> parameter are true for the
+<code>denote-backlinks</code> block. The block can be inserted at point with the
+command <code>denote-org-dblock-insert-backlinks</code> or by manually writing
+this in an Org file:
+</p>
+
+<pre class="example">
+#+BEGIN: denote-backlinks :id-only nil
+
+#+END:
+</pre>
+
+
+<p>
+Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with point on the
+<code>#+BEGIN</code> line to update the block.
+</p>
+</div>
 </div>
 
 <div id="outline-container-h:f15fa143-5036-416f-9bff-1bcabbb03456" class="outline-3">
-<h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.1.</span> Org dynamic block to insert file contents</h3>
+<h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.2.</span> Org dynamic block to insert file contents</h3>
 <div class="outline-text-3" id="text-h:f15fa143-5036-416f-9bff-1bcabbb03456">
 <p>
 [ Part of 2.2.0-dev. ]
@@ -3292,62 +3262,88 @@ reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a996
 <p>
 Denote can optionally use Org&rsquo;s dynamic blocks facility to produce a
 section that lists entire file contents (<a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">Use Org dynamic blocks</a>).
-This works by instrucing Org to match a regular expression of Denote
-files, the same way we do with Denote links (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>). 
+This works by instructing Org to match a regular expression of Denote
+files, the same way we do with Denote links (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp</a>).
 </p>
 
 <p>
 This is useful to, for example, compile a dynamically concatenated
 list of scattered thoughts on a given topic, like <code>^2023.*_emacs</code> for
-long entry that incorporates all the notes written in 2023 with the
+a long entry that incorporates all the notes written in 2023 with the
 keyword <code>emacs</code>.
 </p>
 
 <p>
-To produce such a block, use the following syntax in an Org file and
-type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) on the <code>#+BEGIN</code> line (type
-<code>C-c C-x C-u</code> again to recalculate the block):
+To produce such a block, call the command <code>denote-org-dblock-insert-files</code>
+or manually write the following block in an Org file and then type
+ <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) on the <code>#+BEGIN</code> line to run it
+(do it again to recalculate the block):
 </p>
 
 <pre class="example">
-#+BEGIN: denote-files :regexp "YOUR-REGEXP-HERE"
+#+BEGIN: denote-files :regexp "YOUR REGEXP HERE"
 
 #+END:
 </pre>
 
 
 <p>
-The <code>:regexp</code> parameter is mandatory. Its value is a string,
+To fully control the output, include these additional optional
+parameters, which are described further below:
+</p>
+
+<pre class="example">
+#+BEGIN: denote-files :regexp "YOUR REGEXP HERE" :no-front-matter nil :file-separator t :add-links nil
+
+#+END:
+</pre>
+
+
+<ul class="org-ul">
+<li>The <code>:regexp</code> parameter is mandatory. Its value is a string,
 representing a regular expression to match Denote file names. Its
-value may also be an <code>rx</code> expression instead of a string, as noted in
-the previous section about Org dynamic blocks.
-</p>
+value may also be an <code>rx</code> expression instead of a string, as noted
+in the previous section (<a href="#org37e9afc">Org dynamic blocks to insert links or backlinks</a>).
+Note that you do not need to write an actual regular expression to
+get meaningful results: even something like <code>_journal</code> will work to
+include all files that have a <code>journal</code> keyword.</li>
+</ul>
 
-<p>
-File contents are inserted verbatim. They are separated by the
-<code>denote-org-dblock-file-contents-separator</code>, which introduces some
-empty lines and a horizontal rule between them to visually distinguish
-individual files. Though the block accepts an optional parameter of
-<code>:file-separator</code>, which takes a string as a value. It is recommended
-to include newline characters (<code>\n</code>) in the string for better results.
-The value of <code>:file-separator</code> may also be <code>none</code>, in which case no
-separator is used.
-</p>
+<ul class="org-ul">
+<li>The <code>:file-separator</code> parameter is optional. If it is omitted, then
+Denote will use the <code>denote-org-dblock-file-contents-separator</code>: it
+introduces some empty lines and a horizontal rule between them to
+visually distinguish individual files. If the <code>:file-separator</code>
+value is a string, it is used as the file separator (e.g. use <code>"\n"</code>
+to insert just one empty new line). If the <code>:file-separator</code> value
+is set to <code>none</code>, no separator is used.</li>
 
-<p>
-An optional <code>:block-name</code> parameter adds a <code>#+name</code> to the results for
-further processing using Org facilities (this is outside Denote&rsquo;s
-purview).
-</p>
+<li>The <code>:no-front-matter</code> parameter is optional. When set to a <code>t</code>
+value, Denote tries to remove front matter from the files it is
+inserting in the dynamic block. The technique used to perform this
+operation is by removing all lines from the top of the file until
+the first empty line. This works with the default front matter that
+Denote adds, but is not 100% reliable with all sorts of user-level
+modifications and edits to the file. When the <code>:no-front-matter</code> is
+set to a natural number, Denote will omit that many lines from the
+top of the file.</li>
 
-<p>
-The optional <code>:no-front-matter</code> parameter with a <code>t</code> value instructs
-Denote to try to remove front matter from the files it is inserting in
-the dynamic block. The technique used to perform this operation is by
-removing all lines from the top of the file until the first empty
-line. This works with the default front matter that Denote adds, but
-is not 100% reliable with all sorts of user-level modifications.
-</p>
+<li>The <code>:add-links</code> parameter is optional. When it is set to a <code>t</code>
+value, all files are inserted as a typographic list and are indented
+accordingly. The first line in each list item is a link to the file
+whose contents are inserted in the following lines. When the value
+is <code>id-only</code>, then links are inserted without a description text but
+only with the identifier of the given file. This has the same
+meaning as with the <code>denote-link</code> command and related facilities
+(<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>). Remember that Org can fold the items in a
+typographic list the same way it does with headings. So even long
+files can be presented in this format without much trouble.</li>
+
+<li>An optional <code>:block-name</code> parameter can be specified with a string
+value to add a <code>#+name</code> to the results. This is useful for further
+processing using Org facilities (a feature that is outside Denote&rsquo;s
+purview).</li>
+</ul>
 </div>
 </div>
 </div>
@@ -3835,7 +3831,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org5263e3f">
+<pre class="example" id="orgec027a5">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5368,7 +5364,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org038a3f6">
+<pre class="example" id="org63da56b">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5378,7 +5374,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7720da0">
+<pre class="example" id="orge0ca0a5">
 emacs -Q
 </pre>
 
@@ -5390,7 +5386,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org5c52218">
+<pre class="example" id="orgdbed1b3">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5456,7 +5452,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org176e966">
+<pre class="example" id="org9cc0393">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
