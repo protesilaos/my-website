@@ -2,7 +2,7 @@
 title: "Emacs: Denote Org dynamic blocks"
 excerpt: "Video demonstration on how to use Denote's Org dynamic blocks facility to consolidate your thoughts on a given topic."
 layout: vlog
-mediaid: ""zzXcav0yb50
+mediaid: "zzXcav0yb50"
 ---
 
 In this video I demonstrate Denote's Org dynamic blocks facility. I
