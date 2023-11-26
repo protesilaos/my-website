@@ -20,7 +20,7 @@ commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.3.0-dev.
+Current development target is 2.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -61,18 +61,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:7141f66d-f1b3-4c9a-b07a-f8e78068dcdc">4. Sample configuration</a></li>
 <li><a href="#h:c3975e07-8bbb-42b2-a160-27e3afeb3258">5. Customization options</a>
 <ul>
-<li><a href="#h:bc4827ec-7ec1-4511-ae1b-491c28835b19">5.1. Disable other themes</a></li>
-<li><a href="#h:a939ee30-f705-4d70-aa00-cca5528ef172">5.2. Enable mixed fonts</a></li>
-<li><a href="#h:7ccb3fce-4980-4bd6-9281-bdf5fc750902">5.3. Accented mode line</a></li>
-<li><a href="#h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">5.4. UI typeface</a></li>
-<li><a href="#h:9bd84648-681b-4369-9868-4f89f2d6abf5">5.5. Bold constructs</a></li>
-<li><a href="#h:a49f7515-04cb-4932-a75c-e45080f12c28">5.6. Italic constructs</a></li>
-<li><a href="#h:a04db578-dacc-422e-a3a9-e4b41afd9b0b">5.7. Fringe visibility</a></li>
-<li><a href="#h:b92555bf-1542-40f6-945b-f59849e6446c">5.8. Link style</a></li>
-<li><a href="#h:eedd0b6b-9f84-48bc-8871-620934506aa6">5.9. Option for command prompts</a></li>
-<li><a href="#h:8540fd7a-7633-4eb9-af4b-4f160568f79a">5.10. Option for headings</a></li>
-<li><a href="#h:827e4fff-0416-4eba-a364-a6588f80b768">5.11. Style of region highlight</a></li>
-<li><a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">5.12. Palette overrides</a></li>
+<li><a href="#h:bc4827ec-7ec1-4511-ae1b-491c28835b19">5.1. Option to disable other themes</a></li>
+<li><a href="#h:a939ee30-f705-4d70-aa00-cca5528ef172">5.2. Option to enable mixed fonts</a></li>
+<li><a href="#h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">5.3. Option to control the UI typeface</a></li>
+<li><a href="#h:9bd84648-681b-4369-9868-4f89f2d6abf5">5.4. Option to enable more bold constructs</a></li>
+<li><a href="#h:a49f7515-04cb-4932-a75c-e45080f12c28">5.5. Option to enable more italic constructs</a></li>
+<li><a href="#h:eedd0b6b-9f84-48bc-8871-620934506aa6">5.6. Option for command prompts</a></li>
+<li><a href="#h:8540fd7a-7633-4eb9-af4b-4f160568f79a">5.7. Option for headings</a></li>
+<li><a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">5.8. Palette overrides</a></li>
 </ul>
 </li>
 <li><a href="#h:59c399d6-5dca-4686-b793-255be8bffc31">6. Loading a theme</a></li>
@@ -229,17 +225,10 @@ Everything is in place to set up the package.
 ;; sample values.
 (setq standard-themes-bold-constructs t
       standard-themes-italic-constructs t
+      standard-themes-disable-other-themes t
       standard-themes-mixed-fonts t
       standard-themes-variable-pitch-ui t
-      standard-themes-mode-line-accented t
-
-      ;; Accepts a symbol value:
-      standard-themes-fringes 'subtle
-
-      ;; The following accept lists of properties
-      standard-themes-links '(neutral-underline)
-      standard-themes-region '(no-extend neutral intense)
-      standard-themes-prompts '(bold italic)
+      standard-themes-prompts '(extrabold italic)
 
       ;; more complex alist to set weight, height, and optional
       ;; `variable-pitch' per heading level (t is for any level not
@@ -253,12 +242,11 @@ Everything is in place to set up the package.
         (5 . (variable-pitch 1.4))
         (6 . (variable-pitch 1.3))
         (7 . (variable-pitch 1.2))
+        (agenda-date . (1.3))
+        (agenda-structure . (variable-pitch light 1.8))
         (t . (variable-pitch 1.1))))
 
-;; Disable all other themes to avoid awkward blending:
-(mapc #'disable-theme custom-enabled-themes)
-
-(load-theme 'standard-light :no-confirm)
+(standard-themes-load-light) ; OR (standard-themes-load-dark)
 
 (define-key global-map (kbd "&lt;f5&gt;") #'standard-themes-toggle)
 </pre>
@@ -278,7 +266,7 @@ re-load (<a href="#h:59c399d6-5dca-4686-b793-255be8bffc31">Loading a theme</a>).
 </div>
 
 <div id="outline-container-h:bc4827ec-7ec1-4511-ae1b-491c28835b19" class="outline-3">
-<h3 id="h:bc4827ec-7ec1-4511-ae1b-491c28835b19"><span class="section-number-3">5.1.</span> Disable other themes</h3>
+<h3 id="h:bc4827ec-7ec1-4511-ae1b-491c28835b19"><span class="section-number-3">5.1.</span> Option to disable other themes</h3>
 <div class="outline-text-3" id="text-h:bc4827ec-7ec1-4511-ae1b-491c28835b19">
 <p>
 The user option <code>standard-themes-disable-other-themes</code> controls which
@@ -309,7 +297,7 @@ this variable to a nil value.
 </div>
 
 <div id="outline-container-h:a939ee30-f705-4d70-aa00-cca5528ef172" class="outline-3">
-<h3 id="h:a939ee30-f705-4d70-aa00-cca5528ef172"><span class="section-number-3">5.2.</span> Enable mixed fonts</h3>
+<h3 id="h:a939ee30-f705-4d70-aa00-cca5528ef172"><span class="section-number-3">5.2.</span> Option to enable mixed fonts</h3>
 <div class="outline-text-3" id="text-h:a939ee30-f705-4d70-aa00-cca5528ef172">
 <p>
 The user option <code>standard-themes-mixed-fonts</code> controls whether strictly
@@ -348,19 +336,8 @@ regard.
 </div>
 </div>
 
-<div id="outline-container-h:7ccb3fce-4980-4bd6-9281-bdf5fc750902" class="outline-3">
-<h3 id="h:7ccb3fce-4980-4bd6-9281-bdf5fc750902"><span class="section-number-3">5.3.</span> Accented mode line</h3>
-<div class="outline-text-3" id="text-h:7ccb3fce-4980-4bd6-9281-bdf5fc750902">
-<p>
-The user option <code>standard-themes-mode-line-accented</code> handles the
-background color of the active mode line.  When the value is <code>nil</code>,
-the color is gray, while non-<code>nil</code> uses an accent value.
-</p>
-</div>
-</div>
-
 <div id="outline-container-h:fbe4de97-f582-4a53-93cb-6ed4747cdc42" class="outline-3">
-<h3 id="h:fbe4de97-f582-4a53-93cb-6ed4747cdc42"><span class="section-number-3">5.4.</span> UI typeface</h3>
+<h3 id="h:fbe4de97-f582-4a53-93cb-6ed4747cdc42"><span class="section-number-3">5.3.</span> Option to control the UI typeface</h3>
 <div class="outline-text-3" id="text-h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">
 <p>
 The user option <code>standard-themes-variable-pitch-ui</code> controls whether
@@ -392,7 +369,7 @@ regard.
 </div>
 
 <div id="outline-container-h:9bd84648-681b-4369-9868-4f89f2d6abf5" class="outline-3">
-<h3 id="h:9bd84648-681b-4369-9868-4f89f2d6abf5"><span class="section-number-3">5.5.</span> Bold constructs</h3>
+<h3 id="h:9bd84648-681b-4369-9868-4f89f2d6abf5"><span class="section-number-3">5.4.</span> Option to enable more bold constructs</h3>
 <div class="outline-text-3" id="text-h:9bd84648-681b-4369-9868-4f89f2d6abf5">
 <p>
 The user option <code>standard-themes-bold-constructs</code> determines whether
@@ -408,7 +385,7 @@ keywords, builtins, and a few other elements.
 </div>
 
 <div id="outline-container-h:a49f7515-04cb-4932-a75c-e45080f12c28" class="outline-3">
-<h3 id="h:a49f7515-04cb-4932-a75c-e45080f12c28"><span class="section-number-3">5.6.</span> Italic constructs</h3>
+<h3 id="h:a49f7515-04cb-4932-a75c-e45080f12c28"><span class="section-number-3">5.5.</span> Option to enable more italic constructs</h3>
 <div class="outline-text-3" id="text-h:a49f7515-04cb-4932-a75c-e45080f12c28">
 <p>
 The user option <code>standard-themes-italic-constructs</code> determines whether
@@ -423,99 +400,8 @@ affects comments, doc strings, and a few other minor elements.
 </div>
 </div>
 
-<div id="outline-container-h:a04db578-dacc-422e-a3a9-e4b41afd9b0b" class="outline-3">
-<h3 id="h:a04db578-dacc-422e-a3a9-e4b41afd9b0b"><span class="section-number-3">5.7.</span> Fringe visibility</h3>
-<div class="outline-text-3" id="text-h:a04db578-dacc-422e-a3a9-e4b41afd9b0b">
-<p>
-The user option <code>standard-themes-fringes</code> controls the visibility and
-intensity of the fringes.  With regular Emacs settings &ldquo;Fringe&rdquo; is a
-small surface area to either side of the Emacs window: it is where
-certain indicators are displayed, such as continuation lines.
-</p>
-
-<p>
-When the value is <code>nil</code>, do not apply a distinct background color.
-</p>
-
-<p>
-With a value of <code>subtle</code>, use a gray background color that is visible
-yet close to the main background color.  This is the default style.
-</p>
-
-<p>
-With <code>intense</code>, use a more pronounced gray background color.
-</p>
-</div>
-</div>
-
-<div id="outline-container-h:b92555bf-1542-40f6-945b-f59849e6446c" class="outline-3">
-<h3 id="h:b92555bf-1542-40f6-945b-f59849e6446c"><span class="section-number-3">5.8.</span> Link style</h3>
-<div class="outline-text-3" id="text-h:b92555bf-1542-40f6-945b-f59849e6446c">
-<p>
-The user option <code>standard-themes-links</code> controls the style of links.
-The value is a list of properties, each designated by a symbol.  The
-default (a <code>nil</code> value or an empty list) is a prominent text color,
-typically blue, with an underline of the same color.
-</p>
-
-<p>
-For the style of the underline, a <code>neutral-underline</code> property
-turns the color of the line into a subtle gray, while the
-<code>no-underline</code> property removes the line altogether.  If both of
-those are set, the latter takes precedence.
-</p>
-
-<p>
-For text coloration, a <code>faint</code> property desaturates the color of
-the text and the underline, unless the underline is affected by
-the aforementioned properties.
-</p>
-
-<p>
-A <code>bold</code> property applies a heavy typographic weight to the text
-of the link.
-</p>
-
-<p>
-An <code>italic</code> property adds a slant to the link&rsquo;s text (italic or
-oblique forms, depending on the typeface).
-</p>
-
-<p>
-Combinations of any of those properties are expressed as a list,
-like in these examples:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(faint)
-(no-underline faint)
-</pre>
-</div>
-
-<p>
-The order in which the properties are set is not significant.
-</p>
-
-<p>
-In user configuration files the form may look like this:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq standard-themes-links '(neutral-underline faint))
-</pre>
-</div>
-
-<p>
-The placement of the underline, meaning its proximity to the
-text, is controlled by <code>x-use-underline-position-properties</code>,
-<code>x-underline-at-descent-line</code>, <code>underline-minimum-offset</code>.
-Please refer to their documentation strings.
-</p>
-</div>
-</div>
-
 <div id="outline-container-h:eedd0b6b-9f84-48bc-8871-620934506aa6" class="outline-3">
-<h3 id="h:eedd0b6b-9f84-48bc-8871-620934506aa6"><span class="section-number-3">5.9.</span> Option for command prompts</h3>
+<h3 id="h:eedd0b6b-9f84-48bc-8871-620934506aa6"><span class="section-number-3">5.6.</span> Option for command prompts</h3>
 <div class="outline-text-3" id="text-h:eedd0b6b-9f84-48bc-8871-620934506aa6">
 <p>
 The user option <code>standard-themes-prompts</code> controls the style of all
@@ -523,20 +409,46 @@ prompts, such as those of the minibuffer and REPLs.
 </p>
 
 <p>
-The value is a list of properties, each designated by a symbol.  The
-default (a <code>nil</code> value or an empty list) means to only use an accented
-foreground color.
+Possible values are expressed as a list of properties (default is
+<code>nil</code> or an empty list). The list can include any of the following
+symbols:
+</p>
+
+<ul class="org-ul">
+<li><code>italic</code></li>
+<li><code>italic</code></li>
+<li>A font weight, which must be supported by the underlying typeface:
+<ul class="org-ul">
+<li><code>thin</code></li>
+<li><code>ultralight</code></li>
+<li><code>extralight</code></li>
+<li><code>light</code></li>
+<li><code>semilight</code></li>
+<li><code>regular</code></li>
+<li><code>medium</code></li>
+<li><code>semibold</code></li>
+<li><code>bold</code></li>
+<li><code>heavy</code></li>
+<li><code>extrabold</code></li>
+<li><code>ultrabold</code></li>
+</ul></li>
+</ul>
+
+<p>
+The default (a <code>nil</code> value or an empty list) means to only use a
+subtle colored foreground color.
 </p>
 
 <p>
-The property <code>background</code> applies a background color to the prompt&rsquo;s
-text and adjusts the foreground accordingly.
-</p>
-
-<p>
-The property <code>bold</code> makes the text use a bold typographic weight.
-Similarly, <code>italic</code> adds a slant to the font&rsquo;s forms (italic or
+The <code>italic</code> property adds a slant to the font&rsquo;s forms (italic or
 oblique forms, depending on the typeface).
+</p>
+
+<p>
+The symbol of a font weight attribute such as <code>light</code>, <code>semibold</code>, et
+cetera, adds the given weight to links. Valid symbols are defined in
+the variable <code>standard-themes-weights</code>. The absence of a weight means
+that the one of the underlying text will be used.
 </p>
 
 <p>
@@ -545,9 +457,8 @@ in these examples:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(background)
-(bold italic)
-(background bold italic)
+<pre class="src src-emacs-lisp">(bold italic)
+(italic semibold)
 </pre>
 </div>
 
@@ -560,14 +471,14 @@ In user configuration files the form may look like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq standard-themes-prompts '(background bold))
+<pre class="src src-emacs-lisp">(setq standard-themes-prompts '(extrabold italic))
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:8540fd7a-7633-4eb9-af4b-4f160568f79a" class="outline-3">
-<h3 id="h:8540fd7a-7633-4eb9-af4b-4f160568f79a"><span class="section-number-3">5.10.</span> Option for headings</h3>
+<h3 id="h:8540fd7a-7633-4eb9-af4b-4f160568f79a"><span class="section-number-3">5.7.</span> Option for headings</h3>
 <div class="outline-text-3" id="text-h:8540fd7a-7633-4eb9-af4b-4f160568f79a">
 <p>
 The user option <code>standard-themes-headings</code> provides support for individual
@@ -596,51 +507,73 @@ combinations, followed by a presentation of all available properties:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq standard-themes-headings
-      '((1 . (light variable-pitch 1.5))
-        (2 . (regular 1.3))
-        (3 . (1.1))
+      '((1 . (variable-pitch 1.5))
+        (2 . (1.3))
         (agenda-date . (1.3))
         (agenda-structure . (variable-pitch light 1.8))
-        (t . (variable-pitch))))
+        (t . (1.1))))
 </pre>
 </div>
 
 <p>
-By default (a <code>nil</code> value for this variable), all headings have a normal
-typographic weight, a font family that is the same as the <code>default</code> face
-(typically monospaced), and a height that is equal to the <code>default</code>
-face&rsquo;s height.
+Properties:
 </p>
 
 <ul class="org-ul">
-<li>A <code>variable-pitch</code> property changes the font family of the heading
-to that of the <code>variable-pitch</code> face (normally a proportionately
-spaced typeface).  Also check the <code>fontaine</code> package (by
-Protesilaos) for tweaking fonts via faces.</li>
-
-<li>The symbol of a weight attribute adjusts the font of the heading
-accordingly, such as <code>light</code>, <code>semibold</code>, etc.  Valid symbols are
-defined in the variable <code>standard-themes-weights</code>.  The absence of a
-weight means that no distinct weight will be used.</li>
-
-<li>A number, expressed as a floating point (e.g. 1.5), adjusts the
-height of the heading to that many times the base font size.  The
-default height is the same as 1.0, though it need not be explicitly
-stated.  Instead of a floating point, an acceptable value can be in
-the form of a cons cell like <code>(height . FLOAT)</code> or <code>(height FLOAT)</code>,
-where <code>FLOAT</code> is the given number.</li>
+<li>A font weight, which must be supported by the underlying typeface:
+<ul class="org-ul">
+<li><code>thin</code></li>
+<li><code>ultralight</code></li>
+<li><code>extralight</code></li>
+<li><code>light</code></li>
+<li><code>semilight</code></li>
+<li><code>regular</code></li>
+<li><code>medium</code></li>
+<li><code>semibold</code></li>
+<li><code>bold</code> (default)</li>
+<li><code>heavy</code></li>
+<li><code>extrabold</code></li>
+<li><code>ultrabold</code></li>
+</ul></li>
+<li>A floating point as a height multiple of the default or a cons cell in
+the form of <code>(height . FLOAT)</code>.</li>
 </ul>
 
 <p>
-Combinations of any of those properties are expressed as a list, like
-in these examples:
+By default (a <code>nil</code> value for this variable), all headings have a bold
+typographic weight and use a desaturated text color.
+</p>
+
+<p>
+A <code>variable-pitch</code> property changes the font family of the heading to that
+of the <code>variable-pitch</code> face (normally a proportionately spaced typeface).
+</p>
+
+<p>
+The symbol of a weight attribute adjusts the font of the heading
+accordingly, such as <code>light</code>, <code>semibold</code>, etc.  Valid symbols are
+defined in the variable <code>standard-themes-weights</code>.  The absence of a weight
+means that bold will be used by virtue of inheriting the <code>bold</code> face.
+</p>
+
+<p>
+A number, expressed as a floating point (e.g. 1.5), adjusts the height
+of the heading to that many times the base font size.  The default
+height is the same as 1.0, though it need not be explicitly stated.
+Instead of a floating point, an acceptable value can be in the form of a
+cons cell like <code>(height . FLOAT)</code> or <code>(height FLOAT)</code>, where FLOAT is
+the given number.
+</p>
+
+<p>
+Combinations of any of those properties are expressed as a list, like in
+these examples:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(semibold)
-(variable-pitch semibold)
 (variable-pitch semibold 1.3)
-(variable-pitch semibold (height 1.3))   ; same as above
+(variable-pitch semibold (height 1.3)) ; same as above
 (variable-pitch semibold (height . 1.3)) ; same as above
 </pre>
 </div>
@@ -655,94 +588,44 @@ In user configuration files the form may look like this:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq standard-themes-headings
-      '((1 . (light variable-pitch 1.5))
-        (2 . (regular 1.3))
-        (3 . (1.1))
-        (t . (variable-pitch))))
+      '((1 . (variable-pitch 1.5))
+        (2 . (1.3))
+        (agenda-date . (1.3))
+        (agenda-structure . (variable-pitch light 1.8))
+        (t . (1.1))))
 </pre>
 </div>
 
 <p>
-When defining the styles per heading level, it is possible to
-pass a non-<code>nil</code> value (t) instead of a list of properties.  This
-will retain the original aesthetic for that level.  For example:
+When defining the styles per heading level, it is possible to pass a
+non-<code>nil</code> value (<code>t</code>) instead of a list of properties.  This will retain the
+original aesthetic for that level.  For example:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setq standard-themes-headings
       '((1 . t)           ; keep the default style
-        (2 . (variable-pitch 1.2))
-        (t . (variable-pitch)))) ; style for all unspecified headings
+        (2 . (semibold 1.2))
+        (t . (rainbow)))) ; style for all other headings
 
 (setq standard-themes-headings
-      '((1 . (variable-pitch 1.6))
-        (2 . (1.3))
-        (t . t))) ; default style for all unspecified levels
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-h:827e4fff-0416-4eba-a364-a6588f80b768" class="outline-3">
-<h3 id="h:827e4fff-0416-4eba-a364-a6588f80b768"><span class="section-number-3">5.11.</span> Style of region highlight</h3>
-<div class="outline-text-3" id="text-h:827e4fff-0416-4eba-a364-a6588f80b768">
-<p>
-The user option <code>standard-themes-region</code> controls the appearance of
-the <code>region</code> face (the highlighted selection of an area).
-</p>
-
-<p>
-The value it accepts is a list of symbols.
-</p>
-
-<p>
-If <code>nil</code> or an empty list (the default), use a subtle background for
-the region and preserve the color of selected text.
-</p>
-
-<p>
-The <code>no-extend</code> symbol limits the highlighted area to the end of the
-line, so that it does not reach the edge of the window.
-</p>
-
-<p>
-The <code>neutral</code> symbol makes the highlighted area&rsquo;s background gray (or
-more gray, depending on the theme).
-</p>
-
-<p>
-The <code>intense</code> symbol amplifies the intensity of the highlighted area&rsquo;s
-background color.  It also overrides any text color to keep it
-legible.
-</p>
-
-<p>
-Combinations of those symbols are expressed in any order.
-</p>
-
-<p>
-In user configuration files the form may look like this:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq standard-themes-region '(intense no-extend))
+      '((1 . (variable-pitch 1.5))
+        (2 . (semibold))
+        (t . t))) ; default style for all other levels
 </pre>
 </div>
 
 <p>
-Other examples:
+Note that the text color of headings, of their background, and
+overline can all be set via the overrides.  It is possible to have any
+color combination for any heading level (something that could not be
+done in older versions of the themes).
 </p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq standard-themes-region '(intense))
-(setq standard-themes-region '(intense no-extend neutral))
-</pre>
-</div>
 </div>
 </div>
 
 <div id="outline-container-h:34fe0582-960b-45dc-af5d-23c8f3e9d724" class="outline-3">
-<h3 id="h:34fe0582-960b-45dc-af5d-23c8f3e9d724"><span class="section-number-3">5.12.</span> Palette overrides</h3>
+<h3 id="h:34fe0582-960b-45dc-af5d-23c8f3e9d724"><span class="section-number-3">5.8.</span> Palette overrides</h3>
 <div class="outline-text-3" id="text-h:34fe0582-960b-45dc-af5d-23c8f3e9d724">
 <p>
 The Standard themes define their own color palette as well as semantic
@@ -781,7 +664,7 @@ search for the <code>NAME-palette</code>.  The resulting Help buffer will look
 like this:
 </p>
 
-<pre class="example" id="org78c806e">
+<pre class="example" id="org41ee2d1">
 standard-light-palette is a variable defined in ‘standard-light-theme.el’.
 
 Its value is shown below.
@@ -1511,7 +1394,7 @@ everything most users need.
 <li>ansi-color</li>
 <li>auctex</li>
 <li>auto-dim-other-buffers</li>
-<li>breadcrumb [Part of 1.3.0-dev]</li>
+<li>breadcrumb [Part of 2.0.0-dev]</li>
 <li>bongo</li>
 <li>bookmark</li>
 <li>calendar and diary</li>
@@ -1524,7 +1407,7 @@ everything most users need.
 <li>completions</li>
 <li>consult</li>
 <li>corfu</li>
-<li>corfu-candidate-overlay [Part of 1.3.0-dev]</li>
+<li>corfu-candidate-overlay [Part of 2.0.0-dev]</li>
 <li>custom (<code>M-x customize</code>)</li>
 <li>denote</li>
 <li>dictionary</li>
@@ -1556,7 +1439,7 @@ everything most users need.
 <li>image-dired</li>
 <li>info</li>
 <li>isearch, occur, query-replace</li>
-<li>jit-spell [Part of 1.3.0-dev]</li>
+<li>jit-spell [Part of 2.0.0-dev]</li>
 <li>keycast</li>
 <li>lin</li>
 <li>line numbers (<code>display-line-numbers-mode</code> and global variant)</li>
@@ -1567,9 +1450,9 @@ everything most users need.
 <li>messages</li>
 <li>mode-line</li>
 <li>mu4e</li>
-<li>nerd-icons [Part of 1.3.0-dev.]</li>
-<li>nerd-icons-dired [Part of 1.3.0-dev.]</li>
-<li>nerd-icons-ibuffer [Part of 1.3.0-dev.]</li>
+<li>nerd-icons [Part of 2.0.0-dev.]</li>
+<li>nerd-icons-dired [Part of 2.0.0-dev.]</li>
+<li>nerd-icons-ibuffer [Part of 2.0.0-dev.]</li>
 <li>neotree</li>
 <li>notmuch</li>
 <li>olivetti</li>
