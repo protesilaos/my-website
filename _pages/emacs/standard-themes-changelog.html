@@ -15,13 +15,315 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/standard-themes">https://protesilaos.com/emacs/standard-themes</a>.
 </p>
 
-<div id="outline-container-org54be3a9" class="outline-2">
-<h2 id="org54be3a9">Version 1.2.0 on 2023-02-16</h2>
-<div class="outline-text-2" id="text-org54be3a9">
+<div id="outline-container-h:9c58f5e9-e471-4013-943d-4c1c59b11d0e" class="outline-2">
+<h2 id="h:9c58f5e9-e471-4013-943d-4c1c59b11d0e">Version 2.0.0 on 2023-11-27</h2>
+<div class="outline-text-2" id="text-h:9c58f5e9-e471-4013-943d-4c1c59b11d0e">
 </div>
-<div id="outline-container-org95a6a01" class="outline-3">
-<h3 id="org95a6a01">Support for palette overrides</h3>
-<div class="outline-text-3" id="text-org95a6a01">
+
+<div id="outline-container-h:c3cd5ee4-45dc-4b54-be1d-9c0594611ab9" class="outline-3">
+<h3 id="h:c3cd5ee4-45dc-4b54-be1d-9c0594611ab9">Deprecated several user options that changed colours</h3>
+<div class="outline-text-3" id="text-h:c3cd5ee4-45dc-4b54-be1d-9c0594611ab9">
+<p>
+The following user options are deprecated in favour of palette
+overrides (more in the following section):
+</p>
+
+<ul class="org-ul">
+<li><code>standard-themes-mode-line-accented</code></li>
+<li><code>standard-themes-links</code></li>
+<li><code>standard-themes-region</code></li>
+<li><code>standard-themes-fringes</code></li>
+</ul>
+
+<p>
+In the same spirit, the user option <code>standard-themes-prompts</code> no
+longer affects colours.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:a114f9ed-9851-417a-80c2-30d21dee1d09" class="outline-3">
+<h3 id="h:a114f9ed-9851-417a-80c2-30d21dee1d09">All colour-related tweaks are done via palette overrides</h3>
+<div class="outline-text-3" id="text-h:a114f9ed-9851-417a-80c2-30d21dee1d09">
+<p>
+In previous versions of the themes, we provided certain hardcoded
+colour variations, such as for an "accented" mode line and more
+"intense" fringes. We no longer do so, in favour of a more flexible
+approach that empowers the user to pick the exact colour they like.
+</p>
+
+<p>
+The Standard themes provide the means to override every entry in their
+palette. Each palette defines named faces (such as what is the exact
+hexademical Red-Green-Blue value of <code>blue-warmer</code>) as well as semantic
+colour mappings (like <code>bg-mode-line-active</code>). Users can configure
+either the <code>standard-themes-common-palette-overrides</code> or the
+theme-specific ones, <code>standard-dark-palette-overrides</code>,
+<code>standard-light-palette-overrides</code>.
+</p>
+
+<p>
+Refer to the manual for how this can be done:
+<a href="https://protesilaos.com/emacs/standard-themes#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">https://protesilaos.com/emacs/standard-themes#h:34fe0582-960b-45dc-af5d-23c8f3e9d724</a>.
+And/or use the commands to preview the palette:
+<code>standard-themes-preview-colors</code>,
+<code>standard-themes-preview-colors-current</code>. Below is a sample:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq standard-themes-common-palette-overrides
+      '((cursor red-warmer)
+        (bg-mode-line-active bg-blue-subtle)))
+</pre>
+</div>
+
+<p>
+[ This is the same functionality found in my <code>modus-themes</code> and
+  <code>ef-themes</code>. Modus has the most palette entries and widest package
+  support due to its maximalist scope. ]
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:ae1574ad-87b2-43b5-90d3-c30163b8aca8" class="outline-3">
+<h3 id="h:ae1574ad-87b2-43b5-90d3-c30163b8aca8">The <code>standard-themes-prompts</code> accept any typographic weight</h3>
+<div class="outline-text-3" id="text-h:ae1574ad-87b2-43b5-90d3-c30163b8aca8">
+<p>
+This user option applies to prompt texts of all sorts, such as the
+minibuffer and command-line shells. It now accepts any supported
+typographic weight as part of its value. The list of weights are
+recorded in the documentation of the variable
+<code>standard-themes-weights</code> as well as the manual.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:404de8e3-7a47-4b10-9b26-0594c55dc6e4" class="outline-3">
+<h3 id="h:404de8e3-7a47-4b10-9b26-0594c55dc6e4">Headings have more semantic colour mappings associated with them</h3>
+<div class="outline-text-3" id="text-h:404de8e3-7a47-4b10-9b26-0594c55dc6e4">
+<p>
+Apart from the foreground, each heading level from 0 to 8 now has a
+background and an overline. These new palette entries are set to the
+<code>unspecified</code> value, meaning that they do not have any visual effect.
+Users can set them to a colour via palette overrides to have headings
+with a background and/or an overline (per heading level).
+</p>
+
+<p>
+Building on the previous sample code with the overrides:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq standard-themes-common-palette-overrides
+      '((cursor red-warmer)
+        (bg-mode-line-active bg-blue-subtle)
+
+        ;; Extra space for didactic purposes
+
+        (fg-heading-1 rainbow-1)
+        (fg-heading-2 rainbow-2)
+
+        (bg-heading-1 bg-blue-nuanced)
+        (bg-heading-2 bg-yellow-nuanced)
+
+        (overline-heading-1 blue-faint)
+        (overline-heading-2 yellow-faint)
+
+        ))
+</pre>
+</div>
+
+<p>
+Always remember to reload the theme for changes to take effect.
+</p>
+
+<p>
+Contact me if you need any help.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:818e0d4a-1969-4982-be33-d5f85f075a64" class="outline-3">
+<h3 id="h:818e0d4a-1969-4982-be33-d5f85f075a64">Space-related semantic colour mappings are available</h3>
+<div class="outline-text-3" id="text-h:818e0d4a-1969-4982-be33-d5f85f075a64">
+<p>
+The <code>whitespace-mode</code> and related faces now use new palette entries
+that are specific to them. This means that users can easily make space
+characters more intense/subtle. As part of this redesign, the
+background that was enabled by default is now removed to accommodate
+uses of <code>whitespace-mode</code> in spacing-sensitive programming modes: an
+intensely coloured background on every space makes it hard to edit the
+text.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:15002e3b-db06-4ca0-b3d0-f27a04374a2c" class="outline-3">
+<h3 id="h:15002e3b-db06-4ca0-b3d0-f27a04374a2c">The <code>display-line-numbers-mode</code> benefits from semantic colour mappings</h3>
+<div class="outline-text-3" id="text-h:15002e3b-db06-4ca0-b3d0-f27a04374a2c">
+<p>
+A new subset of palette entries applies to line numbers. It covers
+foreground and background values for the current/other line numbers.
+Users can style them as they see fit by using palette overrides. For
+example, this makes line numbers have a subtle grey backgrounds to not
+be mistaken for the contents of the buffer:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq standard-themes-common-palette-overrides
+      '((cursor red-warmer)
+        (bg-mode-line-active bg-blue-subtle)
+
+        ;; Extra space for didactic purposes
+
+        (fg-heading-1 rainbow-1)
+        (fg-heading-2 rainbow-2)
+
+        (bg-heading-1 bg-blue-nuanced)
+        (bg-heading-2 bg-yellow-nuanced)
+
+        (overline-heading-1 blue-faint)
+        (overline-heading-2 yellow-faint)
+
+        (bg-line-number-active bg-active)
+        (bg-line-number-inactive bg-dim)
+
+        ))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:0d762d7f-d433-40dd-95d9-2110292d43f7" class="outline-3">
+<h3 id="h:0d762d7f-d433-40dd-95d9-2110292d43f7">More semantic colour mappings for dates</h3>
+<div class="outline-text-3" id="text-h:0d762d7f-d433-40dd-95d9-2110292d43f7">
+<p>
+The palette of each theme now defines an expanded subset of entries
+for dates. These include, among others, what we find in the Org agenda
+and the <code>M-x calendar</code>, such as <code>date-weekday</code>, <code>date-scheduled</code>, and
+more. Use palette overrides to tweak them accordingly.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:5ba5fa40-8e95-405e-b368-4e9b14ce61c4" class="outline-3">
+<h3 id="h:5ba5fa40-8e95-405e-b368-4e9b14ce61c4">More packages are supported</h3>
+<div class="outline-text-3" id="text-h:5ba5fa40-8e95-405e-b368-4e9b14ce61c4">
+<p>
+Support for more packages means that the theme looks consistent across
+a variety of interfaces (this is, after all, the original idea behind
+the <code>standard-themes</code> otherwise an unthemed Emacs looks too
+inconsistent&#x2014;sorry!). For this version, we include the following in
+an already long list:
+</p>
+
+<ul class="org-ul">
+<li>breadcrumb</li>
+<li>centaur-tabs</li>
+<li>corfu-candidate-overlay</li>
+<li>jit-spell</li>
+<li>nerd-icons</li>
+<li>nerd-icons-dired</li>
+<li>nerd-icons-ibuffer</li>
+<li>vundo</li>
+<li>which-key</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:8182cb1f-a5b2-4f62-ae5d-85d5b6dbe965" class="outline-3">
+<h3 id="h:8182cb1f-a5b2-4f62-ae5d-85d5b6dbe965">Ediff faces do not implicitly depend on diff-mode</h3>
+<div class="outline-text-3" id="text-h:8182cb1f-a5b2-4f62-ae5d-85d5b6dbe965">
+<p>
+The Ediff faces used to inherit from the built-in <code>diff-mode</code>. This
+introduced a dependency and so using something like <code>M-x ediff-files</code>
+before loading <code>diff-mode</code> would result in an error. Ediff faces are
+thus designed to stand on their own.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:c01b88a5-1592-4e4d-a652-1ca9e334a4fb" class="outline-3">
+<h3 id="h:c01b88a5-1592-4e4d-a652-1ca9e334a4fb">"Flagged" and "trashed" emails are now distinct</h3>
+<div class="outline-text-3" id="text-h:c01b88a5-1592-4e4d-a652-1ca9e334a4fb">
+<p>
+They used to have the same colour, but this is no more. The change
+covers the <code>mu4e</code> and <code>notmuch</code> packages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:503f2289-c2be-4d5b-a5de-67716d194e84" class="outline-3">
+<h3 id="h:503f2289-c2be-4d5b-a5de-67716d194e84">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:503f2289-c2be-4d5b-a5de-67716d194e84">
+<ul class="org-ul">
+<li>Revised the colour value of the <code>standard-dark</code> <code>bg-region</code> palette
+entry. The previous one was the same as the original colour used by
+the <code>region</code> face against a dark background: an intense blue. The
+new value is still blue, though it is toned down to do what it needs
+to do without exaggerations. (Remember that the point of the
+<code>standard-themes</code> is to be faithful to the defaults, but I still
+apply judgement where I think improvements can be made without
+changing the character of the themes).</li>
+
+<li>Added support for the <code>appt-notification</code> face (which I introduced
+in Emacs 30).</li>
+
+<li>Extended support for the various <code>flymake</code> "echo" and "end of line"
+faces (e.g. <code>flymake-error-echo</code>, <code>flymake-end-of-line-diagnostics-face</code>).</li>
+
+<li>Removed the deprecated <code>consult-preview-cursor</code> face. This was done
+in commit <code>267b0c9</code> on the Consult Git repository. Discussed here:
+<a href="https://github.com/minad/consult/issues/764#issuecomment-1537491625">https://github.com/minad/consult/issues/764#issuecomment-1537491625</a>.</li>
+
+<li>Revised colours used in the <code>all-the-icons</code> faces. They now look
+more consistent.</li>
+
+<li>Deleted the underline from the <code>org-ellipsis</code> face. Org files are
+already too busy and we do not need more of that.</li>
+
+<li><p>
+Made the <code>eglot-diagnostic-tag-unnecessary-face</code> look like a
+warning. By default it inherits the 'shadow' face, which makes it
+counter-intuitive as it dims the text instead of bringing it to our
+attention. The intent of <code>eglot-diagnostic-tag-unnecessary-face</code> is
+to highlight unused symbols, so this is better presented as a
+warning.
+</p>
+
+<p>
+Thanks to Augusto Stoffel for bringing this matter to my attention.
+This was done via a private channel and the information is shared
+with permission.
+</p></li>
+
+<li>Rewrote most of the manual to remove the deprecated user options,
+expand the documentation where necessary, and tweak the sample
+configuration.</li>
+
+<li>Expanded the <code>deftheme</code> definition of each theme's metadata. This is
+to support new features in Emacs where themes can specify the set
+they belong to, as well as whether they are light or dark. The
+built-in command is <code>theme-choose-variant</code>. This is in response to
+Emacs bug#65468: <a href="https://debbugs.gnu.org/cgi/bugreport.cgi?bug=65468">https://debbugs.gnu.org/cgi/bugreport.cgi?bug=65468</a>.
+Thanks to Mauro Aranda for bringing this matter to my attention.</li>
+
+<li>Replaced function calls that depended on <code>cl-lib.el</code> with equivalent
+ones from <code>seq.el</code>. The latter is loaded by default and we did not
+need the CL features, anyway.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:ff36edbc-57c5-4660-9524-5ca5d5973a38" class="outline-2">
+<h2 id="h:ff36edbc-57c5-4660-9524-5ca5d5973a38">Version 1.2.0 on 2023-02-16</h2>
+<div class="outline-text-2" id="text-h:ff36edbc-57c5-4660-9524-5ca5d5973a38">
+</div>
+
+<div id="outline-container-h:97413700-4164-440c-a491-ed7bcb2eb054" class="outline-3">
+<h3 id="h:97413700-4164-440c-a491-ed7bcb2eb054">Support for palette overrides</h3>
+<div class="outline-text-3" id="text-h:97413700-4164-440c-a491-ed7bcb2eb054">
 <p>
 It is now possible to override the palette of each Standard theme.
 This is the same feature that I implemented for the <code>modus-themes</code>,
@@ -76,9 +378,9 @@ that produces the palette previews.
 </div>
 </div>
 
-<div id="outline-container-org7c0c5d2" class="outline-3">
-<h3 id="org7c0c5d2">Added the function <code>standard-themes-get-color-value</code></h3>
-<div class="outline-text-3" id="text-org7c0c5d2">
+<div id="outline-container-h:5fa61127-274f-4f9b-b303-d6a3e7328f66" class="outline-3">
+<h3 id="h:5fa61127-274f-4f9b-b303-d6a3e7328f66">Added the function <code>standard-themes-get-color-value</code></h3>
+<div class="outline-text-3" id="text-h:5fa61127-274f-4f9b-b303-d6a3e7328f66">
 <p>
 It returns the colour value of named <code>COLOR</code> for the current Standard
 theme.
@@ -137,9 +439,9 @@ entries.  The example it uses, with the <code>standard-light</code> as current:
 </div>
 </div>
 
-<div id="outline-container-orge9da147" class="outline-3">
-<h3 id="orge9da147">New user option <code>standard-themes-disable-other-themes</code></h3>
-<div class="outline-text-3" id="text-orge9da147">
+<div id="outline-container-h:801d194a-c849-4db8-ac1b-0281c234eb55" class="outline-3">
+<h3 id="h:801d194a-c849-4db8-ac1b-0281c234eb55">New user option <code>standard-themes-disable-other-themes</code></h3>
+<div class="outline-text-3" id="text-h:801d194a-c849-4db8-ac1b-0281c234eb55">
 <p>
 This user option is set to <code>t</code> by default.  This means that loading a
 Standard theme with the command <code>standard-themes-toggle</code> or the
@@ -163,9 +465,9 @@ favour of making that behaviour opt-in.
 </div>
 </div>
 
-<div id="outline-container-orged808dc" class="outline-3">
-<h3 id="orged808dc">Other changes</h3>
-<div class="outline-text-3" id="text-orged808dc">
+<div id="outline-container-h:fe84c508-126c-4fe7-8e5f-c2bbe6e29b3d" class="outline-3">
+<h3 id="h:fe84c508-126c-4fe7-8e5f-c2bbe6e29b3d">Other changes</h3>
+<div class="outline-text-3" id="text-h:fe84c508-126c-4fe7-8e5f-c2bbe6e29b3d">
 <ul class="org-ul">
 <li><p>
 Refined the <code>standard-dark</code> theme's <code>bg-hl-line</code> background.  This
@@ -185,9 +487,9 @@ list: <a href="https://lists.sr.ht/~protesilaos/standard-themes/%3C87cz8bjrwz.fs
 </div>
 </div>
 
-<div id="outline-container-org33c3868" class="outline-3">
-<h3 id="org33c3868">Acknowledgement</h3>
-<div class="outline-text-3" id="text-org33c3868">
+<div id="outline-container-h:ced52765-3287-44d0-a9d5-a47eed9fccd1" class="outline-3">
+<h3 id="h:ced52765-3287-44d0-a9d5-a47eed9fccd1">Acknowledgement</h3>
+<div class="outline-text-3" id="text-h:ced52765-3287-44d0-a9d5-a47eed9fccd1">
 <p>
 Thanks to Fritz Grabo who provided feedback via a private channel.
 With it, I was able to better understand the underlying patterns of
