@@ -1,5 +1,5 @@
 ---
-title: "Vlog: preparing the cypress hill + concrete for the  hut
+title: "Vlog: preparing the cypress hill + concrete for the  hut"
 excerpt: "In this video I show the work I am doing to plant cypress trees and reinforce the hut's construction."
 layout: vlog
 mediaid: "1zkZsgUYSi0"
