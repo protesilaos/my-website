@@ -1093,7 +1093,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org80310ab">
+<pre class="example" id="org5ca1dc9">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1524,7 +1524,7 @@ are collected, ask for confirmation, showing the difference between
 old and new file names. For example:
 </p>
 
-<pre class="example" id="org71a7e0a">
+<pre class="example" id="orgdb28f5e">
 Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
 </pre>
 
@@ -1626,7 +1626,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgd4639fe">
+<pre class="example" id="org6e759ae">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1646,7 +1646,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgeda4106">
+<pre class="example" id="org4e5992d">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1700,7 +1700,7 @@ Unlike <code>denote-rename-file</code>, the command <code>denote-dired-rename-fi
 does not ask to confirm the changes made to the files: it performs
 them outright. This is done to make it easier to rename multiple files
 without having to confirm each step. For an even more direct approach,
-check the command <code>denote-dired-rename-marked-files</code>:
+check the command <code>denote-dired-rename-marked-files-with-keywords</code>.
 </p>
 
 <ul class="org-ul">
@@ -2000,7 +2000,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgab19db5">
+<pre class="example" id="org341a61d">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2130,7 +2130,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orge1ac41c">
+<pre class="example" id="orgeabc428">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2142,7 +2142,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org467d218">
+<pre class="example" id="orga09597e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2156,7 +2156,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge677bb8">
+<pre class="example" id="org40bc689">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2170,7 +2170,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org2f19a57">
+<pre class="example" id="org65a140e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2439,7 +2439,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgb15f0cf">
+<pre class="example" id="org8b47f21">
 - link1
 - link2
 - link3
@@ -2457,7 +2457,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgfb022a6">
+<pre class="example" id="orgfe0a3c0">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2674,7 +2674,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgc048a1e">
+<pre class="example" id="orgeb4940a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2689,7 +2689,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org0f752c6">
+<pre class="example" id="org07218c2">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3928,7 +3928,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgc5f374f">
+<pre class="example" id="org3aae738">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5050,21 +5050,25 @@ from <code>FILE</code> name.  To create a new one, refer to the
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-filename-title</code></dt><dd>Extract title from
-<code>FILE</code> name, else return <code>file-name-base</code>.  Run <code>denote-desluggify</code>
-on the title if the extraction is successful.</dd>
+<dt>Function <code>denote-retrieve-filename-title</code></dt><dd>Extract Denote title
+component from <code>FILE</code> name, else return an empty string. With
+optional <code>FILE-NAME-BASE-FALLBACK</code> return <code>file-name-base</code> if no
+Denote title component exists. If the extraction is succcessful
+(when no <code>file-name-base</code> is involved) run <code>denote-desluggify</code> on
+the title. [ Revised as part of 2.2.0-dev to return
+an empty string if no title is present and to make the use of
+<code>file-name-base</code> optional. ]</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-keywords</code></dt><dd>Extract keywords
 from <code>FILE</code> name, if present, else return an empty string. Return
-matched keywords as a single string. [ Part of
-2.2.0-dev . ]</dd>
+matched keywords as a single string. [ Part of 2.2.0-dev . ]</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-signature</code></dt><dd>Extract signature
-from <code>FILE</code> name, if present, else return nil.</dd>
+from <code>FILE</code> name, if present, else return an empty string.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5233,8 +5237,8 @@ to that effect.</dd>
 outright according to <code>FILE-TYPE</code>.  Do the same as
 <code>denote-rewrite-front-matter</code> for keywords, but do not ask for
 confirmation.  This is for use in <code>denote-keywords-add</code>,
-<code>denote-keywords-remove</code>, <code>denote-dired-rename-marked-files-with-keywords</code>, or
-related.</dd>
+<code>denote-keywords-remove</code>, <code>denote-dired-rename-marked-files-with-keywords</code>,
+or related.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5462,7 +5466,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgfc95004">
+<pre class="example" id="org9b2fc24">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5472,7 +5476,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgbaabb7b">
+<pre class="example" id="org944f77b">
 emacs -Q
 </pre>
 
@@ -5484,7 +5488,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org791fcf4">
+<pre class="example" id="org5e26395">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5550,7 +5554,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org93dd304">
+<pre class="example" id="orgc817315">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
