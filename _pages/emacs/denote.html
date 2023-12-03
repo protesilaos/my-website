@@ -1094,7 +1094,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge4e1752">
+<pre class="example" id="orgd45fe18">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1468,6 +1468,13 @@ line or switching between then with commands like <code>switch-to-buffer</code>.
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
 <div class="outline-text-3" id="text-h:7cc9e000-806a-48da-945c-711bbc7426b0">
 <p>
+[ The <code>denote-rename-file</code> command is made more intuitive as part of
+  2.2.0-dev. All its prompts now include a hint that
+  leaving them empty will ignore the given field if it does not exist
+  or remove it if it does exist. ]
+</p>
+
+<p>
 The <code>denote-rename-file</code> command renames a file and updates existing
 front matter if appropriate. It is possible to do the same with
 multiple files (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files interactively</a>).
@@ -1481,7 +1488,7 @@ filesystem path represented as a string.
 
 <p>
 If <code>FILE</code> has a Denote-compliant identifier, retain it while updating
-the TITLE and <code>KEYWORDS</code> fields of the file name.
+the <code>TITLE</code>, <code>KEYWORDS</code>, and <code>SIGNATURE</code> components of the file name.
 </p>
 
 <p>
@@ -1504,7 +1511,7 @@ unique.</li>
 </ol>
 
 <p>
-Use <code>TITLE</code> to construct the new name of <code>FILE</code>. In interactive use,
+Add <code>TITLE</code> to <code>FILE</code>. In interactive use, prompt for user input and
 retrieve the default <code>TITLE</code> value from a line starting with a title
 field in the file&rsquo;s contents, depending on the given file type (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
 Else, use the file name as a default value at the minibuffer prompt.
@@ -1512,26 +1519,34 @@ When called from Lisp, <code>TITLE</code> is a string.
 </p>
 
 <p>
-Add <code>SIGNATURE</code> to the file, using an existing one as the default
-value at the minibuffer prompt. When called from Lisp, <code>SIGNATURE</code> is
-a string. If the <code>SIGNATURE</code> is empty or <code>nil</code>, it is not included in
-the new file name or removed from an existing one. [ Made it
-intuitive/consistent as part of 2.2.0-dev. ]
+If <code>TITLE</code> is nil or an empty string, do not add it to a newly renamed
+file or remove it from an existing file. [ This feature is part of
+2.2.0-dev. ]
 </p>
 
 <p>
-As a final step after the <code>FILE</code>, <code>TITLE</code>, <code>KEYWORDS</code>, and <code>SIGNATURE</code>
-are collected, ask for confirmation, showing the difference between
-old and new file names. For example:
+Add <code>SIGNATURE</code> to <code>FILE</code>. In interactive use, prompt for <code>SIGNATURE</code>,
+using an existing one as the default value at the minibuffer prompt.
+When called from Lisp, <code>SIGNATURE</code> is a string.
 </p>
 
-<pre class="example" id="orgc6b9cb4">
-Rename sample.txt to 20220612T052900--my-sample-title__testing.txt? (y or n)
-</pre>
+<p>
+If <code>SIGNATURE</code> is nil or an empty string, do not add it to a newly
+renamed file or remove it from an existing file. [ Made consistent as
+part of 2.2.0-dev. ]
+</p>
 
 <p>
-Do not ask for confirmation if the <code>denote-rename-no-confirm</code> option
-is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+Add <code>KEYWORDS</code> to <code>FILE</code>. In interactive use, prompt for <code>KEYWORDS</code>.
+More than one keyword can be inserted when separated by the
+`crm-sepator&rsquo; (normally a comma). When called from Lisp, <code>KEYWORDS</code> is
+a list of strings.
+</p>
+
+<p>
+If <code>KEYWORDS</code> is nil or an empty string, do not add it to a newly
+renamed file or remove it from an existing file. [ Part of
+2.2.0-dev. ]
 </p>
 
 <p>
@@ -1546,16 +1561,27 @@ moved between directories.
 </p>
 
 <p>
+As a final step after the <code>FILE</code>, <code>TITLE</code>, <code>KEYWORDS</code>, and <code>SIGNATURE</code>
+are collected, ask for confirmation, showing the difference between
+old and new file names.
+</p>
+
+<p>
+Do not ask for confirmation if the <code>denote-rename-no-confirm</code> option
+is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+</p>
+
+<p>
 If the <code>FILE</code> has Denote-style front matter for the <code>TITLE</code> and
 <code>KEYWORDS</code>, ask to rewrite their values in order to reflect the new
 input (this step always requires confirmation and the underlying
 buffer is not saved, so consider invoking <code>diff-buffer-with-file</code> to
-double-check the effect). The rewrite of the <code>FILE</code> and <code>KEYWORDS</code> in
+double-check the effect). The rewrite of the <code>TITLE</code> and <code>KEYWORDS</code> in
 the front matter should not affect the rest of the front matter.
 </p>
 
 <p>
-If the file doesn&rsquo;t have front matter but is among the supported file
+If the file does not have front matter but is among the supported file
 types (per <code>denote-file-type</code>), add front matter at the top of it and
 leave the buffer unsaved for further inspection.
 </p>
@@ -1576,8 +1602,7 @@ This command is intended to (i) rename existing Denote notes while
 updating their title and keywords in the front matter, (ii) convert
 existing supported file types to Denote notes, and (ii) rename
 non-note files (e.g. PDF) that can benefit from Denote&rsquo;s file-naming
-scheme. The latter is a convenience we provide, since we already have
-all the requisite mechanisms in place.
+scheme.
 </p>
 </div>
 
@@ -1627,7 +1652,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org4405bf9">
+<pre class="example" id="orgf17e16a">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1647,7 +1672,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org06e6c59">
+<pre class="example" id="orgaf4b377">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1733,7 +1758,8 @@ our conventions (<a href="#h:6ae1ab8c-5e36-4216-8e93-f37f4447582c">Contol the le
 
 <li>prompts once for <code>KEYWORDS</code> and applies the user&rsquo;s input to the
 corresponding field in the file name, rewriting any keywords that
-may exist;</li>
+may exist while removing keywords that do exist if <code>KEYWORDS</code> is
+empty;</li>
 
 <li>adds or rewrites existing front matter to the underlying file, if it
 is recognized as a Denote note (per the <code>denote-file-type</code> user
@@ -2025,7 +2051,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgd19effe">
+<pre class="example" id="org3c72c79">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2155,7 +2181,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org2b3860b">
+<pre class="example" id="org9e62647">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2167,7 +2193,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org148727b">
+<pre class="example" id="org82df26a">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2181,7 +2207,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgf72b4ef">
+<pre class="example" id="org50695e1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2195,7 +2221,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgad25d52">
+<pre class="example" id="org76591b2">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2464,7 +2490,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org24fa862">
+<pre class="example" id="orgb47d0c0">
 - link1
 - link2
 - link3
@@ -2482,7 +2508,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org101ccde">
+<pre class="example" id="org81cd905">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2699,7 +2725,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org5a51a07">
+<pre class="example" id="orgfbd1fb1">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2714,7 +2740,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgb789a8c">
+<pre class="example" id="org26b96eb">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3954,7 +3980,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgb9dc94d">
+<pre class="example" id="org48f62da">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5050,10 +5076,50 @@ file type is assumed to be the first of <code>denote-file-types</code>.
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-format-file-name</code></dt><dd>Format file name. <code>PATH</code>, <code>ID</code>,
-<code>KEYWORDS</code>, <code>TITLE-SLUG</code>, and <code>SIGNATURE-SLUG</code> are expected to be
-supplied by <code>denote</code> or equivalent: they will all be converted into a
-single string. <code>EXTENSION</code> is the file type extension, as a string.</dd>
+<dt>Function <code>denote-format-file-name</code></dt><dd><p>
+Format file name. <code>DIR-PATH</code>,
+<code>ID</code>, <code>KEYWORDS</code>, <code>TITLE-SLUG</code>, <code>EXTENSION</code> and <code>SIGNATURE-SLUG</code> are
+expected to be supplied by <code>denote</code> or equivalent command.
+</p>
+
+<p>
+<code>DIR-PATH</code> is a string pointing to a directory. It ends with a
+forward slash (the function <code>denote-directory</code> makes sure this is
+the case when returning the value of the variable <code>denote-directory</code>).
+<code>DIR-PATH</code> cannot be nil or an empty string.
+</p>
+
+<p>
+<code>ID</code> is a string holding the identifier of the note. It cannot be
+nil or an empty string and must match <code>denote-id-regexp</code>.
+</p>
+
+<p>
+<code>DIR-PATH</code> and <code>ID</code> form the base file name.
+</p>
+
+<p>
+<code>KEYWORDS</code> is a list of strings that is reduced to a single string
+by <code>denote-keywords-combine</code>. <code>KEYWORDS</code> can be an empty string or a
+nil value, in which case the relevant file name component is not
+added to the base file name.
+</p>
+
+<p>
+<code>TITLE-SLUG</code> and <code>SIGNATURE-SLUG</code> are strings which, in principle,
+are sluggified before passed as arguments here (per
+<code>denote-sluggify</code> and <code>denote-sluggify-signature</code>). They can be an
+empty string or a nil value, in which case their respective file
+name component is not added to the base file name.
+</p>
+
+<p>
+<code>EXTENSION</code> is a string that contains a dot followed by the file
+type extension. It can be an empty string or a nil value, in which
+case it is not added to the base file name. [ The doc string and
+error testing of <code>denote-format-file-name</code> are expanded as part of
+2.2.0-dev. ]
+</p></dd>
 </dl>
 
 <dl class="org-dl">
@@ -5498,7 +5564,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org1b4b261">
+<pre class="example" id="org82e59a5">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5508,7 +5574,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org56fc34a">
+<pre class="example" id="orgcaf7fbc">
 emacs -Q
 </pre>
 
@@ -5520,7 +5586,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org7fa32f0">
+<pre class="example" id="orgcb3b121">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5586,7 +5652,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc51c1b2">
+<pre class="example" id="orgbd059cd">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
