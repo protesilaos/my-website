@@ -82,6 +82,21 @@ designed by me).
 + Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
   Embellishments, and Sparkles.
 
+## Theme buffet
+
+The `theme-buffet` package arranges to automatically change themes
+during specific times of the day or at fixed intervals. The collection
+of themes is customisable, with the default options covering the
+built-in Emacs themes as well as my `modus-themes` and `ef-themes`.
+
+Bruno Boal is the lead developer and I am a co-maintainer.
+
++ Package name (GNU ELPA): `theme-buffet`
++ Git repo on SourceHut: <https://git.sr.ht/~bboal/theme-buffet>
++ Mailing list: <https://lists.sr.ht/~bboal/general-issues>
++ Backronym: Themes Harmoniously Exchanged Mid Evening Beget
+  Understandable Feelings of Fascination, Excitement, and Thrill.
+
 ## Beframe
 
 `beframe` enables a frame-oriented Emacs workflow where each frame has
