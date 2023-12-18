@@ -8,7 +8,8 @@ permalink: /emacs/
 
 Highly accessible themes, conforming with the highest standard for
 colour contrast between background and foreground values (WCAG AAA).
-They also are optimised for users with red-green colour deficiency.
+They also are optimised for users with red-green or blue-yellow colour
+deficiency.
 
 The themes are very customisable and provide support for a wide range
 of packages.  Their manual is detailed so that new users can get
