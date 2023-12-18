@@ -436,8 +436,8 @@ piece of functionality does.
 ## Iosevka Comfy
 
 This is not an "Emacs package" per se though I use it full time in my
-Emacs setup (it complements my work on the `modus-themes` and
-`fontaine`).
+Emacs setup (it complements my work on Emacs theme and `fontaine`, for
+example).
 
 _Iosevka Comfy_ is a customised build of the Iosevka typeface, with a
 consistent rounded style and overrides for almost all individual
