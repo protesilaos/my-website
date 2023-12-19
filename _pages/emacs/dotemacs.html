@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-18 19:45:10 +0200.</b>
+<b>Last revised and exported on 2023-12-19 08:13:02 +0200.</b>
 </p>
 
 <p>
@@ -181,9 +181,15 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 </li>
 <li><a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">5.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-search.el</code> module</a></li>
 <li><a href="#h:f8b08a77-f3a8-42fa-b1a9-f940348889c3">5.6. <span class="todo TODO">TODO</span> The <code>prot-emacs-dired.el</code> module</a></li>
-<li><a href="#h:b5fa481d-8549-4424-869e-91091cdf730b">5.7. <span class="todo TODO">TODO</span> The <code>prot-emacs-window.el</code> module</a>
+<li><a href="#h:b5fa481d-8549-4424-869e-91091cdf730b">5.7. The <code>prot-emacs-window.el</code> module</a>
 <ul>
-<li><a href="#h:77e4f174-0c86-460d-8a54-47545f922ae9">5.7.1. The <code>prot-emacs-window.el</code> section about <code>beframe</code></a></li>
+<li><a href="#h:cfbea29c-3290-4fd1-a02a-d7e887c15674">5.7.1. The <code>prot-emacs-window.el</code> section about uniquifying buffer names</a></li>
+<li><a href="#h:ec156866-3d25-42e7-8247-b190103b6f17">5.7.2. The <code>prot-emacs-window.el</code> section about line highlighting (<code>hl-line-mode</code>)</a></li>
+<li><a href="#h:ad2945c5-992d-4c82-a8b8-652f47ebdbea">5.7.3. The <code>prot-emacs-window.el</code> section about negative space highlighting (<code>whitespace-mode</code>)</a></li>
+<li><a href="#h:f45ea51c-8129-41bd-8d6e-4b66e7f35a49">5.7.4. The <code>prot-emacs-window.el</code> section about line numbers (<code>display-line-numbers-mode</code>)</a></li>
+<li><a href="#h:6fa708d4-f1a8-41a2-ad29-dba9b1966b65">5.7.5. The <code>prot-emacs-window.el</code> key bindings for built-in space and line number functionality</a></li>
+<li><a href="#h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f">5.7.6. The <code>prot-emacs-window.el</code> rules for displaying buffers (<code>display-buffer-alist</code>)</a></li>
+<li><a href="#h:77e4f174-0c86-460d-8a54-47545f922ae9">5.7.7. The <code>prot-emacs-window.el</code> section about <code>beframe</code></a></li>
 </ul>
 </li>
 <li><a href="#h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232">5.8. <span class="todo TODO">TODO</span> The <code>prot-emacs-git.el</code> module</a></li>
@@ -325,7 +331,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org323ef86">
+<pre class="example" id="orgfb4aea1">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -405,7 +411,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgfc7a9a1">
+<pre class="example" id="org3bb623f">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -413,7 +419,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org69a615d">
+<pre class="example" id="orgd3ca28a">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -870,10 +876,14 @@ before all other modules of my setup.."
 I was a Vim user for three years before eventually switching to Emacs.
 As part of that transition, I also conveted to the Emacs style key
 bindings. They have stronger mnemonics and scale better as a result.
+</p>
+
+<p>
 Nevertheless, I provide this option for those who need Vim keys in
 Emacs: I was using it myself for a few weeks while my left wrist was
-in pain (in part due to the cheap/bad keyboard I was using but also
-because of the hard manual work I do around the hut).
+in pain ((<a href="#h:0d6763f3-56d6-44be-b10d-bfb8cc96b442">The <code>prot-emacs-evil.el</code> module</a>)). This was in part due to
+the cheap/bad keyboard I am using but also because of the hard manual
+work I do around the hut.
 </p>
 
 <p>
@@ -3439,7 +3449,7 @@ the point. Better check the video I did on the matter:
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): `substitute`</li>
+<li>Package name (GNU ELPA): <code>substitute</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/substitute">https://protesilaos.com/emacs/substitute</a></li>
 <li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/substitute">https://git.sr.ht/~protesilaos/substitute</a>
 <ul class="org-ul">
@@ -3881,7 +3891,7 @@ by that special hook."
   (file-name-shadow-mode 1)
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1)
-  
+
 ;;;; `savehist' (minibuffer and related histories)
   (setq savehist-file (locate-user-emacs-file "savehist"))
   (setq history-length 500)
@@ -3949,7 +3959,7 @@ by that special hook."
   ;; `abbrev-file-name' to save abbrevations.  I do not need that, nor
   ;; do I want it.
   (remove-hook 'save-some-buffers-functions #'abbrev--possibly-save)
-    
+
   (prot-emacs-keybind global-map
     "M-/" #'dabbrev-expand
     "C-x M-/" #'dabbrev-completion
@@ -4141,7 +4151,7 @@ Useful for prompts such as `eval-expression' and `shell-command'."
   (:delay 5)
   (setq marginalia-max-relative-age 0) ; absolute time
   (marginalia-mode 1))
-  
+
 ;;;; Custom completion annotations
 (prot-emacs-package prot-marginalia
   (:delay 5)
@@ -4560,18 +4570,78 @@ active and the Completions window is on display."
 </div>
 
 <div id="outline-container-h:b5fa481d-8549-4424-869e-91091cdf730b" class="outline-3">
-<h3 id="h:b5fa481d-8549-4424-869e-91091cdf730b"><span class="section-number-3">5.7.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-window.el</code> module</h3>
+<h3 id="h:b5fa481d-8549-4424-869e-91091cdf730b"><span class="section-number-3">5.7.</span> The <code>prot-emacs-window.el</code> module</h3>
 <div class="outline-text-3" id="text-h:b5fa481d-8549-4424-869e-91091cdf730b">
+<p>
+This module is all about buffers and windows. How they are managed and
+displayed. We start with the <code>prot-emacs-configure</code> macro to simply
+group together lots of built-in functionality and give it a slight
+deferred loading time to speed up startup
+(<a href="#h:54a4cb92-e7f8-4291-abe6-6e7dfdfd6200">The <code>init.el</code> macro to evaluate arbitrary Elisp (<code>prot-emacs-configure</code>)</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; General window and buffer configurations
 (prot-emacs-configure
   (:delay 1)
-;;;; `uniquify' (unique names for buffers)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-h:cfbea29c-3290-4fd1-a02a-d7e887c15674" class="outline-4">
+<h4 id="h:cfbea29c-3290-4fd1-a02a-d7e887c15674"><span class="section-number-4">5.7.1.</span> The <code>prot-emacs-window.el</code> section about uniquifying buffer names</h4>
+<div class="outline-text-4" id="text-h:cfbea29c-3290-4fd1-a02a-d7e887c15674">
+<p>
+When a buffer name is reserved, Emacs tried to produce the new buffer
+by finding a suitable variant of the original name. The doc string of
+the variable <code>uniquify-buffer-name-style</code> does a good job at
+explaining the various patterns:
+</p>
+
+<pre class="example" id="org2c80499">
+For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
+would have the following buffer names in the various styles:
+
+  forward                       bar/mumble/name    quux/mumble/name
+  reverse                       name\mumble\bar    name\mumble\quux
+  post-forward                  name|bar/mumble    name|quux/mumble
+  post-forward-angle-brackets   name&lt;bar/mumble&gt;   name&lt;quux/mumble&gt;
+  nil                           name               name&lt;2&gt;
+</pre>
+
+<p>
+I use the <code>forward</code> style, which is the closest to the actual file
+name.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; `uniquify' (unique names for buffers)
   (setq uniquify-buffer-name-style 'forward)
   (setq uniquify-strip-common-suffix t)
   (setq uniquify-after-kill-buffer-p t)
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:ec156866-3d25-42e7-8247-b190103b6f17" class="outline-4">
+<h4 id="h:ec156866-3d25-42e7-8247-b190103b6f17"><span class="section-number-4">5.7.2.</span> The <code>prot-emacs-window.el</code> section about line highlighting (<code>hl-line-mode</code>)</h4>
+<div class="outline-text-4" id="text-h:ec156866-3d25-42e7-8247-b190103b6f17">
+<p>
+The built-in <code>hl-line-mode</code> highlights the current line by adding a
+background colour to it. I normally do not use this functionality. I
+do it only when I need to draw attention to something I am demonstrating.
+</p>
+
+<p>
+The <code>nil</code> value for <code>hl-line-sticky-flag</code> make the line highlight not
+show up in unfocused windows. I prefer to keep highlights at a
+minimum, because I then find it harder to focus on where I am. The
+<code>hl-line-overlay-priority</code> is a more obscure aspect of how Emacs
+decides which background should take precedence. You most probably do
+not need this, though I had a case for it a while ago: the specifics
+do not matter.
+</p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Line highlight
@@ -4580,6 +4650,26 @@ active and the Completions window is on display."
   (setq hl-line-overlay-priority -50) ; emacs28
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:ad2945c5-992d-4c82-a8b8-652f47ebdbea" class="outline-4">
+<h4 id="h:ad2945c5-992d-4c82-a8b8-652f47ebdbea"><span class="section-number-4">5.7.3.</span> The <code>prot-emacs-window.el</code> section about negative space highlighting (<code>whitespace-mode</code>)</h4>
+<div class="outline-text-4" id="text-h:ad2945c5-992d-4c82-a8b8-652f47ebdbea">
+<p>
+Much like <code>hl-line-mode</code>, I normally do not use the <code>whitespace-mode</code>
+(<a href="#h:ec156866-3d25-42e7-8247-b190103b6f17">The <code>prot-emacs-window.el</code> section about line highlighting (<code>hl-line-mode</code>)</a>).
+I do it only when I have to demonstrate something, or to quickly check
+that my spacing is correct in some context where that matters.
+</p>
+
+<p>
+The changes I have made to <code>whitespace-style</code> are experimental and I
+do not recommend you copy them. I basically tried to make it less
+busy, by highlighting fewer elements. For example, I do not highlight
+newline characters (represented as a <code>$</code>) because these are easy to
+infer in most cases.
+</p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Negative space highlight
@@ -4599,6 +4689,25 @@ active and the Completions window is on display."
           space-before-tab::space))
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:f45ea51c-8129-41bd-8d6e-4b66e7f35a49" class="outline-4">
+<h4 id="h:f45ea51c-8129-41bd-8d6e-4b66e7f35a49"><span class="section-number-4">5.7.4.</span> The <code>prot-emacs-window.el</code> section about line numbers (<code>display-line-numbers-mode</code>)</h4>
+<div class="outline-text-4" id="text-h:f45ea51c-8129-41bd-8d6e-4b66e7f35a49">
+<p>
+As with the two previous sections, I do not like to see line numbers
+by default and seldom use <code>display-line-numbers-mode</code>. They do not
+help me navigate a buffer, nor are they relevant in most cases. I
+enable the mode only when I need to compare buffers or to get a sense
+of how far apart two relevant section are in a file.
+</p>
+
+<p>
+You will notice that I use absolute numbers even for narrowed buffers,
+while I set a relative count for contextual lines when <code>prot-emacs-load-evil</code>
+is true (<a href="#h:0d6763f3-56d6-44be-b10d-bfb8cc96b442">The <code>prot-emacs-evil.el</code> module</a>).
+</p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Line numbers on the side of the window (prot-line-numbers.el)
@@ -4611,13 +4720,88 @@ active and the Completions window is on display."
   (setq display-line-numbers-minor-tick 0)
   ;; Use absolute numbers in narrowed buffers
   (setq-default display-line-numbers-widen t)
+</pre>
+</div>
+</div>
+</div>
 
-  (prot-emacs-keybind global-map
+<div id="outline-container-h:6fa708d4-f1a8-41a2-ad29-dba9b1966b65" class="outline-4">
+<h4 id="h:6fa708d4-f1a8-41a2-ad29-dba9b1966b65"><span class="section-number-4">5.7.5.</span> The <code>prot-emacs-window.el</code> key bindings for built-in space and line number functionality</h4>
+<div class="outline-text-4" id="text-h:6fa708d4-f1a8-41a2-ad29-dba9b1966b65">
+<p>
+Here I simply bind some keys for the aforementioned.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (prot-emacs-keybind global-map
     "&lt;f6&gt;" #'whitespace-mode
     "&lt;f7&gt;" #'display-line-numbers-mode
     "C-c z" #'delete-trailing-whitespace)
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f" class="outline-4">
+<h4 id="h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f"><span class="section-number-4">5.7.6.</span> The <code>prot-emacs-window.el</code> rules for displaying buffers (<code>display-buffer-alist</code>)</h4>
+<div class="outline-text-4" id="text-h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f">
+<p>
+The <code>display-buffer-alist</code> is a powerful user option and somewhat hard
+to get started with. The reason for its difficulty comes from the
+knowledge required to understand the underlying <code>display-buffer</code>
+mechanism.
+</p>
+
+<p>
+Here is the gist of what we do with it:
+</p>
+
+<ul class="org-ul">
+<li>The alist is a list of lists.</li>
+<li><p>
+Each element of the alist (i.e. one of the lists) is of the
+following form:
+</p>
+
+<pre class="example" id="org1f49dbf">
+  (BUFFER-MATCHER
+   FUNCTIONS-TO-DISPLAY-BUFFER
+   OTHER-PARAMETERS)
+</pre></li>
+
+<li>The <code>BUFFER-MATCHER</code> is either a regular expression to match the
+buffer by its name or a method to get the buffer whose major mode is
+the one specified. In the latter case, you will see the use of cons
+cells (like <code>(one . two)</code>) involving the <code>derived-mode</code> symbol
+(remember that I build Emacs from source, so <code>derived-mode</code> may not
+exist in your version of Emacs).</li>
+
+<li>The <code>FUNCTIONS-TO-DISPLAY-BUFFER</code> is a list of <code>display-buffer</code>
+functions that are tried in the order they appear in until one
+works. The list can be of one element, as you will notice with some
+of my entries.</li>
+
+<li><p>
+The <code>OTHER-PARAMETERS</code> are enumerated in the Emacs Lisp Reference
+Manual. Evaluate:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (info "(elisp) Buffer Display Action Alists")
+</pre>
+</div></li>
+</ul>
+
+<p>
+In my <code>prot-window.el</code> library, I define functions that determined how
+a buffer should be displayed, given size considerations (<a href="#h:35b8a0a5-c447-4301-a404-bc274596238d">The <code>prot-window.el</code> library</a>).
+You will find the functions <code>prot-window-shell-or-term-p</code> to determine
+what a shell or terminal is, <code>prot-window-display-buffer-below-or-pop</code>
+to display the buffer below the current one or to its side depending
+on how much width is available, and <code>prot-window-select-fit-size</code> to
+perform the two-fold task of selecting a window and making it fit up
+to a certain height.
+</p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; `window', `display-buffer-alist', and related
@@ -4700,8 +4884,11 @@ active and the Completions window is on display."
                   (derived-mode . woman-mode)
                   "\\*\\(Man\\|woman\\).*"))
            (display-buffer-same-window))))
+</pre>
+</div>
 
-  (setq window-combination-resize t)
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq window-combination-resize t)
   (setq even-window-sizes 'height-only)
   (setq window-sides-vertical nil)
   (setq switch-to-buffer-in-dedicated-window 'pop)
@@ -4709,14 +4896,20 @@ active and the Completions window is on display."
   (setq split-width-threshold 125)
   (setq window-min-height 3)
   (setq window-min-width 30)
+</pre>
+</div>
 
-  (dolist (hook '(epa-info-mode-hook help-mode-hook custom-mode-hook))
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (dolist (hook '(epa-info-mode-hook help-mode-hook custom-mode-hook))
     (add-hook hook #'visual-line-mode))
 
   (add-hook 'world-clock-mode-hook #'prot-common-truncate-lines-silently)
   (add-hook 'calendar-mode-hook #'prot-common-truncate-lines-silently)
+</pre>
+</div>
 
-  ;; NOTE 2022-09-17: Also see `prot-simple-swap-window-buffers'.
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  ;; NOTE 2022-09-17: Also see `prot-simple-swap-window-buffers'.
   (prot-emacs-keybind global-map
     "C-x &lt;down&gt;" #'next-buffer
     "C-x &lt;up&gt;" #'previous-buffer
@@ -4736,9 +4929,10 @@ active and the Completions window is on display."
 </pre>
 </div>
 </div>
+</div>
 
 <div id="outline-container-h:77e4f174-0c86-460d-8a54-47545f922ae9" class="outline-4">
-<h4 id="h:77e4f174-0c86-460d-8a54-47545f922ae9"><span class="section-number-4">5.7.1.</span> The <code>prot-emacs-window.el</code> section about <code>beframe</code></h4>
+<h4 id="h:77e4f174-0c86-460d-8a54-47545f922ae9"><span class="section-number-4">5.7.7.</span> The <code>prot-emacs-window.el</code> section about <code>beframe</code></h4>
 <div class="outline-text-4" id="text-h:77e4f174-0c86-460d-8a54-47545f922ae9">
 <p>
 My <code>beframe</code> package enables a frame-oriented Emacs workflow where
@@ -6777,7 +6971,7 @@ Meant to be added to `prog-mode-hook'."
             (lambda () (setq-local shr-width (current-fill-column))))
 
   (define-key global-map (kbd "C-c e") #'elfeed)
-  
+
   (prot-emacs-keybind elfeed-search-mode-map
     "w" #'elfeed-search-yank
     "g" #'elfeed-update
@@ -6789,7 +6983,7 @@ Meant to be added to `prog-mode-hook'."
   (prot-emacs-package prot-elfeed
     (setq prot-elfeed-tag-faces t)
     (prot-elfeed-fontify-tags)
-    
+
     (add-hook 'elfeed-search-mode-hook #'prot-elfeed-load-feeds)
 
     (prot-emacs-keybind elfeed-search-mode-map
@@ -6889,6 +7083,10 @@ Meant to be added to `prog-mode-hook'."
 <div id="outline-container-h:0d6763f3-56d6-44be-b10d-bfb8cc96b442" class="outline-3">
 <h3 id="h:0d6763f3-56d6-44be-b10d-bfb8cc96b442"><span class="section-number-3">5.15.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-evil.el</code> module</h3>
 <div class="outline-text-3" id="text-h:0d6763f3-56d6-44be-b10d-bfb8cc96b442">
+<p>
+(<a href="#h:d32718d6-c678-483e-8cdf-02d77053c960">The <code>init.el</code> option to load Vim keys (<code>evil.el</code> and <code>devil.el</code>)</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(prot-emacs-configure
   (:delay 1)
@@ -12648,7 +12846,7 @@ demarcated by BEG and END."
 ;; `prot-simple-insert-line-prefix'."
 ;;   :type '(repeat string)
 ;;   :group 'prot-simple)
-;; 
+;;
 ;; (defun prot-simple--line-prefix-regexp (&amp;optional string)
 ;;   "Format regular expression for `prot-simple--line-prefix-p'.
 ;; With optional STRING use it directly.  Else format the regexp by
@@ -12656,36 +12854,36 @@ demarcated by BEG and END."
 ;;   (if string
 ;;       (format "^%s " string)
 ;;     (format "^[%s] " (apply #'concat prot-simple-line-prefix-strings))))
-;; 
+;;
 ;; (defun prot-simple--line-prefix-p (&amp;optional string)
 ;;   "Return non-nil if line beginning has an appropriate string prefix.
 ;; With optional STRING test that it is at the beginning of the line."
 ;;   (save-excursion
 ;;     (goto-char (line-beginning-position))
 ;;     (looking-at (prot-simple--line-prefix-regexp string))))
-;; 
+;;
 ;; (defun prot-simple--line-prefix-insert (string)
 ;;   "Insert STRING at the beginning of the line, followed by a space."
 ;;   (save-excursion
 ;;     (goto-char (line-beginning-position))
 ;;     (insert string)
 ;;     (insert " ")))
-;; 
+;;
 ;; (defun prot-simple--line-prefix-infer-string ()
 ;;   "Return line prefix string if it matches `prot-simple--line-prefix-p'."
 ;;   (when (prot-simple--line-prefix-p)
 ;;     (string-trim
 ;;      (buffer-substring-no-properties (match-beginning 0) (match-end 0)))))
-;; 
+;;
 ;; (defun prot-simple--line-prefix-toggle (string)
 ;;   "Insert or remove STRING at the beginning of the line."
 ;;   (if (prot-simple--line-prefix-p string)
 ;;       (delete-region (match-beginning 0) (match-end 0))
 ;;     (prot-simple--line-prefix-insert string)))
-;; 
+;;
 ;; (defvar prot-simple--line-prefix-history nil
 ;;   "Minibuffer history of `prot-simple--line-prefix-prompt'.")
-;; 
+;;
 ;; (defun prot-simple--line-prefix-prompt ()
 ;;   "Prompt for string to use as line prefix.
 ;; Provide `prot-simple-line-prefix-strings' as completion
@@ -12696,24 +12894,24 @@ demarcated by BEG and END."
 ;;      prot-simple-line-prefix-strings
 ;;      nil nil nil
 ;;      'prot-simple--line-prefix-history default)))
-;; 
+;;
 ;; (defun prot-simple-line-prefix-infer-or-prompt ()
 ;;   "Infer string for line prefix or prompt for one."
 ;;   (or (prot-simple--line-prefix-infer-string)
 ;;       (prot-simple--line-prefix-prompt)))
-;; 
+;;
 ;; ;;;###autoload
 ;; (defun prot-simple-insert-line-prefix-dwim (string)
 ;;   "Toggle presence of STRING at the beginning of the line.
-;; 
+;;
 ;; When called interactively try to infer STRING based on the line
 ;; prefix.  If one is found among `prot-simple-line-prefix-strings',
 ;; perform a removal outright.
-;; 
+;;
 ;; If no string can be inferred, prompt for STRING among
 ;; `prot-simple-line-prefix-strings'.  Accept arbitrary strings at
 ;; the prompt.
-;; 
+;;
 ;; When the region is active, toggle the presence of STRING for each
 ;; line in the region."
 ;;   (interactive (list (prot-simple-line-prefix-infer-or-prompt)))
