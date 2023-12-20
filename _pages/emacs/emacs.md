@@ -350,7 +350,7 @@ This is a simple package that renders an indicator with an email count
 of the `notmuch` index on the Emacs mode line.  The underlying mechanism
 is that of `notmuch-count(1)`, which is used to find the number of items
 that match the given search terms.  In practice, the user can define one
-or more searches and display their counters.  These form a string which
+or more searches and display their counters.  These form a listing which
 realistically is like: `@50 😱1000 💕0` for unread messages, bills, and
 love letters, respectively.
 
@@ -409,12 +409,12 @@ interfaces by supporting a large number of packages.
 
 ## The official Emacs TUTORIAL in Greek
 
-I am the author and maintainer of the `TUTORIAL.el_GR` file that is part
-of Emacs 29 (current development target) since 2022-05-08.  You can find
-it in the Emacs source code inside the `etc/tutorials/` directory.  If
-you report a bug about it with `M-x report-emacs-bug`, consider adding
-me in carbon copy (Cc).  The `etc/tutorials/TUTORIAL.translators` file
-mentions the email address you should use.
+I am the author and maintainer of the `TUTORIAL.el_GR` file that is
+part of Emacs 29 since 2022-05-08. You can find it in the Emacs source
+code inside the `etc/tutorials/` directory. If you report a bug about
+it with `M-x report-emacs-bug`, consider adding me in carbon copy
+(Cc). The `etc/tutorials/TUTORIAL.translators` file mentions the email
+address you should use.
 
 ## Dotemacs
 
