@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-20 06:43:11 +0200 with a word
-count of 73029.</b>
+<b>Last revised and exported on 2023-12-20 12:44:25 +0200 with a word
+count of 73286.</b>
 </p>
 
 <p>
@@ -165,7 +165,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:7753549e-806d-4140-b72d-5460a4a14b3e">5.2.7. The <code>prot-emacs-essentials.el</code> settings for auto revert</a></li>
 <li><a href="#h:d551b90d-d730-4eb5-976a-24b010fd4db3">5.2.8. The <code>prot-emacs-essentials.el</code> section for <code>delete-selection-mode</code></a></li>
 <li><a href="#h:26afeb95-7920-45ed-8ff6-3648256c280b">5.2.9. The <code>prot-emacs-essentials.el</code> settings for tooltips</a></li>
-<li><a href="#h:d4e30bcb-2f90-445f-a5ca-856e2576483a">5.2.10. The <code>prot-emacs-essentials.el</code> configurations for the date and time</a></li>
+<li><a href="#h:d4e30bcb-2f90-445f-a5ca-856e2576483a">5.2.10. The <code>prot-emacs-essentials.el</code> configurations for the date and time (<code>display-time-mode</code>)</a></li>
 <li><a href="#h:42866cf3-d6ad-4431-b321-204f91e17d72">5.2.11. The <code>prot-emacs-essentials.el</code> settings for the <code>world-clock</code></a></li>
 <li><a href="#h:5eb16d63-ce21-4e76-8789-eef6ddbd7c00">5.2.12. The <code>prot-emacs-essentials.el</code> settings for manpages</a></li>
 <li><a href="#h:14d40e5a-327e-453e-861c-3ece24351d62">5.2.13. The <code>prot-emacs-essentials.el</code> settings for <code>proced</code></a></li>
@@ -174,7 +174,12 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:ceb193bf-0de3-4c43-8ab7-6daa50817754">5.2.16. The <code>prot-emacs-essentials.el</code> section about <code>expreg</code> (tree-sitter mark syntactically)</a></li>
 </ul>
 </li>
-<li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> module</a></li>
+<li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. The <code>prot-emacs-modeline.el</code> module</a>
+<ul>
+<li><a href="#h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">5.3.1. <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></a></li>
+<li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.2. <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
+</ul>
+</li>
 <li><a href="#h:15edf2c3-4419-4101-928a-6e224958a741">5.4. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> module</a>
 <ul>
 <li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.1. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
@@ -210,6 +215,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <ul>
 <li><a href="#h:2c9a555f-d3ec-4d0e-bad6-6c26b576a49a">5.11.1.1. <span class="todo TODO">TODO</span> The <code>prot-emacs-notmuch.el</code> section about the general user interface</a></li>
 <li><a href="#h:eddc38d8-d1c1-48a4-8fa1-ce9ab2820ee3">5.11.1.2. <span class="todo TODO">TODO</span> The <code>prot-emacs-notmuch.el</code> section about the presentation of search buffers</a></li>
+<li><a href="#h:0f12f144-ca9f-4d07-8563-c33b3521bfb5">5.11.1.3. <span class="todo TODO">TODO</span> The <code>prot-emacs-notmuch.el</code> section about the <code>notmuch-indicator</code></a></li>
 </ul>
 </li>
 <li><a href="#h:ae0a1c85-8412-48d3-94a9-7d6dbd801126">5.11.2. <span class="todo TODO">TODO</span> The deprecated <code>prot-emacs-gnus.el</code> module</a></li>
@@ -347,7 +353,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgf6398ba">
+<pre class="example" id="org7fbecf9">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -427,7 +433,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org12d23f8">
+<pre class="example" id="orgd50a578">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -435,7 +441,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgfdd7fc8">
+<pre class="example" id="org38aed38">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -3266,7 +3272,7 @@ messages (e.g. a different colour or a slant).
 </div>
 
 <div id="outline-container-h:d4e30bcb-2f90-445f-a5ca-856e2576483a" class="outline-4">
-<h4 id="h:d4e30bcb-2f90-445f-a5ca-856e2576483a"><span class="section-number-4">5.2.10.</span> The <code>prot-emacs-essentials.el</code> configurations for the date and time</h4>
+<h4 id="h:d4e30bcb-2f90-445f-a5ca-856e2576483a"><span class="section-number-4">5.2.10.</span> The <code>prot-emacs-essentials.el</code> configurations for the date and time (<code>display-time-mode</code>)</h4>
 <div class="outline-text-4" id="text-h:d4e30bcb-2f90-445f-a5ca-856e2576483a">
 <p>
 I like to display the current date and time on the mode line(<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">The <code>prot-emacs-modeline.el</code> module</a>).
@@ -3763,8 +3769,28 @@ by that special hook."
 </div>
 
 <div id="outline-container-h:41ee38d0-9099-4444-85e4-cc8dce00fb9a" class="outline-3">
-<h3 id="h:41ee38d0-9099-4444-85e4-cc8dce00fb9a"><span class="section-number-3">5.3.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> module</h3>
+<h3 id="h:41ee38d0-9099-4444-85e4-cc8dce00fb9a"><span class="section-number-3">5.3.</span> The <code>prot-emacs-modeline.el</code> module</h3>
 <div class="outline-text-3" id="text-h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
+<p>
+I use a custom mode line that is close in spirit to the default one.
+The main difference is that I design most of the components to only
+appear in the focused window. This way, I get a minimal view while
+also avoid the repetition of global indicators, such as for the time
+(<a href="#h:d4e30bcb-2f90-445f-a5ca-856e2576483a">The <code>prot-emacs-essentials.el</code> configurations for the date and time (<code>display-time-mode</code>)</a>)
+or the <code>notmuch-indicator</code> (<a href="#h:0f12f144-ca9f-4d07-8563-c33b3521bfb5">The <code>prot-emacs-notmuch.el</code> section about the <code>notmuch-indicator</code></a>).
+</p>
+
+<p>
+Most items that go into the <code>mode-line-format</code> are defined in
+<a href="#h:935adc09-abaa-4413-a5ab-a7a562081c20">the <code>prot-modeline.el</code> library</a>.
+</p>
+
+<p>
+Notice the use of <code>setq-default</code>. This is like <code>setq</code> but sets the
+default value of variable that normally are buffer-local. You will
+only find a few cases where this is needed.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Mode line
 (prot-emacs-package prot-modeline
@@ -3793,8 +3819,15 @@ by that special hook."
                   prot-modeline-notmuch-indicator
                   "  "
                   prot-modeline-misc-info))
+</pre>
+</div>
+</div>
 
-  (with-eval-after-load 'spacious-padding
+<div id="outline-container-h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789" class="outline-4">
+<h4 id="h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789"><span class="section-number-4">5.3.1.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></h4>
+<div class="outline-text-4" id="text-h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (with-eval-after-load 'spacious-padding
     (defun prot/modeline-spacious-indicators ()
       "Set box attribute to `'prot-modeline-indicator-button' if spacious-padding is enabled."
       (if (bound-and-true-p spacious-padding-mode)
@@ -3806,8 +3839,16 @@ by that special hook."
     (prot/modeline-spacious-indicators)
 
     (add-hook 'spacious-padding-mode-hook #'prot/modeline-spacious-indicators)))
+</pre>
+</div>
+</div>
+</div>
 
-;;; Keycast mode
+<div id="outline-container-h:ba833ed8-f9d4-4693-bfd5-30452167137e" class="outline-4">
+<h4 id="h:ba833ed8-f9d4-4693-bfd5-30452167137e"><span class="section-number-4">5.3.2.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></h4>
+<div class="outline-text-4" id="text-h:ba833ed8-f9d4-4693-bfd5-30452167137e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Keycast mode
 (prot-emacs-package keycast
   (:install t)
   (:delay 60)
@@ -3824,6 +3865,7 @@ by that special hook."
 
 (provide 'prot-emacs-modeline)
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -4663,7 +4705,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org1450a88">
+<pre class="example" id="org025a374">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -4828,7 +4870,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org73e5605">
+<pre class="example" id="orge202ef1">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -6719,8 +6761,16 @@ Meant to be added to `prog-mode-hook'."
 
 ;;; Glue code for notmuch and org-link (ol-notmuch.el)
 (prot-emacs-package ol-notmuch (:install t) (:delay 5))
+</pre>
+</div>
+</div>
+</div>
 
-;;; notmuch-indicator (another package of mine)
+<div id="outline-container-h:0f12f144-ca9f-4d07-8563-c33b3521bfb5" class="outline-5">
+<h5 id="h:0f12f144-ca9f-4d07-8563-c33b3521bfb5"><span class="section-number-5">5.11.1.3.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-notmuch.el</code> section about the <code>notmuch-indicator</code></h5>
+<div class="outline-text-5" id="text-h:0f12f144-ca9f-4d07-8563-c33b3521bfb5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; notmuch-indicator (another package of mine)
 (prot-emacs-package notmuch-indicator
   (:install t)
   (:delay 5)
