@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-20 12:44:25 +0200 with a word
-count of 73286.</b>
+<b>Last revised and exported on 2023-12-20 13:34:42 +0200 with a word
+count of 73468.</b>
 </p>
 
 <p>
@@ -176,8 +176,8 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 </li>
 <li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. The <code>prot-emacs-modeline.el</code> module</a>
 <ul>
-<li><a href="#h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">5.3.1. <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></a></li>
-<li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.2. <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
+<li><a href="#h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">5.3.1. The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></a></li>
+<li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.2. The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
 </ul>
 </li>
 <li><a href="#h:15edf2c3-4419-4101-928a-6e224958a741">5.4. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> module</a>
@@ -353,7 +353,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org7fbecf9">
+<pre class="example" id="org777d092">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -433,7 +433,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgd50a578">
+<pre class="example" id="org1d0f05c">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -441,7 +441,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org38aed38">
+<pre class="example" id="org8755d78">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -2384,6 +2384,11 @@ Usability State &#x2026; padding; Spacious &#x2026; Precise Adjustments to
 Desktop Divider Internals Neatly Generated.</li>
 </ul>
 
+<p>
+I also take care to make it work with my customised mode line
+(<a href="#h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Increase padding of windows/frames
 ;; Yet another one of my packages:
@@ -3824,8 +3829,23 @@ only find a few cases where this is needed.
 </div>
 
 <div id="outline-container-h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789" class="outline-4">
-<h4 id="h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789"><span class="section-number-4">5.3.1.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></h4>
+<h4 id="h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789"><span class="section-number-4">5.3.1.</span> The <code>prot-emacs-modeline.el</code> integration with <code>spacious-padding</code></h4>
 <div class="outline-text-4" id="text-h:30bfbf81-a5ad-44af-a91b-6b8dd37ff789">
+<p>
+My <code>spacious-padding</code> package adds, among others, a box effect to mode
+line constructs (<a href="#h:6c118185-fcb1-4c9a-93af-71814cb84279">The <code>prot-emacs-theme.el</code> section for <code>spacious-padding</code></a>).
+</p>
+
+<p>
+To make the faces of <code>prot-modeline.el</code> look right in this scenario, I
+add a box to them as well. They then adopt whatever padding is there.
+</p>
+
+<p>
+The <code>with-eval-after-load</code> pattern is a nice way to evaluate some code
+as soon as the given package/feature is loaded.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">  (with-eval-after-load 'spacious-padding
     (defun prot/modeline-spacious-indicators ()
@@ -3845,8 +3865,24 @@ only find a few cases where this is needed.
 </div>
 
 <div id="outline-container-h:ba833ed8-f9d4-4693-bfd5-30452167137e" class="outline-4">
-<h4 id="h:ba833ed8-f9d4-4693-bfd5-30452167137e"><span class="section-number-4">5.3.2.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></h4>
+<h4 id="h:ba833ed8-f9d4-4693-bfd5-30452167137e"><span class="section-number-4">5.3.2.</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></h4>
 <div class="outline-text-4" id="text-h:ba833ed8-f9d4-4693-bfd5-30452167137e">
+<p>
+This is a helpful package by Jonas Bernoulli that echoes the key
+presses and corresponding commands  on the mode line, tab bar, header
+line, or a special buffer.
+</p>
+
+<p>
+I usually enable <code>keycast-mode</code> when I do a presentation. It shows an
+indicator on the focused mode line.
+</p>
+
+<p>
+Note that the value of <code>keycast-mode-line-insert-after</code> only works
+with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">The <code>prot-emacs-modeline.el</code> module</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Keycast mode
 (prot-emacs-package keycast
@@ -4705,7 +4741,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org025a374">
+<pre class="example" id="orge49c0ec">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -4870,7 +4906,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orge202ef1">
+<pre class="example" id="org3c387f7">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
