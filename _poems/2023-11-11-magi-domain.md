@@ -4,8 +4,6 @@ excerpt: "Just read the poem.  No further comment."
 ---
 
 ```
-Magi's domain
-
 Undisturbed you shall enter the magi's domain
 With no expectations, no indecision, no regrets
 Your outlook is aligned with your actuality
