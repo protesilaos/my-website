@@ -777,8 +777,10 @@ set to '(template subdirectory title keywords)."
 
 <p>
 The tweaks to <code>denote-prompts</code> determine how the command will behave
-(<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>).  Use this paradigm to write your own
-variants which you can then assign to keys or invoke with <code>M-x</code>.
+(<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The denote-prompts option</a>). Use this paradigm to write your own
+variants which you can then assign to keys, invoke with <code>M-x</code>, or add
+to the list of commands available at the <code>denote-command-prompt</code>
+(<a href="#h:98c732ac-da0e-4ebd-a0e3-5c47f9075e51">Choose which commands to prompt for</a>).
 </p>
 </div>
 </div>
@@ -1094,7 +1096,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgbf3b25c">
+<pre class="example" id="orge39ed89">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1642,7 +1644,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgacf89cb">
+<pre class="example" id="orgca8e79d">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1662,7 +1664,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org6d976ed">
+<pre class="example" id="orge090825">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2034,7 +2036,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org6983107">
+<pre class="example" id="orgc90c493">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2164,7 +2166,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org2f67820">
+<pre class="example" id="org44b4ec2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2176,7 +2178,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org8cb6f73">
+<pre class="example" id="org1abf9fb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2190,7 +2192,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org8e97f1f">
+<pre class="example" id="orgb4afef0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2204,7 +2206,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgaa51d59">
+<pre class="example" id="org7e0ffa4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2473,7 +2475,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org244a632">
+<pre class="example" id="org10c8311">
 - link1
 - link2
 - link3
@@ -2491,7 +2493,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org21957a3">
+<pre class="example" id="org583a267">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2708,7 +2710,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org2b30a3e">
+<pre class="example" id="org681453c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2723,7 +2725,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org4ac6879">
+<pre class="example" id="orgf292d7e">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3929,7 +3931,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org1fe8573">
+<pre class="example" id="orgdf62ef8">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4331,10 +4333,10 @@ invoke this command."
   (image-dired--with-marked
    (when-let* ((file (image-dired-original-file-name))
                (dir (file-name-directory file))
-               (id (denote-retrieve-filename-identifier file))
+               (id (or (denote-retrieve-filename-identifier file) ""))
                (file-type (denote-filetype-heuristics file))
                (title (denote--retrieve-title-or-filename file file-type))
-               (signature (denote-retrieve-filename-signature file))
+               (signature (or (denote-retrieve-filename-signature file) "")
                (extension (file-name-extension file t))
                (new-name (denote-format-file-name dir id keywords title extension signature))
                (default-directory dir))
@@ -5081,28 +5083,24 @@ identifier in <code>STRING</code>, else nil.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier
-from <code>FILE</code> name.  To create a new one, refer to the
+from <code>FILE</code> name, if present, else return nil.  To create a new one, refer to the
 <code>denote-create-unique-file-identifier</code> function.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-title</code></dt><dd>Extract Denote title
-component from <code>FILE</code> name, else return an empty string. With
-optional <code>FILE-NAME-BASE-FALLBACK</code> return <code>file-name-base</code> if no
-Denote title component exists. If the extraction is succcessful
-(when no <code>file-name-base</code> is involved) run <code>denote-desluggify</code> on
-the title.</dd>
+component from <code>FILE</code> name, if present, else return nil.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-keywords</code></dt><dd>Extract keywords
-from <code>FILE</code> name, if present, else return an empty string. Return
+from <code>FILE</code> name, if present, else return nil. Return
 matched keywords as a single string.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-signature</code></dt><dd>Extract signature
-from <code>FILE</code> name, if present, else return an empty string.</dd>
+from <code>FILE</code> name, if present, else return nil.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5133,33 +5131,33 @@ To only return an existing identifier, refer to the function
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-title-value</code></dt><dd>Return title value from
+<dt>Function <code>denote-retrieve-front-matter-title-value</code></dt><dd>Return title value from
 <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-title-line</code></dt><dd>Return title line from
+<dt>Function <code>denote-retrieve-front-matter-title-line</code></dt><dd>Return title line from
 <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-keywords-value</code></dt><dd>Return keywords value
+<dt>Function <code>denote-retrieve-front-matter-keywords-value</code></dt><dd>Return keywords value
 from <code>FILE</code> front matter per <code>FILE-TYPE</code>. The return value is a list
 of strings. To get a combined string the way it would appear in a
-Denote file name, use <code>denote-retrieve-keywords-value-as-string</code>.</dd>
+Denote file name, use <code>denote-retrieve-front-matter-keywords-value-as-string</code>.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-keywords-value-as-string</code></dt><dd>Return
+<dt>Function <code>denote-retrieve-front-matter-keywords-value-as-string</code></dt><dd>Return
 keywords value from <code>FILE</code> front matter per <code>FILE-TYPE</code>. The return
 value is a string, with the underscrore as a separator between
 individual keywords. To get a list of strings instead, use
-<code>denote-retrieve-keywords-value</code> (the current function uses that
+<code>denote-retrieve-front-matter-keywords-value</code> (the current function uses that
 internally).</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-retrieve-keywords-line</code></dt><dd>Return keywords line
+<dt>Function <code>denote-retrieve-front-matter-keywords-line</code></dt><dd>Return keywords line
 from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 </dl>
 
@@ -5505,7 +5503,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org6fd3da3">
+<pre class="example" id="orgd59ae7e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5515,7 +5513,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgd2d162b">
+<pre class="example" id="orgb553d8d">
 emacs -Q
 </pre>
 
@@ -5527,7 +5525,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org496cf43">
+<pre class="example" id="org5d0abbd">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5593,7 +5591,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orga7f349a">
+<pre class="example" id="org2869596">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6242,14 +6240,14 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dt>Contributions to code or the manual</dt><dd>Abin Simon, Adam Růžička,
 Alan Schmitt, Ashton Wiersdorf, Benjamin Kästner, Bruno Boal,
 Charanjit Singh, Clemens Radermacher, Colin McLear, Damien Cassou,
-Eduardo Grajeda, Elias Storms, Eshel Yaron, Florian, Graham Marlow,
-Hilde Rhyne, Ivan Sokolov, Jack Baty, Jean-Charles Bagneris,
-Jean-Philippe Gagné Guay, Joseph Turner, Jürgen Hötzel, Kaushal
-Modi, Kai von Fintel, Kostas Andreadis, Kyle Meyer, Marc Fargas,
-Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter Prevos,
-Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier, Stefan Thesing,
-Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar, ezchi,
-leinfink (Henrik), mentalisttraceur, relict007.</dd>
+Eduardo Grajeda, Elias Storms, Eshel Yaron, Florian, Glenna D.,
+Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack Baty, Jean-Charles
+Bagneris, Jean-Philippe Gagné Guay, Joseph Turner, Jürgen Hötzel,
+Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kyle Meyer, Marc
+Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
+Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier, Stefan
+Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar,
+ezchi, leinfink (Henrik), mentalisttraceur, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alfredo Borrás, Ashton Wiersdorf,
