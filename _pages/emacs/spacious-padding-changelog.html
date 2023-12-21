@@ -1,0 +1,188 @@
+---
+layout: page
+title: 'Change Log of Spacious Padding'
+subtitle: 'Increase the padding/spacing of Emacs frames and windows'
+excerpt: "The 'spacious-padding' packages increase the padding/spacing of Emacs frames and windows, while making relevant stylistic tweaks."
+permalink: /emacs/spacious-padding-changelog
+---
+
+<p>
+This document contains the release notes for each tagged commit on the
+project&rsquo;s main git repository: <a href="https://git.sr.ht/~protesilaos/spacious-padding">https://git.sr.ht/~protesilaos/spacious-padding</a>.
+</p>
+
+<p>
+The newest release is at the top.  For further details, please consult
+the manual: <a href="https://protesilaos.com/emacs/spacious-padding">https://protesilaos.com/emacs/spacious-padding</a>.
+</p>
+
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#h:466dd7e0-c314-42a9-b1bc-a499acc5d415">1. Version 0.3.0 on 2023-12-21</a></li>
+<li><a href="#h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb">2. Version 0.2.0 on 2023-11-24</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-h:466dd7e0-c314-42a9-b1bc-a499acc5d415" class="outline-2">
+<h2 id="h:466dd7e0-c314-42a9-b1bc-a499acc5d415"><span class="section-number-2">1.</span> Version 0.3.0 on 2023-12-21</h2>
+<div class="outline-text-2" id="text-h:466dd7e0-c314-42a9-b1bc-a499acc5d415">
+</div>
+
+<div id="outline-container-h:57b2702a-3891-4cfc-aa37-e08f1f63290e" class="outline-3">
+<h3 id="h:57b2702a-3891-4cfc-aa37-e08f1f63290e"><span class="section-number-3">1.1.</span> Enjoy the optional subtle mode lines</h3>
+<div class="outline-text-3" id="text-h:57b2702a-3891-4cfc-aa37-e08f1f63290e">
+<p>
+The new user option <code>~spacious-padding-subtle-mode-line</code> makes mode
+lines more subtle. It does so by removing the background and adding an
+overline in its stead.
+</p>
+
+<p>
+By default, <code>spacious-padding-mode</code> does not refashion the mode lines
+other than adding to them some extra padding (per <code>spacious-padding-widths</code>).
+The user option <code>spacious-padding-subtle-mode-line</code> does change the
+mode lines so that instead of a background they only have an overline,
+while preserving whatever padding is in effect.
+</p>
+
+<p>
+The value bound to <code>spacious-padding-subtle-mode-line</code> is either a
+boolean type or a plist. If it is non-nil, use the foreground of the
+underlying mode line face to derive the color of the overline.
+</p>
+
+<p>
+If the non-nil value is a plist read the following keys to determine
+the exact style of the overlines.
+</p>
+
+<ul class="org-ul">
+<li><code>:mode-line-active</code> refers to the active/current mode line.</li>
+
+<li><code>:mode-line-inactive</code> refers to the inactive/non-current mode lines.</li>
+</ul>
+
+<p>
+Each key accepts either a face or a string representing a color as its
+associated value:
+</p>
+
+<ul class="org-ul">
+<li>The face is an unquoted symbol, such as <code>success</code> or <code>shadow</code>, whose
+<code>:foreground</code> attribute is queried to extract the desired color value.</li>
+
+<li>The color is a name among those listed in the output of the command
+<code>list-colors-display</code> or a hexadecimal RGB value, such as <code>#123456</code>.</li>
+</ul>
+
+<p>
+If the key is missing or its value is not one of the above, fall back
+to reading the foreground of the underlying mode line face to
+determine the color of the overline.
+</p>
+
+<p>
+Examples of valid configurations:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Use the foreground of the underlying mode line face to determine
+;; the color of the overline (e.g. the inactive mode line has gray
+;; text, so render the overline in the same gray).
+(setq spacious-padding-subtle-mode-line t)
+
+;; Use the foreground of the `error' face (typically a red hue) for
+;; the active mode line's overline.  For the inactive mode line, fall
+;; back to the foreground color of the underlying face (as in the case
+;; of the t shown above).
+(setq spacious-padding-subtle-mode-line
+      '(:mode-line-active error))
+
+;; As above, but now use the foreground of the `shadow' face for the
+;; inactive mode line.
+(setq spacious-padding-subtle-mode-line
+      '(:mode-line-active error :mode-line-inactive shadow))
+
+;; Use color values directly.
+(setq spacious-padding-subtle-mode-line
+      '(:mode-line-active "#0000ff" :mode-line-inactive "gray50"))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:f205e230-f980-44ac-9ceb-6807f4380480" class="outline-3">
+<h3 id="h:f205e230-f980-44ac-9ceb-6807f4380480"><span class="section-number-3">1.2.</span> Expanded the documentation</h3>
+<div class="outline-text-3" id="text-h:f205e230-f980-44ac-9ceb-6807f4380480">
+<p>
+The <code>spacious-padding</code> package now comes with an Info manual. When
+looking at the source code, this is done in the <code>README.org</code> file,
+which the GNU ELPA machinery automatically converts to Info. A change
+log is also provided.
+</p>
+
+<p>
+Their respective web links are these:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://protesilaos.com/emacs/spacious-padding">https://protesilaos.com/emacs/spacious-padding</a></li>
+<li><a href="https://protesilaos.com/emacs/spacious-padding-changelog">https://protesilaos.com/emacs/spacious-padding-changelog</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb" class="outline-2">
+<h2 id="h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb"><span class="section-number-2">2.</span> Version 0.2.0 on 2023-11-24</h2>
+<div class="outline-text-2" id="text-h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb">
+<p>
+[ I provide screenshots in a recent publication:
+  <a href="https://protesilaos.com/codelog/2023-11-15-spacious-padding-extra-ui-dev/">https://protesilaos.com/codelog/2023-11-15-spacious-padding-extra-ui-dev/</a> ]
+</p>
+
+<p>
+The package is stable and works well. This set of changes expands the
+concept of &ldquo;spacious padding&rdquo; to more user interface elements, namely:
+</p>
+
+<ul class="org-ul">
+<li>active and inactive mode lines;</li>
+<li>header line;</li>
+<li>the <code>tab-bar-mode</code>.</li>
+</ul>
+
+<p>
+The user option which sets all the width values is
+<code>spacious-padding-widths</code>. It now reads keywords that correspond to
+the aforementioned elements. Concretely, here are the defaults:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
+      '( :internal-border-width 15
+         :header-line-width 4
+         :mode-line-width 6
+         :tab-width 4
+         :right-divider-width 30
+         :scroll-bar-width 8))
+</pre>
+</div>
+
+<p>
+After changing the widths, reload the <code>spacious-padding-mode</code> for
+changes to take effect.
+</p>
+
+<p>
+I have taken care to make &rsquo;spacious-padding-mode&rsquo; work even when the
+<code>spacious-padding-widths</code> does not include all keywords. This means
+that the previously supported value will continue to work (the
+previous value did not have the keywords <code>header-line-width</code>,
+<code>mode-line-width</code>, and <code>tab-width</code>).
+</p>
+</div>
+</div>
