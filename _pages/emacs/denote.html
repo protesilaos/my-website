@@ -202,6 +202,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">23.8. How do you handle the last modified case?</a></li>
 <li><a href="#h:893eec49-d7be-4603-bcff-fcc247244011">23.9. Speed up backlinks&rsquo; buffer creation?</a></li>
 <li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">23.10. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
+<li><a href="#h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef">23.11. Why do I get a double <code>#+title</code> in Doom Emacs?</a></li>
 </ul>
 </li>
 <li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">24. Acknowledgements</a></li>
@@ -1096,7 +1097,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf9d20a6">
+<pre class="example" id="orgcd91f2c">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1650,7 +1651,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org32222f0">
+<pre class="example" id="org80e421f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1670,7 +1671,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orge60bb74">
+<pre class="example" id="org1eb7b06">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1731,6 +1732,12 @@ check the command <code>denote-dired-rename-marked-files-with-keywords</code>.
 <li><a href="#h:f365ff7e-2140-4e14-a92f-666ae97382a4">Rename by writing only keywords</a></li>
 <li><a href="#h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">Rename multiple files based on their front matter</a></li>
 </ul>
+
+<p>
+[ As part of 2.3.0-dev the
+  <code>denote-dired-rename-marked-files</code> is an alias for
+  <code>denote-dired-rename-files</code>. ]
+</p>
 </div>
 </div>
 
@@ -2042,7 +2049,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org01d44a3">
+<pre class="example" id="org1f3d392">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2172,7 +2179,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc57f881">
+<pre class="example" id="org55de112">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2184,7 +2191,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf448339">
+<pre class="example" id="org0fa2fad">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2198,7 +2205,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgaaa389d">
+<pre class="example" id="org0ea7725">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2212,7 +2219,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org7623c73">
+<pre class="example" id="org34404ff">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2481,7 +2488,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc536d2b">
+<pre class="example" id="org5164eb8">
 - link1
 - link2
 - link3
@@ -2499,7 +2506,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9f47805">
+<pre class="example" id="orgda15bc7">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2716,7 +2723,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgc886bd5">
+<pre class="example" id="org72e2197">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2731,7 +2738,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org1d70816">
+<pre class="example" id="orgda51466">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3937,7 +3944,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgb6d6cf2">
+<pre class="example" id="org411b357">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4925,6 +4932,15 @@ from existing notes and combine them into a list with
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-convert-file-name-keywords-to-crm</code></dt><dd>Make <code>STRING</code>
+with keywords readable by <code>completing-read-multiple</code>. <code>STRING</code>
+consists of underscore-separated words, as those appear in the
+keywords component of a Denote file name. <code>STRING</code> is the same as
+the return value of <code>denote-retrieve-filename-keywords</code>. [ Part of
+2.3.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-keywords-sort</code></dt><dd>Sort <code>KEYWORDS</code> if
 <code>denote-sort-keywords</code> is non-nil.  <code>KEYWORDS</code> is a list of strings,
 per <code>denote-keywords-prompt</code>.</dd>
@@ -5187,9 +5203,11 @@ filter the candidates per the given regular expression.</dd>
 keywords. Read entries as separate when they are demarcated by the
 <code>crm-separator</code>, which typically is a comma. With optional
 <code>PROMPT-TEXT</code>, use it to prompt the user for keywords. Else use a
-generic prompt. Process the return value with <code>denote-keywords-sort</code>
-and sort with <code>string-collate-lessp</code> if the user option
-<code>denote-sort-keywords</code> is non-nil.</dd>
+generic prompt. With optional <code>INITIAL-KEYWORDS</code> use them as the
+initial minibuffer text. Process the return value with
+<code>denote-keywords-sort</code> and sort with <code>string-collate-lessp</code> if the
+user option <code>denote-sort-keywords</code> is non-nil. [ The optional
+<code>INITIAL-KEYWORDS</code> argument is part of 2.3.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5509,7 +5527,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org34cec78">
+<pre class="example" id="org2ff358f">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5519,7 +5537,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgcff6193">
+<pre class="example" id="org8b20e8f">
 emacs -Q
 </pre>
 
@@ -5531,7 +5549,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orga4e9dec">
+<pre class="example" id="orgbabbd6f">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5597,7 +5615,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org272f1e8">
+<pre class="example" id="org8a096b1">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6229,6 +6247,24 @@ code (adjust the git&rsquo;s installation path if necessary):
 <pre class="src src-emacs-lisp">  (setenv "PATH" (concat (getenv "PATH") ";" "C:\\Program Files\\Git\\usr\\bin"))
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef" class="outline-3">
+<h3 id="h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef"><span class="section-number-3">23.11.</span> Why do I get a double <code>#+title</code> in Doom Emacs?</h3>
+<div class="outline-text-3" id="text-h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef">
+<p>
+Doom Emacs provides a set of bespoke templates for Org. One of those
+prefills any new Org file with a <code>#+title</code> field. So when Denote
+creates a new Org file and inserts front matter to it, it inevitably
+adds an extra title to the existing one.
+</p>
+
+<p>
+This is not a Denote problem. We can only expect a new file to be
+empty by default. Check how to disable the relevant module in your
+Doom Emacs configuration file.
+</p>
 </div>
 </div>
 </div>
