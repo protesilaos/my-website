@@ -176,6 +176,7 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [Odysee](https://odysee.com/@protesilaos:69b6498b147014fe819188848f8961657f3bf6f3)
 * [Douyin 抖音](https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE) (Chinese TikTok) (or use ID: `65118858653`).
 * IRC and Reddit: `protesilaos`.
+* hyperdrive: <hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/>
 
 1. My active Git repositories are on SourceHut.  For select projects,
    mirrors are available on GitLab and GitHub.
