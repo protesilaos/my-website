@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-20 13:34:42 +0200 with a word
-count of 73468.</b>
+<b>Last revised and exported on 2023-12-23 15:58:41 +0200 with a word
+count of 73886.</b>
 </p>
 
 <p>
@@ -180,10 +180,13 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.2. The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
 </ul>
 </li>
-<li><a href="#h:15edf2c3-4419-4101-928a-6e224958a741">5.4. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> module</a>
+<li><a href="#h:15edf2c3-4419-4101-928a-6e224958a741">5.4. The <code>prot-emacs-completion.el</code> module</a>
 <ul>
-<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.1. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
-<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.2. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
+<li><a href="#orgafe0d3f">5.4.1. The <code>prot-emacs-completion.el</code> settings for completion styles</a></li>
+<li><a href="#orgc5263de">5.4.2. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> settings to ignore letter casing</a></li>
+<li><a href="#orgbbb5175">5.4.3. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> settings for recursive minibuffers</a></li>
+<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.4. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
+<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
 </ul>
 </li>
 <li><a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">5.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-search.el</code> module</a></li>
@@ -353,7 +356,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org777d092">
+<pre class="example" id="orgba086f9">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -433,7 +436,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org1d0f05c">
+<pre class="example" id="org0f58bcc">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -441,7 +444,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org8755d78">
+<pre class="example" id="org9076fcd">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -2370,6 +2373,7 @@ and <a href="https://github.com/minad/org-modern">Daniel Mendler&rsquo;s <code>o
 
 <ul class="org-ul">
 <li>Package name (GNU ELPA): <code>spacious-padding</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/spacious-padding">https://protesilaos.com/emacs/spacious-padding</a></li>
 <li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/spacious-padding">https://git.sr.ht/~protesilaos/spacious-padding</a>
 <ul class="org-ul">
 <li>Mirrors:
@@ -2379,6 +2383,11 @@ and <a href="https://github.com/minad/org-modern">Daniel Mendler&rsquo;s <code>o
 </ul></li>
 </ul></li>
 <li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/general-issues">https://lists.sr.ht/~protesilaos/general-issues</a></li>
+<li>Sample images:
+<ul class="org-ul">
+<li><a href="https://protesilaos.com/codelog/2023-06-03-emacs-spacious-padding/">https://protesilaos.com/codelog/2023-06-03-emacs-spacious-padding/</a></li>
+<li><a href="https://protesilaos.com/codelog/2023-11-15-spacious-padding-extra-ui-dev/">https://protesilaos.com/codelog/2023-11-15-spacious-padding-extra-ui-dev/</a></li>
+</ul></li>
 <li>Backronyms: Space Perception Adjusted Consistently Impacts Overall
 Usability State &#x2026; padding; Spacious &#x2026; Precise Adjustments to
 Desktop Divider Internals Neatly Generated.</li>
@@ -2510,6 +2519,10 @@ such as in the difference between writing and reading.
            :cursor-type (hbar . 8)
            :blink-cursor-interval 0.3
            :blink-cursor-blinks 50
+           :cursor-in-non-selected-windows (hbar . 3))
+          (underscore-thick-no-blink
+           :blink-cursor-mode -1
+           :cursor-type (hbar . 8)
            :cursor-in-non-selected-windows (hbar . 3))
           (t ; the default values
            :cursor-type box
@@ -3907,17 +3920,120 @@ with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
 </div>
 
 <div id="outline-container-h:15edf2c3-4419-4101-928a-6e224958a741" class="outline-3">
-<h3 id="h:15edf2c3-4419-4101-928a-6e224958a741"><span class="section-number-3">5.4.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> module</h3>
+<h3 id="h:15edf2c3-4419-4101-928a-6e224958a741"><span class="section-number-3">5.4.</span> The <code>prot-emacs-completion.el</code> module</h3>
 <div class="outline-text-3" id="text-h:15edf2c3-4419-4101-928a-6e224958a741">
+<p>
+The term &ldquo;completion&rdquo; describes a process where user input is assisted
+by pattern matching algorithms to type out incomplete terms. The most
+basic way of this model of interaction is what we get in a
+command-line prompt, where we can hit <code>TAB</code> to expand the word before
+point to something the program already knows about (e.g <code>ema</code> followed
+by <code>TAB</code> may complete to <code>emacs</code>).
+</p>
+
+<p>
+In Emacs, completion encompasses user interfaces that show the
+available candidates (the likely options) right away, as well as
+provide more advanced capabilities for storing the history of previous
+inputs, displaying helpful annotations next to each candidate, and
+&ldquo;completion styles&rdquo; to control how user input is matched to
+candidates. Because we use the minibuffer for most common
+interactions, completion is an integral part of any setup.
+</p>
+
+<p>
+I start configuring this setion with some built-in options about the
+underlying framework. Since there is no specific package I am
+targeting, I use the <code>prot-emacs-configure</code> macro
+(<a href="#h:54a4cb92-e7f8-4291-abe6-6e7dfdfd6200">The <code>init.el</code> macro to evaluate arbitrary Elisp (<code>prot-emacs-configure</code>)</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; General minibuffer settings
 (prot-emacs-configure
   (:delay 1)
-;;;; Minibuffer configurations
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgafe0d3f" class="outline-4">
+<h4 id="orgafe0d3f"><span class="section-number-4">5.4.1.</span> The <code>prot-emacs-completion.el</code> settings for completion styles</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<p>
+The <code>completion-styles</code> are pattern matching algorithms. They
+interpret user input and match candidates accordingly.
+</p>
+
+<dl class="org-dl">
+<dt>emacs22</dt><dd>Prefix completion that only operates on the text before
+point. If we are in <code>prefix|suffix</code>, with <code>|</code> representing the
+cursor, it will consider everything that expands <code>prefix</code> and then
+add back to it the <code>suffix</code>.</dd>
+
+<dt>basic</dt><dd>Prefix completion that also accounts for the text after
+point. Using the above example, this one will consider patterns that
+match all of <code>emacs22</code> as well as anything that completes <code>suffix</code>.</dd>
+
+<dt>partial-completion</dt><dd>This is used for file navigation. Instead of
+typing out a full path like <code>~/.local/share/fonts</code>, we do <code>~/.l/s/f</code>
+or variants thereof to make the matches unique such as <code>~/.l/sh/fon</code>.
+It is a joy to navigate the fily system in this way.</dd>
+
+<dt>substring</dt><dd>Matches the given sequence of characters literally
+regardless of where it is in a word. So <code>pro</code> will match
+<code>professional</code> as well as <code>reproduce</code>.</dd>
+
+<dt>flex</dt><dd>Completion of an in-order subset of characters. It does not
+matter where the charactes are in the word, so long as they are
+encountered in the given order. The input <code>lad</code> will thus match
+<code>list-faces-display</code> as well as <code>pulsar-highlight-dwim</code>.</dd>
+
+<dt>initials</dt><dd>Completion of acronyms and initialisms. Typing <code>lfd</code>
+will thus match <code>list-faces-display</code>. This completion style can also
+be used for file system navigation, though I prefer to only have
+<code>partial-completion</code> handle that task.</dd>
+
+<dt>orderless</dt><dd>This is the only completion style I use which is not
+built into Emacs. It matches patterns out-of-order. Patterns are
+typically words separated by spaces, though they can also be regular
+expressions, and even styles that are the same as the aforementioned
+<code>flex</code> and <code>initials</code>.</dd>
+</dl>
+
+<p>
+Now that you know about the completion styles I use, take a look at
+the value of my <code>completion-styles</code>. You will notice that <code>orderless</code>,
+which is the most powerful/flexible is placed last. I do this because
+Emacs tries the styles in the given order from left to right, moving
+the next one until it finds a match. As such, I usually want to start
+with tight matches (e.g. <code>li-fa-di</code> for <code>list-faces-display</code>) and only
+widen the scope of the search as I need to. This is easy to do because
+none of the built-in completion styles parses the empty space, so as
+soon as I type a space after some characters I am using <code>orderless</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Minibuffer configurations
   (setq completion-styles '(basic substring initials flex orderless)) ; also see `completion-category-overrides'
   (setq completion-category-defaults nil)
+</pre>
+</div>
 
-  ;; A list of known completion categories:
+<p>
+The <code>completion-styles</code> is the default. Though there are plenty of
+completion categories where we may want a deviation from the rule. To
+this end, we configure the user option <code>completion-category-overrides</code>.
+Notice, for example, how I arrange for <code>partial-completion</code> to be set
+only for the <code>file</code> completion category, as I only ever need it there.
+Also bear in mind what I described above about why <code>orderless</code> is
+placed last on the list: Emacs uses the completion styles from left to
+right until something matches the given input. So I do not need to
+have <code>partial-completion</code> first as <code>basic</code> will never match something
+like <code>~/.l/s/fo</code> for <code>~/.local/share/fonts</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  ;; A list of known completion categories:
   ;;
   ;; - `bookmark'
   ;; - `buffer'
@@ -3944,16 +4060,10 @@ with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
   ;; - `theme'
   ;; - `unicode-name' (the `insert-char' command bound to `C-x 8 RET')
   ;; - `variable' (the `describe-variable' command bound to `C-h v')
-  ;;
-  ;; From the `consult' package:
-  ;;
   ;; - `consult-grep'
   ;; - `consult-isearch'
   ;; - `consult-kmacro'
   ;; - `consult-location'
-  ;;
-  ;; From the `embark' package:
-  ;;
   ;; - `embark-keybinding'
   ;;
   (setq completion-category-overrides
@@ -3976,13 +4086,29 @@ with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
           (consult-location (styles . (basic substring orderless)))
           (kill-ring (styles . (emacs22 orderless)))
           (eglot (styles . (emacs22 substring orderless)))))
+</pre>
+</div>
+</div>
+</div>
 
-  (setq completion-ignore-case t)
+<div id="outline-container-orgc5263de" class="outline-4">
+<h4 id="orgc5263de"><span class="section-number-4">5.4.2.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> settings to ignore letter casing</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq completion-ignore-case t)
   (setq read-buffer-completion-ignore-case t)
   (setq read-file-name-completion-ignore-case t)
   (setq-default case-fold-search t)   ; For general regexp
+</pre>
+</div>
+</div>
+</div>
 
-  (setq enable-recursive-minibuffers t)
+<div id="outline-container-orgbbb5175" class="outline-4">
+<h4 id="orgbbb5175"><span class="section-number-4">5.4.3.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> settings for recursive minibuffers</h4>
+<div class="outline-text-4" id="text-5-4-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq enable-recursive-minibuffers t)
   ;; Allow Emacs to resize mini windows, otherwise this does not work:
   ;;   (setq org-use-fast-todo-selection 'expert)
   (setq resize-mini-windows t)
@@ -4321,9 +4447,10 @@ Useful for prompts such as `eval-expression' and `shell-command'."
 </pre>
 </div>
 </div>
+</div>
 
 <div id="outline-container-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a" class="outline-4">
-<h4 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-4">5.4.1.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h4>
+<h4 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-4">5.4.4.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h4>
 <div class="outline-text-4" id="text-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Minibuffer and Completions in Tandem
@@ -4405,7 +4532,7 @@ active and the Completions window is on display."
 
 
 <div id="outline-container-h:cff33514-d3ac-4c16-a889-ea39d7346dc5" class="outline-4">
-<h4 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-4">5.4.2.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h4>
+<h4 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-4">5.4.5.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h4>
 <div class="outline-text-4" id="text-h:cff33514-d3ac-4c16-a889-ea39d7346dc5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Vertical completion layout
@@ -4741,7 +4868,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orge49c0ec">
+<pre class="example" id="org7d60e44">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -4906,7 +5033,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org3c387f7">
+<pre class="example" id="org6b5bf86">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
