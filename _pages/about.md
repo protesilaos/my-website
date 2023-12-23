@@ -107,6 +107,11 @@ editor but I actually talk philosophy, such as:
   Emacs](https://protesilaos.com/codelog/2022-03-22-libreplanet-emacs-living-freedom/)
   (published on 2022-03-22---the actual event was on March 19-20,
   2022).
++ [EmacsConf 2023: hyperdrive.el peer-to-peer filesystem with Joseph
+  Turner and
+  Protesilaos](https://protesilaos.com/codelog/2023-12-23-emacsconf2023-hyperdrive/)
+  (published on 2023-12-23---the actual event was on Decemeber 2-3,
+  2023).
 
 In a manner of speaking, I just talk to programmers about philosophy and
 to philosophers about programming.
