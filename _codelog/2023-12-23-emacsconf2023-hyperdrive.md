@@ -33,7 +33,7 @@ my hut). The potential of peer-to-peer technology intrigues me. We can
 collaborate with others and share files between us without being
 dependent on centralised nodes/actors/providers. Here is the link to
 my drive:
-<hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/>.
+hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/
 
 ## About Joseph Turner
 
@@ -45,13 +45,13 @@ information for everybody. This year, we're focusing on the
 hyperdrive.el project, with the goal of bringing Emacs and
 peer-to-peer together.
 
-## hperdrive.el sources
+## hyperdrive.el sources
 
 + Official manual: <https://ushin.org/hyperdrive/hyperdrive-manual.html>
 + Git Source: <https://git.sr.ht/~ushin/hyperdrive.el>
 + USHIN website: <https://ushin.org/>
 + USHIN hyperdrive:
-  <hyper://aaj45d88g4eenu76rpmwzjiabsof1w8u6fufq6oogyhjk1ubygxy/>
+  hyper://aaj45d88g4eenu76rpmwzjiabsof1w8u6fufq6oogyhjk1ubygxy/
 
 ## About Protesilaos
 
