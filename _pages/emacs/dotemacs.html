@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-25 08:11:12 +0200 with a word
-count of 77835.</b>
+<b>Last revised and exported on 2023-12-25 12:27:29 +0200 with a word
+count of 78202.</b>
 </p>
 
 <p>
@@ -105,10 +105,11 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <ul>
 <li><a href="#h:5612b5b8-45a5-4a79-a25b-6fa3d9146c39">4.1.1. The <code>init.el</code> option to load a theme family</a></li>
 <li><a href="#h:f012a254-2716-4c29-a64b-c2b3df34f57f">4.1.2. The <code>init.el</code> option to load a minibuffer user interface</a></li>
-<li><a href="#h:d32718d6-c678-483e-8cdf-02d77053c960">4.1.3. The <code>init.el</code> option to load Vim keys (<code>evil.el</code> and <code>devil.el</code>)</a></li>
-<li><a href="#h:24324854-1f8c-4d8b-aa7c-291de968cbf4">4.1.4. The <code>init.el</code> option to enable <code>which-key</code></a></li>
-<li><a href="#h:a75444e3-527e-4525-84f8-0a43771966a6">4.1.5. The <code>init.el</code> option to load icons (<code>nerd-icons.el</code>)</a></li>
-<li><a href="#h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b">4.1.6. The <code>init.el</code> option to omit packages at startup</a></li>
+<li><a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">4.1.3. The <code>init.el</code> user option to load extras for minibuffer completion</a></li>
+<li><a href="#h:d32718d6-c678-483e-8cdf-02d77053c960">4.1.4. The <code>init.el</code> option to load Vim keys (<code>evil.el</code> and <code>devil.el</code>)</a></li>
+<li><a href="#h:24324854-1f8c-4d8b-aa7c-291de968cbf4">4.1.5. The <code>init.el</code> option to enable <code>which-key</code></a></li>
+<li><a href="#h:a75444e3-527e-4525-84f8-0a43771966a6">4.1.6. The <code>init.el</code> option to load icons (<code>nerd-icons.el</code>)</a></li>
+<li><a href="#h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b">4.1.7. The <code>init.el</code> option to omit packages at startup</a></li>
 </ul>
 </li>
 <li><a href="#h:63d74507-0318-4c02-ad30-484abcb8f78e">4.2. The <code>init.el</code> basic configurations to disable backups and lockfiles</a></li>
@@ -369,7 +370,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org6c5bf09">
+<pre class="example" id="org798c825">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -449,7 +450,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgfddf6c1">
+<pre class="example" id="orgcffb6c7">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -457,7 +458,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org7058097">
+<pre class="example" id="org2985c41">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -897,7 +898,7 @@ these options come into effect (<a href="#h:5a41861f-4c38-45ac-8da2-51d77c0b4a73
   "Choose minibuffer completion UI between `mct' or `vertico'
 This user option must be set in the `prot-emacs-pre-custom.el'
 file.  If that file exists in the Emacs directory, it is loaded
-before all other modules of my setup.."
+before all other modules of my setup."
   :group 'prot-emacs
   :type '(choice :tag "Minibuffer user interface"
                  (const :tag "The `mct' module" mct)
@@ -907,8 +908,34 @@ before all other modules of my setup.."
 </div>
 </div>
 
+<div id="outline-container-h:91477890-49d5-48c3-9627-62295d2ab35d" class="outline-4">
+<h4 id="h:91477890-49d5-48c3-9627-62295d2ab35d"><span class="section-number-4">4.1.3.</span> The <code>init.el</code> user option to load extras for minibuffer completion</h4>
+<div class="outline-text-4" id="text-h:91477890-49d5-48c3-9627-62295d2ab35d">
+<p>
+I normally load some packages that enhance the experience with the
+minibuffer. The upside is that we get more power out of Emacs. The
+downside is that they have a learning curve. Users who do not need
+these features can set the option for nil.
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a></li>
+<li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defcustom prot-emacs-completion-extras t
+  "When non-nil load extras for minibuffer completion.
+These include the `consult' and `embark' packages."
+  :group 'prot-emacs
+  :type 'boolean)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:d32718d6-c678-483e-8cdf-02d77053c960" class="outline-4">
-<h4 id="h:d32718d6-c678-483e-8cdf-02d77053c960"><span class="section-number-4">4.1.3.</span> The <code>init.el</code> option to load Vim keys (<code>evil.el</code> and <code>devil.el</code>)</h4>
+<h4 id="h:d32718d6-c678-483e-8cdf-02d77053c960"><span class="section-number-4">4.1.4.</span> The <code>init.el</code> option to load Vim keys (<code>evil.el</code> and <code>devil.el</code>)</h4>
 <div class="outline-text-4" id="text-h:d32718d6-c678-483e-8cdf-02d77053c960">
 <p>
 I was a Vim user for three years before eventually switching to Emacs.
@@ -942,7 +969,7 @@ before all other modules of my setup."
 </div>
 
 <div id="outline-container-h:24324854-1f8c-4d8b-aa7c-291de968cbf4" class="outline-4">
-<h4 id="h:24324854-1f8c-4d8b-aa7c-291de968cbf4"><span class="section-number-4">4.1.4.</span> The <code>init.el</code> option to enable <code>which-key</code></h4>
+<h4 id="h:24324854-1f8c-4d8b-aa7c-291de968cbf4"><span class="section-number-4">4.1.5.</span> The <code>init.el</code> option to enable <code>which-key</code></h4>
 <div class="outline-text-4" id="text-h:24324854-1f8c-4d8b-aa7c-291de968cbf4">
 <p>
 The <code>which-key</code> package provides hints for keys that complete the
@@ -976,7 +1003,7 @@ before all other modules of my setup."
 </div>
 
 <div id="outline-container-h:a75444e3-527e-4525-84f8-0a43771966a6" class="outline-4">
-<h4 id="h:a75444e3-527e-4525-84f8-0a43771966a6"><span class="section-number-4">4.1.5.</span> The <code>init.el</code> option to load icons (<code>nerd-icons.el</code>)</h4>
+<h4 id="h:a75444e3-527e-4525-84f8-0a43771966a6"><span class="section-number-4">4.1.6.</span> The <code>init.el</code> option to load icons (<code>nerd-icons.el</code>)</h4>
 <div class="outline-text-4" id="text-h:a75444e3-527e-4525-84f8-0a43771966a6">
 <p>
 Here we check whether to load decorative icons in a number of places,
@@ -1011,7 +1038,7 @@ before all other modules of my setup."
 </div>
 
 <div id="outline-container-h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b" class="outline-4">
-<h4 id="h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b"><span class="section-number-4">4.1.6.</span> The <code>init.el</code> option to omit packages at startup</h4>
+<h4 id="h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b"><span class="section-number-4">4.1.7.</span> The <code>init.el</code> option to omit packages at startup</h4>
 <div class="outline-text-4" id="text-h:1547dde9-6a79-4f58-8160-3ece9d1b8b8b">
 <p>
 Remember to read how these options come into effect (<a href="#h:5a41861f-4c38-45ac-8da2-51d77c0b4a73">The init.el user options</a>).
@@ -3057,6 +3084,7 @@ earlier (<a href="#h:713ede33-3802-40c6-a8e3-7e1fc0d0a924">The <code>prot-emacs-
     "C-h ." #'prot-simple-describe-symbol ; overrides `display-local-help'
     "C-h F" #'describe-face ; overrides `Info-goto-emacs-command-node'
     "C-h K" #'describe-keymap ; overrides `Info-goto-emacs-key-command-node'
+    "C-h u" #'apropos-user-option
     "C-h c" #'describe-char ; overrides `describe-key-briefly'
     "C-M-SPC" #'prot-simple-mark-sexp   ; will be overriden by `expreg' if tree-sitter is available
 
@@ -4683,6 +4711,10 @@ Useful for prompts such as `eval-expression' and `shell-command'."
 <h4 id="h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d"><span class="section-number-4">5.4.12.</span> The <code>prot-emacs-completion.el</code> settings for <code>consult</code></h4>
 <div class="outline-text-4" id="text-h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">
 <p>
+[ This feature is subject to <a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">The <code>init.el</code> user option to load extras for minibuffer completion</a>. ]
+</p>
+
+<p>
 <code>consult</code> is another wonderful package by Daniel Mendler. It provides
 a number of commands that turbocharge the minibuffer with advanced
 capabilities for filtering, asynchronous input, and previewing of the
@@ -4733,48 +4765,49 @@ rest have situational uses.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Enhanced minibuffer commands (consult.el)
-(prot-emacs-package consult
-  (:install t)
-  (:delay 5)
-  (setq consult-line-numbers-widen t)
-  ;; (setq completion-in-region-function #'consult-completion-in-region)
-  (setq consult-async-min-input 3)
-  (setq consult-async-input-debounce 0.5)
-  (setq consult-async-input-throttle 0.8)
-  (setq consult-narrow-key nil)
-  (setq consult-find-args
-        (concat "find . -not ( "
-                "-path */.git* -prune "
-                "-or -path */.cache* -prune )"))
-  (setq consult-preview-key 'any)
+(when prot-emacs-completion-extras
+  (prot-emacs-package consult
+    (:install t)
+    (:delay 5)
+    (setq consult-line-numbers-widen t)
+    ;; (setq completion-in-region-function #'consult-completion-in-region)
+    (setq consult-async-min-input 3)
+    (setq consult-async-input-debounce 0.5)
+    (setq consult-async-input-throttle 0.8)
+    (setq consult-narrow-key nil)
+    (setq consult-find-args
+          (concat "find . -not ( "
+                  "-path */.git* -prune "
+                  "-or -path */.cache* -prune )"))
+    (setq consult-preview-key 'any)
 
-  (add-to-list 'consult-mode-histories '(vc-git-log-edit-mode . log-edit-comment-ring))
+    (add-to-list 'consult-mode-histories '(vc-git-log-edit-mode . log-edit-comment-ring))
 
-  (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
+    (add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
 
-  (require 'consult-imenu) ; the `imenu' extension is in its own file
+    (require 'consult-imenu) ; the `imenu' extension is in its own file
 
-  (prot-emacs-keybind global-map
-    "M-g M-g" #'consult-goto-line
-    "M-K" #'consult-keep-lines ; M-S-k is similar to M-S-5 (M-%)
-    "M-F" #'consult-focus-lines ; same principle
-    "M-s M-b" #'consult-buffer
-    "M-s M-f" #'consult-find
-    "M-s M-g" #'consult-grep
-    "M-s M-h" #'consult-history
-    "M-s M-i" #'consult-imenu
-    "M-s M-l" #'consult-line
-    "M-s M-m" #'consult-mark
-    "M-s M-y" #'consult-yank-pop
-    "M-s M-s" #'consult-outline)
-  (define-key consult-narrow-map (kbd "?") #'consult-narrow-help)
-  (define-key minibuffer-local-map (kbd "C-s") #'consult-history)
+    (prot-emacs-keybind global-map
+      "M-g M-g" #'consult-goto-line
+      "M-K" #'consult-keep-lines ; M-S-k is similar to M-S-5 (M-%)
+      "M-F" #'consult-focus-lines ; same principle
+      "M-s M-b" #'consult-buffer
+      "M-s M-f" #'consult-find
+      "M-s M-g" #'consult-grep
+      "M-s M-h" #'consult-history
+      "M-s M-i" #'consult-imenu
+      "M-s M-l" #'consult-line
+      "M-s M-m" #'consult-mark
+      "M-s M-y" #'consult-yank-pop
+      "M-s M-s" #'consult-outline)
+    (define-key consult-narrow-map (kbd "?") #'consult-narrow-help)
+    (define-key minibuffer-local-map (kbd "C-s") #'consult-history)
 
-  (with-eval-after-load 'pulsar
-    ;; see my `pulsar' package: &lt;https://protesilaos.com/emacs/pulsar&gt;
-    (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
-    (dolist (fn '(pulsar-recenter-top pulsar-reveal-entry))
-      (add-hook 'consult-after-jump-hook fn))))
+    (with-eval-after-load 'pulsar
+      ;; see my `pulsar' package: &lt;https://protesilaos.com/emacs/pulsar&gt;
+      (setq consult-after-jump-hook nil) ; reset it to avoid conflicts with my function
+      (dolist (fn '(pulsar-recenter-top pulsar-reveal-entry))
+        (add-hook 'consult-after-jump-hook fn)))))
 </pre>
 </div>
 </div>
@@ -4783,67 +4816,72 @@ rest have situational uses.
 <div id="outline-container-h:61863da4-8739-42ae-a30f-6e9d686e1995" class="outline-4">
 <h4 id="h:61863da4-8739-42ae-a30f-6e9d686e1995"><span class="section-number-4">5.4.13.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></h4>
 <div class="outline-text-4" id="text-h:61863da4-8739-42ae-a30f-6e9d686e1995">
+<p>
+[ This feature is subject to <a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">The <code>init.el</code> user option to load extras for minibuffer completion</a>. ]
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Extended minibuffer actions and more (embark.el and prot-embark.el)
-(prot-emacs-package embark
-  (:install t)
-  (:delay 5)
-  (setq embark-confirm-act-all nil)
-  (setq embark-mixed-indicator-both nil)
-  (setq embark-mixed-indicator-delay 1.0)
-  (setq embark-indicators '(embark-mixed-indicator embark-highlight-indicator))
-  (setq embark-verbose-indicator-nested nil) ; I think I don't have them, but I do not want them either
-  (setq embark-verbose-indicator-buffer-sections '(bindings))
-  (setq embark-verbose-indicator-excluded-actions
-        '(embark-cycle embark-act-all embark-collect embark-export embark-insert))
+(when prot-emacs-completion-extras
+  (prot-emacs-package embark
+    (:install t)
+    (:delay 5)
+    (setq embark-confirm-act-all nil)
+    (setq embark-mixed-indicator-both nil)
+    (setq embark-mixed-indicator-delay 1.0)
+    (setq embark-indicators '(embark-mixed-indicator embark-highlight-indicator))
+    (setq embark-verbose-indicator-nested nil) ; I think I don't have them, but I do not want them either
+    (setq embark-verbose-indicator-buffer-sections '(bindings))
+    (setq embark-verbose-indicator-excluded-actions
+          '(embark-cycle embark-act-all embark-collect embark-export embark-insert))
 
-  ;; I never cycle and want to disable the key.  Normally, a nil value
-  ;; disables a key binding but here that value is interpreted as the
-  ;; binding for `embark-act'.  So I just add some obscure key that I
-  ;; do not have.  I absolutely do not want to cycle by accident!
-  (setq embark-cycle-key "&lt;XF86Travel&gt;")
+    ;; I never cycle and want to disable the key.  Normally, a nil value
+    ;; disables a key binding but here that value is interpreted as the
+    ;; binding for `embark-act'.  So I just add some obscure key that I
+    ;; do not have.  I absolutely do not want to cycle by accident!
+    (setq embark-cycle-key "&lt;XF86Travel&gt;")
 
-  ;; I do not want `embark-org' and am not sure what is loading it.
-  ;; So I just unsert all the keymaps...
-  (with-eval-after-load 'embark-org
-    (defvar prot/embark-org-keymaps
-      '(embark-org-table-cell-map
-        embark-org-table-map
-        embark-org-link-copy-map
-        embark-org-link-map
-        embark-org-src-block-map
-        embark-org-item-map
-        embark-org-plain-list-map
-        embark-org-export-in-place-map)
-      "List of Embark keymaps for Org.")
+    ;; I do not want `embark-org' and am not sure what is loading it.
+    ;; So I just unsert all the keymaps...
+    (with-eval-after-load 'embark-org
+      (defvar prot/embark-org-keymaps
+        '(embark-org-table-cell-map
+          embark-org-table-map
+          embark-org-link-copy-map
+          embark-org-link-map
+          embark-org-src-block-map
+          embark-org-item-map
+          embark-org-plain-list-map
+          embark-org-export-in-place-map)
+        "List of Embark keymaps for Org.")
 
-    ;; Reset `prot/embark-org-keymaps'.
-    (seq-do
-     (lambda (keymap)
-       (set keymap (make-sparse-keymap)))
-     prot/embark-org-keymaps)))
+      ;; Reset `prot/embark-org-keymaps'.
+      (seq-do
+       (lambda (keymap)
+         (set keymap (make-sparse-keymap)))
+       prot/embark-org-keymaps)))
 
-(prot-emacs-package prot-embark
-  (:delay 5)
-  (setq embark-keymap-alist
-        '((buffer prot-embark-buffer-map)
-          (command prot-embark-command-map)
-          (expression prot-embark-expression-map)
-          (file prot-embark-file-map)
-          (function prot-embark-function-map)
-          (identifier prot-embark-identifier-map)
-          (package prot-embark-package-map)
-          (region prot-embark-region-map)
-          (symbol prot-embark-symbol-map)
-          (url prot-embark-url-map)
-          (variable prot-embark-variable-map)
-          (t embark-general-map)))
+  (prot-emacs-package prot-embark
+    (:delay 5)
+    (setq embark-keymap-alist
+          '((buffer prot-embark-buffer-map)
+            (command prot-embark-command-map)
+            (expression prot-embark-expression-map)
+            (file prot-embark-file-map)
+            (function prot-embark-function-map)
+            (identifier prot-embark-identifier-map)
+            (package prot-embark-package-map)
+            (region prot-embark-region-map)
+            (symbol prot-embark-symbol-map)
+            (url prot-embark-url-map)
+            (variable prot-embark-variable-map)
+            (t embark-general-map)))
 
-  (mapc
-   (lambda (map)
-     (define-key map (kbd "C-,") #'prot-embark-act-no-quit)
-     (define-key map (kbd "C-.") #'prot-embark-act-quit))
-   (list global-map embark-collect-mode-map minibuffer-local-filename-completion-map)))
+    (mapc
+     (lambda (map)
+       (define-key map (kbd "C-,") #'prot-embark-act-no-quit)
+       (define-key map (kbd "C-.") #'prot-embark-act-quit))
+     (list global-map embark-collect-mode-map minibuffer-local-filename-completion-map))))
 
 ;; Needed for correct exporting while using Embark with Consult
 ;; commands.
@@ -5180,6 +5218,7 @@ active and the Completions window is on display."
     "M-s u" #'prot-search-occur-urls
     "M-s t" #'prot-search-occur-todo-keywords
     "M-s M-t" #'prot-search-grep-todo-keywords ; With C-u it runs `prot-search-git-grep-todo-keywords'
+    "M-s M-s" #'prot-search-outline
     "M-s M-o" #'prot-search-occur-outline
     "M-s M-u" #'prot-search-occur-browse-url)
   (prot-emacs-keybind isearch-mode-map
@@ -5400,7 +5439,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgee2e298">
+<pre class="example" id="org4f43f50">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5565,7 +5604,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org34edf03">
+<pre class="example" id="org2325010">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -12941,6 +12980,40 @@ Also see `prot-search-grep-todo-keywords'."
                (t (if (natnump context) context 0))))
          (buf-name (format "*keywords in &lt;%s&gt;*" (buffer-name))))
     (occur-1 prot-search-todo-keywords num (list (current-buffer)) buf-name)))
+
+;;;; Outline
+
+(defun prot-search--get-outline ()
+  "Return alist of outline outline-regexp and positions."
+  (let* ((outline-regexp (format "^\\(?:%s\\)" (or (bound-and-true-p outline-regexp) "[*\^L]+")))
+         (heading-alist (bound-and-true-p outline-heading-alist))
+         (level-fun (or (bound-and-true-p outline-level)
+                        (lambda () ;; as in the default from outline.el
+                          (or (cdr (assoc (match-string 0) heading-alist))
+                              (- (match-end 0) (match-beginning 0))))))
+         candidates)
+    (save-excursion
+      (goto-char (point-min))
+      (while (if (bound-and-true-p outline-search-function)
+                 (funcall outline-search-function)
+               (re-search-forward outline-regexp nil t))
+        (push
+         (format "%s	%s"
+                 (line-number-at-pos (point))
+                 (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+         candidates)
+        (goto-char (1+ (line-end-position)))))
+    (if candidates
+        (nreverse candidates)
+      (user-error "No outline"))))
+
+;;;###autoload
+(defun prot-search-outline ()
+  "Go to the line of the given outline using completion."
+  (interactive)
+  (when-let ((selection (completing-read "Go to outline: " (prot-search--get-outline) nil :require-match))
+             (line (string-to-number (car (split-string selection "\t")))))
+    (goto-line line)))
 
 ;;;; Grep
 
