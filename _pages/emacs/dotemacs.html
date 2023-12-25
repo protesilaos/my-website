@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-25 12:27:29 +0200 with a word
-count of 78202.</b>
+<b>Last revised and exported on 2023-12-25 13:27:12 +0200 with a word
+count of 78248.</b>
 </p>
 
 <p>
@@ -370,7 +370,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org798c825">
+<pre class="example" id="orga4a2fac">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -450,7 +450,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgcffb6c7">
+<pre class="example" id="org9054b08">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -458,7 +458,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org2985c41">
+<pre class="example" id="orgc9b347f">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -5210,6 +5210,10 @@ active and the Completions window is on display."
         (concat "TODO\\|FIXME\\|NOTE\\|REVIEW\\|XXX\\|KLUDGE"
                 "\\|HACK\\|WARN\\|WARNING\\|DEPRECATED\\|BUG"))
 
+  (with-eval-after-load 'pulsar
+    (add-hook 'prot-search-outline-hook #'pulsar-recenter-center)
+    (add-hook 'prot-search-outline-hook #'pulsar-reveal-entry))
+
   (prot-emacs-keybind global-map
     "M-s M-%" #'prot-search-replace-markup ; see `prot-search-markup-replacements'
     "M-s M-&lt;" #'prot-search-isearch-beginning-of-buffer
@@ -5439,7 +5443,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org4f43f50">
+<pre class="example" id="org59b2307">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5604,7 +5608,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org2325010">
+<pre class="example" id="org4b3f81e">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -13007,13 +13011,17 @@ Also see `prot-search-grep-todo-keywords'."
         (nreverse candidates)
       (user-error "No outline"))))
 
+(defvar prot-search-outline-hook nil
+  "Normal hook to run at the end of `prot-search-outline'.")
+
 ;;;###autoload
 (defun prot-search-outline ()
   "Go to the line of the given outline using completion."
   (interactive)
   (when-let ((selection (completing-read "Go to outline: " (prot-search--get-outline) nil :require-match))
              (line (string-to-number (car (split-string selection "\t")))))
-    (goto-line line)))
+    (goto-line line)
+    (run-hooks 'prot-search-outline-hook)))
 
 ;;;; Grep
 
