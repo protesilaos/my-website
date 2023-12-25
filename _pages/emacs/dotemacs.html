@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-24 10:50:49 +0200 with a word
-count of 77321.</b>
+<b>Last revised and exported on 2023-12-25 08:11:12 +0200 with a word
+count of 77835.</b>
 </p>
 
 <p>
@@ -196,9 +196,9 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:804b858f-7913-47ef-aaf4-8eef5b59ecb4">5.4.11. The <code>prot-emacs-completion.el</code> for in-buffer completion popup (<code>corfu</code>)</a></li>
 <li><a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">5.4.12. The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a></li>
 <li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">5.4.13. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
-<li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.14. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
-<li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.15. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a></li>
-<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.16. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
+<li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.14. The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
+<li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.15. The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a></li>
+<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.16. The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
 <li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.17. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
 </ul>
 </li>
@@ -369,7 +369,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgd3fd4c6">
+<pre class="example" id="org6c5bf09">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -449,7 +449,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgc4cb167">
+<pre class="example" id="orgfddf6c1">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -457,7 +457,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org0b353c8">
+<pre class="example" id="org7058097">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -4854,8 +4854,32 @@ rest have situational uses.
 </div>
 
 <div id="outline-container-h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e" class="outline-4">
-<h4 id="h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e"><span class="section-number-4">5.4.14.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</h4>
+<h4 id="h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e"><span class="section-number-4">5.4.14.</span> The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</h4>
 <div class="outline-text-4" id="text-h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">
+<p>
+The <code>marginalia</code> package, co-authored by Daniel Mendler and Omar
+Antolín Camarena, provides helpful annotations to the side of
+completion candidates. We its effect, for example, when we call <code>M-x</code>:
+each command has a brief description next to it (taken from its doc
+string) as well as a key binding, if it has one.
+</p>
+
+<p>
+Annotations are provided on a per-category basis. Categories are
+metadata associated with the completion table, which describe what the
+candidates are about. I cover this concept also in my section on
+completion styles where I configure pattern-matching algorithms
+accordingly (<a href="#h:14b09958-279e-4069-81e3-5a16c9b69892">The <code>prot-emacs-completion.el</code> settings for completion styles</a>).
+</p>
+
+<p>
+The out-of-the-box settings of <code>marginalia</code> are perfectly usable.
+Though there are some categories that I either do not want to annotate
+(like <code>file</code>) or that I want to tweak their presentation of. You will
+thus notice how my <code>prot-marginalia.el</code> configures the user option
+<code>marginalia-annotator-registry</code> (<a href="#h:92085a6d-213f-400d-be83-763eb80a3877">The <code>prot-marginalia.el</code> library</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Detailed completion annotations (marginalia.el)
 (prot-emacs-package marginalia
@@ -4884,8 +4908,32 @@ rest have situational uses.
 </div>
 
 <div id="outline-container-h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c" class="outline-4">
-<h4 id="h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c"><span class="section-number-4">5.4.15.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</h4>
+<h4 id="h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c"><span class="section-number-4">5.4.15.</span> The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</h4>
 <div class="outline-text-4" id="text-h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">
+<p>
+In my <code>init.el</code> I define a user option to select a user interface for
+the minibuffer (<a href="#h:f012a254-2716-4c29-a64b-c2b3df34f57f">The <code>init.el</code> option to load a minibuffer user interface</a>).
+The choice is between my <code>mct</code> package and <code>vertico</code> by Daniel
+Mendler. I think <code>vertico</code> is the better choice overall and is why I
+set it as the default. Whereas <code>mct</code> is for users who are more
+familiar with the default minibuffer interface and want a bit more
+interactivity or convenience on top.
+</p>
+
+<p>
+Newer versions of Emacs keep receiving MCT-like tweaks to the default
+UI, which means that <code>mct</code> will eventually be superseded by built-in
+options. Until then, I keep it around in a maintenance-only state for
+those who need it.
+</p>
+
+<p>
+Note that due to my particular needs to not display the minibuffer
+eagerly (I do not wish to accidentaly share private details when doing
+a presentation), I configure <code>vertico</code> to be more &ldquo;private&rdquo; and thus
+function as close to <code>mct</code> as possible.
+</p>
+
 <ul class="org-ul">
 <li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
 <li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
@@ -4906,10 +4954,36 @@ rest have situational uses.
 </div>
 
 <div id="outline-container-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a" class="outline-4">
-<h4 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-4">5.4.16.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h4>
+<h4 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-4">5.4.16.</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h4>
 <div class="outline-text-4" id="text-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">
+<p>
+[ This is subject to a user option: <a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>. ]
+</p>
+
+<p>
+The <code>mct</code> package is my set of tweaks on top of the default minibuffer
+and <code>*Completions*</code> interface to make them work as part of a
+contiguous space. It all starts by providing cycling motions from the
+minibuffer to the <code>*Completions*</code> and back, as well as a few extras to
+perform the necessary actions. Candidates are updated live to match
+the user input.
+</p>
+
+<p>
+With <code>mct</code> we can specify a passlist of commands or completion
+categories that eagerly display the <code>*Completions*</code>. Or we can have a
+blocklist to never display that buffer, unless explicitly requested.
+Overall, <code>mct</code> is a capable tool with a minimal aesthetic.
+</p>
+
+<p>
+Newer versions of Emacs keep gaining MCT-like capabilities, so I
+expect the out-of-the-box experience to eventually supersede my
+package. Until then, I keep it around for those who like it.
+</p>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Minibuffer and Completions in Tandem
+<pre class="src src-emacs-lisp">;;; Minibuffer and Completions in Tandem or Minibuffer Confines Transcended
 ;; Read the manual: &lt;https://protesilaos.com/emacs/mct&gt;.
 (prot-emacs-package mct
   (:install t)
@@ -4947,6 +5021,8 @@ Add this to `completion-list-mode-hook'."
 
   ;; Specify the sorting function.
   (setq completions-sort #'mct-sort-multi-category)
+
+;;;; MCT-like motions for the generic in-buffer completion
 
   (defun prot/mct-next-line-or-completion (n)
     "Select next completion or move to next line N times.
@@ -5324,7 +5400,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org75b47b5">
+<pre class="example" id="orgee2e298">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5489,7 +5565,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org0ab815e">
+<pre class="example" id="org34edf03">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
