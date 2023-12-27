@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-26 10:06:02 +0200 with a word
-count of 78703.</b>
+<b>Last revised and exported on 2023-12-27 07:52:28 +0200 with a word
+count of 79906.</b>
 </p>
 
 <p>
@@ -176,11 +176,12 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:b4b3c8b7-e35c-4a56-bfb9-0c8bb33b2423">5.2.16. The <code>prot-emacs-essentials.el</code> section about <code>substitute</code></a></li>
 <li><a href="#h:ceb193bf-0de3-4c43-8ab7-6daa50817754">5.2.17. The <code>prot-emacs-essentials.el</code> section about <code>expreg</code> (tree-sitter mark syntactically)</a></li>
 <li><a href="#h:66ea5d9d-f60b-4d92-ba51-06c27d1be784">5.2.18. The <code>prot-emacs-essentials.el</code> section about <code>vundo</code> (visualise undo steps)</a></li>
-<li><a href="#org03e351c">5.2.19. <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</a></li>
-<li><a href="#orgac9d517">5.2.20. <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>password-store</code></a></li>
-<li><a href="#orgb5b89cb">5.2.21. <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>shell</code></a></li>
-<li><a href="#org3ea48e6">5.2.22. <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about the laptop battery</a></li>
-<li><a href="#org54b04fa">5.2.23. <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>exec-path-from-shell</code></a></li>
+<li><a href="#h:6dce278e-86c7-4620-9271-d5af5499f0cc">5.2.19. The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</a></li>
+<li><a href="#h:aac21cc5-19eb-4a6c-a8ab-01b829df0d64">5.2.20. The <code>prot-emacs-essentials.el</code> section about <code>password-store</code></a></li>
+<li><a href="#h:7c25e281-d92e-4605-b5d6-18fe1f280a73">5.2.21. The <code>prot-emacs-essentials.el</code> section about <code>shell</code></a></li>
+<li><a href="#h:080aa291-95b4-4d54-8783-d156b13190e9">5.2.22. The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</a></li>
+<li><a href="#h:f2447060-5d89-48d5-a682-5cfc76e0928e">5.2.23. The <code>prot-emacs-essentials.el</code> section about <code>exec-path-from-shell</code></a></li>
+<li><a href="#h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">5.2.24. The <code>prot-emacs-essentials.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
 <li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. The <code>prot-emacs-modeline.el</code> module</a>
@@ -377,7 +378,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgd338d2b">
+<pre class="example" id="orgeeca911">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -457,7 +458,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orge7cbbfb">
+<pre class="example" id="org3382bc5">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -465,7 +466,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org9c90150">
+<pre class="example" id="org02a9c85">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -3736,8 +3737,15 @@ prefer nothing to pop up unless it is necessary. To this end, my
 command <code>prot/vundo-if-repeat-undo</code> produces a visualisation of the
 undo steps only after I repeat the <code>undo</code> command. The assumption is
 that if I am repeating, I am already interested in something further
-back in history, at which point having a representation of it is very
+back in history, at which point having a representation of it is
 helpful.
+</p>
+
+<p>
+To make this feel natural, I bind keys in the <code>vundo-mode-map</code> that
+are consistent with the defaults for <code>undo</code> and <code>undo-redo</code>. This way,
+I can keep operating on the buffer without switching contexts. The
+visualisation is a nice extra (<a href="#h:d3684ec0-a972-4033-a4d6-41ee16e891d9">The <code>init.el</code> macro to bind keys (<code>prot-emacs-keybind</code>)</a>).
 </p>
 
 <p>
@@ -3758,8 +3766,6 @@ to pulse the region.
   (:delay 30)
   (setq vundo-glyph-alist vundo-unicode-symbols)
 
-  (define-key global-map (kbd "C-?") #'vundo) ; override `undo-redo'
-
   (defun prot/vundo-if-repeat-undo ()
     "Use `vundo' if the last command was an `undo'.
 In other words, start visualising the undo ring if we are going
@@ -3771,6 +3777,9 @@ to be cycling through the edits."
       'undo)))
 
   (define-key global-map (kbd "C-/") #'prot/vundo-if-repeat-undo) ; override `undo'
+  (prot-emacs-keybind vundo-mode-map
+    "C-/" #'vundo-backward
+    "C-?" #'vundo-forward)
 
   (with-eval-after-load 'pulsar
     (add-hook 'vundo-post-exit-hook #'pulsar-pulse-line-green)))
@@ -3779,9 +3788,64 @@ to be cycling through the edits."
 </div>
 </div>
 
-<div id="outline-container-org03e351c" class="outline-4">
-<h4 id="org03e351c"><span class="section-number-4">5.2.19.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</h4>
-<div class="outline-text-4" id="text-5-2-19">
+<div id="outline-container-h:6dce278e-86c7-4620-9271-d5af5499f0cc" class="outline-4">
+<h4 id="h:6dce278e-86c7-4620-9271-d5af5499f0cc"><span class="section-number-4">5.2.19.</span> The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</h4>
+<div class="outline-text-4" id="text-h:6dce278e-86c7-4620-9271-d5af5499f0cc">
+<p>
+This is a package that I wrote and for which I received substantial
+code contributions from Damien Cassou and Daniel Mendler. With <code>tmr</code>
+we set timers using a convenient notation. The point of entry is the
+<code>tmr</code> command (or <code>tmr-with-description</code> if you want to describe what
+the timer is about).
+</p>
+
+<p>
+Set  a timer by specifying one of these:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Input</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">5</td>
+<td class="org-left">5 Minutes from now</td>
+</tr>
+
+<tr>
+<td class="org-left">5m</td>
+<td class="org-left">Same as abovre</td>
+</tr>
+
+<tr>
+<td class="org-left">1h</td>
+<td class="org-left">1 hour from now</td>
+</tr>
+
+<tr>
+<td class="org-left">06:35</td>
+<td class="org-left">From now until 06:35</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+To view the running timers in a tabulated list, invoke the command
+<code>tmr-tabulated-view</code>. From there, type <code>C-h m</code> (or <code>M-x describe-mode</code>)
+to learn about all the available commands and their respective key bindings.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; TMR May Ring (tmr is used to set timers)
 ;; Read the manual: &lt;https://protesilaos.com/emacs/tmr&gt;.
@@ -3807,9 +3871,34 @@ to be cycling through the edits."
 </div>
 </div>
 
-<div id="outline-container-orgac9d517" class="outline-4">
-<h4 id="orgac9d517"><span class="section-number-4">5.2.20.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>password-store</code></h4>
-<div class="outline-text-4" id="text-5-2-20">
+<div id="outline-container-h:aac21cc5-19eb-4a6c-a8ab-01b829df0d64" class="outline-4">
+<h4 id="h:aac21cc5-19eb-4a6c-a8ab-01b829df0d64"><span class="section-number-4">5.2.20.</span> The <code>prot-emacs-essentials.el</code> section about <code>password-store</code></h4>
+<div class="outline-text-4" id="text-h:aac21cc5-19eb-4a6c-a8ab-01b829df0d64">
+<p>
+The <code>pass</code> program (aka <code>password-store</code>) is a Unix-style password
+manager. Each password entry is its own encrypted file, stored in a
+local directory (<code>~/.password-store</code>, by default). Encryption is done
+with GPG, though I believe Age can also be used. It can generate
+strong passwords and allows us to quickly retrieve the password
+associated with a given file.
+</p>
+
+<p>
+The Emacs interface makes it easy to access passowrds with <code>M-x pass</code>.
+The resulting buffer shows a tree representation of the <code>~/.password-store</code>
+and provides an overview of the available key bindings. From here we
+can write a new entry, generate a password for an existing one, and so
+on.
+</p>
+
+<p>
+My most common interaction with it is via the command <code>password-store-copy</code>
+which uses minibuffer completion to match an entry and get the
+password from it. On this note, I have a convention of naming password
+files based on their scope, like <code>username@website</code>. This makes it
+easy to retrieve what I need.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Pass interface (password-store)
 (prot-emacs-package password-store
@@ -3826,9 +3915,85 @@ to be cycling through the edits."
 </div>
 </div>
 
-<div id="outline-container-orgb5b89cb" class="outline-4">
-<h4 id="orgb5b89cb"><span class="section-number-4">5.2.21.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>shell</code></h4>
-<div class="outline-text-4" id="text-5-2-21">
+<div id="outline-container-h:7c25e281-d92e-4605-b5d6-18fe1f280a73" class="outline-4">
+<h4 id="h:7c25e281-d92e-4605-b5d6-18fe1f280a73"><span class="section-number-4">5.2.21.</span> The <code>prot-emacs-essentials.el</code> section about <code>shell</code></h4>
+<div class="outline-text-4" id="text-h:7c25e281-d92e-4605-b5d6-18fe1f280a73">
+<p>
+Before using Emacs, I did not have a clear idea of what the
+distinction between a &ldquo;shell&rdquo; and a &ldquo;terminal&rdquo; is. But I quickly
+learnt that a terminal (&ldquo;terminal emulator&rdquo;) is an application that
+provides a text-centric interface and handles all the technicalities
+of presenting text accordingly. Whereas the &ldquo;shell&rdquo; (or &ldquo;command-line
+shell&rdquo;) is the program that runs inside the terminal whose job is to
+interpret the user&rsquo;s input and communicate with the computer.
+Something like <code>xterm</code> or <code>gnome-terminal</code> is a terminal. While the
+likes of <code>bash</code>, <code>zsh</code>, and <code>fish</code> are shells.
+</p>
+
+<p>
+In Emacs we can have both. Emacs can run a process that constitutes a
+fully fledged terminal emulator, such as with the <code>vterm</code> package, or
+it can provide the interface necessary for a mere shell to handle the
+command-line interactivity.
+</p>
+
+<p>
+A terminal emulator is only needed if we use programs that require
+Terminal User Interface (TUI) capabilities, such as <code>htop</code>. I do not
+run any of those, in large part because Emacs has better or equally
+capable alternatives like <code>M-x proced</code> to do what <code>htop</code> does in the
+terminal (<a href="#h:14d40e5a-327e-453e-861c-3ece24351d62">The <code>prot-emacs-essentials.el</code> settings for <code>proced</code></a>).
+</p>
+
+<p>
+With the TUI out of the way, we can have <code>M-x shell</code> run a native Unix
+shell for us. Mine is <code>bash</code> because I am a simpleton, but also
+because my <code>prot-shell.el</code> provides a few niceties that improve the
+user experience (<a href="#h:32f6fe0f-23c4-44cc-97cc-3e5372bd484e">The <code>prot-shell.el</code> library</a>).
+</p>
+
+<p>
+I run a shell to do tihngs like interface with my system&rsquo;s package
+manager or run a program with some flags. <code>M-x shell</code> is more than
+enough for this purppose.
+</p>
+
+<p>
+Note that there also exists a shell implemented in Emacs Lisp. It is
+called <code>eshell</code>. Unlike <code>shell</code>, it does not read the <code>~/.bashrc</code> and
+is its own little Emacs-only thing with its own command-line syntax.
+In short, it is &ldquo;okay&rdquo; in a vacuum but I have no use for it beside
+tinkering with Elisp, while I prefer to have a reliable <code>~/.bashrc</code> at
+all times. As such, the <code>eshell</code> command is on the list of disabled
+commands (<a href="#h:4ed6593f-6f55-4258-a1c2-ddb50e9e2465">The <code>init.el</code> settings to enable certain commands and disable others</a>).
+</p>
+
+<p>
+My <code>prot-shell-mode</code> defines a few extra key bindings (per the
+<code>prot-shell-mode-map</code>) and also implements a bookmark handler for
+shell buffers (<a href="#h:581aa0ff-b136-4099-a321-3b86edbfbccb">The <code>prot-emacs-essentials.el</code> settings for bookmarks</a>).
+The bookmarking functionality is a wonderful extra, as it leverages
+Emacs&rsquo; TRAMP infrastructure to re-establish the connection to the
+given host. For example, if I do <code>M-x find-file</code> and then input
+<code>/sudo::/usr/share/</code> to go to <code>/usr/share/</code> with <code>sudo</code> privileges,
+then I can open a shell there and bookmark it. When I jump back to the
+bookmark, Emacs will automatically handle the <code>sudo</code> part while taking
+me to that shell in its directory. Relevant note from my source code:
+</p>
+
+<pre class="example" id="org7949b26">
+;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
+;; (bug#65039).  I received approval to proceed with the change, but I
+;; did not do it because a user reported an issue with SSH (TRAMP).  I
+;; do not have access to SSH and am not familiar with such workflows.
+;; If/when that changes, I will try again.  In the meantime, this is
+;; good code and it works for me.
+</pre>
+
+<p>
+Now the actual configurations:
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Shell (M-x shell)
 (prot-emacs-package shell
@@ -3894,9 +4059,23 @@ to be cycling through the edits."
 </div>
 </div>
 
-<div id="outline-container-org3ea48e6" class="outline-4">
-<h4 id="org3ea48e6"><span class="section-number-4">5.2.22.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about the laptop battery</h4>
-<div class="outline-text-4" id="text-5-2-22">
+<div id="outline-container-h:080aa291-95b4-4d54-8783-d156b13190e9" class="outline-4">
+<h4 id="h:080aa291-95b4-4d54-8783-d156b13190e9"><span class="section-number-4">5.2.22.</span> The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</h4>
+<div class="outline-text-4" id="text-h:080aa291-95b4-4d54-8783-d156b13190e9">
+<p>
+Due to my limited electricity setup, I spend about half my computer
+time on the laptop (<a href="#h:5668958c-2fc0-4a38-bd1f-3e0c6484977d">What hardware and software do you use?</a>). It does
+not add to the load that my solar-powered batteries have to handle and
+I can thus keep the lights on until ~21:00.
+</p>
+
+<p>
+When I am working on my laptop, I want to make a few tweaks to the
+default dimensions of Emacs frames (<a href="#h:0403b581-142b-4613-bc81-51c5dccd831d">The <code>early-init.el</code> code to set frame parameters</a>).
+I also arrange for the battery indicator to be displayed on the mode
+line.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Laptop settings
 (unless (directory-empty-p "/sys/class/power_supply/")
@@ -3920,9 +4099,17 @@ to be cycling through the edits."
 </div>
 </div>
 
-<div id="outline-container-org54b04fa" class="outline-4">
-<h4 id="org54b04fa"><span class="section-number-4">5.2.23.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-essentials.el</code> section about <code>exec-path-from-shell</code></h4>
-<div class="outline-text-4" id="text-5-2-23">
+<div id="outline-container-h:f2447060-5d89-48d5-a682-5cfc76e0928e" class="outline-4">
+<h4 id="h:f2447060-5d89-48d5-a682-5cfc76e0928e"><span class="section-number-4">5.2.23.</span> The <code>prot-emacs-essentials.el</code> section about <code>exec-path-from-shell</code></h4>
+<div class="outline-text-4" id="text-h:f2447060-5d89-48d5-a682-5cfc76e0928e">
+<p>
+The <code>exec-path-from-shell</code> package by Steve Purcell gets environment
+variables from the system shell and makes them available to Emacs. I
+have found that I need this while running on Wayland to properly use
+SSH, but maybe I can do without it if I tweak a few things in
+<code>~/.config/environment.d=envvars.conf</code>&#x2026; I will check.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Get environment variables into Emacs (exec-path-from-shell) while on Wayland
 (when-let ((session (getenv "XDG_SESSION_TYPE"))
@@ -3933,8 +4120,21 @@ to be cycling through the edits."
     (setq exec-path-from-shell-variables
           '("PATH" "MANPATH" "SSH_AUTH_SOCK"))
     (exec-path-from-shell-initialize)))
+</pre>
+</div>
+</div>
+</div>
 
-(provide 'prot-emacs-essentials)
+<div id="outline-container-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2" class="outline-4">
+<h4 id="h:c8b2f021-fe5a-4f6b-944c-20340f764fb2"><span class="section-number-4">5.2.24.</span> The <code>prot-emacs-essentials.el</code> call to <code>provide</code></h4>
+<div class="outline-text-4" id="text-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">
+<p>
+Finally, we <code>provide</code> the module. This is the mirror function of
+<code>require</code> (<a href="#h:e6c4acf5-5b51-4b38-a86a-bf3f698ac872">The init.el final part to load the individual modules</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(provide 'prot-emacs-essentials)
 </pre>
 </div>
 </div>
@@ -5525,7 +5725,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org1a2d8fa">
+<pre class="example" id="org9d851af">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5690,7 +5890,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org700e8f6">
+<pre class="example" id="org90f07d5">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
