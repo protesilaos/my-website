@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-27 07:52:28 +0200 with a word
-count of 79906.</b>
+<b>Last revised and exported on 2023-12-28 07:57:19 +0200 with a word
+count of 79490.</b>
 </p>
 
 <p>
@@ -208,7 +208,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.14. The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
 <li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.15. The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a></li>
 <li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.16. The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
-<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.17. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
+<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.17. The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
 </ul>
 </li>
 <li><a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">5.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-search.el</code> module</a></li>
@@ -378,7 +378,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgeeca911">
+<pre class="example" id="org69b3682">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -458,7 +458,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org3382bc5">
+<pre class="example" id="org8a87cc7">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -466,7 +466,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org02a9c85">
+<pre class="example" id="org4761f6e">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -3981,7 +3981,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org7949b26">
+<pre class="example" id="org88ac3d9">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5302,6 +5302,12 @@ expect the out-of-the-box experience to eventually supersede my
 package. Until then, I keep it around for those who like it.
 </p>
 
+<p>
+Note that I normally use <code>vertico</code> in my setup, but configure it to
+behave similar to what I have here for <code>mct</code>, meaning that it does not
+pop up the minibuffer eagerly (<a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Minibuffer and Completions in Tandem or Minibuffer Confines Transcended
 ;; Read the manual: &lt;https://protesilaos.com/emacs/mct&gt;.
@@ -5313,68 +5319,16 @@ package. Until then, I keep it around for those who like it.
   ;; The blocklist and passlist accept either commands/functions or
   ;; completion categories.
   (setq mct-completion-blocklist '(notmuch-mua-new-mail notmuch-mua-prompt-for-sender))
-  (setq mct-completion-passlist '(consult-buffer consult-location embark-keybinding imenu select-frame-by-name))
+  (setq mct-completion-passlist
+        '( consult-buffer consult-location embark-keybinding
+           imenu prot-search-outline select-frame-by-name))
   (setq mct-remove-shadowed-file-names t)
   (setq mct-completion-window-size (cons #'mct-frame-height-third 1))
   (setq mct-persist-dynamic-completion nil)
   (setq mct-live-completion 'visible)
-
-  (mct-mode 1)
-
-  (defvar prot/mct-commands-with-line-numbers
-    '( consult-line consult-line-multi consult-mark
-       consult-outline consult-grep consult-ripgrep)
-    "List of commands that are known to show contextual line numbers.")
-
-  (defun prot/mct-display-line-numbers ()
-    "Call `display-line-numbers-mode' when it is not confusing.
-
-Check if the current command is among the list of
-`prot/mct-commands-with-line-numbers'.  The elements of that list
-are known to display their own contextual lines numbers.
-
-Add this to `completion-list-mode-hook'."
-    (unless (memq this-command prot/mct-commands-with-line-numbers)
-      (display-line-numbers-mode)))
-
-  (add-hook 'completion-list-mode-hook #'prot/mct-display-line-numbers)
-
-  ;; Specify the sorting function.
   (setq completions-sort #'mct-sort-multi-category)
 
-;;;; MCT-like motions for the generic in-buffer completion
-
-  (defun prot/mct-next-line-or-completion (n)
-    "Select next completion or move to next line N times.
-Select the next completion if `completion-in-region-mode' is
-active and the Completions window is on display."
-    (interactive "p")
-    (if (and completion-in-region-mode (mct--get-completion-window))
-        (minibuffer-next-completion n)
-      (next-line n)))
-
-  (defun prot/mct-previous-line-or-completion (n)
-    "Select previous completion or move to previous line N times.
-Select the previous completion if `completion-in-region-mode' is
-active and the Completions window is on display."
-    (interactive "p")
-    (if (and completion-in-region-mode (mct--get-completion-window))
-        (minibuffer-previous-completion n)
-      (previous-line n)))
-
-  (defun prot/mct-return-or-choose-completion (n)
-    "Choose current completion or create N newlines.
-Choose the current completion if `completion-in-region-mode' is
-active and the Completions window is on display."
-    (interactive "p")
-    (if (and completion-in-region-mode (mct--get-completion-window))
-        (minibuffer-choose-completion)
-      (newline n :interactive)))
-
-  (prot-emacs-keybind completion-in-region-mode-map
-    "C-n" #'prot/mct-next-line-or-completion
-    "C-p" #'prot/mct-previous-line-or-completion
-    "RET" #'prot/mct-return-or-choose-completion))
+  (mct-mode 1))
 
 (provide 'prot-emacs-mct)
 </pre>
@@ -5384,8 +5338,42 @@ active and the Completions window is on display."
 
 
 <div id="outline-container-h:cff33514-d3ac-4c16-a889-ea39d7346dc5" class="outline-4">
-<h4 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-4">5.4.17.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h4>
+<h4 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-4">5.4.17.</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h4>
 <div class="outline-text-4" id="text-h:cff33514-d3ac-4c16-a889-ea39d7346dc5">
+<p>
+[ This is subject to a user option: <a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>. ]
+</p>
+
+<p>
+The <code>vertico</code> package by Daniel Mendler displays the minibuffer in a
+vertical layout. Under the hood, it takes care to be responsive and to
+handle even massive completion tables gracefully. Whereas, say, the
+built-in completion user interface (and thus <code>mct</code>) will suffer from a
+noticeable performance penalty.
+</p>
+
+<p>
+All we need to get a decent experience with <code>vertico</code> is to enable the
+<code>vertico-mode</code>. For most users this is enough. In my case though, I
+have to use the &ldquo;multiform&rdquo; mechanism of this package to make it not
+show up eagerly. I do this as I frequently to control what I am
+displaying while doing a presentation. As such, the overall experience
+I get with <code>vertico</code> is the same as with <code>mct</code>, albeit with better
+performance (<a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a>).
+</p>
+
+<p>
+Beside what I am using it for, the &ldquo;multiform&rdquo; mechanism allows us to
+change the layout of <code>vertico</code> on a per-command or per-category basis.
+We can, for instance, have a horizontal presentation for some items. I
+have tried this for a while, but ultimately decided to go with a more
+predictable scheme.
+</p>
+
+<p>
+The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4782-8aaa-3cf4e950927d">the <code>prot-vertico.el</code> library</a>.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Vertical completion layout
 (prot-emacs-package vertico
@@ -5725,7 +5713,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org9d851af">
+<pre class="example" id="org3a3aaaf">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5890,7 +5878,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org90f07d5">
+<pre class="example" id="org5805ac4">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9258,6 +9246,16 @@ tools (e.g. `embark')."
   (lambda (string pred action)
     (if (eq action 'metadata)
         `(metadata (category . ,category))
+      (complete-with-action action candidates string pred))))
+
+;;;###autoload
+(defun prot-common-completion-table-no-sort (category candidates)
+  "Pass appropriate metadata CATEGORY to completion CANDIDATES.
+Like `prot-common-completion-table' but also disable sorting."
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (category . ,category)
+                   (display-sort-function . ,#'identity))
       (complete-with-action action candidates string pred))))
 
 ;; Thanks to Igor Lima for the `prot-common-crm-exclude-selected-p':
@@ -13284,7 +13282,7 @@ Also see `prot-search-grep-todo-keywords'."
                  (funcall outline-search-function)
                (re-search-forward outline-regexp nil t))
         (push
-         (format "%s	%s"
+         (format "%-8s %s"
                  (line-number-at-pos (point))
                  (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
          candidates)
@@ -13293,6 +13291,13 @@ Also see `prot-search-grep-todo-keywords'."
         (nreverse candidates)
       (user-error "No outline"))))
 
+(defun prot-search--outline-prompt ()
+  "Prompt for outline among headings retrieved by `prot-search--get-outline'."
+  (completing-read
+   "Go to outline: "
+   (prot-common-completion-table-no-sort 'imenu (prot-search--get-outline))
+   nil :require-match))
+
 (defvar prot-search-outline-hook nil
   "Normal hook to run at the end of `prot-search-outline'.")
 
@@ -13300,7 +13305,7 @@ Also see `prot-search-grep-todo-keywords'."
 (defun prot-search-outline ()
   "Go to the line of the given outline using completion."
   (interactive)
-  (when-let ((selection (completing-read "Go to outline: " (prot-search--get-outline) nil :require-match))
+  (when-let ((selection (prot-search--outline-prompt))
              (line (string-to-number (car (split-string selection "\t")))))
     (goto-line line)
     (run-hooks 'prot-search-outline-hook)))
