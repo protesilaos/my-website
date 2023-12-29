@@ -8,11 +8,9 @@ Refer to the [official manual](https://protesilaos.com/emacs/ef-themes)
 for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
-The following screen shots correspond to version `1.2.0-dev`, except
-for the `ef-maris-light` and `ef-maris-dark` which are part of
-`1.3.0-dev`.  The screen shots were taken on 2023-06-18, while the
-"Maris" ones were done on 2023-07-22.  The typeface is [Iosevka Comfy,
-my modified version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
+The following screen shots correspond to version `1.5.0-dev`. The
+typeface is [Iosevka Comfy, my modified version of
+Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.  Also note that dark themes are best
@@ -24,6 +22,7 @@ subtle differences in colour.
 
 This section contains:
 
+- `ef-arbutus`
 - `ef-cyprus`
 - `ef-day`
 - `ef-deuteranopia-light`
@@ -38,6 +37,16 @@ This section contains:
 - `ef-summer`
 - `ef-trio-light`
 - `ef-tritanopia-light`
+
+### ef-arbutus
+
+<a href="{{'/assets/images/ef/ef-arbutus.png' | absolute_url }}"><img alt="ef-arbutus theme sample" src="{{'/assets/images/ef/ef-arbutus.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-arbutus-git.png' | absolute_url }}"><img alt="ef-arbutus theme git sample" src="{{'/assets/images/ef/ef-arbutus-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-arbutus-mail.png' | absolute_url }}"><img alt="ef-arbutus theme mail sample" src="{{'/assets/images/ef/ef-arbutus-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-arbutus-org.png' | absolute_url }}"><img alt="ef-arbutus theme org sample" src="{{'/assets/images/ef/ef-arbutus-org.png' | absolute_url }}"/></a>
 
 ### ef-cyprus
 
