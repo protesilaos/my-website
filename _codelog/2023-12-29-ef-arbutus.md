@@ -30,8 +30,10 @@ collection: <https://protesilaos.com/emacs/ef-themes-pictures>.
 ## Coming in version 1.5.0 (next stable release)
 
 I may still make some minor tweaks, though the character of the theme
-will not be altered. `ef-arbutus` is the 29th item in the collection.
-Will there be a 30th and will it be a dark theme? Who knows?
+will not be altered.
+
+`ef-arbutus` is the 29th item in the collection. Will there be a 30th
+and will it be a dark theme? Who knows?
 
 * * *
 
