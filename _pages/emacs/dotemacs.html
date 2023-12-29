@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2023-12-28 07:57:19 +0200 with a word
-count of 79490.</b>
+<b>Last revised and exported on 2023-12-29 12:50:21 +0200 with a word
+count of 82023.</b>
 </p>
 
 <p>
@@ -211,7 +211,20 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.17. The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
 </ul>
 </li>
-<li><a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">5.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-search.el</code> module</a></li>
+<li><a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">5.5. The <code>prot-emacs-search.el</code> module</a>
+<ul>
+<li><a href="#h:95947b37-2071-4ee7-a201-8e19bf3322e9">5.5.1. The <code>prot-emacs-search.el</code> on isearch lax space</a></li>
+<li><a href="#h:ed1307e7-f8a0-4b0a-8d91-2de9c1e2479c">5.5.2. The <code>prot-emacs-search.el</code> settings for isearch highlighting</a></li>
+<li><a href="#h:acfdc17f-7ffb-48d3-90ff-49bd00463934">5.5.3. The <code>prot-emacs-search.el</code> on isearch match counter</a></li>
+<li><a href="#h:e6fd4ff0-86c7-423b-9cf3-0a9061505136">5.5.4. The <code>prot-emacs-search.el</code> tweaks to the isearch motion behaviour</a></li>
+<li><a href="#h:85aca4da-b89b-4fbe-89e9-3ec536ad7b0d">5.5.5. The <code>prot-emacs-search.el</code> tweaks for the occur buffer</a></li>
+<li><a href="#h:5ce6216d-f318-4191-9d4f-9681c92f7582">5.5.6. The <code>prot-emacs-search.el</code> modified isearch and occur key bindings</a></li>
+<li><a href="#h:b902e6a3-cdd2-420f-bc99-3d973c37cd20">5.5.7. The <code>prot-emacs-search.el</code> extras provided by the <code>prot-search.el</code> library</a></li>
+<li><a href="#h:ceb286c5-a5f7-4cc8-b883-89d20a75ea02">5.5.8. The <code>prot-emacs-search.el</code> tweaks to <code>xref</code>, <code>re-builder</code> and <code>grep</code></a></li>
+<li><a href="#h:9a3581df-ab18-4266-815e-2edd7f7e4852">5.5.9. The <code>prot-emacs-search.el</code> setup for editable grep buffers (<code>wgrep</code>)</a></li>
+<li><a href="#h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">5.5.10. The <code>prot-emacs-search.el</code> call to <code>provide</code></a></li>
+</ul>
+</li>
 <li><a href="#h:f8b08a77-f3a8-42fa-b1a9-f940348889c3">5.6. <span class="todo TODO">TODO</span> The <code>prot-emacs-dired.el</code> module</a></li>
 <li><a href="#h:b5fa481d-8549-4424-869e-91091cdf730b">5.7. The <code>prot-emacs-window.el</code> module</a>
 <ul>
@@ -378,7 +391,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org69b3682">
+<pre class="example" id="orgbbe5220">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -458,7 +471,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org8a87cc7">
+<pre class="example" id="orgfecc783">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -466,7 +479,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org4761f6e">
+<pre class="example" id="orgfd483ee">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -2105,11 +2118,11 @@ Embellishments, and Sparkles.</li>
 ;;   (add-to-list 'load-path "/home/prot/Git/Projects/ef-themes/")
 ;;
 ;;   (require 'ef-themes)
+;;   (load-theme 'ef-arbutus t t)
 ;;   (load-theme 'ef-autumn t t)
 ;;   (load-theme 'ef-bio t t)
 ;;   (load-theme 'ef-cherie t t)
 ;;   (load-theme 'ef-chloe-dark t t)
-;;   (load-theme 'ef-chloe-light t t)
 ;;   (load-theme 'ef-cyprus t t)
 ;;   (load-theme 'ef-dark t t)
 ;;   (load-theme 'ef-day t t)
@@ -3981,7 +3994,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org88ac3d9">
+<pre class="example" id="org280a48d">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5040,9 +5053,7 @@ prompt.</li>
 </ul>
 
 <p>
-The commands I use the most from this package are <code>consult-outline</code>,
-especially in Org buffers, and <code>consult-imenu</code> in Elisp files. The
-rest have situational uses.
+Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-emacs-search.el</code> module</a>.
 </p>
 
 <div class="org-src-container">
@@ -5434,40 +5445,335 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
 </div>
 
 <div id="outline-container-h:e0f9c30e-3a98-4479-b709-7008277749e4" class="outline-3">
-<h3 id="h:e0f9c30e-3a98-4479-b709-7008277749e4"><span class="section-number-3">5.5.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-search.el</code> module</h3>
+<h3 id="h:e0f9c30e-3a98-4479-b709-7008277749e4"><span class="section-number-3">5.5.</span> The <code>prot-emacs-search.el</code> module</h3>
 <div class="outline-text-3" id="text-h:e0f9c30e-3a98-4479-b709-7008277749e4">
+<p>
+[ Watch: <a href="https://protesilaos.com/codelog/2023-06-10-emacs-search-replace-basics/">Emacs: basics of search and replace</a> (2023-06-10). ]
+</p>
+
+<p>
+Emacs provides lots of useful facilities to search the contents of
+buffers or files. The most common scenario is to type <code>C-s</code>
+(<code>isearch-forward</code>) to perform a search forward from point or <code>C-r</code>
+(<code>isearch-backward</code>) to do so in reverse. These commands pack a ton of
+functionality and they integrate nicely with related facilities, such
+as those of (i) permanently highlighting the thing being searched,
+(ii) putting all results in a buffer that is useful for navigation
+purposes, among others, and (iii) replacing the given matching items
+with another term.
+</p>
+
+<p>
+Here I summarise the functionality, though do check the video I did on
+the basics of search and replace:
+</p>
+
+<dl class="org-dl">
+<dt><code>C-s</code> (<code>isearch-forward</code>)</dt><dd>Search forward from point (incremental
+search); retype <code>C-s</code> to move forth.</dd>
+
+<dt><code>C-r</code> (<code>isearch-backward</code>)</dt><dd>Search backward from point
+(incremental); retype <code>C-r</code> to move back. While using either <code>C-s</code>
+and <code>C-r</code> you can move in the opposite direction with either of
+those keys when performing a repeat.</dd>
+
+<dt><code>C-M-s</code> (<code>isearch-forward-regexp</code>)</dt><dd>Same as <code>C-s</code> but matches a
+regular expression. The <code>C-s</code> and <code>C-r</code> motions are the same after
+matches are found.</dd>
+
+<dt><code>C-M-r</code> (<code>isearch-backward-regexp</code>)</dt><dd>The counterpart of the above
+<code>C-M-s</code> for starting in reverse.</dd>
+
+<dt><code>C-s C-w</code> (<code>isearch-yank-word-or-char</code>)</dt><dd>Search forward for
+word-at-point. Again, <code>C-s</code> and <code>C-r</code> move forth and back,
+respectively.</dd>
+
+<dt><code>C-r C-w</code> (<code>isearch-yank-word-or-char</code>)</dt><dd>Same as above, but
+backward.</dd>
+
+<dt><code>M-s o</code> (<code>occur</code>)</dt><dd>Search for the given regular expression
+throughout the buffer and collect the matches in an <code>*occur*</code>
+buffer. Also check what I am doing with this in my custom
+extensions: <a href="#h:b902e6a3-cdd2-420f-bc99-3d973c37cd20">The <code>prot-emacs-search.el</code> extras provided by the <code>prot-search.el</code> library</a>.</dd>
+
+<dt><code>C-u 5 M-s o</code> (<code>occur</code>)</dt><dd>Like the above, but give it N lines of
+context when N is the prefix numeric argument  (5 in
+this example).</dd>
+
+<dt><code>C-s SEARCH</code> followed by <code>M-s o</code>  (<code>isearch-forward</code> &#x2013;&gt; <code>occur</code>)</dt><dd>Like <code>C-s</code> but then put the matches in an <b>occur</b> buffer.</dd>
+
+<dt>(no term)</dt><dd><code>C-s SEARCH</code> followed by <code>C-u 5 M-s o</code> (<code>isearch-forward</code> &#x2013;&gt;
+<code>occur</code>) :: Same as above, but now with N lines of context (5 in
+this example).</dd>
+
+<dt><code>M-%</code> (<code>query-replace</code>)</dt><dd>Prompt for target to replace and then
+prompt for its replacement (see explanation)</dd>
+
+<dt><code>C-M-%</code> (<code>query-replace-regexp</code>)</dt><dd>Same as above, but for REGEXP</dd>
+
+<dt><code>C-s SEARCH</code> followed by <code>M-%</code> (<code>isearch-forward</code> &#x2013;&gt; <code>query-replace</code>)</dt><dd>Search
+with <code>C-s</code> and then perform a query-replace for the following
+matches.</dd>
+
+<dt>(no term)</dt><dd><code>C-M-s SEARCH M-%</code> (<code>isearch-forward-regexp</code> &#x2013;&gt;
+<code>query-replace-regexp</code>) :: As above, but regexp-aware.</dd>
+
+<dt><code>C-s SEARCH C-M-%</code> (<code>isearch-forward</code> &#x2013;&gt; <code>query-replace-regexp</code>)</dt><dd>Same
+as above.</dd>
+
+<dt><code>M-s h r</code> (<code>highlight-regexp</code>)</dt><dd>Prompt for a face (like
+<code>hi-yellow</code>) to highlight the given regular expression.</dd>
+
+<dt><code>M-s h u</code> (<code>unhighlight-regexp</code>)</dt><dd>Prompt for an already
+highlighted regular expression to unhighlight (do it after the
+above).</dd>
+</dl>
+
+<p>
+For starters, just learn:
+</p>
+
+<ul class="org-ul">
+<li><code>C-s</code></li>
+<li><code>C-r</code></li>
+<li><code>M-s o</code></li>
+<li><code>M-%</code></li>
+</ul>
+
+<p>
+Now on to the configurations.
+</p>
+</div>
+
+<div id="outline-container-h:95947b37-2071-4ee7-a201-8e19bf3322e9" class="outline-4">
+<h4 id="h:95947b37-2071-4ee7-a201-8e19bf3322e9"><span class="section-number-4">5.5.1.</span> The <code>prot-emacs-search.el</code> on isearch lax space</h4>
+<div class="outline-text-4" id="text-h:95947b37-2071-4ee7-a201-8e19bf3322e9">
+<p>
+As noted in the introduction to this module, the built-in Isearch
+mechanism is at the centre of lots of useful patterns of interaction
+(<a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-emacs-search.el</code> module</a>).
+</p>
+
+<p>
+The first thing I want to do for Isearch, is make it more convenient
+for me to match words that occur in sequence but are not necessarily
+following each other. By default, we can do that with something like
+<code>C-M-s</code> (<code>isearch-forward-regexp</code>) followed by <code>one.*two</code>. Though it
+is inconvenient to be a regexp-aware search mode when all we want is
+to just type <code>one two</code> and have the space be interpreted as
+&ldquo;intermediate characters&rdquo; rather than a literal space. The following
+do exactly this for regular <code>C-s</code> (<code>isearch-forward</code>) and <code>C-r</code>
+(<code>isearch-backward</code>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Isearch, occur, grep, and extras (prot-search.el)
 (prot-emacs-package isearch
   (:delay 5)
-  (setq search-highlight t)
   (setq search-whitespace-regexp ".*?" ; one `setq' here to make it obvious they are a bundle
         isearch-lax-whitespace t
         isearch-regexp-lax-whitespace nil)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:ed1307e7-f8a0-4b0a-8d91-2de9c1e2479c" class="outline-4">
+<h4 id="h:ed1307e7-f8a0-4b0a-8d91-2de9c1e2479c"><span class="section-number-4">5.5.2.</span> The <code>prot-emacs-search.el</code> settings for isearch highlighting</h4>
+<div class="outline-text-4" id="text-h:ed1307e7-f8a0-4b0a-8d91-2de9c1e2479c">
+<p>
+Here I am just tweaking the delay that affects when deferred
+highlights are applied. The current match is highlighted immediately.
+The rest are done after <code>lazy-highlight-initial-delay</code> unless they are
+longer in character count than <code>lazy-highlight-no-delay-length</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq search-highlight t)
   (setq isearch-lazy-highlight t)
-  (setq list-matching-lines-jump-to-current-line nil) ; for `occur'
-  ;; All of the following variables were introduced in Emacs 27.1.
-  (setq isearch-lazy-count t)
+  (setq lazy-highlight-initial-delay 0.5)
+  (setq lazy-highlight-no-delay-length 4)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:acfdc17f-7ffb-48d3-90ff-49bd00463934" class="outline-4">
+<h4 id="h:acfdc17f-7ffb-48d3-90ff-49bd00463934"><span class="section-number-4">5.5.3.</span> The <code>prot-emacs-search.el</code> on isearch match counter</h4>
+<div class="outline-text-4" id="text-h:acfdc17f-7ffb-48d3-90ff-49bd00463934">
+<p>
+I think the following options should be enabled by default. They
+produce a counter next to the isearch prompt that shows the position
+of the current match relative to the total count (like <code>5/20</code>). As we
+move to the next/previous match, the counter is updated accordingly.
+We have the option to place this information after the search terms,
+though I prefer to have them as a prefix so as not to interfere with
+what I am typing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq isearch-lazy-count t)
   (setq lazy-count-prefix-format "(%s/%s) ")
   (setq lazy-count-suffix-format nil)
-  (setq isearch-yank-on-move 'shift)
-  (setq isearch-allow-scroll 'unlimited)
-  ;; These variables are from Emacs 28
-  (setq isearch-repeat-on-direction-change t)
-  (setq lazy-highlight-initial-delay 0.5)
-  (setq lazy-highlight-no-delay-length 3)
-  (setq isearch-wrap-pause t) ; `no-ding' makes keyboard macros never quit
+</pre>
+</div>
+</div>
+</div>
 
+<div id="outline-container-h:e6fd4ff0-86c7-423b-9cf3-0a9061505136" class="outline-4">
+<h4 id="h:e6fd4ff0-86c7-423b-9cf3-0a9061505136"><span class="section-number-4">5.5.4.</span> The <code>prot-emacs-search.el</code> tweaks to the isearch motion behaviour</h4>
+<div class="outline-text-4" id="text-h:e6fd4ff0-86c7-423b-9cf3-0a9061505136">
+<p>
+With the default settings, when we are repeating an isearch in the
+opposite direction, Emacs does not move directly to the next/previous
+match. Instead, it places the cursor at the opposite end of the
+current match. So, if we start with <code>C-s</code> and search for <code>word</code> we now
+see <code>word|</code> where the bar represents the cursor. With <code>C-r</code> we now
+have <code>|word</code> on the same match we were on. I do not like this
+behaviour so I configure <code>isearch-repeat-on-direction-change</code>
+accordingly. Furthermore, I can always control where the cursor is
+left after existing the search either by performing the given motion
+(e.g. <code>M-f</code> (<code>forward-word</code>)) or by using my custom command to exit on
+the opposite end with <code>C-RET</code> while in an isearch (<code>prot-search-isearch-other-end</code>).
+</p>
+
+<p>
+[ See: <a href="#h:b902e6a3-cdd2-420f-bc99-3d973c37cd20">The <code>prot-emacs-search.el</code> extras provided by the <code>prot-search.el</code> library</a>. ]
+</p>
+
+<p>
+If you are using keyboard macros that rely on isearch, DO NOT set
+<code>isearch-wrap-pause</code> to the <code>no-ding</code> value. That disables the error
+isearch produces when it reaches the end of the matches. This error
+exits the keyboard macro, which is exactly what you want if you are
+calling it with a <code>0</code> numeric argument (to run from point until the
+end of the buffer).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq isearch-repeat-on-direction-change t)
+  (setq isearch-wrap-pause t) ; `no-ding' makes keyboard macros never quit
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:85aca4da-b89b-4fbe-89e9-3ec536ad7b0d" class="outline-4">
+<h4 id="h:85aca4da-b89b-4fbe-89e9-3ec536ad7b0d"><span class="section-number-4">5.5.5.</span> The <code>prot-emacs-search.el</code> tweaks for the occur buffer</h4>
+<div class="outline-text-4" id="text-h:85aca4da-b89b-4fbe-89e9-3ec536ad7b0d">
+<p>
+Here I am making some minor tweaks to <code>*occur*</code> buffer (remember to
+read the introduction to this section (<a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-emacs-search.el</code> module</a>)).
+I always want (i) the cursor to be at the top of the buffer, (ii) the
+current line to be highlighted, as it is easier for selection
+purposes, and (iii) for long lines to be truncated, meaning to stretch
+beyond the visible portion of the window without wrapping below, and
+for this to be done silently without messaging me about it.
+</p>
+
+<p>
+The latter depends on my <code>prot-common.el</code> library, which is loaded
+early at startup (<a href="#h:713ede33-3802-40c6-a8e3-7e1fc0d0a924">The <code>prot-emacs-essentials.el</code> block that loads my custom libraries</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq list-matching-lines-jump-to-current-line nil) ; do not jump to current line in `*occur*' buffers
   (add-hook 'occur-mode-hook #'hl-line-mode)
   (add-hook 'occur-mode-hook #'prot-common-truncate-lines-silently) ; from `prot-common.el'
+</pre>
+</div>
+</div>
+</div>
 
-  (define-key minibuffer-local-isearch-map (kbd "M-/") #'isearch-complete-edit)
+<div id="outline-container-h:5ce6216d-f318-4191-9d4f-9681c92f7582" class="outline-4">
+<h4 id="h:5ce6216d-f318-4191-9d4f-9681c92f7582"><span class="section-number-4">5.5.6.</span> The <code>prot-emacs-search.el</code> modified isearch and occur key bindings</h4>
+<div class="outline-text-4" id="text-h:5ce6216d-f318-4191-9d4f-9681c92f7582">
+<p>
+These are some minor tweaks to the key maps for isearch and occur. I
+don&rsquo;t feel strongly about the rest, but the change to <code>C-g</code> is
+important for me as I want to exit the search altogether, not resume
+the search of the previous succesful match.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (define-key minibuffer-local-isearch-map (kbd "M-/") #'isearch-complete-edit)
   (define-key occur-mode-map (kbd "t") #'toggle-truncate-lines)
+
   (prot-emacs-keybind isearch-mode-map
     "C-g" #'isearch-cancel ; instead of `isearch-abort'
     "M-/" #'isearch-complete))
+</pre>
+</div>
+</div>
+</div>
 
-(prot-emacs-package prot-search
+<div id="outline-container-h:b902e6a3-cdd2-420f-bc99-3d973c37cd20" class="outline-4">
+<h4 id="h:b902e6a3-cdd2-420f-bc99-3d973c37cd20"><span class="section-number-4">5.5.7.</span> The <code>prot-emacs-search.el</code> extras provided by the <code>prot-search.el</code> library</h4>
+<div class="outline-text-4" id="text-h:b902e6a3-cdd2-420f-bc99-3d973c37cd20">
+<p>
+My <code>prot-search.el</code> provides lots of useful extras that I use on a
+regular basis (<a href="#h:0cab525d-fcbc-478c-b914-bbd69e33c635">The <code>prot-search.el</code> library</a>).
+</p>
+
+<p>
+For isearch, I have:
+</p>
+
+<ul class="org-ul">
+<li>Move to next/previous match in isearch with the down/up arrow keys
+(<code>C-s</code> or <code>C-r</code> still work though).</li>
+
+<li>Place the cursor on the opposite end of an isearch when exiting. Do
+it with <code>C-RET</code> while in isearch (<a href="#h:e6fd4ff0-86c7-423b-9cf3-0a9061505136">The <code>prot-emacs-search.el</code> tweaks to the isearch motion behaviour</a>).</li>
+
+<li>Delete the non-matching portion of a query in isearch with a single
+backspace instead of doing it character-by-character.</li>
+
+<li>Type <code>M-s M-&lt;</code> (<code>prot-search-isearch-beginning-of-buffer</code>) or <code>M-s
+  M-&gt;</code> (<code>prot-search-isearch-end-of-buffer</code>) to search for the symbol
+at point starting from the beginning/end of the buffer.</li>
+</ul>
+
+<p>
+For variants of <code>occur</code> or <code>grep</code>, which also benefit from the rules I have on
+where windows/buffers are displayed (<a href="#h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f">The <code>prot-emacs-window.el</code> rules for displaying buffers (<code>display-buffer-alist</code>)</a>):
+</p>
+
+<ul class="org-ul">
+<li>Type <code>M-s M-o</code> (<code>prot-search-occur-outline</code>) to produce an outline
+of the given buffer. What constitutes an outline is defined in the
+user option <code>prot-search-outline-regexp-alist</code>. I only configure it
+for the major modes I care about, though the mechanism should work
+for every buffer that has an outline.</li>
+
+<li>Type <code>M-s M-t</code> (<code>prot-search-grep-todo-keywords</code>) to produce an
+<code>*occur*</code> buffer that matches keywords like <code>TODO</code>. The full regular
+expression is specified in the user option <code>prot-search-todo-keywords</code>.</li>
+
+<li>Type <code>C-u M-s M-t</code> or <code>M-s M-T</code> (<code>prot-search-git-grep-todo-keywords</code>)
+to do the same as above but with the <code>git-grep</code> program instead of
+Emacs&rsquo; <code>occur</code>. This will match the keywords throughout the current
+Git repository. Grep buffers are editable, like those of <code>occur</code> 
+(<a href="#h:9a3581df-ab18-4266-815e-2edd7f7e4852">The <code>prot-emacs-search.el</code> setup for editable grep buffers (<code>wgrep</code>)</a>).</li>
+
+<li>Type <code>M-s g</code> (<code>prot-search-grep</code>) to perform a &ldquo;local grep&rdquo; across
+the current directory. Do <code>C-u M-s g</code> to perform a &ldquo;recursive grep&rdquo;
+from the current directory and into all subdirectories. This is
+basically a streamlined version of <code>M-x lgrep</code> and <code>M-x rgrep</code> and
+is one of my favourite commands.</li>
+</ul>
+
+<p>
+Note that the <code>consult</code> package provides lots of useful commands that
+perform a search while also displaying a preview of what you are
+matching (<a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a>).
+Depending on your workflow, this is better, though I seldom need the
+preview as I know what to expect or otherwise peruse contents either
+by visiting individual files or by using a grep buffer as an index.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(prot-emacs-package prot-search
   (:delay 5)
   (setq prot-search-outline-regexp-alist
         '((emacs-lisp-mode . "^\\((\\|;;;+ \\)")
@@ -5492,6 +5798,7 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
     "M-s u" #'prot-search-occur-urls
     "M-s t" #'prot-search-occur-todo-keywords
     "M-s M-t" #'prot-search-grep-todo-keywords ; With C-u it runs `prot-search-git-grep-todo-keywords'
+    "M-s M-T" #'prot-search-git-grep-todo-keywords
     "M-s M-s" #'prot-search-outline
     "M-s M-o" #'prot-search-occur-outline
     "M-s M-u" #'prot-search-occur-browse-url)
@@ -5500,8 +5807,27 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
     "&lt;down&gt;" #'prot-search-isearch-repeat-forward
     "&lt;backspace&gt;" #'prot-search-isearch-abort-dwim
     "&lt;C-return&gt;" #'prot-search-isearch-other-end))
+</pre>
+</div>
+</div>
+</div>
 
-;;; grep and xref
+<div id="outline-container-h:ceb286c5-a5f7-4cc8-b883-89d20a75ea02" class="outline-4">
+<h4 id="h:ceb286c5-a5f7-4cc8-b883-89d20a75ea02"><span class="section-number-4">5.5.8.</span> The <code>prot-emacs-search.el</code> tweaks to <code>xref</code>, <code>re-builder</code> and <code>grep</code></h4>
+<div class="outline-text-4" id="text-h:ceb286c5-a5f7-4cc8-b883-89d20a75ea02">
+<p>
+These are some configurations for built-in tools. I wrap them in a
+<code>prot-emacs-configure</code> call, as I do not need to call (i.e. <code>require</code>)
+their respective packages at this point.
+</p>
+
+<p>
+The changes here are minor tweaks. Note the use of the <code>let</code> to decide
+whether I use the <code>grep</code> or <code>rg</code> (<code>ripgrep</code>) program.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; grep and xref
 (prot-emacs-configure
   (:delay 5)
   (setq reb-re-syntax 'read)
@@ -5521,8 +5847,16 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
               "/usr/bin/rg -nH --null -e &lt;R&gt; &lt;F&gt;"
             "/usr/bin/grep &lt;X&gt; &lt;C&gt; -nH --null -e &lt;R&gt; &lt;F&gt;"))
     (setq xref-search-program (if rgp 'ripgrep 'grep))))
+</pre>
+</div>
+</div>
+</div>
 
-;;; wgrep (writable grep)
+<div id="outline-container-h:9a3581df-ab18-4266-815e-2edd7f7e4852" class="outline-4">
+<h4 id="h:9a3581df-ab18-4266-815e-2edd7f7e4852"><span class="section-number-4">5.5.9.</span> The <code>prot-emacs-search.el</code> setup for editable grep buffers (<code>wgrep</code>)</h4>
+<div class="outline-text-4" id="text-h:9a3581df-ab18-4266-815e-2edd7f7e4852">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; wgrep (writable grep)
 (prot-emacs-package wgrep
   (:install t)
   (:delay 5)
@@ -5532,9 +5866,23 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
     "e" #'wgrep-change-to-wgrep-mode
     "C-x C-q" #'wgrep-change-to-wgrep-mode
     "C-c C-c" #'wgrep-finish-edit))
-
-(provide 'prot-emacs-search)
 </pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2" class="outline-4">
+<h4 id="h:c8b2f021-fe5a-4f6b-944c-20340f764fb2"><span class="section-number-4">5.5.10.</span> The <code>prot-emacs-search.el</code> call to <code>provide</code></h4>
+<div class="outline-text-4" id="text-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">
+<p>
+Finally, we <code>provide</code> the module. This is the mirror function of
+<code>require</code> (<a href="#h:e6c4acf5-5b51-4b38-a86a-bf3f698ac872">The init.el final part to load the individual modules</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(provide 'prot-emacs-search)
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -5713,7 +6061,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org3a3aaaf">
+<pre class="example" id="orgc456770">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -5878,7 +6226,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org5805ac4">
+<pre class="example" id="org4a99362">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -5969,6 +6317,7 @@ to a certain height.
            (dedicated . t)
            (preserve-size . (t . t)))
           ((or . ((derived-mode . occur-mode)
+                  (derived-mode . grep-mode)
                   (derived-mode . Buffer-menu-mode)
                   (derived-mode . log-view-mode)
                   (derived-mode . help-mode) ; See the hooks for `visual-line-mode'
