@@ -1097,7 +1097,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgcd91f2c">
+<pre class="example" id="orgf6d61d8">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1273,7 +1273,7 @@ added to the user&rsquo;s Denote configuration:
          (intern (completing-read
                   "Run command in silo: "
                   my-denote-commands-for-silos nil t))))
-  (let ((denote-user-enforced-denote-directory silo))
+  (let ((denote-directory silo))
     (call-interactively command)))
 </pre>
 </div>
@@ -1285,17 +1285,14 @@ and then ask for the command to run in that context.
 </p>
 
 <p>
-Note the use of the variable <code>user-enforced-denote-directory</code>. This
-variable is specially meant for custom commands to select silos. When
-it is set, it overrides the global default value of <code>denote-directory</code>
-as well as the value provided by the <code>.dir-locals.el</code> file. Use it
-only when writing wrapper functions like
-<code>my-denote-pick-silo-then-command</code>.
+Note that <code>let</code> binding <code>denote-directory</code> can be used in custom
+commands and other wrapper functions to override the global default
+value of <code>denote-directory</code> to select silos.
 </p>
 
 <p>
-To see another example of a wrapper function that uses
-<code>user-enforced-denote-directory</code>, see:
+To see another example of a wrapper function that <code>let</code> binds
+<code>denote-directory</code>, see:
 </p>
 
 <p>
@@ -1651,7 +1648,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org80e421f">
+<pre class="example" id="org7cc48cc">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1671,7 +1668,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org1eb7b06">
+<pre class="example" id="org751306a">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2049,7 +2046,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org1f3d392">
+<pre class="example" id="org1ab4ba0">
 '((title . downcase)
   (signature . downcase)
   (keywords . downcase)
@@ -2179,7 +2176,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org55de112">
+<pre class="example" id="org472401e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2191,7 +2188,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org0fa2fad">
+<pre class="example" id="org46295d4">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2205,7 +2202,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org0ea7725">
+<pre class="example" id="org7de764c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2219,7 +2216,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org34404ff">
+<pre class="example" id="orgb332035">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2488,7 +2485,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org5164eb8">
+<pre class="example" id="org37dc38f">
 - link1
 - link2
 - link3
@@ -2506,7 +2503,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgda15bc7">
+<pre class="example" id="org1b4260f">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2723,7 +2720,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org72e2197">
+<pre class="example" id="orga6dab5c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2738,7 +2735,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgda51466">
+<pre class="example" id="org5446fe9">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3806,7 +3803,7 @@ Delete the original subtree."
            (heading (org-get-heading :no-tags :no-todo :no-priority :no-comment)))
       (let ((element (org-element-at-point))
             (tags (org-get-tags))
-            (denote-user-enforced-denote-directory silo))
+            (denote-directory silo))
         (delete-region (org-entry-beginning-position)
                        (save-excursion (org-end-of-subtree t) (point)))
         (denote heading
@@ -3944,7 +3941,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org411b357">
+<pre class="example" id="org63059d2">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4957,8 +4954,8 @@ underscore character, per the Denote file-naming scheme.</dd>
 <code>denote-directory</code> as a proper directory, also because it accepts a
 directory-local value for what we internally refer to as &ldquo;silos&rdquo;
 (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).  Custom Lisp code can
-<code>let</code> bind the value of the variable <code>denote-user-enforced-denote-directory</code>
-to override what this function returns.</dd>
+<code>let</code> bind the value of the variable <code>denote-directory</code> to override
+what this function returns.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5527,7 +5524,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org2ff358f">
+<pre class="example" id="orgf024bf0">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5537,7 +5534,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org8b20e8f">
+<pre class="example" id="org16024b1">
 emacs -Q
 </pre>
 
@@ -5549,7 +5546,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgbabbd6f">
+<pre class="example" id="org2e45023">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5615,7 +5612,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8a096b1">
+<pre class="example" id="org56f761f">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6289,7 +6286,8 @@ Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kyle Meyer, Marc
 Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
 Prevos, Philip Kaludercic, Quiliro Ordóñez, Stefan Monnier, Stefan
 Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar,
-ezchi, leinfink (Henrik), mentalisttraceur, relict007.</dd>
+Wesley Harvey, ezchi, leinfink (Henrik), mentalisttraceur,
+relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alfredo Borrás, Ashton Wiersdorf,
