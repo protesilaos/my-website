@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-01-01 07:41:49 +0200 with a word
-count of 84946.</b>
+<b>Last revised and exported on 2024-01-03 08:26:58 +0200 with a word
+count of 85998.</b>
 </p>
 
 <p>
@@ -205,7 +205,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:7cc77fd0-8f98-4fc0-80be-48a758fcb6e2">5.4.10. The <code>prot-emacs-completion.el</code> for the <code>orderless</code> completion style</a></li>
 <li><a href="#h:804b858f-7913-47ef-aaf4-8eef5b59ecb4">5.4.11. The <code>prot-emacs-completion.el</code> for in-buffer completion popup (<code>corfu</code>)</a></li>
 <li><a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">5.4.12. The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a></li>
-<li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">5.4.13. <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
+<li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">5.4.13. The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
 <li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.14. The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
 <li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.15. The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>
 <ul>
@@ -412,7 +412,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org2d5e410">
+<pre class="example" id="org47dd4bc">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -492,7 +492,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org9416be4">
+<pre class="example" id="orge87e304">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -500,7 +500,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org1f043e4">
+<pre class="example" id="org5158eb3">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -3818,7 +3818,10 @@ command <code>prot/vundo-if-repeat-undo</code> produces a visualisation of the
 undo steps only after I repeat the <code>undo</code> command. The assumption is
 that if I am repeating, I am already interested in something further
 back in history, at which point having a representation of it is
-helpful.
+helpful. I am implementing this using the advice mechanism, so that I
+(i) the command calls the original function if needed, and (ii) I can
+extend the functionality to many functions without needing to rebind
+any keys.
 </p>
 
 <p>
@@ -3843,23 +3846,40 @@ to pulse the region.
 <pre class="src src-emacs-lisp">;;; Visualise undo ring (`vundo')
 (prot-emacs-package vundo
   (:install t)
-  (:delay 30)
+  (:delay 1)
   (setq vundo-glyph-alist vundo-unicode-symbols)
 
-  (defun prot/vundo-if-repeat-undo ()
-    "Use `vundo' if the last command was an `undo'.
+  (defvar prot/vundo-undo-functions '(undo undo-only undo-redo)
+    "List of undo functions to check if we need to visualise the undo ring.")
+
+  (defvar prot/vundo-undo-command #'undo
+    "Command to call if we are not going to visualise the undo ring.")
+
+  (defun prot/vundo-if-repeat-undo (&amp;rest args)
+    "Use `vundo' if the last command is among `prot/vundo-undo-functions'.
 In other words, start visualising the undo ring if we are going
 to be cycling through the edits."
     (interactive)
-    (call-interactively
-    (if (eq last-command 'undo)
-        'vundo
-      'undo)))
+     (if (member last-command prot/vundo-undo-functions)
+         (call-interactively 'vundo)
+       (apply args)))
 
-  (define-key global-map (kbd "C-/") #'prot/vundo-if-repeat-undo) ; override `undo'
+  (mapc
+   (lambda (fn)
+     (advice-add fn :around #'prot/vundo-if-repeat-undo))
+   prot/vundo-undo-functions)
+
   (prot-emacs-keybind vundo-mode-map
     "C-/" #'vundo-backward
-    "C-?" #'vundo-forward)
+    "C-?" #'vundo-forward
+    "u" #'vundo-backward
+    "U" #'vundo-forward
+    "g" #'vundo-goto-last-saved
+    "." #'vundo-goto-last-saved
+    "h" #'vundo-backward
+    "j" #'vundo-next
+    "k" #'vundo-previous
+    "l" #'vundo-forward)
 
   (with-eval-after-load 'pulsar
     (add-hook 'vundo-post-exit-hook #'pulsar-pulse-line-green)))
@@ -4061,7 +4081,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org088c092">
+<pre class="example" id="orgfe16c43">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5021,8 +5041,8 @@ Also see <a href="#h:567bb00f-1d82-4746-93e5-e0f60721728a">the <code>prot-emacs-
   (setq corfu-popupinfo-delay '(1.25 . 0.5))
   (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
 
-  ;; Also have (setq tab-always-indent 'complete) for TAB to complete
-  ;; if it does not have to perform an indentation change.
+  ;; I also have (setq tab-always-indent 'complete) for TAB to complete
+  ;; when it does not need to perform an indentation change.
   (define-key corfu-map (kbd "&lt;tab&gt;") #'corfu-complete)
 
   ;; Sort by input history (no need to modify `corfu-sort-function').
@@ -5149,10 +5169,123 @@ Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-ema
 </div>
 
 <div id="outline-container-h:61863da4-8739-42ae-a30f-6e9d686e1995" class="outline-4">
-<h4 id="h:61863da4-8739-42ae-a30f-6e9d686e1995"><span class="section-number-4">5.4.13.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></h4>
+<h4 id="h:61863da4-8739-42ae-a30f-6e9d686e1995"><span class="section-number-4">5.4.13.</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></h4>
 <div class="outline-text-4" id="text-h:61863da4-8739-42ae-a30f-6e9d686e1995">
 <p>
 [ This feature is subject to <a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">The <code>init.el</code> user option to load extras for minibuffer completion</a>. ]
+</p>
+
+<p>
+The <code>embark</code> package by Omar Antolín Camarena, provides a mechanism to
+perform relevant actions in the given context. What constitutes &ldquo;the
+given context&rdquo; depends on where the cursor is, such as if it is at the
+end of a symbolic expression in Lisp code or inside the minibuffer.
+The single point of entry is the <code>embark-act</code> command or variants like
+<code>embark-dwim</code>.
+</p>
+
+<p>
+With <code>embark-act</code> we gain access to a customisable list of commands
+for the given context. If we are over a Lisp symbol, one possible
+action is to describe it (i.e. produce documentation about it). If we
+are browsing files in the minibuffer, possible actions include file
+operations such as to delete or rename the file. And so on for
+everything.
+</p>
+
+<p>
+The <code>embark-dwim</code> command always performs the default action for the
+given context. It is like invoking <code>embark-act</code> and then typing the
+<code>RET</code> key.
+</p>
+
+<p>
+A killer feature of <code>embark</code> is the concepts of &ldquo;collect&rdquo; and
+&ldquo;export&rdquo;. These are used in the minibuffer to produce a dedicated
+buffer that contains all the completion candidates. For example, if we
+are reading documentation about <code>embark-</code> and have 10 items there, we
+can &ldquo;collect&rdquo; the results in their own buffer and then navigate it as
+if it were the minibuffer: <code>RET</code> will perform the action that the
+actual minibuffer would have carried out (to show documentation, in
+this case). Similarly, the export mechanism takes the completion
+candidates out of the minibuffer, though it also puts them in a major
+mode that is appropriate for them. Files, for instance, will be placed
+in a Dired buffer (<a href="#h:f8b08a77-f3a8-42fa-b1a9-f940348889c3">The <code>prot-emacs-dired.el</code> module</a>).
+</p>
+
+<p>
+Depending on the configuations about the &ldquo;indicator&rdquo;, the <code>embark-act</code>
+command will display an informative buffer with keys and their
+corresponding commands. We can control its placement the same way we
+do with all well-behaved buffers (<a href="#h:50f8b1e4-b14e-453f-a37e-1c0e495ab80f">The <code>prot-emacs-window.el</code> rules for displaying buffers (<code>display-buffer-alist</code>)</a>).
+</p>
+
+<p>
+One downside of <code>embark</code> is that it is hard to know what the context
+is. I have had this experience myself several times, where I though I
+was targeting the URL at point while the actions were about Org source
+blocks, headings, and whatnot. Embark is probably correct in such a
+case, though I cannot make my brain think the way it expects.
+</p>
+
+<p>
+Another downside, which is also true for <code>which-key</code> (<a href="#h:ddb1070d-2f91-4224-ad43-ef03f038f787">The <code>prot-emacs-which-key.el</code> module</a>),
+is the sheer number of options for each context. I feel that the
+defaults should be more conservative, to have 3-4 actions per context
+to make it easier to find stuff. Those who need more, can add them.
+Documentation can also be provided to that end. Adding commands to
+such a list is not a trivial task, because the user must modify
+keymaps and thus understand the relevant concepts. Sure, we can all
+learn, but this is not your usual <code>setq</code> tweak.
+</p>
+
+<p>
+All things considered, I do not recommend <code>embark</code> to new users as I
+know for a fact that people have trouble using it effectively. Power
+users can benefit from it, though you will notice in the following
+code block and in <code>prot-embark.el</code> how even power users need to put in
+some work (<a href="#h:fb034be5-c316-4c4f-a46f-cebcab332a47">The <code>prot-embark.el</code> library</a>). Whether it is worth it or
+not depends on one&rsquo;s use-case.
+</p>
+
+<p>
+Karthik Chikmagalur has an excellently written and presented essay on
+<a href="https://karthinks.com/software/fifteen-ways-to-use-embark/">Fifteen ways to use Embark</a>. If you plan on becoming an <code>embark</code> power
+user, this will help you. Quote from Karthik:
+</p>
+
+<blockquote>
+<p>
+Despite what these examples suggest, I estimate that I use less than a
+third of what Embark provides. Even so, in allowing me to change or
+chain actions at any time, it lets me pilot Emacs by the seat of my
+pants. A second, unforeseen benefit is that it makes commands and
+listings that I would never use available in a frictionless way:
+commands like <code>transpose-regions</code> and <code>apply-macro-to-region-lines</code>,
+or custom <code>dired</code>, <code>ibuffer</code> and <code>package-menu</code> listings that are
+interactively inaccessible otherwise4. The ability to quickly whip up
+such buffers makes knowhing how to use dired or ibuffer pay off
+several fold. In composing such features seamlessly with minibuffer
+interaction or with text-regions, Embark acts as a lever to amplify
+the power of Emacs’ myriad built in commands and libraries.
+</p>
+</blockquote>
+
+<p>
+I have been using Emacs since 2019 and not once did I have a use for
+<code>transpose-regions</code> or <code>apply-macro-to-region-lines</code>. To run a
+keyboard macro in a region, narrow to it, and call the kmacro with a
+<code>0</code> argument (run until you encounter an error or the end of the
+buffer). Why remember such a specialised function when the general
+pattern is getting the job done? And why be presented with the option
+of that same function every single time you <code>embark-act</code> on a region?
+</p>
+
+<p>
+Personally, I would be content with a package that does the equivalent
+of &ldquo;collect&rdquo; and &ldquo;export&rdquo;. The rest is about organising keybindings
+and how you approach a given task (workflow as opposed to core
+functionality).
 </p>
 
 <div class="org-src-container">
@@ -5162,6 +5295,9 @@ Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-ema
     (:install t)
     (:delay 5)
     (setq embark-confirm-act-all nil)
+    ;; The prot-embark.el has an advice to further simplify the
+    ;; minimal indicator.  It shows cycling, which I never want to see
+    ;; or do.
     (setq embark-mixed-indicator-both nil)
     (setq embark-mixed-indicator-delay 1.0)
     (setq embark-indicators '(embark-mixed-indicator embark-highlight-indicator))
@@ -5170,14 +5306,16 @@ Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-ema
     (setq embark-verbose-indicator-excluded-actions
           '(embark-cycle embark-act-all embark-collect embark-export embark-insert))
 
-    ;; I never cycle and want to disable the key.  Normally, a nil value
-    ;; disables a key binding but here that value is interpreted as the
-    ;; binding for `embark-act'.  So I just add some obscure key that I
-    ;; do not have.  I absolutely do not want to cycle by accident!
+    ;; I never cycle and want to disable the damn thing.  Normally, a
+    ;; nil value disables a key binding but here that value is
+    ;; interpreted as the binding for `embark-act'.  So I just add
+    ;; some obscure key that I do not have.  I absolutely do not want
+    ;; to cycle!
     (setq embark-cycle-key "&lt;XF86Travel&gt;")
 
     ;; I do not want `embark-org' and am not sure what is loading it.
-    ;; So I just unsert all the keymaps...
+    ;; So I just unsert all the keymaps... This is the nuclear option
+    ;; but here we are.
     (with-eval-after-load 'embark-org
       (defvar prot/embark-org-keymaps
         '(embark-org-table-cell-map
@@ -5196,6 +5334,8 @@ Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-ema
          (set keymap (make-sparse-keymap)))
        prot/embark-org-keymaps)))
 
+  ;; I define my own keymaps because I only use a few functions in a
+  ;; limited number of contexts.
   (prot-emacs-package prot-embark
     (:delay 5)
     (setq embark-keymap-alist
@@ -6511,7 +6651,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org5a9f0ca">
+<pre class="example" id="orga9bd8ee">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -6676,7 +6816,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org9cba681">
+<pre class="example" id="org4d64ea0">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -14128,7 +14268,7 @@ Also see `prot-search-grep-todo-keywords'."
                  (funcall outline-search-function)
                (re-search-forward outline-regexp nil t))
         (push
-         (format "%-8s %s"
+         (format "%-5s %s"
                  (line-number-at-pos (point))
                  (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
          candidates)
