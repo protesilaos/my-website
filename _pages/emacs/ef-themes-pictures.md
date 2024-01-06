@@ -202,6 +202,7 @@ This section contains:
 - `ef-maris-dark`
 - `ef-melissa-dark`
 - `ef-night`
+- `ef-rosa`
 - `ef-symbiosis`
 - `ef-trio-dark`
 - `ef-tritanopia-dark`
@@ -306,6 +307,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-night-mail.png' | absolute_url }}"><img alt="ef-night theme mail sample" src="{{'/assets/images/ef/ef-night-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-night-org.png' | absolute_url }}"><img alt="ef-night theme org sample" src="{{'/assets/images/ef/ef-night-org.png' | absolute_url }}"/></a>
+
+### ef-rosa
+
+<a href="{{'/assets/images/ef/ef-rosa.png' | absolute_url }}"><img alt="ef-rosa theme sample" src="{{'/assets/images/ef/ef-rosa.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-rosa-git.png' | absolute_url }}"><img alt="ef-rosa theme git sample" src="{{'/assets/images/ef/ef-rosa-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-rosa-mail.png' | absolute_url }}"><img alt="ef-rosa theme mail sample" src="{{'/assets/images/ef/ef-rosa-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-rosa-org.png' | absolute_url }}"><img alt="ef-rosa theme org sample" src="{{'/assets/images/ef/ef-rosa-org.png' | absolute_url }}"/></a>
 
 ### ef-symbiosis
 
