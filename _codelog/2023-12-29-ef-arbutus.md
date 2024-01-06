@@ -1,6 +1,6 @@
 ---
 title: "Emacs: 'ef-arbutus' is now part of the 'ef-themes' collection"
-excerpt: "I added a new pair of dark and light themes to my 'ef-themes' collection.  They are quite different from the rest of the collection."
+excerpt: "I added a new light theme to my 'ef-themes' package for Emacs. It combines red with green colours."
 ---
 
 `ef-arbutus` is a legible light theme that blends shades of red and
