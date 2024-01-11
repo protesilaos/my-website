@@ -15,6 +15,267 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/ef-themes">https://protesilaos.com/emacs/ef-themes</a>.
 </p>
 
+<div id="outline-container-h:1f0bf8f2-8ed3-48d0-b6a8-725eccf579ff" class="outline-2">
+<h2 id="h:1f0bf8f2-8ed3-48d0-b6a8-725eccf579ff">Version 1.5.0 on 2024-01-11</h2>
+<div class="outline-text-2" id="text-h:1f0bf8f2-8ed3-48d0-b6a8-725eccf579ff">
+</div>
+
+<div id="outline-container-h:f3f15c45-a118-4c14-9be0-7973fe500503" class="outline-3">
+<h3 id="h:f3f15c45-a118-4c14-9be0-7973fe500503">The new <code>ef-arbutus</code> and <code>ef-rosa</code> themes</h3>
+<div class="outline-text-3" id="text-h:f3f15c45-a118-4c14-9be0-7973fe500503">
+<p>
+The <code>ef-arbutus</code> theme combines red and green colours against a mild
+light red-pink background. The announcement article contains
+screenshots: <a href="https://protesilaos.com/codelog/2023-12-29-ef-arbutus/">https://protesilaos.com/codelog/2023-12-29-ef-arbutus/</a>.
+</p>
+
+<p>
+The <code>ef-rosa</code> theme has a deep dark red-brown background with a blend
+of magenta and green foregrounds. Check the blog post for pictures:
+<a href="https://protesilaos.com/codelog/2024-01-06-emacs-ef-rosa/">https://protesilaos.com/codelog/2024-01-06-emacs-ef-rosa/</a>.
+</p>
+
+<p>
+These two new entries bring the total count of the collection to 30.
+</p>
+
+<p>
+Remember that you can set the user option <code>ef-themes-to-toggle</code> to two
+themes in the collection and switch between them with the command
+<code>ef-themes-toggle</code>. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq ef-themes-to-toggle '(ef-arbutus ef-rosa))
+</pre>
+</div>
+
+<p>
+Otherwise, use the command <code>ef-themes-load-random</code> (call it with a
+<code>C-u</code> prefix argument to limit the result to either dark or light
+themes, else call it from Lisp, like <code>(ef-themes-load-random 'dark)</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:4a900d7b-4f46-48a2-9d9c-506d3080c554" class="outline-3">
+<h3 id="h:4a900d7b-4f46-48a2-9d9c-506d3080c554">Stopped the <code>transient</code> buffers from trying semantic key colouration</h3>
+<div class="outline-text-3" id="text-h:4a900d7b-4f46-48a2-9d9c-506d3080c554">
+<p>
+In a recent version of <code>transient.el</code>, there is a new user option that
+applies colour-coding to keys (e.g. we see those while using <code>magit</code>):
+<code>transient-semantic-coloring</code>. This option is enabled by default,
+changing the previous style that was used as a reference for all my
+designs.
+</p>
+
+<p>
+The idea with such colour coding is to indicate when a key continues
+to display the transient, exits with a given action, and the like. For
+our purposes this interface cannot work:
+</p>
+
+<ul class="org-ul">
+<li>We need some place to teach users what each colour means, as there
+are no indicators of any sort to help them (whereas, say, in diff
+buffers we have the plus and minus signs).</li>
+
+<li>Not all hues are suitable for highlighting a single character. In
+light themes, for example, green and yellow colours are TERRIBLE
+choices for the requirements of this interface where the key must be
+clearly visible. But when we introduce multiple colours, each with
+their own meaning, we will not be able to avoid those hues.</li>
+
+<li>The style of key bindings is not limited to <code>transient.el</code>. We find
+them when we invoke <code>M-x</code>, do <code>M-x describe-bindings</code>, while using
+the <code>which-key</code> package, and many more. If we are to change how
+<code>transient.el</code> shows key bindings, then we have to retain the same
+visual cues for other contexts. Otherwise, everything is inconsistent.</li>
+
+<li>All themes must use the same colours to preserve the colour coding,
+thus removing an important aspect of their presentation.</li>
+
+<li>This whole paradigm does not work for themes that are optimised for
+users with colour deficiency, due to the reduced number of suitable
+hues. With deuteranopia, for example, we can only rely on yellow and
+blue: since yellow is not optimal for single key highlights against
+a light backdrop, blue is the only hue that works in such a context.</li>
+</ul>
+
+<p>
+The <code>ef-themes</code> will not support this user option. All relevant faces
+use the style of standard key bindings.
+</p>
+
+<p>
+Themes can enforce user option values, but I have decided to change
+the faces instead to better communicate my intent. If a user wants
+semantic colouring, they can change the faces to whatever they like.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:7eb0175d-1afa-48f4-b150-4c8cf55f31e5" class="outline-3">
+<h3 id="h:7eb0175d-1afa-48f4-b150-4c8cf55f31e5">The <code>evil</code> prompts now show the correct colours</h3>
+<div class="outline-text-3" id="text-h:7eb0175d-1afa-48f4-b150-4c8cf55f31e5">
+<p>
+While using <code>evil-mode</code>, the ex prompts no longer use their generic
+hardcoded red value. They take an appropriate colour from the active
+Ef theme.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:10f4d49e-e07e-433b-97ec-f15b50e90a06" class="outline-3">
+<h3 id="h:10f4d49e-e07e-433b-97ec-f15b50e90a06">The <code>imenu-list</code> package is now supported</h3>
+<div class="outline-text-3" id="text-h:10f4d49e-e07e-433b-97ec-f15b50e90a06">
+<p>
+This package uses the built-in <code>imenu</code> infrastructure to produce a
+sidebar with points of interest in the buffer. Those headings now use
+the correct colour values.
+</p>
+
+<p>
+Thanks to newhallroad for bringing this matter to my attention in
+issue 35 on the GitHub mirror: <a href="https://github.com/protesilaos/ef-themes/issues/35">https://github.com/protesilaos/ef-themes/issues/35</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:14d2e825-3666-4bda-a03f-4179aaa42a03" class="outline-3">
+<h3 id="h:14d2e825-3666-4bda-a03f-4179aaa42a03">The <code>nerd-icons-completion</code> package is covered</h3>
+<div class="outline-text-3" id="text-h:14d2e825-3666-4bda-a03f-4179aaa42a03">
+<p>
+This package defines a single face for directories/folders. It looks
+like all the other <code>nerd-icons</code> packages that use that icon, such as
+<code>nerd-icons-dired</code>.
+</p>
+
+<p>
+Thanks to Ryan Kaskel for the contribution:
+<a href="https://lists.sr.ht/~protesilaos/ef-themes/patches/47379">https://lists.sr.ht/~protesilaos/ef-themes/patches/47379</a>. The change
+is small. Ryan does not need to assign copyright to the Free Software
+Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:431a601e-80d2-49e7-b4ec-7e5cc6b9c1f8" class="outline-3">
+<h3 id="h:431a601e-80d2-49e7-b4ec-7e5cc6b9c1f8">Completed the coverage of the <code>denote</code> faces</h3>
+<div class="outline-text-3" id="text-h:431a601e-80d2-49e7-b4ec-7e5cc6b9c1f8">
+<p>
+The new style ensures better thematic consistency.
+</p>
+
+<p>
+These faces are found in Dired buffers when <code>denote-dired-mode</code> is
+enabled. Same for the default style of the backlinks buffer.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:34d5ee9d-0447-4295-a325-41ac88aab783" class="outline-3">
+<h3 id="h:34d5ee9d-0447-4295-a325-41ac88aab783">Changed highlights to avoid conflating "flagged" and "trashed" emails</h3>
+<div class="outline-text-3" id="text-h:34d5ee9d-0447-4295-a325-41ac88aab783">
+<p>
+This is for email clients such as <code>mu4e</code> and <code>notmuch</code>. Flagged ad
+trashed emails used to have the same colour, which was a problem when
+the user would try to filter in such a way as to show both at the same
+time.
+</p>
+
+<p>
+Thanks to Adam Porter (GitHub user alphapapa) for bringing this matter
+to my attention in issue 32 on the GitHub mirror:
+<a href="https://github.com/protesilaos/ef-themes/issues/32">https://github.com/protesilaos/ef-themes/issues/32</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:61f67237-3303-4642-afea-7c1477efbb06" class="outline-3">
+<h3 id="h:61f67237-3303-4642-afea-7c1477efbb06">Support for more specialised faces</h3>
+<div class="outline-text-3" id="text-h:61f67237-3303-4642-afea-7c1477efbb06">
+<dl class="org-dl">
+<dt><code>blink-matching-paren-offscreen</code></dt><dd>Defined in the built-in
+<code>simple.el</code> to highlight the matching parenthesis in the echo area
+when it is off screen (Emacs 30).</dd>
+
+<dt><code>mct-highlight-candidate</code></dt><dd>Part of the <code>mct</code> package to highlight
+the currently selected completion candidate in the <code>*Completions*</code>
+buffer.</dd>
+
+<dt><code>shr-mark</code></dt><dd>Used by the built-in <code>shr</code> library (Simple HTML
+Renderer) to highlight <code>&lt;mark&gt;</code> tags (Emacs 29).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-h:6f4566d2-8683-4edc-8749-3e4821bf8397" class="outline-3">
+<h3 id="h:6f4566d2-8683-4edc-8749-3e4821bf8397">Expanded the semantic colour mappings</h3>
+<div class="outline-text-3" id="text-h:6f4566d2-8683-4edc-8749-3e4821bf8397">
+<p>
+Each theme defines colours and then maps them to semantic constructs.
+The idea is to not hardcode colour values, but to have an indirection
+that enforces consistency, while keeping things flexible/customisable.
+Users can override palette entries as explained in the manual:
+<a href="https://protesilaos.com/emacs/ef-themes#h:4b923795-4b23-4345-81e5-d1c108a84b6a">https://protesilaos.com/emacs/ef-themes#h:4b923795-4b23-4345-81e5-d1c108a84b6a</a>.
+</p>
+
+<p>
+New semantic colour mappings are:
+</p>
+
+<dl class="org-dl">
+<dt><code>bg-search-current</code></dt><dd>Background colour of the currently matched
+term of search interfaces, like <code>isearch</code>.</dd>
+
+<dt><code>bg-search-lazy</code></dt><dd>This background is used in the same contexts as
+the above, but for matches other than the current one.</dd>
+
+<dt><code>bg-search-replace</code></dt><dd>Background of the currently targeted
+replacement in <code>query-replace</code> operations or related.</dd>
+
+<dt><code>bg-search-rx-group-{0..3}</code>,</dt><dd>Backgrounds for regular expression
+groups, such as while using <code>M-x re-builder</code>.</dd>
+
+<dt><code>bg-fringe</code> and <code>fg-fringe</code></dt><dd>Applies to the background of the
+fringe area in Emacs frames. By default, the Ef themes do not use a
+distinct background there, so this is for those who need it.</dd>
+
+<dt><code>prose-table-formula</code></dt><dd>Used for formula entries in plain text
+tables, such as with Org, to distinguish them from the other
+contents of the table.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-h:945d2bbb-01ac-4829-a17b-81055f6951a7" class="outline-3">
+<h3 id="h:945d2bbb-01ac-4829-a17b-81055f6951a7">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:945d2bbb-01ac-4829-a17b-81055f6951a7">
+<ul class="org-ul">
+<li><p>
+Used the updated <code>modus-themes</code> formula for the contrast tables of
+all the Ef themes (stored in the file <code>contrast-ratios.org</code> in the
+project's root directory).
+</p>
+
+<p>
+I made this change in commit <code>b410fcc</code> in the <code>modus-themes</code> repo.
+The idea is to avoid the use of the <code>cl-loop</code> and other <code>cl-</code>
+functions that we don't really need (and which also have their own
+mini language that I find hard to remember/use).
+</p></li>
+
+<li>Tweaked the value of a few accented backgrounds to better fit with
+each theme's style. These colours may not be spotted anywhere right
+now, but are nonetheless available to those who use palette
+overrides (run the command <code>ef-themes-preview-colors</code> or
+<code>ef-themes-preview-colors-current</code> to visualise them).</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:bdacaf4d-35e9-4741-b676-795afe42cf74" class="outline-2">
 <h2 id="h:bdacaf4d-35e9-4741-b676-795afe42cf74">Version 1.4.0 on 2023-10-26</h2>
 <div class="outline-text-2" id="text-h:bdacaf4d-35e9-4741-b676-795afe42cf74">
@@ -1032,7 +1293,7 @@ This was used for escaped parentheses and the like.  It was making
 certain strings harder to read, such as:
 </p>
 
-<pre class="example" id="orgb764f44">
+<pre class="example" id="org0102147">
 "\\(?:\\.\\(?:m\\(?:kv\\|p4\\)\\|ogg\\|webm\\)\\)"
 </pre>
 </div>
@@ -1845,7 +2106,7 @@ plans with the <code>ef-themes</code> and how maintainable the project is:
 <a href="https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html">https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html</a>.
 </p>
 
-<pre class="example" id="orgf57b61c">
+<pre class="example" id="org92b1f20">
 From: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 To: Philip Kaludercic &lt;philipk@posteo.net&gt;, emacs-devel@gnu.org
 Subject: Re: [elpa] externals/ef-themes b6fc326946: Add ef-bio theme
