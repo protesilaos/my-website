@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-01-16 16:07:51 +0200 with a word
-count of 99584.</b>
+<b>Last revised and exported on 2024-01-17 08:48:40 +0200 with a word
+count of 99905.</b>
 </p>
 
 <p>
@@ -29,9 +29,9 @@ need at such an early stage).
 </p>
 
 <p>
-Whereas this Org serves as (i) a single point of entry to my Emacs
-setup and (ii) the origin of all of my Emacs configurations. While I
-am defining everything in a single Org file, I am not actually
+Whereas this Org document serves as (i) a single point of entry to my
+Emacs setup and (ii) the origin of all of my Emacs configurations.
+While I am defining everything in a single Org file, I am not actually
 starting Emacs by reading this file. Rather, I am instructing Org to
 put the code blocks defined herein in standalone files, organised by
 scope. The end result is something where you cannot tell whether a
@@ -145,12 +145,13 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:9438236e-a8a4-45e0-8c61-8268c634d50b">5.1.5. The <code>prot-emacs-theme.el</code> section for <code>rainbow-mode</code></a></li>
 <li><a href="#h:34ce98fe-0b57-44d9-b5f3-0224632114a5">5.1.6. The <code>prot-emacs-theme.el</code> section for <code>cursory</code></a></li>
 <li><a href="#h:2af10314-c8c2-4946-bf9c-a5b0f5fe881b">5.1.7. The <code>prot-emacs-theme.el</code> section for <code>theme-buffet</code></a></li>
-<li><a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">5.1.8. The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a>
+<li><a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">5.1.8. The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a></li>
+<li><a href="#h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">5.1.9. The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</a>
 <ul>
-<li><a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">5.1.8.1. Information about my Iosevka Comfy fonts</a></li>
+<li><a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">5.1.9.1. Information about my Iosevka Comfy fonts</a></li>
 </ul>
 </li>
-<li><a href="#h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">5.1.9. The <code>prot-emacs-theme.el</code> call to <code>provide</code></a></li>
+<li><a href="#h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">5.1.10. The <code>prot-emacs-theme.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
 <li><a href="#h:0ef52ed9-7b86-4329-ae4e-eff9ab8d07f2">5.2. The <code>prot-emacs-essentials.el</code> module</a>
@@ -486,7 +487,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org912e348">
+<pre class="example" id="org584e6bf">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -566,7 +567,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org03fe8c5">
+<pre class="example" id="orgd805316">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -574,7 +575,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org6bc79ce">
+<pre class="example" id="org6de04c3">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1654,7 +1655,7 @@ controlled repository of PACKAGE.  Installation is done with
 If METHOD is a quoted list, it must have a form accepted by
 `package-vc-install' such as:
 
-\\='(denote :url \"https://GitHub.com/protesilaos/denote\" :branch \"main\")
+\\='(denote :url \"https://github.com/protesilaos/denote\" :branch \"main\")
 
 If METHOD is any other non-nil value, install PACKAGE using
 `package-install'."
@@ -2868,6 +2869,11 @@ You will notice that all my fonts are Iosevka Comfy variants. I
 explain what this is about (<a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">Information about my Iosevka Comfy fonts</a>).
 </p>
 
+<p>
+The next section defines some complementary functionality
+(<a href="#h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Fontaine (font configurations)
 ;; Read the manual: &lt;https://protesilaos.com/emacs/fontaine&gt;
@@ -2934,21 +2940,47 @@ explain what this is about (<a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">In
 
   (define-key global-map (kbd "C-c f") #'fontaine-set-preset)
   (define-key global-map (kbd "C-c F") #'fontaine-set-face-font))
+</pre>
+</div>
+</div>
+</div>
 
-;;;;; `variable-pitch-mode' setup and more key bindings
+<div id="outline-container-h:60d6aae2-6e4b-402c-b6a8-411fc49a6857" class="outline-4">
+<h4 id="h:60d6aae2-6e4b-402c-b6a8-411fc49a6857"><span class="section-number-4">5.1.9.</span> The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</h4>
+<div class="outline-text-4" id="text-h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">
+<p>
+[ Watch: <a href="https://protesilaos.com/codelog/2024-01-16-customize-emacs-fonts/">Customise Emacs fonts</a> (2024-01-16) ]
+</p>
 
-(prot-emacs-configure
+<p>
+The built-in <code>variable-pitch-mode</code> makes the current buffer use a
+proportionately spaced font. In technical terms, it remaps the
+<code>default</code> face to <code>variable-pitch</code>, so whatever applies to the latter
+takes effect over the former. I take care of their respective font
+families in my <code>fontaine</code> setup (<a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a>).
+</p>
+
+<p>
+I want to activate <code>variable-pitch-mode</code> in all buffers where I
+normally focus on prose. The exact mode hooks are specified in the
+variable <code>prot/enable-variable-pitch-in-hooks</code>. Exceptions to these
+are major modes that I do not consider related to prose (and which in
+my opinion should not be derived from <code>text-mode</code>): these are excluded
+in the function <code>prot/enable-variable-pitch</code>.
+</p>
+
+<p>
+Then I also arrange the key bindings that resize text on-the-fly. I
+want those to have a global effect, meaning that they affect all
+buffers and the minibuffer, instead of the default behaviour to only
+adjust the current buffer&rsquo;s text size (<a href="#h:6b6778af-8bd2-4f97-a794-e23774aa6cf3">Why don&rsquo;t you remap keys?</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(prot-emacs-configure
   (:delay 5)
+;;;;; `variable-pitch-mode' setup
   (define-key ctl-x-x-map (kbd "v") #'variable-pitch-mode)
-
-  ;; Emacs 29 introduces commands that resize the font across all
-  ;; buffers (including the minibuffer), which is what I want, as
-  ;; opposed to doing it only in the current buffer.  The keys are the
-  ;; same as the defaults.
-  (prot-emacs-keybind global-map
-    "C-x C-=" #'global-text-scale-adjust
-    "C-x C-+" #'global-text-scale-adjust
-    "C-x C-0" #'global-text-scale-adjust)
 
   ;; NOTE 2022-11-20: This may not cover every case, though it works
   ;; fine in my workflow.  I am still undecided by EWW.
@@ -2965,13 +2997,24 @@ explain what this is about (<a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">In
   (mapc
    (lambda (hook)
     (add-hook hook #'prot/enable-variable-pitch))
-   prot/enable-variable-pitch-in-hooks))
+   prot/enable-variable-pitch-in-hooks)
+
+;;;;; Resize keys with global effect
+
+  ;; Emacs 29 introduces commands that resize the font across all
+  ;; buffers (including the minibuffer), which is what I want, as
+  ;; opposed to doing it only in the current buffer.  The keys are the
+  ;; same as the defaults.
+  (prot-emacs-keybind global-map
+    "C-x C-=" #'global-text-scale-adjust
+    "C-x C-+" #'global-text-scale-adjust
+    "C-x C-0" #'global-text-scale-adjust))
 </pre>
 </div>
 </div>
 
 <div id="outline-container-h:3b989679-7e3f-4f03-b4bb-611006ea01ce" class="outline-5">
-<h5 id="h:3b989679-7e3f-4f03-b4bb-611006ea01ce"><span class="section-number-5">5.1.8.1.</span> Information about my Iosevka Comfy fonts</h5>
+<h5 id="h:3b989679-7e3f-4f03-b4bb-611006ea01ce"><span class="section-number-5">5.1.9.1.</span> Information about my Iosevka Comfy fonts</h5>
 <div class="outline-text-5" id="text-h:3b989679-7e3f-4f03-b4bb-611006ea01ce">
 <p>
 <i>Iosevka Comfy</i> is a customised build of the Iosevka typeface, with a
@@ -3121,7 +3164,7 @@ technicalities.
 </div>
 
 <div id="outline-container-h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef" class="outline-4">
-<h4 id="h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef"><span class="section-number-4">5.1.9.</span> The <code>prot-emacs-theme.el</code> call to <code>provide</code></h4>
+<h4 id="h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef"><span class="section-number-4">5.1.10.</span> The <code>prot-emacs-theme.el</code> call to <code>provide</code></h4>
 <div class="outline-text-4" id="text-h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">
 <p>
 Finally, we <code>provide</code> the module. This is the mirror function of
@@ -3220,6 +3263,10 @@ describe-variable</code>) to learn about each of these.
   (setq prot-simple-time-specifier "%R %z")
 
   (setq prot-scratch-default-mode 'text-mode)
+
+  ;; NEVER tell me which key can call a command that I specifically
+  ;; invoked with M-x: I have a good reason to use it that way.
+  (advice-add #'execute-extended-command--describe-binding-msg :override #'prot-common-ignore)
 </pre>
 </div>
 </div>
@@ -4219,7 +4266,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgc89f228">
+<pre class="example" id="org89d0b37">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6827,7 +6874,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orge65ad7b">
+<pre class="example" id="org78fe868">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -6992,7 +7039,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org58bee70">
+<pre class="example" id="orgab4c8da">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9063,7 +9110,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8119807">
+<pre class="example" id="orgd42d71c">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9777,7 +9824,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org39c977a">
+<pre class="example" id="org3983aea">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9789,7 +9836,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org7488918">
+<pre class="example" id="orgff9730d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -9852,7 +9899,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgb6050e0">
+<pre class="example" id="orga558bc7">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -9864,7 +9911,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org12f5d07">
+<pre class="example" id="org7b7e69c">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -9886,7 +9933,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org5ba1a7c">
+<pre class="example" id="org0feca66">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11004,7 +11051,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orga00ddad">
+<pre class="example" id="org47d4041">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11100,7 +11147,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via command
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org42877f4">
+<pre class="example" id="orgc67ba68">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12452,6 +12499,10 @@ completion (per `completing-read')."
      (insert-file-contents file)
      (buffer-substring-no-properties (point-min) (point-max)))
    "\n" :omit-nulls "[\s\f\t\n\r\v]+"))
+
+(defun prot-common-ignore (&amp;rest _)
+  "Use this as override advice to make a function do nothing."
+  nil)
 
 ;; NOTE 2023-06-02: The `prot-common-wcag-formula' and
 ;; `prot-common-contrast' are taken verbatim from my `modus-themes'
@@ -18423,7 +18474,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org63dbdcd">
+<pre class="example" id="org8ace720">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18456,7 +18507,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org5d88b48">
+<pre class="example" id="org7cd2c60">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
