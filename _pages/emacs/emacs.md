@@ -31,8 +31,8 @@ the themes across the years.
 + Colour palette: <https://protesilaos.com/emacs/modus-themes-colors>
 + Sample pictures: <https://protesilaos.com/emacs/modus-themes-pictures>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/modus-themes>
- + GitLab: <https://gitlab.com/protesilaos/modus-themes>
+  + GitHub: <https://github.com/protesilaos/modus-themes>
+  + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Backronym: My Old Display Unexpectedly Sharpened ... themes.
 
 ## Denote
@@ -54,8 +54,8 @@ facilities to rename files, regardless of file type.
 + Official manual: <https://protesilaos.com/emacs/denote>
 + Change log: <https://protesilaos.com/emacs/denote-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/denote>
- + GitLab: <https://gitlab.com/protesilaos/denote>
+  + GitHub: <https://github.com/protesilaos/denote>
+  + GitLab: <https://gitlab.com/protesilaos/denote>
 + Video demo: <https://protesilaos.com/codelog/2022-06-18-denote-demo/>
 + Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
   Note Only The Epiphenomenal.
@@ -72,8 +72,8 @@ designed by me).
 + Change log: <https://protesilaos.com/emacs/ef-themes-changelog>
 + Sample pictures: <https://protesilaos.com/emacs/ef-themes-pictures>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/ef-themes>
- + GitLab: <https://gitlab.com/protesilaos/ef-themes>
+  + GitHub: <https://github.com/protesilaos/ef-themes>
+  + GitLab: <https://gitlab.com/protesilaos/ef-themes>
 + Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
   Embellishments, and Sparkles.
 
@@ -105,8 +105,8 @@ brevity, we call buffers that belong to frames "beframed".
 + Official manual: <https://protesilaos.com/emacs/beframe>
 + Change log: <https://protesilaos.com/emacs/beframe-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/beframe>
- + GitLab: <https://gitlab.com/protesilaos/beframe>
+  + GitHub: <https://github.com/protesilaos/beframe>
+  + GitLab: <https://gitlab.com/protesilaos/beframe>
 + Video demo: <https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/>
 + Backronym: Buffers Encapsulated in Frames Realise Advanced
   Management of Emacs.
@@ -145,8 +145,8 @@ designs](https://github.com/rougier) and [Daniel Mendler's
 + Official manual: <https://protesilaos.com/emacs/spacious-padding>
 + Change log: <https://protesilaos.com/emacs/spacious-padding>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/spacious-padding>
- + GitLab: <https://gitlab.com/protesilaos/spacious-padding>
+  + GitHub: <https://github.com/protesilaos/spacious-padding>
+  + GitLab: <https://gitlab.com/protesilaos/spacious-padding>
 + Sample images:
   - <https://protesilaos.com/codelog/2023-06-03-emacs-spacious-padding/>
   - <https://protesilaos.com/codelog/2023-11-15-spacious-padding-extra-ui-dev/>
@@ -171,8 +171,8 @@ substitution outright, without moving the point.
 + Package name (GNU ELPA): `substitute`
 + Official manual: <https://protesilaos.com/emacs/substitute>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/substitute>
- + GitLab: <https://gitlab.com/protesilaos/substitute>
+  + GitHub: <https://github.com/protesilaos/substitute>
+  + GitLab: <https://gitlab.com/protesilaos/substitute>
 + Video demo: <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
 + Backronym: Some Utilities Built to Substitute Targets Independent of
   Their Utterances, Thoroughly and Easily.
@@ -189,8 +189,8 @@ like that of more featureful third-party options.
 + Official manual: <https://protesilaos.com/emacs/mct>
 + Change log: <https://protesilaos.com/emacs/mct-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/mct>
- + GitLab: <https://gitlab.com/protesilaos/mct>
+  + GitHub: <https://github.com/protesilaos/mct>
+  + GitLab: <https://gitlab.com/protesilaos/mct>
 + Video demo: <https://protesilaos.com/codelog/2021-10-22-emacs-mct-demo/>
 + Backronym: Minibuffer Confines Transcended; Minibuffer and
   Completions in Tandem.
@@ -206,8 +206,8 @@ timers in a nice grid.
 + Official manual: <https://protesilaos.com/emacs/tmr>
 + Change log: <https://protesilaos.com/emacs/tmr-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/tmr>
- + GitLab: <https://gitlab.com/protesilaos/tmr>
+  + GitHub: <https://github.com/protesilaos/tmr>
+  + GitLab: <https://gitlab.com/protesilaos/tmr>
 + Backronym: TMR May Ring; Timer Must Run.
 
 ## aLtCaPs
@@ -220,8 +220,8 @@ alternating the letter casing of characters in the words it affects.
 + Official manual: <https://protesilaos.com/emacs/altcaps>
 + Change log: <https://protesilaos.com/emacs/altcaps-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/altcaps>
- + GitLab: <https://gitlab.com/protesilaos/altcaps>
+  + GitHub: <https://github.com/protesilaos/altcaps>
+  + GitLab: <https://gitlab.com/protesilaos/altcaps>
 + Backronyms: Alternating Letters Transform Casual Asides to Playful
   Statements.  ALTCAPS Lets Trolls Convert Aphorisms to Proper
   Shitposts.
@@ -236,8 +236,8 @@ commands.  For the technicalities, read the man page `sxhkd(1)`.
 
 + Package name (GNU ELPA): `sxhkdrc-mode`
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/sxhkdrc-mode>
- + GitLab: <https://gitlab.com/protesilaos/sxhkdrc-mode>
+  + GitHub: <https://github.com/protesilaos/sxhkdrc-mode>
+  + GitLab: <https://gitlab.com/protesilaos/sxhkdrc-mode>
 + Backronym: Such Xenotropic Hot Keys Demonstrate Robustness and
   Configurability ... mode.
 
@@ -256,8 +256,8 @@ shows how to extend the code to achieve the desired result.
 + Official manual: <https://protesilaos.com/emacs/logos>
 + Change log: <https://protesilaos.com/emacs/logos-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/logos>
- + GitLab: <https://gitlab.com/protesilaos/logos>
+  + GitHub: <https://github.com/protesilaos/logos>
+  + GitLab: <https://gitlab.com/protesilaos/logos>
 + Video demo: <https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/>
 + Backronyms: `^L` Only Generates Ostensible Slides; Logos Optionally Goes through Outline Sections.
 
@@ -273,8 +273,8 @@ pulse effect is added there (`pulsar-after-function-hook`).
 + Official manual: <https://protesilaos.com/emacs/pulsar>
 + Change log: <https://protesilaos.com/emacs/pulsar-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/pulsar>
- + GitLab: <https://gitlab.com/protesilaos/pulsar>
+  + GitHub: <https://github.com/protesilaos/pulsar>
+  + GitLab: <https://gitlab.com/protesilaos/pulsar>
 + Backronym: Pulsar Unquestionably Luminates, Strictly Absent the Radiation.
 
 ## Lin
@@ -298,8 +298,8 @@ more of a reminder of the point's location on the vertical axis.
 + Official manual: <https://protesilaos.com/emacs/lin>
 + Change log: <https://protesilaos.com/emacs/lin-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/lin>
- + GitLab: <https://gitlab.com/protesilaos/lin>
+  + GitHub: <https://github.com/protesilaos/lin>
+  + GitLab: <https://gitlab.com/protesilaos/lin>
 + Backronym: LIN Is Noticeable.
 
 ## Cursory
@@ -316,8 +316,8 @@ the difference between writing and reading.
 + Official manual: <https://protesilaos.com/emacs/cursory>
 + Change log: <https://protesilaos.com/emacs/cursory-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/cursory>
- + GitLab: <https://gitlab.com/protesilaos/cursory>
+  + GitHub: <https://github.com/protesilaos/cursory>
+  + GitLab: <https://gitlab.com/protesilaos/cursory>
 + Backronym: Cursor Usability Requires Styles Objectively Rated Yearlong.
 
 ## Notmuch Indicator
@@ -334,8 +334,8 @@ love letters, respectively.
 + Official manual: <https://protesilaos.com/emacs/notmuch-indicator>
 + Change log: <https://protesilaos.com/emacs/notmuch-indicator-changelog>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/notmuch-indicator>
- + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
+  + GitHub: <https://github.com/protesilaos/notmuch-indicator>
+  + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
 + Backronym: notmuch-... Interested in Notmuch Data Indicators that
   Count Any Terms Ordinarily Requested.
 
@@ -351,8 +351,8 @@ behaviour.
 + Package name (GNU ELPA): `dired-preview`
 + Official manual: <https://protesilaos.com/emacs/dired-preview>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/dired-preview>
- + GitLab: <https://gitlab.com/protesilaos/dired-preview>
+  + GitHub: <https://github.com/protesilaos/dired-preview>
+  + GitLab: <https://gitlab.com/protesilaos/dired-preview>
 + Backronym: Directories Invariably Render Everything Decently; PDFs
   Require Extra Viewing Instructions for Emacs to Work.
 
@@ -372,8 +372,8 @@ interfaces by supporting a large number of packages.
 + Change log: <https://protesilaos.com/emacs/standard-themes-changelog>
 + Sample pictures: <https://protesilaos.com/emacs/standard-themes-pictures>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/standard-themes>
- + GitLab: <https://gitlab.com/protesilaos/standard-themes>
+  + GitHub: <https://github.com/protesilaos/standard-themes>
+  + GitLab: <https://gitlab.com/protesilaos/standard-themes>
 + Backronym: Standard Themes Are Not Derivatives but the
   Affectionately Reimagined Default ... themes.
 
@@ -415,8 +415,8 @@ weights.  The README file in the git repository covers all the
 technicalities.
 
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/iosevka-comfy>
- + GitLab: <https://gitlab.com/protesilaos/iosevka-comfy>
+  + GitHub: <https://github.com/protesilaos/iosevka-comfy>
+  + GitLab: <https://gitlab.com/protesilaos/iosevka-comfy>
 + Sample pictures: <https://protesilaos.com/emacs/iosevka-comfy-pictures>
 + Backronym: Iosevka ... Could Only Modify a Font, Yes.
 
@@ -433,8 +433,8 @@ Dired to Output User's Requested Audio".
 
 + Package name (GNU ELPA): `mandoura` (⛔ not available yet)
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/mandoura>
- + GitLab: <https://gitlab.com/protesilaos/mandoura>
+  + GitHub: <https://github.com/protesilaos/mandoura>
+  + GitLab: <https://gitlab.com/protesilaos/mandoura>
 + Backronym: MPV Access Needs Dired to Output User's Requested Audio.
 
 ## Research (research.el)
@@ -459,8 +459,8 @@ buffers they generate "re-searchable".
 + Package name (GNU ELPA): `research` (⛔ not available yet)
 + Official manual: <https://protesilaos.com/emacs/research>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/research>
- + GitLab: <https://gitlab.com/protesilaos/research>
+  + GitHub: <https://github.com/protesilaos/research>
+  + GitLab: <https://gitlab.com/protesilaos/research>
 + Backronym: Repeat Ephemeral Searches in Emacs via Access to
   Reproducible Command Hubs.
 
@@ -475,8 +475,8 @@ Control framework and its accoutrements (`diff-mode.el`,
 + Package name (GNU ELPA): `agitate`
 + Official manual: <https://protesilaos.com/emacs/agitate>
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/agitate>
- + GitLab: <https://gitlab.com/protesilaos/agitate>
+  + GitHub: <https://github.com/protesilaos/agitate>
+  + GitLab: <https://gitlab.com/protesilaos/agitate>
 + Backronym: Another Git Interface Trying to Agitate Tranquil Emacsers.
 
 ## Custom Emacs build for Arch Linux (PKGBUILD)
@@ -486,8 +486,8 @@ PKGBUILD and then `pacman` does the rest.  The project's README file
 describes the procedure. ⛔ For experts only!
 
 + Git repositories:
- + GitHub: <https://github.com/protesilaos/emacs-arch-linux-pkgbuild>
- + GitLab: <https://gitlab.com/protesilaos/emacs-arch-linux-pkgbuild>
+  + GitHub: <https://github.com/protesilaos/emacs-arch-linux-pkgbuild>
+  + GitLab: <https://gitlab.com/protesilaos/emacs-arch-linux-pkgbuild>
 + Backronym for "PKGBUILD ... of Emacs": Package Knowhow Germane to
   Building Unapologetically Individuated Local Design ... of Emacs.
 
