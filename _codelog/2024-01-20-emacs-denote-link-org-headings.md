@@ -2,7 +2,7 @@
 title: "Emacs: Denote links to Org headings"
 excerpt: "Video demonstration of new Denote (Emacs) features to link to Org headings and to create new notes from existing headings."
 layout: vlog
-mediaid: "qR8JRYr4BKE"
+mediaid: "FlTnPL27VwU"
 ---
 
 In this ~20 minute video, I demonstrate the new optional features of
