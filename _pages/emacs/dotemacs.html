@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-01-25 07:15:55 +0200 with a word
-count of 99891.</b>
+<b>Last revised and exported on 2024-02-03 09:40:07 +0200 with a word
+count of 100805.</b>
 </p>
 
 <p>
@@ -489,7 +489,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orge975df0">
+<pre class="example" id="org0e9cceb">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -563,13 +563,13 @@ to propagate the changes to the relevant files.
 </p>
 
 <p>
-On a new compueter, I put all my Emacs files where they are meant to
+On a new computer, I put all my Emacs files where they are meant to
 be (inside the <code>~/.emacs.d</code> directory) with this command, which uses
 the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orga81ef0a">
+<pre class="example" id="org2185857">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -577,7 +577,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orge70a246">
+<pre class="example" id="org0d9eb93">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -2690,14 +2690,17 @@ I also take care to make it work with my customised mode line
            :right-divider-width 30
            :scroll-bar-width 8))
 
-  ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
-  ;; is very flexible.
-  (setq spacious-padding-subtle-mode-line
-        `( :mode-line-active ,(if (or (eq prot-emacs-load-theme-family 'modus)
-                                      (eq prot-emacs-load-theme-family 'standard))
-                                  'default
-                                'help-key-binding)
-           :mode-line-inactive vertical-border))
+  ;; ;; Read the doc string of `spacious-padding-subtle-mode-line' as
+  ;; ;; it is very flexible.
+  ;;
+  ;; (setq spacious-padding-subtle-mode-line
+  ;;       `( :mode-line-active ,(if (or (eq prot-emacs-load-theme-family 'modus)
+  ;;                                     (eq prot-emacs-load-theme-family 'standard))
+  ;;                                 'default
+  ;;                               'help-key-binding)
+  ;;          :mode-line-inactive vertical-border))
+
+  (setq spacious-padding-subtle-mode-line nil)
 
   (spacious-padding-mode 1)
 
@@ -2935,7 +2938,6 @@ The next section defines some complementary functionality
            :inherit medium
            :default-height 150)
           (presentation
-           :default-weight light
            :default-height 180)
           (t
            ;; I keep all properties for didactic purposes, but most can be
@@ -3360,6 +3362,7 @@ earlier (<a href="#h:713ede33-3802-40c6-a8e3-7e1fc0d0a924">The <code>prot-emacs-
     "M-`" nil
     "C-z" prot-prefix-map
     "&lt;f2&gt;" prot-prefix-map ; override that two-column gimmick
+    "ESC ESC" #'prot-simple-keyboard-quit-dwim
     "C-g" #'prot-simple-keyboard-quit-dwim
     "C-h K" #'describe-keymap ; overrides `Info-goto-emacs-key-command-node'
     "C-h u" #'apropos-user-option
@@ -3371,8 +3374,8 @@ earlier (<a href="#h:713ede33-3802-40c6-a8e3-7e1fc0d0a924">The <code>prot-emacs-
     ;; Commands for lines
     "M-o" #'delete-blank-lines   ; alias for C-x C-o
     "M-k" #'prot-simple-kill-line-backward
+    "C-S-d" #'prot-simple-duplicate-line-or-region
     "C-S-w" #'prot-simple-copy-line
-    "C-S-d" #'duplicate-dwim ; Emacs 29
     "C-S-y" #'prot-simple-yank-replace-line-or-region
     "M-SPC" #'cycle-spacing
     "C-v" #'prot-simple-multi-line-below ; overrides `scroll-up-command'
@@ -4064,9 +4067,10 @@ to pulse the region.
 In other words, start visualising the undo ring if we are going
 to be cycling through the edits."
     (interactive)
-     (if (member last-command prot/vundo-undo-functions)
-         (call-interactively 'vundo)
-       (apply args)))
+    (if (and (member last-command prot/vundo-undo-functions)
+             (not undo-in-region))
+        (call-interactively 'vundo)
+      (apply args)))
 
   (mapc
    (lambda (fn)
@@ -4297,7 +4301,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org70f9979">
+<pre class="example" id="orgc1297a5">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5119,14 +5123,14 @@ templates to have a real need for it&#x2014;but it works).
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; `abbrev' (Abbreviations, else Abbrevs)
-  (setq abbrev-file-name (locate-user-emacs-file "abbrevs"))
   (setq only-global-abbrevs nil)
 
   (prot-emacs-abbrev global-abbrev-table
-    "meweb" "https://protesilaos.com"
-    "megit" "https://github.com/protesilaos"
-    "mehub" "https://github.com/protesilaos"
-    "melab" "https://gitlab.com/protesilaos"
+    "meweb"   "https://protesilaos.com"
+    "megit"   "https://github.com/protesilaos"
+    "mehub"   "https://github.com/protesilaos"
+    "meclone" "git@github.com/protesilaos/"
+    "melab"   "https://gitlab.com/protesilaos"
     "medrive" "hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/")
 
   (prot-emacs-abbrev text-mode-abbrev-table
@@ -5154,7 +5158,10 @@ templates to have a real need for it&#x2014;but it works).
       "bestregards"  "Best regards,\nProtesilaos (or simply \"Prot\")"
       "allthebest"   "All the best,\nProtesilaos (or simply \"Prot\")"
       "abest"        "All the best,\nProt"
-      "bregards"     "Best regards,\nProt"))
+      "bregards"     "Best regards,\nProt"
+      "nosrht"       "P.S. I am phasing out SourceHut:
+&lt;https://protesilaos.com/codelog/2024-01-27-sourcehut-no-more/&gt;.
+Development continues on GitHub with GitLab as a mirror."))
 
   ;; message-mode derives from text-mode, so we don't need a separate
   ;; hook for it.
@@ -6139,7 +6146,7 @@ where windows/buffers are displayed (<a href="#h:50f8b1e4-b14e-453f-a37e-1c0e495
 </p>
 
 <ul class="org-ul">
-<li>Type <code>M-s M-s</code> (<code>prot-search-outline</code>) to use minibuffer completion
+<li>Type <code>M-s s</code> or <code>M-s M-s</code> (<code>prot-search-outline</code>) to use minibuffer completion
 to match an entry across the buffer&rsquo;s outline. This is probably my
 most used command. What I like about it is that it benefits from the
 extensive customisations I make to the completion mechanism and the
@@ -6213,6 +6220,7 @@ by visiting individual files or by using a grep buffer as an index.
     "M-s t" #'prot-search-occur-todo-keywords
     "M-s M-t" #'prot-search-grep-todo-keywords ; With C-u it runs `prot-search-git-grep-todo-keywords'
     "M-s M-T" #'prot-search-git-grep-todo-keywords
+    "M-s s" #'prot-search-outline
     "M-s M-s" #'prot-search-outline
     "M-s M-o" #'prot-search-occur-outline
     "M-s M-u" #'prot-search-occur-browse-url)
@@ -6905,7 +6913,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org30f97e2">
+<pre class="example" id="org06a597b">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7070,7 +7078,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org735a706">
+<pre class="example" id="org73f46fb">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9141,7 +9149,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org85e075c">
+<pre class="example" id="orge5e0760">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9855,7 +9863,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org4a66179">
+<pre class="example" id="org7554baa">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9867,7 +9875,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org0bfc296">
+<pre class="example" id="org4d522aa">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -9930,7 +9938,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgacfd850">
+<pre class="example" id="org4c6fbfb">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -9942,7 +9950,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgccbb762">
+<pre class="example" id="org2fae621">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -9964,7 +9972,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org60f8693">
+<pre class="example" id="org7e4dbfd">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11082,7 +11090,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orge018eb4">
+<pre class="example" id="orgdf10538">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11178,7 +11186,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via command
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org86888ac">
+<pre class="example" id="orgd21f08f">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -17406,11 +17414,11 @@ expression."
   (interactive)
   (if (eq last-command this-command)
       (ignore-errors (forward-sexp 1))
-    (let ((thing (cond
-                  ((thing-at-point 'url) 'url)
-                  ((thing-at-point 'sexp) 'sexp)
-                  ((thing-at-point 'string) 'string)
-                  (t 'word))))
+    (when-let ((thing (cond
+                       ((thing-at-point 'url) 'url)
+                       ((thing-at-point 'sexp) 'sexp)
+                       ((thing-at-point 'string) 'string)
+                       (t 'word))))
       (prot-simple--mark (bounds-of-thing-at-point thing)))))
 
 ;;;###autoload
@@ -17551,6 +17559,28 @@ When called interactively without a prefix numeric argument, N is
   (copy-region-as-kill (line-beginning-position) (line-end-position)))
 
 (make-obsolete 'prot-simple-copy-line-or-region 'prot-simple-copy-line "2023-09-26")
+
+(defun prot-simple--duplicate-buffer-substring (boundaries)
+  "Duplicate buffer substring between BOUNDARIES.
+BOUNDARIES is a cons cell representing buffer positions."
+  (unless (consp boundaries)
+    (error "`%s' is not a cons cell" boundaries))
+  (let ((beg (car boundaries))
+        (end (cdr boundaries)))
+    (save-excursion
+      (goto-char end)
+      (newline)
+      (insert (buffer-substring-no-properties beg end))
+      (indent-for-tab-command))))
+
+;;;###autoload
+(defun prot-simple-duplicate-line-or-region (&amp;optional beg end)
+  "Duplicate the current line or active region."
+  (interactive "r")
+  (prot-simple--duplicate-buffer-substring
+   (if (region-active-p)
+       (cons (region-beginning) (region-end))
+     (cons (line-beginning-position) (line-end-position)))))
 
 ;;;###autoload
 (defun prot-simple-yank-replace-line-or-region ()
@@ -18691,7 +18721,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org6005e27">
+<pre class="example" id="org34dab30">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18724,7 +18754,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgdd1586a">
+<pre class="example" id="org175aea5">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
