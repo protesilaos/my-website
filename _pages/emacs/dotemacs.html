@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-02-04 07:53:44 +0200 with a word
-count of 101546.</b>
+<b>Last revised and exported on 2024-02-08 10:34:41 +0200 with a word
+count of 101611.</b>
 </p>
 
 <p>
@@ -490,7 +490,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orga5f5bdb">
+<pre class="example" id="org89ba727">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -570,7 +570,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgb20fde9">
+<pre class="example" id="org5a26048">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -578,7 +578,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org0753930">
+<pre class="example" id="orgced2930">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1045,12 +1045,16 @@ these options come into effect (<a href="#h:5a41861f-4c38-45ac-8da2-51d77c0b4a73
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defcustom prot-emacs-completion-ui 'vertico
-  "Choose minibuffer completion UI between `mct' or `vertico'
+  "Choose minibuffer completion UI between `mct' or `vertico'.
+If the value is nil, the default completion user interface is
+used.  On Emacs 30, this is close the experience with `mct'.
+
 This user option must be set in the `prot-emacs-pre-custom.el'
 file.  If that file exists in the Emacs directory, it is loaded
 before all other modules of my setup."
   :group 'prot-emacs
   :type '(choice :tag "Minibuffer user interface"
+                 (const :tag "Default user interface" nil)
                  (const :tag "The `mct' module" mct)
                  (const :tag "The `vertico' module" vertico)))
 </pre>
@@ -4330,7 +4334,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org89db186">
+<pre class="example" id="org100d1a5">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -4982,14 +4986,23 @@ completion (such as the <code>corfu</code> package).
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">  (setq completions-format 'one-column)
   (setq completion-show-help nil)
-  (setq completion-auto-help t)
+  (setq completion-auto-help 'always)
   (setq completion-auto-select nil)
   (setq completions-detailed t)
   (setq completion-show-inline-help nil)
   (setq completions-max-height 6)
-  (setq completions-header-format (propertize "%s candidates:\n" 'face 'font-lock-comment-face))
+  (setq completions-header-format (propertize "%s candidates:\n" 'face 'bold-italic))
   (setq completions-highlight-face 'completions-highlight)
+  (setq minibuffer-completion-auto-choose t)
   (setq minibuffer-visible-completions t) ; Emacs 30
+  (setq completions-sort 'historical)
+
+  (unless prot-emacs-completion-ui
+    (prot-emacs-keybind minibuffer-local-completion-map
+      "&lt;up&gt;" #'minibuffer-previous-line-completion
+      "&lt;down&gt;" #'minibuffer-next-line-completion)
+
+    (add-hook 'completion-list-mode-hook #'prot-common-truncate-lines-silently))
 </pre>
 </div>
 </div>
@@ -5168,7 +5181,13 @@ templates to have a real need for it&#x2014;but it works).
     "mehub"   "https://github.com/protesilaos"
     "meclone" "git@github.com/protesilaos/"
     "melab"   "https://gitlab.com/protesilaos"
-    "medrive" "hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/")
+    "medrive" "hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/"
+    ";web"   "https://protesilaos.com"
+    ";git"   "https://github.com/protesilaos"
+    ";hub"   "https://github.com/protesilaos"
+    ";clone" "git@github.com/protesilaos/"
+    ";lab"   "https://gitlab.com/protesilaos"
+    ";drive" "hyper://5cr7mxac8o8aymun698736tayrh1h4kbqf359cfk57swjke716gy/")
 
   (prot-emacs-abbrev text-mode-abbrev-table
     "asciidoc"       "AsciiDoc"
@@ -5189,15 +5208,16 @@ templates to have a real need for it&#x2014;but it works).
     "typescript"     "TypeScript"
     "visavis"        "vis-à-vis"
     "youtube"        "YouTube"
-    ":up"            "🙃"
-    ":uni"           "🦄"
-    ":laugh"         "🤣"
-    ":smile"         "😀"
-    ":sun"           "☀️")
+    ";up"            "🙃"
+    ";uni"           "🦄"
+    ";laugh"         "🤣"
+    ";smile"         "😀"
+    ";sun"           "☀️")
 
-  ;; Allow abbrevs with a prefix colon or underscore.  I demonstrated
+  ;; Allow abbrevs with a prefix colon, semicolon, or underscore.  I demonstrated
   ;; this here: &lt;https://protesilaos.com/codelog/2024-02-03-emacs-abbrev-mode/&gt;.
-  (abbrev-table-put text-mode-abbrev-table :regexp "\\(?:^\\|[\t\s]+\\)\\(?1:[:_].*\\|.*\\)")
+  (abbrev-table-put global-abbrev-table :regexp "\\(?:^\\|[\t\s]+\\)\\(?1:[:;_].*\\|.*\\)")
+  (abbrev-table-put text-mode-abbrev-table :regexp "\\(?:^\\|[\t\s]+\\)\\(?1:[:;_].*\\|.*\\)")
 
   (with-eval-after-load 'message
     (prot-emacs-abbrev message-mode-abbrev-table
@@ -5218,7 +5238,10 @@ Development continues on GitHub with GitLab as a mirror."))
   (prot-emacs-abbrev-function global-abbrev-table
     "metime" #'prot-abbrev-current-time
     "medate" #'prot-abbrev-current-date
-    "mejitsi" #'prot-abbrev-jitsi-link)
+    "mejitsi" #'prot-abbrev-jitsi-link
+    ";time" #'prot-abbrev-current-time
+    ";date" #'prot-abbrev-current-date
+    ";jitsi" #'prot-abbrev-jitsi-link)
 
   ;; message-mode derives from text-mode, so we don't need a separate
   ;; hook for it.
@@ -5336,17 +5359,7 @@ Also see <a href="#h:567bb00f-1d82-4746-93e5-e0f60721728a">the <code>prot-emacs-
   ;; Sort by input history (no need to modify `corfu-sort-function').
   (with-eval-after-load 'savehist
     (corfu-history-mode 1)
-    (add-to-list 'savehist-additional-variables 'corfu-history))
-
-  ;; Adapted from Corfu's manual.
-  (defun contrib/corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if MCT or Vertico is not active.
-Useful for prompts such as `eval-expression' and `shell-command'."
-    (unless (or (bound-and-true-p vertico--input)
-                (bound-and-true-p mct--active))
-      (corfu-mode 1)))
-
-  (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
+    (add-to-list 'savehist-additional-variables 'corfu-history)))
 </pre>
 </div>
 </div>
@@ -6976,7 +6989,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org3046999">
+<pre class="example" id="org8e275e9">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7141,7 +7154,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgb58fa8c">
+<pre class="example" id="org0aeeac1">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9212,7 +9225,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org880e174">
+<pre class="example" id="orgb7cc3f9">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9926,7 +9939,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgdf051b0">
+<pre class="example" id="orgeceaaab">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9938,7 +9951,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org28a8bb2">
+<pre class="example" id="org3a157c8">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10001,7 +10014,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org89b4fb3">
+<pre class="example" id="orgeef7f8c">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10013,7 +10026,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org6339342">
+<pre class="example" id="org40f65e0">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10035,7 +10048,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgb194685">
+<pre class="example" id="orgf95d2d6">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11153,7 +11166,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgfb51931">
+<pre class="example" id="orgce333cd">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11249,7 +11262,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via command
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgd515f07">
+<pre class="example" id="org2533aab">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13652,7 +13665,8 @@ Add as :around advice to `evil-paste-after' and `evil-paste-before',
 applying its ARGS."
   (if (evil-visual-state-p)
       (cl-letf (((symbol-function 'evil-yank) #'ignore))
-        (apply args))
+        (apply args)
+        (setq evil-last-paste nil))
     (apply args)))
 
 (advice-add #'evil-paste-after :around #'prot-evil-visual-paste-no-kill)
@@ -18864,7 +18878,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgc067f36">
+<pre class="example" id="org5c83592">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18897,7 +18911,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org1a8442a">
+<pre class="example" id="org7fda1f9">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
