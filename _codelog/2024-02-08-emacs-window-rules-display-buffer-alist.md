@@ -29,7 +29,7 @@ advanced uses, refer to my relevant section in Emacs configuration:
         ;; Match a buffer whose name is "*Occur*".  We have to escape
         ;; the asterisks to match them literally and not as a special
         ;; regular expression character.
-        ("\\*Occur\\"
+        ("\\*Occur\\*"
          ;; If a buffer with the matching major-mode exists in some
          ;; window, then use that one.  Otherwise, display the buffer
          ;; below the current window.
