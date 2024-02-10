@@ -46,6 +46,11 @@ advanced uses, refer to my relevant section in Emacs configuration:
 ;; reason for it):
 (setq switch-to-buffer-obey-display-actions t)
 
+;; If you are in a window that is dedicated to its buffer and try to
+;; `switch-to-buffer' there, tell Emacs to pop a new window instead of
+;; using the current one:
+(setq switch-to-buffer-in-dedicated-window 'pop)
+
 ;; Other relevant variables which control when Emacs splits the frame
 ;; vertically or horizontally, with some sample values (do `M-x
 ;; describe-variable' and search for those variables to learn more
