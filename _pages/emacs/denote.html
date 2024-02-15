@@ -1223,7 +1223,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org7d2f48d">
+<pre class="example" id="orgf80416f">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1787,6 +1787,14 @@ use, but carries out the renaming without asking for confirmation
 <h3 id="h:3ab08ff4-81fa-4d24-99cb-79f97c13a373"><span class="section-number-3">4.2.</span> Rename a single file based on its front matter</h3>
 <div class="outline-text-3" id="text-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">
 <p>
+[ Revised as part of 3.0.0-dev to (i) accept an
+  optional double prefix argument to automatically save the buffer and
+  (ii) to not ask for confirmation while renaming and to automatically
+  save the buffer if the user option <code>denote-rename-no-confirm</code> is
+  non-nil (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>). ]
+</p>
+
+<p>
 In the previous section, we covered the more general mechanism of the
 command <code>denote-rename-file</code> (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  There is also a
 way to have the same outcome by making Denote read the data in the
@@ -1801,7 +1809,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgafdc2fd">
+<pre class="example" id="orge738040">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1821,7 +1829,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgca5acf3">
+<pre class="example" id="org852126b">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1846,8 +1854,25 @@ new names, just so the user is certain about the change.
 
 <p>
 If called interactively with a prefix argument (<code>C-u</code> by default) or
-from Lisp with a non-nil <code>AUTO-CONFIRM</code> argument, this &ldquo;yes or no&rdquo;
-prompt is skipped.
+from Lisp with a non-nil <code>NO-CONFIRM</code> argument, this &ldquo;yes or no&rdquo;
+prompt is skipped and the renaming is done outright.
+</p>
+
+<p>
+[ The following are part of 3.0.0-dev. ]
+</p>
+
+<p>
+If called interactively with a double prefix argument (<code>C-u C-u</code> by
+default) or from Lisp with a non-nil <code>SAVE-BUFFER</code> argument, the
+buffer is saved after the front matter is updated and the file is
+renamed.
+</p>
+
+<p>
+If the user option <code>denote-rename-no-confirm</code> is non-nil, it is
+interpreted the same way as a combination of <code>NO-CONFIRM</code> and
+<code>SAVE-BUFFER</code> (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
 </p>
 
 <p>
@@ -2026,8 +2051,10 @@ accordingly.
 </p>
 
 <p>
-Both commands will automatically save the buffer if the user option
-<code>denote-rename-no-confirm</code> is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+Both commands accept an optional prefix argument to automatically save
+the buffer. Similarly, they both interpret a non-nil value for the
+user option <code>denote-rename-no-confirm</code> the same as the prefix argument
+(<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
 </p>
 
 <p>
@@ -2242,7 +2269,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgd3529fc">
+<pre class="example" id="orgf1124be">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2341,7 +2368,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgb28828b">
+<pre class="example" id="org6bb0b9d">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2353,7 +2380,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgd180730">
+<pre class="example" id="org9bd0dee">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2367,7 +2394,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org27316e0">
+<pre class="example" id="org4a62989">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2381,7 +2408,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge775423">
+<pre class="example" id="org444b589">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2768,7 +2795,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org6e3da62">
+<pre class="example" id="org2a3909e">
 - link1
 - link2
 - link3
@@ -2786,7 +2813,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgb3ea744">
+<pre class="example" id="orgd630a51">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3003,7 +3030,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org815f3d5">
+<pre class="example" id="org218057a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3018,7 +3045,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orga8cbec7">
+<pre class="example" id="org79d9877">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4174,7 +4201,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgcca7bfc">
+<pre class="example" id="orge0af452">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5815,7 +5842,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgacb7625">
+<pre class="example" id="org81cf8d0">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5825,7 +5852,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org83f8d8c">
+<pre class="example" id="org0437ad3">
 emacs -Q
 </pre>
 
@@ -5837,7 +5864,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org269afbe">
+<pre class="example" id="orge6d361c">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5903,7 +5930,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org49e420b">
+<pre class="example" id="org734243b">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
