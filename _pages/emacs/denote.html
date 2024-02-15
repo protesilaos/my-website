@@ -20,7 +20,7 @@ commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 2.3.0-dev.
+Current development target is 3.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -59,8 +59,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:11946562-7eb0-4925-a3b5-92d75f1f5895">3.1.3.1. Write your own convenience commands</a></li>
 </ul>
 </li>
-<li><a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">3.1.4. The <code>denote-date-prompt-use-org-read-date</code> option</a></li>
-<li><a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">3.1.5. Add or remove keywords interactively</a></li>
+<li><a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">3.1.4. The <code>denote-save-buffer-after-creation</code> option</a></li>
+<li><a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">3.1.5. The <code>denote-date-prompt-use-org-read-date</code> option</a></li>
 </ul>
 </li>
 <li><a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">3.2. Create a note from the current Org subtree</a></li>
@@ -91,7 +91,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:f365ff7e-2140-4e14-a92f-666ae97382a4">4.4. Rename multiple files at once by asking only for keywords</a></li>
 <li><a href="#h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">4.5. Rename multiple files based on their front matter</a></li>
 <li><a href="#h:85b65995-89fd-4978-bba3-7bb6c8d6f945">4.6. Rename a file by changing only its file type</a></li>
-<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.7. Faces used by rename commands</a></li>
+<li><a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">4.7. Rename a file by adding or removing keywords interactively</a></li>
+<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.8. Faces used by rename commands</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -606,8 +607,12 @@ option, there are cases where an ad-hoc method is the appropriate one
 </p>
 
 <p>
-To this end, Denote provides the following convenience interactive
-commands for note creation:
+To this end, Denote provides the following interactive convenience
+commands for note creation. They all work by appending a new prompt to
+the existing <code>denote-prompts</code>. For these examples, we assume the
+default value of <code>denote-prompts</code>, which is <code>'(title keywords)</code>. [
+Appending to the existing <code>denote-prompts</code> is a behaviour defined in
+3.0.0-dev. ]
 </p>
 
 <dl class="org-dl">
@@ -785,8 +790,34 @@ to the list of commands available at the <code>denote-command-prompt</code>
 </div>
 </div>
 
+<div id="outline-container-h:bf80f4cd-6f56-4f7c-a991-8573161e4511" class="outline-4">
+<h4 id="h:bf80f4cd-6f56-4f7c-a991-8573161e4511"><span class="section-number-4">3.1.4.</span> The <code>denote-save-buffer-after-creation</code> option</h4>
+<div class="outline-text-4" id="text-h:bf80f4cd-6f56-4f7c-a991-8573161e4511">
+<p>
+[ Part of 3.0.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-save-buffer-after-creation</code> controls whether
+commands that creeate new notes save their buffer outright.
+</p>
+
+<p>
+The default behaviour of commands such as <code>denote</code> (or related) is to
+not save the buffer they create (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>). This gives the user
+the chance to review the text before writing it to a file. The user
+may choose to delete the unsaved buffer, thus not creating a new note.
+</p>
+
+<p>
+If <code>denote-save-buffer-after-creation</code> is set to a non-nil value, such
+buffers are saved automatically.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63" class="outline-4">
-<h4 id="h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63"><span class="section-number-4">3.1.4.</span> The <code>denote-date-prompt-use-org-read-date</code> option</h4>
+<h4 id="h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63"><span class="section-number-4">3.1.5.</span> The <code>denote-date-prompt-use-org-read-date</code> option</h4>
 <div class="outline-text-4" id="text-h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">
 <p>
 By default, Denote uses its own simple prompt for date or date+time
@@ -802,36 +833,13 @@ that is common in interactions with Org mode, can set the user option
 </p>
 </div>
 </div>
-
-<div id="outline-container-h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4" class="outline-4">
-<h4 id="h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4"><span class="section-number-4">3.1.5.</span> Add or remove keywords interactively</h4>
-<div class="outline-text-4" id="text-h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">
-<p>
-The commands <code>denote-keywords-add</code> and <code>denote-keywords-remove</code>
-streamline the process of interactively updating a file&rsquo;s keywords in
-the front matter and renaming it accordingly.
-</p>
-
-<p>
-The <code>denote-keywords-add</code> asks for keywords using the familiar
-minibuffer prompt (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  It then renames the file
-(<a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">Rename a single file based on its front matter</a>).
-</p>
-
-<p>
-Similarly, the <code>denote-keywords-remove</code> removes one or more keywords
-from the list of existing keywords and then renames the file
-accordingly.
-</p>
-</div>
-</div>
 </div>
 
 <div id="outline-container-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd" class="outline-3">
 <h3 id="h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd"><span class="section-number-3">3.2.</span> Create a note from the current Org subtree</h3>
 <div class="outline-text-3" id="text-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">
 <p>
-[ Rewritten as part of 2.3.0-dev. ]
+[ Rewritten as part of 3.0.0-dev. ]
 </p>
 
 <p>
@@ -857,8 +865,11 @@ note. Everything else is inserted as-is.
 
 <p>
 If the heading has any tags, they are used as the keywords of the new
-note. If the Org file has any <code>#+filetags</code> they are taken as well.
-Else the new note has no keywords (<a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">Add or remove keywords interactively</a>).
+note. If the Org file has any <code>#+filetags</code> they are taken as well
+(Org&rsquo;s <code>#+filetags</code> are inherited by the headings). If none of these
+are true and the user option <code>denote-prompts</code> includes an entry for
+keywords, then <code>denote-org-extras-extract-org-subtree</code> prompts for
+keywords. Else the new note has no keywords (<a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">Add or remove keywords interactively</a>).
 </p>
 
 <p>
@@ -867,13 +878,26 @@ review.
 </p>
 
 <p>
-If the heading&rsquo;s <code>PROPERTIES</code> drawer includes a <code>DATE</code> or <code>CREATED</code> or
-<code>CLOSED</code> property with a timestamp value, it is used to derive the date
-(or date and time) of the new note (if there is only a date, the time
-is taken as 00:00). If more than one of these properties is present,
-the order of preference is <code>DATE</code>, followed by <code>CREATED</code>, followed by
-<code>CLOSED</code>.
+If the heading&rsquo;s <code>PROPERTIES</code> drawer includes a <code>DATE</code> or <code>CREATED</code>
+property, or there exists a <code>CLOSED</code> statement with a timestamp value,
+use that to derive the date (or date and time) of the new note (if
+there is only a date, the time is taken as 00:00). If more than one of
+these is present, the order of preference is <code>DATE</code>, then <code>CREATED</code>,
+then <code>CLOSED</code>. If none of these is present, the current time is used.
+If the <code>denote-prompts</code> includes an entry for a date, then the command
+prompts for a date at this stage (also see <code>denote-date-prompt-use-org-read-date</code>).
 </p>
+
+<p>
+For the rest, it consults the value of the user option
+<code>denote-prompts</code> in the following scenaria:
+</p>
+
+<ul class="org-ul">
+<li>To optionally prompt for a subdirectory, otherwise it produces the
+new note in the <code>denote-directory</code>.</li>
+<li>To optionally prompt for a file signature, otherwise to not use any.</li>
+</ul>
 
 <p>
 The new note is an Org file regardless of the user option
@@ -1177,7 +1201,7 @@ file, with the following contents:
 ;;;
 ;;;     (info "(emacs) Directory Variables")
 
-((nil . ((denote-directory . default-directory))))
+((nil . ((denote-directory . "/path/to/silo/"))))
 </pre>
 </div>
 
@@ -1199,7 +1223,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgb8eb63e">
+<pre class="example" id="org7d2f48d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1232,7 +1256,7 @@ silo-specific value.  For example, this one changes the
 ;;;
 ;;;     (info "(emacs) Directory Variables")
 
-((nil . ((denote-directory . default-directory)
+((nil . ((denote-directory . "/path/to/silo/")
          (denote-known-keywords . ("food" "drink")))))
 </pre>
 </div>
@@ -1246,7 +1270,7 @@ This one is like the above, but also disables <code>denote-infer-keywords</code>
 ;;;
 ;;;     (info "(emacs) Directory Variables")
 
-((nil . ((denote-directory . default-directory)
+((nil . ((denote-directory . "/path/to/silo/")
          (denote-known-keywords . ("food" "drink"))
          (denote-infer-keywords . nil))))
 </pre>
@@ -1262,33 +1286,12 @@ modes, we can do something like this:
 ;;;
 ;;;     (info "(emacs) Directory Variables")
 
-((nil . ((denote-directory . default-directory)
+((nil . ((denote-directory . "/path/to/silo/")
          (denote-known-keywords . ("food" "drink"))
          (denote-infer-keywords . nil)))
  (org-mode . ((org-hide-emphasis-markers . t)
               (org-hide-macro-markers . t)
               (org-hide-leading-stars . t))))
-</pre>
-</div>
-
-<p>
-IMPORTANT If your silo contains sub-directories of notes, you
-should replace <code>default-directory</code> in the above examples with an
-absolute path to your silo directory, otherwise links from files
-within the sub-directories cannot be made to files in the parent
-directory. For example:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Directory Local Variables.  For more information evaluate:
-;;;
-;;;     (info "(emacs) Directory Variables")
-  ((nil . ((denote-directory . "~/my-silo")
-           (denote-known-keywords . ("food" "drink"))
-           (denote-infer-keywords . nil)))
-   (org-mode . ((org-hide-emphasis-markers . t)
-                (org-hide-macro-markers . t)
-                (org-hide-leading-stars . t))))
 </pre>
 </div>
 
@@ -1375,7 +1378,7 @@ added to the user&rsquo;s Denote configuration:
          (intern (completing-read
                   "Run command in silo: "
                   my-denote-commands-for-silos nil t))))
-  (let ((denote-user-enforced-denote-directory silo))
+  (let ((denote-directory silo))
     (call-interactively command)))
 </pre>
 </div>
@@ -1387,17 +1390,14 @@ and then ask for the command to run in that context.
 </p>
 
 <p>
-Note the use of the variable <code>user-enforced-denote-directory</code>. This
-variable is specially meant for custom commands to select silos. When
-it is set, it overrides the global default value of <code>denote-directory</code>
-as well as the value provided by the <code>.dir-locals.el</code> file. Use it
-only when writing wrapper functions like
-<code>my-denote-pick-silo-then-command</code>.
+Note that <code>let</code> binding <code>denote-directory</code> can be used in custom
+commands and other wrapper functions to override the global default
+value of <code>denote-directory</code> to select silos.
 </p>
 
 <p>
-To see another example of a wrapper function that uses
-<code>user-enforced-denote-directory</code>, see:
+To see another example of a wrapper function that <code>let</code> binds
+<code>denote-directory</code>, see:
 </p>
 
 <p>
@@ -1410,7 +1410,7 @@ To see another example of a wrapper function that uses
 <h4 id="h:e43baf95-f201-4fec-8620-c0eb5eaa1c85"><span class="section-number-4">3.7.2.</span> The <code>denote-silo-extras.el</code></h4>
 <div class="outline-text-4" id="text-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">
 <p>
-[ As part of 2.3.0-dev, we fixed an issue where a
+[ As part of 3.0.0-dev, we fixed an issue where a
   <code>C-u</code> prefix argument was needed to select a silo. ]
 </p>
 
@@ -1521,7 +1521,7 @@ development log: <a href="https://protesilaos.com/codelog/2023-03-31-emacs-denot
 <p>
 The command <code>denote-menu-bar-mode</code> toggles the presentation of the
 menu. It is enabled by default. [ The <code>denote-menu-bar-mode</code> is part
-of 2.3.0-dev. ]
+of 3.0.0-dev. ]
 </p>
 
 <p>
@@ -1569,6 +1569,11 @@ mechanisms to facilitate the task of renaming them.
 </p>
 
 <p>
+All renaming commands run the <code>denote-after-rename-file-hook</code> after a
+succesful operation. [ Part of 3.0.0-dev. ]
+</p>
+
+<p>
 Apart from renaming files, Denote can also rename only the buffer.
 The idea is that the underlying file name is correct but it can be
 easier to use shorter buffer names when displaying them on the mode
@@ -1584,117 +1589,146 @@ line or switching between then with commands like <code>switch-to-buffer</code>.
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
 <div class="outline-text-3" id="text-h:7cc9e000-806a-48da-945c-711bbc7426b0">
 <p>
+[ Revised as part of 3.0.0-dev to honour the value of
+  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>).  
+  This version also broadens the scope of the user option
+  <code>denote-rename-no-confirm</code>, such that it automatically saves the
+  affcted buffers, post-rename. ]
+</p>
+
+<p>
 The <code>denote-rename-file</code> command renames a file and updates existing
 front matter if appropriate. It is possible to do the same with
 multiple files (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files interactively</a>).
 </p>
 
 <p>
-If in Dired, consider <code>FILE</code> to be the one at point, else prompt with
-minibuffer completion for one. When called from Lisp, <code>FILE</code> is a
-filesystem path represented as a string.
+It always renames the file where it is located in the file system:
+it never moves it to another directory.
 </p>
 
 <p>
-If <code>FILE</code> has a Denote-compliant identifier, retain it while updating
-the <code>TITLE</code>, <code>KEYWORDS</code>, and <code>SIGNATURE</code> components of the file name.
+If in Dired, it considers <code>FILE</code> to be the one at point, else it
+prompts with minibuffer completion for one. When called from Lisp,
+<code>FILE</code> is a file system path represented as a string.
 </p>
 
 <p>
-Else create an identifier based on the following conditions:
+If <code>FILE</code> has a Denote-compliant identifier, it retains it while
+updating components of the file name referenced by the user option
+<code>denote-prompts</code> (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>). By default, these are
+the <code>TITLE</code> and <code>KEYWORDS</code>. The <code>SIGNATURE</code> is another one. When
+called from Lisp, <code>TITLE</code> and <code>SIGNATURE</code> are strings, while
+<code>KEYWORDS</code> is a list of strings.
+</p>
+
+<p>
+If there is no identifier, <code>denote-rename-file</code> creates an identifier
+based on the following conditions:
 </p>
 
 <ol class="org-ol">
-<li>If optional <code>ASK-DATE</code> is non-nil (such as with a prefix argument),
-prompt for a date and use it to derive the identifier.</li>
+<li>If the <code>denote-prompts</code> includes an entry for date prompts, then it
+prompts for <code>DATE</code> and takes its input to produce a new identifier. For
+use in Lisp, <code>DATE</code> must conform with <code>denote-valid-date-p</code>.</li>
 
-<li>If optional <code>ASK-DATE</code> is nil (this is the case without a prefix
-argument), use the file attributes to determine the last modified
-date and format it as an identifier.</li>
+<li>If <code>DATE</code> is nil (e.g. when <code>denote-prompts</code> does not include a
+date entry), it uses the file attributes to determine the last
+modified date of <code>FILE</code> and formats it as an identifier.</li>
 
-<li>As a fallback, derive an identifier from the current time.</li>
+<li>As a fallback, it derives an identifier from the current date and
+time.</li>
 
-<li>If the resulting identifier is not unique among the files in the
-variable <code>denote-directory</code>, increment it such that it becomes
-unique.</li>
+<li>At any rate, if the resulting identifier is not unique among the
+files in the variable <code>denote-directory</code>, it increments it such
+that it becomes unique.</li>
 </ol>
 
 <p>
-Add <code>TITLE</code> to <code>FILE</code>. In interactive use, prompt for user input and
-retrieve the default <code>TITLE</code> value from a line starting with a title
-field in the file&rsquo;s contents, depending on the given file type (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
-Else, use the file name as a default value at the minibuffer prompt.
-<code>TITLE</code> is a string.
+In interactive use, and assuming <code>denote-prompts</code> includes a title
+entry, the <code>denote-rename-file</code> makes the <code>TITLE</code> prompt have
+prefilled text in the minibuffer that consists of the current title of
+<code>FILE</code>. The current title is either retrieved from the front matter
+(such as the <code>#+title</code> in Org) or from the file name.
 </p>
 
 <p>
-Add <code>SIGNATURE</code> to <code>FILE</code>. In interactive use, prompt for <code>SIGNATURE</code>,
-using an existing one as the default value at the minibuffer prompt.
-<code>SIGNATURE</code> is a string.
+The command does the same for the <code>SIGNATURE</code> prompt, subject to
+<code>denote-prompts</code>, by prefilling the minibuffer with the current
+signature of <code>FILE</code>, if any.
 </p>
 
 <p>
-Add <code>KEYWORDS</code> to <code>FILE</code>. In interactive use, prompt for <code>KEYWORDS</code>.
-More than one keyword can be inserted when separated by the
-`crm-sepator&rsquo; (normally a comma). <code>KEYWORDS</code> is a list of strings.
-When called interactively, an empty input is converted to an empty list
-of keywords.
+Same principle for the <code>KEYWORDS</code> prompt: it converts the keywords in
+the file name into a comma-separated string and prefills the minibuffer
+with it (the <code>KEYWORDS</code> prompt accepts more than one keywords, each
+separated by a comma, else the <code>crm-sepator</code>).
 </p>
 
 <p>
-Read the file type extension (like <code>.txt</code>) from the underlying file
-and preserve it through the renaming process. Files that have no
-extension are left without one.
+For all prompts, the <code>denote-rename-file</code> interprets an empty input as
+an instruction to remove that file name component. For example, if a
+<code>TITLE</code> prompt is available and <code>FILE</code> is <code>20240211T093531--some-title__keyword1.org</code>
+then it renames <code>FILE</code> to <code>20240211T093531__keyword1.org</code>. For
+interactive use, this also means that if a prompt is missing from the
+<code>denote-prompts</code> the corresponding file name component will be removed
+during the renaming process (e.g. a <code>denote-prompts</code> without an entry
+for keywords is the same as passing an empty/nil <code>KEYWORDS</code> argument,
+thus removing the keywords of the file).
 </p>
 
 <p>
-Renaming only occurs relative to the current directory. Files are not
-moved between directories.
+[ NOTE: Please check with your minibuffer user interface how to
+  provide an empty input. The Emacs default setup accepts the empty
+  minibuffer contents as they are, though popular packages like
+  <code>vertico</code> use the first available completion candidate instead. For
+  <code>vertico</code>, the user must either move one up to select the prompt and
+  then type <code>RET</code> there with empty contents, or use the command
+  <code>vertico-exit-input</code> with empty contents. That Vertico command is
+  bound to <code>M-RET</code> as of this writing on 2024-02-13 08:08 +0200. ]
 </p>
 
 <p>
-As a final step after the <code>FILE</code>, <code>TITLE</code>, <code>KEYWORDS</code>, and <code>SIGNATURE</code>
-are collected, ask for confirmation, showing the difference between
-old and new file names.
+When renaming <code>FILE</code>, the command reads its file type extension (like
+<code>.org</code>) and preserves it through the renaming process. Files that have
+no extension are left without one.
 </p>
 
 <p>
-Do not ask for confirmation if the <code>denote-rename-no-confirm</code> option
-is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+As a final step, it asks for confirmation, showing the difference
+between old and new file names. It does not ask for confirmation if
+the user option <code>denote-rename-no-confirm</code> is set to a non-nil value
+(<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
 </p>
 
 <p>
-If the <code>FILE</code> has Denote-style front matter for the <code>TITLE</code> and
-<code>KEYWORDS</code>, ask to rewrite their values in order to reflect the new
-input (this step always requires confirmation and the underlying
-buffer is not saved, so consider invoking <code>diff-buffer-with-file</code> to
-double-check the effect). The rewrite of the <code>TITLE</code> and <code>KEYWORDS</code> in
+If <code>FILE</code> has front matter for <code>TITLE</code> and <code>KEYWORDS</code>,
+<code>denote-rename-file</code> asks to rewrite their values in order to reflect
+the new input, unless <code>denote-rename-no-confirm</code> is non-nil. When the
+<code>denote-rename-no-confirm</code> is nil (the default), the underlying buffer
+is not saved, giving the user the change to invoking <code>diff-buffer-with-file</code> to
+double-check the effect. The rewrite of the <code>TITLE</code> and <code>KEYWORDS</code> in
 the front matter should not affect the rest of the front matter.
 </p>
 
 <p>
 If the file does not have front matter but is among the supported file
-types (per <code>denote-file-type</code>), add front matter at the top of it and
-leave the buffer unsaved for further inspection.
+types (per <code>denote-file-type</code>), the <code>denote-rename-file</code> adds front
+matter to the top of it and leaves the buffer unsaved for further
+inspection. It actually saves the buffer if <code>denote-rename-no-confirm</code>
+is non-nil (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
 </p>
 
 <p>
-For the front matter of each file type, refer to the variables:
-</p>
-
-<ul class="org-ul">
-<li><code>denote-org-front-matter</code></li>
-<li><code>denote-text-front-matter</code></li>
-<li><code>denote-toml-front-matter</code></li>
-<li><code>denote-yaml-front-matter</code></li>
-</ul>
-
-<p>
-This command is intended to (i) rename existing Denote notes while
-updating their title and keywords in the front matter, (ii) convert
+This command is intended to (i) rename Denote files, (ii) convert
 existing supported file types to Denote notes, and (ii) rename
-non-note files (e.g. PDF) that can benefit from Denote&rsquo;s file-naming
+non-note files (e.g. <code>PDF</code>) that can benefit from Denote&rsquo;s file-naming
 scheme.
+</p>
+
+<p>
+For a version of this command that works with multiple files
+one-by-one, use <code>denote-dired-rename-files</code> (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files interactively</a>).
 </p>
 </div>
 
@@ -1702,25 +1736,48 @@ scheme.
 <h4 id="h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7"><span class="section-number-4">4.1.1.</span> The <code>denote-rename-no-confirm</code> option</h4>
 <div class="outline-text-4" id="text-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">
 <p>
-The default behaviour of the <code>denote-rename-file</code> command is to ask
-for an affirmative answer as a final step before changing the file
-name and, where relevant, inserting or updating the corresponding
-front matter (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).
+[ Revised as part of 3.0.0-dev to save the underlying
+  buffer. The assumption is that the user who opts in to this feature is
+  familiar with the Denote renaming operation and knows it is reliable. ]
 </p>
 
 <p>
-Remember that <code>denote-rename-file</code> does not save the underlying buffer
-it modifies. It leaves it unsaved so that the user can review what
-happened, such as by invoking the command <code>diff-buffer-with-file</code>.
+The user option <code>denote-rename-no-confirm</code> makes all commands that
+rename files not prompt for confirmation and save buffers outright (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
 </p>
 
 <p>
-Specialised commands that build on top of <code>denote-rename-file</code> may
-internally bind this user option to a non-nil value in order to
-perform their operation (e.g. <code>denote-dired-rename-files</code> goes through
-each marked Dired file, prompting for the information to use, but
-carries out the renaming without asking for confirmation (buffers
-remain unsaved)).
+This affects the behaviour of the commands <code>denote-rename-file</code>,
+<code>denote-dired-rename-files</code>, <code>denote-rename-file-using-front-matter</code>,
+<code>denote-dired-rename-marked-files-with-keywords</code>,
+<code>denote-dired-rename-marked-files-using-front-matter</code>,
+<code>denote-keywords-add</code>, <code>denote-keywords-remove</code>, and any other command
+that builds on top of them.
+</p>
+
+<p>
+The default behaviour of the <code>denote-rename-file</code> command (and others
+like it) is to ask for an affirmative answer as a final step before
+changing the file name and, where relevant, inserting or updating the
+corresponding front matter. It also does not save the affected file&rsquo;s
+buffer to let the user inspect and confirm the changes (such as by
+invoking the command <code>diff-buffer-with-file</code>).
+</p>
+
+<p>
+With this user option bound to a non-nil value, buffers are saved as
+well. The assumption is that the user who opts in to this feature is
+familiar with the <code>denote-rename-file</code> (or related) operation and
+knows it is reliable.
+</p>
+
+<p>
+Specialised commands that build on top of <code>denote-rename-file</code> (or
+related) may internally bind this user option to a non-nil value in
+order to perform their operation (e.g. <code>denote-dired-rename-files</code>
+goes through each marked Dired file, prompting for the information to
+use, but carries out the renaming without asking for confirmation
+(<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files interactively</a>)).
 </p>
 </div>
 </div>
@@ -1744,7 +1801,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orga290149">
+<pre class="example" id="orgafdc2fd">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1764,7 +1821,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga51d41d">
+<pre class="example" id="orgca5acf3">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1806,7 +1863,19 @@ the like.
 <h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files interactively</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
 <p>
-The command <code>denote-dired-rename-files</code> renames the files that are
+[ Revised as part of 3.0.0-dev to honour the value of
+  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>). ]
+</p>
+
+<p>
+[ As part of 3.0.0-dev the
+<code>denote-dired-rename-marked-files</code> is an alias for
+<code>denote-dired-rename-files</code>. ]
+</p>
+
+<p>
+The command <code>denote-dired-rename-files</code> (alias
+<code>denote-dired-rename-marked-files</code>) renames the files that are
 marked in a Dired buffer. Its behaviour is similar to the
 <code>denote-rename-file</code> in that it prompts for a title, keywords, and
 signature (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>). It does so over each marked file,
@@ -1825,18 +1894,17 @@ check the command <code>denote-dired-rename-marked-files-with-keywords</code>.
 <li><a href="#h:f365ff7e-2140-4e14-a92f-666ae97382a4">Rename by writing only keywords</a></li>
 <li><a href="#h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">Rename multiple files based on their front matter</a></li>
 </ul>
-
-<p>
-[ As part of 2.3.0-dev the
-  <code>denote-dired-rename-marked-files</code> is an alias for
-  <code>denote-dired-rename-files</code>. ]
-</p>
 </div>
 </div>
 
 <div id="outline-container-h:f365ff7e-2140-4e14-a92f-666ae97382a4" class="outline-3">
 <h3 id="h:f365ff7e-2140-4e14-a92f-666ae97382a4"><span class="section-number-3">4.4.</span> Rename multiple files at once by asking only for keywords</h3>
 <div class="outline-text-3" id="text-h:f365ff7e-2140-4e14-a92f-666ae97382a4">
+<p>
+[ Revised as part of 3.0.0-dev to honour the value of
+  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>). ]
+</p>
+
 <p>
 The <code>denote-dired-rename-marked-files-with-keywords</code> command renames
 marked files in Dired to conform with our file-naming scheme. It does
@@ -1865,11 +1933,12 @@ option), such that it includes the new keywords.</li>
 </ul>
 
 <p>
-[ Note that the affected buffers are not saved. Users can thus check
-  them to confirm that the new front matter does not cause any
-  problems (e.g. with the <code>diff-buffer-with-file</code> command). Multiple
-  buffers can be saved in one go with <code>save-some-buffers</code> (read its
-  doc string). ]
+[ Note that the affected buffers are not saved, unless the user option
+  <code>denote-rename-no-confirm</code> is non-nil. Users can thus check them to
+  confirm that the new front matter does not cause any problems (e.g.
+  with the <code>diff-buffer-with-file</code> command). Multiple buffers can be
+  saved in one go with the command <code>save-some-buffers</code> (read its doc
+  string). ]
 </p>
 </div>
 </div>
@@ -1931,8 +2000,45 @@ difference between old and new file names.
 </div>
 </div>
 
+<div id="outline-container-h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4" class="outline-3">
+<h3 id="h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4"><span class="section-number-3">4.7.</span> Rename a file by adding or removing keywords interactively</h3>
+<div class="outline-text-3" id="text-h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">
+<p>
+The commands <code>denote-keywords-add</code> and <code>denote-keywords-remove</code>
+streamline the process of interactively updating a file&rsquo;s keywords in
+the front matter and renaming it accordingly.
+</p>
+
+<p>
+The <code>denote-keywords-add</code> asks for keywords using the familiar
+minibuffer prompt (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  It then renames the file
+(<a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">Rename a single file based on its front matter</a>).
+</p>
+
+<p>
+Similarly, the <code>denote-keywords-remove</code> removes one or more keywords
+from the list of existing keywords and then renames the file
+accordingly.
+</p>
+
+<p>
+[ The following are part of 3.0.0-dev. ]
+</p>
+
+<p>
+Both commands will automatically save the buffer if the user option
+<code>denote-rename-no-confirm</code> is set to a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+</p>
+
+<p>
+Aliases for these commands are: <code>denote-rename-add-keywords</code> and
+<code>denote-rename-remove-keywords</code>.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5" class="outline-3">
-<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.7.</span> Faces used by rename commands</h3>
+<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.8.</span> Faces used by rename commands</h3>
 <div class="outline-text-3" id="text-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">
 <p>
 These are the faces used by the various Denote rename commands to
@@ -2136,7 +2242,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org3b62cc1">
+<pre class="example" id="orgd3529fc">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2235,7 +2341,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org94d81c4">
+<pre class="example" id="orgb28828b">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2247,7 +2353,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgd4a9e71">
+<pre class="example" id="orgd180730">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2261,7 +2367,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org2a38d7d">
+<pre class="example" id="org27316e0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2275,7 +2381,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org59f6836">
+<pre class="example" id="orge775423">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2534,6 +2640,19 @@ like an ordinary link by default.  This is just a convenience for the
 user/theme in case they want <code>denote:</code> links to remain distinct from
 other links.
 </p>
+
+<p>
+[ The following is part of 3.0.0-dev. ]
+</p>
+
+<p>
+In files whose major mode is <code>markdown-mode</code>, the default key binding
+<code>C-c C-o</code> (which calls the command <code>markdown-follow-thing-at-point</code>)
+correctly resolves <code>denote:</code> links. This method works in addition to
+the <code>RET</code> key, which is made available by the aforementioned
+buttonization. Interested users can refer to the function
+<code>denote-link-markdown-follow</code> for the implementation details.
+</p>
 </div>
 </div>
 
@@ -2541,7 +2660,7 @@ other links.
 <h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">7.2.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
 <div class="outline-text-3" id="text-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">
 <p>
-[ Part of 2.3.0-dev. ]
+[ Part of 3.0.0-dev. ]
 </p>
 
 <p>
@@ -2609,7 +2728,7 @@ regardless of the aforementioned user option (<a href="#h:fc1ad245-ec08-41be-8d1
 <h3 id="h:fc1ad245-ec08-41be-8d1e-7153d99daf02"><span class="section-number-3">7.3.</span> Insert link to an Org file with a further pointer to a heading</h3>
 <div class="outline-text-3" id="text-h:fc1ad245-ec08-41be-8d1e-7153d99daf02">
 <p>
-[ Part of 2.3.0-dev. ]
+[ Part of 3.0.0-dev. ]
 </p>
 
 <p>
@@ -2649,7 +2768,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgeff0db3">
+<pre class="example" id="org6e3da62">
 - link1
 - link2
 - link3
@@ -2667,7 +2786,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org93b40cf">
+<pre class="example" id="orgb3ea744">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -2884,7 +3003,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgb7d5f31">
+<pre class="example" id="org815f3d5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -2899,7 +3018,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgdf65ca6">
+<pre class="example" id="orga8cbec7">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3337,7 +3456,7 @@ own function and assigning it to the <code>denote-rename-buffer-function</code>.
 <h2 id="h:8b542c50-dcc9-4bca-8037-a36599b22779"><span class="section-number-2">11.</span> Use Org dynamic blocks</h2>
 <div class="outline-text-2" id="text-h:8b542c50-dcc9-4bca-8037-a36599b22779">
 <p>
-[ As part of version 3.0.0 (currently 2.3.0-dev), all
+[ As part of version 3.0.0 (currently 3.0.0-dev), all
   dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
   file which was once called <code>denote-org-dblock.el</code> contains aliases
   for the new function names and dipslays a warning about its
@@ -3390,7 +3509,7 @@ Evaluate:
 <h3 id="h:50160fae-6515-4d7d-9737-995ad925e64b"><span class="section-number-3">11.1.</span> Org dynamic blocks to insert links or backlinks</h3>
 <div class="outline-text-3" id="text-h:50160fae-6515-4d7d-9737-995ad925e64b">
 <p>
-[ As part of version 3.0.0 (currently 2.3.0-dev), all
+[ As part of version 3.0.0 (currently 3.0.0-dev), all
   dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
   file which was once called <code>denote-org-dblock.el</code> contains aliases
   for the new function names and dipslays a warning about its
@@ -3476,7 +3595,7 @@ this in an Org file:
 
 <p>
 [ The <code>denote-org-extras-dblock-insert-missing-links</code> is part of
-  2.3.0-dev. ]
+  3.0.0-dev. ]
 </p>
 
 <p>
@@ -3505,7 +3624,7 @@ Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with 
 <h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.2.</span> Org dynamic block to insert file contents</h3>
 <div class="outline-text-3" id="text-h:f15fa143-5036-416f-9bff-1bcabbb03456">
 <p>
-[ As part of version 3.0.0 (currently 2.3.0-dev), all
+[ As part of version 3.0.0 (currently 3.0.0-dev), all
   dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
   file which was once called <code>denote-org-dblock.el</code> contains aliases
   for the new function names and dipslays a warning about its
@@ -3838,7 +3957,7 @@ by calling <code>denote-journal-extra-new-entry</code> (as described above).
 
 <p>
 [ The <code>denote-journal-extras-link-or-create-entry</code> is part of
-  2.3.0-dev. ]
+  3.0.0-dev. ]
 </p>
 
 <p>
@@ -4055,7 +4174,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org2dbb62b">
+<pre class="example" id="orgcca7bfc">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4830,6 +4949,7 @@ Everything is in place to set up the package.
 
 ;; Remember to check the doc strings of those variables.
 (setq denote-directory (expand-file-name "~/Documents/notes/"))
+(setq denote-save-buffer-after-creation nil)
 (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
@@ -4837,6 +4957,7 @@ Everything is in place to set up the package.
 (setq denote-prompts '(title keywords))
 (setq denote-excluded-directories-regexp nil)
 (setq denote-excluded-keywords-regexp nil)
+(setq denote-rename-no-confirm nil) ; Set to t if you are familiar with `denote-rename-file'
 
 ;; Pick dates, where relevant, with Org's advanced interface:
 (setq denote-date-prompt-use-org-read-date t)
@@ -5070,7 +5191,7 @@ with keywords readable by <code>completing-read-multiple</code>. <code>STRING</c
 consists of underscore-separated words, as those appear in the
 keywords component of a Denote file name. <code>STRING</code> is the same as
 the return value of <code>denote-retrieve-filename-keywords</code>. [ Part of
-2.3.0-dev. ]</dd>
+3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5086,11 +5207,20 @@ underscore character, per the Denote file-naming scheme.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-valid-date-p</code></dt><dd>Return <code>DATE</code> as a valid date. A
+valid <code>DATE</code> is a value that can be parsed by either <code>decode-time</code>
+or <code>date-to-time</code> .Those functions signal an error if <code>DATE</code> is a
+value they do not recognise. If <code>DATE</code> is nil, return nil.
+[ Part of 3.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-parse-date</code></dt><dd>Return <code>DATE</code> as an appropriate
-value for the <code>denote</code> command. If <code>DATE</code> is a list, assume it is
-consistent with <code>current-date</code> or related and return it as-is. If
-<code>DATE</code> is a non-empty string, try to convert it with <code>date-to-time</code>.
-If <code>DATE</code> is none of the above, return <code>current-time</code>.</dd>
+value for the <code>denote</code> command. Pass <code>DATE</code> through
+<code>denote-valid-date-p</code> and use its return value. If either that or
+<code>DATE</code> is nil, return <code>current-time</code>. [ The <code>denote-valid-date-p</code> is
+the new name of <code>denote--valid-date</code>, with enhanced functionality.
+Done as part of 3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5098,7 +5228,7 @@ If <code>DATE</code> is none of the above, return <code>current-time</code>.</dd
 <code>denote-directory</code> as a proper directory, also because it accepts a
 directory-local value for what we internally refer to as &ldquo;silos&rdquo;
 (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).  Custom Lisp code can
-<code>let</code> bind the value of the variable <code>denote-user-enforced-denote-directory</code>
+<code>let</code> bind the value of the variable <code>denote-directory</code>
 to override what this function returns.</dd>
 </dl>
 
@@ -5265,6 +5395,13 @@ from <code>FILE</code> name, if present, else return nil.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
+identifier using <code>denote-id-format</code>. <code>DATE</code> is parsed by
+<code>denote-valid-date-p</code>. If <code>DATE</code> is nil, use the current time.
+[ Part of 3.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-create-unique-file-identifier</code></dt><dd><p>
 Create a new unique
 <code>FILE</code> identifier.  Test that the identifier is unique among
@@ -5344,7 +5481,7 @@ Read entries as separate when they are demarcated by the
 <code>PROMPT-TEXT</code>, use it to prompt the user for keywords. Else use a
 generic prompt. With optional <code>INITIAL-KEYWORDS</code> use them as the
 initial minibuffer text. [ The optional <code>INITIAL-KEYWORDS</code> argument is
-part of 2.3.0-dev. ]</dd>
+part of 3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5422,18 +5559,23 @@ and <code>embark</code>).</dd>
 note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
 <code>KEYWORDS</code>, and <code>FILE-TYPE</code> arguments are given by the renaming
 command and are used to construct new front matter values if
-appropriate. With optional <code>NO-CONFIRM</code>, do not prompt to confirm the
-rewriting of the front matter. Otherwise produce a <code>y-or-n-p</code> prompt
-to that effect.</dd>
+appropriate. With optional <code>NO-CONFIRM</code>, do not prompt to confirm
+the rewriting of the front matter. Otherwise produce a <code>y-or-n-p</code>
+prompt to that effect. With optional <code>NO-CONFIRM</code>, save the buffer
+after performing the rewrite. Otherwise leave it unsaved for
+furthter review by the user. [ The <code>NO-CONFIRM</code> saves the buffer as
+part of 3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-rewrite-keywords</code></dt><dd>Rewrite <code>KEYWORDS</code> in <code>FILE</code>
-outright according to <code>FILE-TYPE</code>.  Do the same as
+outright according to <code>FILE-TYPE</code>. Do the same as
 <code>denote-rewrite-front-matter</code> for keywords, but do not ask for
-confirmation.  This is for use in <code>denote-keywords-add</code>,
-<code>denote-keywords-remove</code>, <code>denote-dired-rename-marked-files-with-keywords</code>,
-or related.</dd>
+confirmation. With optional <code>SAVE-BUFFER</code>, save the buffer
+corresponding to <code>FILE</code>. This function is for use in the commands
+<code>denote-keywords-add</code>, <code>denote-keywords-remove</code>,
+<code>denote-dired-rename-files</code>, or related. [ The <code>SAVE-BUFFER</code> saves
+the buffer as part of 3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5442,7 +5584,7 @@ variable <code>denote-directory</code>. Also revert the current Dired buffer
 even if it is not inside the <code>denote-directory</code>. Note that the
 <code>denote-directory</code> accepts a directory-local value for what we
 internally refer to as &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).
-[ Refined as part of 2.3.0-dev to also revert the
+[ Refined as part of 3.0.0-dev to also revert the
   current Dired buffer. ]</dd>
 </dl>
 
@@ -5576,12 +5718,6 @@ an identifier-only link in its context.  The format of such links is
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-surround-with-quotes</code></dt><dd>Surround string <code>S</code> with
-quotes.  This can be used in <code>denote-file-types</code> to format front
-mattter.</dd>
-</dl>
-
-<dl class="org-dl">
 <dt>Function <code>denote-date-org-timestamp</code></dt><dd>Format <code>DATE</code> using the Org
 inactive timestamp notation.</dd>
 </dl>
@@ -5606,6 +5742,21 @@ mattter.</dd>
 <dt>Function <code>denote-trim-whitespace-then-quotes</code></dt><dd>Trim whitespace
 then quotes around string <code>S</code>.  This can be used in
 <code>denote-file-types</code> to format front mattter.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-string-for-org-front-matter</code></dt><dd>Return
+string <code>S</code> as-is for Org or plain text front matter. If <code>S</code> is not a
+string, return an empty string. [ Part of 3.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-string-for-md-front-matter</code></dt><dd>Surround
+string <code>S</code> with quotes. If <code>S</code> is not a string, return a literal
+emptry string. This can be used in <code>denote-file-types</code> to format
+front mattter. [ Revised as part of 3.0.0-dev and
+renamed from <code>denote-surround-with-quotes</code> to
+<code>denote-format-string-for-md-front-matter</code>. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5664,7 +5815,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org9a92d9e">
+<pre class="example" id="orgacb7625">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5674,7 +5825,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org5c2ed6c">
+<pre class="example" id="org83f8d8c">
 emacs -Q
 </pre>
 
@@ -5686,7 +5837,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org2b945e1">
+<pre class="example" id="org269afbe">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5752,7 +5903,7 @@ do it once.  It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6ece9a4">
+<pre class="example" id="org49e420b">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6428,21 +6579,22 @@ Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
 Prevos, Philip Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan
 Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
 Manerikar, Wesley Harvey, arsaber101, ezchi, leinfink (Henrik),
-l-o-l-h (Lincoln), mentalisttraceur, relict007.</dd>
+l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
+relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
-Schmitt, Aleksandr Vityazev, Alfredo Borrás, Ashton Wiersdorf,
-Benjamin Kästner, Claudiu Tănăselia, Colin McLear, Damien Cassou,
-Elias Storms, Federico Stilman, Florian, Frédéric Willem Frank
-Ehmsen, Glenna D., Guo Yong, Hanspeter Gisler, Jack Baty, Jay
+Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
+Wiersdorf, Benjamin Kästner, Claudiu Tănăselia, Colin McLear, Damien
+Cassou, Elias Storms, Federico Stilman, Florian, Frédéric Willem
+Frank Ehmsen, Glenna D., Guo Yong, Hanspeter Gisler, Jack Baty, Jay
 Rajput, Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen,
 Jonathan Sahar, Johan Bolmsjö, Jousimies, Juanjo Presa, Kai von
 Fintel, Kaushal Modi, M. Hadi Timachi, Mark Olson, Mirko Hernandez,
 Niall Dooley, Paul van Gelder, Peter Prevos, Peter Smith, Suhail
 Singh, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck,
 Taoufik, TJ Stankus, Viktor Haag, Wade Mealing, Yi Liu, Ypot,
-atanasj, babusri, doolio, drcxd, hpgisler, pRot0ta1p, rbenit68,
-relict007, sienic, sundar bp.</dd>
+atanasj, babusri, doolio, drcxd, fingerknight, hpgisler, pRot0ta1p,
+rbenit68, relict007, sienic, sundar bp.</dd>
 </dl>
 
 <p>
