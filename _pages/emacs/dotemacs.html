@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-02-09 12:29:45 +0200 with a word
-count of 101799.</b>
+<b>Last revised and exported on 2024-02-16 07:35:52 +0200 with a word
+count of 102189.</b>
 </p>
 
 <p>
@@ -490,7 +490,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org5516726">
+<pre class="example" id="org0e7899c">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -570,7 +570,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org55c4941">
+<pre class="example" id="orge47a9e2">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -578,7 +578,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org80abe43">
+<pre class="example" id="org2dfa551">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1837,6 +1837,10 @@ Also see `prot-emacs-package'."
 <div id="outline-container-h:d3684ec0-a972-4033-a4d6-41ee16e891d9" class="outline-3">
 <h3 id="h:d3684ec0-a972-4033-a4d6-41ee16e891d9"><span class="section-number-3">4.14.</span> The <code>init.el</code> macro to bind keys (<code>prot-emacs-keybind</code>)</h3>
 <div class="outline-text-3" id="text-h:d3684ec0-a972-4033-a4d6-41ee16e891d9">
+<p>
+[ Watch: <a href="https://protesilaos.com/codelog/2024-01-29-emacs-prefix-map/">define prefix/leader key (nested key maps)</a> (2024-01-29). ]
+</p>
+
 <p>
 This Lisp macro does not try to be too smart. It simply reduces the
 typing we have to do to define key bindings. As with the underlying
@@ -3585,6 +3589,10 @@ Also see <a href="#h:5685df62-4484-42ad-a062-d55ab19022e3">the <code>prot-emacs-
 <h4 id="h:5685df62-4484-42ad-a062-d55ab19022e3"><span class="section-number-4">5.2.7.</span> The <code>prot-emacs-essentials.el</code> settings for registers</h4>
 <div class="outline-text-4" id="text-h:5685df62-4484-42ad-a062-d55ab19022e3">
 <p>
+[ Watch: <a href="https://protesilaos.com/codelog/2023-06-28-emacs-mark-register-basics/">Mark and register basics</a> (2023-06-28). ]
+</p>
+
+<p>
 Much like bookmarks, registers store data that we can reinstate
 quickly (<a href="#h:581aa0ff-b136-4099-a321-3b86edbfbccb">The <code>prot-emacs-essentials.el</code> settings for bookmarks</a>). A
 common use-case is to write some text to a register and then insert
@@ -3642,10 +3650,30 @@ then recover the auto-saved alternative file, if we want, but I prefer
 to just write directly to disk.
 </p>
 
+<p>
+The <code>prot/auto-save-visited-p</code> and <code>prot/auto-save-visited-blocklist</code>
+are set up for future review as I continue using this mode. Basically,
+there are cases where I do not want auto-saving to happen.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Auto save buffers visiting files
   (setq auto-save-visited-interval 2)
   (setq remote-file-name-inhibit-auto-save-visited t)
+
+  (defvar prot/auto-save-visited-blocklist
+    '(message-mode)
+    "List of major modes where files should not be auto-saved.")
+
+  (defun prot/auto-save-visited-p ()
+    "Predicate function for `auto-save-visited-predicate'.
+  Do not save the buffer if its major mode is among those specified
+  in `prot/auto-save-visited-blocklist'."
+    (and (derived-mode-p 'text-mode 'prog-mode)
+         (not (memq major-mode prot/auto-save-visited-blocklist))))
+
+  (setq auto-save-visited-predicate #'prot/auto-save-visited-p)
+
   (auto-save-visited-mode 1)
 </pre>
 </div>
@@ -4335,7 +4363,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org5833896">
+<pre class="example" id="orgbb760f4">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6993,7 +7021,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org3263147">
+<pre class="example" id="orge5ab71d">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7162,7 +7190,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgfff13d8">
+<pre class="example" id="org0a5b75d">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7261,7 +7289,6 @@ to a certain height.
                   prot-window-shell-or-term-p
                   ,world-clock-buffer-name))
            (prot-window-display-buffer-below-or-pop)
-           (dedicated . t)
            (body-function . prot-window-select-fit-size))
           ("\\*\\(Calendar\\|Bookmark Annotation\\|ert\\).*"
            (display-buffer-reuse-mode-window display-buffer-below-selected)
@@ -7582,6 +7609,10 @@ As always, we <code>provide</code> the module. This is the mirror function of
 <div id="outline-container-h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232" class="outline-3">
 <h3 id="h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232"><span class="section-number-3">5.8.</span> The <code>prot-emacs-git.el</code> module</h3>
 <div class="outline-text-3" id="text-h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232">
+<p>
+[ Watch: <a href="https://protesilaos.com/codelog/2023-08-03-contribute-core-emacs/">Contribute to GNU Emacs core</a> (2023-08-03). ]
+</p>
+
 <p>
 Emacs can handle several version control programs, though I only ever
 use <code>git</code>. Version control is essential to any public-facing
@@ -8829,8 +8860,12 @@ Org is far more capable, so I switched to it completely.
     "&lt;C-S-return&gt;" nil
     "C-M-S-&lt;right&gt;" nil
     "C-M-S-&lt;left&gt;" nil
+    "C-c ;" nil
+    "M-." #'org-edit-special ; alias for C-c ' (mnenomic is global M-. that goes to source)
     "C-c M-l" #'org-insert-last-stored-link
     "C-c C-M-l" #'org-toggle-link-display)
+
+  (define-key org-src-mode-map (kbd "M-,") #'org-edit-src-exit)
 
   (prot-emacs-keybind narrow-map
     "b" #'org-narrow-to-block
@@ -9233,7 +9268,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8050194">
+<pre class="example" id="org71a8162">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9947,7 +9982,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org6db9c96">
+<pre class="example" id="org890d129">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9959,7 +9994,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org689969f">
+<pre class="example" id="org163b05a">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10022,7 +10057,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org930eb62">
+<pre class="example" id="orgfeb33fd">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10034,7 +10069,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org94c3d87">
+<pre class="example" id="org7f629f3">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10056,7 +10091,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orge7e3d36">
+<pre class="example" id="org3236a41">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11174,7 +11209,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org075127c">
+<pre class="example" id="org037f60d">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11270,7 +11305,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgd12046d">
+<pre class="example" id="org60c8893">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -14660,6 +14695,21 @@ package).")
   "Face for modeline indicators with a background."
   :group 'prot-modeline-faces)
 
+(defface prot-modeline-indicator-gray
+  '((t :inherit shadow))
+  "Face for modeline indicators (e.g. see my `notmuch-indicator')."
+  :group 'prot-modeline-faces)
+
+(defface prot-modeline-indicator-gray-bg
+  '((default :inherit (bold prot-modeline-indicator-button))
+    (((class color) (min-colors 88) (background light))
+     :background "#808080" :foreground "white")
+    (((class color) (min-colors 88) (background dark))
+     :background "#a0a0a0" :foreground "black")
+    (t :inverse-video t))
+  "Face for modeline indicatovrs with a background."
+  :group 'prot-modeline-faces)
+
 ;;;; Common helper functions
 
 (defun prot-modeline--string-truncate-p (str)
@@ -14773,7 +14823,7 @@ Specific to the current window's mode line.")
     '(:eval
       (when (window-dedicated-p)
         (propertize " = "
-                    'face 'prot-modeline-indicator-magenta-bg
+                    'face 'prot-modeline-indicator-gray-bg
                     'mouse-face 'mode-line-highlight)))
   "Mode line construct for dedicated window indicator.")
 
@@ -18667,7 +18717,7 @@ number (integer or floating point) or a function.")
      (t
       (error "The value of `%s' is neither a number nor a function" key)))))
 
-(defun prot-window-select-fit-size (window &amp;rest _)
+(defun prot-window-select-fit-size (window)
   "Select WINDOW and resize it.
 The resize pertains to the maximum and minimum values for height
 and width, per `prot-window-window-sizes'.
@@ -18679,7 +18729,13 @@ Use this as the `body-function' in a `display-buffer-alist' entry."
    (prot-window--get-window-size :max-height)
    (prot-window--get-window-size :min-height)
    (prot-window--get-window-size :max-width)
-   (prot-window--get-window-size :min-width)))
+   (prot-window--get-window-size :min-width))
+  ;; If we did not use `display-buffer-below-selected', then we must
+  ;; be in a lateral window, which has more space.  Then we do not
+  ;; want to dedicate the window to this buffer, because we will be
+  ;; running out of space.
+  (when (or (window-in-direction 'above) (window-in-direction 'below))
+    (set-window-dedicated-p window t)))
 
 (defun prot-window--get-display-buffer-below-or-pop ()
   "Return list of functions for `prot-window-display-buffer-below-or-pop'."
@@ -18714,6 +18770,18 @@ use in `display-buffer-alist'."
       ;; REVIEW 2022-07-14: Is this robust?
       (and (not (derived-mode-p 'message-mode 'text-mode))
            (derived-mode-p 'eshell-mode 'shell-mode 'comint-mode 'fundamental-mode)))))
+
+(defun prot-window-remove-dedicated (&amp;rest _)
+  "Remove dedicated window parameter.
+Use this as :after advice to `delete-other-windows' and
+`delete-window'."
+  (when (one-window-p :no-mini)
+    (set-window-dedicated-p nil nil)))
+
+(mapc
+ (lambda (fn)
+   (advice-add fn :after #'prot-window-remove-dedicated))
+ '(delete-other-windows delete-window))
 
 (defmacro prot-window-define-full-frame (name &amp;rest args)
   "Define command to call ARGS in new frame with `display-buffer-full-frame' bound.
@@ -18777,8 +18845,9 @@ call NAME as a function."
 ;; will ever set it to the left.  It feels awkward there.
 (defun prot-window-scroll-bar-placement ()
   "Control the placement of scroll bars."
-  (setq default-frame-scroll-bars 'right)
-  (set-scroll-bar-mode 'right))
+  (when scroll-bar-mode
+    (setq default-frame-scroll-bars 'right)
+    (set-scroll-bar-mode 'right)))
 
 (add-hook 'scroll-bar-mode-hook #'prot-window-scroll-bar-placement)
 
@@ -18913,7 +18982,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgd3ac140">
+<pre class="example" id="orgdc58cd7">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18946,7 +19015,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgd5ee6d8">
+<pre class="example" id="orge232c85">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
