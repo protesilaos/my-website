@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-02-16 07:35:52 +0200 with a word
-count of 102189.</b>
+<b>Last revised and exported on 2024-02-17 07:40:43 +0200 with a word
+count of 102508.</b>
 </p>
 
 <p>
@@ -490,7 +490,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org0e7899c">
+<pre class="example" id="org5c22ea0">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -570,7 +570,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orge47a9e2">
+<pre class="example" id="orgfdac90f">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -578,7 +578,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org2dfa551">
+<pre class="example" id="org7bbaa9d">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1594,15 +1594,43 @@ indentation and syntax highlighting intact.
 
 <p>
 What I have here is technically not commenting out the code, because
-it is still read, but I take it.
+the expansion of the macro is nil, not the actual code with comments
+around it.
+</p>
+
+<pre class="example" id="org1a5af97">
+(defmacro prot-emacs-comment (&amp;rest body)
+  "Do nothing with BODY and return nil, with no side effects."
+  (declare (indent defun))
+  nil)
+</pre>
+
+<p>
+The above is an example. What I actually use is the following. It
+behaves the same as above, except when it reads a plist of the form
+<code>(:eval t)</code>. The idea is for me to quickly activate something I want
+to test by passing that to the macro. So here we have it:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defmacro prot-emacs-comment (&amp;rest body)
-  "Do nothing with BODY and return nil.
-Unlike `ignore', produce no side effects."
+  "Determine what to do with BODY.
+
+If BODY contains an unquoted plist of the form (:eval t) then
+return BODY inside a `progn'.
+
+Otherwise, do nothing with BODY and return nil, with no side
+effects."
   (declare (indent defun))
-  nil)
+  (let ((eval))
+    (dolist (element body)
+      (when-let (((plistp element))
+                 (key (car element))
+                 ((eq key :eval))
+                 (val (cadr element)))
+        (setq eval val
+              body (delq element body))))
+    (when eval `(progn ,@body))))
 </pre>
 </div>
 
@@ -2211,6 +2239,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
 
 ;; NOTE: For testing purposes
 (prot-emacs-comment
+  (:eval nil)
   (progn
     (mapc #'disable-theme custom-enabled-themes)
 
@@ -2339,6 +2368,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
 
 ;; NOTE: For testing purposes
 (prot-emacs-comment
+  (:eval nil)
   (progn
     (mapc #'disable-theme custom-enabled-themes)
 
@@ -2496,6 +2526,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
 
 ;; NOTE: For testing purposes
 (prot-emacs-comment
+  (:eval nil)
   (progn
     (mapc #'disable-theme custom-enabled-themes)
 
@@ -3398,8 +3429,9 @@ earlier (<a href="#h:713ede33-3802-40c6-a8e3-7e1fc0d0a924">The <code>prot-emacs-
     "C-x C-c C-c" #'save-buffers-kill-emacs
     "C-h h" nil
     "M-`" nil
-    "C-z" prot-prefix-map
-    "&lt;f2&gt;" prot-prefix-map ; override that two-column gimmick
+    "&lt;insert&gt;" 'prot-prefix
+    "C-z" 'prot-prefix
+    "&lt;f2&gt;" 'prot-prefix ; override that two-column gimmick
     "ESC ESC" #'prot-simple-keyboard-quit-dwim
     "C-g" #'prot-simple-keyboard-quit-dwim
     "C-h K" #'describe-keymap ; overrides `Info-goto-emacs-key-command-node'
@@ -4363,7 +4395,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgbb760f4">
+<pre class="example" id="org54df1c9">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7021,7 +7053,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orge5ab71d">
+<pre class="example" id="org1ce1ca6">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7190,7 +7222,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org0a5b75d">
+<pre class="example" id="orgfc97b87">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9268,7 +9300,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org71a8162">
+<pre class="example" id="org4faa9d0">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9982,7 +10014,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org890d129">
+<pre class="example" id="org99057ae">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9994,7 +10026,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org163b05a">
+<pre class="example" id="org27fcb20">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10057,7 +10089,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgfeb33fd">
+<pre class="example" id="org942c173">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10069,7 +10101,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org7f629f3">
+<pre class="example" id="orgba78d1b">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10091,7 +10123,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org3236a41">
+<pre class="example" id="org5b936f6">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11209,7 +11241,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org037f60d">
+<pre class="example" id="org8b6ac01">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11305,7 +11337,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org60c8893">
+<pre class="example" id="org085b22e">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -16128,6 +16160,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-buffer-map
   :doc "Prefix keymap for buffers."
   :name "Buffer"
+  :prefix 'prot-prefix-buffer
   "m" #'beframe-buffer-menu
   "b" #'switch-to-buffer
   "B" #'prot-simple-buffers-major-mode
@@ -16143,6 +16176,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-file-map
   :doc "Prefix keymaps for files."
   :name "File"
+  :prefix 'prot-prefix-file
   "f" #'find-file
   "F" #'find-file-other-window
   "b" #'bookmark-jump
@@ -16153,6 +16187,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-insert-map
   :doc "Prefix keymap for character insertion."
   :name "Insert"
+  :prefix 'prot-prefix-insert
   "i" #'insert-char
   "e" #'emoji-search
   "q" #'quoted-insert
@@ -16167,6 +16202,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-mode-map
   :doc "Prefix keymap for minor mode toggles."
   :name "Toggle"
+  :prefix 'prot-prefix-mode
   "f" #'flymake-mode
   "h" #'hl-line-mode
   "k" #'keycast-mode-line-mode
@@ -16181,6 +16217,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-window-map
   :doc "Prefix keymap for windows."
   :name "Window"
+  :prefix 'prot-prefix-window
   "u" #'winner-undo
   "r" #'winner-redo
   "b" #'balance-windows-area
@@ -16213,6 +16250,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-search-map
   :doc "Prefix keymap for search (and replace) commands."
   :name "Search"
+  :prefix 'prot-prefix-search
   "f" #'consult-find
   "d" #'prot-simple-flush-and-diff
   "g" #'prot-search-grep
@@ -16231,6 +16269,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-transpose-map
   :doc "Prefix keymap for object transposition."
   :name "Transpose"
+  :prefix 'prot-prefix-transpose
   "c" #'prot-simple-transpose-chars
   "l" #'prot-simple-transpose-lines
   "p" #'prot-simple-transpose-paragraphs
@@ -16241,6 +16280,7 @@ controlled by `delete-pair-blink-delay'."
 (defvar-keymap prot-prefix-expression-map
   :doc "Prefix keymap for s-expression motions."
   :name "S-EXP"
+  :prefix 'prot-prefix-expression
   "a" #'beginning-of-defun
   "e" #'end-of-defun
   "f" #'forward-sexp
@@ -16258,12 +16298,21 @@ controlled by `delete-pair-blink-delay'."
 (declare-function magit-status "magit" (&amp;optional directory cache))
 (declare-function prot-simple-other-windor-or-frame "prot-simple")
 
+;; NOTE 2024-02-17: Some cons cells here have a symbol as a `cdr' and
+;; some do not.  The former are those which define a prefix command
+;; (per `define-prefix-command').  This is a symbol that references
+;; the keymaps, thus making our binding an indirection: if we update
+;; the key map, we automatically get the new key bindings.  Whereas
+;; when we bind a key to the value of a variable, we have to update
+;; the key map and then the binding for changes to propagate.
 (defvar-keymap prot-prefix-map
   :doc "Prefix keymap with multiple subkeymaps."
   :name "Prot Prefix"
+  :prefix 'prot-prefix
   "0" #'delete-window
   "1" #'delete-other-windows
   "!" #'delete-other-windows-vertically
+  "^" #'tear-off-window
   "2" #'split-window-below
   "@" #'split-root-window-below
   "3" #'split-window-right
@@ -16271,39 +16320,43 @@ controlled by `delete-pair-blink-delay'."
   "o" #'other-window
   "O" #'prot-simple-other-windor-or-frame
   "Q" #'save-buffers-kill-emacs
-  "b" prot-prefix-buffer-map
+  "b" (cons "Buffer" 'prot-prefix-buffer)
   "c" #'world-clock
-  "f" prot-prefix-file-map
+  "f" (cons "File" 'prot-prefix-file)
   "g" #'magit-status
-  "h" help-map
-  "i" prot-prefix-insert-map
+  "h" (cons "Help" help-map)
+  "i" (cons "Insert" 'prot-prefix-insert)
   "j" #'dired-jump
-  "m" prot-prefix-mode-map
-  "n" narrow-map
-  "p" project-prefix-map
-  "r" ctl-x-r-map
-  "s" prot-prefix-search-map
-  "t" prot-prefix-transpose-map
+  "m" (cons "Minor modes" 'prot-prefix-mode)
+  "n" (cons "Narrow" narrow-map)
+  "p" (cons "Project" project-prefix-map)
+  "r" (cons "Rect/Registers" ctl-x-r-map)
+  "s" (cons "Search" 'prot-prefix-search)
+  "t" (cons "Transpose" 'prot-prefix-transpose)
   "u" #'universal-argument
-  "v" vc-prefix-map
-  "w" prot-prefix-window-map
-  "x" prot-prefix-expression-map)
+  "v" (cons "Version Control" 'vc-prefix-map)
+  "w" (cons "Window" 'prot-prefix-window)
+  "x" (cons "S-EXP" 'prot-prefix-expression))
 
-(with-eval-after-load 'which-key
-  (which-key-add-keymap-based-replacements prot-prefix-map
-    "b" `("Buffer" . ,prot-prefix-buffer-map)
-    "f" `("File" . ,prot-prefix-file-map)
-    "h" `("Help" . ,help-map)
-    "i" `("Insert" . ,prot-prefix-insert-map)
-    "m" `("Mode" . ,prot-prefix-mode-map)
-    "n" `("Narrow" . ,narrow-map)
-    "p" `("Project" . ,project-prefix-map)
-    "r" `("C-x r" . ,ctl-x-r-map)
-    "s" `("Search" . ,prot-prefix-search-map)
-    "t" `("Transpose" . ,prot-prefix-transpose-map)
-    "v" `("C-x v" . ,vc-prefix-map)
-    "w" `("Window" . ,prot-prefix-window-map)
-    "x" `("S-EXP" . ,prot-prefix-expression-map)))
+;; ;; NOTE 2024-02-17: This is not needed anymore, because I bind a cons
+;; ;; cell to the key.  The `car' of it is the description, which
+;; ;; `which-key-mode' understands.
+;;
+;; (with-eval-after-load 'which-key
+;;   (which-key-add-keymap-based-replacements prot-prefix-map
+;;     "b" `("Buffer" . ,prot-prefix-buffer-map)
+;;     "f" `("File" . ,prot-prefix-file-map)
+;;     "h" `("Help" . ,help-map)
+;;     "i" `("Insert" . ,prot-prefix-insert-map)
+;;     "m" `("Mode" . ,prot-prefix-mode-map)
+;;     "n" `("Narrow" . ,narrow-map)
+;;     "p" `("Project" . ,project-prefix-map)
+;;     "r" `("C-x r" . ,ctl-x-r-map)
+;;     "s" `("Search" . ,prot-prefix-search-map)
+;;     "t" `("Transpose" . ,prot-prefix-transpose-map)
+;;     "v" `("C-x v" . ,vc-prefix-map)
+;;     "w" `("Window" . ,prot-prefix-window-map)
+;;     "x" `("S-EXP" . ,prot-prefix-expression-map)))
 
 ;; What follows is an older experiment with transient.  I like its
 ;; visuals, though find it hard to extend.  Keymaps are easier for me,
@@ -18982,7 +19035,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgdc58cd7">
+<pre class="example" id="org13f34a7">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19015,7 +19068,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orge232c85">
+<pre class="example" id="orga361b6f">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
