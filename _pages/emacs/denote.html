@@ -1227,7 +1227,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org21834cc">
+<pre class="example" id="org2f3a131">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1813,7 +1813,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orga2ce204">
+<pre class="example" id="orge797469">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1833,7 +1833,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org5a582aa">
+<pre class="example" id="org04f0344">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2273,7 +2273,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgea34064">
+<pre class="example" id="org6b7c12b">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2372,7 +2372,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org8b4fa57">
+<pre class="example" id="org31a8c1c">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2384,7 +2384,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org02c16dc">
+<pre class="example" id="orgdab40fb">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2398,7 +2398,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1a86300">
+<pre class="example" id="org30e82f6">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2412,7 +2412,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org8d82e7c">
+<pre class="example" id="org62ade9c">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2799,7 +2799,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org642466d">
+<pre class="example" id="org48f49d6">
 - link1
 - link2
 - link3
@@ -2817,7 +2817,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9d18944">
+<pre class="example" id="org9067dbf">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3034,7 +3034,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org7db47c3">
+<pre class="example" id="orga52a7a9">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3049,7 +3049,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org416e88c">
+<pre class="example" id="org5bf055a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4205,7 +4205,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org8790727">
+<pre class="example" id="orgcdf5fa4">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4875,12 +4875,14 @@ with <code>M-x</code> or can be bound to a key.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar my-denote-org-link-regexp
+<pre class="src src-emacs-lisp">;; Evaluate this and the one below.
+(defvar my-denote-org-link-regexp
   (concat "\\[\\[\\(?1:.*?:\\)\\(?2:.*?\\)\\]"
           "\\[\\(?3:.*?\\)" "\\]\\]")
   "Regular expression to match Org links.
 Group 1 is the link type, 2 is the target, 3 is the description.")
 
+;; Then use M-x to call `my-denote-org-link-convert'.
 (defun my-denote-org-link-convert ()
   "Convert all 'denote:' links to their 'file:' equivalent in the current Org buffer."
   (interactive)
@@ -5870,6 +5872,36 @@ current or optional <code>FILE</code>.  Also see <code>denote-link-return-backli
 <dt>Function <code>denote-link-return-backlinks</code></dt><dd>Return list of backlinks
 in current or optional <code>FILE</code>.  Also see <code>denote-link-return-links</code>.</dd>
 </dl>
+
+<p>
+[ All of the following are part of 3.0.0-dev. ]
+</p>
+
+<dl class="org-dl">
+<dt>Variable <code>denote-link-signature-format</code></dt><dd>Format of link
+description for <code>denote-link-with-signature</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-link-description-with-signature-and-title</code></dt><dd>Return
+link description for <code>FILE</code>. With optional <code>REGION-TEXT</code> as a
+string, make that the description. Otherwise, produce a description
+as follows:</dd>
+
+<dt>(no term)</dt><dd>If <code>FILE</code> as a signature, then use the
+<code>denote-link-signature-format</code>. By default, this looks like
+&ldquo;signature title&rdquo;.</dd>
+
+<dt>(no term)</dt><dd>If <code>FILE</code> does not have a signature, then use its title as the
+description.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-link-description-function</code></dt><dd>Function to use to
+create the description of links. The function specified should take
+a <code>FILE</code> argument and should return the description as a string. By
+default, the title of the file is returned as the description.</dd>
+</dl>
 </div>
 </div>
 
@@ -5892,7 +5924,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd49307a">
+<pre class="example" id="org40f77b0">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5902,7 +5934,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org5434d3e">
+<pre class="example" id="org7c8f233">
 emacs -Q
 </pre>
 
@@ -5914,7 +5946,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org2ff5884">
+<pre class="example" id="orgdb7d8f3">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -5976,7 +6008,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6df27ed">
+<pre class="example" id="org72ee82b">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
