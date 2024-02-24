@@ -27,18 +27,13 @@ Current development target is 1.2.0-dev.
 <li>Package name (GNU ELPA): <code>logos</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/logos">https://protesilaos.com/emacs/logos</a></li>
 <li>Change log: <a href="https://protesilaos.com/emacs/logos-changelog">https://protesilaos.com/emacs/logos-changelog</a></li>
-<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/logos">https://git.sr.ht/~protesilaos/logos</a>
-<ul class="org-ul">
-<li>Mirrors:
+<li>Git repositories:
 <ul class="org-ul">
 <li>GitHub: <a href="https://github.com/protesilaos/logos">https://github.com/protesilaos/logos</a></li>
 <li>GitLab: <a href="https://gitlab.com/protesilaos/logos">https://gitlab.com/protesilaos/logos</a></li>
 </ul></li>
-</ul></li>
-<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/logos">https://lists.sr.ht/~protesilaos/logos</a></li>
 <li>Video demo: <a href="https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/">https://protesilaos.com/codelog/2022-03-11-emacs-logos-demo/</a></li>
-<li>Backronyms: <code>^L</code> Only Generates Ostensible Slides; Logos Optionally
-Goes through Outline Sections</li>
+<li>Backronyms: <code>^L</code> Only Generates Ostensible Slides; Logos Optionally Goes through Outline Sections.</li>
 </ul>
 
 <div id="table-of-contents" role="doc-toc">
@@ -157,15 +152,16 @@ another command is invoked.
 
 <p>
 Logos provides some optional aesthetic tweaks which come into effect
-when the buffer-local <code>logos-focus-mode</code> is enabled.  These will hide
+when the buffer-local <code>logos-focus-mode</code> is enabled. These will hide
 the cursor (<code>logos-hide-cursor</code>), hide the mode line
-(<code>logos-hide-mode-line</code>), disable the buffer boundary indicators
+(<code>logos-hide-mode-line</code>), hide the header line
+(<code>logos-hide-header-line</code>), disable the buffer boundary indicators
 (<code>indicate-buffer-boundaries</code>), enable <code>scroll-lock-mode</code>
 (<code>logos-scroll-lock</code>), use <code>variable-pitch-mode</code> in non-programming
 buffers (<code>logos-variable-pitch</code>), make the buffer read-only
 (<code>logos-buffer-read-only</code>), center the buffer in its window if the
 <code>olivetti</code> package is installed (<code>logos-olivetti</code>), and hide the
-<code>fringe</code> face (<code>logos-hide-fringe</code>).  All these variables are
+<code>fringe</code> face (<code>logos-hide-fringe</code>). All these variables are
 buffer-local.
 </p>
 
@@ -277,13 +273,15 @@ be bound, especially if you are already familiar with the various
 narrowing commands (otherwise it maps to <code>C-x n n</code> in this example,
 assuming the default keys).</li>
 
-<li>To have quick access to <code>logos-focus-mode</code>, bind it to a key.  This
-mode checks the variables <code>logos-hide-cursor</code>, <code>logos-hide-mode-line</code>,
+<li>To have quick access to <code>logos-focus-mode</code>, bind it to a key. This
+mode checks the variables <code>logos-hide-cursor</code>,
+<code>logos-hide-mode-line</code>, <code>logos-hide-header-line</code>,
 <code>logos-scroll-lock</code>, <code>logos-variable-pitch</code>,
 <code>logos-hide-buffer-boundaries</code>, <code>logos-buffer-read-only</code>,
 <code>logos-olivetti</code> (requires <code>olivetti</code> package) and applies their
-effects if they are non-nil.  Note that everything is buffer-local, so
-it is possible to use file variables as described in the Emacs manual.</li>
+effects if they are non-nil. Note that everything is buffer-local,
+so it is possible to use file variables as described in the Emacs
+manual.</li>
 </ul>
 
 <div class="org-src-container">
@@ -302,6 +300,7 @@ it is possible to use file variables as described in the Emacs manual.</li>
 ;; buffer-local.
 (setq-default logos-hide-cursor nil
               logos-hide-mode-line t
+              logos-hide-header-line t
               logos-hide-buffer-boundaries t
               logos-hide-fringe t
               logos-variable-pitch nil
@@ -714,8 +713,19 @@ higher).
 </div>
 
 <p>
-A user-defined, theme-agnostic setup for such a hook can be configured
-thus:
+Or use the special hook <code>enable-theme-functions</code> that is part of
+Emacs 29. [ The support of <code>logos-update-fringe-in-buffers</code> for
+<code>enable-theme-functions</code> is part of 1.2.0-dev. ]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'enable-theme-functions #'logos-update-fringe-in-buffers)
+</pre>
+</div>
+
+<p>
+For older versions of Emacs before 29, a user-defined, theme-agnostic
+setup for such a hook can be configured thus:
 </p>
 
 <div class="org-src-container">
