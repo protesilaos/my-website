@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-02-23 12:52:28 +0200 with a word
-count of 102482.</b>
+<b>Last revised and exported on 2024-02-25 09:12:31 +0200 with a word
+count of 102620.</b>
 </p>
 
 <p>
@@ -489,7 +489,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orged77007">
+<pre class="example" id="org8ee29c5">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -569,7 +569,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org500044c">
+<pre class="example" id="orgb23b31f">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -577,7 +577,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgf15ecca">
+<pre class="example" id="org2193bed">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1597,7 +1597,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org84d8f46">
+<pre class="example" id="org2a9f0e8">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2735,10 +2735,10 @@ I also take care to make it work with my customised mode line
            :header-line-width 4
            :mode-line-width 6
            :tab-width 4
-           :right-divider-width 30
+           :right-divider-width 1
            :scroll-bar-width 8
-           :left-fringe-width 8
-           :right-fringe-width 8))
+           :left-fringe-width 20
+           :right-fringe-width 20))
 
   ;; ;; Read the doc string of `spacious-padding-subtle-mode-line' as
   ;; ;; it is very flexible.
@@ -4389,7 +4389,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgc832a76">
+<pre class="example" id="orgb68b77b">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -4651,7 +4651,8 @@ with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
   (dolist (input '(self-insert-command org-self-insert-command))
     (add-to-list 'keycast-substitute-alist `(,input "." "Typing…")))
 
-  (dolist (event '(mouse-event-p mouse-movement-p mwheel-scroll))
+  (dolist (event '( mouse-event-p mouse-movement-p mwheel-scroll handle-select-window
+                    mouse-set-point mouse-drag-region))
     (add-to-list 'keycast-substitute-alist `(,event nil))))
 
 (provide 'prot-emacs-modeline)
@@ -7057,7 +7058,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgb5cb6eb">
+<pre class="example" id="orgab817c3">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7226,7 +7227,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org0d43c4d">
+<pre class="example" id="org1b9cf93">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7802,6 +7803,12 @@ here, but do take a look.
     "C-x p C-g" #'keyboard-quit
     "C-x p &lt;return&gt;" #'project-dired
     "C-x p &lt;delete&gt;" #'project-forget-project)
+
+  (require 'prot-project)
+  ;; Also check the command `prot-project-in-tab'.  I do not use it
+  ;; because I prefer to manage my buffers in frames, with my
+  ;; `beframe' package.
+  (define-key project-prefix-map "p" #'prot-project-switch)
 </pre>
 </div>
 </div>
@@ -9304,7 +9311,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org18c1762">
+<pre class="example" id="org62e0174">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10018,7 +10025,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgcac32fe">
+<pre class="example" id="orgad6f09f">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10030,7 +10037,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgaf5c60a">
+<pre class="example" id="org67565cc">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10093,7 +10100,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org1bd1c6f">
+<pre class="example" id="orgea5bb0c">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10105,7 +10112,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org72fbe51">
+<pre class="example" id="org9ccc9b2">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10127,7 +10134,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orge97b374">
+<pre class="example" id="org2f65c90">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10766,10 +10773,10 @@ Count Any Terms Ordinarily Requested.</li>
   (:delay 5)
 
   (setq notmuch-indicator-args
-        '((:terms "tag:unread and tag:inbox" :label "Ⓐ" :face prot-modeline-indicator-green)
-          (:terms "tag:unread and tag:inbox and not tag:package and not tag:coach" :label "Ⓤ" :face prot-modeline-indicator-blue)
-          (:terms "tag:unread and tag:package" :label "Ⓟ" :face prot-modeline-indicator-cyan)
-          (:terms "tag:unread and tag:coach" :label "Ⓒ" :face prot-modeline-indicator-magenta))
+        '((:terms "tag:unread and tag:inbox" :label "[A] " :face prot-modeline-indicator-green)
+          (:terms "tag:unread and tag:inbox and not tag:package and not tag:coach" :label "[U] " :face prot-modeline-indicator-cyan)
+          (:terms "tag:unread and tag:package" :label "[P] " :face prot-modeline-indicator-magenta)
+          (:terms "tag:unread and tag:coach" :label "[C] " :face prot-modeline-indicator-red))
 
         notmuch-indicator-refresh-count (* 60 3)
         notmuch-indicator-hide-empty-counters t
@@ -11245,7 +11252,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org605ad82">
+<pre class="example" id="org87ef04e">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11341,7 +11348,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org49697c5">
+<pre class="example" id="orgcfc18a8">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -16548,6 +16555,37 @@ controlled by `delete-pair-blink-delay'."
 (require 'project)
 (require 'tab-bar)
 
+(defun prot-project--switch (directory &amp;optional command)
+  "Do the work of `project-switch-project' in the given DIRECTORY.
+With optional COMMAND, run it in DIRECTORY."
+  (let ((command (or (when (functionp command) command)
+                     (if (symbolp project-switch-commands)
+                         project-switch-commands
+                       (project--switch-project-command))))
+        (buffer (current-buffer)))
+    (unwind-protect
+        (progn
+          (setq-local project-current-directory-override directory)
+          (call-interactively command))
+      (with-current-buffer buffer
+        (kill-local-variable 'project-current-directory-override)))))
+
+(defun prot-project--frame-names ()
+  "Return a list of frame names."
+  (mapcar #'car (make-frame-names-alist)))
+
+;;;###autoload
+(defun prot-project-switch (directory)
+  "Switch to project DIRECTORY.
+If DIRECTORY exists in a frame, select it.  Otherwise switch to
+the project in DIRECTORY using `project-dired'."
+  (interactive (list (funcall project-prompter)))
+  (project--remember-dir directory)
+  (let ((name (file-name-nondirectory (directory-file-name directory))))
+    (if (member name (prot-project--frame-names))
+        (select-frame-by-name name)
+      (prot-project--switch directory 'project-dired))))
+
 ;; NOTE 2024-01-15 07:07:52 +0200: I define the "in tab" functions as
 ;; a coding exercise.  I don't have a use for it, as I prefer to use
 ;; the approach of my `beframe' package instead.
@@ -16559,24 +16597,11 @@ If FRAME is nil, use the current frame."
      (alist-get 'name tab))
    (frame-parameter frame 'tabs)))
 
-(defun prot-project-in-tab--switch (directory)
-  "Do the work of `project-switch-project' in the given DIRECTORY."
-  (let ((command (if (symbolp project-switch-commands)
-                     project-switch-commands
-                   (project--switch-project-command)))
-        (buffer (current-buffer)))
-    (unwind-protect
-        (progn
-          (setq-local project-current-directory-override directory)
-          (call-interactively command))
-      (with-current-buffer buffer
-        (kill-local-variable 'project-current-directory-override)))))
-
 (defun prot-project-in-tab--create-tab (directory name)
   "Create new tab visiting DIRECTORY and named NAME."
   (tab-new)
   (find-file directory)
-  (prot-project-in-tab--switch directory)
+  (prot-project--switch directory)
   (tab-rename name)
   ;; NOTE 2024-01-15 06:52 +0200: I am adding this because
   ;; `tab-rename' is not persistent for some reason. Probably a bug...
@@ -19061,7 +19086,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org840cdc0">
+<pre class="example" id="orgf1ddaa4">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19094,7 +19119,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgd368070">
+<pre class="example" id="orgcaf8525">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
