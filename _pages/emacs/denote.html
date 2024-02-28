@@ -120,7 +120,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.9. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.10. Visiting linked files via the minibuffer</a></li>
 <li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">7.11. Link to a note or create it if missing</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.12. Miscellaneous information about links</a></li>
+<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.12. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.13. Miscellaneous information about links</a></li>
 </ul>
 </li>
 <li><a href="#h:98c732ac-da0e-4ebd-a0e3-5c47f9075e51">8. Choose which commands to prompt for</a></li>
@@ -164,8 +165,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb">15.14.1.1. Manually configure Org export</a></li>
 <li><a href="#h:7a61a370-78e5-42a1-9650-98fee140723f">15.14.1.2. Automatically store Org exports in another folder</a></li>
-<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">15.14.1.3. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
-<li><a href="#h:2f3451ed-2fc4-4f36-bcf2-112939963e20">15.14.1.4. Org Mode Publishing</a></li>
+<li><a href="#h:2f3451ed-2fc4-4f36-bcf2-112939963e20">15.14.1.3. Org Mode Publishing</a></li>
 </ul>
 </li>
 <li><a href="#h:44c6a34a-e9ad-4f43-a24f-12f2c5a8467e">15.14.2. Export Denote notes with Markdown</a></li>
@@ -1227,7 +1227,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2f3a131">
+<pre class="example" id="org3ae0687">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1813,7 +1813,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge797469">
+<pre class="example" id="org200eab9">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1833,7 +1833,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org04f0344">
+<pre class="example" id="org62b6775">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2273,7 +2273,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org6b7c12b">
+<pre class="example" id="org7f2962b">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2372,7 +2372,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org31a8c1c">
+<pre class="example" id="org27d02b8">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2384,7 +2384,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgdab40fb">
+<pre class="example" id="org84247e4">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2398,7 +2398,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org30e82f6">
+<pre class="example" id="org81e4a22">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2412,7 +2412,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org62ade9c">
+<pre class="example" id="orge17049f">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2799,7 +2799,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org48f49d6">
+<pre class="example" id="org842b5a8">
 - link1
 - link2
 - link3
@@ -2817,7 +2817,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9067dbf">
+<pre class="example" id="org03e6f05">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3034,7 +3034,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orga52a7a9">
+<pre class="example" id="org4e8b10f">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3049,7 +3049,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org5bf055a">
+<pre class="example" id="orgf159391">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3264,8 +3264,47 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 </div>
 </div>
 
+<div id="outline-container-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f" class="outline-3">
+<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.12.</span> Convert <code>denote:</code> links to <code>file:</code> links</h3>
+<div class="outline-text-3" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
+<p>
+[ Part of 3.0.0-dev. ]
+</p>
+
+<p>
+Sometimes the user needs to translate all <code>denote:</code> link types to
+their <code>file:</code> equivalent. This may be because some other tool does not
+recognise <code>denote:</code> links (or other custom links types&#x2014;which are a
+standard feature of Org, by the way). The user thus needs to (i)
+either make a copy of their Denote note or edit the existing one, and
+(ii) convert all links to the generic <code>file:</code> link type that
+external/other programs understand.
+</p>
+
+<p>
+The optional extension <code>denote-org-extras.el</code> contains two commands
+that are relevant for this use-case:
+</p>
+
+<dl class="org-dl">
+<dt>Convert <code>denote:</code> links to <code>file:</code> links</dt><dd>The command <code>denote-org-extras-convert-links-to-file-type</code>
+goes through the buffer to find all <code>denote:</code> links. It gets the
+identifier of the link and resolves it to the actual file system
+path. It then replaces the match so that the link is written with
+the <code>file:</code> type and then the file system path. The optional search
+terms and/or link description are preserved (<a href="#h:fc1ad245-ec08-41be-8d1e-7153d99daf02">Insert link to an Org file with a further pointer to a heading</a>).</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Convert <code>file:</code> links to <code>denote:</code> links</dt><dd>The command <code>denote-org-extras-convert-links-to-denote-type</code>
+behaves like the one above. The difference is that it finds the file
+system path and converts it into its identifier.</dd>
+</dl>
+</div>
+</div>
+
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.12.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.13.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -4205,7 +4244,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgcdf5fa4">
+<pre class="example" id="org2a7cc18">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -4763,6 +4802,13 @@ Org Mode has a built-in configurable export engine.  You can prevent
 duplicate identifiers when exporting manually for each exported file
 or by advising the Org export function.
 </p>
+
+<p>
+Denote also provides commands to convert <code>denote:</code> links to their
+<code>file:</code> equivalent, in case this is a required pre-processing step for
+export purposes (<a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links</a>). [ This is
+part of 3.0.0-dev. ]
+</p>
 </div>
 
 <div id="outline-container-h:bf791e28-73e5-4ed8-88bc-e4e9b3ebaedb" class="outline-5">
@@ -4854,56 +4900,8 @@ as an attachment:
 </div>
 </div>
 
-<div id="outline-container-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f" class="outline-5">
-<h5 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-5">15.14.1.3.</span> Convert <code>denote:</code> links to <code>file:</code> links</h5>
-<div class="outline-text-5" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
-<p>
-Sometimes the user needs to translate all <code>denote:</code> link types to
-their <code>file:</code> equivalent. This may be because some other tool does not
-recognise <code>denote:</code> links (or other custom links types&#x2014;which are a
-standard feature of Org, by the way). The user thus needs to (i)
-either make a copy of their Denote note or edit the existing one, and
-(ii) convert all links to the generic <code>file:</code> link type that
-external/other programs understand.
-</p>
-
-<p>
-The following block provides a solution for the current Org file. Note
-that both the <code>my-denote-org-link-regexp</code> variable and th
-<code>my-denote-org-link-convert</code> function are needed. The latter is called
-with <code>M-x</code> or can be bound to a key.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Evaluate this and the one below.
-(defvar my-denote-org-link-regexp
-  (concat "\\[\\[\\(?1:.*?:\\)\\(?2:.*?\\)\\]"
-          "\\[\\(?3:.*?\\)" "\\]\\]")
-  "Regular expression to match Org links.
-Group 1 is the link type, 2 is the target, 3 is the description.")
-
-;; Then use M-x to call `my-denote-org-link-convert'.
-(defun my-denote-org-link-convert ()
-  "Convert all 'denote:' links to their 'file:' equivalent in the current Org buffer."
-  (interactive)
-  (if (derived-mode-p 'org-mode)
-      (progn
-        (goto-char (point-min))
-          (while (re-search-forward my-denote-org-link-regexp nil :no-error)
-            (let* ((id (match-string-no-properties 2))
-                   (desc (match-string-no-properties 3))
-                   (file (save-match-data (denote-get-path-by-id id)))
-                   (new-text (format "[[file:%s][%s]]" file desc)))
-              (replace-match new-text :fixed-case :literal)))
-        (message "Converted as `denote:' links to `file:' links"))
-    (user-error "The current file is not using Org mode")))
-</pre>
-</div>
-</div>
-</div>
-
 <div id="outline-container-h:2f3451ed-2fc4-4f36-bcf2-112939963e20" class="outline-5">
-<h5 id="h:2f3451ed-2fc4-4f36-bcf2-112939963e20"><span class="section-number-5">15.14.1.4.</span> Org Mode Publishing</h5>
+<h5 id="h:2f3451ed-2fc4-4f36-bcf2-112939963e20"><span class="section-number-5">15.14.1.3.</span> Org Mode Publishing</h5>
 <div class="outline-text-5" id="text-h:2f3451ed-2fc4-4f36-bcf2-112939963e20">
 <p>
 Org Mode also has a publishing tool for exporting a collection of
@@ -5884,12 +5882,12 @@ description for <code>denote-link-with-signature</code>.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-link-description-with-signature-and-title</code></dt><dd>Return
-link description for <code>FILE</code>. With optional <code>REGION-TEXT</code> as a
-string, make that the description. Otherwise, produce a description
-as follows:</dd>
+link description for <code>FILE</code>.  Produce a description as follows:</dd>
+
+<dt>(no term)</dt><dd>If the region is active, use it as the description.</dd>
 
 <dt>(no term)</dt><dd>If <code>FILE</code> as a signature, then use the
-<code>denote-link-signature-format</code>. By default, this looks like
+<code>denote-link-signature-format</code>.  By default, this looks like
 &ldquo;signature title&rdquo;.</dd>
 
 <dt>(no term)</dt><dd>If <code>FILE</code> does not have a signature, then use its title as the
@@ -5924,7 +5922,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org40f77b0">
+<pre class="example" id="org5f2345c">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -5934,7 +5932,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7c8f233">
+<pre class="example" id="org79d8898">
 emacs -Q
 </pre>
 
@@ -5946,7 +5944,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgdb7d8f3">
+<pre class="example" id="orgf157482">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6008,7 +6006,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org72ee82b">
+<pre class="example" id="orgbf8a906">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
