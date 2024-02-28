@@ -125,7 +125,8 @@ associated with each element of the Emacs interface.
 
 <p>
 This is a plist of the form <code>(:key1 value1 :key2 value2)</code>. The value
-is always a natural number. Keys are keywords among the following:
+is always a natural number or <code>nil</code> (in which case a safe default
+value is used). Keys are keywords among the following:
 </p>
 
 <ul class="org-ul">
@@ -135,14 +136,27 @@ of the Emacs frame and where the text contents start.</li>
 <li><code>:right-divider-width</code> is the space between two side-by-side
 windows. If the value is less than 1, the border is not hidden when
 <code>spacious-padding-mode</code> is enabled. [ The behaviour of preserving
-the border when the width is &lt;= 1 is part of 0.4.0-dev. ]</li>
+the border when the width is 1 is part of 0.4.0-dev. ]</li>
 
-<li><code>left-fringe-width</code> and <code>right-fringe-width</code> refer to the fringes on
-each side of the window (the area where line wrapping and other
-indicators are displayed). [ Part of 0.4.0-dev. ]</li>
+<li><code>:fringe-width</code> applies to the fringes on either side of the window.
+The more specific keys <code>:left-fringe-width</code> and
+<code>:right-fringe-wdith</code> can be used for finer control. If those are
+not specified (or set to a nil value), they fall back to
+<code>:fringe-width</code>. (The fringes are the window sides where line
+wrapping and other indicators are displayed). [ All the
+fringe-related keys are part of 0.4.0-dev. ]</li>
 
-<li><code>:tab-width</code> concerns the padding around tab buttons. For the time
-being, <code>tab-bar-mode</code> is the only one affected.</li>
+<li><code>:tab-width</code> concerns the padding around buttons of all tabbed
+interfaces (<code>tab-bar-mode</code>, <code>tab-line-mode</code>).</li>
+
+<li><code>:tab-bar-width</code> concerns the padding around buttons of the
+<code>tab-bar-mode</code>. If not specified (or set to nil) it uses the value
+of <code>:tab-width</code>. [ The <code>:tab-bar-width</code> is part of 0.4.0-dev.
+Older versions used <code>:tab-width</code>, which will continue to work. ]</li>
+
+<li><code>:tab-line-width</code> concerns the padding around buttons of the
+tab-line. If not specified (or set to nil) it uses the value of
+<code>:tab-width</code>. [ The <code>:tab-line-width</code> is part of 0.4.0-dev. ]</li>
 
 <li><code>:header-line-width</code>, <code>mode-line-width</code>, <code>scroll-bar-width</code> point to
 the <code>header-line</code>, <code>mode-line</code>, and <code>scroll-bar</code>, respectively.</li>
@@ -312,8 +326,7 @@ Everything is in place to set up the package.
          :tab-width 4
          :right-divider-width 30
          :scroll-bar-width 8
-         :left-fringe-width 8
-         :right-fringe-width 8))
+         :fringe-width 8))
 
 ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
 ;; is very flexible and provides several examples.
@@ -341,10 +354,10 @@ help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or the manual</dt><dd>Neo Dim.</dd>
+<dt>Contributions to code or the manual</dt><dd>Lucas Gruss, Neo Dim.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Damien Cassou, Nicolas Semrau, Tomasz
-Hołubowicz.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Damien Cassou, Lucas Gruss, Nicolas
+Semrau, Tomasz Hołubowicz.</dd>
 </dl>
 
 <p>
