@@ -93,7 +93,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:ea5673cd-e6ca-4c42-a066-07dc6c9d57f8">4.5. Rename multiple files based on their front matter</a></li>
 <li><a href="#h:85b65995-89fd-4978-bba3-7bb6c8d6f945">4.6. Rename a file by changing only its file type</a></li>
 <li><a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">4.7. Rename a file by adding or removing keywords interactively</a></li>
-<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.8. Faces used by rename commands</a></li>
+<li><a href="#h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f">4.8. Rename a file by adding or removing a signature interactively</a></li>
+<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.9. Faces used by rename commands</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -1278,7 +1279,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org3a52267">
+<pre class="example" id="org22b255e">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1864,7 +1865,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb1f9996">
+<pre class="example" id="orge19117f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1884,7 +1885,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org3da1a95">
+<pre class="example" id="orgf6f0bff">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2113,14 +2114,55 @@ user option <code>denote-rename-no-confirm</code> the same as the prefix argumen
 </p>
 
 <p>
+Furthermore, both commands call the <code>denote-after-rename-file-hook</code> as
+a final step after carrying out their task.
+</p>
+
+<p>
 Aliases for these commands are: <code>denote-rename-add-keywords</code> and
 <code>denote-rename-remove-keywords</code>.
 </p>
 </div>
 </div>
 
+<div id="outline-container-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f" class="outline-3">
+<h3 id="h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f"><span class="section-number-3">4.8.</span> Rename a file by adding or removing a signature interactively</h3>
+<div class="outline-text-3" id="text-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f">
+<p>
+[ Part of 2.3.0-dev. ]
+</p>
+
+<p>
+The commands <code>denote-rename-add-signature</code> and
+<code>denote-rename-remove-signature</code> streamline the process of
+interactively adding or removing a signature from a given file (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
+</p>
+
+<p>
+The <code>denote-rename-add-signature</code> prompts for a file and a signature. The
+default value for the file prompt is the file of the currently open
+buffer or the file-at-point in a Dired buffer. The signature is an
+ordinary string, defaulting to the selected file&rsquo;s signature, if any.
+</p>
+
+<p>
+The <code>denote-rename-remove-signature</code> uses the same file prompt as
+above. It performs its action only if the selected file has a
+signature. Otherwise, it does nothing.
+</p>
+
+<p>
+Both commands ask for confirmation before carrying out their action.
+They do so unless the user option <code>denote-rename-no-confirm</code> is set to
+a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>). They also
+both take care to reload any Dired buffers and run the
+<code>denote-after-rename-file-hook</code> as a final step.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5" class="outline-3">
-<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.8.</span> Faces used by rename commands</h3>
+<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.9.</span> Faces used by rename commands</h3>
 <div class="outline-text-3" id="text-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">
 <p>
 These are the faces used by the various Denote rename commands to
@@ -2324,7 +2366,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgdcf1601">
+<pre class="example" id="org52a6a9d">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2423,7 +2465,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org84547f0">
+<pre class="example" id="orgc9e9232">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2435,7 +2477,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org251b144">
+<pre class="example" id="org21d5c0e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2449,7 +2491,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgdd80f4d">
+<pre class="example" id="orgb5bf755">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2463,7 +2505,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org22091d3">
+<pre class="example" id="org1b6286d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2850,7 +2892,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgaca26d6">
+<pre class="example" id="org45822f2">
 - link1
 - link2
 - link3
@@ -2868,7 +2910,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd276b74">
+<pre class="example" id="orgd341bd1">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3085,7 +3127,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org02666f5">
+<pre class="example" id="org4efc632">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3100,7 +3142,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org98ea3f6">
+<pre class="example" id="orgf2988b6">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4347,7 +4389,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgef5580e">
+<pre class="example" id="orgf416d9a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6044,7 +6086,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd7a2861">
+<pre class="example" id="org696f796">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6054,7 +6096,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgf4e9c35">
+<pre class="example" id="orgdf262e6">
 emacs -Q
 </pre>
 
@@ -6066,7 +6108,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org91b52c5">
+<pre class="example" id="orgccb75ba">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6128,7 +6170,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org9ffe26d">
+<pre class="example" id="orge70cf61">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6831,7 +6873,7 @@ Prevos, Philip Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan
 Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
 Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel,
 leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
-mentalisttraceur, relict007.</dd>
+mentalisttraceur, pmenair, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
