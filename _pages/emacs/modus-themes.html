@@ -2742,6 +2742,10 @@ Reload the theme for changes to take effect.
 <h4 id="h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50"><span class="section-number-4">8.2.15.</span> DIY Make Org block colors more or less colorful</h4>
 <div class="outline-text-4" id="text-h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50">
 <p>
+[ Expanded as part of 4.4.0-dev. ]
+</p>
+
+<p>
 This is one of our practical examples to override the semantic colors
 of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>). Here
 we show how to change the presentation of Org blocks (and other such
@@ -2754,6 +2758,10 @@ The default style of Org blocks is a subtle gray background for the
 contents and for the delimiter lines (the <code>#+begin_</code> and <code>#+end_</code>
 parts). The text of the delimiter lines is a subtle gray foreground
 color.
+</p>
+
+<p>
+<a href="#h:bb5b396f-5532-4d52-ab13-149ca24854f1">Make inline code in prose use alternative styles</a>.
 </p>
 
 <div class="org-src-container">
@@ -2944,6 +2952,10 @@ Reload the theme for changes to take effect.
 <h4 id="h:bb5b396f-5532-4d52-ab13-149ca24854f1"><span class="section-number-4">8.2.17.</span> DIY Make inline code in prose use alternative styles</h4>
 <div class="outline-text-4" id="text-h:bb5b396f-5532-4d52-ab13-149ca24854f1">
 <p>
+[ Expanded as part of 4.4.0-dev. ]
+</p>
+
+<p>
 This is one of our practical examples to override the semantic colors
 of the Modus themes (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">Stylistic variants using palette overrides</a>).  In
 the following code block we show how to affect constructs such as
@@ -2952,44 +2964,44 @@ tables, property drawers, tags, and code block delimiters, though we
 do not show every possible permutation.
 </p>
 
-<p>
-<a href="#h:b57bb50b-a863-4ea8-bb38-6de2275fa868">Make TODO and DONE more or less intense</a>.
-</p>
+<ul class="org-ul">
+<li><a href="#h:b57bb50b-a863-4ea8-bb38-6de2275fa868">Make TODO and DONE more or less intense</a>.</li>
+<li><a href="#h:f44cc6e3-b0f1-4a5e-8a90-9e48fa557b50">DIY Make Org block colors more or less colorful</a>.</li>
+</ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; These are all the mappings at their default values for didactic
-;; purposes
+<pre class="src src-emacs-lisp">;; A nuanced accented background, combined with a suitable foreground.
 (setq modus-themes-common-palette-overrides
-      '((prose-block fg-dim)
-        (prose-code green-cooler)
-        (prose-done green)
-        (prose-macro magenta-cooler)
-        (prose-metadata fg-dim)
-        (prose-metadata-value fg-alt)
-        (prose-table fg-alt)
-        (prose-tag magenta-faint)
-        (prose-todo red)
-        (prose-verbatim magenta-warmer)))
+      '((bg-prose-code bg-green-nuanced)
+        (fg-prose-code green-cooler)
 
-;; Make code block delimiters use a shade of red, tone down verbatim,
-;; code, and macro, and amplify the style of property drawers
-(setq modus-themes-common-palette-overrides
-      '((prose-block red-faint)
-        (prose-code fg-dim)
-        (prose-macro magenta-faint)
-        (prose-metadata cyan)
-        (prose-metadata-value green-warmer)
-        (prose-verbatim fg-dim)))
+        (bg-prose-verbatim bg-magenta-nuanced)
+        (fg-prose-verbatim magenta-warmer)
 
-;; Like the above but with more color variety for the inline code
-;; elements
+        (bg-prose-macro bg-blue-nuanced)
+        (fg-prose-macro magenta-cooler)))
+
+;; A more noticeable accented background, combined with a suitable foreground.
 (setq modus-themes-common-palette-overrides
-      '((prose-block red-faint)
-        (prose-code blue-cooler)
-        (prose-macro yellow-warmer)
-        (prose-metadata cyan)
-        (prose-metadata-value green-warmer)
-        (prose-verbatim red-warmer)))
+      '((bg-prose-code bg-sage)
+        (fg-prose-code green-faint)
+
+        (bg-prose-verbatim bg-ochre)
+        (fg-prose-verbatim red-faint)
+
+        (bg-prose-macro bg-lavender)
+        (fg-prose-macro blue-faint)))
+
+;; Leave the backgrounds without a color and simply make the foregrounds more intense.
+(setq modus-themes-common-palette-overrides
+      '((bg-prose-code unspecified)
+        (fg-prose-code green-intense)
+
+        (bg-prose-verbatim unspecified)
+        (fg-prose-verbatim magenta-intense)
+
+        (bg-prose-macro unspecified)
+        (fg-prose-macro cyan-intense)))
 </pre>
 </div>
 
@@ -3010,7 +3022,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org390e167">
+<pre class="example" id="orgb4f8375">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4221,7 +4233,7 @@ to achieve what they want:
 </p>
 
 <p>
-[ All this is done by setting the Org user option <code>org-src-block-faces</code>, 
+[ All this is done by setting the Org user option <code>org-src-block-faces</code>,
   so it is not related to the palette overrides mechanism provided by
   the Modus themes. ]
 </p>
@@ -4370,7 +4382,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgfb16c26">
+<pre class="example" id="org245fa4b">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -6304,7 +6316,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org9539415">
+<pre class="example" id="orgefff0ac">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6349,7 +6361,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org0ff26e3">
+<pre class="example" id="org41f8b9a">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6722,7 +6734,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org0c4c37b">
+<pre class="example" id="org58f5aa9">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
