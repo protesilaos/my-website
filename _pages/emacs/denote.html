@@ -100,7 +100,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
 <ul>
 <li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">5.1. Sluggification of file name components</a></li>
-<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.2. Features of the file-naming scheme for searching or filtering</a></li>
+<li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">5.2. User-defined sluggification of file name components</a></li>
+<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.3. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
@@ -1279,7 +1280,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org22b255e">
+<pre class="example" id="orgce83872">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1715,6 +1716,14 @@ signature of <code>FILE</code>, if any.
 </p>
 
 <p>
+In interactive use, if <code>FILE</code> has a signature, <code>denote-rename-file</code>
+produces a <code>SIGNATURE</code> prompt regardless of the value of <code>denote-prompts</code>.
+This way, notes created with the <code>denote-signature</code> command, or
+equivalent, as a derogation from the norm imposed by <code>denote-prompt</code>,
+do not necessarily lose their signature.
+</p>
+
+<p>
 Same principle for the <code>KEYWORDS</code> prompt: it converts the keywords in
 the file name into a comma-separated string and prefills the minibuffer
 with it (the <code>KEYWORDS</code> prompt accepts more than one keywords, each
@@ -1865,7 +1874,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge19117f">
+<pre class="example" id="orgce216a7">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1885,7 +1894,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf6f0bff">
+<pre class="example" id="org7c397d2">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2320,23 +2329,21 @@ permits. Denote imposes a few additional restrictions:
 
 <ul class="org-ul">
 <li>The tokens &ldquo;<code>=", =__</code> and <code>--</code> are interpreted by Denote and should
-appear only once. <code>_</code> is the separator for keywords.</li>
+appear only once.</li>
 
 <li>The dot character is not allowed in a note&rsquo;s file name, except to
-indicate the extension.</li>
+indicate the file type extension. Denote recognises two extensions
+for encrypted files, like <code>.txt.gpg</code>.</li>
 </ul>
 
 <p>
-By default, Denote enforce other rules to file names through the user
-option <code>denote-file-name-slug-functions</code>.
-</p>
-
-<p>
-These rules are applied to file names by default:
+By default, Denote enforces other rules to file names through the user
+option <code>denote-file-name-slug-functions</code>. These rules are applied to
+file names by default:
 </p>
 
 <ul class="org-ul">
-<li>What we count as &ldquo;illegal characters&rdquo; are removed.  The variable
+<li>What we count as &ldquo;illegal characters&rdquo; are removed.  The constant
 <code>denote-excluded-punctuation-regexp</code> holds the relevant value.</li>
 
 <li>Input for a file title is hyphenated.  The original value is
@@ -2344,56 +2351,150 @@ preserved in the note&rsquo;s contents (<a href="#h:13218826-56a5-482a-9b91-5b6d
 
 <li>Spaces or other delimiters are removed from keywords, meaning that
 <code>hello-world</code> becomes <code>helloworld</code>.  This is because hyphens in
-keywords do not work everywhere, such as in Org.</li>
+keywords do not work everywhere, such as in Org. Plus, hyphens are
+word separators in the title and we want to keep distinct separators
+for each component to make search easier and semantic
+(<a href="#h:1a953736-86c2-420b-b566-fb22c97df197">Features of the file-naming scheme for searching or filtering</a>).</li>
 
 <li>Signatures are like the above, but use the equals sign instead of
-hyphens.</li>
+hyphens as a word separator.</li>
 
-<li>All file name components are downcased.  Consider a <code>helloWorld</code> or
-<code>HelloWorld</code> convention for those cases where you would want to have a
-hyphen between constituent words of a keyword.</li>
+<li>All file name components are downcased. Further down we document how
+to deviate from these rules, such as to accept input of the form
+<code>helloWorld</code> or <code>HelloWorld</code> verbatim.</li>
 </ul>
 
 <p>
-The user option <code>denote-file-name-slug-functions</code> can be used to control
-the sluggification of the components of file names (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming
-scheme</a>).  The default method is explained in the previous section.
+Denote imposes these restrictions to enforce uniformity, which is
+helpful long-term as it keeps all files with the same predictable
+pattern. Too many permutations make searches more difficult to express
+accurately and be confident that the matches cover all files.
+Nevertheless, one of the principles of Denote is its flexibility or
+hackability and so users can deviate from the aforementioned
+(<a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">User-defined sluggification of file name components</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3" class="outline-3">
+<h3 id="h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3"><span class="section-number-3">5.2.</span> User-defined sluggification of file name components</h3>
+<div class="outline-text-3" id="text-h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">
+<p>
+[ Part of 2.3.0-dev, superseding the deprecated user
+  option <code>denote-file-name-letter-casing</code>. ]
+</p>
+
+<p>
+The user option <code>denote-file-name-slug-functions</code> controls the
+sluggification of file name components (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggification of file name components</a>).
+The default method is outlined above and in the previous section
+(<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
 </p>
 
 <p>
 The value of this user option is an alist where each element is a cons
-cell of the form <code>(COMPONENT . METHOD)</code>.  For example, here is the
+cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org52a6a9d">
+<pre class="example" id="orgbc831ee">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
 </pre>
-
-<p>
-What these cons cells of <code>(COMPONENT . METHOD)</code> are:
-</p>
 
 <ul class="org-ul">
 <li>The <code>COMPONENT</code> is an unquoted symbol among <code>title</code>, <code>signature</code>,
 <code>keyword</code>, which refers to the corresponding component of the file
 name.</li>
 
-<li>The <code>METHOD</code> is the function to be used to format the given component.
-This function should take a string as its parameter and return the
-string formatted for the file name.  In the case of the `keyword&rsquo;
-component, the function receives a SINGLE string representing a single
-keyword and return it formatted for the file name.  Joining the
-keywords together is handled by Denote.  Note that the `keyword&rsquo;
-function is also applied to the keywords of the front matter.</li>
+<li>The <code>METHOD</code> is a function to format the given component. This
+function must take a string as its parameter and return the string
+formatted for the file name. Note that even in the case of the
+<code>keyword</code> component, the function receives one string representing a
+single keyword and returns it formatted for the file name. Joining
+the keywords together is handled internally by Denote.</li>
 </ul>
+
+<p>
+One commonly requested deviation from the sluggification rules is to
+not sluggify individual keywords, such that the user&rsquo;s input is taken
+as-is. This can be done as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-file-name-slug-functions
+      '((title . denote-sluggify-title)
+        (keyword . identity)
+        (signature . denote-sluggify-signature)))
+</pre>
+</div>
+
+<p>
+The <code>identity</code> function simply returns the string it receives, thus
+not altering it in any way.
+</p>
+
+<p>
+Another approach is to keep the sluggification but not downcase the
+string. We can do this by modifying the original functions used by
+Denote. For example, we have this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; The original function for reference
+(defun denote-sluggify-title (str)
+  "Make STR an appropriate slug for title."
+  (downcase (denote--slug-hyphenate (denote--slug-no-punct str))))
+
+;; Our variant of the above, which does the same thing except from
+;; downcasing the string.
+(defun my-denote-sluggify-title (str)
+  "Make STR an appropriate slug for title."
+  (denote--slug-hyphenate (denote--slug-no-punct str)))
+
+;; Now we use our function to sluggify titles without affecting their
+;; letter casing.
+(setq denote-file-name-slug-functions
+      '((title . my-denote-sluggify-title) ; our function here
+        (signature . denote-sluggify-signature)
+        (keyword . denote-sluggify-keyword)))
+</pre>
+</div>
+
+<p>
+Follow this principle for all the sluggification functions.
+</p>
+
+<p>
+To access the source code, use either of the following built-in
+methods:
+</p>
+
+<ol class="org-ol">
+<li>Call the command <code>find-library</code> and search for <code>denote</code>. Then
+navigate to the symbol you are searching for.</li>
+
+<li>Invoke the command <code>describe-symbol</code>, search for the symbol you are
+interested in, and from the resulting Help buffer either click on
+the first link or do <code>M-x help-view-source</code> (bound to <code>s</code> in Help
+buffers, by default).</li>
+</ol>
+
+<p>
+Remember that deviating from the default file-naming scheme of Denote
+will make things harder to search in the future, as files can/will
+have permutations that create uncertainty. The sluggification scheme
+and concomitant restrictions we impose by default are there for a very
+good reason: they are the distillation of years of experience. Here we
+give you what you wish, but bear in mind it may not be what you need.
+You have been warned.
+</p>
 </div>
 </div>
 
 <div id="outline-container-h:1a953736-86c2-420b-b566-fb22c97df197" class="outline-3">
-<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.2.</span> Features of the file-naming scheme for searching or filtering</h3>
+<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.3.</span> Features of the file-naming scheme for searching or filtering</h3>
 <div class="outline-text-3" id="text-h:1a953736-86c2-420b-b566-fb22c97df197">
 <p>
 By default, file names have three fields and two sets of field
@@ -2465,7 +2566,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc9e9232">
+<pre class="example" id="orgc48c0e0">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2477,7 +2578,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org21d5c0e">
+<pre class="example" id="orgabd3a12">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2491,7 +2592,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb5bf755">
+<pre class="example" id="org861de24">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2505,7 +2606,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org1b6286d">
+<pre class="example" id="org899aaad">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2892,7 +2993,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org45822f2">
+<pre class="example" id="org4875c6d">
 - link1
 - link2
 - link3
@@ -2910,7 +3011,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd341bd1">
+<pre class="example" id="orgdabb611">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3127,7 +3228,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4efc632">
+<pre class="example" id="org1294185">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3142,7 +3243,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgf2988b6">
+<pre class="example" id="org1dcc116">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4389,7 +4490,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgf416d9a">
+<pre class="example" id="org03b0225">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5618,6 +5719,16 @@ from <code>FILE</code> name, if present, else return nil.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-retrieve-title-or-filename</code></dt><dd>Return appropriate
+title for <code>FILE</code> given its <code>TYPE</code>. Try to find the value of the
+title in the front matter of FILE, otherwise use its file name. This
+is a wrapper for <code>denote-retrieve-front-matter-title-value</code> and
+<code>denote-retrieve-filename-title</code>. [ This was known as the private
+function <code>denote--retrieve-title-or-filename</code>. It is made public as
+part of 2.3.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
 identifier using <code>denote-id-format</code>. <code>DATE</code> is parsed by
 <code>denote-valid-date-p</code>. If <code>DATE</code> is nil, use the current time.
@@ -6086,7 +6197,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org696f796">
+<pre class="example" id="org972c06c">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6096,7 +6207,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgdf262e6">
+<pre class="example" id="org993a26f">
 emacs -Q
 </pre>
 
@@ -6108,7 +6219,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgccb75ba">
+<pre class="example" id="org5931a26">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6170,7 +6281,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orge70cf61">
+<pre class="example" id="org3bf0928">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
