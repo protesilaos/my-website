@@ -14,13 +14,13 @@ provides every other piece of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-2.2.0, released on 2023-12-10.  Any reference to
+2.3.0, released on 2024-03-24.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 2.3.0-dev.
+Current development target is 3.0.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -229,7 +229,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <h2 id="h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f">
 <p>
-Copyright (C) 2022-2023  Free Software Foundation, Inc.
+Copyright (C) 2022-2024  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -417,7 +417,20 @@ will behave interactively (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Sta
 </p>
 
 <p>
-The value is a list of symbols, which includes any of the following:
+Commands that prompt for user input to construct a Denote file name
+include, but are not limited to: <code>denote</code>, <code>denote-signature</code>,
+<code>denote-type</code>, <code>denote-date</code>, <code>denote-subdirectory</code>,
+<code>denote-rename-file</code>, <code>denote-dired-rename-files</code>.
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>.</li>
+<li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>.</li>
+</ul>
+
+<p>
+The value of this user option is a list of symbols, which includes any
+of the following:
 </p>
 
 <ul class="org-ul">
@@ -429,7 +442,7 @@ Available candidates are those specified in the user option
 is non-nil, keywords in existing note file names are included in the
 list of candidates.  The <code>keywords</code> prompt uses
 <code>completing-read-multiple</code>, meaning that it can accept multiple
-keywords separated by a comma (or whatever the value of <code>crm-sepator</code>
+keywords separated by a comma (or whatever the value of <code>crm-separator</code>
 is).</li>
 
 <li><code>file-type</code>: Prompts with completion for the file type of the new
@@ -507,12 +520,9 @@ When in doubt, always include the <code>title</code> and <code>keywords</code> p
 
 <p>
 Finally, this user option only affects the interactive use of the
-<code>denote</code> command (advanced users can call it from Lisp).  For ad-hoc
-interactive actions that do not change the default behaviour of the
-<code>denote</code> command, users can invoke these convenience commands:
-<code>denote-type</code>, <code>denote-subdirectory</code>, <code>denote-date</code>,
-<code>denote-signature</code>.  They are described in the subsequent section
-(<a href="#h:887bdced-9686-4e80-906f-789e407f2e8f">Convenience commands for note creation</a>).
+<code>denote</code> or other relevant commands (advanced users can call it from
+Lisp). In Lisp usage, the behaviour is always what the caller
+specifies, based on the supplied arguments.
 </p>
 </div>
 </div>
@@ -520,10 +530,6 @@ interactive actions that do not change the default behaviour of the
 <div id="outline-container-h:403422a7-7578-494b-8f33-813874c12da3" class="outline-4">
 <h4 id="h:403422a7-7578-494b-8f33-813874c12da3"><span class="section-number-4">3.1.2.</span> The <code>denote-history-completion-in-prompts</code> option</h4>
 <div class="outline-text-4" id="text-h:403422a7-7578-494b-8f33-813874c12da3">
-<p>
-[ Part of 2.3.0-dev. ]
-</p>
-
 <p>
 The user option <code>denote-history-completion-in-prompts</code> toggles history
 completion in all <code>denote-prompts-with-history-as-completion</code>.
@@ -666,10 +672,7 @@ option, there are cases where an ad-hoc method is the appropriate one
 <p>
 To this end, Denote provides the following interactive convenience
 commands for note creation. They all work by appending a new prompt to
-the existing <code>denote-prompts</code>. For these examples, we assume the
-default value of <code>denote-prompts</code>, which is <code>'(title keywords)</code>. [
-Appending to the existing <code>denote-prompts</code> is a behaviour defined in
-2.3.0-dev. ]
+the existing <code>denote-prompts</code>.
 </p>
 
 <dl class="org-dl">
@@ -679,10 +682,10 @@ creates a note while prompting for a file type.
 </p>
 
 <p>
-This is the equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
-set to <code>'(file-type title keywords)</code>.  In practical terms, this lets
-you produce, say, a note in Markdown even though you normally write in
-Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
+This is the equivalent of calling <code>denote</code> when <code>denote-prompts</code> has
+the <code>file-type</code> prompt appended to its existing prompts. In practical
+terms, this lets you produce, say, a note in Markdown even though
+you normally write in Org (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).
 </p>
 
 <p>
@@ -707,8 +710,8 @@ notation like <code>2022-06-30</code> or that plus the time: <code>2022-06-16 14
 </p>
 
 <p>
-This is the equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
-set to <code>'(date title keywords)</code>.
+This is the equivalent of calling <code>denote</code> when <code>denote-prompts</code> has
+the <code>date</code> prompt appended to its existing prompts.
 </p>
 
 <p>
@@ -723,8 +726,8 @@ any subdirectory thereof (Denote does not create subdirectories).
 </p>
 
 <p>
-This is equivalent to calling <code>denote</code> when <code>denote-prompts</code> is set to
-<code>'(subdirectory title keywords)</code>.
+This is the equivalent of calling <code>denote</code> when <code>denote-prompts</code> has
+the <code>subdirectory</code> prompt appended to its existing prompts.
 </p>
 
 <p>
@@ -740,8 +743,8 @@ templates are specified in the user option <code>denote-templates</code>.
 </p>
 
 <p>
-This is equivalent to calling <code>denote</code> when <code>denote-prompts</code> is
-set to <code>'(template title keywords)</code>.
+This is the equivalent of calling <code>denote</code> when <code>denote-prompts</code> has
+the <code>template</code> prompt appended to its existing prompts.
 </p>
 
 <p>
@@ -756,6 +759,11 @@ field of the file name and then asks for a title and keywords.
 Signatures are arbitrary strings of alphanumeric characters which
 can be used to establish sequential relations between file at the
 level of their file name (e.g. 1, 1a, 1b, 1b1, 1b2, &#x2026;).
+</p>
+
+<p>
+This is the equivalent of calling <code>denote</code> when <code>denote-prompts</code> has
+the <code>signature</code> prompt appended to its existing prompts.
 </p>
 
 <p>
@@ -851,10 +859,6 @@ to the list of commands available at the <code>denote-command-prompt</code>
 <h4 id="h:bf80f4cd-6f56-4f7c-a991-8573161e4511"><span class="section-number-4">3.1.5.</span> The <code>denote-save-buffer-after-creation</code> option</h4>
 <div class="outline-text-4" id="text-h:bf80f4cd-6f56-4f7c-a991-8573161e4511">
 <p>
-[ Part of 2.3.0-dev. ]
-</p>
-
-<p>
 The user option <code>denote-save-buffer-after-creation</code> controls whether
 commands that creeate new notes save their buffer outright.
 </p>
@@ -895,10 +899,6 @@ that is common in interactions with Org mode, can set the user option
 <div id="outline-container-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd" class="outline-3">
 <h3 id="h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd"><span class="section-number-3">3.2.</span> Create a note from the current Org subtree</h3>
 <div class="outline-text-3" id="text-h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">
-<p>
-[ Rewritten as part of 2.3.0-dev. ]
-</p>
-
 <p>
 In Org parlance, an entry with all its subheadings and other contents
 is a &ldquo;subtree&rdquo;. Denote can operate on the subtree to extract it from
@@ -1280,7 +1280,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgce83872">
+<pre class="example" id="org5604775">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1467,11 +1467,6 @@ To see another example of a wrapper function that <code>let</code> binds
 <h4 id="h:e43baf95-f201-4fec-8620-c0eb5eaa1c85"><span class="section-number-4">3.7.2.</span> The <code>denote-silo-extras.el</code></h4>
 <div class="outline-text-4" id="text-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">
 <p>
-[ As part of 2.3.0-dev, we fixed an issue where a
-  <code>C-u</code> prefix argument was needed to select a silo. ]
-</p>
-
-<p>
 The <code>denote-silo-extras.el</code> provides optional convenience functions for
 working with silos (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>).
 Start by loading the relevant library:
@@ -1577,8 +1572,7 @@ development log: <a href="https://protesilaos.com/codelog/2023-03-31-emacs-denot
 
 <p>
 The command <code>denote-menu-bar-mode</code> toggles the presentation of the
-menu. It is enabled by default. [ The <code>denote-menu-bar-mode</code> is part
-of 2.3.0-dev. ]
+menu. It is enabled by default.
 </p>
 
 <p>
@@ -1627,7 +1621,7 @@ mechanisms to facilitate the task of renaming them.
 
 <p>
 All renaming commands run the <code>denote-after-rename-file-hook</code> after a
-succesful operation. [ Part of 2.3.0-dev. ]
+succesful operation.
 </p>
 
 <p>
@@ -1645,14 +1639,6 @@ line or switching between then with commands like <code>switch-to-buffer</code>.
 <div id="outline-container-h:7cc9e000-806a-48da-945c-711bbc7426b0" class="outline-3">
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
 <div class="outline-text-3" id="text-h:7cc9e000-806a-48da-945c-711bbc7426b0">
-<p>
-[ Revised as part of 2.3.0-dev to honour the value of
-  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>).
-  This version also broadens the scope of the user option
-  <code>denote-rename-no-confirm</code>, such that it automatically saves the
-  affcted buffers, post-rename. ]
-</p>
-
 <p>
 The <code>denote-rename-file</code> command renames a file and updates existing
 front matter if appropriate. It is possible to do the same with
@@ -1716,30 +1702,19 @@ signature of <code>FILE</code>, if any.
 </p>
 
 <p>
-In interactive use, if <code>FILE</code> has a signature, <code>denote-rename-file</code>
-produces a <code>SIGNATURE</code> prompt regardless of the value of <code>denote-prompts</code>.
-This way, notes created with the <code>denote-signature</code> command, or
-equivalent, as a derogation from the norm imposed by <code>denote-prompt</code>,
-do not necessarily lose their signature.
-</p>
-
-<p>
 Same principle for the <code>KEYWORDS</code> prompt: it converts the keywords in
 the file name into a comma-separated string and prefills the minibuffer
 with it (the <code>KEYWORDS</code> prompt accepts more than one keywords, each
-separated by a comma, else the <code>crm-sepator</code>).
+separated by a comma, else the <code>crm-separator</code>).
 </p>
 
 <p>
 For all prompts, the <code>denote-rename-file</code> interprets an empty input as
 an instruction to remove that file name component. For example, if a
 <code>TITLE</code> prompt is available and <code>FILE</code> is <code>20240211T093531--some-title__keyword1.org</code>
-then it renames <code>FILE</code> to <code>20240211T093531__keyword1.org</code>. For
-interactive use, this also means that if a prompt is missing from the
-<code>denote-prompts</code> the corresponding file name component will be removed
-during the renaming process (e.g. a <code>denote-prompts</code> without an entry
-for keywords is the same as passing an empty/nil <code>KEYWORDS</code> argument,
-thus removing the keywords of the file).
+then it renames <code>FILE</code> to <code>20240211T093531__keyword1.org</code>. If a file
+name component is present, but there is no entry for it in
+<code>denote-prompts</code>, keep it as-is.
 </p>
 
 <p>
@@ -1801,12 +1776,6 @@ one-by-one, use <code>denote-dired-rename-files</code> (<a href="#h:1b6b2c78-42f
 <h4 id="h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7"><span class="section-number-4">4.1.1.</span> The <code>denote-rename-no-confirm</code> option</h4>
 <div class="outline-text-4" id="text-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">
 <p>
-[ Revised as part of 2.3.0-dev to save the underlying
-  buffer. The assumption is that the user who opts in to this feature is
-  familiar with the Denote renaming operation and knows it is reliable. ]
-</p>
-
-<p>
 The user option <code>denote-rename-no-confirm</code> makes all commands that
 rename files not prompt for confirmation and save buffers outright (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
 </p>
@@ -1852,14 +1821,6 @@ use, but carries out the renaming without asking for confirmation
 <h3 id="h:3ab08ff4-81fa-4d24-99cb-79f97c13a373"><span class="section-number-3">4.2.</span> Rename a single file based on its front matter</h3>
 <div class="outline-text-3" id="text-h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">
 <p>
-[ Revised as part of 2.3.0-dev to (i) accept an
-  optional double prefix argument to automatically save the buffer and
-  (ii) to not ask for confirmation while renaming and to automatically
-  save the buffer if the user option <code>denote-rename-no-confirm</code> is
-  non-nil (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>). ]
-</p>
-
-<p>
 In the previous section, we covered the more general mechanism of the
 command <code>denote-rename-file</code> (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>).  There is also a
 way to have the same outcome by making Denote read the data in the
@@ -1874,7 +1835,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgce216a7">
+<pre class="example" id="org8864be9">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1894,7 +1855,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org7c397d2">
+<pre class="example" id="org8b21eb6">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1924,10 +1885,6 @@ prompt is skipped and the renaming is done outright.
 </p>
 
 <p>
-[ The following are part of 2.3.0-dev. ]
-</p>
-
-<p>
 If called interactively with a double prefix argument (<code>C-u C-u</code> by
 default) or from Lisp with a non-nil <code>SAVE-BUFFER</code> argument, the
 buffer is saved after the front matter is updated and the file is
@@ -1952,17 +1909,6 @@ the like.
 <div id="outline-container-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde" class="outline-3">
 <h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files interactively</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
-<p>
-[ Revised as part of 2.3.0-dev to honour the value of
-  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>). ]
-</p>
-
-<p>
-[ As part of 2.3.0-dev the
-<code>denote-dired-rename-marked-files</code> is an alias for
-<code>denote-dired-rename-files</code>. ]
-</p>
-
 <p>
 The command <code>denote-dired-rename-files</code> (alias
 <code>denote-dired-rename-marked-files</code>) renames the files that are
@@ -1990,11 +1936,6 @@ check the command <code>denote-dired-rename-marked-files-with-keywords</code>.
 <div id="outline-container-h:f365ff7e-2140-4e14-a92f-666ae97382a4" class="outline-3">
 <h3 id="h:f365ff7e-2140-4e14-a92f-666ae97382a4"><span class="section-number-3">4.4.</span> Rename multiple files at once by asking only for keywords</h3>
 <div class="outline-text-3" id="text-h:f365ff7e-2140-4e14-a92f-666ae97382a4">
-<p>
-[ Revised as part of 2.3.0-dev to honour the value of
-  the user option <code>denote-prompts</code> where that makes sense (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>). ]
-</p>
-
 <p>
 The <code>denote-dired-rename-marked-files-with-keywords</code> command renames
 marked files in Dired to conform with our file-naming scheme. It does
@@ -2112,10 +2053,6 @@ accordingly.
 </p>
 
 <p>
-[ The following are part of 2.3.0-dev. ]
-</p>
-
-<p>
 Both commands accept an optional prefix argument to automatically save
 the buffer. Similarly, they both interpret a non-nil value for the
 user option <code>denote-rename-no-confirm</code> the same as the prefix argument
@@ -2137,10 +2074,6 @@ Aliases for these commands are: <code>denote-rename-add-keywords</code> and
 <div id="outline-container-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f" class="outline-3">
 <h3 id="h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f"><span class="section-number-3">4.8.</span> Rename a file by adding or removing a signature interactively</h3>
 <div class="outline-text-3" id="text-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f">
-<p>
-[ Part of 2.3.0-dev. ]
-</p>
-
 <p>
 The commands <code>denote-rename-add-signature</code> and
 <code>denote-rename-remove-signature</code> streamline the process of
@@ -2380,11 +2313,6 @@ hackability and so users can deviate from the aforementioned
 <h3 id="h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3"><span class="section-number-3">5.2.</span> User-defined sluggification of file name components</h3>
 <div class="outline-text-3" id="text-h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">
 <p>
-[ Part of 2.3.0-dev, superseding the deprecated user
-  option <code>denote-file-name-letter-casing</code>. ]
-</p>
-
-<p>
 The user option <code>denote-file-name-slug-functions</code> controls the
 sluggification of file name components (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggification of file name components</a>).
 The default method is outlined above and in the previous section
@@ -2397,7 +2325,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgbc831ee">
+<pre class="example" id="orgaaa61f4">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2483,9 +2411,9 @@ buffers, by default).</li>
 
 <p>
 Remember that deviating from the default file-naming scheme of Denote
-will make things harder to search in the future, as files can/will
-have permutations that create uncertainty. The sluggification scheme
-and concomitant restrictions we impose by default are there for a very
+will make things harder to use in the future, as files can/will have
+permutations that create uncertainty. The sluggification scheme and
+concomitant restrictions we impose by default are there for a very
 good reason: they are the distillation of years of experience. Here we
 give you what you wish, but bear in mind it may not be what you need.
 You have been warned.
@@ -2566,7 +2494,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc48c0e0">
+<pre class="example" id="org12a97ce">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2578,7 +2506,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgabd3a12">
+<pre class="example" id="orgb18f0c8">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2592,7 +2520,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org861de24">
+<pre class="example" id="org42cc758">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2606,7 +2534,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org899aaad">
+<pre class="example" id="org7cd06d4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2867,10 +2795,6 @@ other links.
 </p>
 
 <p>
-[ The following is part of 2.3.0-dev. ]
-</p>
-
-<p>
 In files whose major mode is <code>markdown-mode</code>, the default key binding
 <code>C-c C-o</code> (which calls the command <code>markdown-follow-thing-at-point</code>)
 correctly resolves <code>denote:</code> links. This method works in addition to
@@ -2885,26 +2809,23 @@ buttonization. Interested users can refer to the function
 <h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">7.2.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
 <div class="outline-text-3" id="text-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">
 <p>
-[ Part of 2.3.0-dev. ]
-</p>
-
-<p>
 The user option <code>denote-org-store-link-to-heading</code> determines whether
 <code>org-store-link</code> links to the current Org heading (such links are
 merely &ldquo;stored&rdquo; and need to be inserted afterwards with the command
-<code>org-insert-link</code>).
+<code>org-insert-link</code>). Note that the <code>org-capture</code> command uses the
+<code>org-link</code> internally if it has to store a link.
 </p>
 
 <p>
 When its value is non-nil, <code>org-store-link</code> stores a link to the
-current Org heading inside the Denote file. If the heading does not
-have a <code>CUSTOM_ID</code>, it creates it and includes it in the heading&rsquo;s
+current Org heading inside the Denote Org file. If the heading does
+not have a <code>CUSTOM_ID</code>, it creates it and includes it in the heading&rsquo;s
 <code>PROPERTIES</code> drawer. If a <code>CUSTOM_ID</code> exists, <code>org-store-link</code> use it
 as-is.
 </p>
 
 <p>
-This make the resulting link a combination of the <code>denote:</code> link type,
+This makes the resulting link a combination of the <code>denote:</code> link type,
 pointing to the identifier of the current file, plus the value of the
 heading&rsquo;s <code>CUSTOM_ID</code>, such as:
 </p>
@@ -2953,10 +2874,6 @@ regardless of the aforementioned user option (<a href="#h:fc1ad245-ec08-41be-8d1
 <h3 id="h:fc1ad245-ec08-41be-8d1e-7153d99daf02"><span class="section-number-3">7.3.</span> Insert link to an Org file with a further pointer to a heading</h3>
 <div class="outline-text-3" id="text-h:fc1ad245-ec08-41be-8d1e-7153d99daf02">
 <p>
-[ Part of 2.3.0-dev. ]
-</p>
-
-<p>
 As part of the optional <code>denote-org-extras.el</code> extension, the command
 <code>denote-org-extras-link-to-heading</code> prompts for a link to an Org file
 and then asks for a heading therein, using minibuffer completion. Once
@@ -2993,7 +2910,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org4875c6d">
+<pre class="example" id="org04b04b9">
 - link1
 - link2
 - link3
@@ -3011,7 +2928,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgdabb611">
+<pre class="example" id="org3dacf0e">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3228,7 +3145,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org1294185">
+<pre class="example" id="org4aad6b4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3243,7 +3160,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org1dcc116">
+<pre class="example" id="orgaa0b7db">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3462,10 +3379,6 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 <h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.12.</span> Convert <code>denote:</code> links to <code>file:</code> links</h3>
 <div class="outline-text-3" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
 <p>
-[ Part of 2.3.0-dev. ]
-</p>
-
-<p>
 Sometimes the user needs to translate all <code>denote:</code> link types to
 their <code>file:</code> equivalent. This may be because some other tool does not
 recognise <code>denote:</code> links (or other custom links types&#x2014;which are a
@@ -3596,8 +3509,7 @@ The faces we define for this purpose are:
 </ul>
 
 <p>
-As part of 2.3.0-dev we also provide these faces for
-more fine-grained colouration:
+For more control, we also provide these:
 </p>
 
 <p>
@@ -3742,15 +3654,14 @@ own function and assigning it to the <code>denote-rename-buffer-function</code>.
 <h2 id="h:8b542c50-dcc9-4bca-8037-a36599b22779"><span class="section-number-2">11.</span> Use Org dynamic blocks</h2>
 <div class="outline-text-2" id="text-h:8b542c50-dcc9-4bca-8037-a36599b22779">
 <p>
-[ As part of version 2.3.0 (currently 2.3.0-dev), all
-  dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
-  file which was once called <code>denote-org-dblock.el</code> contains aliases
-  for the new function names and dipslays a warning about its
-  deprecation. There is no need to <code>require</code> the <code>denote-org-extras</code>
-  feature because all of Denote&rsquo;s Org dynamic blocks are autoloaded
-  (meaning that they work as soon as they are used). For backward
-  compatibility, all dynamic blocks retain their original names as an
-  alias for the newer one. ]
+[ As part of version 2.3.0, all dynamic blocks are defined in the file
+  <code>denote-org-extras.el</code>. The file which was once called
+  <code>denote-org-dblock.el</code> contains aliases for the new function names
+  and dipslays a warning about its deprecation. There is no need to
+  <code>require</code> the <code>denote-org-extras</code> feature because all of Denote&rsquo;s
+  Org dynamic blocks are autoloaded (meaning that they work as soon as
+  they are used). For backward compatibility, all dynamic blocks
+  retain their original names as an alias for the newer one. ]
 </p>
 
 <p>
@@ -3795,15 +3706,14 @@ Evaluate:
 <h3 id="h:50160fae-6515-4d7d-9737-995ad925e64b"><span class="section-number-3">11.1.</span> Org dynamic blocks to insert links or backlinks</h3>
 <div class="outline-text-3" id="text-h:50160fae-6515-4d7d-9737-995ad925e64b">
 <p>
-[ As part of version 2.3.0 (currently 2.3.0-dev), all
-  dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
-  file which was once called <code>denote-org-dblock.el</code> contains aliases
-  for the new function names and dipslays a warning about its
-  deprecation. There is no need to <code>require</code> the <code>denote-org-extras</code>
-  feature because all of Denote&rsquo;s Org dynamic blocks are autoloaded
-  (meaning that they work as soon as they are used). For backward
-  compatibility, all dynamic blocks retain their original names as an
-  alias for the newer one. ]
+[ As part of version 2.3.0, all dynamic blocks are defined in the file
+  <code>denote-org-extras.el</code>. The file which was once called
+  <code>denote-org-dblock.el</code> contains aliases for the new function names
+  and dipslays a warning about its deprecation. There is no need to
+  <code>require</code> the <code>denote-org-extras</code> feature because all of Denote&rsquo;s
+  Org dynamic blocks are autoloaded (meaning that they work as soon as
+  they are used). For backward compatibility, all dynamic blocks
+  retain their original names as an alias for the newer one. ]
 </p>
 
 <p>
@@ -3880,11 +3790,6 @@ this in an Org file:
 
 
 <p>
-[ The <code>denote-org-extras-dblock-insert-missing-links</code> is part of
-  2.3.0-dev. ]
-</p>
-
-<p>
 Finally, the <code>denote-missing-links</code> block is available with the
 command <code>denote-org-extras-dblock-insert-missing-links</code>. It is like
 the aforementioned <code>denote-links</code> block, except it only lists links to
@@ -3910,15 +3815,14 @@ Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with 
 <h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.2.</span> Org dynamic block to insert file contents</h3>
 <div class="outline-text-3" id="text-h:f15fa143-5036-416f-9bff-1bcabbb03456">
 <p>
-[ As part of version 2.3.0 (currently 2.3.0-dev), all
-  dynamic blocks are defined in the file <code>denote-org-extras.el</code>. The
-  file which was once called <code>denote-org-dblock.el</code> contains aliases
-  for the new function names and dipslays a warning about its
-  deprecation. There is no need to <code>require</code> the <code>denote-org-extras</code>
-  feature because all of Denote&rsquo;s Org dynamic blocks are autoloaded
-  (meaning that they work as soon as they are used). For backward
-  compatibility, all dynamic blocks retain their original names as an
-  alias for the newer one. ]
+[ As part of version 2.3.0, all dynamic blocks are defined in the file
+  <code>denote-org-extras.el</code>. The file which was once called
+  <code>denote-org-dblock.el</code> contains aliases for the new function names
+  and dipslays a warning about its deprecation. There is no need to
+  <code>require</code> the <code>denote-org-extras</code> feature because all of Denote&rsquo;s
+  Org dynamic blocks are autoloaded (meaning that they work as soon as
+  they are used). For backward compatibility, all dynamic blocks
+  retain their original names as an alias for the newer one. ]
 </p>
 
 <p>
@@ -4200,11 +4104,6 @@ there are multiple journal entries for the current date, it prompts
 for one among them using minibuffer completion.  If there is only one,
 it visits it outright.  If there is no journal entry, it creates one
 by calling <code>denote-journal-extra-new-entry</code> (as described above).
-</p>
-
-<p>
-[ The <code>denote-journal-extras-link-or-create-entry</code> is part of
-  2.3.0-dev. ]
 </p>
 
 <p>
@@ -4490,7 +4389,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org03b0225">
+<pre class="example" id="org4e0dc7f">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5052,8 +4951,7 @@ or by advising the Org export function.
 <p>
 Denote also provides commands to convert <code>denote:</code> links to their
 <code>file:</code> equivalent, in case this is a required pre-processing step for
-export purposes (<a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links</a>). [ This is
-part of 2.3.0-dev. ]
+export purposes (<a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links</a>).
 </p>
 </div>
 
@@ -5513,8 +5411,7 @@ from existing notes and combine them into a list with
 with keywords readable by <code>completing-read-multiple</code>. <code>STRING</code>
 consists of underscore-separated words, as those appear in the
 keywords component of a Denote file name. <code>STRING</code> is the same as
-the return value of <code>denote-retrieve-filename-keywords</code>. [ Part of
-2.3.0-dev. ]</dd>
+the return value of <code>denote-retrieve-filename-keywords</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5533,17 +5430,14 @@ underscore character, per the Denote file-naming scheme.</dd>
 <dt>Function <code>denote-valid-date-p</code></dt><dd>Return <code>DATE</code> as a valid date. A
 valid <code>DATE</code> is a value that can be parsed by either <code>decode-time</code>
 or <code>date-to-time</code> .Those functions signal an error if <code>DATE</code> is a
-value they do not recognise. If <code>DATE</code> is nil, return nil.
-[ Part of 2.3.0-dev. ]</dd>
+value they do not recognise. If <code>DATE</code> is nil, return nil.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-parse-date</code></dt><dd>Return <code>DATE</code> as an appropriate
 value for the <code>denote</code> command. Pass <code>DATE</code> through
 <code>denote-valid-date-p</code> and use its return value. If either that or
-<code>DATE</code> is nil, return <code>current-time</code>. [ The <code>denote-valid-date-p</code> is
-the new name of <code>denote--valid-date</code>, with enhanced functionality.
-Done as part of 2.3.0-dev. ]</dd>
+<code>DATE</code> is nil, return <code>current-time</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5602,12 +5496,6 @@ file names and related (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggi
 <dl class="org-dl">
 <dt>Function <code>denote-sluggify-keyword</code></dt><dd>Sluggify <code>STR</code> while joining
 separate words.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-desluggify</code></dt><dd>Upcase first char in <code>STR</code> and
-dehyphenate <code>STR</code>, inverting <code>denote-sluggify</code>.  Basically, convert
-<code>this-is-a-test</code> to <code>This is a test</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5723,16 +5611,13 @@ from <code>FILE</code> name, if present, else return nil.</dd>
 title for <code>FILE</code> given its <code>TYPE</code>. Try to find the value of the
 title in the front matter of FILE, otherwise use its file name. This
 is a wrapper for <code>denote-retrieve-front-matter-title-value</code> and
-<code>denote-retrieve-filename-title</code>. [ This was known as the private
-function <code>denote--retrieve-title-or-filename</code>. It is made public as
-part of 2.3.0-dev. ]</dd>
+<code>denote-retrieve-filename-title</code>.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
 identifier using <code>denote-id-format</code>. <code>DATE</code> is parsed by
-<code>denote-valid-date-p</code>. If <code>DATE</code> is nil, use the current time.
-[ Part of 2.3.0-dev. ]</dd>
+<code>denote-valid-date-p</code>. If <code>DATE</code> is nil, use the current time.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5799,18 +5684,14 @@ With optional <code>INITIAL-SIGNATURE</code> use it as the initial minibuffer
 text. With optional <code>PROMPT-TEXT</code> use it in the minibuffer instead
 of the default prompt. Previous inputs at this prompt are available
 for minibuffer completion if the user option <code>denote-history-completion-in-prompts</code>
-is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).
-[ Revised as part of 2.3.0-dev to optionally not
-provide completion against its previous input history. ]</dd>
+is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-file-prompt</code></dt><dd>Prompt for file with identifier in
-variable <code>denote-directory</code>.  With optional <code>FILES-MATCHING-REGEXP</code>,
-filter the candidates per the given regular expression. [ As part of
-2.3.0-dev, completion candidates have a relative
-file path, but the return value and what is stored in the minibuffer
-history is still the full file system path. ]</dd>
+variable <code>denote-directory</code>. With optional <code>FILES-MATCHING-REGEXP</code>,
+filter the candidates per the given regular expression. With
+optional <code>PROMPT-TEXT</code>, use it instead of the default &ldquo;Select NOTE&rdquo;.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5819,8 +5700,7 @@ Read entries as separate when they are demarcated by the
 <code>crm-separator</code>, which typically is a comma. With optional
 <code>PROMPT-TEXT</code>, use it to prompt the user for keywords. Else use a
 generic prompt. With optional <code>INITIAL-KEYWORDS</code> use them as the
-initial minibuffer text. [ The optional <code>INITIAL-KEYWORDS</code> argument is
-part of 2.3.0-dev. ]</dd>
+initial minibuffer text.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5829,9 +5709,7 @@ optional <code>INITIAL-TITLE</code> use it as the initial minibuffer text. With
 optional <code>PROMPT-TEXT</code> use it in the minibuffer instead of the
 default prompt. Previous inputs at this prompt are available
 for minibuffer completion if the user option <code>denote-history-completion-in-prompts</code>
-is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).
-[ Revised as part of 2.3.0-dev to optionally not
-provide completion against its previous input history. ]</dd>
+is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5869,8 +5747,7 @@ minibuffer prompts that ordinarily accept a free form string input,
 as opposed to matching against a predefined set. These prompts can
 optionally perform completion against their own minibuffer history
 when the user option <code>denote-history-completion-in-prompts</code> is set
-to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).
-[ This is part of 2.3.0-dev. ]</dd>
+to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5915,8 +5792,7 @@ appropriate. With optional <code>NO-CONFIRM</code>, do not prompt to confirm
 the rewriting of the front matter. Otherwise produce a <code>y-or-n-p</code>
 prompt to that effect. With optional <code>NO-CONFIRM</code>, save the buffer
 after performing the rewrite. Otherwise leave it unsaved for
-furthter review by the user. [ The <code>NO-CONFIRM</code> saves the buffer as
-part of 2.3.0-dev. ]</dd>
+furthter review by the user.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5926,8 +5802,7 @@ outright according to <code>FILE-TYPE</code>. Do the same as
 confirmation. With optional <code>SAVE-BUFFER</code>, save the buffer
 corresponding to <code>FILE</code>. This function is for use in the commands
 <code>denote-keywords-add</code>, <code>denote-keywords-remove</code>,
-<code>denote-dired-rename-files</code>, or related. [ The <code>SAVE-BUFFER</code> saves
-the buffer as part of 2.3.0-dev. ]</dd>
+<code>denote-dired-rename-files</code>, or related.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5935,9 +5810,7 @@ the buffer as part of 2.3.0-dev. ]</dd>
 variable <code>denote-directory</code>. Also revert the current Dired buffer
 even if it is not inside the <code>denote-directory</code>. Note that the
 <code>denote-directory</code> accepts a directory-local value for what we
-internally refer to as &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).
-[ Refined as part of 2.3.0-dev to also revert the
-  current Dired buffer. ]</dd>
+internally refer to as &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6099,16 +5972,14 @@ then quotes around string <code>S</code>.  This can be used in
 <dl class="org-dl">
 <dt>Function <code>denote-format-string-for-org-front-matter</code></dt><dd>Return
 string <code>S</code> as-is for Org or plain text front matter. If <code>S</code> is not a
-string, return an empty string. [ Part of 2.3.0-dev. ]</dd>
+string, return an empty string.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-format-string-for-md-front-matter</code></dt><dd>Surround
 string <code>S</code> with quotes. If <code>S</code> is not a string, return a literal
 emptry string. This can be used in <code>denote-file-types</code> to format
-front mattter. [ Revised as part of 2.3.0-dev and
-renamed from <code>denote-surround-with-quotes</code> to
-<code>denote-format-string-for-md-front-matter</code>. ]</dd>
+front mattter.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6146,10 +6017,6 @@ current or optional <code>FILE</code>.  Also see <code>denote-link-return-backli
 in current or optional <code>FILE</code>.  Also see <code>denote-link-return-links</code>.</dd>
 </dl>
 
-<p>
-[ All of the following are part of 2.3.0-dev. ]
-</p>
-
 <dl class="org-dl">
 <dt>Variable <code>denote-link-signature-format</code></dt><dd>Format of link
 description for <code>denote-link-with-signature</code>.</dd>
@@ -6170,7 +6037,7 @@ description.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-link-description-function</code></dt><dd>Function to use to
+<dt>Variable <code>denote-link-description-function</code></dt><dd>Function to use to
 create the description of links. The function specified should take
 a <code>FILE</code> argument and should return the description as a string. By
 default, the title of the file is returned as the description.</dd>
@@ -6197,7 +6064,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org972c06c">
+<pre class="example" id="org29a7678">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6207,7 +6074,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org993a26f">
+<pre class="example" id="orgd0ed77d">
 emacs -Q
 </pre>
 
@@ -6219,7 +6086,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org5931a26">
+<pre class="example" id="org7365039">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6281,7 +6148,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org3bf0928">
+<pre class="example" id="orgcfdc5e8">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6978,13 +6845,14 @@ Charanjit Singh, Clemens Radermacher, Colin McLear, Damien Cassou,
 Eduardo Grajeda, Elias Storms, Eshel Yaron, Florian, Glenna D.,
 Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack Baty, Jean-Charles
 Bagneris, Jean-Philippe Gagné Guay, Joseph Turner, Jürgen Hötzel,
-Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kyle Meyer, Marc
-Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
-Prevos, Philip Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan
-Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
-Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel,
-leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
-mentalisttraceur, pmenair, relict007.</dd>
+Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kristoffer
+Balintona, Kyle Meyer, Marc Fargas, Matthew Lemon, Noboru Ota
+(nobiot), Norwid Behrnd, Peter Prevos, Philip Kaludercic, Quiliro
+Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing, Thibaut
+Benjamin, Tomasz Hołubowicz, Vedang Manerikar, Wesley Harvey, Zhenxu
+Xu, arsaber101, ezchi, jarofromel, leinfink (Henrik), l-o-l-h
+(Lincoln), mattyonweb, maxbrieiev, mentalisttraceur, pmenair,
+relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
