@@ -1,5 +1,5 @@
 ---
-title: "Vlog: tour of the hut's new path to the stream
+title: "Vlog: tour of the hut's new path to the stream"
 excerpt: "A video status update about my hut, where I show you all the work I did to create a path and stairs leading to the stream."
 layout: vlog
 mediaid: "yD2gDJlR1NA"
