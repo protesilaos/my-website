@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-03-26 08:43:19 +0200 with a word
-count of 105355.</b>
+<b>Last revised and exported on 2024-04-08 08:22:27 +0300 with a word
+count of 105633.</b>
 </p>
 
 <p>
@@ -494,7 +494,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org0c31b28">
+<pre class="example" id="orgec136d1">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -574,7 +574,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org44baf36">
+<pre class="example" id="org7f237ef">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -582,7 +582,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org219ac86">
+<pre class="example" id="org775a31e">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1601,7 +1601,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org1507d26">
+<pre class="example" id="orgf909b04">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -3482,6 +3482,9 @@ this via some hook.
 
   (advice-add #'save-buffers-kill-emacs :before #'prot-simple-display-unsaved-buffers-on-exit)
 
+  ;; Make the numpad equal the same as the regular one.
+  (add-to-list 'key-translation-map '("&lt;kp-equal&gt;" . "="))
+
   (prot-emacs-keybind global-map
     "ESC ESC" #'prot-simple-keyboard-quit-dwim
     "C-g" #'prot-simple-keyboard-quit-dwim
@@ -3497,7 +3500,6 @@ this via some hook.
     "&lt;C-S-return&gt;" #'prot-simple-new-line-above
     ;; Commands for text insertion or manipulation
     "C-=" #'prot-simple-insert-date
-    "C-&lt;kp-equal&gt;" #'prot-simple-insert-date
     "C-&lt;" #'prot-simple-escape-url-dwim
     ;; "C-&gt;" #'prot-simple-insert-line-prefix-dwim
     "M-Z" #'prot-simple-zap-to-char-backward
@@ -3793,7 +3795,45 @@ with <code>savehist-mode</code> (<a href="#h:25765797-27a5-431e-8aa4-cc890a6a913
 (prot-emacs-configure
   (:delay 5)
   (setq register-preview-delay 0.8
-        register-preview-function #'register-preview-default))
+        register-preview-function #'register-preview-default)
+
+  ;; This is to handle registers.  We want to (i) save positions to
+  ;; files when closing Emacs and (ii) not be asked to restore the file
+  ;; as this is what we want anyway.
+  (cl-defmethod register-val-jump-to ((val cons) delete)
+    "Handle how to jump to a location register.
+This is like the default, but does not ask to visit a file: it does it
+outright."
+    (cond
+     ((frame-configuration-p (car val))
+      (set-frame-configuration (car val) (not delete))
+      (goto-char (cadr val)))
+     ((window-configuration-p (car val))
+      (set-window-configuration (car val))
+      (goto-char (cadr val)))
+     ((eq (car val) 'file)
+      (find-file (cdr val)))
+     ((eq (car val) 'buffer)
+      (switch-to-buffer (cdr val)))
+     ((eq (car val) 'file-query)
+      (find-file (nth 1 val))
+      (goto-char (nth 2 val)))
+     (t (cl-call-next-method val delete))))
+
+  (defun prot/register-swap-out-all (&amp;rest args)
+    "Expand all location registers to their file equivalent.
+This must be done before closing Emacs, to persist registers across
+sessions."
+    (mapc
+     (lambda (buffer)
+       (with-current-buffer buffer
+         (register-swap-out)))
+     (buffer-list)))
+
+  (advice-add #'save-buffers-kill-terminal :before #'prot/register-swap-out-all)
+
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'register-alist)))
 </pre>
 </div>
 </div>
@@ -4016,7 +4056,7 @@ use this interface to check if some process is doing more than it should.
 <pre class="src src-emacs-lisp">;;;; `proced' (process monitor, similar to `top')
 (prot-emacs-configure
   (:delay 10)
-  (setq proced-auto-update-flag t)
+  (setq proced-auto-update-flag t) ; Emacs 30 supports more than `t' value
   (setq proced-enable-color-flag t) ; Emacs 29
   (setq proced-auto-update-interval 5)
   (setq proced-descend t)
@@ -4518,7 +4558,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org65d0413">
+<pre class="example" id="org1a793dd">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5270,8 +5310,15 @@ histories per prompt, so <code>M-p</code> and <code>M-n</code> only show relevan
 <p>
 Since we are already recording minibuffer histories, we can instruct
 <code>savehist-mode</code> to also keep track of additional variables and restore
-them next time we use Emacs. Hence <code>savehist-additional-variables</code>.
+them next time we use Emacs. Hence <code>savehist-additional-variables</code>. I
+do this in a few of places:
 </p>
+
+<ul class="org-ul">
+<li><a href="#h:804b858f-7913-47ef-aaf4-8eef5b59ecb4">The <code>prot-emacs-completion.el</code> for in-buffer completion popup and preview (<code>corfu</code>)</a></li>
+<li><a href="#h:5685df62-4484-42ad-a062-d55ab19022e3">The <code>prot-emacs-essentials.el</code> settings for registers</a></li>
+<li><a href="#h:32f6fe0f-23c4-44cc-97cc-3e5372bd484e">The <code>prot-shell.el</code> library</a></li>
+</ul>
 
 <p>
 Note that the user option <code>history-length</code> applies to each individual
@@ -5291,7 +5338,7 @@ basis.
   (setq history-length 100)
   (setq history-delete-duplicates t)
   (setq savehist-save-minibuffer-history t)
-  (setq savehist-additional-variables '(register-alist kill-ring))
+  (add-to-list 'savehist-additional-variables 'kill-ring)
   (savehist-mode 1))
 </pre>
 </div>
@@ -7243,7 +7290,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org6e42aa8">
+<pre class="example" id="orgea91dcf">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7412,7 +7459,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org0c20666">
+<pre class="example" id="orgc786794">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9075,13 +9122,14 @@ any configuration. <b>NOTE 2024-03-16 06:55 +0200:</b> To be continued.
   (setq org-agenda-auto-exclude-function nil)
   (setq org-agenda-bulk-custom-functions nil)
 
-;;;;; Agenda habits
-  (require 'org-habit)
-  (setq org-habit-graph-column 50)
-  (setq org-habit-preceding-days 9)
-  ;; Always show the habit graph, even if there are no habits for
-  ;; today.
-  (setq org-habit-show-all-today t))
+;; ;;;;; Agenda habits
+;;   (require 'org-habit)
+;;   (setq org-habit-graph-column 50)
+;;   (setq org-habit-preceding-days 9)
+;;   ;; Always show the habit graph, even if there are no habits for
+;;   ;; today.
+;;   (setq org-habit-show-all-today t)
+  )
 </pre>
 </div>
 </div>
@@ -9580,7 +9628,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgd0da266">
+<pre class="example" id="org2cff086">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10294,7 +10342,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org5ac2d13">
+<pre class="example" id="org4e65980">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10306,7 +10354,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgd80c2a3">
+<pre class="example" id="orgc7e83ce">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10369,7 +10417,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgc4f4719">
+<pre class="example" id="orgd34e20d">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10381,7 +10429,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org3ff00cf">
+<pre class="example" id="org8c28bea">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10403,7 +10451,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgcb981bf">
+<pre class="example" id="org4854fc4">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11637,7 +11685,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org376f371">
+<pre class="example" id="org08c4486">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11733,7 +11781,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org013f40d">
+<pre class="example" id="orgb60d505">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -16228,19 +16276,19 @@ produces dates with a fixed length."
                 ;; utility in multi-day views.
                 (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                 (org-agenda-format-date "%A %-e %B %Y")))
-    (agenda "" ((org-agenda-overriding-header "\nRoutine")
-                (org-agenda-time-grid nil)
-                (org-agenda-start-on-weekday nil)
-                (org-agenda-span 1)
-                (org-agenda-show-all-dates nil)
-                (org-scheduled-past-days 365)
-                ;; Excludes today's scheduled items
-                (org-scheduled-delay-days 1)
-                (org-agenda-block-separator nil)
-                (org-agenda-entry-types '(:scheduled))
-                (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "ROUTINE"))
-                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                (org-agenda-format-date "")))
+    ;; (agenda "" ((org-agenda-overriding-header "\nRoutine")
+    ;;             (org-agenda-time-grid nil)
+    ;;             (org-agenda-start-on-weekday nil)
+    ;;             (org-agenda-span 1)
+    ;;             (org-agenda-show-all-dates nil)
+    ;;             (org-scheduled-past-days 365)
+    ;;             ;; Excludes today's scheduled items
+    ;;             (org-scheduled-delay-days 1)
+    ;;             (org-agenda-block-separator nil)
+    ;;             (org-agenda-entry-types '(:scheduled))
+    ;;             (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "ROUTINE"))
+    ;;             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+    ;;             (org-agenda-format-date "")))
     (agenda "" ((org-agenda-overriding-header "\nNext three days\n")
                 (org-agenda-start-on-weekday nil)
                 (org-agenda-start-day nil)
@@ -18175,13 +18223,14 @@ Used by `prot-simple-inset-date'."
 Repeat to extend the region forward to the next symbolic
 expression."
   (interactive)
-  (if (eq last-command this-command)
+  (if (and (region-active-p)
+           (eq last-command this-command))
       (ignore-errors (forward-sexp 1))
     (when-let ((thing (cond
                        ((thing-at-point 'url) 'url)
                        ((thing-at-point 'sexp) 'sexp)
                        ((thing-at-point 'string) 'string)
-                       (t 'word))))
+                       ((thing-at-point 'word) 'word))))
       (prot-simple--mark (bounds-of-thing-at-point thing)))))
 
 ;;;###autoload
@@ -19551,7 +19600,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgc2130a3">
+<pre class="example" id="org5351b0d">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19584,7 +19633,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org6281f1a">
+<pre class="example" id="orgfec2909">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
