@@ -33,6 +33,7 @@ This section contains:
 - `ef-light`
 - `ef-maris-light`
 - `ef-melissa-light`
+- `ef-reverie`
 - `ef-spring`
 - `ef-summer`
 - `ef-trio-light`
@@ -148,6 +149,16 @@ This section contains:
 
 <a href="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"><img alt="ef-melissa-light theme org sample" src="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"/></a>
 
+### ef-reverie
+
+<a href="{{'/assets/images/ef/ef-reverie.png' | absolute_url }}"><img alt="ef-reverie theme sample" src="{{'/assets/images/ef/ef-reverie.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-reverie-git.png' | absolute_url }}"><img alt="ef-reverie theme git sample" src="{{'/assets/images/ef/ef-reverie-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-reverie-mail.png' | absolute_url }}"><img alt="ef-reverie theme mail sample" src="{{'/assets/images/ef/ef-reverie-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-reverie-org.png' | absolute_url }}"><img alt="ef-reverie theme org sample" src="{{'/assets/images/ef/ef-reverie-org.png' | absolute_url }}"/></a>
+
 ### ef-spring
 
 <a href="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"><img alt="ef-spring theme sample" src="{{'/assets/images/ef/ef-spring.png' | absolute_url }}"/></a>
@@ -197,6 +208,7 @@ This section contains:
 - `ef-cherie`
 - `ef-dark`
 - `ef-deuteranopia-dark`
+- `ef-dream`
 - `ef-duo-dark`
 - `ef-elea-dark`
 - `ef-maris-dark`
@@ -257,6 +269,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-mail.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme mail sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-deuteranopia-dark-org.png' | absolute_url }}"><img alt="ef-deuteranopia-dark theme org sample" src="{{'/assets/images/ef/ef-deuteranopia-dark-org.png' | absolute_url }}"/></a>
+
+### ef-dream
+
+<a href="{{'/assets/images/ef/ef-dream.png' | absolute_url }}"><img alt="ef-dream theme sample" src="{{'/assets/images/ef/ef-dream.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-dream-git.png' | absolute_url }}"><img alt="ef-dream theme git sample" src="{{'/assets/images/ef/ef-dream-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-dream-mail.png' | absolute_url }}"><img alt="ef-dream theme mail sample" src="{{'/assets/images/ef/ef-dream-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-dream-org.png' | absolute_url }}"><img alt="ef-dream theme org sample" src="{{'/assets/images/ef/ef-dream-org.png' | absolute_url }}"/></a>
 
 ### ef-duo-dark
 
