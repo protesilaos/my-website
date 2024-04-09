@@ -1,5 +1,5 @@
 ---
-title: "Emacs: 'ef-rosa is the new member of the 'ef-themes'"
+title: "Emacs: 'ef-rosa' is the new member of the 'ef-themes'"
 excerpt: "I added a new dark theme to my 'ef-themes' package for Emacs. It combines magenta with green colours."
 ---
 
