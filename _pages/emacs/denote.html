@@ -118,13 +118,17 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">7.4. Insert links matching a regexp</a></li>
 <li><a href="#h:066e5221-9844-474b-8858-398398646f86">7.5. Insert link to file with signature</a></li>
 <li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">7.6. Insert links from marked files in Dired</a></li>
-<li><a href="#h:9e41e7df-2aac-4835-94c5-659b6111e6de">7.7. Link to an existing note or create a new one</a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">7.7. Link to an existing note or create a new one</a></li>
 <li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">7.8. The backlinks&rsquo; buffer</a></li>
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.9. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.10. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">7.11. Link to a note or create it if missing</a></li>
-<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.12. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.13. Miscellaneous information about links</a></li>
+<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.11. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.12. Miscellaneous information about links</a>
+<ul>
+<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.12.1. Aliases for the linking commands</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.12.2. The <code>denote-link-description-function</code> to format links</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#h:98c732ac-da0e-4ebd-a0e3-5c47f9075e51">8. Choose which commands to prompt for</a></li>
@@ -860,14 +864,15 @@ to the list of commands available at the <code>denote-command-prompt</code>
 <div class="outline-text-4" id="text-h:bf80f4cd-6f56-4f7c-a991-8573161e4511">
 <p>
 The user option <code>denote-save-buffer-after-creation</code> controls whether
-commands that creeate new notes save their buffer outright.
+commands that create new notes save their buffer outright.
 </p>
 
 <p>
 The default behaviour of commands such as <code>denote</code> (or related) is to
 not save the buffer they create (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>). This gives the user
 the chance to review the text before writing it to a file. The user
-may choose to delete the unsaved buffer, thus not creating a new note.
+may choose to delete the unsaved buffer, thus not creating a new note
+(<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffer-after-creation</code> option</a>).
 </p>
 
 <p>
@@ -1280,7 +1285,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org5604775">
+<pre class="example" id="orge546612">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1835,7 +1840,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org8864be9">
+<pre class="example" id="orgd640da1">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1855,7 +1860,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org8b21eb6">
+<pre class="example" id="orgdbbcee9">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1970,6 +1975,16 @@ option), such that it includes the new keywords.</li>
   with the <code>diff-buffer-with-file</code> command). Multiple buffers can be
   saved in one go with the command <code>save-some-buffers</code> (read its doc
   string). ]
+</p>
+
+<p>
+[ The following two commands are part of 3.0.0-dev. ]
+</p>
+
+<p>
+For more specialized versions of this command that only add or remove
+keywords, use <code>denote-dired-rename-marked-files-add-keywords</code> and
+<code>denote-dired-rename-marked-files-remove-keywords</code>, respectively.
 </p>
 </div>
 </div>
@@ -2325,7 +2340,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgaaa61f4">
+<pre class="example" id="org5b59d28">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2494,7 +2509,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org12a97ce">
+<pre class="example" id="orgbf3b998">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2506,7 +2521,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgb18f0c8">
+<pre class="example" id="org0e0f6a3">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2520,7 +2535,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org42cc758">
+<pre class="example" id="org6991905">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2534,7 +2549,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org7cd06d4">
+<pre class="example" id="org30fc01d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2722,11 +2737,9 @@ Denote offers several commands for linking between notes.
 </p>
 
 <p>
-All links target files which are Denote notes.  This means that they
-have our file-naming scheme, are writable/regular (not directory, named
-pipe, etc.), and use the appropriate file type extension (per
-<code>denote-file-type</code>).  Furthermore, the files need to be inside the
-<code>denote-directory</code> or one of its subdirectories.  No other file is
+All links target files which are Denote files. This means that they
+have our file-naming scheme. Files need to be inside the
+<code>denote-directory</code> or one of its subdirectories. No other file is
 recognised.
 </p>
 
@@ -2910,7 +2923,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org04b04b9">
+<pre class="example" id="orgce15e5c">
 - link1
 - link2
 - link3
@@ -2928,7 +2941,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3dacf0e">
+<pre class="example" id="org1333dd6">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3044,9 +3057,9 @@ for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking note
 </div>
 </div>
 
-<div id="outline-container-h:9e41e7df-2aac-4835-94c5-659b6111e6de" class="outline-3">
-<h3 id="h:9e41e7df-2aac-4835-94c5-659b6111e6de"><span class="section-number-3">7.7.</span> Link to an existing note or create a new one</h3>
-<div class="outline-text-3" id="text-h:9e41e7df-2aac-4835-94c5-659b6111e6de">
+<div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">7.7.</span> Link to an existing note or create a new one</h3>
+<div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
 <p>
 In one&rsquo;s note-taking workflow, there may come a point where they are
 expounding on a certain topic but have an idea about another subject
@@ -3078,13 +3091,14 @@ try to also include the file&rsquo;s title.  This has the same meaning as in
 
 <p>
 IMPORTANT NOTE: Normally, <code>denote</code> does not save the buffer it
-produces for the new note.  This is a safety precaution to not write
-to disk unless the user wants it (e.g. the user may choose to kill the
-buffer, thus cancelling the creation of the note).  However, for this
-command the creation of the note happens in the background and the
-user may miss the step of saving their buffer.  We thus have to save
-the buffer in order to (i) establish valid links, and (ii) retrieve
-whatever front matter from the target file.
+produces for the new note (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffer-after-creation</code> option</a>). 
+This is a safety precaution to not write to disk unless the user
+wants it (e.g. the user may choose to kill the buffer, thus
+cancelling the creation of the note). However, for this command the
+creation of the note happens in the background and the user may miss
+the step of saving their buffer. We thus have to save the buffer in
+order to (i) establish valid links, and (ii) retrieve whatever front
+matter from the target file.
 </p></dd>
 </dl>
 
@@ -3127,6 +3141,25 @@ This command has the alias <code>denote-link-to-existing-or-new-note</code>,
 which helps with discoverability.
 </p></dd>
 </dl>
+
+<dl class="org-dl">
+<dt><code>denote-link-or-create-with-command</code></dt><dd>This is like the above,
+except when it is about to create the new note it first prompts for
+the specific file-creating command to use (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>). For
+example, the user may want to specify a signature for this new file,
+so they can select the <code>denote-signature</code> command.</dd>
+</dl>
+
+<p>
+In all of the above, an optional prefix argument (<code>C-u</code> by default)
+creates a link that consists of just the identifier.  This has the
+same meaning as in the regular <code>denote-link</code> command.
+</p>
+
+<p>
+Denote provides similar functionality for opening an existing note or
+creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an existing note or create it if missing</a>).
+</p>
 </div>
 </div>
 
@@ -3145,7 +3178,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4aad6b4">
+<pre class="example" id="org183423a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3160,7 +3193,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgaa0b7db">
+<pre class="example" id="orgdeefba5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3307,76 +3340,8 @@ in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The bac
 </div>
 </div>
 
-<div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
-<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">7.11.</span> Link to a note or create it if missing</h3>
-<div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
-<p>
-During a writing session, it is possible that a thought occurs which
-does not require immediate attention but nonetheless must be linked to
-from the current context.  Denote can be used in this case to
-establish a link to an existing note or, if that is missing, to create
-it.  The commands are <code>denote-link-after-creating</code>, its more flexible
-variant <code>denote-link-after-creating-with-command</code>, the
-<code>denote-link-or-create</code>, and <code>denote-link-or-create-with-command</code>.
-</p>
-
-<p>
-The command <code>denote-link-or-create</code> prompts for an existing file in
-the <code>denote-directory</code> in order to link to it (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).  At
-this point, the user must type in search terms that match a file name.
-If the input does not return any matches and the user confirms their
-choice to proceed (usually by typing RET twice, depending on the
-minibuffer settings), <code>denote-link-or-create</code> will call the <code>denote</code>
-command interactively to create a new note.  It will then use whatever
-prompts <code>denote</code> normally has, per the user option <code>denote-prompts</code>
-(<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).  If the title prompt is involved (the default
-behaviour), the <code>denote-link-or-create</code> sets up this prompt to have
-the previous input as the default title of the note to-be-created.
-This means that the user can type RET at the empty prompt to re-use
-what they typed in previously.  Commands to use previous inputs from
-the history are also available (<code>M-p</code> or <code>M-n</code> in the minibuffer,
-which call <code>previous-history-element</code> and <code>next-history-element</code> by
-default).  Accessing the history is helpful to, for example, make
-further edits to the available text.
-</p>
-
-<p>
-In the case where a file is created, the process happens in the
-background, meaning that the new file is not displayed.  It is simply
-linked to from the current context.
-</p>
-
-<p>
-The <code>denote-link-or-create-with-command</code> is like the above, except
-when it is about to create the new note it first prompts for the
-specific file-creating command to use (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).  For example,
-the user may want to specify a signature for this new file, so they
-can select the <code>denote-signature</code> command.
-</p>
-
-<p>
-The commands <code>denote-link-after-creating</code> and <code>denote-link-or-create-with-command</code>
-are conceptually the same as above except they do not have the &ldquo;or
-create&rdquo; logic: they always create a new file in the backgroun (in
-fact, the aforementioned use those two to perform the linking, which
-is consistent with the composability and hackability of Denote).
-</p>
-
-<p>
-In all of the above, an optional prefix argument (<code>C-u</code> by default)
-creates a link that consists of just the identifier.  This has the
-same meaning as in the regular <code>denote-link</code> command.
-</p>
-
-<p>
-Denote provides similar functionality for opening an existing note or
-creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an existing note or create it if missing</a>).
-</p>
-</div>
-</div>
-
 <div id="outline-container-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f" class="outline-3">
-<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.12.</span> Convert <code>denote:</code> links to <code>file:</code> links</h3>
+<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.11.</span> Convert <code>denote:</code> links to <code>file:</code> links</h3>
 <div class="outline-text-3" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
 <p>
 Sometimes the user needs to translate all <code>denote:</code> link types to
@@ -3411,8 +3376,13 @@ system path and converts it into its identifier.</dd>
 </div>
 
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.13.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.12.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
+</div>
+
+<div id="outline-container-h:078856d9-f608-43a8-be84-f2cad4c27d0e" class="outline-4">
+<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.12.1.</span> Aliases for the linking commands</h4>
+<div class="outline-text-4" id="text-h:078856d9-f608-43a8-be84-f2cad4c27d0e">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
 <code>denote-insert-link</code>.  The <code>denote-backlinks</code> can also be used as
@@ -3421,6 +3391,24 @@ aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
 these aliases is to offer alternative, more descriptive names of
 select commands.
 </p>
+</div>
+</div>
+
+<div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
+<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.12.2.</span> The <code>denote-link-description-function</code> to format links</h4>
+<div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
+<p>
+The user option <code>denote-link-description-function</code> takes as its value
+the symbol of a function. This is used to format the text of the link.
+The default function inserts the title. If the file has a signature,
+it includes that as well, prepending it to the title.
+</p>
+
+<p>
+The function specified accepts a single <code>FILE</code> argument and returns
+the description as a string.
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -4389,7 +4377,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org4e0dc7f">
+<pre class="example" id="orgbf81b6c">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6064,7 +6052,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org29a7678">
+<pre class="example" id="orge90936e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6074,7 +6062,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgd0ed77d">
+<pre class="example" id="orge35826a">
 emacs -Q
 </pre>
 
@@ -6086,7 +6074,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org7365039">
+<pre class="example" id="org6dbdfaf">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6148,7 +6136,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgcfdc5e8">
+<pre class="example" id="orgc6b8195">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6844,15 +6832,15 @@ Alan Schmitt, Ashton Wiersdorf, Benjamin Kästner, Bruno Boal,
 Charanjit Singh, Clemens Radermacher, Colin McLear, Damien Cassou,
 Eduardo Grajeda, Elias Storms, Eshel Yaron, Florian, Glenna D.,
 Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack Baty, Jean-Charles
-Bagneris, Jean-Philippe Gagné Guay, Joseph Turner, Jürgen Hötzel,
-Kaushal Modi, Kai von Fintel, Kostas Andreadis, Kristoffer
-Balintona, Kyle Meyer, Marc Fargas, Matthew Lemon, Noboru Ota
-(nobiot), Norwid Behrnd, Peter Prevos, Philip Kaludercic, Quiliro
-Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing, Thibaut
-Benjamin, Tomasz Hołubowicz, Vedang Manerikar, Wesley Harvey, Zhenxu
-Xu, arsaber101, ezchi, jarofromel, leinfink (Henrik), l-o-l-h
-(Lincoln), mattyonweb, maxbrieiev, mentalisttraceur, pmenair,
-relict007.</dd>
+Bagneris, Jean-Philippe Gagné Guay, Jianwei Hou, Joseph Turner,
+Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kostas Andreadis,
+Kristoffer Balintona, Kyle Meyer, Marc Fargas, Matthew Lemon, Noboru
+Ota (nobiot), Norwid Behrnd, Peter Prevos, Philip Kaludercic,
+Quiliro Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing,
+Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar, Wesley
+Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel, leinfink (Henrik),
+l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
+pmenair, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
