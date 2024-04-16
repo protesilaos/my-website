@@ -7,13 +7,200 @@ permalink: /emacs/fontaine-changelog
 
 <p>
 This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://git.sr.ht/~protesilaos/fontaine">https://git.sr.ht/~protesilaos/fontaine</a>.
+project's main git repository: <a href="https://github.com/protesilaos/fontaine">https://github.com/protesilaos/fontaine</a>.
 </p>
 
 <p>
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>.
 </p>
+
+<div id="outline-container-h:1aad7179-f7cd-4817-ad23-0f9256b6df5d" class="outline-2">
+<h2 id="h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">Version 2.0.0 on 2024-04-16</h2>
+<div class="outline-text-2" id="text-h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">
+</div>
+
+<div id="outline-container-h:44697327-628b-4515-a672-4547bef81a43" class="outline-3">
+<h3 id="h:44697327-628b-4515-a672-4547bef81a43">Control the fonts of more faces</h3>
+<div class="outline-text-3" id="text-h:44697327-628b-4515-a672-4547bef81a43">
+<p>
+This version brings a major expansion to the scope of the user option
+<code>fontaine-presets</code>. It can now control the font family and concomitant
+attributes of more Emacs faces. In particular, it covers the following
+additional faces:
+</p>
+
+<ul class="org-ul">
+<li><code>mode-line-active</code> and <code>mode-line-inactive</code>.</li>
+<li><code>header-line</code>.</li>
+<li><code>line-number</code> (from the <code>display-line-numbers-mode</code> or its global variant).</li>
+<li><code>tab-bar</code> (from the <code>tab-bar-mode</code>).</li>
+<li><code>tab-line</code> (from the <code>tab-line-mode</code>).</li>
+</ul>
+
+<p>
+All the supported faces are stored as the value of the variable
+<code>fontaine-faces</code>. This is the complete list:
+</p>
+
+<ul class="org-ul">
+<li><code>default</code></li>
+<li><code>fixed-pitch</code></li>
+<li><code>fixed-pitch-serif</code></li>
+<li><code>variable-pitch</code></li>
+<li><code>mode-line-active</code></li>
+<li><code>mode-line-inactive</code></li>
+<li><code>line-number</code></li>
+<li><code>tab-bar</code></li>
+<li><code>tab-line</code></li>
+<li><code>bold</code></li>
+<li><code>italic</code></li>
+</ul>
+
+<p>
+Existing users do not need to update their configuration, as (i) the old
+values will still work and (ii) undefined values fall back to reliable
+known values.
+</p>
+
+<p>
+This change empowers users to further configure their setup, such as:
+</p>
+
+<ul class="org-ul">
+<li>Make the mode lines smaller than the main text.</li>
+<li>Use a proportionately spaced font for the tabs, while retaining a
+monospaced font for editing.</li>
+<li>Use a different font family for line numbers to differentiate them
+from the main body of text.</li>
+</ul>
+
+<p>
+These are some possibilities. Then consider that different presets can
+change specify different configurations. For example, a <code>coding</code>
+preset can be all about small, monospaced fonts, while a <code>reading</code>
+preset may increase the font sizes and apply proportionately spaced
+fonts.
+</p>
+
+<p>
+The doc string of <code>fontaine-presets</code> covers the technicalities, as
+does the official manual (shipped with the package or available on my
+website: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>).
+</p>
+
+<p>
+Thanks to Ashlin Eldridge for suggesting the inclusion of mode line
+and line number faces. This was done in issue 4:
+<a href="https://github.com/protesilaos/fontaine/issues/4">https://github.com/protesilaos/fontaine/issues/4</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:a016aa76-29b4-487c-afef-90f7db61d5d0" class="outline-3">
+<h3 id="h:a016aa76-29b4-487c-afef-90f7db61d5d0">Use the <code>fontaine-mode</code> to persist presets</h3>
+<div class="outline-text-3" id="text-h:a016aa76-29b4-487c-afef-90f7db61d5d0">
+<p>
+The new <code>fontaine-mode</code> provides a convenience toggle to do the
+following:
+</p>
+
+<ol class="org-ol">
+<li>Store the current Fontaine preset before closing Emacs.</li>
+<li>Store the latest preset after using the command <code>fontaine-set-preset</code>.</li>
+<li>Persist font configurations while changing themes.</li>
+</ol>
+
+<p>
+The purpose of storing the latest preset is to restore it easily, such
+as when starting Emacs. In the manual, we mention this in the sample
+configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Set the last preset or fall back to desired style from `fontaine-presets'
+;; (the `regular' in this case).
+(fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+</pre>
+</div>
+
+<p>
+This takes effect while starting up Emacs. So if, say, the user had
+selected a <code>reading</code> preset with <code>fontaine-set-preset</code> and then closed
+Emacs while <code>fontaine-mode</code> was enabled, the <code>reading</code> preset will be
+restored on startup.
+</p>
+
+<p>
+Thanks to Adam Porter (alphapapa) for suggesting this in issue 2:
+<a href="https://github.com/protesilaos/fontaine/issues/2">https://github.com/protesilaos/fontaine/issues/2</a>.
+</p>
+
+<p>
+We used to provide code in the sample configuration which was doing
+what <code>fontaine-mode</code> does, though this is easier to set up (plus it is
+a toggle).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:e676d050-93f9-432b-9f1a-c16e86769715" class="outline-3">
+<h3 id="h:e676d050-93f9-432b-9f1a-c16e86769715">Deprecated the command <code>fontaine-set-face-font</code></h3>
+<div class="outline-text-3" id="text-h:e676d050-93f9-432b-9f1a-c16e86769715">
+<p>
+This command was used to interactively set the attributes of a face.
+It was not consistent with the rest of Fontaine's functionality, plus
+it was not faster than setting face attributes directly from Lisp
+(such as to test them, while experimenting in the <code>*scratch*</code> buffer).
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34" class="outline-3">
+<h3 id="h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34">The <code>fontaine-set-preset-hook</code> provides more options</h3>
+<div class="outline-text-3" id="text-h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34">
+<p>
+The functions added to this hook are called after <code>fontaine-set-preset</code>.
+For example, users of my <code>pulsar</code> package can highlight the current
+line to not lose track of the cursor:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'fontaine-set-preset-hook #'pulsar-pulse-line)
+</pre>
+</div>
+
+<p>
+I had thought about defining what Emacs terms "abnormal hooks", which
+are hooks that pass arguments to their functions. This hook would pass
+the selected preset, but I ultimately opted for the normal hook that
+run their functions without arguments. If advanced users have a good
+reason for such a feature, they are welcome to discuss it with me.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:090e9337-185d-4d4c-a2b6-3ccebac03617" class="outline-3">
+<h3 id="h:090e9337-185d-4d4c-a2b6-3ccebac03617">Fontaine now works with Emacs 29+</h3>
+<div class="outline-text-3" id="text-h:090e9337-185d-4d4c-a2b6-3ccebac03617">
+<p>
+Emacs 29 is the current stable version and has been out for almost a
+year now. I do not have the resources to test/support older versions,
+sorry!
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:2618251b-fac7-4514-b120-50eb498db484" class="outline-3">
+<h3 id="h:2618251b-fac7-4514-b120-50eb498db484">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:2618251b-fac7-4514-b120-50eb498db484">
+<ul class="org-ul">
+<li>Updated the manual in light of all the aforementioned.</li>
+<li>Simplified large parts of the code base.</li>
+</ul>
+</div>
+</div>
+</div>
 
 <div id="outline-container-h:bb9803bd-6491-4b58-a685-822b0247fffc" class="outline-2">
 <h2 id="h:bb9803bd-6491-4b58-a685-822b0247fffc">Version 1.0.0 on 2023-02-11</h2>
