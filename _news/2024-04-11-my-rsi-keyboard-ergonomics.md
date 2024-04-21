@@ -15,18 +15,5 @@ helping me get started with mechanical+programmable keyboards.
 Thanks to "Andreas" whose generous donation allowed me to buy the Iris
 keyboard (revision 8) from keeb.io
 
-## Screenshots of my Iris layers
-
-Remember that this is a work-in-progress. I already experimented with
-a few arrangements. These ones feel comfortable. Note that the `Menu`
-(`RApp`) key functions as the `Compose` on Linux.
-
-These are layers 0 to 3.
-
-<a href="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-0.png' | absolute_url }}"><img alt="Iris keyboard layer 0" src="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-0.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-1.png' | absolute_url }}"><img alt="Iris keyboard layer 0" src="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-1.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-2.png' | absolute_url }}"><img alt="Iris keyboard layer 0" src="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-2.png' | absolute_url }}"/></a>
-
-<a href="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-3.png' | absolute_url }}"><img alt="Iris keyboard layer 0" src="{{'/assets/images/attachments/2024-04-11-my-rsi-keyboard-ergonomics-iris-layer-3.png' | absolute_url }}"/></a>
+**UPDATE 2024-04-21 15:58:** Check my QMK setup:
+<https://github.com/protesilaos/qmk/tree/master/keyboards/keebio/iris/keymaps/prot>.
