@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-04-20 21:57:13 +0300 with a word
-count of 99446.</b>
+<b>Last revised and exported on 2024-04-25 16:48:49 +0300 with a word
+count of 99644.</b>
 </p>
 
 <p>
@@ -276,8 +276,8 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:94d48381-1711-4d6b-8449-918bc1e3836c">5.9.1. The <code>prot-emacs-org.el</code> section on the <code>calendar</code></a></li>
 <li><a href="#h:bd4b0dcb-a925-4bd7-90db-6379a7ca6f5e">5.9.2. The <code>prot-emacs-org.el</code> section about appointment reminders (<code>appt.el</code>)</a></li>
 <li><a href="#h:e03df1e0-b43e-49b5-978e-6a511165617c">5.9.3. The <code>prot-emacs-org.el</code> section with basic Org settings</a></li>
-<li><a href="#h:024dd541-0061-4a10-b10b-b17dcd4794b9">5.9.4. <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org to-do and refile settings</a></li>
-<li><a href="#h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2">5.9.5. <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org heading tags</a></li>
+<li><a href="#h:024dd541-0061-4a10-b10b-b17dcd4794b9">5.9.4. The <code>prot-emacs-org.el</code> Org to-do and refile settings</a></li>
+<li><a href="#h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2">5.9.5. The <code>prot-emacs-org.el</code> Org heading tags</a></li>
 <li><a href="#h:0884658e-9eb5-47e3-9338-66e09004a1a0">5.9.6. <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org time/state logging</a></li>
 <li><a href="#h:da8ce883-7f21-4a6e-a41f-d668ad762b41">5.9.7. <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org link settings</a></li>
 <li><a href="#h:1f5a0d46-5202-48dd-8048-b48ce17f3df8">5.9.8. <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org code block settings</a></li>
@@ -405,7 +405,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-04-20 21:57:13 +0300):
+(2024-04-25 16:48:49 +0300):
 </p>
 
 <div class="org-src-container">
@@ -496,7 +496,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org261c2d7">
+<pre class="example" id="org568bca3">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -576,7 +576,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orge1f12f1">
+<pre class="example" id="org6976763">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -584,7 +584,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org0709f43">
+<pre class="example" id="orgad501c0">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1520,7 +1520,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgb285cde">
+<pre class="example" id="org3770df1">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2578,6 +2578,7 @@ Understandable Feelings of Fascination, Excitement, and Thrill.</li>
 <pre class="src src-emacs-lisp">;;;; Theme buffet
 (use-package theme-buffet
   :ensure t
+  :defer 1
   :config
   (setq theme-buffet-menu 'end-user)
   (setq theme-buffet--end-user
@@ -4191,7 +4192,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org3b34a6c">
+<pre class="example" id="org7ee40b2">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6754,7 +6755,9 @@ need it.
   :bind
   ( :map dired-mode-map
     ("&lt;tab&gt;" . dired-subtree-toggle)
-    ("&lt;backtab&gt;" . dired-subtree-remove)) ; S-TAB
+    ("TAB" . dired-subtree-toggle)
+    ("&lt;backtab&gt;" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
   :config
   (setq dired-subtree-use-backgrounds nil))
 </pre>
@@ -6984,7 +6987,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org71c0b49">
+<pre class="example" id="org95ac53c">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7144,7 +7147,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orga7bc0b1">
+<pre class="example" id="org9672d75">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8484,6 +8487,14 @@ any configuration. <b>NOTE 2024-03-16 06:55 +0200:</b> To be continued.
   (setq org-use-sub-superscripts '{})
   (setq org-insert-heading-respect-content t)
   (setq org-read-date-prefer-future 'time)
+  (setq org-highlight-latex-and-related nil) ; other options affect elisp regexp in src blocks
+  (setq org-fontify-quote-and-verse-blocks t)
+  (setq org-fontify-whole-block-delimiter-line t)
+  (setq org-track-ordered-property-with-tag t)
+  (setq org-highest-priority ?A)
+  (setq org-lowest-priority ?C)
+  (setq org-default-priority ?A)
+  (setq org-priority-faces nil)
 
   ;; See my `pulsar' package, defined elsewhere in this setup.
   (with-eval-after-load 'pulsar
@@ -8496,8 +8507,82 @@ any configuration. <b>NOTE 2024-03-16 06:55 +0200:</b> To be continued.
 </div>
 
 <div id="outline-container-h:024dd541-0061-4a10-b10b-b17dcd4794b9" class="outline-4">
-<h4 id="h:024dd541-0061-4a10-b10b-b17dcd4794b9"><span class="section-number-4">5.9.4.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org to-do and refile settings</h4>
+<h4 id="h:024dd541-0061-4a10-b10b-b17dcd4794b9"><span class="section-number-4">5.9.4.</span> The <code>prot-emacs-org.el</code> Org to-do and refile settings</h4>
 <div class="outline-text-4" id="text-h:024dd541-0061-4a10-b10b-b17dcd4794b9">
+<p>
+One of the many use-cases for Org is to maintain a plain text to-do
+list. A heading that starts with a to-do keyword, such as <code>TODO</code> is
+treated as a task and its state is considered not completed.
+</p>
+
+<p>
+We can switch between the task states with shift and the left or right
+arrow keys. Or we can select a keyword directly with <code>C-c C-t</code>, which
+calls <code>org-todo</code> by default. I personally prefer the latter approach,
+as it is more precise.
+</p>
+
+<p>
+Whenever a task state changes, we can log that event in a special
+<code>LOGBOOK</code> drawer. This is automatically placed right below the
+heading, before any paragraph text. Logging data is an opt-in feature,
+which I consider helpful (<a href="#h:0884658e-9eb5-47e3-9338-66e09004a1a0">The <code>prot-emacs-org.el</code> Org time/state logging</a>).
+</p>
+
+<p>
+Tasks can be associated with timestamps, typically a scheduled
+date+time or a deadline+time. This can be helpful when we are
+reviewing the source Org file, though it really shines in tandem with
+the agenda. Any heading that has a timestamp and which belongs to a
+file in the <code>org-agenda-files</code> will show up on the agenda in the given
+date (<a href="#h:7fe87b83-2815-4617-a5f9-d3417dd9d248">The <code>prot-emacs-org.el</code> Org agenda settings</a>).
+</p>
+
+<p>
+By default, the <code>org-todo-keywords</code> are <code>TODO</code> and <code>DONE</code>. We can
+write more keywords if we wish to implement a descriptive workflow.
+For example, we can have a <code>WAIT</code> keyword for something that is to be
+done but is not actionable yet. While the number of keywords is not
+limited, the binary model is the same: we have words that represent
+the incomplete state and those that count as the completion of the
+task. For instance, both <code>CANCEL</code> and <code>DONE</code> mean that the task is not
+actionable anymore and we move on to other things. As such, the extra
+keywords are a way for the user to make tasks more descriptive and
+easy to find. In the value of the <code>org-todo-keywords</code>, we use the bar
+character to separate the incomplete state to the left from the
+completed one to the right.
+</p>
+
+<p>
+One of the agenda&rsquo;s headiline features is the ability to produce a
+view that lists headings with the given keyword. So having the right
+terms can make search and retrieval of data more easy. On the
+flip-side, too many keywords add cognitive load and require more
+explicit search terms to yield the desired results. I used to work
+with a more descriptive set of keywords, but ultimately decided to
+keep things simple.
+</p>
+
+<p>
+The refile mechanism is how we can reparent a heading, by moving it
+from one place to another. We do this with the command <code>org-refile</code>,
+bound to <code>C-c C-w</code> by default. A common workflow where refiling is
+essential is to have an &ldquo;inbox&rdquo; file or heading, where unprocessed
+information is stored at, and periodically process its contents to
+move the data where it belongs. Though it can also work fine without
+any such inbox, in those cases where a heading should be stored
+someplace else. The <code>org-refile-targets</code> specifies the files that are
+available when we try to refile the current heading. With how I set it
+up, all the agenda files plus the current file&rsquo;s headings up to level
+2 are included as possible targets.
+</p>
+
+<p>
+In terms of workflow, I have not done a refile in a very long time,
+because my entries always stay in the same place as I had envisaged at
+the capture phase (<a href="#h:f8f06938-0dfe-45c3-b4cf-996d36cba82d">The <code>prot-emacs-org.el</code> Org capture templates (<code>org-capture</code>)</a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; refile, todo
 (use-package org
@@ -8525,48 +8610,60 @@ any configuration. <b>NOTE 2024-03-16 06:55 +0200:</b> To be continued.
   (setq org-todo-keyword-faces
         '(("CANCEL" . prot/org-bold-done)))
   (setq org-use-fast-todo-selection 'expert)
-  (setq org-priority-faces nil)
+
   (setq org-fontify-done-headline nil)
   (setq org-fontify-todo-headline nil)
-  (setq org-fontify-quote-and-verse-blocks t)
   (setq org-fontify-whole-heading-line nil)
-  (setq org-fontify-whole-block-delimiter-line t)
-  (setq org-highlight-latex-and-related nil) ; other options affect elisp regexp in src blocks
   (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
-  (setq org-track-ordered-property-with-tag t)
-  (setq org-highest-priority ?A)
-  (setq org-lowest-priority ?C)
-  (setq org-default-priority ?A))
+  (setq org-enforce-todo-checkbox-dependencies t))
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2" class="outline-4">
-<h4 id="h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2"><span class="section-number-4">5.9.5.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org heading tags</h4>
+<h4 id="h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2"><span class="section-number-4">5.9.5.</span> The <code>prot-emacs-org.el</code> Org heading tags</h4>
 <div class="outline-text-4" id="text-h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2">
+<p>
+Each Org heading can have one or more tags associated with it, while
+all headings inherit any potential <code>#+FILETAGS</code>. We can add tags to a
+heading when the cursor is over it by typing the ever flexible <code>C-c C-c</code>.
+Though the more specific <code>org-set-tags-command</code> also gets the job
+done, plus it does not require that the cursor is positioned on the
+heading text.
+</p>
+
+<p>
+Tagging is useful for searching and retrieving the data we store. The
+Org agenda, in particular, provides commands to filter tasks by tag:
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:024dd541-0061-4a10-b10b-b17dcd4794b9">The <code>prot-emacs-org.el</code> Org to-do and refile settings</a></li>
+<li><a href="#h:7fe87b83-2815-4617-a5f9-d3417dd9d248">The <code>prot-emacs-org.el</code> Org agenda settings</a></li>
+</ul>
+
+<p>
+The user option <code>org-tag-alist</code> lets us specify tags we always want to
+use, though we can write tags per file as well by using the <code>#+TAGS</code>
+keyword. I do the latter as a global list of tags is not useful in my
+case. For example, when I wan checking my <code>coach.org</code> file for the
+coaching sessions I provide, I do not need to see any of the tags that
+make sense in my general <code>tasks.org</code>.
+</p>
+
+<p>
+Note that in the settings below I disable the auto-alignment that Org
+does where it shifts tags to the right of the heading. I do not like
+it.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; tags
 (use-package org
   :ensure nil
   :config
-  (setq org-tag-alist ; I don't really use those, but whatever
-        '(("meeting")
-          ("admin")
-          ("emacs")
-          ("modus")
-          ("politics")
-          ("economics")
-          ("philosophy")
-          ("book")
-          ("essay")
-          ("mail")
-          ("purchase")
-          ("hardware")
-          ("software")
-          ("website")))
-
+  (setq org-tag-alist nil)
   (setq org-auto-align-tags nil)
   (setq org-tags-column 0))
 </pre>
@@ -8577,6 +8674,16 @@ any configuration. <b>NOTE 2024-03-16 06:55 +0200:</b> To be continued.
 <div id="outline-container-h:0884658e-9eb5-47e3-9338-66e09004a1a0" class="outline-4">
 <h4 id="h:0884658e-9eb5-47e3-9338-66e09004a1a0"><span class="section-number-4">5.9.6.</span> <span class="todo TODO">TODO</span> The <code>prot-emacs-org.el</code> Org time/state logging</h4>
 <div class="outline-text-4" id="text-h:0884658e-9eb5-47e3-9338-66e09004a1a0">
+<p>
+Org can keep a record of state changes, such as when we set an entry
+marked with the <code>TODO</code> keyword as <code>DONE</code> or when we reschedule an
+appointment (<a href="#h:7fe87b83-2815-4617-a5f9-d3417dd9d248">The <code>prot-emacs-org.el</code> Org agenda settings</a>). This data
+is stored in a <code>LOGBOOK</code> drawer right below the heading. I choose to
+keep track of this information, as it is sometimes useful to capture
+mistakes or figure out intent in the absence of further clarification
+(though I do tend to write why something happened).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; log
 (use-package org
@@ -9286,7 +9393,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org3847723">
+<pre class="example" id="org4c7294f">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -9955,7 +10062,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgd248f55">
+<pre class="example" id="org022a70c">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -9967,7 +10074,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org7ed5cf3">
+<pre class="example" id="orgfacc218">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10034,7 +10141,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgf466fb9">
+<pre class="example" id="org59806d9">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10046,7 +10153,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org14d2ffb">
+<pre class="example" id="orgc9a5259">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10068,7 +10175,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org8796393">
+<pre class="example" id="orgb1e9535">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11344,7 +11451,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org22a02e3">
+<pre class="example" id="org83b1c1f">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11440,7 +11547,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org9c222c9">
+<pre class="example" id="org931d7a3">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -18651,7 +18758,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orga84356a">
+<pre class="example" id="org9c8c07b">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18684,7 +18791,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org200956a">
+<pre class="example" id="org07f934f">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
