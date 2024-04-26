@@ -60,7 +60,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:11946562-7eb0-4925-a3b5-92d75f1f5895">3.1.4.1. Write your own convenience commands</a></li>
 </ul>
 </li>
-<li><a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">3.1.5. The <code>denote-save-buffer-after-creation</code> option</a></li>
+<li><a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">3.1.5. The <code>denote-save-buffers</code> option</a></li>
 <li><a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">3.1.6. The <code>denote-date-prompt-use-org-read-date</code> option</a></li>
 </ul>
 </li>
@@ -84,7 +84,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">4.1. Rename a single file</a>
 <ul>
-<li><a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">4.1.1. The <code>denote-rename-no-confirm</code> option</a></li>
+<li><a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">4.1.1. The <code>denote-rename-confirmations</code> option</a></li>
 </ul>
 </li>
 <li><a href="#h:3ab08ff4-81fa-4d24-99cb-79f97c13a373">4.2. Rename a single file based on its front matter</a></li>
@@ -864,8 +864,13 @@ to the list of commands available at the <code>denote-command-prompt</code>
 </div>
 
 <div id="outline-container-h:bf80f4cd-6f56-4f7c-a991-8573161e4511" class="outline-4">
-<h4 id="h:bf80f4cd-6f56-4f7c-a991-8573161e4511"><span class="section-number-4">3.1.5.</span> The <code>denote-save-buffer-after-creation</code> option</h4>
+<h4 id="h:bf80f4cd-6f56-4f7c-a991-8573161e4511"><span class="section-number-4">3.1.5.</span> The <code>denote-save-buffers</code> option</h4>
 <div class="outline-text-4" id="text-h:bf80f4cd-6f56-4f7c-a991-8573161e4511">
+<p>
+[ As part of 3.0.0-dev, the user option
+  <code>denote-save-buffer-after-creation</code> is renamed to <code>denote-save-buffers</code>. ]
+</p>
+
 <p>
 The user option <code>denote-save-buffer-after-creation</code> controls whether
 commands that create new notes save their buffer outright.
@@ -880,8 +885,15 @@ may choose to delete the unsaved buffer, thus not creating a new note
 </p>
 
 <p>
-If <code>denote-save-buffer-after-creation</code> is set to a non-nil value, such
-buffers are saved automatically.
+This option also applies to notes affected by the renaming commands
+(<code>denote-rename-file</code> and related).
+</p>
+
+<p>
+If this user option is set to a non-nil value, such buffers are saved
+automatically. The assumption is that the user who opts in to this
+feature is familiar with the <code>denote-rename-file</code> operation (or
+related) and knows it is reliable (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
 </p>
 </div>
 </div>
@@ -1289,7 +1301,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgbb6984b">
+<pre class="example" id="org3aa31f9">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1649,6 +1661,11 @@ line or switching between then with commands like <code>switch-to-buffer</code>.
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
 <div class="outline-text-3" id="text-h:7cc9e000-806a-48da-945c-711bbc7426b0">
 <p>
+[ Revised as part of 3.0.0-dev to respect the user
+  options <code>denote-rename-confirmations</code> and <code>denote-save-buffers</code>. ]
+</p>
+
+<p>
 The <code>denote-rename-file</code> command renames a file and updates existing
 front matter if appropriate. It is possible to do the same with
 multiple files (<a href="#h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">Rename multiple files interactively</a>).
@@ -1744,28 +1761,28 @@ no extension are left without one.
 </p>
 
 <p>
-As a final step, it asks for confirmation, showing the difference
-between old and new file names. It does not ask for confirmation if
-the user option <code>denote-rename-no-confirm</code> is set to a non-nil value
-(<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+As a final step, ask for confirmation, showing the difference
+between old and new file names.  Do not ask for confirmation if
+the user option <code>denote-rename-confirmations</code> does not contain
+the symbol <code>modify-file-name</code> (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-confirmations</code> option</a>).
 </p>
 
 <p>
-If <code>FILE</code> has front matter for <code>TITLE</code> and <code>KEYWORDS</code>,
-<code>denote-rename-file</code> asks to rewrite their values in order to reflect
-the new input, unless <code>denote-rename-no-confirm</code> is non-nil. When the
-<code>denote-rename-no-confirm</code> is nil (the default), the underlying buffer
-is not saved, giving the user the change to invoking <code>diff-buffer-with-file</code> to
-double-check the effect. The rewrite of the <code>TITLE</code> and <code>KEYWORDS</code> in
-the front matter should not affect the rest of the front matter.
+If <code>FILE</code> has front matter for <code>TITLE</code> and <code>KEYWORDS</code>, ask to rewrite
+their values in order to reflect the new input, unless
+<code>denote-rename-confirmations</code> lacks <code>rewrite-front-matter</code>. When the
+<code>denote-save-buffers</code> is nil (the default), do not save the underlying
+buffer, thus giving the user the option to double-check the result,
+such as by invoking the command <code>diff-buffer-with-file</code>. The rewrite
+of the <code>TITLE</code> and <code>KEYWORDS</code> in the front matter should not affect
+the rest of the front matter.
 </p>
 
 <p>
 If the file does not have front matter but is among the supported file
-types (per <code>denote-file-type</code>), the <code>denote-rename-file</code> adds front
-matter to the top of it and leaves the buffer unsaved for further
-inspection. It actually saves the buffer if <code>denote-rename-no-confirm</code>
-is non-nil (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>).
+types (per <code>denote-file-type</code>), add front matter to the top of it and
+leave the buffer unsaved for further inspection (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>). Save
+the buffer if <code>denote-save-buffers</code> is non-nil (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffers</code> option</a>).
 </p>
 
 <p>
@@ -1782,40 +1799,44 @@ one-by-one, use <code>denote-dired-rename-files</code> (<a href="#h:1b6b2c78-42f
 </div>
 
 <div id="outline-container-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7" class="outline-4">
-<h4 id="h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7"><span class="section-number-4">4.1.1.</span> The <code>denote-rename-no-confirm</code> option</h4>
+<h4 id="h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7"><span class="section-number-4">4.1.1.</span> The <code>denote-rename-confirmations</code> option</h4>
 <div class="outline-text-4" id="text-h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">
 <p>
-The user option <code>denote-rename-no-confirm</code> makes all commands that
-rename files not prompt for confirmation and save buffers outright (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+[ As part of 3.0.0-dev the <code>denote-rename-no-confirm</code>
+  is deprecated and superseded by the more flexible <code>denote-rename-confirmations</code>. ]
 </p>
 
 <p>
-This affects the behaviour of the commands <code>denote-rename-file</code>,
-<code>denote-dired-rename-files</code>, <code>denote-rename-file-using-front-matter</code>,
-<code>denote-dired-rename-marked-files-with-keywords</code>,
-<code>denote-dired-rename-marked-files-using-front-matter</code>,
-<code>denote-keywords-add</code>, <code>denote-keywords-remove</code>, and any other command
-that builds on top of them.
+The user option <code>denote-rename-confirmations</code> controls what kind of
+confirmation renaming commands ask for (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).  Its value is
+a list of symbols.
 </p>
+
+<p>
+The value is either nil, in which case no confirmation is ever
+requested, or a list of symbols among the following:
+</p>
+
+<ul class="org-ul">
+<li><code>modify-file-name</code> means that renaming commands will ask for
+confirmation before modifying the file name.</li>
+
+<li><code>rewrite-front-matter</code> means that renaming commands will ask for
+confirmation before rewritting the front matter.</li>
+
+<li><code>add-front-matter</code> means that renaming commands will ask for
+confirmation before adding new front matter to the file.</li>
+</ul>
 
 <p>
 The default behaviour of the <code>denote-rename-file</code> command (and others
 like it) is to ask for an affirmative answer as a final step before
 changing the file name and, where relevant, inserting or updating the
-corresponding front matter. It also does not save the affected file&rsquo;s
-buffer to let the user inspect and confirm the changes (such as by
-invoking the command <code>diff-buffer-with-file</code>).
+corresponding front matter.
 </p>
 
 <p>
-With this user option bound to a non-nil value, buffers are saved as
-well. The assumption is that the user who opts in to this feature is
-familiar with the <code>denote-rename-file</code> (or related) operation and
-knows it is reliable.
-</p>
-
-<p>
-Specialised commands that build on top of <code>denote-rename-file</code> (or
+Specialized commands that build on top of <code>denote-rename-file</code> (or
 related) may internally bind this user option to a non-nil value in
 order to perform their operation (e.g. <code>denote-dired-rename-files</code>
 goes through each marked Dired file, prompting for the information to
@@ -1844,7 +1865,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org7274a0a">
+<pre class="example" id="orgd541a8e">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1864,7 +1885,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org360ecf4">
+<pre class="example" id="org7b47162">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -1919,18 +1940,18 @@ the like.
 <h3 id="h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde"><span class="section-number-3">4.3.</span> Rename multiple files interactively</h3>
 <div class="outline-text-3" id="text-h:1b6b2c78-42f0-45b8-9ef0-6de21a8b2cde">
 <p>
-The command <code>denote-dired-rename-files</code> (alias
-<code>denote-dired-rename-marked-files</code>) renames the files that are
-marked in a Dired buffer. Its behaviour is similar to the
-<code>denote-rename-file</code> in that it prompts for a title, keywords, and
-signature (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>). It does so over each marked file,
-renaming one after the other.
+The command <code>denote-dired-rename-files</code> (alias <code>denote-dired-rename-marked-files</code>)
+renames the files that are marked in a Dired buffer. Its behaviour is
+similar to the <code>denote-rename-file</code> in that it prompts for a title,
+keywords, and signature (<a href="#h:7cc9e000-806a-48da-945c-711bbc7426b0">Rename a single file</a>). It does so over each
+marked file, renaming one after the other.
 </p>
 
 <p>
 Unlike <code>denote-rename-file</code>, the command <code>denote-dired-rename-files</code>
 does not ask to confirm the changes made to the files: it performs
-them outright. This is done to make it easier to rename multiple files
+them outright (same as setting <code>denote-rename-confirmations</code> to a nil
+value). This is done to make it easier to rename multiple files
 without having to confirm each step. For an even more direct approach,
 check the command <code>denote-dired-rename-marked-files-with-keywords</code>.
 </p>
@@ -2054,6 +2075,11 @@ difference between old and new file names.
 <h3 id="h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4"><span class="section-number-3">4.7.</span> Rename a file by adding or removing keywords interactively</h3>
 <div class="outline-text-3" id="text-h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">
 <p>
+[ Revised as part of 3.0.0-dev to respect the user
+  options <code>denote-rename-confirmations</code> and <code>denote-save-buffers</code>. ]
+</p>
+
+<p>
 The commands <code>denote-keywords-add</code> and <code>denote-keywords-remove</code>
 streamline the process of interactively updating a file&rsquo;s keywords in
 the front matter and renaming it accordingly.
@@ -2072,11 +2098,14 @@ accordingly.
 </p>
 
 <p>
-Both commands accept an optional prefix argument to automatically save
-the buffer. Similarly, they both interpret a non-nil value for the
-user option <code>denote-rename-no-confirm</code> the same as the prefix argument
-(<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>).
+Both commands respect the values of <code>denote-rename-confirmations</code> and
+<code>denote-save-buffers</code>:
 </p>
+
+<ul class="org-ul">
+<li><a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-confirmations</code> option</a>.</li>
+<li><a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffers</code> option</a>.</li>
+</ul>
 
 <p>
 Furthermore, both commands call the <code>denote-after-rename-file-hook</code> as
@@ -2093,6 +2122,11 @@ Aliases for these commands are: <code>denote-rename-add-keywords</code> and
 <div id="outline-container-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f" class="outline-3">
 <h3 id="h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f"><span class="section-number-3">4.8.</span> Rename a file by adding or removing a signature interactively</h3>
 <div class="outline-text-3" id="text-h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f">
+<p>
+[ Revised as part of 3.0.0-dev to respect the user
+  option <code>denote-rename-confirmations</code>. ]
+</p>
+
 <p>
 The commands <code>denote-rename-add-signature</code> and
 <code>denote-rename-remove-signature</code> streamline the process of
@@ -2113,11 +2147,10 @@ signature. Otherwise, it does nothing.
 </p>
 
 <p>
-Both commands ask for confirmation before carrying out their action.
-They do so unless the user option <code>denote-rename-no-confirm</code> is set to
-a non-nil value (<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename-no-confirm</code> option</a>). They also
-both take care to reload any Dired buffers and run the
-<code>denote-after-rename-file-hook</code> as a final step.
+Both commands respect the value of <code>denote-rename-confirmations</code>
+(<a href="#h:a2ae9090-c49e-4b32-bcf5-eb8944241fd7">The <code>denote-rename--confirmations</code> option</a>). They also both take care
+to reload any Dired buffers and run the <code>denote-after-rename-file-hook</code>
+as a final step.
 </p>
 </div>
 </div>
@@ -2344,7 +2377,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgc6e4e7e">
+<pre class="example" id="org36e97c3">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2513,7 +2546,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org5b5a5d7">
+<pre class="example" id="orgf5445d7">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2525,7 +2558,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgd02208e">
+<pre class="example" id="org864957d">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2539,7 +2572,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org0c78017">
+<pre class="example" id="orgce0742f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2553,7 +2586,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgdf42a38">
+<pre class="example" id="orgab4466f">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2918,7 +2951,7 @@ prompts for a file, then a heading, and inserts the link at point.
 
 <p>
 Just as with files, it is possible to show backlinks for the given
-heading (<a href="#h:604bf92a-908a-485c-98b8-37ccae559afd">Backlinks for Org headings</a>). [ Part of 3.0.0-dev. ] 
+heading (<a href="#h:604bf92a-908a-485c-98b8-37ccae559afd">Backlinks for Org headings</a>). [ Part of 3.0.0-dev. ]
 </p>
 </div>
 </div>
@@ -2932,7 +2965,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orge596c0f">
+<pre class="example" id="orga04fa53">
 - link1
 - link2
 - link3
@@ -2950,7 +2983,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0be6c38">
+<pre class="example" id="org0ba00be">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3100,7 +3133,7 @@ try to also include the file&rsquo;s title.  This has the same meaning as in
 
 <p>
 IMPORTANT NOTE: Normally, <code>denote</code> does not save the buffer it
-produces for the new note (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffer-after-creation</code> option</a>). 
+produces for the new note (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffer-after-creation</code> option</a>).
 This is a safety precaution to not write to disk unless the user
 wants it (e.g. the user may choose to kill the buffer, thus
 cancelling the creation of the note). However, for this command the
@@ -3187,7 +3220,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org72a83dc">
+<pre class="example" id="org4bc1710">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3202,7 +3235,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org877c282">
+<pre class="example" id="org69aab95">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4413,7 +4446,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org3c09db2">
+<pre class="example" id="org0d35b57">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5194,7 +5227,7 @@ Everything is in place to set up the package.
 
 ;; Remember to check the doc strings of those variables.
 (setq denote-directory (expand-file-name "~/Documents/notes/"))
-(setq denote-save-buffer-after-creation nil)
+(setq denote-save-buffers nil)
 (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
 (setq denote-infer-keywords t)
 (setq denote-sort-keywords t)
@@ -5202,7 +5235,7 @@ Everything is in place to set up the package.
 (setq denote-prompts '(title keywords))
 (setq denote-excluded-directories-regexp nil)
 (setq denote-excluded-keywords-regexp nil)
-(setq denote-rename-no-confirm nil) ; Set to t if you are familiar with `denote-rename-file'
+(setq denote-rename-confirmations '(rewrite-front-matter modify-file-name))
 
 ;; Pick dates, where relevant, with Org's advanced interface:
 (setq denote-date-prompt-use-org-read-date t)
@@ -5781,7 +5814,10 @@ and <code>embark</code>).</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-rename-file-prompt</code></dt><dd>Prompt to rename file named
-<code>OLD-NAME</code> to <code>NEW-NAME</code>.</dd>
+<code>OLD-NAME</code> to <code>NEW-NAME</code>. If <code>denote-rename-confirmations</code> does not
+contain <code>modify-file-name</code>, return t without prompting. [ Revised as
+part of 3.0.0-dev to conform with the user option
+<code>denote-rename-confirmations</code>. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5794,11 +5830,19 @@ and <code>embark</code>).</dd>
 note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
 <code>KEYWORDS</code>, and <code>FILE-TYPE</code> arguments are given by the renaming
 command and are used to construct new front matter values if
-appropriate. With optional <code>NO-CONFIRM</code>, do not prompt to confirm
-the rewriting of the front matter. Otherwise produce a <code>y-or-n-p</code>
-prompt to that effect. With optional <code>NO-CONFIRM</code>, save the buffer
-after performing the rewrite. Otherwise leave it unsaved for
-furthter review by the user.</dd>
+appropriate. If <code>denote-rename-confirmations</code> contains
+<code>rewrite-front-matter</code>, prompt to confirm the rewriting of the front
+matter. Otherwise produce a <code>y-or-n-p</code> prompt to that effect. [
+Revised as part of 3.0.0-dev to conform with the
+user option <code>denote-rename-confirmations</code>. ]</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-add-front-matter-prompt</code></dt><dd>Prompt to add a
+front-matter to <code>FILE</code>. Return non-nil if a new front matter should
+be added. If <code>denote-rename-confirmations</code> does not contain
+<code>add-front-matter</code>, return t without prompting. [ Part of
+3.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6070,7 +6114,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org5204459">
+<pre class="example" id="org728f4eb">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6080,7 +6124,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org161914b">
+<pre class="example" id="orgf2fe041">
 emacs -Q
 </pre>
 
@@ -6092,7 +6136,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org7b80228">
+<pre class="example" id="orgd73b8a7">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6154,7 +6198,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orge45c9d3">
+<pre class="example" id="org7de76da">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6846,19 +6890,19 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Abin Simon, Adam Růžička,
-Alan Schmitt, Ashton Wiersdorf, Benjamin Kästner, Bruno Boal,
-Charanjit Singh, Clemens Radermacher, Colin McLear, Damien Cassou,
-Eduardo Grajeda, Elias Storms, Eshel Yaron, Florian, Glenna D.,
-Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack Baty, Jean-Charles
-Bagneris, Jean-Philippe Gagné Guay, Jianwei Hou, Joseph Turner,
-Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kostas Andreadis,
-Kristoffer Balintona, Kyle Meyer, Marc Fargas, Matthew Lemon, Noboru
-Ota (nobiot), Norwid Behrnd, Peter Prevos, Philip Kaludercic,
-Quiliro Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing,
-Thibaut Benjamin, Tomasz Hołubowicz, Vedang Manerikar, Wesley
-Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel, leinfink (Henrik),
-l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
-pmenair, relict007.</dd>
+Alan Schmitt, Alexandre Rousseau, Ashton Wiersdorf, Benjamin
+Kästner, Bruno Boal, Charanjit Singh, Clemens Radermacher, Colin
+McLear, Damien Cassou, Eduardo Grajeda, Elias Storms, Eshel Yaron,
+Florian, Glenna D., Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack
+Baty, Jean-Charles Bagneris, Jean-Philippe Gagné Guay, Jianwei Hou,
+Joseph Turner, Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kostas
+Andreadis, Kristoffer Balintona, Kyle Meyer, Marc Fargas, Matthew
+Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter Prevos, Philip
+Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan Monnier,
+Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
+Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel,
+leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
+mentalisttraceur, pmenair, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
