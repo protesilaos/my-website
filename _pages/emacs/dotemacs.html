@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-04-25 21:00:14 +0300 with a word
-count of 100542.</b>
+<b>Last revised and exported on 2024-04-27 08:45:09 +0300 with a word
+count of 101347.</b>
 </p>
 
 <p>
@@ -404,7 +404,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-04-25 21:00:14 +0300):
+(2024-04-27 08:45:09 +0300):
 </p>
 
 <div class="org-src-container">
@@ -495,7 +495,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org1645000">
+<pre class="example" id="org9d756e3">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -575,7 +575,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org636afc2">
+<pre class="example" id="org6f98744">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -583,7 +583,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org3b2e161">
+<pre class="example" id="org488fc98">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1402,16 +1402,20 @@ files that are already placed where I need them to be.
 <div class="outline-text-3" id="text-h:424340cc-f3d7-4083-93c9-d852d40dfd40">
 <p>
 The <code>package.el</code> is built into Emacs and is perfectly fine for my
-use-case. Here I am loading it and then setting up the package
-archives. Make sure to read my article about package archives, pinning
-packages, and setting priorities:
+use-case. We do not need to load it explicitly, as it will be called
+by <code>use-package</code> when it needs it. Since the introduction of the
+<code>early-init.el</code> file, we also do not need to initialise the packages
+at this point: we activate the cache instead (<a href="#h:7a037504-8a2f-4df0-8482-ce6476354440">The <code>early-init.el</code> initialises the package cache</a>).
+</p>
+
+<p>
+With regard to the settings here, make sure to read my article about
+package archives, pinning packages, and setting priorities:
 <a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Packages
-
-(require 'package)
 
 (setq package-vc-register-as-project nil) ; Emacs 30
 
@@ -1519,7 +1523,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org27ac9ee">
+<pre class="example" id="org5977a9a">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4191,7 +4195,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgbf8d63e">
+<pre class="example" id="orgfc31812">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6185,7 +6189,7 @@ where windows/buffers are displayed (<a href="#h:50f8b1e4-b14e-453f-a37e-1c0e495
 </p>
 
 <ul class="org-ul">
-<li>Type <code>M-s s</code> or <code>M-s M-s</code> (<code>prot-search-outline</code>) to use minibuffer completion
+<li>Type <code>M-s s</code> (<code>prot-search-outline</code>) to use minibuffer completion
 to match an entry across the buffer&rsquo;s outline. This is probably my
 most used command. What I like about it is that it benefits from the
 extensive customisations I make to the completion mechanism and the
@@ -6198,7 +6202,9 @@ command, which was the basis for my variant. Unlike mine, it shows a
 preview of the current match. I find previews disorienting when I
 type quickly and do not want to experience any motion sickness while
 using Emacs (this is not the fault of <code>consult</code>, just me needing to
-have a more static interface).</li>
+have a more static interface). Though there are times I am slowing
+down the search and need the preview, at which point I call the
+Consult command on <code>M-s M-s</code> (<a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a>).</li>
 
 <li>Type <code>M-s M-o</code> (<code>prot-search-occur-outline</code>) to produce an outline
 of the given buffer. What constitutes an outline is defined in the
@@ -6246,7 +6252,6 @@ by visiting individual files or by using a grep buffer as an index.
     ("M-s M-t" . prot-search-grep-todo-keywords) ; With C-u it runs `prot-search-git-grep-todo-keywords'
     ("M-s M-T" . prot-search-git-grep-todo-keywords)
     ("M-s s" . prot-search-outline)
-    ("M-s M-s" . prot-search-outline)
     ("M-s M-o" . prot-search-occur-outline)
     ("M-s M-u" . prot-search-occur-browse-url)
     :map isearch-mode-map
@@ -6986,7 +6991,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org664bf72">
+<pre class="example" id="org88c17aa">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7146,7 +7151,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org79ac174">
+<pre class="example" id="org2d1714d">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8716,7 +8721,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org5a48b49">
+<pre class="example" id="org988137e">
 (info "(org) Search Options")
 </pre>
 
@@ -8809,7 +8814,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org4a73683">
+<pre class="example" id="org917ead6">
 (require 'ob-python)
 
 ;; OR
@@ -9532,7 +9537,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org3840709">
+<pre class="example" id="org0a04cd2">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10201,7 +10206,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgb772141">
+<pre class="example" id="org80800d5">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10213,7 +10218,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org653ce2b">
+<pre class="example" id="org008055b">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10280,7 +10285,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgdb0eb8d">
+<pre class="example" id="org110fc31">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10292,7 +10297,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orga953548">
+<pre class="example" id="org831b152">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10314,7 +10319,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org258b80f">
+<pre class="example" id="org1e9d796">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11590,7 +11595,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgc779d04">
+<pre class="example" id="org0df070b">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11686,7 +11691,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org1b65950">
+<pre class="example" id="org81ca144">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -18897,7 +18902,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org4e57777">
+<pre class="example" id="org89a40e1">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18930,7 +18935,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org36b9f25">
+<pre class="example" id="org3de833d">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
