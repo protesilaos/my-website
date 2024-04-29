@@ -39,14 +39,14 @@ of content you do not want to miss.**
 There are several types of regular updates on this website.  Each has
 its own feed, as it caters to a potentially different audience.
 
-* [News and announcements](https://protesilaos.com/news.xml)
 * [Books and Essays](https://protesilaos.com/books.xml)
-* [Political writings](https://protesilaos.com/politics.xml)
 * [Coding blog](https://protesilaos.com/codelog.xml)
 * [Comments on life issues](https://protesilaos.com/commentary.xml)
 * [Interpretations and critiques](https://protesilaos.com/interpretations.xml)
-* [My poems](https://protesilaos.com/poems.xml)
 * [Mechanical keyboards and ergonomics](https://protesilaos.com/keeb.xml)
+* [My poems](https://protesilaos.com/poems.xml)
+* [News and announcements](https://protesilaos.com/news.xml)
+* [Political writings](https://protesilaos.com/politics.xml)
 * [Master feed](https://protesilaos.com/master.xml) (captures every new publication)
 
 * * *
