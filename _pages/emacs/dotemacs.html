@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-04-27 08:45:09 +0300 with a word
-count of 101347.</b>
+<b>Last revised and exported on 2024-04-29 11:21:26 +0300 with a word
+count of 101377.</b>
 </p>
 
 <p>
@@ -404,7 +404,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-04-27 08:45:09 +0300):
+(2024-04-29 11:21:26 +0300):
 </p>
 
 <div class="org-src-container">
@@ -495,7 +495,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org9d756e3">
+<pre class="example" id="orga61158d">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -575,7 +575,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org6f98744">
+<pre class="example" id="org4368258">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -583,7 +583,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org488fc98">
+<pre class="example" id="org5c3c3cc">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1523,7 +1523,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org5977a9a">
+<pre class="example" id="org09f8a0e">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2587,8 +2587,8 @@ Understandable Feelings of Fascination, Excitement, and Thrill.</li>
   (setq theme-buffet--end-user
         '( :night     (modus-vivendi ef-dark ef-winter ef-autumn ef-night ef-duo-dark ef-symbiosis)
            :morning   (modus-operandi ef-light ef-cyprus ef-spring ef-frost ef-duo-light)
-           :afternoon (modus-operandi-tinted ef-arbutus ef-day ef-kassio ef-summer ef-elea-light ef-maris-light ef-melissa-light ef-trio-light)
-           :evening   (modus-vivendi-tinted ef-rosa ef-elea-dark ef-maris-dark ef-melissa-dark ef-trio-dark)))
+           :afternoon (modus-operandi-tinted ef-arbutus ef-day ef-kassio ef-summer ef-elea-light ef-maris-light ef-melissa-light ef-trio-light ef-reverie)
+           :evening   (modus-vivendi-tinted ef-rosa ef-elea-dark ef-maris-dark ef-melissa-dark ef-trio-dark ef-dream)))
 
   (theme-buffet-timer-hours 1))
 </pre>
@@ -2640,8 +2640,14 @@ The next section defines some complementary functionality
 ;; Read the manual: &lt;https://protesilaos.com/emacs/fontaine&gt;
 (use-package fontaine
   :ensure t
-  :demand t
   :if (display-graphic-p)
+  :hook
+  ;; Persist the latest font preset when closing/starting Emacs and
+  ;; while switching between themes.
+  ((after-init . fontaine-mode)
+   (after-init . (lambda ()
+                        ;; Set last preset or fall back to desired style from `fontaine-presets'.
+                        (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))))
   :bind ("C-c f" . fontaine-set-preset)
   :config
   ;; This is defined in Emacs C code: it belongs to font settings.
@@ -2741,13 +2747,6 @@ The next section defines some complementary functionality
            :italic-height 1.0
 
            :line-spacing nil)))
-
-  ;; Set last preset or fall back to desired style from `fontaine-presets'.
-  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
-
-  ;; Persist the latest font preset when closing/starting Emacs and
-  ;; while switching between themes.
-  (fontaine-mode 1)
 
   (with-eval-after-load 'pulsar
     (add-hook 'fontaine-set-preset-hook #'pulsar-pulse-line)))
@@ -4195,7 +4194,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgfc31812">
+<pre class="example" id="org7e1f777">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5756,11 +5755,25 @@ pop up the minibuffer eagerly (<a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5"
   ;; completion categories.
   (setq mct-completion-blocklist '(notmuch-mua-new-mail notmuch-mua-prompt-for-sender))
   (setq mct-completion-passlist
-        '( consult-buffer consult-location embark-keybinding
-           imenu prot-search-outline select-frame-by-name))
+        '(;; Some commands
+          prot-search-outline
+          select-frame-by-name
+          Info-goto-node
+          Info-index
+          Info-menu
+          vc-retrieve-tag
+          ;; Some completion categories
+          consult-buffer
+          consult-location
+          embark-keybinding
+          imenu
+          file
+          project-file
+          buffer
+          kill-ring
+          consult-location))
   (setq mct-remove-shadowed-file-names t)
   (setq mct-completion-window-size (cons #'mct-frame-height-third 1))
-  (setq mct-persist-dynamic-completion nil)
   (setq mct-live-completion 'visible)
   (setq completions-sort #'mct-sort-multi-category))
 
@@ -6868,14 +6881,16 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
 ;; One of my packages: &lt;https://protesilaos.com/emacs&gt;
 (use-package dired-preview
   :ensure t
-  :hook (dired-mode . (lambda ()
-                        (when (string-match-p "Pictures" default-directory)
-                          (dired-preview-mode 1))))
+  ;; :hook (dired-mode . (lambda ()
+  ;;                       (when (string-match-p "Pictures" default-directory)
+  ;;                         (dired-preview-mode 1))))
+
+  :hook (dired-mode . dired-preview-mode)
   :config
   ;; These are all set to their default values.  I keep them here for
   ;; reference.
-  (setq dired-preview-max-size (* (expt 2 20) 6))
-  (setq dired-preview-delay 0.3)
+  (setq dired-preview-max-size (* (expt 2 20) 10))
+  (setq dired-preview-delay 0.5)
   (setq dired-preview-ignored-extensions-regexp
         (concat "\\."
                 "\\(mkv\\|" "webm\\|" "mp4\\|" "mp3\\|" "ogg\\|" "m4a\\|"
@@ -6991,7 +7006,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org88c17aa">
+<pre class="example" id="org05e131f">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7151,7 +7166,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org2d1714d">
+<pre class="example" id="org32cf71f">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8721,7 +8736,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org988137e">
+<pre class="example" id="org6d4da63">
 (info "(org) Search Options")
 </pre>
 
@@ -8814,7 +8829,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org917ead6">
+<pre class="example" id="org0908c31">
 (require 'ob-python)
 
 ;; OR
@@ -9537,7 +9552,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org0a04cd2">
+<pre class="example" id="org9a3c059">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10206,7 +10221,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org80800d5">
+<pre class="example" id="orgf2af869">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10218,7 +10233,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org008055b">
+<pre class="example" id="orgc0aa06b">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10285,7 +10300,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org110fc31">
+<pre class="example" id="orgc3ada4d">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10297,7 +10312,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org831b152">
+<pre class="example" id="org2d8b8e8">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10319,7 +10334,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org1e9d796">
+<pre class="example" id="orgf3d20be">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11595,7 +11610,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org0df070b">
+<pre class="example" id="org7b77c67">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11691,7 +11706,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org81ca144">
+<pre class="example" id="org204bec5">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -18902,7 +18917,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org89a40e1">
+<pre class="example" id="orgddecc45">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -18935,7 +18950,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org3de833d">
+<pre class="example" id="org9ba8c39">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
