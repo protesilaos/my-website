@@ -30,9 +30,6 @@ Release notes below.
 
 * * *
 
-
-# Version 0.4.0 on 2024-03-04
-
 This version add some quality-of-life improvements to an already solid
 package.
 
