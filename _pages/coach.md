@@ -1,5 +1,6 @@
 ---
 title: "Coach/tutor on Emacs, Linux, and Life"
+subtitle: "One-on-one coaching at affordable prices"
 excerpt: "I provide private lessons or services on Emacs, Linux, and Life.  The prices are affordable."
 permalink: /coach/
 redirect_from: /tutor/
@@ -21,41 +22,36 @@ tutorials, (iii) the numerous packages I have written and maintain for
 Emacs, (iv) my custom working environment on Linux, and (v) lots of
 other writings.
 
-## Private lessons
-
-These are done either via video call or email, at your discretion.
-The standard is one hour per session.  Lessons can be up to two hours
-long, though I recommend the one hour as it helps with knowledge
-retention.  Multiple courses can be spread out throughout the week,
-depending on what you need.
-
-Some examples of private lessons you may be interested in:
-
-- Help understand the Emacs Lisp programming language and set up a
-  personalised Emacs configuration file.
-- Customise a Linux working environment centred around a tiling window
-  manager.
-- Clarify the statements of a manual or technical documentation and
-  provide concrete examples.
-- Be a talking buddy to aid in the practice of English or Greek.  We
-  can discuss any subject: what really matters is for you to use the
-  language without hesitation.
-- Encourage you to be more spontaneous and talk without a script.
-- Expound on philosophical themes that have practical applications in
-  our everyday life, such as how to deal with self-inhibiting
-  thoughts.
+## Private lessons via live video
 
 Private lessons are always one-on-one.  I will never ask you to be
 grouped together with another person nor involve a third party.
 
-## Services
+Lessons do not have a fixed format: we work on what you want to match
+your skill level. Some examples:
 
-I accept commissions on a case-by-case basis.  I can deliver bespoke
-solutions to particular problems in any of the topics I cover.  This
-is most likely relevant to Emacs and Linux, though I do not preclude
-other themes.  You are encouraged to email me, explaining your
-requirements: I will assess them and inform you whether I can produce
-the desired results.
+- Work on Emacs Lisp basics to help you better configure your Emacs.
+- Set up custom code to implement something you want with Emacs.
+- Deep dive into advanced topics, such as to extend core functionality
+  of built-in Emacs packages.
+
+Other topics can cover anything from Linux-related configurations to
+philosophy. We can even mix those together!
+
+### Benefits of one-on-one coaching
+
+- You can ask questions live and get personalised feedback.
+- Even when we are working on a technical topic, we can still discuss
+  intangible matters, such as workflow and methodology.
+- We practice English. We can even do it in Greek.
+- It is human interaction: we smile and have an easy time. No problem,
+  no stress!
+
+### Frequency and duration of lessons
+
+The standard is one hour per session. Lessons can be longer (two or
+more hours) if you need. Multiple courses can be spread out throughout
+the week or month, at your discretion.
 
 ## Work hours
 
@@ -65,26 +61,22 @@ schedule a meeting that suits both parties.
 
 ## Pricing
 
-- Private lessons cost 20 EUR per hour.  Students are entitled to the
-  discounted price of 15 EUR per hour.  I will not ask for proof if
-  you are a student or not: I trust you to be honest.
-- Services vary in price depending on their complexity.  We will need
-  to evaluate the requirements.  Expect the cost to range between 20
-  to 60 EUR per hour, which we will agree to in advance together with
-  an estimate of the total effort.
+Lessons cost 20 EUR per hour.
+
+Students are entitled to the discounted price of 15 EUR per hour. I
+will not ask for proof if you are a student or not: I trust you to be
+honest.
 
 ## Payments
 
-You are expected to pay **after the private lesson is delivered**.
-You never have to do it in advance, unless you absolutely want to.
-The same is true for common services, though I might ask for 1/3
-advance payment in case of a complex/difficult project.
+You are expected to pay after the private lesson is delivered. You
+never have to do it in advance, unless you want to.
 
 The payment methods are as follows:
 
-1. **GitHub Sponsors** one-time donation.  GitHub does not charge
-   extra fees and you can make one-off payments of an arbitrary value
-   even though the main method is for small recurring/monthly
+1. **GitHub Sponsors** one-time donation. GitHub does not charge extra
+   fees and you can make one-off payments of an arbitrary value even
+   though the main method is for small recurring/monthly
    contributions: <https://github.com/sponsors/protesilaos>.
 
 2. Send a payment **via PayPal**: <https://www.paypal.me/protesilaos>.
@@ -92,9 +84,9 @@ The payment methods are as follows:
 
 3. Use a **direct bank transfer** via the [International Bank Account
    Number (IBAN)](https://en.wikipedia.org/wiki/International_Bank_Account_Number).
-   My IBAN is `CY23 0090 0520 0005 2010 0144 6252`.  Make sure you are
+   My IBAN is `CY23 0090 0520 0005 2010 0144 6252`. Make sure you are
    specifying my full name, namely, `Protesilaos Stavrou`, and are
-   using the Euro (EUR) currency.  Though you most likely do not need
+   using the Euro (EUR) currency. Though you most likely do not need
    this, the BIC SWIFT code of my bank's branch is `ABKLCY2N`.
    Depending on your country, bank transfers may either be the
    cheapest option or the most expensive one, so please double-check.
@@ -105,14 +97,14 @@ I accept everyone regardless of their cultural background, sexual
 orientation, lifestyle choices, et cetera.  Due to the nature of the
 topics I cover, I expect students to be adults.  In principle, I can
 tutor younger people as well, provided I receive the express
-permission of their guardian and after I assess the situation.
+permission of their guardian.
 
 ## Privacy policy
 
 I will not share your details with anyone nor publicise any
 potentially personally identifying information.  You are welcome to
-use a pseudonym.  If/when we do a video call, you are free to not show
-your face.
+use a pseudonym.  If/when we do a video call, you are free to not
+activate the camera.
 
 ## Preference for libre software
 
@@ -129,9 +121,5 @@ me know about the specifics of your case and I will adapt accordingly.
 ## Contact me
 
 I look forward to you message: <https://protesilaos.com/contact/>.
-There is no need for formalities such as "Sir".  Call me by my name or
-nickname: "Protesilaos" or "Prot".
-
-🪷 This page is also available in Chinese: <https://protesilaos.com/cn/coach/>.
-Courtesy of an anonymous volunteer.  
-{:.info}
+There is no need for formalities such as "Sir". Call me by my name,
+"Protesilaos", or nickname: "Prot".
