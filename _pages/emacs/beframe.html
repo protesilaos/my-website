@@ -27,15 +27,12 @@ Current development target is 1.1.0-dev.
 <ul class="org-ul">
 <li>Package name (GNU ELPA): <code>beframe</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a></li>
-<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/beframe">https://git.sr.ht/~protesilaos/beframe</a>
-<ul class="org-ul">
-<li>Mirrors:
+<li>Change log: <a href="https://protesilaos.com/emacs/beframe-changelog">https://protesilaos.com/emacs/beframe-changelog</a></li>
+<li>Git repositories:
 <ul class="org-ul">
 <li>GitHub: <a href="https://github.com/protesilaos/beframe">https://github.com/protesilaos/beframe</a></li>
 <li>GitLab: <a href="https://gitlab.com/protesilaos/beframe">https://gitlab.com/protesilaos/beframe</a></li>
 </ul></li>
-</ul></li>
-<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/general-issues">https://lists.sr.ht/~protesilaos/general-issues</a></li>
 <li>Video demo: <a href="https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/">https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/</a></li>
 <li>Backronym: Buffers Encapsulated in Frames Realise Advanced
 Management of Emacs.</li>
@@ -127,12 +124,15 @@ filters the list.
 </p>
 
 <p>
-The user option <code>beframe-global-buffers</code> contains a list of strings
-that represent buffers names.  Those buffers are never beframed and
-are available in all frames.  The default value contains the buffers
-<code>*scratch*</code>, <code>*Messages*</code>, and <code>*Backtrace*</code>.  If the value is nil, no
-buffer enjoys such special treatment: they all follow the beframing
-scheme of remaining associated with the frame that opened them.
+The user option <code>beframe-global-buffers</code> contains a list of regular
+expressions or major mode symbols that are matched against buffers.
+The matching buffers are never beframed and are available in all
+frames. The default value contains the buffers <code>*scratch*</code>,
+<code>*Messages*</code>, and <code>*Backtrace*</code> (more preciselly, it matches the
+regular expressions <code>\\*scratch\\*</code>, <code>\\*Messages\\*</code>
+<code>\\*Backtrace\\*</code>). If the value is <code>nil</code>, no buffer enjoys such
+special treatment: they all follow the beframing scheme of remaining
+associated with the frame that opened them.
 </p>
 
 <p>
@@ -286,7 +286,7 @@ For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") beframe-prefix-map)
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
 </pre>
 </div>
 
@@ -387,7 +387,7 @@ Everything is in place to set up the package.
 (beframe-mode 1)
 
 ;; Bind Beframe commands to a prefix key, such as C-c b:
-(define-key global-map (kbd "C-c b") beframe-prefix-map)
+(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
 </pre>
 </div>
 </div>
