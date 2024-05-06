@@ -98,7 +98,7 @@ Bruno Boal is the lead developer and I am a co-maintainer.
 ## Beframe
 
 `beframe` enables a frame-oriented Emacs workflow where each frame has
-access to the list of buffers visited therein.  In the interest of
+access only to the list of buffers visited therein.  In the interest of
 brevity, we call buffers that belong to frames "beframed".
 
 + Package name (GNU ELPA): `beframe`
