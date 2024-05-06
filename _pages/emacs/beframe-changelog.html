@@ -8,13 +8,105 @@ permalink: /emacs/beframe-changelog
 
 <p>
 This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://git.sr.ht/~protesilaos/beframe">https://git.sr.ht/~protesilaos/beframe</a>.
+project's main git repository: <a href="https://github.com/protesilaos/beframe">https://github.com/protesilaos/beframe</a>.
 </p>
 
 <p>
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
 </p>
+
+<div id="outline-container-h:6cdbd605-8a3c-4e71-849e-e17b75805b2f" class="outline-2">
+<h2 id="h:6cdbd605-8a3c-4e71-849e-e17b75805b2f">1.1.0 on 2024-05-06</h2>
+<div class="outline-text-2" id="text-h:6cdbd605-8a3c-4e71-849e-e17b75805b2f">
+<p>
+This is a small release that adds some quality-of-life refinements to
+a stable package.
+</p>
+</div>
+
+<div id="outline-container-h:ce67d817-c394-460f-af35-994459a8903b" class="outline-3">
+<h3 id="h:ce67d817-c394-460f-af35-994459a8903b">The <code>beframe-global-buffers</code> is more flexible</h3>
+<div class="outline-text-3" id="text-h:ce67d817-c394-460f-af35-994459a8903b">
+<p>
+This is a user option to specify which buffers should appear in all
+frames. These "global" buffers are thus not associated only with the
+frame in which they where displayed in.
+</p>
+
+<p>
+Before, the value of this user option was a list of strings that were
+matching buffer names literally. Now it is a list of strings which are
+understood as regular expressions as well as a list of symbols
+representing major modes.
+</p>
+
+<p>
+Consider this example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq beframe-global-buffers '("\\*scratch\\*" ".*notmuch.*" emacs-lisp-mode))
+</pre>
+</div>
+
+<p>
+It matches a buffer with the literal name <code>*scratch*</code>, all buffers
+that include <code>notmuch</code> in their name, and all buffers whose major mode
+is <code>emacs-lisp-mode</code> or derived therefrom.
+</p>
+
+<p>
+You can now more easily put all buffers in the global list, such as
+for email or IRC.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:c50ef266-4bd2-4413-bca5-e8118c84586f" class="outline-3">
+<h3 id="h:c50ef266-4bd2-4413-bca5-e8118c84586f">The <code>beframe-prefix-map</code> is now a command</h3>
+<div class="outline-text-3" id="text-h:c50ef266-4bd2-4413-bca5-e8118c84586f">
+<p>
+Before, this symbol was defined as a variable, which held the value of
+the key bindings. Users where expected to bind this variable to a
+key, such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") beframe-prefix-map)
+</pre>
+</div>
+
+<p>
+This would set up <code>C-c b</code> as a prefix for all the key bindings inside
+of <code>beframe-prefix-map</code>. However, any changes to that map would not be
+automatically included in the prefix. The above binding had to be
+evaluated again (because we were binding a fixed value directly,
+instead of having the indirection of a symbol that points to a value).
+</p>
+
+<p>
+Now the <code>beframe-prefix-map</code> is implemented as a variable and a
+command. The variable holds the value of the key bindings, while the
+command is meant to be assigned to a key. For users, the change is
+trivial:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") 'beframe-prefix-map)
+</pre>
+</div>
+
+<p>
+Notice the added single quote before <code>beframe-prefix-map</code>. While only
+an extra character in the user's configuration, this is a major change
+because any changes made to the key map will now be automatically
+available under the defined prefix. No need to evaluate the key
+binding again.
+</p>
+</div>
+</div>
+</div>
 
 <div id="outline-container-h:9a00ab34-a07f-4bb3-9397-6b1383fcebca" class="outline-2">
 <h2 id="h:9a00ab34-a07f-4bb3-9397-6b1383fcebca">1.0.0 on 2023-11-17</h2>
