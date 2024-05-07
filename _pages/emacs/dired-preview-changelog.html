@@ -8,7 +8,7 @@ permalink: /emacs/dired-preview-changelog
 
 <p>
 This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://git.sr.ht/~protesilaos/dired-preview">https://git.sr.ht/~protesilaos/dired-preview</a>.
+project's main git repository: <a href="https://github.com/protesilaos/dired-preview">https://github.com/protesilaos/dired-preview</a>.
 </p>
 
 <p>
@@ -16,13 +16,142 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/dired-preview">https://protesilaos.com/emacs/dired-preview</a>.
 </p>
 
+<div id="outline-container-h:4225d638-f5bb-4855-85c7-972ff40aad6d" class="outline-2">
+<h2 id="h:4225d638-f5bb-4855-85c7-972ff40aad6d">0.2.0 on 2024-05-07</h2>
+<div class="outline-text-2" id="text-h:4225d638-f5bb-4855-85c7-972ff40aad6d">
+<p>
+This release brings many small improvements and fixes some bugs.
+</p>
+</div>
+
+<div id="outline-container-h:e3652b69-aa81-4b71-9887-81052ff7f9f7" class="outline-3">
+<h3 id="h:e3652b69-aa81-4b71-9887-81052ff7f9f7">The preview shows up right away on new directories</h3>
+<div class="outline-text-3" id="text-h:e3652b69-aa81-4b71-9887-81052ff7f9f7">
+<p>
+In the past, entering a new directory would not trigger a preview: it
+would wait for some motion before doing so. This could make it seem
+that the mode was not enabled in the current buffer. Now, the preview
+shows up immediately.
+</p>
+
+<p>
+Thanks to Nofint for the initial contribution in pull request 8:
+<a href="https://github.com/protesilaos/dired-preview/pull/8">https://github.com/protesilaos/dired-preview/pull/8</a>. The changes are
+small and do not require copyright assignment to the Free Software
+Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82" class="outline-3">
+<h3 id="h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82">Directories are previewed as well</h3>
+<div class="outline-text-3" id="text-h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82">
+<p>
+The contents are displayed in a Dired buffer, using the current
+settings for it. This means that colours are possible icons are shown
+too.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e" class="outline-3">
+<h3 id="h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e">Large files are previewed in <code>hexl-mode</code></h3>
+<div class="outline-text-3" id="text-h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e">
+<p>
+As the documentation of this mode suggests:
+</p>
+
+<blockquote>
+<p>
+A mode for editing binary files in hex dump format.
+This is not an ordinary major mode; it alters some aspects
+of the current mode’s behavior, but not all; also, you can exit
+Hexl mode and return to the previous mode using C-c C-c.
+</p>
+</blockquote>
+
+<p>
+The <code>C-c C-c</code> key binding toggles the mode, in case you want to see
+the raw output.
+</p>
+
+<p>
+Thanks to Karthik Chikmagalur for the contribution. This was done on
+the now defunct mailing list:
+<a href="https://lists.sr.ht/~protesilaos/general-issues/%3C871qeb56bw.fsf@gmail.com%3E">https://lists.sr.ht/~protesilaos/general-issues/%3C871qeb56bw.fsf@gmail.com%3E</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:ea324fd1-f808-420f-b019-250e161465ff" class="outline-3">
+<h3 id="h:ea324fd1-f808-420f-b019-250e161465ff">Previews are displayed in a full-featured mode</h3>
+<div class="outline-text-3" id="text-h:ea324fd1-f808-420f-b019-250e161465ff">
+<p>
+Before, we would delay the execution of the mode hooks to speed things
+up. Though this came at the cost of (i) making the buffer less capable
+and (ii) forcing us to handle the execution of those hooks at a later
+stage when they would be needed, which proved to be error-prone in a
+number of scenaria.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:a4d6b125-5ef6-409d-aded-e7b1971ac87d" class="outline-3">
+<h3 id="h:a4d6b125-5ef6-409d-aded-e7b1971ac87d">Files without an extension are still previewed</h3>
+<div class="outline-text-3" id="text-h:a4d6b125-5ef6-409d-aded-e7b1971ac87d">
+<p>
+This is a bug fix. Before, they would be considered as part of the
+files to be ignored, per <code>dired-preview-ignored-extensions-regexp</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b" class="outline-3">
+<h3 id="h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b">Previews are not added to what <code>recentf-mode</code> tracks</h3>
+<div class="outline-text-3" id="text-h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b">
+<p>
+Thanks to Juergen Hoetzel for reporting this issue and for tweaking my
+suggested patch for it. This was done in pull request 12:
+<a href="https://github.com/protesilaos/dired-preview/pull/12">https://github.com/protesilaos/dired-preview/pull/12</a>. The change is
+small, so Juergen does not need to assign copyright to the Free
+Software Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:493488b1-0f7d-4b44-b96d-4cd9a6bde352" class="outline-3">
+<h3 id="h:493488b1-0f7d-4b44-b96d-4cd9a6bde352">A nil value for <code>split-width-threshold</code> still works</h3>
+<div class="outline-text-3" id="text-h:493488b1-0f7d-4b44-b96d-4cd9a6bde352">
+<p>
+We no longer consider this an error and adapt the preview accordingly.
+Thanks to Juergen Hoetzel for the contribution. This was done in pull
+request 11 and does not require copyright assignment:
+<a href="https://github.com/protesilaos/dired-preview/pull/11">https://github.com/protesilaos/dired-preview/pull/11</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:d8c42eea-a540-44fd-91b4-138fdba47288" class="outline-3">
+<h3 id="h:d8c42eea-a540-44fd-91b4-138fdba47288">For developers: previews are done with <code>cl-defmethod</code></h3>
+<div class="outline-text-3" id="text-h:d8c42eea-a540-44fd-91b4-138fdba47288">
+<p>
+Each file type will thus have its own method on how to display the
+contents in a buffer. The idea is to make this easier to extend. The
+goal is to have methods that can preview PDFs and images without
+blocking Emacs. Other file types can be considered as well, though
+those two are the immediate priority.
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189" class="outline-2">
-<h2 id="h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">0.1.0</h2>
+<h2 id="h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">0.1.0 on 2023-07-08</h2>
 <div class="outline-text-2" id="text-h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">
 <p>
-The <code>dired-preview</code> package was in a public testing phase
-from 2023-06-25 until today.  In the meantime, lots of changes have
-been made in the interest of usability and robustness.
+The <code>dired-preview</code> package was in a public testing phase from
+2023-06-25 until today.  In the meantime, lots of changes have been
+made in the interest of usability and robustness.
 </p>
 </div>
 
