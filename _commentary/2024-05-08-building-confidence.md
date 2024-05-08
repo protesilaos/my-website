@@ -9,7 +9,7 @@ private.
 
 * * *
 
-> 1. I have a lack of confidence in whatever task I do, that's mainly due to
+> 1: I have a lack of confidence in whatever task I do, that's mainly due to
 > the thought being what if I do anything wrong, then I have to be ashamed in
 > front of everyone (imposter syndrome).
 
@@ -58,7 +58,7 @@ will be sure it is nonsense.
 I will return to the point of feeling ashamed a bit later, but let me
 first comment on your other remarks.
 
-> 2. Suppose I'm doing a task, let's say playing a football match. And If
+> 2: Suppose I'm doing a task, let's say playing a football match. And If
 > some random person does better than me, even in one match, I get tunnel
 > visioned and start to belittle myself that I have no worth, and the person
 > is better than me. Here the word "better" is emphasized. There is some sort
@@ -95,7 +95,7 @@ your attitude is more along the lines of "all or nothing", which
 usually means you get nothing. This is fine. Do not worry about it and
 stick to the basics.
 
-> 3. The consequences of the above two makes me unable to focus on any task
+> 3: The consequences of the above two makes me unable to focus on any task
 > in future related to that particular field or any field in general. Then I
 > start questioning myself and the loop continues.
 
