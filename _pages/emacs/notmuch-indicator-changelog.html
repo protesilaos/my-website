@@ -8,13 +8,190 @@ permalink: /emacs/notmuch-indicator-changelog
 
 <p>
 This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://git.sr.ht/~protesilaos/notmuch-indicator">https://git.sr.ht/~protesilaos/notmuch-indicator</a>.
+project's main git repository: <a href="https://github.com/protesilaos/notmuch-indicator">https://github.com/protesilaos/notmuch-indicator</a>.
 </p>
 
 <p>
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/notmuch-indicator">https://protesilaos.com/emacs/notmuch-indicator</a>.
 </p>
+
+<div id="outline-container-h:59674a50-c1b7-4ca3-92ce-2b986bc3f0bf" class="outline-2">
+<h2 id="h:59674a50-c1b7-4ca3-92ce-2b986bc3f0bf">1.2.0 on 2024-05-11</h2>
+<div class="outline-text-2" id="text-h:59674a50-c1b7-4ca3-92ce-2b986bc3f0bf">
+<p>
+This version brings quality-of-life refinements to an already stable
+package.
+</p>
+</div>
+
+<div id="outline-container-h:35470310-c369-4d58-8ef0-297c379ce07b" class="outline-3">
+<h3 id="h:35470310-c369-4d58-8ef0-297c379ce07b">More styles for the indicator</h3>
+<div class="outline-text-3" id="text-h:35470310-c369-4d58-8ef0-297c379ce07b">
+<p>
+The user option <code>notmuch-indicator-args</code> always accepted an optional
+face that was applied to the label that accompanies the given counter.
+The same can now be done for the counter itself. To be concrete:
+</p>
+
+<pre class="example">
+LABEL       COUNTER
+
+[unread]    10
+</pre>
+
+<p>
+Or what you will most likely prefer:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">[U] 10
+</pre>
+</div>
+
+<p>
+The technicalities of how to set those up are covered in the
+documentation string of <code>notmuch-indicator-args</code>. Here is a variant of
+what I use (I actually have custom faces):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq notmuch-indicator-args
+        '(( :terms "tag:unread and tag:inbox"
+            :label "[A] "
+            :label-face font-lock-string-face
+            :counter-face font-lock-string-face)
+          ( :terms "tag:unread and tag:inbox and not tag:package and not tag:coach"
+            :label "[U] "
+            :label-face font-lock-type-face
+            :counter-face font-lock-type-face)
+          ( :terms "tag:unread and tag:package"
+            :label "[P] "
+            :label-face font-lock-function-name-face
+            :counter-face font-lock-function-name-face)
+          ( :terms "tag:unread and tag:coach"
+            :label "[C] "
+            :label-face font-lock-preprocessor-face
+            :counter-face font-lock-preprocessor-face)))
+</pre>
+</div>
+
+<p>
+For backward-compatibility, <code>:face</code> has the same meaning as <code>:label-face</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:75c87a22-7078-4db2-8731-5f2e13e034d1" class="outline-3">
+<h3 id="h:75c87a22-7078-4db2-8731-5f2e13e034d1">Control exactly where the indicator is placed</h3>
+<div class="outline-text-3" id="text-h:75c87a22-7078-4db2-8731-5f2e13e034d1">
+<p>
+This is for advanced users, though I am happy to help you set it up if
+you are interested.
+</p>
+
+<p>
+By default, the indicator (the block with all the email counters) is
+appended to the mode line. It thus shows up on the mode line of the
+current window but also on that of all inactive windows.
+</p>
+
+<p>
+To control exactly where the indicator is placed set the user option
+<code>notmuch-indicator-add-to-mode-line-misc-info</code> to nil. This will no
+longer display the indicator on the mode line. Then do any of the
+following:
+</p>
+
+<ol class="org-ol">
+<li><p>
+If you are using the built-in <code>tab-bar-mode</code>, add the
+<code>notmuch-indicator-tab-bar-format</code> to the list of <code>tab-bar-format</code>.
+Like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   (setq tab-bar-format
+         '( tab-bar-format-history
+            tab-bar-format-tabs
+            tab-bar-separator
+            tab-bar-format-add-tab
+            tab-bar-format-align-right
+            notmuch-indicator-tab-bar-format ; here it is
+            tab-bar-separator
+            tab-bar-format-global))
+</pre>
+</div></li>
+
+<li>Add the ~ <code>notmuch-indicator-mode-line-construct</code> to the
+<code>mode-line-format</code>. This allows you to put it wherever you want,
+such as before the buffer name.</li>
+
+<li><p>
+Create your own mode line construct with the extra logic you need
+and then add it anywhere you want in the <code>mode-line-format</code> list.
+This is what I do to display the indicator only on the active mode
+line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   ;; Here is my variant of the indicator.
+   (defvar-local prot-modeline-notmuch-indicator
+       '(notmuch-indicator-mode
+         (" "
+          (:eval (when (mode-line-window-selected-p)
+                   notmuch-indicator--counters))))
+     "The equivalent of `notmuch-indicator-mode-line-construct'.
+   Display the indicator only on the focused window's mode line.")
+
+   ;; And here I format my modeline to place everything exactly where I want.
+   (setq-default mode-line-format
+                 '("%e"
+                   ;; ... things before
+                   prot-modeline-notmuch-indicator
+                   ;; ... things after
+                   prot-modeline-misc-info))
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-h:93996b38-c28f-4802-9a65-5aa0e3985c4d" class="outline-3">
+<h3 id="h:93996b38-c28f-4802-9a65-5aa0e3985c4d">Escape queries to avoid shell errors</h3>
+<div class="outline-text-3" id="text-h:93996b38-c28f-4802-9a65-5aa0e3985c4d">
+<p>
+We now escape all special shell characters before running the
+<code>notmuch</code> shell command to get the number of emails. This way, more
+complex queries are read without any issue. Thanks to Sébastien
+Delafond for the contribution, which was done in pull request 4:
+<a href="https://github.com/protesilaos/notmuch-indicator/pull/4">https://github.com/protesilaos/notmuch-indicator/pull/4</a>.
+</p>
+
+<p>
+The change is small, meaning that Sébastien does not need to assign
+copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-h:8ed85974-3122-420e-97f2-de94d2e890f3" class="outline-3">
+<h3 id="h:8ed85974-3122-420e-97f2-de94d2e890f3">Bind call to the <code>notmuch</code> binary to the user's home directory</h3>
+<div class="outline-text-3" id="text-h:8ed85974-3122-420e-97f2-de94d2e890f3">
+<p>
+The reason for this is explained by @shimeike (MikeS):
+<a href="https://github.com/protesilaos/notmuch-indicator/issues/2#issuecomment-1819853525">https://github.com/protesilaos/notmuch-indicator/issues/2#issuecomment-1819853525</a>.
+In short, we want to make sure we use the correct binary while
+visiting files via TRAMP.
+</p>
+
+<p>
+Also thanks to Mohamed Suliman for corroborating the findings
+discussed therein.
+</p>
+</div>
+</div>
+</div>
 
 <div id="outline-container-h:331ff2c0-a76b-4018-98d7-be6822626f75" class="outline-2">
 <h2 id="h:331ff2c0-a76b-4018-98d7-be6822626f75">1.1.0 on 2023-10-14</h2>
