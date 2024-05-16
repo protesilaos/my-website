@@ -1303,7 +1303,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org83ed9bb">
+<pre class="example" id="org9ecc20e">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1867,7 +1867,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org2e4ce62">
+<pre class="example" id="org9e3cc30">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1887,7 +1887,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgec899ff">
+<pre class="example" id="org75e18dd">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2379,7 +2379,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org97d7db7">
+<pre class="example" id="org4c4ffb5">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2548,7 +2548,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org6008ff5">
+<pre class="example" id="orgb59f33e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2560,7 +2560,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org7dc4ff3">
+<pre class="example" id="orgbfe74f6">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2574,7 +2574,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org283e44f">
+<pre class="example" id="org4b6db88">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2588,7 +2588,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgb8a7fe8">
+<pre class="example" id="org83c48b1">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2967,7 +2967,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org2b85858">
+<pre class="example" id="org7654dc5">
 - link1
 - link2
 - link3
@@ -2985,7 +2985,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgb4232d3">
+<pre class="example" id="org7d93e45">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3222,7 +3222,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org18d6280">
+<pre class="example" id="orgdacb1aa">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3237,7 +3237,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org61a91bb">
+<pre class="example" id="orga084858">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4448,7 +4448,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgd50d316">
+<pre class="example" id="org50a0ea5">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5398,11 +5398,8 @@ we will update things accordingly.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-file-is-note-p</code></dt><dd>Return non-nil if <code>FILE</code> is an
-actual Denote note.  For our purposes, a note must not be a
-directory, must satisfy <code>file-regular-p</code>, its path must be part of
-the variable <code>denote-directory</code>, it must have a Denote identifier in
-its name, and use one of the extensions implied by
-<code>denote-file-type</code>.</dd>
+actual Denote note. For our purposes, a note must satisfy
+<code>file-regular-p</code> and <code>denote-filename-is-note-p</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5503,15 +5500,13 @@ to override what this function returns.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-directory-files</code></dt><dd>Return list of absolute file
 paths in variable <code>denote-directory</code>. Files only need to have an
-identifier. The return value may thus include file types that are
-not implied by <code>denote-file-type</code>. Remember that the variable
-<code>denote-directory</code> accepts a dir-local value, as explained in its
-doc string (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>). With optional
-<code>FILES-MATCHING-REGEXP</code>, restrict files to those matching the given
-regular expression. With optional <code>OMIT-CURRENT</code> as a non-nil value,
-do not include the current Denote file in the returned list. With
-optional <code>TEXT-ONLY</code> as a non-nil value, limit the results to text
-files that satisfy <code>denote-file-is-note-p</code>.</dd>
+identifier. The return value may thus include file types that are not
+implied by <code>denote-file-type</code>. With optional <code>FILES-MATCHING-REGEXP</code>,
+restrict files to those matching the given regular expression. With
+optional <code>OMIT-CURRENT</code> as a non-nil value, do not include the current
+Denote file in the returned list. With optional <code>TEXT-ONLY</code> as a
+non-nil value, limit the results to text files that satisfy
+<code>denote-file-is-note-p</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5581,8 +5576,7 @@ the first file type for which the :title-key-regexp in
 </p>
 
 <p>
-If no file type in <code>denote-file-types</code> has the file extension, the
-file type is assumed to be the first one in <code>denote-file-types</code>.
+Return nil if the file type is not recognized.
 </p></dd>
 </dl>
 
@@ -5746,25 +5740,14 @@ is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The
 
 <dl class="org-dl">
 <dt>Function <code>denote-file-prompt</code></dt><dd>Prompt for file in variable
-<code>denote-directory</code>. With optional <code>FILES-MATCHING-REGEXP</code>, filter
-the candidates per the given regular expression. With optional
+<code>denote-directory</code>. With optional <code>FILES-MATCHING-REGEXP</code>, filter the
+candidates per the given regular expression. With optional
 <code>PROMPT-TEXT</code>, use it instead of the default call to select a file.
-With optional <code>NO-REQUIRE-MATCH</code> accept the given input as-is. If it
-does not match a file, return nil. See <code>denote-file-or-action-prompt</code>
-for how this is intended to be used. Unless <code>NO-REQUIRE-MATCH</code> is
-non-nil, return the absolute path to the matching file. [ Revised as
-part of 3.0.0-dev to include the new <code>NO-REQUIRE-MATCH</code>
-parameter. This is to simplify how we use the various &ldquo;&#x2026; or
-create&rdquo; commands internally. ]</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-file-or-action-prompt</code></dt><dd>Like <code>denote-file-prompt</code>
-but accept the user input as-is. If the input does not match a file
-completely, return the input. Otherwise, return the file. The
-optional <code>FILES-MATCHING-REGEXP</code> and <code>PROMPT-TEXT</code> have the same
-meaning as <code>denote-file-prompt</code> and are passed to it. [ Part of
-3.0.0-dev. ]</dd>
+With optional <code>NO-REQUIRE-MATCH</code> accept the given input as-is. Return
+the absolute path to the matching file. [ Revised as part of
+3.0.0-dev to include the new <code>NO-REQUIRE-MATCH</code>
+parameter. This is to simplify how we use the various &ldquo;&#x2026; or create&rdquo;
+commands internally. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6154,7 +6137,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org0039ad1">
+<pre class="example" id="org25933c3">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6164,7 +6147,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org2027c73">
+<pre class="example" id="org93ae68b">
 emacs -Q
 </pre>
 
@@ -6176,7 +6159,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org1e46271">
+<pre class="example" id="orgd44a6dd">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6238,7 +6221,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgf27c988">
+<pre class="example" id="org294d853">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
