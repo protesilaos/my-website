@@ -13,7 +13,7 @@ layout: index
 <div class="index index-blog">
   {% assign publications = site.documents | where: 'master', true | sort: 'date' | reverse %}
 
-  <h2>Latest publications (across the website)</h2>
+  <h2>Latest publications</h2>
 
   <ul>
     {% for i in publications limit:10 %}
@@ -21,12 +21,14 @@ layout: index
       <time class="index-blog-post-timestamp">
         {{ i.date | date: site.date_format }}
       </time>
-      <a class="index-blog-post-link" href="{{ i.url | relative_url }}"><span class="index-blog-post-heading">{{- i.title -}}</span>
+      <a class="index-blog-post-link" href="{{ i.url | relative_url }}">
+        <span class="index-blog-post-heading">{{- i.title -}}</span>
         {%- if i.mediaid or i.layout == 'vlog' -%}
         <span class="index-blog-post-meta-label"> [video]</span>
         {%- elsif i.book -%}
         <span class="index-blog-post-meta-label"> [book]</span>
         {%- endif -%}
+        <small class="index-blog-post-collection"> ({{- i.collection -}})</small>
       </a>
     </li>
     {% endfor %}
