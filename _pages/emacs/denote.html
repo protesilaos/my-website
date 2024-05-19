@@ -99,9 +99,10 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
 <ul>
-<li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">5.1. Sluggification of file name components</a></li>
-<li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">5.2. User-defined sluggification of file name components</a></li>
-<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.3. Features of the file-naming scheme for searching or filtering</a></li>
+<li><a href="#h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">5.1. Change the order of file name components</a></li>
+<li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">5.2. Sluggification of file name components</a></li>
+<li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">5.3. User-defined sluggification of file name components</a></li>
+<li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.4. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">6. Front matter</a>
@@ -1303,7 +1304,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgb4eaeb2">
+<pre class="example" id="orge68d6d5">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1867,7 +1868,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgd0bc747">
+<pre class="example" id="org4275ec5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1887,7 +1888,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga7ca126">
+<pre class="example" id="org87c1b79">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2295,7 +2296,8 @@ DATE==SIGNATURE__KEYWORDS.EXT
 
 
 <p>
-When in doubt, stick to the default design.
+When in doubt, stick to the default design, which is carefully
+considered and works well (<a href="#h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">Change the order of file name components</a>).
 </p>
 
 <p>
@@ -2307,8 +2309,61 @@ low-tech invention.
 </p>
 </div>
 
+<div id="outline-container-h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd" class="outline-3">
+<h3 id="h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd"><span class="section-number-3">5.1.</span> Change the order of file name components</h3>
+<div class="outline-text-3" id="text-h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">
+<p>
+[ Part of 3.0.0-dev. ]
+</p>
+
+<p>
+Our standard file-naming scheme prescribes a specific order for the
+file name components (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>). Though we provide the
+user option <code>denote-file-name-components-order</code> to let the user
+reorder them as they see fit.
+</p>
+
+<p>
+The value of this user option is a list of the following symbols:
+</p>
+
+<ul class="org-ul">
+<li><code>identifier</code>: This is the combination of the date and time. When it
+is the first on the list, it looks like <code>20240519T073456</code> and does
+not have a component separator of its own due its unambiguous
+format. When it is placed anywhere else in the file name, it is
+prefixed with <code>@@</code>, so it looks like <code>@@20240519T073456</code>.</li>
+
+<li><code>signature</code>: This is an arbitrary string that can be used to qualify
+the file in some way, according to the user&rsquo;s methodology (e.g. to
+add a sequence to notes). The string is always prefixed with the
+<code>==</code> to remain unambiguous.</li>
+
+<li><code>title</code>: This is an arbitrary string which describes the file. It is
+always prefixed with <code>--</code> to be unambiguous.</li>
+
+<li><code>keywords</code>: This is a series of one or more words that succinctly
+group the file. Multiple keywords are separated by an underscore
+prefixed to each of them. The file name component is always prefixed
+with <code>__</code>.</li>
+</ul>
+
+<p>
+All four symbols must appear exactly once. Duplicates are ignored. Any
+missing symbol is added automatically.
+</p>
+
+<p>
+Before deciding on this, please consider the longer-term implications
+of file names with varying patterns. Consistency makes things
+predictable and thus easier to find. So pick one order and never touch
+it again. When in doubt, leave the default file-naming scheme as-is.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h:ae8b19a1-7f67-4258-96b3-370a72c43f4e" class="outline-3">
-<h3 id="h:ae8b19a1-7f67-4258-96b3-370a72c43f4e"><span class="section-number-3">5.1.</span> Sluggification of file name components</h3>
+<h3 id="h:ae8b19a1-7f67-4258-96b3-370a72c43f4e"><span class="section-number-3">5.2.</span> Sluggification of file name components</h3>
 <div class="outline-text-3" id="text-h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">
 <p>
 Files names can contain any character that the file system
@@ -2365,7 +2420,7 @@ hackability and so users can deviate from the aforementioned
 </div>
 
 <div id="outline-container-h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3" class="outline-3">
-<h3 id="h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3"><span class="section-number-3">5.2.</span> User-defined sluggification of file name components</h3>
+<h3 id="h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3"><span class="section-number-3">5.3.</span> User-defined sluggification of file name components</h3>
 <div class="outline-text-3" id="text-h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">
 <p>
 The user option <code>denote-file-name-slug-functions</code> controls the
@@ -2380,7 +2435,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgbb83f2a">
+<pre class="example" id="org44b3cf0">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2477,7 +2532,7 @@ You have been warned.
 </div>
 
 <div id="outline-container-h:1a953736-86c2-420b-b566-fb22c97df197" class="outline-3">
-<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.3.</span> Features of the file-naming scheme for searching or filtering</h3>
+<h3 id="h:1a953736-86c2-420b-b566-fb22c97df197"><span class="section-number-3">5.4.</span> Features of the file-naming scheme for searching or filtering</h3>
 <div class="outline-text-3" id="text-h:1a953736-86c2-420b-b566-fb22c97df197">
 <p>
 By default, file names have three fields and two sets of field
@@ -2549,7 +2604,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org0270f48">
+<pre class="example" id="org7c9f872">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2561,7 +2616,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgcd06e5e">
+<pre class="example" id="org9caaf50">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2575,7 +2630,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb8d8e5b">
+<pre class="example" id="org6007ba1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2589,7 +2644,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org8119475">
+<pre class="example" id="orgee6609c">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2968,7 +3023,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgacb20a0">
+<pre class="example" id="orgd7259e6">
 - link1
 - link2
 - link3
@@ -2986,7 +3041,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgaf5b3f8">
+<pre class="example" id="orgce730c8">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3223,7 +3278,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgb91a0c8">
+<pre class="example" id="orgbe65a4c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3238,7 +3293,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org23bb75e">
+<pre class="example" id="org38d4427">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4449,7 +4504,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org952bd23">
+<pre class="example" id="org1cd2cc5">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6138,7 +6193,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org10945e4">
+<pre class="example" id="org05773b8">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6148,7 +6203,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc158278">
+<pre class="example" id="org02440fe">
 emacs -Q
 </pre>
 
@@ -6160,7 +6215,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org44db5e5">
+<pre class="example" id="org82a11ea">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6222,7 +6277,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orge0ea0ee">
+<pre class="example" id="orgb404889">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
