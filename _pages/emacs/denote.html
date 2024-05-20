@@ -1304,7 +1304,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgaeeb655">
+<pre class="example" id="orgcd76353">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1868,7 +1868,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb9bf399">
+<pre class="example" id="org6ceaf3a">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1888,7 +1888,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orge4d927e">
+<pre class="example" id="orga343925">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2459,7 +2459,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgfc9f892">
+<pre class="example" id="org85b9a6b">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2628,7 +2628,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org162e797">
+<pre class="example" id="org2f7eaaa">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2640,7 +2640,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org97ae6ff">
+<pre class="example" id="org6bd8064">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2654,7 +2654,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgc91eb0b">
+<pre class="example" id="org345c4a3">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2668,7 +2668,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org4ad199e">
+<pre class="example" id="orga47d7cb">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2872,36 +2872,48 @@ The following sections delve into the details.
 <div class="outline-text-3" id="text-h:5e5e3370-12ab-454f-ba09-88ff44214324">
 <p>
 The <code>denote-link</code> command inserts a link at point to a file specified
-at the minibuffer prompt (<a href="#h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">The <code>denote-org-store-link-to-heading</code> user option</a>).
-Links are formatted depending on the file type of the current note. In
-Org and plain text buffers, links are formatted thus:
-<code>[[denote:IDENTIFIER][DESCRIPTION]]</code>. While in Markdown they are expressed
-as <code>[DESCRIPTION](denote:IDENTIFIER)</code>.
+at the minibuffer prompt. Links are formatted depending on the file
+type of the current note. In Org and plain text buffers, links are
+formatted thus: <code>[[denote:IDENTIFIER][DESCRIPTION]]</code>. While in
+Markdown they are expressed as <code>[DESCRIPTION](denote:IDENTIFIER)</code>.
+</p>
+
+<p>
+[ We optionally support links to Org headings (<a href="#h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">The <code>denote-org-store-link-to-heading</code> user option</a>).
+  Other file types do not have the features of Org, so we cannot
+  generalise this. ]
 </p>
 
 <p>
 When <code>denote-link</code> is called with a prefix argument (<code>C-u</code> by
-default), it formats links like <code>[[denote:IDENTIFIER]]</code>.  The user
-might prefer its simplicity.
+default), it formats links like <code>[[denote:IDENTIFIER]]</code>, regardless of
+file type. The user might prefer its simplicity.
 </p>
 
 <p>
-By default, the description of the link is taken from the signature of
-the file, if present, and the target file&rsquo;s front matter&rsquo;s title or, if
-that is not available, from the file name.  If the region is active, its
-text is used as the link&rsquo;s description instead.  If the active region
-has no text, the inserted link uses just the identifier, as with the
-<code>C-u</code> prefix mentioned above.
+By default, the description of the link is determined thus:
 </p>
+
+<ul class="org-ul">
+<li>If the region is active, its text becomes the description of the
+link. In other words, the region text becomes the link.</li>
+<li>If the region is active but has no text, the description is empty
+and so the link is formatted the same way as if using the <code>C-u</code>
+prefix argument.</li>
+<li>If there is no region active, the description consists of the target
+file&rsquo;s signature and title. The title is retrieved either from the
+front matter or the file name.</li>
+<li>If the target file has no signature, the title is used.</li>
+</ul>
 
 <p>
 Inserted links are automatically buttonized and remain active for as
-long as the buffer is available.  In Org this is handled by the major
+long as the buffer is available. In Org this is handled by the major
 mode: the <code>denote:</code> hyperlink type works exactly like the standard
-<code>file:</code>.  In Markdown and plain text, Denote performs the buttonization
-of those links.  To buttonize links in existing files while visiting
-them, the user must add this snippet to their setup (it already excludes
-Org):
+<code>file:</code> type. In Markdown and plain text, Denote performs the
+buttonization of those links. To buttonize links in existing files
+while visiting them, the user must add this snippet to their setup (it
+already excludes Org):
 </p>
 
 <div class="org-src-container">
@@ -2916,8 +2928,30 @@ case the user needs it.
 
 <p>
 Links are created only for files which qualify as a &ldquo;note&rdquo; for our
-purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>). Users who need to link to Denote files from
+anywhere, can write a simple command to that effect:
 </p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-link-global (file file-type description &amp;optional id-only)
+  "Like the `denote-link', but works in any buffer.
+The FILE, FILE-TYPE, DESCRIPTION, and ID-ONLY have the same meaning as
+in `denote-link'."
+  (interactive
+   (let* ((file (denote-file-prompt nil "Link to FILE"))
+          (file-type (denote-filetype-heuristics buffer-file-name))
+          (description (when (file-exists-p file)
+                         (denote--link-get-description file))))
+     (list file file-type description current-prefix-arg)))
+  (unless (file-exists-p file)
+    (user-error "The linked file does not exists"))
+  (let ((beg (point)))
+    (denote--delete-active-region-content)
+    (insert (denote-format-link file description file-type id-only))
+    (unless (derived-mode-p 'org-mode)
+      (make-button beg (point) 'type 'denote-link-button))))
+</pre>
+</div>
 
 <p>
 Links are styled with the <code>denote-faces-link</code> face, which looks exactly
@@ -3047,7 +3081,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orge724835">
+<pre class="example" id="org24dbc23">
 - link1
 - link2
 - link3
@@ -3065,7 +3099,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgbc6ca42">
+<pre class="example" id="orge383a0d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3302,7 +3336,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org088072d">
+<pre class="example" id="org82c25f5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3317,7 +3351,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org4045648">
+<pre class="example" id="org71fa602">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4528,7 +4562,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org417d996">
+<pre class="example" id="org7944f9d">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6217,7 +6251,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org43a2da8">
+<pre class="example" id="orga217364">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6227,7 +6261,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orge1a060e">
+<pre class="example" id="orge95c1cb">
 emacs -Q
 </pre>
 
@@ -6239,7 +6273,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org2bd9da3">
+<pre class="example" id="org8186a0f">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6301,7 +6335,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6b05b27">
+<pre class="example" id="org01ec76c">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7008,19 +7042,20 @@ leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
 mentalisttraceur, pmenair, relict007.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
-Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alfredo Borrás, Ashton
-Wiersdorf, Benjamin Kästner, Claudiu Tănăselia, Colin McLear, Damien
-Cassou, Elias Storms, Federico Stilman, Florian, Frédéric Willem
-Frank Ehmsen, Glenna D., Guo Yong, Hanspeter Gisler Harold Ollivier,
-Jack Baty, Jay Rajput, Jean-Charles Bagneris, Jens Östlund, Jeremy
-Friesen, Jonathan Sahar, Johan Bolmsjö, Jousimies, Juanjo Presa,
-Julian Hoch, Kai von Fintel, Kaushal Modi, Kolmas, M. Hadi Timachi,
-Maikol Solis, Mark Olson, Mirko Hernandez, Niall Dooley, Paul van
-Gelder, Peter Prevos, Peter Smith, Suhail Singh, Shreyas Ragavan,
-Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus,
-Vick (VicZz), Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj,
-babusri, doolio, duli, drcxd, fingerknight, hpgisler,
-mentalisttraceur, pRot0ta1p, rbenit68, relict007, sienic, sundar bp.</dd>
+Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alexis Purslane,
+Alfredo Borrás, Ashton Wiersdorf, Benjamin Kästner, Claudiu
+Tănăselia, Colin McLear, Damien Cassou, Elias Storms, Federico
+Stilman, Florian, Frédéric Willem Frank Ehmsen, Glenna D., Guo Yong,
+Hanspeter Gisler Harold Ollivier, Jack Baty, Jay Rajput,
+Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen, Jonathan Sahar,
+Johan Bolmsjö, Jousimies, Juanjo Presa, Julian Hoch, Kai von Fintel,
+Kaushal Modi, Kolmas, M. Hadi Timachi, Maikol Solis, Mark Olson,
+Mirko Hernandez, Niall Dooley, Paul van Gelder, Peter Prevos, Peter
+Smith, Suhail Singh, Shreyas Ragavan, Stefan Thesing, Summer Emacs,
+Sven Seebeck, Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Wade
+Mealing, Yi Liu, Ypot, atanasj, babusri, doolio, duli, drcxd,
+fingerknight, hpgisler, mentalisttraceur, pRot0ta1p, rbenit68,
+relict007, sienic, sundar bp.</dd>
 </dl>
 
 <p>
