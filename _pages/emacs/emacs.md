@@ -164,9 +164,9 @@ throughout the buffer, (ii) limited to the current definition (per
 (iv) from point to the beginning of the buffer.
 
 These substitutions are meant to be as quick as possible and, as such,
-differ from the standard `query-replace` (which I still use).  The
-provided commands prompt for substitute text and perform the
-substitution outright, without moving the point.
+differ from the standard `query-replace` (which I still use when
+necessary). The provided commands prompt for substitute text and
+perform the substitution outright, without moving the point.
 
 + Package name (GNU ELPA): `substitute`
 + Official manual: <https://protesilaos.com/emacs/substitute>
