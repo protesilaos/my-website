@@ -3,6 +3,10 @@ title: "Greece Euro 2004 reminiscences"
 excerpt: "My impression of events during the UEFA Euro 2004 football tournament when Greece was crowned unexpected champion."
 ---
 
+This is an entry from my journal.
+
+* * *
+
 The UEFA Euro 2024 football tournament starts tomorrow. I now realise
 that it has been 20 years since the 2004 edition when Greece, a minnow
 in the football world, won the whole thing with an impressive display
