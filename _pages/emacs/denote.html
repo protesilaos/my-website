@@ -129,10 +129,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.9. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.10. Visiting linked files via the minibuffer</a></li>
 <li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.11. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.12. Miscellaneous information about links</a>
+<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.12. Fontify links in non-Org buffers</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.13. Miscellaneous information about links</a>
 <ul>
-<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.12.1. Aliases for the linking commands</a></li>
-<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.12.2. The <code>denote-link-description-function</code> to format links</a></li>
+<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.13.1. Aliases for the linking commands</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.13.2. The <code>denote-link-description-function</code> to format links</a></li>
 </ul>
 </li>
 </ul>
@@ -1288,7 +1289,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgaf27bf0">
+<pre class="example" id="org180261c">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1918,7 +1919,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgfcd46d2">
+<pre class="example" id="orge7847b5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1938,7 +1939,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgb2fc29d">
+<pre class="example" id="org28945ef">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2498,7 +2499,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org45a64f4">
+<pre class="example" id="orga97e12a">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2665,7 +2666,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org4455d13">
+<pre class="example" id="org05697e2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2677,7 +2678,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6aa81ae">
+<pre class="example" id="orgb1747c2">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2691,7 +2692,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgf770da3">
+<pre class="example" id="org60a68d6">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2705,7 +2706,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org1dc4bf9">
+<pre class="example" id="org7ad8362">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -2920,7 +2921,8 @@ Markdown they are expressed as <code>[DESCRIPTION](denote:IDENTIFIER)</code>.
 <p>
 When <code>denote-link</code> is called with a prefix argument (<code>C-u</code> by
 default), it formats links like <code>[[denote:IDENTIFIER]]</code>, regardless of
-file type. The user might prefer its simplicity.
+file type (<a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">Fontify links in non-Org buffers</a>). The user might prefer
+its simplicity.
 </p>
 
 <p>
@@ -2938,26 +2940,6 @@ file&rsquo;s signature and title (<a href="#h:066e5221-9844-474b-8858-398398646f
 title is retrieved either from the front matter or the file name.</li>
 <li>If the target file has no signature, the title is used.</li>
 </ul>
-
-<p>
-Inserted links are automatically buttonized and remain active for as
-long as the buffer is available. In Org this is handled by the major
-mode: the <code>denote:</code> hyperlink type works exactly like the standard
-<code>file:</code> type. In Markdown and plain text, Denote performs the
-buttonization of those links. To buttonize links in existing files
-while visiting them, the user must add this snippet to their setup (it
-already excludes Org):
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
-</pre>
-</div>
-
-<p>
-The <code>denote-link-buttonize-buffer</code> is also an interactive function in
-case the user needs it.
-</p>
 
 <p>
 Links are created only for files which qualify as a &ldquo;note&rdquo; for our
@@ -2991,15 +2973,6 @@ Links are styled with the <code>denote-faces-link</code> face, which looks exact
 like an ordinary link by default.  This is just a convenience for the
 user/theme in case they want <code>denote:</code> links to remain distinct from
 other links.
-</p>
-
-<p>
-In files whose major mode is <code>markdown-mode</code>, the default key binding
-<code>C-c C-o</code> (which calls the command <code>markdown-follow-thing-at-point</code>)
-correctly resolves <code>denote:</code> links. This method works in addition to
-the <code>RET</code> key, which is made available by the aforementioned
-buttonization. Interested users can refer to the function
-<code>denote-link-markdown-follow</code> for the implementation details.
 </p>
 </div>
 </div>
@@ -3111,7 +3084,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org0b92034">
+<pre class="example" id="orgbda7454">
 - link1
 - link2
 - link3
@@ -3129,7 +3102,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org897f01b">
+<pre class="example" id="org72d1e2d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3362,7 +3335,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4b80506">
+<pre class="example" id="org1a9576c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3377,7 +3350,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org4bf5f88">
+<pre class="example" id="org0512535">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3581,12 +3554,62 @@ system path and converts it into its identifier.</dd>
 </dl>
 </div>
 </div>
+<div id="outline-container-h:156c5ea3-147b-4f9d-a404-86a00558c60a" class="outline-3">
+<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">7.12.</span> Fontify links in non-Org buffers</h3>
+<div class="outline-text-3" id="text-h:156c5ea3-147b-4f9d-a404-86a00558c60a">
+<p>
+[ Part of 3.0.0-dev. ]
+</p>
+
+<p>
+Denote links are automatically fontified in Org buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
+This means that Org recognises the link and applies the relevant
+properties to it to make it clickable/actionable. Other major modes,
+such as <code>markdown-mode</code> (for <code>.md</code> files) or <code>text-mode</code> (for <code>.txt</code>
+files) do not have this feature built into them. Users can still get
+the same behaviour as with Org by activating the <code>denote-fontify-links-mode</code>.
+</p>
+
+<p>
+The <code>denote-fontify-links-mode</code> is a buffer-local minor mode. Users
+can enable it automatically in all plain text files with something
+like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'text-mode-hook #'denote-fontify-links-mode)
+</pre>
+</div>
+
+<p>
+The <code>text-mode-hook</code> applies to all modes derived from <code>text-mode</code>,
+including <code>markdown-mode</code>. Though a more explicit setup does no harm:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'markdown-mode-hook #'denote-fontify-links-mode)
+</pre>
+</div>
+
+<p>
+Because Org already recognises <code>denote:</code> links, the minor mode
+<code>denote-fontify-links-mode</code> will do nothing in Org buffers.
+</p>
+
+<p>
+In files whose major mode is <code>markdown-mode</code>, the default key binding
+<code>C-c C-o</code> (which calls the command <code>markdown-follow-thing-at-point</code>)
+correctly resolves <code>denote:</code> links. Interested users can refer to the
+function <code>denote-link-markdown-follow</code> for the implementation details.
+</p>
+</div>
+</div>
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.12.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.13.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 </div>
 <div id="outline-container-h:078856d9-f608-43a8-be84-f2cad4c27d0e" class="outline-4">
-<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.12.1.</span> Aliases for the linking commands</h4>
+<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.13.1.</span> Aliases for the linking commands</h4>
 <div class="outline-text-4" id="text-h:078856d9-f608-43a8-be84-f2cad4c27d0e">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -3599,7 +3622,7 @@ select commands.
 </div>
 </div>
 <div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
-<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.12.2.</span> The <code>denote-link-description-function</code> to format links</h4>
+<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.13.2.</span> The <code>denote-link-description-function</code> to format links</h4>
 <div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
 The user option <code>denote-link-description-function</code> takes as its value
@@ -4566,7 +4589,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org4c3348c">
+<pre class="example" id="org5cbfcd1">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5355,7 +5378,7 @@ Everything is in place to set up the package.
 
 ;; If you use Markdown or plain text files (Org renders links as buttons
 ;; right away)
-(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+(add-hook 'text-mode-hook #'denote-fontify-links-mode)
 
 ;; We use different ways to specify a path for demo purposes.
 (setq denote-dired-directories
@@ -6232,7 +6255,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd2fd70c">
+<pre class="example" id="orga8e9156">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6242,7 +6265,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org9aea0fd">
+<pre class="example" id="org2ed98b0">
 emacs -Q
 </pre>
 
@@ -6254,7 +6277,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgb9943d1">
+<pre class="example" id="org8209e64">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6315,7 +6338,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org7470e4d">
+<pre class="example" id="orgb00ea96">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6989,17 +7012,17 @@ Denote is meant to be a collective effort.  Every bit of help matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or the manual</dt><dd>Abin Simon, Adam Růžička,
-Alan Schmitt, Alexandre Rousseau, Ashton Wiersdorf, Benjamin
-Kästner, Bruno Boal, Charanjit Singh, Clemens Radermacher, Colin
-McLear, Damien Cassou, Eduardo Grajeda, Elias Storms, Eshel Yaron,
-Florian, Glenna D., Graham Marlow, Hilde Rhyne, Ivan Sokolov, Jack
-Baty, Jean-Charles Bagneris, Jean-Philippe Gagné Guay, Jianwei Hou,
-Joseph Turner, Jürgen Hötzel, Kaushal Modi, Kai von Fintel, Kostas
-Andreadis, Kristoffer Balintona, Kyle Meyer, Marc Fargas, Matthew
-Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter Prevos, Philip
-Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan Monnier,
-Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
+<dt>Contributions to code or the manual</dt><dd>Abdul-Lateef Haji-Ali, Abin
+Simon, Adam Růžička, Alan Schmitt, Alexandre Rousseau, Ashton
+Wiersdorf, Benjamin Kästner, Bruno Boal, Charanjit Singh, Clemens
+Radermacher, Colin McLear, Damien Cassou, Eduardo Grajeda, Elias
+Storms, Eshel Yaron, Florian, Glenna D., Graham Marlow, Hilde Rhyne,
+Ivan Sokolov, Jack Baty, Jean-Charles Bagneris, Jean-Philippe Gagné
+Guay, Jianwei Hou, Joseph Turner, Jürgen Hötzel, Kaushal Modi, Kai
+von Fintel, Kostas Andreadis, Kristoffer Balintona, Kyle Meyer, Marc
+Fargas, Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Peter
+Prevos, Philip Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan
+Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
 Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101, ezchi, jarofromel,
 leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
 mentalisttraceur, pmenair, relict007.</dd>
