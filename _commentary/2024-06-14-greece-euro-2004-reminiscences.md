@@ -19,7 +19,7 @@ For me and many of my friends back then, the 2004 achievement was not
 a major surprise. Greece had already shown how strong its defensive
 game was in the qualifiers leading up to the final tournament,
 including a key victory away from home versus Spain in the summer
-of 2023. Anyone who thought Greece would be a pushover was simply not
+of 2003. Anyone who thought Greece would be a pushover was simply not
 paying attention to what national team coach, Otto Rehhagel, was
 building (yes, Otto Rehhagel is the same manager who led
 Kaiserslautern to the German national championship on the same year
