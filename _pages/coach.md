@@ -6,6 +6,11 @@ permalink: /coach/
 redirect_from: /tutor/
 ---
 
+[ This page is also available in
+  [Chinese](https://protesilaos.com/cn/coach/) and
+  [Spanish](https://protesilaos/es/coach), thanks to people who have
+  volunteered to send me translations. ]
+
 I provide private lessons or services on Emacs, Linux, and Life in
 general.  My skills as a coach:
 
