@@ -34,7 +34,7 @@ Die Unterrichtsstunden haben kein festes Format: wir erarbeiten das,
 was du dir wünscht und was deinem Kenntnisstand entspricht. Einige
 Beispiele:
 
-- Erarbeitung der Grundlagen von Emacs Lisp, um dir zu helfen, dein
+- Erarbeitung der Grundlagen von Emacs Lisp, um dir zu helfen, deinen
   Emacs besser zu konfigurieren.
 - Erstellung von eigenem Code, um etwas Gewünschtes mit Emacs zu
   implementieren.
