@@ -71,14 +71,17 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">3.6. Open an existing note or create it if missing</a></li>
 <li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.7. Maintain separate directory silos for notes</a>
 <ul>
-<li><a href="#h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">3.7.1. Use custom commands to select a silo</a></li>
-<li><a href="#h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">3.7.2. The <code>denote-silo-extras.el</code></a></li>
-<li><a href="#h:fed09992-7c43-4237-b48f-f654bc29d1d8">3.7.3. Make Org export work with silos</a></li>
+<li><a href="#h:e0d60749-194d-4677-b943-5e98fbf9ad1d">3.7.1. How to switch a silo</a></li>
+<li><a href="#h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">3.7.2. Use custom commands to select a silo</a></li>
+<li><a href="#h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">3.7.3. The <code>denote-silo-extras.el</code></a></li>
+<li><a href="#h:fed09992-7c43-4237-b48f-f654bc29d1d8">3.7.4. Make Org export work with silos</a></li>
+<li><a href="#h:547e1aac-4b48-403c-8063-ddb74b55e135">3.7.5. Make any Denote command work in a silo from anywhere</a></li>
 </ul>
 </li>
-<li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.8. Exclude certain directories from all operations</a></li>
-<li><a href="#h:69e518ee-ed43-40ab-a5f4-c780a23e5358">3.9. Exclude certain keywords from being inferred</a></li>
-<li><a href="#h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">3.10. Use Denote commands from the menu bar or context menu</a></li>
+<li><a href="#h:53db09de-2cec-4670-b163-5cb791f997b4">3.8. Exclude certain files from file prompts</a></li>
+<li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.9. Exclude certain directories from all operations</a></li>
+<li><a href="#h:69e518ee-ed43-40ab-a5f4-c780a23e5358">3.10. Exclude certain keywords from being inferred</a></li>
+<li><a href="#h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">3.11. Use Denote commands from the menu bar or context menu</a></li>
 </ul>
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
@@ -1272,12 +1275,12 @@ file, with the following contents:
 </div>
 
 <p>
-When inside the directory that contains this <code>.dir-locals.el</code> file, all
-Denote commands/functions for note creation, linking, the inference of
-available keywords, et cetera will use the silo as their point of
-reference.  They will not read the global value of <code>denote-directory</code>.
-The global value of <code>denote-directory</code> is read everywhere else except
-the silos.
+When inside the directory that contains this <code>.dir-locals.el</code> file,
+all Denote commands/functions for note creation, linking, the
+inference of available keywords, et cetera will use the silo as their
+point of reference (<a href="#h:e0d60749-194d-4677-b943-5e98fbf9ad1d">How to switch a silo</a>). They will not read the
+global value of <code>denote-directory</code>. The global value of
+<code>denote-directory</code> is read everywhere else except the silos.
 </p>
 
 <p>
@@ -1289,7 +1292,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org180261c">
+<pre class="example" id="org038ffad">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1381,8 +1384,26 @@ Feel welcome to ask for help if the information provided herein is not
 sufficient.  The manual shall be expanded accordingly.
 </p>
 </div>
+<div id="outline-container-h:e0d60749-194d-4677-b943-5e98fbf9ad1d" class="outline-4">
+<h4 id="h:e0d60749-194d-4677-b943-5e98fbf9ad1d"><span class="section-number-4">3.7.1.</span> How to switch a silo</h4>
+<div class="outline-text-4" id="text-h:e0d60749-194d-4677-b943-5e98fbf9ad1d">
+<p>
+Switching to a silo directory will make all Denote commands use the
+silo&rsquo;s path as the <code>denote-directory</code>, instead of the global value of
+that variable (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>). There are
+three ways to switch to a silo:
+</p>
+
+<ol class="org-ol">
+<li>Visit a file inside of that directory.</li>
+<li>Use the <code>dired</code> command to open the directory in a buffer.</li>
+<li>Use the command <code>cd</code> to select the directory without moving away
+from the current buffer.</li>
+</ol>
+</div>
+</div>
 <div id="outline-container-h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0" class="outline-4">
-<h4 id="h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0"><span class="section-number-4">3.7.1.</span> Use custom commands to select a silo</h4>
+<h4 id="h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0"><span class="section-number-4">3.7.2.</span> Use custom commands to select a silo</h4>
 <div class="outline-text-4" id="text-h:0f72e6ea-97f0-42e1-8fd4-0684af0422e0">
 <p>
 [ As part of version 2.1.0, the contents of this section
@@ -1471,7 +1492,7 @@ To see another example of a wrapper function that <code>let</code> binds
 </div>
 </div>
 <div id="outline-container-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85" class="outline-4">
-<h4 id="h:e43baf95-f201-4fec-8620-c0eb5eaa1c85"><span class="section-number-4">3.7.2.</span> The <code>denote-silo-extras.el</code></h4>
+<h4 id="h:e43baf95-f201-4fec-8620-c0eb5eaa1c85"><span class="section-number-4">3.7.3.</span> The <code>denote-silo-extras.el</code></h4>
 <div class="outline-text-4" id="text-h:e43baf95-f201-4fec-8620-c0eb5eaa1c85">
 <p>
 The <code>denote-silo-extras.el</code> provides optional convenience functions for
@@ -1510,7 +1531,7 @@ note-creation command to call from inside that silo (<a href="#h:17896c8c-d97a-4
 </div>
 </div>
 <div id="outline-container-h:fed09992-7c43-4237-b48f-f654bc29d1d8" class="outline-4">
-<h4 id="h:fed09992-7c43-4237-b48f-f654bc29d1d8"><span class="section-number-4">3.7.3.</span> Make Org export work with silos</h4>
+<h4 id="h:fed09992-7c43-4237-b48f-f654bc29d1d8"><span class="section-number-4">3.7.4.</span> Make Org export work with silos</h4>
 <div class="outline-text-4" id="text-h:fed09992-7c43-4237-b48f-f654bc29d1d8">
 <p>
 The Org export infrastructure is designed to ignore directory-local
@@ -1564,7 +1585,7 @@ accordingly:
    ;;;     (info "(emacs) Directory Variables")
 
    ((nil . ((denote-directory . "/path/to/silo/")
-            (denote-org-front-matter . 
+            (denote-org-front-matter .
              "#+title:      %s
 #+date:       %s
 #+filetags:   %s
@@ -1584,9 +1605,86 @@ accordingly:
 </ol>
 </div>
 </div>
+<div id="outline-container-h:547e1aac-4b48-403c-8063-ddb74b55e135" class="outline-4">
+<h4 id="h:547e1aac-4b48-403c-8063-ddb74b55e135"><span class="section-number-4">3.7.5.</span> Make any Denote command work in a silo from anywhere</h4>
+<div class="outline-text-4" id="text-h:547e1aac-4b48-403c-8063-ddb74b55e135">
+<p>
+Denote silos are instantiated with a directory-local value for the
+<code>denote-directory</code> (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directory silos for notes</a>). This
+means that all Denote commands will operate on the silo when the user
+is inside of that directory (<a href="#h:e0d60749-194d-4677-b943-5e98fbf9ad1d">How to switch a silo</a>). Sometimes though,
+the user may not want to switch to the silo, then call a Denote
+command, and finally switch away from the silo: this context change
+can be done only for the duration of a command.
+</p>
+
+<p>
+Here we show how easy it is to transiently bind the value of the
+<code>denote-directory</code> to the path of a silo (well, any path for that
+matter).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-journal-extras-new-or-existing-entry ()
+  "Like `denote-journal-extras-new-or-existing-entry' for my silo."
+  (interactive)
+  (let ((denote-directory "/path/to/silo/"))
+    (call-interactively 'denote-journal-extras-new-or-existing-entry)))
+</pre>
+</div>
+
+<p>
+All the user needs to do here is change the exact command that is
+passed to the <code>call-interactively</code>. We use an example from the
+journaling conveniences that we provide (<a href="#h:4a6d92dd-19eb-4fcc-a7b5-05ce04da3a92">Keep a journal or diary</a>).
+</p>
+
+<p>
+With this in place, the user can now call their own command, such as
+the <code>my-denote-journal-extras-new-or-existing-entry</code> shown above, when
+they need to write a note there without manually switching to the
+silo. Of course, these commands can be assigned to key bindings for
+greater convenience. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c n j") #'my-denote-journal-extras-new-or-existing-entry)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-h:53db09de-2cec-4670-b163-5cb791f997b4" class="outline-3">
+<h3 id="h:53db09de-2cec-4670-b163-5cb791f997b4"><span class="section-number-3">3.8.</span> Exclude certain files from file prompts</h3>
+<div class="outline-text-3" id="text-h:53db09de-2cec-4670-b163-5cb791f997b4">
+<p>
+[ Part of 3.0.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-excluded-files-regexp</code> is a regular expression
+that matches files names which should be excluded from all Denote file
+prompts. Such prompts are present when linking to a file with one of
+the many commands, like <code>denote-link</code> (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>), or when trying
+to open a file that may or may not exist (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an existing note or create it if missing</a>).
+</p>
+
+<p>
+Functions that check for files include <code>denote-directory-files</code> and
+<code>denote-file-prompt</code>.
+</p>
+
+<p>
+The match is performed with <code>string-match-p</code>.
+</p>
+
+<p>
+<a href="#h:c916d8c5-540a-409f-b780-6ccbd90e088e">For developers or advanced users</a>.
+</p>
+</div>
 </div>
 <div id="outline-container-h:8458f716-f9c2-4888-824b-2bf01cc5850a" class="outline-3">
-<h3 id="h:8458f716-f9c2-4888-824b-2bf01cc5850a"><span class="section-number-3">3.8.</span> Exclude certain directories from all operations</h3>
+<h3 id="h:8458f716-f9c2-4888-824b-2bf01cc5850a"><span class="section-number-3">3.9.</span> Exclude certain directories from all operations</h3>
 <div class="outline-text-3" id="text-h:8458f716-f9c2-4888-824b-2bf01cc5850a">
 <p>
 The user option <code>denote-excluded-directories-regexp</code> instructs all
@@ -1621,7 +1719,7 @@ The match is performed with <code>string-match-p</code>.
 </div>
 </div>
 <div id="outline-container-h:69e518ee-ed43-40ab-a5f4-c780a23e5358" class="outline-3">
-<h3 id="h:69e518ee-ed43-40ab-a5f4-c780a23e5358"><span class="section-number-3">3.9.</span> Exclude certain keywords from being inferred</h3>
+<h3 id="h:69e518ee-ed43-40ab-a5f4-c780a23e5358"><span class="section-number-3">3.10.</span> Exclude certain keywords from being inferred</h3>
 <div class="outline-text-3" id="text-h:69e518ee-ed43-40ab-a5f4-c780a23e5358">
 <p>
 The user option <code>denote-excluded-keywords-regexp</code> omits keywords that
@@ -1640,7 +1738,7 @@ The match is performed with <code>string-match-p</code>.
 </div>
 </div>
 <div id="outline-container-h:c4290e15-e97e-4a9b-b8db-6b9738e37e78" class="outline-3">
-<h3 id="h:c4290e15-e97e-4a9b-b8db-6b9738e37e78"><span class="section-number-3">3.10.</span> Use Denote commands from the menu bar or context menu</h3>
+<h3 id="h:c4290e15-e97e-4a9b-b8db-6b9738e37e78"><span class="section-number-3">3.11.</span> Use Denote commands from the menu bar or context menu</h3>
 <div class="outline-text-3" id="text-h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">
 <p>
 Denote registers a submenu for the <code>menu-bar-mode</code>.  Users will find
@@ -1919,7 +2017,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge7847b5">
+<pre class="example" id="orgf5d4096">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -1939,7 +2037,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org28945ef">
+<pre class="example" id="org0eb9ed5">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2499,7 +2597,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orga97e12a">
+<pre class="example" id="orga9c8cb3">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2666,7 +2764,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org05697e2">
+<pre class="example" id="org8b6d006">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2678,7 +2776,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgb1747c2">
+<pre class="example" id="org116835d">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2692,7 +2790,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org60a68d6">
+<pre class="example" id="orgba065e3">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2706,7 +2804,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org7ad8362">
+<pre class="example" id="orgc23c2dc">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3084,7 +3182,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgbda7454">
+<pre class="example" id="org9427c70">
 - link1
 - link2
 - link3
@@ -3102,7 +3200,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org72d1e2d">
+<pre class="example" id="orgc7783c1">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3335,7 +3433,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org1a9576c">
+<pre class="example" id="orgad2c516">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3350,7 +3448,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org0512535">
+<pre class="example" id="orgaf4f9df">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3571,29 +3669,30 @@ the same behaviour as with Org by activating the <code>denote-fontify-links-mode
 </p>
 
 <p>
-The <code>denote-fontify-links-mode</code> is a buffer-local minor mode. Users
-can enable it automatically in all plain text files with something
-like this:
+The <code>denote-fontify-links-mode</code> is a buffer-local minor mode. Users can enable
+it automatically in plain text files that correspond to denote notes with
+something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'text-mode-hook #'denote-fontify-links-mode)
+<pre class="src src-emacs-lisp">(add-hook 'text-mode-hook #'denote-fontify-links-mode-maybe)
 </pre>
 </div>
 
 <p>
-The <code>text-mode-hook</code> applies to all modes derived from <code>text-mode</code>,
-including <code>markdown-mode</code>. Though a more explicit setup does no harm:
+The <code>text-mode-hook</code> applies to all modes derived from <code>text-mode</code>, including
+<code>markdown-mode</code>. Though a more explicit setup does no harm:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'markdown-mode-hook #'denote-fontify-links-mode)
+<pre class="src src-emacs-lisp">(add-hook 'markdown-mode-hook #'denote-fontify-links-mode-maybe)
 </pre>
 </div>
 
 <p>
-Because Org already recognises <code>denote:</code> links, the minor mode
-<code>denote-fontify-links-mode</code> will do nothing in Org buffers.
+Because Org already recognises <code>denote:</code> links, the function
+<code>denote-fontify-links-mode-maybe</code> will not enable the mode
+<code>denote-fontify-links-mode</code> in Org buffers.
 </p>
 
 <p>
@@ -4589,7 +4688,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org5cbfcd1">
+<pre class="example" id="orga5ea05e">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -5618,14 +5717,17 @@ to override what this function returns.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-directory-files</code></dt><dd>Return list of absolute file
-paths in variable <code>denote-directory</code>. Files only need to have an
-identifier. The return value may thus include file types that are not
-implied by <code>denote-file-type</code>. With optional <code>FILES-MATCHING-REGEXP</code>,
-restrict files to those matching the given regular expression. With
-optional <code>OMIT-CURRENT</code> as a non-nil value, do not include the current
-Denote file in the returned list. With optional <code>TEXT-ONLY</code> as a
-non-nil value, limit the results to text files that satisfy
-<code>denote-file-is-note-p</code>.</dd>
+paths in variable <code>denote-directory</code>. Files that match
+<code>denote-excluded-files-regexp</code> are excluded from the list. Files
+only need to have an identifier. The return value may thus include
+file types that are not implied by <code>denote-file-type</code>. With optional
+<code>FILES-MATCHING-REGEXP</code>, restrict files to those matching the given
+regular expression. With optional <code>OMIT-CURRENT</code> as a non-nil value,
+do not include the current Denote file in the returned list. With
+optional <code>TEXT-ONLY</code> as a non-nil value, limit the results to text
+files that satisfy <code>denote-file-is-note-p</code>. [ Updated as part of
+3.0.0-dev to exclude files that match the
+<code>denote-excluded-files-regexp</code> (<a href="#h:53db09de-2cec-4670-b163-5cb791f997b4">Exclude certain files from file prompts</a>). ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -5859,14 +5961,16 @@ is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The
 
 <dl class="org-dl">
 <dt>Function <code>denote-file-prompt</code></dt><dd>Prompt for file in variable
-<code>denote-directory</code>. With optional <code>FILES-MATCHING-REGEXP</code>, filter the
-candidates per the given regular expression. With optional
-<code>PROMPT-TEXT</code>, use it instead of the default call to select a file.
-With optional <code>NO-REQUIRE-MATCH</code> accept the given input as-is. Return
-the absolute path to the matching file. [ Revised as part of
-3.0.0-dev to include the new <code>NO-REQUIRE-MATCH</code>
-parameter. This is to simplify how we use the various &ldquo;&#x2026; or create&rdquo;
-commands internally. ]</dd>
+<code>denote-directory</code>. Files that match <code>denote-excluded-files-regexp</code>
+are excluded from the list. With optional <code>FILES-MATCHING-REGEXP</code>,
+filter the candidates per the given regular expression. With
+optional <code>PROMPT-TEXT</code>, use it instead of the default call to select
+a file. With optional <code>NO-REQUIRE-MATCH</code> accept the given input
+as-is. Return the absolute path to the matching file. [ Revised as
+part of 3.0.0-dev to include the new
+<code>NO-REQUIRE-MATCH</code> parameter. This is to simplify how we use the
+various &ldquo;&#x2026; or create&rdquo; commands internally. Also, the prompt
+respects the user option <code>denote-excluded-files-regexp</code> (<a href="#h:53db09de-2cec-4670-b163-5cb791f997b4">Exclude certain files from file prompts</a>).]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6255,7 +6359,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orga8e9156">
+<pre class="example" id="org62f4a8a">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6265,7 +6369,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org2ed98b0">
+<pre class="example" id="org8006c12">
 emacs -Q
 </pre>
 
@@ -6277,7 +6381,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org8209e64">
+<pre class="example" id="org1e5ec6f">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6338,7 +6442,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgb00ea96">
+<pre class="example" id="org5db17c7">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7037,11 +7141,12 @@ Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen, Jonathan Sahar,
 Johan Bolmsjö, Jousimies, Juanjo Presa, Julian Hoch, Kai von Fintel,
 Kaushal Modi, Kolmas, M. Hadi Timachi, Maikol Solis, Mark Olson,
 Mirko Hernandez, Niall Dooley, Paul van Gelder, Peter Prevos, Peter
-Smith, Suhail Singh, Shreyas Ragavan, Stefan Thesing, Summer Emacs,
-Sven Seebeck, Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Wade
-Mealing, Yi Liu, Ypot, atanasj, azegas, babusri, doolio, duli,
-drcxd, fingerknight, hpgisler, mentalisttraceur, pRot0ta1p,
-rbenit68, relict007, sienic, sundar bp.</dd>
+Smith, Samuel W. Flint, Suhail Singh, Shreyas Ragavan, Stefan
+Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Vick
+(VicZz), Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj, azegas,
+babusri, doolio, duli, drcxd, elge70, fingerknight, hpgisler,
+mentalisttraceur, pRot0ta1p, rbenit68, relict007, sienic, sundar bp,
+zadca123</dd>
 </dl>
 
 <p>
