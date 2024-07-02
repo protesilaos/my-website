@@ -19,7 +19,7 @@ taught me a lot along the way.
 
 ## The switches I was using before
 
-The Iris keyboard I got from Keebio (thanks for "Andreas" for the
+The Iris keyboard I got from Keebio (thanks to "Andreas" for the
 donation) shipped with the Durock Shrimp switches. These have a
 tactile behaviour that is marketed as "silent". Indeed, they are on
 the quiet side and I was originally impressed with their performance.
