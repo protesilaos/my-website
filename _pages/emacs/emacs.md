@@ -60,6 +60,21 @@ facilities to rename files, regardless of file type.
 + Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
   Note Only The Epiphenomenal.
 
+## Consult-Denote
+
+Glue code to integrate my `denote` package with Daniel Mendler's
+`consult`. The idea is to enhance minibuffer interactions, such as by
+providing a preview of the file-to-linked/opened and by adding more
+sources to the `consult-buffer` command.
+
++ Package name (GNU ELPA): `consult-denote`
++ Official manual: not available yet.
++ Change log: not available yet.
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/consult-denote>
++ Backronym: Consult-Orchestrated Navigation and Selection of
+  Unambiguous Targets...denote.
+
 ## Ef (εὖ) themes
 
 The `ef-themes` are a collection of light and dark themes for GNU
