@@ -17,11 +17,11 @@ started, while it also provides custom code for all sorts of more
 advanced customisations.
 
 Since August 2020, the original Modus themes (`modus-operandi`,
-`modus-vivendi`) are built into Emacs version 28 or higher.  Emacs 28
-ships with `modus-themes` version `1.6.0`.  Emacs 29 includes version
-`3.0.0`.  Emacs 30 provides a newer, refactored version that
-thoroughly refashions how the themes are implemented and customized.
-Such major versions are not backward-compatible due to the limited
+`modus-vivendi`) are built into Emacs version 28 or higher. Emacs 28
+ships with `modus-themes` version `1.6.0`. Emacs 29 includes version
+`3.0.0`. Emacs 30 provides version `4.4.0`. Version 4 is a major
+refactoring of how the themes are implemented and customized. Such
+major versions are not backward-compatible due to the limited
 resources at my disposal to support multiple versions of Emacs and of
 the themes across the years.
 
