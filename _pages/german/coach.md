@@ -8,7 +8,7 @@ permalink: /de/coach/
 [ This is a translation of my coaching page: <https://protesilaos.com/coach>. ]
 
 Ich biete Privatunterricht oder Dienstleistungen zu Emacs, Linux und
-das Leben im Allgemeinen. Meine Fähigkeiten als Coach:
+dem Leben im Allgemeinen an. Meine Fähigkeiten als Coach:
 
 - Geduldig
 - Mitfühlend
@@ -28,7 +28,7 @@ Beiträge.
 
 Der Privatunterricht findet immer unter vier Augen statt. Ich werde
 dich nie bitten, mit einer anderen Person in eine Gruppe zu gehen oder
-einen Dritten involvieren.
+eine dritte Person zu involvieren.
 
 Die Unterrichtsstunden haben kein festes Format: wir erarbeiten das,
 was du dir wünscht und was deinem Kenntnisstand entspricht. Einige
@@ -36,7 +36,7 @@ Beispiele:
 
 - Erarbeitung der Grundlagen von Emacs Lisp, um dir zu helfen, deinen
   Emacs besser zu konfigurieren.
-- Erstellung von eigenem Code, um etwas Gewünschtes mit Emacs zu
+- Schreiben von eigenem Code, um etwas Gewünschtes mit Emacs zu
   implementieren.
 - Vertiefung in fortgeschrittene Themen, wie der Erweiterung von
   Grundfunktionalitäten bereits eingebauter Emacs-Pakete.
@@ -50,7 +50,7 @@ kombinieren!
 - Du kannst direkt Fragen stellen und individuelles Feedback erhalten.
 - Auch wenn wir an einem technischen Thema arbeiten, können wir über
   andere Bereiche wie Arbeitsabläufe und Methodik sprechen.
-- Wir üben Englisch. Wir können es sogar auf Griechisch machen.
+- Wir üben auf Englisch. Wir können auch Griechisch sprechen.
 - Es ist eine menschliche Interaktion: wir lächeln und haben eine gute
   Zeit. Kein Problem, kein Stress!
 
@@ -63,7 +63,7 @@ verteilt werden, je nach deinem Ermessen.
 
 ## Arbeitszeiten
 
-Ich bin jeden Tag in der Woche verfügbar. Ich lebe momentan in Zypern.
+Ich bin an jedem Tag in der Woche verfügbar. Ich lebe momentan in Zypern.
 Die Zeitzone ist die von Europa/Athen. Kontaktiere mich und wir werden
 einen Termin ausmachen, der beiden Seiten passt.
 
@@ -71,9 +71,9 @@ einen Termin ausmachen, der beiden Seiten passt.
 
 Der Unterricht kostet 20 Euro pro Stunde.
 
-Studentinnen und Studenten haben Anspruch auf den reduzierten Preis
-von 15 Euro pro Stunde. Ich werde nicht für einen Nachweis fragen, ob
-du Student bist oder nicht: Ich vertraue auf deine Ehrlichkeit.
+Studierende haben Anspruch auf den reduzierten Preis von 15 Euro 
+pro Stunde. Ich werde nicht nach einem Nachweis fragen, ob
+du studierst oder nicht: Ich vertraue auf deine Ehrlichkeit.
 
 ## Zahlungen
 
@@ -107,9 +107,9 @@ Die Zahlungsmöglichkeiten sind wie folgt:
 Ich akzeptiere alle, unabhängig von ihrem kulturellen Hintergrund,
 ihrer sexuellen Orientierung, ihren Lebensgewohnheiten, et cetera.
 Aufgrund der Art der Themen, die ich behandele, erwarte ich, dass die
-Schüler erwachsen sind. Im Prinzip kann ich auch jüngere Personen
-unterrichten, sofern ich die ausdrückliche Erlaubnis der
-Erziehungsberechtigten erhalte.
+Schülerinnen und Schüler erwachsen sind. Im Prinzip kann ich auch
+jüngere Personen unterrichten, sofern ich die ausdrückliche Erlaubnis
+der Erziehungsberechtigten erhalte.
 
 ## Datenschutzerklärung
 
@@ -121,7 +121,7 @@ frei, die Kamera nicht zu aktivieren.
 ## Vorliebe für freie Software
 
 Ich möchte, dass wir uns so weit wie möglich auf freie Software
-verlassen. Dazu gehören freiheitliche Dateiformate wie `.txt`, `.md`,
+verlassen. Dazu gehören freie Dateiformate wie `.txt`, `.md`,
 `.org` sowie Videogesprächssoftware wie Jitsi oder Jami:
 
 - <https://meet.jit.si/>
@@ -135,5 +135,5 @@ mich entsprechend anpassen.
 
 Ich freue mich auf deine Nachricht:
 <https://protesilaos.com/contact/>. Es ist nicht nötig, Förmlichkeiten
-wie „Herr“ zu verwenden. Nenne mich bei meinem Namen, „Protesilaos“,
+wie „Herr Stavrou“ zu verwenden. Nenne mich bei meinem Namen, „Protesilaos“,
 oder bei meinem Spitznamen: „Prot“.
