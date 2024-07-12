@@ -223,9 +223,10 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:63c2f8d4-79ed-4c55-b3ef-e048a05802c0">23.6. I add TODOs to my notes; will many files slow down the Org agenda?</a></li>
 <li><a href="#h:a7fd5e0a-78f7-434e-aa2e-e150479c16e2">23.7. I want to sort by last modified in Dired, why won&rsquo;t Denote let me?</a></li>
 <li><a href="#h:764b5e87-cd22-4937-b5fc-af3892d6b3d8">23.8. How do you handle the last modified case?</a></li>
-<li><a href="#h:893eec49-d7be-4603-bcff-fcc247244011">23.9. Speed up backlinks&rsquo; buffer creation?</a></li>
-<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">23.10. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
-<li><a href="#h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef">23.11. Why do I get a double <code>#+title</code> in Doom Emacs?</a></li>
+<li><a href="#h:4f354db1-aa78-47fd-ac60-c3d1e0f0b0a4">23.9. Why are some Org links opening outside Emacs?</a></li>
+<li><a href="#h:893eec49-d7be-4603-bcff-fcc247244011">23.10. Speed up backlinks&rsquo; buffer creation?</a></li>
+<li><a href="#h:42f6b07e-5956-469a-8294-17f9cf62eb2b">23.11. Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</a></li>
+<li><a href="#h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef">23.12. Why do I get a double <code>#+title</code> in Doom Emacs?</a></li>
 </ul>
 </li>
 <li><a href="#h:f8126820-3b59-49fa-bcc2-73bd60132bb9">24. Acknowledgements</a></li>
@@ -1294,7 +1295,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2e09c24">
+<pre class="example" id="org47b22cf">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2015,7 +2016,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgda98c77">
+<pre class="example" id="org7b74847">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2035,7 +2036,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgd873fe8">
+<pre class="example" id="org11040c1">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2631,7 +2632,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgb7e8723">
+<pre class="example" id="org6fe1ccc">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2798,7 +2799,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org6e97f3a">
+<pre class="example" id="orged56dc8">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2810,7 +2811,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga65f30b">
+<pre class="example" id="org8816774">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2824,7 +2825,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge5081ea">
+<pre class="example" id="org0f28a8f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2838,7 +2839,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org29370c5">
+<pre class="example" id="org5c251a1">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3030,7 +3031,7 @@ recognised.
 </p>
 
 <p>
-The following sections delve into the details.
+The following sections delve into the details (<a href="#h:4f354db1-aa78-47fd-ac60-c3d1e0f0b0a4">Why are some Org links opening outside Emacs?</a>).
 </p>
 </div>
 <div id="outline-container-h:5e5e3370-12ab-454f-ba09-88ff44214324" class="outline-3">
@@ -3216,7 +3217,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org6c6c7b4">
+<pre class="example" id="orgb8614da">
 - link1
 - link2
 - link3
@@ -3234,7 +3235,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3c2125b">
+<pre class="example" id="org5cdd2aa">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3467,7 +3468,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgbb0485b">
+<pre class="example" id="org9c10519">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3482,7 +3483,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org732a58e">
+<pre class="example" id="org81b6137">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4707,7 +4708,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orga22eaf7">
+<pre class="example" id="org1c1ec3a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6455,7 +6456,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgce07531">
+<pre class="example" id="orge32489f">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6465,7 +6466,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgb800d14">
+<pre class="example" id="org73ef518">
 emacs -Q
 </pre>
 
@@ -6477,7 +6478,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgd864dda">
+<pre class="example" id="org18087f8">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6538,7 +6539,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orga9ccaae">
+<pre class="example" id="orgf812aa0">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7113,8 +7114,53 @@ the tracking of changes.
 </p>
 </div>
 </div>
+<div id="outline-container-h:4f354db1-aa78-47fd-ac60-c3d1e0f0b0a4" class="outline-3">
+<h3 id="h:4f354db1-aa78-47fd-ac60-c3d1e0f0b0a4"><span class="section-number-3">23.9.</span> Why are some Org links opening outside Emacs?</h3>
+<div class="outline-text-3" id="text-h:4f354db1-aa78-47fd-ac60-c3d1e0f0b0a4">
+<p>
+Org has its own mechanism to determine how best to open a link. This
+affects the <code>file:</code> link type, but also the <code>denote:</code> one (which is
+designed to be as close to <code>file:</code> as possible).
+</p>
+
+<p>
+When following a link, Org usually displays the data in an Emacs
+buffer, though it might launch an external application instead. The
+idea is to use a specialised program when that is relevant, such as to
+display a video. Though there can be scenaria the user does not like,
+such as when Org decides to load <code>.md</code> or <code>.html</code> files with an
+external app. To compound the problem, users can name any file type
+using the Denote file-naming scheme, including images, PDFs, videos,
+and more (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+</p>
+
+<p>
+To instruct Org to stay in Emacs for such cases, the user needs to
+modify the variable <code>org-file-apps</code>, which is not specific to Denote.
+As one use-case, <code>org-file-apps</code> associates a regular expression to
+match file names with a method on how to display them (do <code>M-x
+describe-variable</code> and then search for <code>org-file-apps</code> to read its
+documentation). Thus, the user can use something like the following
+in their Org or Denote configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Tell Org to use Emacs when opening files that end in .md
+(add-to-list 'org-file-apps '("\\.md\\'" . emacs))
+
+;; Do the same for .html
+(add-to-list 'org-file-apps '("\\.html\\'" . emacs))
+</pre>
+</div>
+
+<p>
+Each of these adds a new entry to the existing value of that user
+option. Replace <code>md</code> or <code>html</code> with the desired file type extension.
+</p>
+</div>
+</div>
 <div id="outline-container-h:893eec49-d7be-4603-bcff-fcc247244011" class="outline-3">
-<h3 id="h:893eec49-d7be-4603-bcff-fcc247244011"><span class="section-number-3">23.9.</span> Speed up backlinks&rsquo; buffer creation?</h3>
+<h3 id="h:893eec49-d7be-4603-bcff-fcc247244011"><span class="section-number-3">23.10.</span> Speed up backlinks&rsquo; buffer creation?</h3>
 <div class="outline-text-3" id="text-h:893eec49-d7be-4603-bcff-fcc247244011">
 <p>
 Denote leverages the built-in <code>xref</code> library to search for the
@@ -7160,7 +7206,7 @@ like this:
 </div>
 </div>
 <div id="outline-container-h:42f6b07e-5956-469a-8294-17f9cf62eb2b" class="outline-3">
-<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">23.10.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
+<h3 id="h:42f6b07e-5956-469a-8294-17f9cf62eb2b"><span class="section-number-3">23.11.</span> Why do I get &ldquo;Search failed with status 1&rdquo; when I search for backlinks?</h3>
 <div class="outline-text-3" id="text-h:42f6b07e-5956-469a-8294-17f9cf62eb2b">
 <p>
 Denote uses <a href="https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Xref">Emacs&rsquo; Xref</a> to find backlinks.  Xref requires <code>xargs</code> and
@@ -7185,7 +7231,7 @@ code (adjust the git&rsquo;s installation path if necessary):
 </div>
 </div>
 <div id="outline-container-h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef" class="outline-3">
-<h3 id="h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef"><span class="section-number-3">23.11.</span> Why do I get a double <code>#+title</code> in Doom Emacs?</h3>
+<h3 id="h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef"><span class="section-number-3">23.12.</span> Why do I get a double <code>#+title</code> in Doom Emacs?</h3>
 <div class="outline-text-3" id="text-h:0f737b7d-40e6-46a7-b1db-117c0ffcbfef">
 <p>
 Doom Emacs provides a set of bespoke templates for Org. One of those
