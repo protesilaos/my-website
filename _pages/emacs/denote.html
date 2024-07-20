@@ -591,22 +591,36 @@ minibuffer completion, due to the specifics of their data.
 <h4 id="h:f635a490-d29e-4608-9372-7bd13b34d56c"><span class="section-number-4">3.1.3.</span> The <code>denote-templates</code> option</h4>
 <div class="outline-text-4" id="text-h:f635a490-d29e-4608-9372-7bd13b34d56c">
 <p>
+[ Updated as part of 3.1.0-dev to accept a function
+  that returns a string. This is in addition to accepting a string. ]
+</p>
+
+<p>
 The user option <code>denote-templates</code> is an alist of content templates for
 new notes.  A template is arbitrary text that Denote will add to a newly
 created note right below the front matter.
 </p>
 
 <p>
-Templates are expressed as a <code>(KEY . STRING)</code> association.
+Templates are expressed as a <code>(KEY . VALUE)</code> association.
 </p>
 
 <ul class="org-ul">
 <li>The <code>KEY</code> is the name which identifies the template.  It is an
 arbitrary symbol, such as <code>report</code>, <code>memo</code>, <code>statement</code>.</li>
 
-<li>The <code>STRING</code> is ordinary text that Denote will insert as-is.  It can
-contain newline characters to add spacing.  Below we show some
-concrete examples.</li>
+<li>The <code>VALUE</code> is either a string or the symbol of a function.
+
+<ul class="org-ul">
+<li>If it is a string, it is ordinary text that Denote will insert
+as-is.  It can contain newline characters to add spacing.  The
+manual of Denote contains examples on how to use the <code>concat</code>
+function, beside writing a generic string.</li>
+
+<li>If it is a function, it is called without arguments and is expected
+to return a string.  Denote will call the function and insert the
+result in the buffer.</li>
+</ul></li>
 </ul>
 
 <p>
@@ -663,6 +677,30 @@ backtick to quote the alist (NOT the straight quote) and then prepend a
 comma to the expression that should be evaluated.  The <code>concat</code> form
 here is not sensitive to indentation, so it is easier to adjust for
 legibility.
+</p>
+
+<p>
+For when the <code>VALUE</code> is a function, we have this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-templates
+      `((report . "* Some heading\n\n* Another heading")
+        (blog . my-denote-template-function-for-blog) ; a function to return a string
+        (memo . ,(concat "* Some heading"
+                         "\n\n"
+                         "* Another heading"
+                         "\n\n"))))
+</pre>
+</div>
+
+<p>
+[ This is part of 3.1.0-dev. ]
+</p>
+
+<p>
+In this example, <code>my-denote-template-function-for-blog</code> is a function
+that returns a string. Denote will take care to insert it in the buffer.
 </p>
 
 <p>
@@ -1295,7 +1333,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgfa50d09">
+<pre class="example" id="org2e3ad2f">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2016,7 +2054,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb5cc967">
+<pre class="example" id="orgf68437f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2036,7 +2074,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org325b57b">
+<pre class="example" id="org3e414e1">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2632,7 +2670,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgb841023">
+<pre class="example" id="orgff5472d">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2799,7 +2837,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org438e454">
+<pre class="example" id="org970850f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2811,7 +2849,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf059c40">
+<pre class="example" id="orgd11fdba">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2825,7 +2863,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1d8089c">
+<pre class="example" id="orgf6e118c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2839,7 +2877,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgf0a03f4">
+<pre class="example" id="org708e91f">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3217,7 +3255,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org68ff558">
+<pre class="example" id="org6dacb61">
 - link1
 - link2
 - link3
@@ -3235,7 +3273,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc810d74">
+<pre class="example" id="org3201e5f">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3468,7 +3506,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org21188db">
+<pre class="example" id="org9b2072b">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3483,7 +3521,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org9319289">
+<pre class="example" id="org688b4f0">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3929,6 +3967,9 @@ are placeholders for Denote file name components (<a href="#h:4e9c7512-84dc-4dfb
 <li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
 <li>The <code>%s</code> is the Denote <code>SIGNATURE</code> of the file.</li>
 <li>The <code>%k</code> is the Denote <code>KEYWORDS</code> of the file.</li>
+<li>The <code>%b</code> is an indicator of whether or not the file has backlinks
+pointing to it. The indicator string is defined in the user option
+<code>denote-buffer-has-backlinks-string</code> [ Part of 3.1.0-dev ].</li>
 <li>The <code>%%</code> is a literal percent sign.</li>
 </ul>
 
@@ -3961,8 +4002,11 @@ a <code>[D]</code> prefix.  Examples:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Use the title (default)
-(setq denote-rename-buffer-format "%t")
+<pre class="src src-emacs-lisp">;; Use the title prefixed with the backlink indicator (default)
+(setq denote-rename-buffer-format "%b%t")
+
+;; Customize what the backlink indicator looks like
+(setq denote-buffer-has-backlinks-string "!! ")
 
 ;; Use the title and keywords with some emoji in between
 (setq denote-rename-buffer-format "%t 🤨 %k")
@@ -4708,7 +4752,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org359506c">
+<pre class="example" id="orgf49b7a9">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6456,7 +6500,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org4deef11">
+<pre class="example" id="org0c4a91d">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6466,7 +6510,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org0ace740">
+<pre class="example" id="org599842a">
 emacs -Q
 </pre>
 
@@ -6478,7 +6522,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org485c0cb">
+<pre class="example" id="org26465bd">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6539,7 +6583,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org9cddbcb">
+<pre class="example" id="orga4847ff">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7272,7 +7316,7 @@ Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing, Thibaut
 Benjamin, Tomasz Hołubowicz, Vedang Manerikar, Wesley Harvey, Zhenxu
 Xu, arsaber101, ezchi, jarofromel, leinfink (Henrik), l-o-l-h
 (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur, pmenair,
-relict007.</dd>
+relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alexis Purslane,
