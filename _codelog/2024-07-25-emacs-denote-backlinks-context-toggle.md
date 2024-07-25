@@ -1,5 +1,5 @@
 ---
-title: "Emacs: Denote backlink buffer can now toggle its details"
+title: "Emacs: Denote backlinks buffer can now toggle its details"
 excerpt: "Information about the in-development command that toggles the context of matches in the backlinks buffer."
 ---
 
