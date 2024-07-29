@@ -34,14 +34,14 @@ start playing the current file using `ready-player`:
 
 ```elisp
 (defun prot/ready-player-dired-preview-play-toggle ()
-    "Call `ready-player-toggle-play-stop' on the currently previewed media file."
-    (interactive)
-    (dired-preview-with-window
-     (if-let ((file buffer-file-name)
-              (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
-              (_ (string-match-p media file)))
-         (call-interactively #'ready-player-toggle-play-stop)
-       (user-error "Cannot do something useful with `ready-player' here"))))
+  "Call `ready-player-toggle-play-stop' on the currently previewed media file."
+  (interactive)
+  (dired-preview-with-window
+   (if-let ((file buffer-file-name)
+            (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
+            (_ (string-match-p media file)))
+       (call-interactively #'ready-player-toggle-play-stop)
+     (user-error "Cannot do something useful with `ready-player' here"))))
 ```
 
 Then we bind `prot/ready-player-dired-preview-play-toggle` to a key in
@@ -57,13 +57,13 @@ With `ready-player`, we can achieve this using the following command:
 ```elisp
 (defun prot/ready-player-dired-preview-open-externally ()
   "Call `ready-player-open-externally' on the currently previewed media file."
-    (interactive)
-    (dired-preview-with-window
-     (if-let ((file buffer-file-name)
-              (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
-              (_ (string-match-p media file)))
-         (call-interactively #'ready-player-open-externally)
-       (user-error "Cannot do something useful with `ready-player' here"))))
+  (interactive)
+  (dired-preview-with-window
+   (if-let ((file buffer-file-name)
+            (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
+            (_ (string-match-p media file)))
+       (call-interactively #'ready-player-open-externally)
+     (user-error "Cannot do something useful with `ready-player' here"))))
 ```
 
 [ Emacs 30 has the `dired-do-open` if you need something more general
