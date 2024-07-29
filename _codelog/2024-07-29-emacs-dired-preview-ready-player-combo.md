@@ -3,6 +3,11 @@ title: "Emacs: combine dired-preview with ready-player"
 excerpt: "We can run an arbitrary command in the previewed buffer, such as to play back a media file."
 ---
 
+**UPDATE 2024-07-29 12:15 +0300:** Made some minor tweaks to the code
+samples.
+
+* * *
+
 As part of the current development target of my `dired-preview`
 package, the `dired-preview-with-window` macro can be used to run
 arbitrary code with the preview window as the selected one. We can use
@@ -29,14 +34,14 @@ start playing the current file using `ready-player`:
 
 ```elisp
 (defun prot/ready-player-dired-preview-play-toggle ()
-  "Call `ready-player-toggle-play-stop' on the currently previewed media file."
-  (interactive)
-  (if-let ((file (dired-file-name-at-point))
-           (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
-           (_ (string-match-p media file)))
-      (dired-preview-with-window
-       (call-interactively #'ready-player-toggle-play-stop))
-    (user-error "Cannot do something useful with `ready-player' here")))
+    "Call `ready-player-toggle-play-stop' on the currently previewed media file."
+    (interactive)
+    (dired-preview-with-window
+     (if-let ((file buffer-file-name)
+              (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
+              (_ (string-match-p media file)))
+         (call-interactively #'ready-player-toggle-play-stop)
+       (user-error "Cannot do something useful with `ready-player' here"))))
 ```
 
 Then we bind `prot/ready-player-dired-preview-play-toggle` to a key in
@@ -52,13 +57,13 @@ With `ready-player`, we can achieve this using the following command:
 ```elisp
 (defun prot/ready-player-dired-preview-open-externally ()
   "Call `ready-player-open-externally' on the currently previewed media file."
-  (interactive)
-  (if-let ((file (dired-file-name-at-point))
-           (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
-           (_ (string-match-p media file)))
-      (dired-preview-with-window
-       (call-interactively #'ready-player-open-externally))
-    (user-error "Cannot do something useful with `ready-player' here")))
+    (interactive)
+    (dired-preview-with-window
+     (if-let ((file buffer-file-name)
+              (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
+              (_ (string-match-p media file)))
+         (call-interactively #'ready-player-open-externally)
+       (user-error "Cannot do something useful with `ready-player' here"))))
 ```
 
 [ Emacs 30 has the `dired-do-open` if you need something more general
