@@ -67,7 +67,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:d0c7cb79-21e5-4176-a6af-f4f68578c8dd">3.2. Create a note from the current Org subtree</a></li>
 <li><a href="#h:656c70cd-cf9a-4471-a0b5-4f0aaf60f881">3.3. Create note using Org capture</a></li>
 <li><a href="#h:95b78582-9086-47e8-967f-62373e2369a0">3.4. Create note with specific prompts using Org capture</a></li>
-<li><a href="#h:2f8090f1-50af-4965-9771-d5a91a0a87bd">3.5. Create a note with the region&rsquo;s contents</a></li>
+<li><a href="#h:2f8090f1-50af-4965-9771-d5a91a0a87bd">3.5. Create a note with the region&rsquo;s contents</a>
+<ul>
+<li><a href="#h:eb72086e-05be-4ae3-af51-7616999fc7c9">3.5.1. A custom <code>denote-region</code> that references the source</a></li>
+</ul>
+</li>
 <li><a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">3.6. Open an existing note or create it if missing</a></li>
 <li><a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">3.7. Maintain separate directory silos for notes</a>
 <ul>
@@ -1236,6 +1240,78 @@ Remember that <code>denote-region-after-new-note-functions</code> are not called
 if <code>denote-region</code> is used without an active region.
 </p>
 </div>
+<div id="outline-container-h:eb72086e-05be-4ae3-af51-7616999fc7c9" class="outline-4">
+<h4 id="h:eb72086e-05be-4ae3-af51-7616999fc7c9"><span class="section-number-4">3.5.1.</span> A custom <code>denote-region</code> that references the source</h4>
+<div class="outline-text-4" id="text-h:eb72086e-05be-4ae3-af51-7616999fc7c9">
+<p>
+The <code>denote-region</code> command simply creates a new note and includes the
+highlighted region&rsquo;s contents as the initial text of the note (<a href="#h:2f8090f1-50af-4965-9771-d5a91a0a87bd">Create a note with the region&rsquo;s contents</a>).
+However, users may want a more streamlined workflow where the command
+is always used to capture quotes from other sources. In this example,
+we consider &ldquo;other sources&rdquo; to come from Emacs EWW buffers (with <code>M-x
+eww</code>) or regular files outside the <code>denote-directory</code>.
+</p>
+
+<p>
+[ This is a proof-of-concept that does not cover all cases. If anyone
+  wants to use a variation of this, just let me know. ]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Variant of `my-denote-region' to reference the source
+
+(defun my-denote-region-get-source-reference ()
+  "Get a reference to the source for use with `my-denote-region'.
+The reference is a URL or an Org-formatted link to a file."
+  ;; We use a `cond' here because we can extend it to cover move
+  ;; cases.
+  (cond
+   ((derived-mode-p 'eww-mode)
+    (plist-get eww-data :url))
+   ;; Here we are just assuming an Org format.  We can make this more
+   ;; involved, if needed.
+   (buffer-file-name
+    (format "[[file:%s][%s]]" buffer-file-name (buffer-name)))))
+
+(defun my-denote-region ()
+  "Like `denote-region', but add the context afterwards.
+For how the context is retrieved, see `my-denote-region-get-source-reference'."
+  (interactive)
+  (let ((context (my-denote-region-get-source-reference)))
+    (call-interactively 'denote-region)
+    (when context
+      (goto-char (point-max))
+      (insert "\n")
+      (insert context))))
+
+;; Add quotes around snippets of text captured with `denote-region' or `my-denote-region'.
+
+(defun my-denote-region-org-structure-template (beg end)
+  "Automatically quote (with Org syntax) the contents of `denote-region'."
+  (when (derived-mode-p 'org-mode)
+    (goto-char end)
+    (insert "#+end_quote\n")
+    (goto-char beg)
+    (insert "#+begin_quote\n")))
+
+(add-hook 'denote-region-after-new-note-functions #'my-denote-region-org-structure-template)
+</pre>
+</div>
+
+<p>
+With the above in place, calling the <code>my-denote-region</code> command does
+the following:
+</p>
+
+<ul class="org-ul">
+<li>It creates a new note as usual, prompting for the relevant data.</li>
+<li>Inserts the contents of the region below the front matter of the new
+note.</li>
+<li>Adds Org-style quotation block markers around the inserted region.</li>
+<li>Adds a link to the URL or file from where <code>my-denote-region</code> was called.</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="outline-container-h:ad91ca39-cf10-4e16-b224-fdf78f093883" class="outline-3">
 <h3 id="h:ad91ca39-cf10-4e16-b224-fdf78f093883"><span class="section-number-3">3.6.</span> Open an existing note or create it if missing</h3>
@@ -1333,7 +1409,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgd5112f9">
+<pre class="example" id="org84f16f1">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2054,7 +2130,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org6be7912">
+<pre class="example" id="orge722c97">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2074,7 +2150,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org2a26294">
+<pre class="example" id="org1db78c5">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2670,7 +2746,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org7797dc0">
+<pre class="example" id="orgc05147e">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2837,7 +2913,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org14e2aae">
+<pre class="example" id="orgc7d6286">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2849,7 +2925,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org02fbace">
+<pre class="example" id="orgffff99a">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2863,7 +2939,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbd55428">
+<pre class="example" id="orgef6e9b0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2877,7 +2953,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org5b1309e">
+<pre class="example" id="orgc354e41">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3255,7 +3331,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org87ae21f">
+<pre class="example" id="orgd5e3481">
 - link1
 - link2
 - link3
@@ -3273,7 +3349,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org9507070">
+<pre class="example" id="org3cb5394">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3506,7 +3582,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4c61f79">
+<pre class="example" id="orgdb7fdaf">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3521,7 +3597,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgdc59096">
+<pre class="example" id="orgd7e55c5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4130,6 +4206,22 @@ you do not need to write an actual regular expression to get
 meaningful results: even something like <code>_journal</code> will work to
 include all files that have a <code>journal</code> keyword.</li>
 
+<li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
+regular expression that matches against directory files names
+to-be-excluded from the results. This has the same meaning as
+setting the <code>denote-excluded-punctuation-regexp</code> user option
+(<a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">Exclude certain directories from all operations</a>). The user option
+has a global effect, which is overridden locally in the dynamic
+block. When the value of <code>:excluded-dirs-regexp</code> is nil (the
+default), the value of <code>denote-excluded-punctuation-regexp</code> is used
+(which is also nil by default, meaning that all directories are
+included). When the value of <code>excluded-dirs-regexp</code> is <code>t</code> or some
+other symbol, then the <code>denote-excluded-punctuation-regexp</code> is
+ignored altogether. This is useful in the scenario where the user
+option is set to exclude some directories but the dynamic blocks
+wants to lift that restriction. [ The <code>excluded-dirs-regexp</code>
+parameter is part of 3.1.0-dev. ]</li>
+
 <li>The <code>:sort-by-component</code> parameter is optional. It sorts the files
 by the given Denote file name component. The value it accepts is an
 unquoted symbol among <code>title</code>, <code>keywords</code>, <code>signature</code>, <code>identifier</code>.
@@ -4250,6 +4342,22 @@ in the previous section (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org d
 Note that you do not need to write an actual regular expression to
 get meaningful results: even something like <code>_journal</code> will work to
 include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
+regular expression that matches against directory files names
+to-be-excluded from the results. This has the same meaning as
+setting the <code>denote-excluded-punctuation-regexp</code> user option
+(<a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">Exclude certain directories from all operations</a>). The user option
+has a global effect, which is overridden locally in the dynamic
+block. When the value of <code>:excluded-dirs-regexp</code> is nil (the
+default), the value of <code>denote-excluded-punctuation-regexp</code> is used
+(which is also nil by default, meaning that all directories are
+included). When the value of <code>excluded-dirs-regexp</code> is <code>t</code> or some
+other symbol, then the <code>denote-excluded-punctuation-regexp</code> is
+ignored altogether. This is useful in the scenario where the user
+option is set to exclude some directories but the dynamic blocks
+wants to lift that restriction. [ The <code>excluded-dirs-regexp</code>
+parameter is part of 3.1.0-dev. ]</li>
 
 <li>The <code>:sort-by-component</code> parameter is optional. It sorts the files
 by the given Denote file name component. The value it accepts is an
@@ -4758,7 +4866,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org38c04a9">
+<pre class="example" id="orgf6df67a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6506,7 +6614,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgf3be655">
+<pre class="example" id="orgf8335f7">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6516,7 +6624,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org22fb1ce">
+<pre class="example" id="org9f4b63a">
 emacs -Q
 </pre>
 
@@ -6528,7 +6636,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org0db92d0">
+<pre class="example" id="org790c777">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6589,7 +6697,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org43cb96c">
+<pre class="example" id="orgf7bdd84">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7326,20 +7434,20 @@ relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Hirschfeld, Alexis Purslane,
-Alfredo Borrás, Ashton Wiersdorf, Benjamin Kästner, Claudiu
-Tănăselia, Colin McLear, Damien Cassou, Elias Storms, Federico
-Stilman, Florian, Frédéric Willem Frank Ehmsen, Glenna D., Guo Yong,
-Hanspeter Gisler Harold Ollivier, Jack Baty, Jay Rajput,
-Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen, Jonathan Sahar,
-Johan Bolmsjö, Jousimies, Juanjo Presa, Julian Hoch, Kai von Fintel,
-Kaushal Modi, Kolmas, M. Hadi Timachi, Maikol Solis, Mark Olson,
-Mirko Hernandez, Niall Dooley, Nick Bell, Paul van Gelder, Peter
-Prevos, Peter Smith, Samuel W. Flint, Suhail Singh, Shreyas Ragavan,
-Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus,
-Vick (VicZz), Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj,
-azegas, babusri, doolio, duli, drcxd, elge70, fingerknight,
-hpgisler, mentalisttraceur, pRot0ta1p, rbenit68, relict007, sienic,
-skissue, sundar bp, yetanotherfossman, zadca123</dd>
+Alfredo Borrás, Ashton Wiersdorf, Benjamin Kästner, Claudio
+Migliorelli, Claudiu Tănăselia, Colin McLear, Damien Cassou, Elias
+Storms, Federico Stilman, Florian, Frédéric Willem Frank Ehmsen,
+Glenna D., Guo Yong, Hanspeter Gisler Harold Ollivier, Jack Baty,
+Jay Rajput, Jean-Charles Bagneris, Jens Östlund, Jeremy Friesen,
+Jonathan Sahar, Johan Bolmsjö, Jousimies, Juanjo Presa, Julian Hoch,
+Kai von Fintel, Kaushal Modi, Kolmas, M. Hadi Timachi, Maikol Solis,
+Mark Olson, Mirko Hernandez, Niall Dooley, Nick Bell, Paul van
+Gelder, Peter Prevos, Peter Smith, Samuel W. Flint, Suhail Singh,
+Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck,
+Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Wade Mealing, Yi
+Liu, Ypot, atanasj, azegas, babusri, doolio, duli, drcxd, elge70,
+fingerknight, hpgisler, mentalisttraceur, pRot0ta1p, rbenit68,
+relict007, sienic, skissue, sundar bp, yetanotherfossman, zadca123</dd>
 </dl>
 
 <p>
