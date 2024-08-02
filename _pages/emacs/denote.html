@@ -157,6 +157,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">11.1. Org dynamic blocks to insert links or backlinks</a></li>
 <li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">11.2. Org dynamic block to insert file contents</a></li>
+<li><a href="#h:d6254a12-b762-4096-a5de-66a0d423e204">11.3. Org dynamic block to insert Org files as headings</a></li>
 </ul>
 </li>
 <li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">12. Sort files by component</a>
@@ -1418,7 +1419,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org0442722">
+<pre class="example" id="org0724451">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2139,7 +2140,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgc4b2388">
+<pre class="example" id="org4bac4c8">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2159,7 +2160,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgb345e4c">
+<pre class="example" id="orge2e6f7a">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2755,7 +2756,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orga74fee5">
+<pre class="example" id="orgc06e1e2">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2922,7 +2923,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org0275789">
+<pre class="example" id="orgc59f8b2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2934,7 +2935,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf1173a6">
+<pre class="example" id="org22ae5e8">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2948,7 +2949,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orga619ff0">
+<pre class="example" id="org3197aa1">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2962,7 +2963,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org309562d">
+<pre class="example" id="orgc5940c9">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3340,7 +3341,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org68a54f3">
+<pre class="example" id="org5fab733">
 - link1
 - link2
 - link3
@@ -3358,7 +3359,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org63596b6">
+<pre class="example" id="org5329d58">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3591,7 +3592,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgb13bcba">
+<pre class="example" id="org6f43b0c">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3606,7 +3607,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgd0c5911">
+<pre class="example" id="org86750a2">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4418,6 +4419,112 @@ purview).</li>
 </ul>
 </div>
 </div>
+<div id="outline-container-h:d6254a12-b762-4096-a5de-66a0d423e204" class="outline-3">
+<h3 id="h:d6254a12-b762-4096-a5de-66a0d423e204"><span class="section-number-3">11.3.</span> Org dynamic block to insert Org files as headings</h3>
+<div class="outline-text-3" id="text-h:d6254a12-b762-4096-a5de-66a0d423e204">
+<p>
+[ Part of 3.1.0-dev. ]
+</p>
+
+<p>
+[ IMPORTANT NOTE: This dynamic block only works with Org files,
+  because it has to assume the Org notation in order to insert each
+  file&rsquo;s contents as its own heading. ]
+</p>
+
+<p>
+As a variation of the previously covered block that inserts file
+contents, we have the <code>denote-org-extras-dblock-insert-files-as-headings</code>
+command (<a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">Org dynamic block to insert file contents</a>). It Turn the
+<code>#+title</code> of each file into a top-level heading. Then it increments
+all original headings in the file by one, so that they become
+subheadings of what once was the <code>#+title</code>. Similarly, the
+<code>#+filetags</code> of each file as tags for the top-level heading
+(what was the <code>#+title</code>).
+</p>
+
+<p>
+Because of how it is meant to work, this dynamic block only works with
+Org files.
+</p>
+
+<p>
+In its simplest form, this dynamic block looks like this:
+</p>
+
+<pre class="example">
+#+BEGIN: denote-files-as-headings :regexp "YOUR REGEXP HERE"
+
+#+END:
+</pre>
+
+
+<p>
+Though when you use the command <code>denote-org-extras-dblock-insert-files-as-headings</code>
+you get all the parameters included:
+</p>
+
+<pre class="example">
+#+BEGIN: denote-files-as-headings :regexp "YOUR REGEXP HERE" :excluded-dirs-regexp nil :sort-by-component title :reverse-sort nil :add-links t
+
+#+END:
+</pre>
+
+
+<ul class="org-ul">
+<li>The <code>:regexp</code> parameter is mandatory. Its value is a string,
+representing a regular expression to match Denote file names. Its
+value may also be an <code>rx</code> expression instead of a string, as noted
+in the previous section (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org dynamic blocks to insert links or backlinks</a>).
+Note that you do not need to write an actual regular expression to
+get meaningful results: even something like <code>_journal</code> will work to
+include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
+regular expression that matches against directory files names
+to-be-excluded from the results. This has the same meaning as
+setting the <code>denote-excluded-punctuation-regexp</code> user option
+(<a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">Exclude certain directories from all operations</a>). The user option
+has a global effect, which is overridden locally in the dynamic
+block. When the value of <code>:excluded-dirs-regexp</code> is nil (the
+default), the value of <code>denote-excluded-punctuation-regexp</code> is used
+(which is also nil by default, meaning that all directories are
+included). When the value of <code>excluded-dirs-regexp</code> is <code>t</code> or some
+other symbol, then the <code>denote-excluded-punctuation-regexp</code> is
+ignored altogether. This is useful in the scenario where the user
+option is set to exclude some directories but the dynamic blocks
+wants to lift that restriction.</li>
+
+<li>The <code>:sort-by-component</code> parameter is optional. It sorts the files
+by the given Denote file name component. The value it accepts is an
+unquoted symbol among <code>title</code>, <code>keywords</code>, <code>signature</code>, <code>identifier</code>.
+When using the command <code>denote-org-extras-dblock-insert-files</code>, this
+parameter is automatically inserted together with the (<code>:regexp</code>
+parameter) and the user is prompted for a file name component.</li>
+
+<li>The <code>:reverse-sort</code> parameter is optional. It reverses the order in
+which files appear in. This is meaningful even without the presence
+of the parameter <code>:sort-by-component</code>, though it also combines with
+it.</li>
+
+<li>The <code>:add-links</code> parameter is optional. When it is set to a <code>t</code>
+value, all files are inserted as a typographic list and are indented
+accordingly. The first line in each list item is a link to the file
+whose contents are inserted in the following lines. When the value
+is <code>id-only</code>, then links are inserted without a description text but
+only with the identifier of the given file. This has the same
+meaning as with the <code>denote-link</code> command and related facilities
+(<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>). Remember that Org can fold the items in a
+typographic list the same way it does with headings. So even long
+files can be presented in this format without much trouble.</li>
+
+<li>An optional <code>:block-name</code> parameter can be specified with a string
+value to add a <code>#+name</code> to the results. This is useful for further
+processing using Org facilities (a feature that is outside Denote&rsquo;s
+purview).</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="outline-container-h:9fe01e63-f34f-4479-8713-f162a5ca865e" class="outline-2">
 <h2 id="h:9fe01e63-f34f-4479-8713-f162a5ca865e"><span class="section-number-2">12.</span> Sort files by component</h2>
@@ -5010,7 +5117,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgafda416">
+<pre class="example" id="orgd4e8dcb">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6758,7 +6865,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgf329a3d">
+<pre class="example" id="orgcbaaa7b">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6768,7 +6875,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgbdce72b">
+<pre class="example" id="org5173b71">
 emacs -Q
 </pre>
 
@@ -6780,7 +6887,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgff78fce">
+<pre class="example" id="org359e345">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6841,7 +6948,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org5c8dec9">
+<pre class="example" id="org6fdd6fd">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
