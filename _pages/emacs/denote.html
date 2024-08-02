@@ -103,7 +103,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:a26e28c7-8222-4377-92e9-3b0a709010a5">4.7. Rename a file by adding or removing a title interactively</a></li>
 <li><a href="#h:ad4dde4a-8e88-470a-97ae-e7b9d4b41fb4">4.8. Rename a file by adding or removing keywords interactively</a></li>
 <li><a href="#h:b08a350f-b269-47ed-8c2a-b8ecf1b63c7f">4.9. Rename a file by adding or removing a signature interactively</a></li>
-<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.10. Faces used by rename commands</a></li>
+<li><a href="#h:9051f15d-ea7e-4b17-adc2-bc6a749c721b">4.10. Find duplicate identifiers and put them in a Dired buffer</a></li>
+<li><a href="#h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">4.11. Faces used by rename commands</a></li>
 </ul>
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">5. The file-naming scheme</a>
@@ -1419,7 +1420,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge251e01">
+<pre class="example" id="org5dcd219">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -1934,6 +1935,10 @@ line or switching between then with commands like <code>switch-to-buffer</code>.
 <p>
 <a href="#h:3ca4db16-8f26-4d7d-b748-bac48ae32d69">Automatically rename Denote buffers</a>.
 </p>
+
+<p>
+<a href="#h:9051f15d-ea7e-4b17-adc2-bc6a749c721b">Find duplicate identifiers and put them in a Dired buffer</a>.
+</p>
 </div>
 <div id="outline-container-h:7cc9e000-806a-48da-945c-711bbc7426b0" class="outline-3">
 <h3 id="h:7cc9e000-806a-48da-945c-711bbc7426b0"><span class="section-number-3">4.1.</span> Rename a single file</h3>
@@ -2140,7 +2145,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org054e83f">
+<pre class="example" id="orgf59c2d5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2160,7 +2165,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgce080d3">
+<pre class="example" id="org6558f43">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2464,8 +2469,65 @@ the signature altogether (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The 
 </p>
 </div>
 </div>
+<div id="outline-container-h:9051f15d-ea7e-4b17-adc2-bc6a749c721b" class="outline-3">
+<h3 id="h:9051f15d-ea7e-4b17-adc2-bc6a749c721b"><span class="section-number-3">4.10.</span> Find duplicate identifiers and put them in a Dired buffer</h3>
+<div class="outline-text-3" id="text-h:9051f15d-ea7e-4b17-adc2-bc6a749c721b">
+<p>
+Denote takes care to create unique identifiers, though its mechanism
+relies on reading the existing identifiers in the <code>denote-directory</code>
+or the current directory. When we are renaming files across different
+directories, there is a small chance that some files have the same
+attributes and are thus assigned identical identifiers. If those files
+ever make it into a consolidated <code>denote-directory</code>, we will have
+duplicates, which break the linking mechanism.
+</p>
+
+<p>
+As this is an edge case, we do not include any code to address it in
+the Denote code base. Though here is a way to find duplicate
+identifiers inside the current directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote--get-files-in-dir (directory)
+  "Return file names in DIRECTORY."
+  (directory-files directory :full-paths directory-files-no-dot-files-regexp))
+
+(defun my-denote--same-identifier-p (file1 file2)
+  "Return non-nil if FILE1 and FILE2 have the same identifier."
+  (let ((id1 (denote-retrieve-filename-identifier file1))
+        (id2 (denote-retrieve-filename-identifier file2)))
+    (equal id1 id2)))
+
+(defun my-denote-find-duplicate-identifiers (directory)
+  "Find all files in DIRECTORY that need a new identifier."
+  (let* ((ids (my-denote--get-files-in-dir directory))
+         (unique-ids (seq-uniq ids #'my-denote--same-identifier-p)))
+    (seq-difference ids unique-ids #'equal)))
+
+(defun my-denote-dired-show-duplicate-identifiers (directory)
+  "Put duplicate identifiers from DIRECTORY in a dedicated Dired buffer."
+  (interactive
+   (list
+    (read-directory-name "Select DIRECTORY to check for duplicate identifiers: " default-directory)))
+  (if-let ((duplicates (my-denote-find-duplicate-identifiers directory)))
+      (dired (cons (format "Denote duplicate identifiers" directory) duplicates))
+    (message "No duplicates identifiers in `%s'" directory)))
+</pre>
+</div>
+
+<p>
+Evaluate this code and then call the command <code>my-denote-dired-show-duplicate-identifiers</code>.
+If there are duplicates, it will put them in a dedicated Dired buffer.
+From there, you can view the file contents as usual, and manually edit
+the identifiers as you see fit (e.g. edit them one by one, or change
+to the writable Dired and record a keyboard macro that makes use of a
+counter to increment by 1&#x2014;contact me if you need any help).
+</p>
+</div>
+</div>
 <div id="outline-container-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5" class="outline-3">
-<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.10.</span> Faces used by rename commands</h3>
+<h3 id="h:ab3f355a-f763-43ae-a4c9-179d2d9265a5"><span class="section-number-3">4.11.</span> Faces used by rename commands</h3>
 <div class="outline-text-3" id="text-h:ab3f355a-f763-43ae-a4c9-179d2d9265a5">
 <p>
 These are the faces used by the various Denote rename commands to
@@ -2756,7 +2818,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgb3884e4">
+<pre class="example" id="orge17f60a">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2923,7 +2985,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orge5497ed">
+<pre class="example" id="orgeb8cd56">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2935,7 +2997,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org89625ff">
+<pre class="example" id="org79a2e8e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -2949,7 +3011,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb3c1387">
+<pre class="example" id="org3594e01">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -2963,7 +3025,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org0801882">
+<pre class="example" id="orga914995">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3341,7 +3403,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org82e2e64">
+<pre class="example" id="org808aea7">
 - link1
 - link2
 - link3
@@ -3359,7 +3421,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org583cf48">
+<pre class="example" id="orgdddffd0">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3592,7 +3654,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org4bd699c">
+<pre class="example" id="orgd6367bd">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3607,7 +3669,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org1e2631c">
+<pre class="example" id="orgb0e69f4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5112,7 +5174,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org22e543a">
+<pre class="example" id="org72a9ebe">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6860,7 +6922,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org7332d5c">
+<pre class="example" id="orge2c9660">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6870,7 +6932,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org0feae9a">
+<pre class="example" id="orgba8a07b">
 emacs -Q
 </pre>
 
@@ -6882,7 +6944,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orge2cdb7f">
+<pre class="example" id="orgb5175cc">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6943,7 +7005,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org62f39e0">
+<pre class="example" id="orga77e73c">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
