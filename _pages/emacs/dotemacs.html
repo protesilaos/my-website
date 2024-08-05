@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-07-29 12:23:14 +0300 with a word
-count of 103837.</b>
+<b>Last revised and exported on 2024-08-05 09:04:16 +0300 with a word
+count of 103780.</b>
 </p>
 
 <p>
@@ -410,7 +410,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-07-29 12:23:14 +0300):
+(2024-08-05 09:04:17 +0300):
 </p>
 
 <div class="org-src-container">
@@ -419,7 +419,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-pgtk --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+--prefix=/usr/local --with-x-toolkit=gtk3 --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 </pre>
 
 
@@ -500,7 +500,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgd3e820a">
+<pre class="example" id="org0230e62">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -580,7 +580,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org727776f">
+<pre class="example" id="org6e8b535">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -588,7 +588,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgbcb8081">
+<pre class="example" id="org1d23c03">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1501,7 +1501,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgc3e1ca6">
+<pre class="example" id="org139e4d2">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -3085,7 +3085,7 @@ for it and do not want the extra noise.</li>
 <pre class="src src-emacs-lisp">(use-package prot-common
   :ensure nil
   :functions (prot-common-truncate-lines-silently)
-  :hook ((fundamental-mode text-mode prog-mode) . prot-common-truncate-lines-silently)
+  :hook ((fundamental-mode text-mode prog-mode dired-mode) . prot-common-truncate-lines-silently)
   :config
   ;; NEVER tell me which key can call a command that I specifically
   ;; invoked with M-x: I have a good reason to use it that way.
@@ -4201,7 +4201,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org8248b65">
+<pre class="example" id="org5f32c7b">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6867,11 +6867,7 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
   ;;                         (dired-preview-mode 1))))
   :defer 1
   :hook (after-init . dired-preview-global-mode)
-  :bind (:map dired-preview-mode-map ("C-c C-o" . prot/dired-preview-open))
-  :commands (prot/dired-preview-open)
   :config
-  ;; These are all set to their default values.  I keep them here for
-  ;; reference.
   (setq dired-preview-max-size (* (expt 2 20) 10))
   (setq dired-preview-delay 0.5)
   (setq dired-preview-ignored-extensions-regexp
@@ -6883,21 +6879,18 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
                 "rar\\|"
                 "zip\\|"
                 "iso\\|"
-                "epub\\|"
+                "epub"
                 "\\)"))
 
-  (defun prot/dired-preview-open ()
-    (interactive)
-    (dired-preview-with-window
-     (when-let ((file buffer-file-name))
-       (cond
-        ((or (and ready-player-supported-media
-                  (string-match-p (concat "\\." (regexp-opt ready-player-supported-media t) "\\'") file))
-             (string-match-p dired-preview-ignored-extensions-regexp file)
-             (string-match-p dired-preview-image-extensions-regexp file))
-         (call-process "open" nil 0 nil file))
-        (t
-         (find-file file)))))))
+  (defun prot/dired-preview-display-buffer ()
+    `((display-buffer-in-side-window)
+      (side . bottom)
+      (window-height . 0.2)
+      (preserve-size . (t . t))
+      (window-parameters . ((mode-line-format . none)))))
+
+  (setq dired-preview-display-action-alist-function
+        #'prot/dired-preview-display-buffer))
 </pre>
 </div>
 </div>
@@ -7044,7 +7037,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org5df3d0b">
+<pre class="example" id="orge1bf454">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7200,7 +7193,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org1fad54c">
+<pre class="example" id="org6c5375f">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8752,7 +8745,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orga0150c3">
+<pre class="example" id="orga596107">
 (info "(org) Search Options")
 </pre>
 
@@ -8844,7 +8837,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org49367e0">
+<pre class="example" id="org2b34866">
 (require 'ob-python)
 
 ;; OR
@@ -9687,7 +9680,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8a5c16f">
+<pre class="example" id="org4677704">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10379,7 +10372,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org348bea7">
+<pre class="example" id="orgf1d86ba">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10391,7 +10384,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org0344082">
+<pre class="example" id="org74957bd">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10457,7 +10450,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org57dccfd">
+<pre class="example" id="org75a0737">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10469,7 +10462,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgf7f59d2">
+<pre class="example" id="orgaffb0fc">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10491,7 +10484,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org716e131">
+<pre class="example" id="org79f0715">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11760,7 +11753,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org5c9d0f0">
+<pre class="example" id="org64c7364">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11855,7 +11848,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgd1c6c3e">
+<pre class="example" id="orgf91af0f">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19042,7 +19035,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org46c2427">
+<pre class="example" id="org3f858bd">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19074,7 +19067,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org0678928">
+<pre class="example" id="orga71f186">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
