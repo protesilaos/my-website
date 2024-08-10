@@ -1,6 +1,6 @@
 ---
 title: "Vlog: one year of hut life (feat. Atlas singing)"
-excerpt: "In this video blog I talk about my"
+excerpt: "In this video blog I talk about my first year of living at the hut."
 layout: vlog
 mediaid: "JHUf5pXX5hk"
 ---
