@@ -64,8 +64,8 @@ You pursued miracles granted by hashish
 And hallucinations of those who live in prisons
 
 And one night you dressed up as the Hamlet of the Moon
-You snuffed out the lights of a scene
-And you started monologues and solved riddles
+With one blow you snuffed out the lights of a scene
+And you started monologues and riddles to solve
 Of an art and an era bygone and dark
 ```
 
