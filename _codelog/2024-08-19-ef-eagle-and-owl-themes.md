@@ -35,10 +35,9 @@ enlarge the image** for best results.
 
 ## Coming in version 1.8.0 (next stable release)
 
-I consider both themes largely done, though I may still make minor
-edits to them. They will be part of the next version of the
-`ef-themes`, which I expect to publish toward the end of August or in
-early September.
+I consider both themes done, though I may still make minor edits to
+them. They will be part of the next version of the `ef-themes`, which
+I expect to publish toward the end of August or in early September.
 
 Enjoy your new themes!
 
