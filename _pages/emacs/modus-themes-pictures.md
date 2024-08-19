@@ -15,7 +15,7 @@ variations.
 
 What you see here corresponds to version `4.2.0-dev`, done on
 2023-05-18.  The typeface is [my modified version of
-Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).  **Enlarge the
+Iosevka](https://github.com/protesilaos/iosevka-comfy).  **Enlarge the
 image**, because the smaller size can affect your perception of what
 is on display.
 
