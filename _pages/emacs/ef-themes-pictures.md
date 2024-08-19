@@ -8,9 +8,9 @@ Refer to the [official manual](https://protesilaos.com/emacs/ef-themes)
 for the specifics of these themes (if you have the package installed,
 just evaluate this: `(info "(ef-themes) Top")`).
 
-The following screen shots correspond to version `1.7.0-dev`. The
+The following screen shots correspond to version `1.8.0-dev`. The
 typeface is [Iosevka Comfy, my modified version of
-Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
+Iosevka](https://github.com/protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.  Also note that dark themes are best
