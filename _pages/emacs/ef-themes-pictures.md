@@ -27,6 +27,7 @@ This section contains:
 - `ef-day`
 - `ef-deuteranopia-light`
 - `ef-duo-light`
+- `ef-eagle`
 - `ef-elea-light`
 - `ef-frost`
 - `ef-kassio`
@@ -88,6 +89,17 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-duo-light-mail.png' | absolute_url }}"><img alt="ef-duo-light theme mail sample" src="{{'/assets/images/ef/ef-duo-light-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-duo-light-org.png' | absolute_url }}"><img alt="ef-duo-light theme org sample" src="{{'/assets/images/ef/ef-duo-light-org.png' | absolute_url }}"/></a>
+
+### ef-eagle
+
+<a href="{{'/assets/images/ef/ef-eagle.png' | absolute_url }}"><img alt="ef-eagle theme sample" src="{{'/assets/images/ef/ef-eagle.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-eagle-git.png' | absolute_url }}"><img alt="ef-eagle theme git sample" src="{{'/assets/images/ef/ef-eagle-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-eagle-mail.png' | absolute_url }}"><img alt="ef-eagle theme mail sample" src="{{'/assets/images/ef/ef-eagle-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-eagle-org.png' | absolute_url }}"><img alt="ef-eagle theme org sample" src="{{'/assets/images/ef/ef-eagle-org.png' | absolute_url }}"/></a>
+
 
 ### ef-elea-light
 
@@ -214,6 +226,7 @@ This section contains:
 - `ef-maris-dark`
 - `ef-melissa-dark`
 - `ef-night`
+- `ef-owl`
 - `ef-rosa`
 - `ef-symbiosis`
 - `ef-trio-dark`
@@ -329,6 +342,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-night-mail.png' | absolute_url }}"><img alt="ef-night theme mail sample" src="{{'/assets/images/ef/ef-night-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-night-org.png' | absolute_url }}"><img alt="ef-night theme org sample" src="{{'/assets/images/ef/ef-night-org.png' | absolute_url }}"/></a>
+
+### ef-owl
+
+<a href="{{'/assets/images/ef/ef-owl.png' | absolute_url }}"><img alt="ef-owl theme sample" src="{{'/assets/images/ef/ef-owl.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-owl-git.png' | absolute_url }}"><img alt="ef-owl theme git sample" src="{{'/assets/images/ef/ef-owl-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-owl-mail.png' | absolute_url }}"><img alt="ef-owl theme mail sample" src="{{'/assets/images/ef/ef-owl-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-owl-org.png' | absolute_url }}"><img alt="ef-owl theme org sample" src="{{'/assets/images/ef/ef-owl-org.png' | absolute_url }}"/></a>
 
 ### ef-rosa
 
