@@ -20,14 +20,42 @@ perception of what is on display.
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy.png' | absolute_url }}"><img alt="iosevka-comfy" src="{{'/assets/images/iosevka-comfy/iosevka-comfy.png' | absolute_url }}"/></a>
 
+## iosevka-comfy-duo
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-duo.png' | absolute_url }}"><img alt="iosevka-comfy duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-duo.png' | absolute_url }}"/></a>
+
+## iosevka-comfy-fixed
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-fixed.png' | absolute_url }}"><img alt="iosevka-comfy fixed" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-fixed.png' | absolute_url }}"/></a>
+
 ## iosevka-comfy-motion
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion.png' | absolute_url }}"><img alt="iosevka-comfy-motion" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion.png' | absolute_url }}"/></a>
+
+## iosevka-comfy-motion-duo
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion-duo.png' | absolute_url }}"><img alt="iosevka-comfy-motion-duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-motion-duo.png' | absolute_url }}"/></a>
 
 ## iosevka-comfy-wide
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide.png' | absolute_url }}"><img alt="iosevka-comfy-wide" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide.png' | absolute_url }}"/></a>
 
+## iosevka-comfy-wide-duo
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-duo.png' | absolute_url }}"><img alt="iosevka-comfy-wide duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-duo.png' | absolute_url }}"/></a>
+
+## iosevka-comfy-wide-fixed
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-fixed.png' | absolute_url }}"><img alt="iosevka-comfy-wide fixed" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-fixed.png' | absolute_url }}"/></a>
+
 ## iosevka-comfy-wide-motion
 
 <a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion.png' | absolute_url }}"><img alt="iosevka-comfy-wide-motion" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion.png' | absolute_url }}"/></a>
+
+## iosevka-comfy-wide-motion-duo
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion-duo.png' | absolute_url }}"><img alt="iosevka-comfy-wide-motion-duo" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion-duo.png' | absolute_url }}"/></a>
+
+## iosevka-comfy-wide-motion-fixed
+
+<a href="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion-fixed.png' | absolute_url }}"><img alt="iosevka-comfy-wide-motion-fixed" src="{{'/assets/images/iosevka-comfy/iosevka-comfy-wide-motion-fixed.png' | absolute_url }}"/></a>
