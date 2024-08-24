@@ -254,7 +254,7 @@ installed on the system.
 
 + Package name (GNU ELPA): `show-font` (⚠️ not available yet)
 + Git repository: <https://github.com/protesilaos/show-font>
-+ Backronyms: Show How Outlines Will Feature Only in Non-TTY.
++ Backronym: Show How Outlines Will Feature Only in Non-TTY.
 
 ## sxhkdrc-mode
 

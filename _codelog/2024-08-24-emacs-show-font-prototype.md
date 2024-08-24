@@ -25,7 +25,7 @@ the user that the rendered preview is inaccurate.
 At any rate, my plan is to push `show-font` to GNU ELPA in the coming
 days. If you do give it a try, please let me know how it goes.
 
-## show-font
+## About show-font
 
 WORK-IN-PROGRESS.
 
@@ -38,4 +38,4 @@ installed on the system.
 
 + Package name (GNU ELPA): `show-font` (⚠️ not available yet)
 + Git repository: <https://github.com/protesilaos/show-font>
-+ Backronyms: Show How Outlines Will Feature Only in Non-TTY.
++ Backronym: Show How Outlines Will Feature Only in Non-TTY.
