@@ -7,7 +7,7 @@ permalink: /emacs/tmr-changelog
 
 <p>
 This document contains the release notes for each tagged commit on the
-project's main git repository: <a href="https://git.sr.ht/~protesilaos/tmr">https://git.sr.ht/~protesilaos/tmr</a>.
+project's main git repository: <a href="https://github.com/protesilaos/tmr">https://github.com/protesilaos/tmr</a>.
 </p>
 
 <p>
@@ -15,9 +15,155 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/emacs/tmr</a>.
 </p>
 
-<div id="outline-container-orgcfc54bc" class="outline-2">
-<h2 id="orgcfc54bc">Version 0.4.0 on 2022-07-07</h2>
-<div class="outline-text-2" id="text-orgcfc54bc">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#h:88595352-0263-425c-baab-6042f63ae28a">Version 1.0.0 on 2024-08-30</a></li>
+<li><a href="#h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0">Version 0.4.0 on 2022-07-07</a></li>
+<li><a href="#h:0a2d4909-0079-47e9-97f4-220e85a811f9">Version 0.3.0 on 2022-05-17</a></li>
+<li><a href="#h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</a></li>
+<li><a href="#h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:88595352-0263-425c-baab-6042f63ae28a" class="outline-2">
+<h2 id="h:88595352-0263-425c-baab-6042f63ae28a">Version 1.0.0 on 2024-08-30</h2>
+<div class="outline-text-2" id="text-h:88595352-0263-425c-baab-6042f63ae28a">
+<p>
+This version adds quality-of-life improvements to an already stable
+base.
+</p>
+</div>
+<div id="outline-container-h:ac3d5ea6-2e89-477b-a5eb-9b408ef30b4e" class="outline-3">
+<h3 id="h:ac3d5ea6-2e89-477b-a5eb-9b408ef30b4e">The <code>tmr-with-details</code> supersedes the <code>tmr-with-description</code></h3>
+<div class="outline-text-3" id="text-h:ac3d5ea6-2e89-477b-a5eb-9b408ef30b4e">
+<p>
+The <code>tmr-with-description</code> would always prompt for a time input and
+then a description of the resulting timer object. We now provide a
+more general command, <code>tmr-with-details</code>, which does this in addition
+to an extra prompt for an acknowledgement. What an "acknowledgement"
+is, is documented in the following section.
+</p>
+</div>
+</div>
+<div id="outline-container-h:1a971ba1-09a6-4df6-bbe5-73685430417c" class="outline-3">
+<h3 id="h:1a971ba1-09a6-4df6-bbe5-73685430417c">Timers can now be "acknowledged"</h3>
+<div class="outline-text-3" id="text-h:1a971ba1-09a6-4df6-bbe5-73685430417c">
+<p>
+Normally, when a timer elapses it does not stick around to notify the
+user again and again. This means that the user may miss the one
+notification if, say, they were away from the computer. As such, we
+now provide an opt-in mechanism where a timer persists until it is
+explicitly acknowledged as finished. The acknowledgement is either an
+additional duration for the timer to produce another notification in
+the future, or an explicit consent from the timer to count as
+finished. The goal is to help the user never miss a timer.
+</p>
+
+<p>
+Setting up an acknowledgement can be done in the following ways:
+</p>
+
+<ul class="org-ul">
+<li>Call the standard <code>tmr</code> command with a prefix argument (<code>C-u</code> by
+default). This will make it prompt for a description and an
+acknowledgement.</li>
+
+<li>Use the new command <code>tmr-with-details</code>, which asks for a timer
+input, a description, and whether to include an acknowledgement
+prompt.</li>
+
+<li>Use the new command <code>tmr-toggle-acknowledge</code>, which will prompt for
+a timer and then toggle the acknowledgement status on/off. In this
+scenario, the timer already exists (e.g. it was created with <code>tmr</code>
+without a prefix argument).</li>
+</ul>
+
+<p>
+All timers are listed in a nice list with the command
+<code>tmr-tabulated-view</code>. An extra column will indicate their
+acknowledgement status.
+</p>
+
+<p>
+Thanks to Daniel Mendler for contributing this feature. This was done
+in the form of patches, sent via email. Daniel has assigned copyright
+to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-h:f1d80033-45f5-47cc-b76b-c8aee05dd789" class="outline-3">
+<h3 id="h:f1d80033-45f5-47cc-b76b-c8aee05dd789">The <code>tmr-list-timers</code> is an alias for <code>tmr-tabulated-view</code></h3>
+<div class="outline-text-3" id="text-h:f1d80033-45f5-47cc-b76b-c8aee05dd789">
+<p>
+Perhaps the "list timers" is a more meaningful description of what the
+command does, as opposed to "tabulated view".
+</p>
+</div>
+</div>
+<div id="outline-container-h:20dcbc95-a376-4130-8ae8-7be6c7aa149a" class="outline-3">
+<h3 id="h:20dcbc95-a376-4130-8ae8-7be6c7aa149a">Use the <code>tmr-prefix-map</code></h3>
+<div class="outline-text-3" id="text-h:20dcbc95-a376-4130-8ae8-7be6c7aa149a">
+<p>
+We now define a prefix keymap that users can bind directly to a key
+and get all the TMR commands in one go. For example, this adds all TMR
+commands behind the <code>C-c t</code> prefix:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c t") 'tmr-prefix-map)
+</pre>
+</div>
+
+<p>
+Thanks to Daniel Mendler for this patch.
+</p>
+</div>
+</div>
+<div id="outline-container-h:1d6ddc5a-8856-40d4-8328-f6413cb37f30" class="outline-3">
+<h3 id="h:1d6ddc5a-8856-40d4-8328-f6413cb37f30">TMR uses its own faces</h3>
+<div class="outline-text-3" id="text-h:1d6ddc5a-8856-40d4-8328-f6413cb37f30">
+<p>
+Theme developers or users can now modify how the various TMR
+indicators look by tweaking the faces we provide:
+</p>
+
+<ul class="org-ul">
+<li><code>tmr-duration</code></li>
+<li><code>tmr-description</code></li>
+<li><code>tmr-start-time</code></li>
+<li><code>tmr-end-time</code></li>
+<li><code>tmr-is-acknowledged</code></li>
+<li><code>tmr-must-be-acknowledged</code></li>
+<li><code>tmr-finished</code></li>
+</ul>
+
+<p>
+The default values inherit from basic faces that should be supported
+everywhere.
+</p>
+
+<p>
+Existing users will not notice any visual difference, other things
+being equal.
+</p>
+</div>
+</div>
+<div id="outline-container-h:2b0e0105-d142-45de-807d-b2ef60c25dc8" class="outline-3">
+<h3 id="h:2b0e0105-d142-45de-807d-b2ef60c25dc8">Fixed some typos in the manual</h3>
+<div class="outline-text-3" id="text-h:2b0e0105-d142-45de-807d-b2ef60c25dc8">
+<p>
+Thanks to Ed Tavinor for the contribution. The change pertains to
+typos and is within the limit of edits that do not require copyright
+assignment to the Free Software Foundation.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0" class="outline-2">
+<h2 id="h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0">Version 0.4.0 on 2022-07-07</h2>
+<div class="outline-text-2" id="text-h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0">
 <p>
 The general theme of this release is that TMR became simpler, better,
 and more robust.  Daniel Mendler provided lots of patches and is now
@@ -89,7 +235,7 @@ The tabulated view now shows the remaining time for all timer objects.
 This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
 </p>
 
-<pre class="example" id="org66cb67b">
+<pre class="example" id="orga2d661d">
   Start      End        Remaining  Description
   10:11:49   10:11:54   ✔
   10:11:36   10:31:36   19m 35s
@@ -173,10 +319,9 @@ was informed about it here:
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org07f3b69" class="outline-2">
-<h2 id="org07f3b69">Version 0.3.0 on 2022-05-17</h2>
-<div class="outline-text-2" id="text-org07f3b69">
+<div id="outline-container-h:0a2d4909-0079-47e9-97f4-220e85a811f9" class="outline-2">
+<h2 id="h:0a2d4909-0079-47e9-97f4-220e85a811f9">Version 0.3.0 on 2022-05-17</h2>
+<div class="outline-text-2" id="text-h:0a2d4909-0079-47e9-97f4-220e85a811f9">
 <p>
 The gist of TMR's May Release is that TMR is Maintained Rigorously&#x2014;but
 enough with The Mostly Recursive acronyms!
@@ -219,7 +364,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="org84b3648">
+<pre class="example" id="orgbac867d">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
@@ -249,10 +394,9 @@ have the package installed or visit <a href="https://protesilaos.com/emacs/tmr">
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga5fe7c8" class="outline-2">
-<h2 id="orga5fe7c8">Version 0.2.0 on 2022-04-21</h2>
-<div class="outline-text-2" id="text-orga5fe7c8">
+<div id="outline-container-h:054285c2-3d90-4adc-ada4-61222b31fb85" class="outline-2">
+<h2 id="h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</h2>
+<div class="outline-text-2" id="text-h:054285c2-3d90-4adc-ada4-61222b31fb85">
 <p>
 This entry is retroactively introduced on 2022-07-07.
 </p>
@@ -269,10 +413,9 @@ instead of only interfacing with the last timer.</li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgf27544d" class="outline-2">
-<h2 id="orgf27544d">Version 0.1.0 on 2021-10-02</h2>
-<div class="outline-text-2" id="text-orgf27544d">
+<div id="outline-container-h:1fce2c20-a16c-4ea9-9006-cf565f78f812" class="outline-2">
+<h2 id="h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</h2>
+<div class="outline-text-2" id="text-h:1fce2c20-a16c-4ea9-9006-cf565f78f812">
 <p>
 This entry is retroactively introduced on 2022-07-07.
 </p>
