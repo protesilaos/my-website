@@ -156,9 +156,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">11. Use Org dynamic blocks</a>
 <ul>
-<li><a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">11.1. Org dynamic blocks to insert links or backlinks</a></li>
-<li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">11.2. Org dynamic block to insert file contents</a></li>
-<li><a href="#h:d6254a12-b762-4096-a5de-66a0d423e204">11.3. Org dynamic block to insert Org files as headings</a></li>
+<li><a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">11.1. Org dynamic blocks to insert links</a></li>
+<li><a href="#h:1a81e255-0510-4ee0-bc3a-374de048ef46">11.2. The Org dynamic block to insert missing links only</a></li>
+<li><a href="#h:f9a97859-1deb-47dd-bdae-52f8b424ff46">11.3. The Org dynamic block to insert backlinks</a></li>
+<li><a href="#h:f15fa143-5036-416f-9bff-1bcabbb03456">11.4. Org dynamic block to insert file contents</a></li>
+<li><a href="#h:d6254a12-b762-4096-a5de-66a0d423e204">11.5. Org dynamic block to insert Org files as headings</a></li>
 </ul>
 </li>
 <li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">12. Sort files by component</a>
@@ -1420,7 +1422,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org9439e0f">
+<pre class="example" id="org651ce7c">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2145,7 +2147,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orga93a100">
+<pre class="example" id="org18ff310">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2165,7 +2167,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org21bdcc8">
+<pre class="example" id="orgacc7f18">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2818,7 +2820,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgc77d630">
+<pre class="example" id="org990f3ec">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2985,7 +2987,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc9fb0a4">
+<pre class="example" id="org64ec239">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -2997,7 +2999,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgdb4312e">
+<pre class="example" id="orgf388be9">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3011,7 +3013,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org235e915">
+<pre class="example" id="org74bdc7c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3025,7 +3027,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org41b284f">
+<pre class="example" id="orge334d45">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3403,7 +3405,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgb69507a">
+<pre class="example" id="orgb04ed60">
 - link1
 - link2
 - link3
@@ -3421,7 +3423,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org70f9f5c">
+<pre class="example" id="orgd77c620">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3654,7 +3656,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgeabc665">
+<pre class="example" id="org4c0ac19">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3669,7 +3671,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org0681574">
+<pre class="example" id="orga52c3a8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4236,7 +4238,7 @@ Evaluate:
 </div>
 </div>
 <div id="outline-container-h:50160fae-6515-4d7d-9737-995ad925e64b" class="outline-3">
-<h3 id="h:50160fae-6515-4d7d-9737-995ad925e64b"><span class="section-number-3">11.1.</span> Org dynamic blocks to insert links or backlinks</h3>
+<h3 id="h:50160fae-6515-4d7d-9737-995ad925e64b"><span class="section-number-3">11.1.</span> Org dynamic blocks to insert links</h3>
 <div class="outline-text-3" id="text-h:50160fae-6515-4d7d-9737-995ad925e64b">
 <p>
 [ As part of version 2.3.0, all dynamic blocks are defined in the file
@@ -4256,11 +4258,15 @@ following in an Org file:
 </p>
 
 <pre class="example">
-#+BEGIN: denote-links :regexp "YOUR REGEXP HERE" :sort-by-component nil :reverse-sort nil :id-only nil
+#+BEGIN: denote-links :regexp "YOUR REGEXP HERE" :excluded-dirs-regexp nil :sort-by-component nil :reverse-sort nil :id-only nil :include-date nil
 
 #+END:
 </pre>
 
+
+<p>
+All the parameters except for <code>:regexp</code> are optional.
+</p>
 
 <p>
 The <code>denote-links</code> block is also registered as an option for the
@@ -4318,18 +4324,9 @@ which case links are inserted without a description text but only
 with the identifier of the given file. This has the same meaning as
 with the <code>denote-link</code> command and related facilities (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).</li>
 
-<li><p>
-The <code>:this-heading-only</code> parameter determines if the backlinks are
-about the file or the heading under which the dynamic block is
-(<a href="#h:604bf92a-908a-485c-98b8-37ccae559afd">Backlinks for Org headings</a>). When this parameter is omitted or nil
-(the default), then the backlinks are about the whole file, but if
-this parameter has a <code>t</code> value then the backlinks are specifically
-for the heading (<a href="#h:fc1ad245-ec08-41be-8d1e-7153d99daf02">Insert link to an Org file with a further pointer to a heading</a>).
-</p>
-
-<p>
-[ The <code>:this-heading-only</code> parameter is part of 3.1.0-dev. ]
-</p></li>
+<li>The <code>:include-date</code> parameter controls whether to display the date
+of the file name after the title. This is done when its value is
+<code>t</code>. By default (a nil value), no date is shown. [ Part of 3.1.0-dev. ]</li>
 
 <li>An optional <code>:block-name</code> parameter can be specified with a string
 value to add a <code>#+name</code> to the results. This is useful for further
@@ -4338,33 +4335,35 @@ purview).</li>
 </ul>
 
 <p>
-The same as above except for the <code>:regexp</code> parameter are true for the
-<code>denote-backlinks</code> block. The block can be inserted at point with the
-command <code>denote-org-extras-dblock-insert-backlinks</code> or by manually writing
-this in an Org file:
+In some workflows, users may want to have a separate block to see what
+other links they are missing since they last updated the dynamic
+block. We cover that case as well (<a href="#h:1a81e255-0510-4ee0-bc3a-374de048ef46">The Org dynamic block to insert missing links only</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:1a81e255-0510-4ee0-bc3a-374de048ef46" class="outline-3">
+<h3 id="h:1a81e255-0510-4ee0-bc3a-374de048ef46"><span class="section-number-3">11.2.</span> The Org dynamic block to insert missing links only</h3>
+<div class="outline-text-3" id="text-h:1a81e255-0510-4ee0-bc3a-374de048ef46">
+<p>
+The <code>denote-missing-links</code> block is available with the command
+<code>denote-org-extras-dblock-insert-missing-links</code>. It is like the
+aforementioned <code>denote-links</code> block, except it only lists links to
+files that are not present in the current buffer (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org dynamic blocks to insert links</a>).
+The parameters are otherwise the same and are all optional except for
+<code>:regexp</code>:
 </p>
 
 <pre class="example">
-#+BEGIN: denote-backlinks :sort-by-component nil :reverse-sort nil :id-only nil
+#+BEGIN: denote-missing-links :regexp "YOUR REGEXP HERE" :excluded-dirs-regexp nil :sort-by-component nil :reverse-sort nil :id-only nil :include-date nil
 
 #+END:
 </pre>
 
 
 <p>
-Finally, the <code>denote-missing-links</code> block is available with the
-command <code>denote-org-extras-dblock-insert-missing-links</code>. It is like
-the aforementioned <code>denote-links</code> block, except it only lists links to
-files that are not present in the current buffer. The parameters are
-otherwise the same:
+The <code>denote-missing-links</code> block is also registered as an option for the
+command <code>org-dynamic-block-insert-dblock</code>.
 </p>
-
-<pre class="example">
-#+BEGIN: denote-missing-links :regexp "YOUR REGEXP HERE" :sort-by-component nil :reverse-sort nil :id-only nil
-
-#+END:
-</pre>
-
 
 <p>
 Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with point on the
@@ -4372,8 +4371,57 @@ Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with 
 </p>
 </div>
 </div>
+<div id="outline-container-h:f9a97859-1deb-47dd-bdae-52f8b424ff46" class="outline-3">
+<h3 id="h:f9a97859-1deb-47dd-bdae-52f8b424ff46"><span class="section-number-3">11.3.</span> The Org dynamic block to insert backlinks</h3>
+<div class="outline-text-3" id="text-h:f9a97859-1deb-47dd-bdae-52f8b424ff46">
+<p>
+Apart from links to files matching a regular expression, we can also
+produce a list of backlinks to the current file. The dynamic block can
+be inserted at point with the command <code>denote-org-extras-dblock-insert-backlinks</code>
+or by manually writing this in an Org file:
+</p>
+
+<pre class="example">
+#+BEGIN: denote-backlinks :excluded-dirs-regexp nil :sort-by-component nil :reverse-sort nil :id-only nil :this-heading-only nil :include-date nil
+
+#+END:
+</pre>
+
+
+<p>
+The <code>denote-backlinks</code> block is also registered as an option for the
+command <code>org-dynamic-block-insert-dblock</code>.
+</p>
+
+<p>
+Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with point on the
+<code>#+BEGIN</code> line to update the block.
+</p>
+
+<p>
+The parameters recognised by this dynamic block are almost the same as
+that for inserting links (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org dynamic blocks to insert links</a>). They
+are all optional in this case and there is no parameter expecting a
+regular expression for matching files to link to.
+</p>
+
+<p>
+Additionally, the <code>denote-backlinks</code> block also recognises the
+<code>:this-heading-only</code> parameter. It determines if the backlinks are
+about the file or the heading under which the dynamic block is inserted
+(<a href="#h:604bf92a-908a-485c-98b8-37ccae559afd">Backlinks for Org headings</a>). When this parameter is omitted or nil
+(the default), then the backlinks are about the whole file, but if
+this parameter has a <code>t</code> value then the backlinks are specifically for
+the heading (<a href="#h:fc1ad245-ec08-41be-8d1e-7153d99daf02">Insert link to an Org file with a further pointer to a heading</a>). 
+</p>
+
+<p>
+[ The <code>:this-heading-only</code> parameter is part of 3.1.0-dev. ]
+</p>
+</div>
+</div>
 <div id="outline-container-h:f15fa143-5036-416f-9bff-1bcabbb03456" class="outline-3">
-<h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.2.</span> Org dynamic block to insert file contents</h3>
+<h3 id="h:f15fa143-5036-416f-9bff-1bcabbb03456"><span class="section-number-3">11.4.</span> Org dynamic block to insert file contents</h3>
 <div class="outline-text-3" id="text-h:f15fa143-5036-416f-9bff-1bcabbb03456">
 <p>
 [ As part of version 2.3.0, all dynamic blocks are defined in the file
@@ -4408,22 +4456,30 @@ or manually write the following block in an Org file and then type
 </p>
 
 <pre class="example">
-#+BEGIN: denote-files :regexp "YOUR REGEXP HERE"
+#+BEGIN: denote-files :regexp "YOUR REGEXP HERE" :sort-by-component nil :reverse-sort nil :no-front-matter nil :file-separator nil :add-links nil
 
 #+END:
 </pre>
 
 
 <p>
+All parameters are optional except for <code>:regexp</code>.
+</p>
+
+<p>
+The <code>denote-files</code> block is also registered as an option for the
+command <code>org-dynamic-block-insert-dblock</code>.
+</p>
+
+<p>
+Remember to type <code>C-c C-x C-u</code> (<code>org-dblock-update</code>) with point on the
+<code>#+BEGIN</code> line to update the block.
+</p>
+
+<p>
 To fully control the output, include these additional optional
 parameters, which are described further below:
 </p>
-
-<pre class="example">
-#+BEGIN: denote-files :regexp "YOUR REGEXP HERE" :sort-by-component nil :reverse-sort nil :no-front-matter nil :file-separator nil :add-links nil
-
-#+END:
-</pre>
 
 
 <ul class="org-ul">
@@ -4502,7 +4558,7 @@ purview).</li>
 </div>
 </div>
 <div id="outline-container-h:d6254a12-b762-4096-a5de-66a0d423e204" class="outline-3">
-<h3 id="h:d6254a12-b762-4096-a5de-66a0d423e204"><span class="section-number-3">11.3.</span> Org dynamic block to insert Org files as headings</h3>
+<h3 id="h:d6254a12-b762-4096-a5de-66a0d423e204"><span class="section-number-3">11.5.</span> Org dynamic block to insert Org files as headings</h3>
 <div class="outline-text-3" id="text-h:d6254a12-b762-4096-a5de-66a0d423e204">
 <p>
 [ Part of 3.1.0-dev. ]
@@ -4531,7 +4587,8 @@ Org files.
 </p>
 
 <p>
-In its simplest form, this dynamic block looks like this:
+In its simplest form, this dynamic block looks like this, with
+<code>:regexp</code> as the only mandatory parameter:
 </p>
 
 <pre class="example">
@@ -5194,7 +5251,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orga9e28dd">
+<pre class="example" id="org15e8f67">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6942,7 +6999,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgb151115">
+<pre class="example" id="orgac170a5">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6952,7 +7009,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org8c1a1f9">
+<pre class="example" id="orgb5a875a">
 emacs -Q
 </pre>
 
@@ -6964,7 +7021,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org72ba05f">
+<pre class="example" id="orgb289bea">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7025,7 +7082,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org1c3bdce">
+<pre class="example" id="orgc47e872">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7771,12 +7828,12 @@ Friesen, Jonathan Sahar, Johan Bolmsjö, Jonas Großekathöfer,
 Jousimies, Juanjo Presa, Julian Hoch, Kai von Fintel, Kaushal Modi,
 Kolmas, M. Hadi Timachi, Maikol Solis, Mark Olson, Mirko Hernandez,
 Niall Dooley, Nick Bell, Paul van Gelder, Peter Prevos, Peter Smith,
-Samuel W. Flint, Suhail Singh, Shreyas Ragavan, Stefan Thesing,
-Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Vick (VicZz),
-Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj, azegas, babusri,
-coherentstate, doolio, duli, drcxd, elge70, fingerknight, hpgisler,
-mentalisttraceur, pRot0ta1p, rbenit68, relict007, sienic, skissue,
-sundar bp, yetanotherfossman, zadca123</dd>
+Samuel W. Flint, Sergio Rey, Suhail Singh, Shreyas Ragavan, Stefan
+Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Vick
+(VicZz), Viktor Haag, Wade Mealing, Yi Liu, Ypot, atanasj, azegas,
+babusri, coherentstate, doolio, duli, drcxd, elge70, fingerknight,
+hpgisler, mentalisttraceur, pRot0ta1p, rbenit68, relict007, sienic,
+skissue, sundar bp, yetanotherfossman, zadca123</dd>
 </dl>
 
 <p>
