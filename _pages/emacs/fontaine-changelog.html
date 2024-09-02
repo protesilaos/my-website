@@ -15,11 +15,134 @@ The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos.com/emacs/fontaine</a>.
 </p>
 
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#h:684117cb-76c6-4a74-97ef-a37852bd3612">Version 2.1.0 on 2024-09-02</a></li>
+<li><a href="#h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">Version 2.0.0 on 2024-04-16</a></li>
+<li><a href="#h:bb9803bd-6491-4b58-a685-822b0247fffc">Version 1.0.0 on 2023-02-11</a></li>
+<li><a href="#h:757a185d-d367-4712-8313-ad17265e597f">Version 0.4.0 on 2022-09-07</a></li>
+<li><a href="#h:0112e468-9ead-4bfb-b93b-74c520bbec69">Version 0.3.0 on 2022-07-06</a></li>
+<li><a href="#h:f9399542-29b7-4d26-af82-090fed802cc8">Version 0.2.0 on 2022-05-09</a></li>
+<li><a href="#h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38">Version 0.1.0 on 2022-04-28</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:684117cb-76c6-4a74-97ef-a37852bd3612" class="outline-2">
+<h2 id="h:684117cb-76c6-4a74-97ef-a37852bd3612">Version 2.1.0 on 2024-09-02</h2>
+<div class="outline-text-2" id="text-h:684117cb-76c6-4a74-97ef-a37852bd3612">
+<p>
+Fontaine is in a stable state and I find it very useful every day.
+This release includes some small quality-of-life improvements.
+</p>
+</div>
+<div id="outline-container-h:ffcb3442-3f5e-4bfb-bbf6-8de6c54f1c1e" class="outline-3">
+<h3 id="h:ffcb3442-3f5e-4bfb-bbf6-8de6c54f1c1e">Use the <code>fontaine-toggle-preset</code> command</h3>
+<div class="outline-text-3" id="text-h:ffcb3442-3f5e-4bfb-bbf6-8de6c54f1c1e">
+<p>
+It will switch between the last preset and the one you are currently
+using. If it cannot find an older preset, it will prompt for one using
+minibuffer completion.
+</p>
+
+<p>
+Presets are set with the <code>fontaine-set-preset</code> command, either
+interactively or from Lisp (e.g. in the <code>init.el</code> file).
+</p>
+
+<p>
+Internally, <code>fontaine-toggle-preset</code> takes care to only switch between
+existing presets, so old preset names (such as from the time of some
+experiment) will be skipped if they are not part of the current value
+of <code>fontaine-presets</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:bf1c4be7-9366-4ce2-a166-ae43e0bce833" class="outline-3">
+<h3 id="h:bf1c4be7-9366-4ce2-a166-ae43e0bce833">All entries in the <code>fontaine-presets</code> accept and optional width attribute</h3>
+<div class="outline-text-3" id="text-h:bf1c4be7-9366-4ce2-a166-ae43e0bce833">
+<p>
+This is for users who need to set an explicit width value to the
+underlying face they are targeting. This, of course, depends on the
+capabilities of the font family that is used. Those that do not
+support varying widths will have no effect.
+</p>
+
+<p>
+The width attribute for all existing entries is composed by the name
+of the face plus the <code>-width</code> suffix, such as <code>:fixed-pitch-width</code>.
+Check the Fontaine manual for a complete example.
+</p>
+
+<p>
+Thanks to Adam Porter for making the suggestion to cover the width
+attribute in issue 6: <a href="https://github.com/protesilaos/fontaine/issues/6">https://github.com/protesilaos/fontaine/issues/6</a>.
+</p>
+
+<p>
+The <code>fontaine-presets</code> can look very long if all values are set, as we
+cover all typography-related faces and all their attributes. But do
+not let this intimidate you. Your configuration can be short and still
+highly usable. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq fontaine-presets
+      '((coding ; get the fallback values and override the `:default-height'
+         :default-height 120)
+        (reading  ; change more stuff from the fallback values
+         :default-height 140
+         :default-family "Fira Sans"
+         :fixed-pitch-family "Fira Mono"
+         :variable-pitch-family "Merriweather")
+        (presentation
+         :inherit reading ; copy the attributes of `reading', then override the `:default-height'
+         :default-height 220)
+        (t ; everything falls back to this
+         :default-family "Iosevka Comfy"
+         :default-height 100
+         :fixed-pitch-family "Iosevka Comfy Motion"
+         :variable-pitch-family "Iosevka Comfy Duo")))
+</pre>
+</div>
+
+<p>
+With these, you can switch between <code>coding</code>, <code>reading</code>, and
+<code>presentation</code> to match your evolving workflow requirements.
+</p>
+
+<p>
+These allow you to switch between not only different font families,
+but also font combinations to match a certain style, with higher or
+lower heights, and so on.
+</p>
+</div>
+</div>
+<div id="outline-container-h:4216d32e-22a9-4d17-8b05-5191a93a5ec8" class="outline-3">
+<h3 id="h:4216d32e-22a9-4d17-8b05-5191a93a5ec8">The <code>fontaine-set-preset</code> prompt only uses relevant default presets</h3>
+<div class="outline-text-3" id="text-h:4216d32e-22a9-4d17-8b05-5191a93a5ec8">
+<p>
+When you invoke the command <code>fontaine-set-preset</code> it tries to find a
+previous preset to set it as the default minibuffer value. This means
+that if you press <code>RET</code> without selecting anything, the default will
+be used (check with your minibuffer package in case this does not
+happen, or contact me if you need help).
+</p>
+
+<p>
+Before, the default value was the last selected preset. This could be
+out-of-date though if the <code>fontaine-presets</code> were rewritten in the
+meantime. Now we take care to only produce a default value that is
+among those specified in the <code>fontaine-presets</code>.
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-h:1aad7179-f7cd-4817-ad23-0f9256b6df5d" class="outline-2">
 <h2 id="h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">Version 2.0.0 on 2024-04-16</h2>
 <div class="outline-text-2" id="text-h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">
 </div>
-
 <div id="outline-container-h:44697327-628b-4515-a672-4547bef81a43" class="outline-3">
 <h3 id="h:44697327-628b-4515-a672-4547bef81a43">Control the fonts of more faces</h3>
 <div class="outline-text-3" id="text-h:44697327-628b-4515-a672-4547bef81a43">
@@ -96,7 +219,6 @@ and line number faces. This was done in issue 4:
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:a016aa76-29b4-487c-afef-90f7db61d5d0" class="outline-3">
 <h3 id="h:a016aa76-29b4-487c-afef-90f7db61d5d0">Use the <code>fontaine-mode</code> to persist presets</h3>
 <div class="outline-text-3" id="text-h:a016aa76-29b4-487c-afef-90f7db61d5d0">
@@ -143,7 +265,6 @@ a toggle).
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:e676d050-93f9-432b-9f1a-c16e86769715" class="outline-3">
 <h3 id="h:e676d050-93f9-432b-9f1a-c16e86769715">Deprecated the command <code>fontaine-set-face-font</code></h3>
 <div class="outline-text-3" id="text-h:e676d050-93f9-432b-9f1a-c16e86769715">
@@ -155,7 +276,6 @@ it was not faster than setting face attributes directly from Lisp
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34" class="outline-3">
 <h3 id="h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34">The <code>fontaine-set-preset-hook</code> provides more options</h3>
 <div class="outline-text-3" id="text-h:c9222aaf-9a65-45c6-919d-f5c10a4cdc34">
@@ -179,7 +299,6 @@ reason for such a feature, they are welcome to discuss it with me.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:090e9337-185d-4d4c-a2b6-3ccebac03617" class="outline-3">
 <h3 id="h:090e9337-185d-4d4c-a2b6-3ccebac03617">Fontaine now works with Emacs 29+</h3>
 <div class="outline-text-3" id="text-h:090e9337-185d-4d4c-a2b6-3ccebac03617">
@@ -190,7 +309,6 @@ sorry!
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:2618251b-fac7-4514-b120-50eb498db484" class="outline-3">
 <h3 id="h:2618251b-fac7-4514-b120-50eb498db484">Miscellaneous</h3>
 <div class="outline-text-3" id="text-h:2618251b-fac7-4514-b120-50eb498db484">
@@ -201,7 +319,6 @@ sorry!
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:bb9803bd-6491-4b58-a685-822b0247fffc" class="outline-2">
 <h2 id="h:bb9803bd-6491-4b58-a685-822b0247fffc">Version 1.0.0 on 2023-02-11</h2>
 <div class="outline-text-2" id="text-h:bb9803bd-6491-4b58-a685-822b0247fffc">
@@ -211,7 +328,6 @@ increasing the major version number to reflect this fact.  Otherwise,
 this is a small release with only one sizeable addition.
 </p>
 </div>
-
 <div id="outline-container-h:f842797f-5b46-40e4-adc3-e98b289d85bf" class="outline-3">
 <h3 id="h:f842797f-5b46-40e4-adc3-e98b289d85bf">Inherit the properties of another named preset</h3>
 <div class="outline-text-3" id="text-h:f842797f-5b46-40e4-adc3-e98b289d85bf">
@@ -275,7 +391,6 @@ future versions.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:d44c3958-e7d2-4190-93cf-92d983eb8e02" class="outline-3">
 <h3 id="h:d44c3958-e7d2-4190-93cf-92d983eb8e02">Bug fixes</h3>
 <div class="outline-text-3" id="text-h:d44c3958-e7d2-4190-93cf-92d983eb8e02">
@@ -296,7 +411,6 @@ this is not a bug fix? 🙃</li>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:757a185d-d367-4712-8313-ad17265e597f" class="outline-2">
 <h2 id="h:757a185d-d367-4712-8313-ad17265e597f">Version 0.4.0 on 2022-09-07</h2>
 <div class="outline-text-2" id="text-h:757a185d-d367-4712-8313-ad17265e597f">
@@ -463,7 +577,6 @@ you some ideas:
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:0112e468-9ead-4bfb-b93b-74c520bbec69" class="outline-2">
 <h2 id="h:0112e468-9ead-4bfb-b93b-74c520bbec69">Version 0.3.0 on 2022-07-06</h2>
 <div class="outline-text-2" id="text-h:0112e468-9ead-4bfb-b93b-74c520bbec69">
@@ -508,7 +621,6 @@ was informed about it here:
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:f9399542-29b7-4d26-af82-090fed802cc8" class="outline-2">
 <h2 id="h:f9399542-29b7-4d26-af82-090fed802cc8">Version 0.2.0 on 2022-05-09</h2>
 <div class="outline-text-2" id="text-h:f9399542-29b7-4d26-af82-090fed802cc8">
@@ -551,7 +663,6 @@ for the feedback on the emacs-devel mailing list:
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38" class="outline-2">
 <h2 id="h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38">Version 0.1.0 on 2022-04-28</h2>
 <div class="outline-text-2" id="text-h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38">
