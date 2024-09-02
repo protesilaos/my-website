@@ -141,7 +141,6 @@ comfortable point sizes.
 + Git repositories:
   + GitHub: <https://github.com/protesilaos/fontaine>
   + GitLab: <https://gitlab.com/protesilaos/fontaine>
-+ Mailing list: <https://lists.sr.ht/~protesilaos/fontaine>
 + Backronym: Fonts, Ornaments, and Neat Typography Are Irrelevant in Non-graphical Emacs.
 
 ## spacious-padding
