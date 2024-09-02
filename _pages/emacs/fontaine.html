@@ -14,13 +14,13 @@ information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-2.0.0, released on 2024-04-16.  Any reference to
+2.1.0, released on 2024-09-02.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 2.0.0-dev.
+Current development target is 2.2.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -72,7 +72,6 @@ Current development target is 2.0.0-dev.
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f" class="outline-2">
 <h2 id="h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:40b18bb2-4dc1-4202-bd0b-6fab535b2a0f">
@@ -97,27 +96,13 @@ modify this GNU manual.”
 </blockquote>
 </div>
 </div>
-
 <div id="outline-container-h:62d716b4-44f7-4078-85d2-29a7da8ca253" class="outline-2">
 <h2 id="h:62d716b4-44f7-4078-85d2-29a7da8ca253"><span class="section-number-2">2.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:62d716b4-44f7-4078-85d2-29a7da8ca253">
 <p>
-[ The command <code>fontaine-set-face-font</code> is removed from the
-  2.0.0-dev because it is not consistent with the rest
-  of the functionality of Fontaine. ]
-</p>
-
-<p>
 Fontaine lets the user specify presets of font configurations and set
 them on demand on graphical Emacs frames.  The user option
 <code>fontaine-presets</code> holds all such presets.
-</p>
-
-<p>
-[ The support for the mode line, header line, line number, tab bar,
-  and tab line faces is part of 2.0.0-dev.  Same for
-  the introduction of the variables <code>fontaine-weights</code>,
-  <code>fontaine-slants</code>, <code>fontaine-faces</code>. ]
 </p>
 
 <p>
@@ -140,61 +125,73 @@ property list. It looks like this (check the default value of
  :default-family "Monospace"
  :default-weight regular
  :default-slant normal
+ :default-width normal
  :default-height 100
 
  :fixed-pitch-family nil
  :fixed-pitch-weight nil
  :fixed-pitch-slant nil
+ :fixed-pitch-width nil
  :fixed-pitch-height 1.0
 
  :fixed-pitch-serif-family nil
  :fixed-pitch-serif-weight nil
  :fixed-pitch-serif-slant nil
+ :fixed-pitch-serif-width nil
  :fixed-pitch-serif-height 1.0
 
  :variable-pitch-family "Sans"
  :variable-pitch-weight nil
  :variable-pitch-slant nil
+ :variable-pitch-width nil
  :variable-pitch-height 1.0
 
  :mode-line-active-family nil
  :mode-line-active-weight nil
  :mode-line-active-slant nil
+ :mode-line-active-width nil
  :mode-line-active-height 1.0
 
  :mode-line-inactive-family nil
  :mode-line-inactive-weight nil
  :mode-line-inactive-slant nil
+ :mode-line-inactive-width nil
  :mode-line-inactive-height 1.0
 
  :header-line-family nil
  :header-line-weight nil
  :header-line-slant nil
+ :header-line-width nil
  :header-line-height 1.0
 
  :line-number-family nil
  :line-number-weight nil
  :line-number-slant nil
+ :line-number-width nil
  :line-number-height 1.0
 
  :tab-bar-family nil
  :tab-bar-weight nil
  :tab-bar-slant nil
+ :tab-bar-width nil
  :tab-bar-height 1.0
 
  :tab-line-family nil
  :tab-line-weight nil
  :tab-line-slant nil
+ :tab-line-width nil
  :tab-line-height 1.0
 
  :bold-family nil
  :bold-slant nil
  :bold-weight bold
+ :bold-width nil
  :bold-height 1.0
 
  :italic-family nil
  :italic-weight nil
  :italic-slant italic
+ :italic-width nil
  :italic-height 1.0
 
  :line-spacing nil)
@@ -228,13 +225,6 @@ in Emacs.
 </p>
 
 <p>
-[ As part of 2.0.0-dev, the <code>fontaine-set-preset</code>
-  always prompts for a preset when called interactively, even if there
-  is only one preset available. This is how all prompts work in Emacs,
-  so better be consistent with them. ]
-</p>
-
-<p>
 The command <code>fontaine-set-preset</code> applies the desired preset. If
 called interactively, it produces a minibuffer prompt with completion
 among the available presets. When called from Lisp, it requires a
@@ -260,7 +250,6 @@ argument.
 
 <p>
 As a final step, <code>fontaine-set-preset</code> calls the <code>fontaine-set-preset-hook</code>.
-[ This is part of 2.0.0-dev. ]
 </p>
 
 <p>
@@ -271,6 +260,13 @@ the <code>.emacs.d</code> directory).  Saving is done by the function
 (e.g. <code>kill-emacs-hook</code>).  To restore that value, the user can call the
 function <code>fontaine-restore-latest-preset</code> (such as by adding it to their
 init file).
+</p>
+
+<p>
+The command <code>fontaine-toggle-preset</code> can toggle between the last two
+valid presets, as set by <code>fontaine-set-preset</code>. If it cannot find two
+different presets, then it prompts using minibuffer completion. As a
+final step, it calls the <code>fontaine-set-preset-hook</code>.
 </p>
 
 <p>
@@ -286,7 +282,6 @@ blame you if you can only interpret it as a descriptive acronym: FONTs
 Are Irrelevant in Non-graphical Emacs (because that is actually true).
 </p>
 </div>
-
 <div id="outline-container-h:35bc7f51-6368-4718-ad25-b276a1f2cc08" class="outline-3">
 <h3 id="h:35bc7f51-6368-4718-ad25-b276a1f2cc08"><span class="section-number-3">2.1.</span> Shared and implicit fallback values for presets</h3>
 <div class="outline-text-3" id="text-h:35bc7f51-6368-4718-ad25-b276a1f2cc08">
@@ -547,7 +542,6 @@ intend to change their values).  We then have this transformation:
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:9604c817-9b01-46d6-9455-58b8c393e441" class="outline-3">
 <h3 id="h:9604c817-9b01-46d6-9455-58b8c393e441"><span class="section-number-3">2.2.</span> Inherit the properties of another named preset</h3>
 <div class="outline-text-3" id="text-h:9604c817-9b01-46d6-9455-58b8c393e441">
@@ -611,12 +605,10 @@ future versions.
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:031b9bea-d42b-4be0-82c7-42712cde94cc" class="outline-2">
 <h2 id="h:031b9bea-d42b-4be0-82c7-42712cde94cc"><span class="section-number-2">3.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:031b9bea-d42b-4be0-82c7-42712cde94cc">
 </div>
-
 <div id="outline-container-h:0f288b38-6da1-4628-8f78-4df56cbc8f2a" class="outline-3">
 <h3 id="h:0f288b38-6da1-4628-8f78-4df56cbc8f2a"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
 <div class="outline-text-3" id="text-h:0f288b38-6da1-4628-8f78-4df56cbc8f2a">
@@ -642,7 +634,6 @@ use the version of the package from the GNU-devel ELPA archive.  Read:
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:eba0f790-5261-4966-9c4a-ac6949de7415" class="outline-3">
 <h3 id="h:eba0f790-5261-4966-9c4a-ac6949de7415"><span class="section-number-3">3.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:eba0f790-5261-4966-9c4a-ac6949de7415">
@@ -681,7 +672,6 @@ Everything is in place to set up the package.
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:c4567af0-6d88-4b94-962c-59702191a75d" class="outline-2">
 <h2 id="h:c4567af0-6d88-4b94-962c-59702191a75d"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:c4567af0-6d88-4b94-962c-59702191a75d">
@@ -782,13 +772,12 @@ Remember to read the relevant doc strings.
 </pre>
 </div>
 </div>
-
 <div id="outline-container-h:f1b48050-e8e1-4689-b92f-7776bbaa55a4" class="outline-3">
 <h3 id="h:f1b48050-e8e1-4689-b92f-7776bbaa55a4"><span class="section-number-3">4.1.</span> Persist font configurations on theme switch</h3>
 <div class="outline-text-3" id="text-h:f1b48050-e8e1-4689-b92f-7776bbaa55a4">
 <p>
-[ As part of 2.0.0-dev, there exists the
-  <code>fontaine-mode</code> which does this automatically. ]
+[ Since version <code>2.0.0</code>, there exists the <code>fontaine-mode</code> which does
+  this automatically. ]
 </p>
 
 <p>
@@ -812,13 +801,12 @@ a hook that is ran at the post <code>load-theme</code> phase.
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:8f76ca89-a20c-4d76-89e6-423f1d8691a4" class="outline-3">
 <h3 id="h:8f76ca89-a20c-4d76-89e6-423f1d8691a4"><span class="section-number-3">4.2.</span> Theme-agnostic hook for Emacs 29 or higher</h3>
 <div class="outline-text-3" id="text-h:8f76ca89-a20c-4d76-89e6-423f1d8691a4">
 <p>
-[ As part of 2.0.0-dev, there exists the
-  <code>fontaine-mode</code> which does this automatically. ]
+[ Since version <code>2.0.0</code>, there exists the <code>fontaine-mode</code> which does
+  this automatically. ]
 </p>
 
 <p>
@@ -832,13 +820,12 @@ persist or restore a font preset thus (<a href="#h:f1b48050-e8e1-4689-b92f-7776b
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:bf6cbff8-647a-45e8-b0e7-d7588414394b" class="outline-3">
 <h3 id="h:bf6cbff8-647a-45e8-b0e7-d7588414394b"><span class="section-number-3">4.3.</span> Theme-agnostic hook before Emacs 29</h3>
 <div class="outline-text-3" id="text-h:bf6cbff8-647a-45e8-b0e7-d7588414394b">
 <p>
-[ As part of 2.0.0-dev, there exists the
-  <code>fontaine-mode</code> which does this automatically. ]
+[ Since version <code>2.0.0</code>, there exists the <code>fontaine-mode</code> which does
+  this automatically. ]
 </p>
 
 <p>
@@ -876,7 +863,6 @@ And then simply use that hook:
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:3cf30d7d-e0a0-4835-8f25-570bab6cc3ed" class="outline-2">
 <h2 id="h:3cf30d7d-e0a0-4835-8f25-570bab6cc3ed"><span class="section-number-2">5.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:3cf30d7d-e0a0-4835-8f25-570bab6cc3ed">
@@ -895,7 +881,6 @@ Joe Higton, Ted Reed.</dd>
 </dl>
 </div>
 </div>
-
 <div id="outline-container-h:2d84e73e-c143-43b5-b388-a6765da974ea" class="outline-2">
 <h2 id="h:2d84e73e-c143-43b5-b388-a6765da974ea"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:2d84e73e-c143-43b5-b388-a6765da974ea">
@@ -1356,24 +1341,20 @@ to permit their use in free software.
 <!--
 </div>
 </div>
-
 <div id="outline-container-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa" class="outline-2">
 <h2 id="h:0325b677-0b1b-426e-a5d5-ddc225fde6fa"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:0325b677-0b1b-426e-a5d5-ddc225fde6fa">
 </div>
-
 <div id="outline-container-h:40430725-fd7f-47ac-9a29-913942e84a57" class="outline-3">
 <h3 id="h:40430725-fd7f-47ac-9a29-913942e84a57"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:40430725-fd7f-47ac-9a29-913942e84a57">
 </div>
 </div>
-
 <div id="outline-container-h:91f3c207-8149-4f9a-89cf-b8726e4e4415" class="outline-3">
 <h3 id="h:91f3c207-8149-4f9a-89cf-b8726e4e4415"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:91f3c207-8149-4f9a-89cf-b8726e4e4415">
 </div>
 </div>
-
 <div id="outline-container-h:2b11517a-b67f-494f-b111-1c6195e8a2fc" class="outline-3">
 <h3 id="h:2b11517a-b67f-494f-b111-1c6195e8a2fc"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:2b11517a-b67f-494f-b111-1c6195e8a2fc">
