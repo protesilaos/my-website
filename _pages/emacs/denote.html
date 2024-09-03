@@ -112,7 +112,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <ul>
 <li><a href="#h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">5.1. Change the order of file name components</a></li>
 <li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">5.2. Sluggification of file name components</a></li>
-<li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">5.3. User-defined sluggification of file name components</a></li>
+<li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">5.3. User-defined sluggification of file name components</a>
+<ul>
+<li><a href="#h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">5.3.1. Custom sluggification to remove non-ASCII characters</a></li>
+</ul>
+</li>
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">5.4. Features of the file-naming scheme for searching or filtering</a></li>
 </ul>
 </li>
@@ -1481,7 +1485,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org7e0d62c">
+<pre class="example" id="org3c3697b">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2206,7 +2210,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgbccc4cb">
+<pre class="example" id="orgb0c945b">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2226,7 +2230,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org181362f">
+<pre class="example" id="org60e6b18">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2879,7 +2883,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org8c07aa3">
+<pre class="example" id="org1eb7c30">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -2945,7 +2949,7 @@ Denote. For example, we have this:
 </div>
 
 <p>
-Follow this principle for all the sluggification functions.
+Follow this principle for all the sluggification functions (<a href="#h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">Custom sluggification to remove non-ASCII characters</a>).
 </p>
 
 <p>
@@ -2972,6 +2976,78 @@ good reason: they are the distillation of years of experience. Here we
 give you what you wish, but bear in mind it may not be what you need.
 You have been warned.
 </p>
+</div>
+<div id="outline-container-h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a" class="outline-4">
+<h4 id="h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a"><span class="section-number-4">5.3.1.</span> Custom sluggification to remove non-ASCII characters</h4>
+<div class="outline-text-4" id="text-h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">
+<p>
+[ This relies on the <code>denote-slug-keep-only-ascii</code> function, which is
+  part of 3.1.0-dev. ]
+</p>
+
+<p>
+A common use-case for Denote is to rename files such as videos
+downloaded from the Internet. Sometimes, those files have Unicode
+characters that (i) not all fonts support and (ii) create all sorts of
+problems with pattern matching, such as when searching through file
+names.
+</p>
+
+<p>
+By default, Denote does not remove Unicode characters because users
+may actually want them (e.g. Latin characters with accents). Those who
+do, however, wish to keep everything limited to the ASCII range can
+use the following in their Emacs configuration (<a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">User-defined sluggification of file name components</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; These are the same as the default Denote sluggification functions,
+;; except they remove all non-ASCII characters.
+
+(defun prot/denote-sluggify-title (str &amp;optional extra-characters)
+  "Make STR have no punctuation or non-ASCII characters.
+EXTRA-CHARACTERS is an optional string that specifies a regular
+expression like `denote-excluded-punctuation-regexp'.
+
+This can be used in `denote-file-name-slug-functions'."
+  (let ((string (denote-slug-keep-only-ascii str)))
+    (dolist (regexp (list denote-excluded-punctuation-regexp
+                          denote-excluded-punctuation-extra-regexp
+                          extra-characters))
+      (when (stringp regexp)
+        (setq str (replace-regexp-in-string regexp "" string))))
+    string))
+
+(defun prot/denote-sluggify-for-signature (str &amp;optional extra-characters)
+  "Like `prot/denote-sluggify-title' for Denote signatures.
+STR and EXTRA-CHARACTERS have the same meaning as that function.
+
+This can be used in `denote-file-name-slug-functions'."
+  (let ((string (denote-slug-keep-only-ascii str)))
+    (dolist (regexp (list denote-excluded-punctuation-regexp
+                          denote-excluded-punctuation-extra-regexp
+                          extra-characters))
+      (when (stringp regexp)
+        (setq str (replace-regexp-in-string (string-replace "=" "" regexp) "" string))))
+    string))
+
+(defun prot/denote-sluggify-keyword (str)
+  "Sluggify STR while joining separate words.
+This is like `prot/denote-sluggify-title' and is intended for use in
+`denote-file-name-slug-functions'."
+  (let ((string (denote-slug-keep-only-ascii str)))
+    (downcase
+     (replace-regexp-in-string
+      "-" ""
+      (denote--slug-hyphenate (denote--slug-no-punct string))))))
+
+(setq denote-file-name-slug-functions
+      '((title . prot/denote-sluggify-title)
+        (signature . prot/denote-sluggify-for-signature)
+        (keyword . prot/denote-sluggify-for-keyword)))
+</pre>
+</div>
+</div>
 </div>
 </div>
 <div id="outline-container-h:1a953736-86c2-420b-b566-fb22c97df197" class="outline-3">
@@ -3046,7 +3122,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org55f49d1">
+<pre class="example" id="orgf74005c">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3058,7 +3134,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf058aa5">
+<pre class="example" id="org4440411">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3072,7 +3148,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org46af5de">
+<pre class="example" id="org4875096">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3086,7 +3162,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org9a7ba9b">
+<pre class="example" id="org52ab673">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3464,7 +3540,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgde1d624">
+<pre class="example" id="org90b391c">
 - link1
 - link2
 - link3
@@ -3482,7 +3558,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org96278c0">
+<pre class="example" id="org4a812af">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3715,7 +3791,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org53a707c">
+<pre class="example" id="orgfc8fb54">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3730,7 +3806,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org518fb03">
+<pre class="example" id="orgc4a1110">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5310,7 +5386,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org48dc804">
+<pre class="example" id="orgb4fcce3">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6417,6 +6493,13 @@ at point or <code>POINT</code>. [ Part of 3.1.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-slug-keep-only-ascii</code></dt><dd>Remove all non-ASCII
+characters from <code>STR</code> and replace them with spaces. This is useful
+as a helper function to construct <code>denote-file-name-slug-functions</code>
+(<a href="#h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">Custom sluggification to remove non-ASCII characters</a>).</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-sluggify</code></dt><dd>Make <code>STR</code> an appropriate slug for
 file name <code>COMPONENT</code> (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggification of file name components</a>).
 Apply the function specified in <code>denote-file-name-slug-function</code> to
@@ -7063,7 +7146,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org94e235d">
+<pre class="example" id="orgce6e437">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7073,7 +7156,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc026b55">
+<pre class="example" id="org133140c">
 emacs -Q
 </pre>
 
@@ -7085,7 +7168,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgba6dcb6">
+<pre class="example" id="org48bceae">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7146,7 +7229,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgfb0e484">
+<pre class="example" id="org085d429">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
