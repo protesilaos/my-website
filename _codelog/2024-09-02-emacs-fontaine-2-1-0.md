@@ -62,22 +62,24 @@ cover all typography-related faces and all their attributes. But do
 not let this intimidate you. Your configuration can be short and still
 highly usable. For example:
 
-    (setq fontaine-presets
-          '((coding ; get the fallback values and override the `:default-height'
-             :default-height 120)
-            (reading  ; change more stuff from the fallback values
-             :default-height 140
-             :default-family "Fira Sans"
-             :fixed-pitch-family "Fira Mono"
-             :variable-pitch-family "Merriweather")
-            (presentation
-             :inherit reading ; copy the attributes of `reading', then override the `:default-height'
-             :default-height 220)
-            (t ; everything falls back to this
-             :default-family "Iosevka Comfy"
-             :default-height 100
-             :fixed-pitch-family "Iosevka Comfy Motion"
-             :variable-pitch-family "Iosevka Comfy Duo")))
+```elisp
+(setq fontaine-presets
+      '((coding ; get the fallback values and override the `:default-height'
+         :default-height 120)
+        (reading  ; change more stuff from the fallback values
+         :default-height 140
+         :default-family "Fira Sans"
+         :fixed-pitch-family "Fira Mono"
+         :variable-pitch-family "Merriweather")
+        (presentation
+         :inherit reading ; copy the attributes of `reading', then override the `:default-height'
+         :default-height 220)
+        (t ; everything falls back to this
+         :default-family "Iosevka Comfy"
+         :default-height 100
+         :fixed-pitch-family "Iosevka Comfy Motion"
+         :variable-pitch-family "Iosevka Comfy Duo")))
+```
 
 With these, you can switch between `coding`, `reading`, and
 `presentation` to match your evolving workflow requirements.
