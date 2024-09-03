@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-08-27 18:18:04 +0300 with a word
-count of 104411.</b>
+<b>Last revised and exported on 2024-09-03 09:57:42 +0300 with a word
+count of 104474.</b>
 </p>
 
 <p>
@@ -410,7 +410,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-08-27 18:18:04 +0300):
+(2024-09-03 09:57:42 +0300):
 </p>
 
 <div class="org-src-container">
@@ -500,7 +500,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgcc135e9">
+<pre class="example" id="org690d4a0">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -580,7 +580,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org2a9c744">
+<pre class="example" id="org7d1669e">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -588,7 +588,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org59a0a1e">
+<pre class="example" id="org4a0f3ac">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1501,7 +1501,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org2b1fe16">
+<pre class="example" id="orgaa04e80">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2638,9 +2638,10 @@ The next section defines some complementary functionality
   ;; while switching between themes.
   ((after-init . fontaine-mode)
    (after-init . (lambda ()
-                        ;; Set last preset or fall back to desired style from `fontaine-presets'.
-                        (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))))
-  :bind ("C-c f" . fontaine-set-preset)
+                   ;; Set last preset or fall back to desired style from `fontaine-presets'.
+                   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))))
+  :bind (("C-c f" . fontaine-set-preset)
+         ("C-c F" . fontaine-toggle-preset))
   :config
   ;; This is defined in Emacs C code: it belongs to font settings.
   (setq x-underline-at-descent-line nil)
@@ -2683,61 +2684,73 @@ The next section defines some complementary functionality
            :default-family "Iosevka Comfy"
            :default-weight regular
            :default-slant normal
+           :default-width normal
            :default-height 100
 
            :fixed-pitch-family "Iosevka Comfy"
            :fixed-pitch-weight nil
            :fixed-pitch-slant nil
+           :fixed-pitch-width nil
            :fixed-pitch-height 1.0
 
            :fixed-pitch-serif-family nil
            :fixed-pitch-serif-weight nil
            :fixed-pitch-serif-slant nil
+           :fixed-pitch-serif-width nil
            :fixed-pitch-serif-height 1.0
 
            :variable-pitch-family "Iosevka Comfy Motion Duo"
            :variable-pitch-weight nil
            :variable-pitch-slant nil
+           :variable-pitch-width nil
            :variable-pitch-height 1.0
 
            :mode-line-active-family nil
            :mode-line-active-weight nil
            :mode-line-active-slant nil
+           :mode-line-active-width nil
            :mode-line-active-height 1.0
 
            :mode-line-inactive-family nil
            :mode-line-inactive-weight nil
            :mode-line-inactive-slant nil
+           :mode-line-inactive-width nil
            :mode-line-inactive-height 1.0
 
            :header-line-family nil
            :header-line-weight nil
            :header-line-slant nil
+           :header-line-width nil
            :header-line-height 1.0
 
            :line-number-family nil
            :line-number-weight nil
            :line-number-slant nil
+           :line-number-width nil
            :line-number-height 1.0
 
            :tab-bar-family nil
            :tab-bar-weight nil
            :tab-bar-slant nil
+           :tab-bar-width nil
            :tab-bar-height 1.0
 
            :tab-line-family nil
            :tab-line-weight nil
            :tab-line-slant nil
+           :tab-line-width nil
            :tab-line-height 1.0
 
            :bold-family nil
-           :bold-weight bold
            :bold-slant nil
+           :bold-weight bold
+           :bold-width nil
            :bold-height 1.0
 
            :italic-family nil
            :italic-weight nil
            :italic-slant italic
+           :italic-width nil
            :italic-height 1.0
 
            :line-spacing nil)))
@@ -4203,7 +4216,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org902d987">
+<pre class="example" id="org6a80c62">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -4235,7 +4248,7 @@ Now the actual configurations:
   ;; # The COLORTERM is documented in (info "(emacs) General Variables").
   ;; # I found the reference to `dumb-emacs-ansi' in (info "(emacs)
   ;; # Connection Variables").
-  ;; if [ "$TERM" = "dumb-emacs-ansi" ] &amp;&amp; [ "$INSIDE_EMACS" ]
+  ;; if [ "$TERM" = "dumb" ] &amp;&amp; [ "$INSIDE_EMACS" ] || [ "$TERM" = "dumb-emacs-ansi" ] &amp;&amp; [ "$INSIDE_EMACS" ]
   ;; then
   ;;     export PAGER="cat"
   ;;     alias less="cat"
@@ -5627,10 +5640,9 @@ thus notice how my <code>prot-marginalia.el</code> configures the user option
 <pre class="src src-emacs-lisp">;;; Detailed completion annotations (marginalia.el)
 (use-package marginalia
   :ensure t
-  :defer 1
+  :hook (after-init . marginalia-mode)
   :config
-  (setq marginalia-max-relative-age 0) ; absolute time
-  (marginalia-mode 1))
+  (setq marginalia-max-relative-age 0)) ; absolute time
 
 ;;;; Custom completion annotations
 (use-package prot-marginalia
@@ -6902,38 +6914,27 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
 <p>
 This is a neat package by Alvaro Ramirez which produces a previewable
 representation of multimedia file when we try to visit them in an
-Emacs buffer. Without <code>ready-player-mode</code>, we get a bunch of gibberish
-from the binary data.
+Emacs buffer. Without <code>ready-player-major-mode</code>, we get a bunch of
+gibberish from the binary data.
 </p>
 
 <p>
 While this is a standalone package, it synergises with my
 <code>dired-preview</code> without the need to add any glue code between the two
-packages. When I move the cursor over a multimedia file, the Dired
-preview buffer tries to visit the file at point, which is in turn
-rendered using <code>ready-player</code>.
+packages (<a href="#h:c345ff72-d905-482a-a885-fc111252aacf">The <code>prot-emacs-dired.el</code> section about <code>dired-preview</code></a>).
+When I move the cursor over a multimedia file, the Dired preview
+buffer tries to visit the file at point, which is in turn rendered
+using <code>ready-player</code>.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(use-package ready-player
   :ensure t
-  :hook (dired-mode . ready-player-mode)
-  :after dired-preview
-  :commands (prot/ready-player-dired-preview-play-toggle)
-  :bind (:map dired-preview-mode-map ("C-c C-p" . prot/ready-player-dired-preview-play-toggle))
+  :mode
+  ("\\.\\(mp3\\|m4a\\|mp4\\|mkv\\|webm\\)\\'" . ready-player-major-mode)
   :config
   (setq ready-player-autoplay nil)
-  (setq ready-player-repeat nil)
-
-  (defun prot/ready-player-dired-preview-play-toggle ()
-    "Call `ready-player-toggle-play-stop' on the currently previewed media file."
-    (interactive)
-    (dired-preview-with-window
-     (if-let ((file buffer-file-name)
-              (media (concat "\\." (regexp-opt ready-player-supported-media t) "\\'"))
-              (_ (string-match-p media file)))
-         (call-interactively #'ready-player-toggle-play-stop)
-       (user-error "Cannot do something useful with `ready-player' here")))))
+  (setq ready-player-repeat nil))
 </pre>
 </div>
 </div>
@@ -7041,7 +7042,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgdf16d30">
+<pre class="example" id="orge79087c">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7197,7 +7198,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org6ee78ee">
+<pre class="example" id="org5aafc4e">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8218,6 +8219,11 @@ cases, a combination of <code>vc</code> and the command-line will suffice
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Interactive and powerful git front-end (Magit)
+(use-package transient
+  :defer t
+  :config
+  (setq transient-show-popup 0.5))
+
 (use-package magit
   :ensure t
   :bind ("C-c g" . magit-status)
@@ -8232,8 +8238,12 @@ cases, a combination of <code>vc</code> and the command-line will suffice
   ;; reason.
   (setq git-commit-style-convention-checks '(non-empty-second-line))
 
-  (setq magit-diff-refine-hunk t)
+  (setq magit-diff-refine-hunk t))
 
+(use-package magit-repos
+  :ensure nil ; part of `magit'
+  :commands (magit-list-repositories)
+  :init
   (setq magit-repository-directories
         '(("~/Git/Projects" . 1))))
 </pre>
@@ -8519,7 +8529,7 @@ on how I use Org.
           ("x" . "example")
           ("X" . "export")
           ("q" . "quote")))
-  (setq org-catch-invisible-edits 'show)
+  (setq org-fold-catch-invisible-edits 'show)
   (setq org-return-follows-link nil)
   (setq org-loop-over-headlines-in-active-region 'start-level)
   (setq org-modules '(ol-info ol-eww))
@@ -8749,7 +8759,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org5493eb2">
+<pre class="example" id="orga7ebb25">
 (info "(org) Search Options")
 </pre>
 
@@ -8841,7 +8851,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org30bc8ee">
+<pre class="example" id="orga1e12d6">
 (require 'ob-python)
 
 ;; OR
@@ -9684,7 +9694,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8b2435c">
+<pre class="example" id="org2d59983">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10377,7 +10387,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgb685890">
+<pre class="example" id="orge5d2b6f">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10389,7 +10399,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org8dbf2aa">
+<pre class="example" id="orgfbb96d6">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10455,7 +10465,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgc58f94c">
+<pre class="example" id="orga25f8fa">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10467,7 +10477,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org547d7d5">
+<pre class="example" id="orgbe54b0f">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10489,7 +10499,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org7a03bed">
+<pre class="example" id="org79aeab2">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11831,7 +11841,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org7dd30b1">
+<pre class="example" id="org8ad50cb">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11926,7 +11936,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org9d27136">
+<pre class="example" id="org96ae70f">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12287,7 +12297,14 @@ files. The user must handle this step by invoking the command
 
 (use-package nerd-icons-completion
   :ensure t
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
+  :after marginalia
+  ;; FIXME 2024-09-01: For some reason this stopped working because it
+  ;; macroexpands to `marginalia-mode' instead of
+  ;; `marginalia-mode-hook'.  What is more puzzling is that this does
+  ;; not happen in the next :hook...
+  ;; :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
+  :config
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-corfu
   :ensure t
@@ -19111,7 +19128,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org299a9bf">
+<pre class="example" id="orgb42ffe9">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19143,7 +19160,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org86a9669">
+<pre class="example" id="org471dcb5">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
