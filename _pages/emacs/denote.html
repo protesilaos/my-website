@@ -1485,7 +1485,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org3c3697b">
+<pre class="example" id="orgeb3d097">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2210,7 +2210,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb0c945b">
+<pre class="example" id="orge476ecf">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2230,7 +2230,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org60e6b18">
+<pre class="example" id="org49e4d1b">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2883,7 +2883,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org1eb7c30">
+<pre class="example" id="orgddfb9e9">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3003,48 +3003,31 @@ use the following in their Emacs configuration (<a href="#h:d375c6d2-92c7-425f-9
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;; These are the same as the default Denote sluggification functions,
 ;; except they remove all non-ASCII characters.
+(defun my-denote-sluggify-title (str)
+  (downcase
+   (denote--slug-hyphenate
+    (denote--slug-no-punct
+     (denote-slug-keep-only-ascii str)))))
 
-(defun prot/denote-sluggify-title (str &amp;optional extra-characters)
-  "Make STR have no punctuation or non-ASCII characters.
-EXTRA-CHARACTERS is an optional string that specifies a regular
-expression like `denote-excluded-punctuation-regexp'.
+(defun my-denote-sluggify-signature (str)
+  (downcase
+   (denote--slug-put-equals
+    (denote--slug-no-punct-for-signature
+     (denote-slug-keep-only-ascii str)
+     "-+"))))
 
-This can be used in `denote-file-name-slug-functions'."
-  (let ((string (denote-slug-keep-only-ascii str)))
-    (dolist (regexp (list denote-excluded-punctuation-regexp
-                          denote-excluded-punctuation-extra-regexp
-                          extra-characters))
-      (when (stringp regexp)
-        (setq str (replace-regexp-in-string regexp "" string))))
-    string))
+(defun my-denote-sluggify-keyword (str)
+  (downcase
+   (replace-regexp-in-string
+    "-" ""
+    (denote--slug-hyphenate
+     (denote--slug-no-punct
+      (denote-slug-keep-only-ascii str))))))
 
-(defun prot/denote-sluggify-for-signature (str &amp;optional extra-characters)
-  "Like `prot/denote-sluggify-title' for Denote signatures.
-STR and EXTRA-CHARACTERS have the same meaning as that function.
-
-This can be used in `denote-file-name-slug-functions'."
-  (let ((string (denote-slug-keep-only-ascii str)))
-    (dolist (regexp (list denote-excluded-punctuation-regexp
-                          denote-excluded-punctuation-extra-regexp
-                          extra-characters))
-      (when (stringp regexp)
-        (setq str (replace-regexp-in-string (string-replace "=" "" regexp) "" string))))
-    string))
-
-(defun prot/denote-sluggify-keyword (str)
-  "Sluggify STR while joining separate words.
-This is like `prot/denote-sluggify-title' and is intended for use in
-`denote-file-name-slug-functions'."
-  (let ((string (denote-slug-keep-only-ascii str)))
-    (downcase
-     (replace-regexp-in-string
-      "-" ""
-      (denote--slug-hyphenate (denote--slug-no-punct string))))))
-
-(setq denote-file-name-slug-functions
-      '((title . prot/denote-sluggify-title)
-        (signature . prot/denote-sluggify-for-signature)
-        (keyword . prot/denote-sluggify-for-keyword)))
+(defcustom denote-file-name-slug-functions
+  '((title . my-denote-sluggify-title)
+    (signature . my-denote-sluggify-signature)
+    (keyword . my-denote-sluggify-keyword)))
 </pre>
 </div>
 </div>
@@ -3122,7 +3105,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgf74005c">
+<pre class="example" id="orgc6fdfbc">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3134,7 +3117,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org4440411">
+<pre class="example" id="org97c179c">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3148,7 +3131,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4875096">
+<pre class="example" id="orgc3ff9d5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3162,7 +3145,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org52ab673">
+<pre class="example" id="org93bc8e1">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3540,7 +3523,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org90b391c">
+<pre class="example" id="org7578e4d">
 - link1
 - link2
 - link3
@@ -3558,7 +3541,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org4a812af">
+<pre class="example" id="orge0ccddd">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3791,7 +3774,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgfc8fb54">
+<pre class="example" id="orgd3834e3">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3806,7 +3789,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgc4a1110">
+<pre class="example" id="org1fde629">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5386,7 +5369,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgb4fcce3">
+<pre class="example" id="orgcd46600">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7146,7 +7129,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgce6e437">
+<pre class="example" id="orga8a6b63">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7156,7 +7139,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org133140c">
+<pre class="example" id="org8ea260d">
 emacs -Q
 </pre>
 
@@ -7168,7 +7151,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org48bceae">
+<pre class="example" id="org8fba0c9">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7229,7 +7212,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org085d429">
+<pre class="example" id="org937fdd8">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
