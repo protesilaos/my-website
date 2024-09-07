@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-09-03 09:57:42 +0300 with a word
-count of 104474.</b>
+<b>Last revised and exported on 2024-09-07 13:15:50 +0300 with a word
+count of 104498.</b>
 </p>
 
 <p>
@@ -410,7 +410,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-09-03 09:57:42 +0300):
+(2024-09-07 13:15:50 +0300):
 </p>
 
 <div class="org-src-container">
@@ -419,7 +419,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-x-toolkit=gtk3 --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+--prefix=/usr/local --with-pgtk --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 </pre>
 
 
@@ -500,7 +500,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org690d4a0">
+<pre class="example" id="org197d221">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -580,7 +580,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org7d1669e">
+<pre class="example" id="orgef0ae0b">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -588,7 +588,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org4a0f3ac">
+<pre class="example" id="orga28a6a1">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1501,7 +1501,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgaa04e80">
+<pre class="example" id="org35e51a6">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2263,8 +2263,8 @@ are called. The pulse effect is added there (<code>pulsar-after-function-hook</c
   (setopt pulsar-pulse t
           pulsar-delay 0.055
           pulsar-iterations 10
-          pulsar-face 'pulsar-magenta
-          pulsar-highlight-face 'pulsar-cyan)
+          pulsar-face 'pulsar-cyan
+          pulsar-highlight-face 'pulsar-magenta)
 
   (pulsar-global-mode 1)
   :hook
@@ -2332,7 +2332,7 @@ vertical axis.
   ;; Or `setopt' on Emacs 29: (setopt lin-face 'lin-yellow)
   ;;
   ;; I still prefer `setq' for consistency.
-  (setq lin-face 'lin-magenta))
+  (setq lin-face 'lin-blue))
 </pre>
 </div>
 </div>
@@ -2655,9 +2655,10 @@ The next section defines some complementary functionality
 
   (setq fontaine-presets
         '((small
-           :default-family "Iosevka Comfy Motion"
+           :default-family "Iosevka Comfy Wide Motion"
            :default-height 80
-           :variable-pitch-family "Iosevka Comfy Duo")
+           :fixed-pitch-family "Iosevka Comfy Wide Motion"
+           :variable-pitch-family "Iosevka Comfy Wide Duo")
           (regular) ; like this it uses all the fallback values and is named `regular'
           (medium
            :default-weight semilight
@@ -3033,6 +3034,8 @@ key bindings.
     ("&lt;f2&gt;" . toggle-input-method)  ; F2 overrides that two-column gimmick.  Sorry, but no!
     ("&lt;insert&gt;" . nil)
     ("&lt;menu&gt;" . nil)
+    ("C-x C-d" . nil) ; never use it
+    ("C-x C-v" . nil) ; never use it
     ("C-z" . nil) ; I have a window manager, thanks!
     ("C-x C-z" . nil) ; same idea as above
     ("C-x C-c" . nil) ; avoid accidentally exiting Emacs
@@ -4216,7 +4219,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org6a80c62">
+<pre class="example" id="orgc7abd33">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7042,7 +7045,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orge79087c">
+<pre class="example" id="orgfac1435">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7198,7 +7201,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org5aafc4e">
+<pre class="example" id="org084e758">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8759,7 +8762,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orga7ebb25">
+<pre class="example" id="org20de28e">
 (info "(org) Search Options")
 </pre>
 
@@ -8851,7 +8854,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orga1e12d6">
+<pre class="example" id="orgbe8da07">
 (require 'ob-python)
 
 ;; OR
@@ -9694,7 +9697,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org2d59983">
+<pre class="example" id="org253a9fe">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10211,8 +10214,8 @@ Note Only The Epiphenomenal.</li>
 
   (setq denote-backlinks-show-context nil)
 
-  (setq denote-rename-buffer-format "[D] %t %b")
-  (setq denote-buffer-has-backlinks-string "(&lt;---&gt;)")
+  (setq denote-rename-buffer-format "[D] %t%b")
+  (setq denote-buffer-has-backlinks-string " (&lt;---&gt;)")
 
   ;; Automatically rename Denote buffers when opening them so that
   ;; instead of their long file name they have a literal "[D]"
@@ -10387,7 +10390,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orge5d2b6f">
+<pre class="example" id="org030f7f0">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10399,7 +10402,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgfbb96d6">
+<pre class="example" id="org912a1ac">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10465,7 +10468,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orga25f8fa">
+<pre class="example" id="org820d88b">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10477,7 +10480,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgbe54b0f">
+<pre class="example" id="org396784c">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10499,7 +10502,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org79aeab2">
+<pre class="example" id="org36ed7b0">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11841,7 +11844,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org8ad50cb">
+<pre class="example" id="org59e3868">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11936,7 +11939,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org96ae70f">
+<pre class="example" id="orga3be015">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19128,7 +19131,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgb42ffe9">
+<pre class="example" id="org3e816f3">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19160,7 +19163,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org471dcb5">
+<pre class="example" id="orgf1d8734">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
