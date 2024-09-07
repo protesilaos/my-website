@@ -137,6 +137,9 @@ philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emac
   relevant sources here:
   <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
 
+- An hour-long video exchange [with Gavin Freeborn about Emacs,
+  philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
