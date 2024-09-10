@@ -242,17 +242,21 @@ alternating the letter casing of characters in the words it affects.
 
 ## show-font
 
-WORK-IN-PROGRESS.
+This package lets you preview a font inside of Emacs. It does so in
+three ways:
 
-This package defines a major mode to preview a font in an Emacs
-buffer. A pangram and character set are displayed at varying heights
-to help the user appreciate the given font's features.
+- Prompt for a font on the system and display it in a buffer.
+- List all known fonts in a buffer, with a short preview for each.
+- Provide a major mode to preview a font whose file is among the
+  installed ones.
 
-For the time being, this only works with fonts that are already
-installed on the system.
+Check out its sources:
 
-+ Package name (GNU ELPA): `show-font` (⚠️ not available yet)
++ Package name (GNU ELPA): `show-font`
++ Official manual: <https://protesilaos.com/emacs/show-font>
++ Change log: <https://protesilaos.com/emacs/show-font-changelog>
 + Git repository: <https://github.com/protesilaos/show-font>
++ Sample pictures: <https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/>
 + Backronym: Show How Outlines Will Feature Only in Non-TTY.
 
 ## sxhkdrc-mode
