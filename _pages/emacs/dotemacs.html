@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-09-07 13:15:50 +0300 with a word
-count of 104498.</b>
+<b>Last revised and exported on 2024-09-11 10:35:37 +0300 with a word
+count of 104779.</b>
 </p>
 
 <p>
@@ -141,12 +141,13 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:34ce98fe-0b57-44d9-b5f3-0224632114a5">5.1.6. The <code>prot-emacs-theme.el</code> section for <code>cursory</code></a></li>
 <li><a href="#h:2af10314-c8c2-4946-bf9c-a5b0f5fe881b">5.1.7. The <code>prot-emacs-theme.el</code> section for <code>theme-buffet</code></a></li>
 <li><a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">5.1.8. The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a></li>
-<li><a href="#h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">5.1.9. The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</a>
+<li><a href="#h:60a005be-77bd-49f1-a865-78d7cf75bd2a">5.1.9. The <code>prot-emacs-theme.el</code> section about <code>show-font</code></a></li>
+<li><a href="#h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">5.1.10. The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</a>
 <ul>
-<li><a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">5.1.9.1. Information about my Iosevka Comfy fonts</a></li>
+<li><a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">5.1.10.1. Information about my Iosevka Comfy fonts</a></li>
 </ul>
 </li>
-<li><a href="#h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">5.1.10. The <code>prot-emacs-theme.el</code> call to <code>provide</code></a></li>
+<li><a href="#h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">5.1.11. The <code>prot-emacs-theme.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
 <li><a href="#h:0ef52ed9-7b86-4329-ae4e-eff9ab8d07f2">5.2. The <code>prot-emacs-essentials.el</code> module</a>
@@ -410,7 +411,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-09-07 13:15:50 +0300):
+(2024-09-11 10:35:37 +0300):
 </p>
 
 <div class="org-src-container">
@@ -419,7 +420,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-pgtk --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+--prefix=/usr/local --with-x-toolkit=gtk3 --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 </pre>
 
 
@@ -500,7 +501,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org197d221">
+<pre class="example" id="org66015f7">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -580,7 +581,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgef0ae0b">
+<pre class="example" id="org6bb84ed">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -588,7 +589,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orga28a6a1">
+<pre class="example" id="org8da7252">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1291,8 +1292,9 @@ generic in this regard.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Always start with *scratch*
-(setq initial-buffer-choice t)
+<pre class="src src-emacs-lisp">(setq initial-buffer-choice t)
+(setq initial-major-mode 'lisp-interaction-mode)
+(setq initial-scratch-message nil)
 </pre>
 </div>
 </div>
@@ -1445,6 +1447,7 @@ packages will rely on <code>package-archive-priorities</code>.
     modus-themes
     notmuch-indicator
     pulsar
+    show-font
     spacious-padding
     standard-themes
     substitute
@@ -1501,7 +1504,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org35e51a6">
+<pre class="example" id="org625c886">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2623,8 +2626,12 @@ explain what this is about (<a href="#h:3b989679-7e3f-4f03-b4bb-611006ea01ce">In
 </p>
 
 <p>
-The next section defines some complementary functionality
+Another section defines some complementary functionality
 (<a href="#h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</a>).
+</p>
+
+<p>
+Also check my <code>show-font</code> package (<a href="#h:60a005be-77bd-49f1-a865-78d7cf75bd2a">The <code>prot-emacs-theme.el</code> section about <code>show-font</code></a>).
 </p>
 
 <div class="org-src-container">
@@ -2762,8 +2769,64 @@ The next section defines some complementary functionality
 </div>
 </div>
 </div>
+<div id="outline-container-h:60a005be-77bd-49f1-a865-78d7cf75bd2a" class="outline-4">
+<h4 id="h:60a005be-77bd-49f1-a865-78d7cf75bd2a"><span class="section-number-4">5.1.9.</span> The <code>prot-emacs-theme.el</code> section about <code>show-font</code></h4>
+<div class="outline-text-4" id="text-h:60a005be-77bd-49f1-a865-78d7cf75bd2a">
+<p>
+This is yet another package of mine. It lets you preview a font inside
+of Emacs. It does so in three ways:
+</p>
+
+<ul class="org-ul">
+<li>Prompt for a font on the system and display it in a buffer.</li>
+<li>List all known fonts in a buffer, with a short preview for each.</li>
+<li>Provide a major mode to preview a font whose file is among the
+installed ones.</li>
+</ul>
+
+<p>
+Check out its sources:
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>show-font</code></li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/show-font">https://protesilaos.com/emacs/show-font</a></li>
+<li>Change log: <a href="https://protesilaos.com/emacs/show-font-changelog">https://protesilaos.com/emacs/show-font-changelog</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/show-font">https://github.com/protesilaos/show-font</a></li>
+<li>Sample pictures: <a href="https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/">https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/</a></li>
+<li>Backronym: Show How Outlines Will Feature Only in Non-TTY.</li>
+</ul>
+
+<p>
+To actually set fonts, I use my <code>fontaine</code> package (<a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Show Font (preview fonts)
+;; Read the manual: &lt;https://protesilaos.com/emacs/show-font&gt;
+(use-package show-font
+  :ensure t
+  :commands (show-font-select-preview show-font-list)
+  :config
+  ;; These are the defaults, but I keep them here for easier access.
+  (setq show-font-pangram 'prot)
+  (setq show-font-character-sample
+        "
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789   !@#$¢%^&amp;*~|
+`'\"‘’“”.,;:  ()[]{}—-_+=&lt;&gt;
+
+()[]{}&lt;&gt;«»‹› 6bB8&amp;0ODdoa 1tiIlL|\/
+!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
+x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
+"))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:60d6aae2-6e4b-402c-b6a8-411fc49a6857" class="outline-4">
-<h4 id="h:60d6aae2-6e4b-402c-b6a8-411fc49a6857"><span class="section-number-4">5.1.9.</span> The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</h4>
+<h4 id="h:60d6aae2-6e4b-402c-b6a8-411fc49a6857"><span class="section-number-4">5.1.10.</span> The <code>prot-emacs-theme.el</code> section about <code>variable-pitch-mode</code> and font resizing</h4>
 <div class="outline-text-4" id="text-h:60d6aae2-6e4b-402c-b6a8-411fc49a6857">
 <p>
 [ Watch: <a href="https://protesilaos.com/codelog/2024-01-16-customize-emacs-fonts/">Customise Emacs fonts</a> (2024-01-16) ]
@@ -2820,7 +2883,7 @@ adjust the current buffer&rsquo;s text size (<a href="#h:6b6778af-8bd2-4f97-a794
 </div>
 </div>
 <div id="outline-container-h:3b989679-7e3f-4f03-b4bb-611006ea01ce" class="outline-5">
-<h5 id="h:3b989679-7e3f-4f03-b4bb-611006ea01ce"><span class="section-number-5">5.1.9.1.</span> Information about my Iosevka Comfy fonts</h5>
+<h5 id="h:3b989679-7e3f-4f03-b4bb-611006ea01ce"><span class="section-number-5">5.1.10.1.</span> Information about my Iosevka Comfy fonts</h5>
 <div class="outline-text-5" id="text-h:3b989679-7e3f-4f03-b4bb-611006ea01ce">
 <p>
 <i>Iosevka Comfy</i> is a customised build of the Iosevka typeface, with a
@@ -2969,7 +3032,7 @@ technicalities.
 </div>
 </div>
 <div id="outline-container-h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef" class="outline-4">
-<h4 id="h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef"><span class="section-number-4">5.1.10.</span> The <code>prot-emacs-theme.el</code> call to <code>provide</code></h4>
+<h4 id="h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef"><span class="section-number-4">5.1.11.</span> The <code>prot-emacs-theme.el</code> call to <code>provide</code></h4>
 <div class="outline-text-4" id="text-h:bac0ce0a-db68-42e7-ba2c-f350f91f80ef">
 <p>
 Finally, we <code>provide</code> the module. This is the mirror function of
@@ -4219,7 +4282,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgc7abd33">
+<pre class="example" id="org7c27bdf">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7045,7 +7108,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgfac1435">
+<pre class="example" id="org55f77a6">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7201,7 +7264,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org084e758">
+<pre class="example" id="orgab09820">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8762,7 +8825,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org20de28e">
+<pre class="example" id="org85c76ff">
 (info "(org) Search Options")
 </pre>
 
@@ -8854,7 +8917,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgbe8da07">
+<pre class="example" id="org4f774d8">
 (require 'ob-python)
 
 ;; OR
@@ -9697,7 +9760,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org253a9fe">
+<pre class="example" id="orgc4a1995">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10390,7 +10453,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org030f7f0">
+<pre class="example" id="orga1fb060">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10402,7 +10465,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org912a1ac">
+<pre class="example" id="orgb306635">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10468,7 +10531,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org820d88b">
+<pre class="example" id="org9283d58">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10480,7 +10543,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org396784c">
+<pre class="example" id="org46a21b7">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10502,7 +10565,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org36ed7b0">
+<pre class="example" id="orgb0d3a0b">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11844,7 +11907,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org59e3868">
+<pre class="example" id="org32f791c">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -11939,7 +12002,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orga3be015">
+<pre class="example" id="orgd98c56f">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19131,7 +19194,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org3e816f3">
+<pre class="example" id="org060cd59">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19163,7 +19226,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgf1d8734">
+<pre class="example" id="org88dee8c">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
