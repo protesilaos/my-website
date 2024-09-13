@@ -15,27 +15,23 @@ pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.2.0, released on 2023-07-01.  Any reference to
+0.3.0, released on 2024-05-20.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.3.0-dev.
+Current development target is 0.4.0-dev.
 </p>
 
 <ul class="org-ul">
 <li>Package name (GNU ELPA): <code>substitute</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/substitute">https://protesilaos.com/emacs/substitute</a></li>
-<li>Git repo on SourceHut: <a href="https://git.sr.ht/~protesilaos/substitute">https://git.sr.ht/~protesilaos/substitute</a>
-<ul class="org-ul">
-<li>Mirrors:
+<li>Git repositories:
 <ul class="org-ul">
 <li>GitHub: <a href="https://github.com/protesilaos/substitute">https://github.com/protesilaos/substitute</a></li>
 <li>GitLab: <a href="https://gitlab.com/protesilaos/substitute">https://gitlab.com/protesilaos/substitute</a></li>
 </ul></li>
-</ul></li>
-<li>Mailing list: <a href="https://lists.sr.ht/~protesilaos/general-issues">https://lists.sr.ht/~protesilaos/general-issues</a></li>
 <li>Video demo: <a href="https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/">https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/</a></li>
 <li>Backronym: Some Utilities Built to Substitute Targets Independent of
 Their Utterances, Thoroughly and Easily.</li>
@@ -71,7 +67,6 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:beae1a59-81ae-41ad-803b-f08caa03732b" class="outline-2">
 <h2 id="h:beae1a59-81ae-41ad-803b-f08caa03732b"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:beae1a59-81ae-41ad-803b-f08caa03732b">
@@ -158,14 +153,36 @@ those arguments are to the discretion of the user.  By default, the
 hook is empty and no post-substitution action is performed (e.g. the
 <code>substitute-report-operation</code>).
 </p>
-</div>
+
+<p>
+The command <code>substitute-prefix-map</code> can be assigned to a key to make
+it work as a prefix. This way, all Substitute commands are readily
+available. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c s") #'substitute-prefix-map)
+</pre>
 </div>
 
+<p>
+After evaluating that, type <code>C-c s C-h</code> to learn about all the key
+bindings. To change those, use something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key substitute-prefix-map (kbd "b") #'substitute-target-in-buffer)
+(define-key substitute-prefix-map (kbd "d") #'substitute-target-in-defun)
+(define-key substitute-prefix-map (kbd "r") #'substitute-target-above-point)
+(define-key substitute-prefix-map (kbd "s") #'substitute-target-below-point)
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:4943ebc8-45e5-4352-8d51-9a09efa16b74" class="outline-2">
 <h2 id="h:4943ebc8-45e5-4352-8d51-9a09efa16b74"><span class="section-number-2">2.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:4943ebc8-45e5-4352-8d51-9a09efa16b74">
 </div>
-
 <div id="outline-container-h:ab97c462-01cc-408a-adf2-aadd87a22e90" class="outline-3">
 <h3 id="h:ab97c462-01cc-408a-adf2-aadd87a22e90"><span class="section-number-3">2.1.</span> GNU ELPA package</h3>
 <div class="outline-text-3" id="text-h:ab97c462-01cc-408a-adf2-aadd87a22e90">
@@ -191,7 +208,6 @@ use the version of the package from the GNU-devel ELPA archive.  Read:
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e" class="outline-3">
 <h3 id="h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e"><span class="section-number-3">2.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e">
@@ -210,7 +226,7 @@ mkdir manual-packages
 cd manual-packages
 
 # Clone this repo, naming it "substitute"
-git clone https://git.sr.ht/~protesilaos/substitute substitute
+git clone https://github.com/protesilaos/substitute substitute
 </pre>
 </div>
 
@@ -230,7 +246,6 @@ Everything is in place to set up the package.
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f" class="outline-2">
 <h2 id="h:e8691728-79b2-4b37-b6ce-e29a4cd9114f"><span class="section-number-2">3.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">
@@ -243,25 +258,19 @@ Everything is in place to set up the package.
 
 ;; Set this to t if you want to always treat the letter casing
 ;; literally.  Otherwise each command accepts a `C-u' prefix
-  ;; argument to do this on-demand.
+;; argument to do this on-demand.
 (setq substitute-fixed-letter-case t)
 
 ;; If you want a message reporting the matches that changed in the
 ;; given context.  We don't do it by default.
 (add-hook 'substitute-post-replace-functions #'substitute-report-operation)
 
-;; We do not bind any keys.  This is just an idea.  The mnemonic is
-;; that M-# (or M-S-3) is close to M-% (or M-S-5).
-(let ((map global-map))
-  (define-key map (kbd "M-# s") #'substitute-target-below-point)
-  (define-key map (kbd "M-# r") #'substitute-target-above-point)
-  (define-key map (kbd "M-# d") #'substitute-target-in-defun)
-  (define-key map (kbd "M-# b") #'substitute-target-in-buffer))
+;; Use C-c s as a prefix for all Substitute commands.
+(define-key global-map (kbd "C-c s") #'substitute-prefix-map)
 </pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:532c5398-9510-47d4-a718-a5dfa8f86a3f" class="outline-2">
 <h2 id="h:532c5398-9510-47d4-a718-a5dfa8f86a3f"><span class="section-number-2">4.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:532c5398-9510-47d4-a718-a5dfa8f86a3f">
@@ -280,7 +289,6 @@ Wang Chunye.</dd>
 </dl>
 </div>
 </div>
-
 <div id="outline-container-h:055d634a-cd8a-49e8-86f6-0027325e752c" class="outline-2">
 <h2 id="h:055d634a-cd8a-49e8-86f6-0027325e752c"><span class="section-number-2">5.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:055d634a-cd8a-49e8-86f6-0027325e752c">
@@ -305,7 +313,6 @@ modify this GNU manual.”
 </blockquote>
 </div>
 </div>
-
 <div id="outline-container-h:11e2447a-6f5d-42c3-b444-746a478a14a0" class="outline-2">
 <h2 id="h:11e2447a-6f5d-42c3-b444-746a478a14a0"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:11e2447a-6f5d-42c3-b444-746a478a14a0">
@@ -766,24 +773,20 @@ to permit their use in free software.
 <!--
 </div>
 </div>
-
 <div id="outline-container-h:4a0562a0-38ce-48b2-ba03-5de449c64e9d" class="outline-2">
 <h2 id="h:4a0562a0-38ce-48b2-ba03-5de449c64e9d"><span class="section-number-2">7.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:4a0562a0-38ce-48b2-ba03-5de449c64e9d">
 </div>
-
 <div id="outline-container-h:e4d42198-6e20-4715-a353-a360ed3502f2" class="outline-3">
 <h3 id="h:e4d42198-6e20-4715-a353-a360ed3502f2"><span class="section-number-3">7.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:e4d42198-6e20-4715-a353-a360ed3502f2">
 </div>
 </div>
-
 <div id="outline-container-h:566947dc-3c7a-4972-808b-7499516809f2" class="outline-3">
 <h3 id="h:566947dc-3c7a-4972-808b-7499516809f2"><span class="section-number-3">7.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:566947dc-3c7a-4972-808b-7499516809f2">
 </div>
 </div>
-
 <div id="outline-container-h:8d9ef803-56bf-4c9d-a8c7-a4d5473c28f2" class="outline-3">
 <h3 id="h:8d9ef803-56bf-4c9d-a8c7-a4d5473c28f2"><span class="section-number-3">7.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:8d9ef803-56bf-4c9d-a8c7-a4d5473c28f2">
