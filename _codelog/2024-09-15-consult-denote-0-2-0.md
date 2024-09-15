@@ -17,7 +17,7 @@ sources to the `consult-buffer` command.
 
 Below are the release notes
 
-## Version 0.2.0 on 2024-09-10
+## Version 0.2.0 on 2024-09-15
 
 
 ### The command `consult-denote-find` always previews files
