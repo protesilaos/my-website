@@ -1,5 +1,5 @@
 ---
-title: "Emacs: commands in popup frames with `emacsclient`"
+title: "Emacs: commands in popup frames with 'emacsclient'"
 excerpt: "Video demonstration of my custom code to run any Emacs command in a popup frame without the need to focus the Emacs I have running."
 layout: vlog
 mediaid: "vbWxT8tht9A"
