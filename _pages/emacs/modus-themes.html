@@ -149,9 +149,12 @@ Current development target is 4.6.0-dev.
 <li><a href="#h:43bcb5d0-e25f-470f-828c-662cee9e21f1">8.18. DIY Use more spacious margins or padding in Emacs frames</a></li>
 <li><a href="#h:2ef83a21-2f0a-441e-9634-473feb940743">8.19. DIY Custom hl-todo colors</a></li>
 <li><a href="#h:439c9e46-52e2-46be-b1dc-85841dd99671">8.20. DIY Add support for solaire-mode</a></li>
-<li><a href="#h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24">8.21. DIY Use a hook at the post-load-theme phase</a>
+<li><a href="#h:caa5a5c4-18fb-4b9f-91f9-883f216fce41">8.21. DIY Add support for meow-mode</a></li>
+<li><a href="#h:e94bdd17-1c2d-41b5-86c5-83462bd8f30c">8.22. DIY Add support for combobulate</a></li>
+<li><a href="#h:7ea8fa66-1cd8-47b0-92b4-9998a3068f85">8.23. DIY Add support for howm</a></li>
+<li><a href="#h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24">8.24. DIY Use a hook at the post-load-theme phase</a>
 <ul>
-<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">8.21.1. DIY A theme-agnostic hook for theme loading</a></li>
+<li><a href="#h:86f6906b-f090-46cc-9816-1fe8aeb38776">8.24.1. DIY A theme-agnostic hook for theme loading</a></li>
 </ul>
 </li>
 </ul>
@@ -3057,7 +3060,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org655ef0b">
+<pre class="example" id="orgb9b7294">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4399,7 +4402,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgb37423f">
+<pre class="example" id="org6332ba3">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -4813,7 +4816,7 @@ on what we cover at length elsewhere in this manual:
   (modus-themes-with-colors
     (custom-set-faces
      `(solaire-default-face ((,c :inherit default :background ,bg-dim :foreground ,fg-dim)))
-     `(solaire-line-number-face ((,c :inherit solaire-default-face :foreground ,fg-unfocused)))
+     `(solaire-line-number-face ((,c :inherit solaire-default-face :foreground ,fg-dim)))
      `(solaire-hl-line-face ((,c :background ,bg-active)))
      `(solaire-org-hide-face ((,c :background ,bg-dim :foreground ,bg-dim))))))
 
@@ -4830,8 +4833,139 @@ Reload the theme for changes to take effect.
 </p>
 </div>
 </div>
+<div id="outline-container-h:caa5a5c4-18fb-4b9f-91f9-883f216fce41" class="outline-3">
+<h3 id="h:caa5a5c4-18fb-4b9f-91f9-883f216fce41"><span class="section-number-3">8.21.</span> DIY Add support for meow-mode</h3>
+<div class="outline-text-3" id="text-h:caa5a5c4-18fb-4b9f-91f9-883f216fce41">
+<p>
+The <code>meow</code> package provides a modal editing experience. It is meant to
+build on top of the key bindings the user is already familiar with. My
+problem as an outsider is that I cannot make sense of all the contexts
+where its faces are used in, so I cannot make a good choice of which
+styles to use. The following is but a basic attempt to get started.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; This is not complete, because it is difficult for a non-user to
+;; make sense of where all the faces are used in.
+(defun my-modus-themes-custom-faces (&amp;rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     ;; FIXME: What is a "region cursor" and should it differ from the position highlights below?
+     `(meow-region-cursor-1 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-0)))
+     `(meow-region-cursor-2 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-1)))
+     `(meow-region-cursor-3 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-2)))
+
+     `(meow-position-highlight-number-1 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-0)))
+     `(meow-position-highlight-number-2 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-1)))
+     `(meow-position-highlight-number-3 ((,c :inherit (bold modus-themes-reset-soft) :background ,bg-char-2))))))
+
+(add-hook 'enable-theme-functions #'my-modus-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+<a href="#h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24">Using a hook at the post-load-theme phase</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:e94bdd17-1c2d-41b5-86c5-83462bd8f30c" class="outline-3">
+<h3 id="h:e94bdd17-1c2d-41b5-86c5-83462bd8f30c"><span class="section-number-3">8.22.</span> DIY Add support for combobulate</h3>
+<div class="outline-text-3" id="text-h:e94bdd17-1c2d-41b5-86c5-83462bd8f30c">
+<p>
+The <code>combobulate</code> package provides the means to operate on text that
+is underpinned by the <code>tree-sitter</code> program. Because this is a
+specialized case that requires intimate knowledge of the
+technicalities, I am not adding support for this package directly at
+the theme level. Users can try this instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-custom-faces (&amp;rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     `(combobulate-active-indicator-face ((,c :foreground ,fg-main)))
+     `(combobulate-dimmed-indicator-face ((,c :inherit shadow)))
+     `(combobulate-error-indicator-face ((,c :inherit error)))
+     `(combobulate-query-highlight-fiery-flames-face ((,c :inherit modus-themes-intense-red)))
+     `(combobulate-query-highlight-gleaming-gold-face ((,c :inherit modus-themes-intense-yellow)))
+     `(combobulate-query-highlight-majestic-mercury-face ((,c :inherit modus-themes-intense-cyan)))
+     `(combobulate-query-highlight-mysterious-mauve-face ((,c :inherit modus-themes-intense-magenta)))
+     `(combobulate-query-highlight-radiant-rind-face ((,c :inherit modus-themes-subtle-red)))
+     `(combobulate-query-highlight-regal-ripples-face ((,c :inherit modus-themes-intense-blue)))
+     `(combobulate-query-highlight-serene-shade-face ((,c :inherit modus-themes-subtle-green)))
+     `(combobulate-query-highlight-silver-shadows-face ((,c :background ,bg-active :foreground ,fg-main)))
+     `(combobulate-query-highlight-vibrant-veggie-face ((,c :inherit modus-themes-intense-green)))
+     `(combobulate-query-query-anonymous-face ((,c :inherit modus-themes-bold :foreground ,fg-alt)))
+     `(combobulate-query-query-builtin-face ((,c :inherit font-lock-builtin-face)))
+     `(combobulate-query-query-constant-face ((,c :inherit font-lock-constant-face)))
+     `(combobulate-query-query-doc-markup-face ((,c :inherit font-lock-doc-markup-face)))
+     `(combobulate-query-query-keyword-face ((,c :inherit font-lock-keyword-face)))
+     `(combobulate-query-query-predicate-builtin-face ((,c :inherit bold)))
+     `(combobulate-query-query-string-face ((,c :inherit font-lock-string-face)))
+     `(combobulate-refactor-choice-face ((,c :inherit modus-themes-slant :foreground ,info)))
+     `(combobulate-refactor-cursor-face ((,c :foreground ,cursor)))
+     `(combobulate-refactor-field-face ((,c :background ,bg-inactive :foreground ,fg-main :extend nil)))
+     `(combobulate-refactor-highlight-face ((,c :inherit highlight)))
+     `(combobulate-refactor-inactive-choice-face ((,c :inherit modus-themes-slant :foreground ,fg-dim)))
+     `(combobulate-refactor-inactive-field-face ((,c :background ,bg-dim :foreground ,fg-dim :extend nil)))
+     `(combobulate-refactor-label-face ((,c :inherit modus-themes-search-replace)))
+     `(combobulate-tree-branch-face ((,c :inherit shadow)))
+     `(combobulate-tree-highlighted-node-face ((,c :inherit success)))
+     `(combobulate-tree-normal-node-face ((,c :foreground ,fg-main)))
+     `(combobulate-tree-pulse-node-face ((,c :background ,bg-blue-intense :extend t))))))
+
+(add-hook 'enable-theme-functions #'my-modus-themes-custom-faces)
+</pre>
+</div>
+
+<p>
+<a href="#h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24">Using a hook at the post-load-theme phase</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:7ea8fa66-1cd8-47b0-92b4-9998a3068f85" class="outline-3">
+<h3 id="h:7ea8fa66-1cd8-47b0-92b4-9998a3068f85"><span class="section-number-3">8.23.</span> DIY Add support for howm</h3>
+<div class="outline-text-3" id="text-h:7ea8fa66-1cd8-47b0-92b4-9998a3068f85">
+<p>
+The <code>howm</code> package is a note-taking solution for Emacs. Users can add
+support for its faces with something like the following.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-themes-custom-faces (&amp;rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     `(action-lock-face ((,c :inherit button)))
+     `(howm-mode-keyword-face (( )))
+     `(howm-mode-ref-face ((,c :inherit link)))
+     `(howm-mode-title-face ((,c :inherit modus-themes-heading-0)))
+     `(howm-mode-wiki-face ((,c :inherit link)))
+     `(howm-reminder-deadline-face ((,c :foreground ,date-deadline)))
+     `(howm-reminder-late-deadline-face ((,c :inherit bold :foreground ,date-deadline)))
+     `(howm-reminder-defer-face ((,c :foreground ,date-scheduled)))
+     `(howm-reminder-scheduled-face ((,c :foreground ,date-scheduled)))
+     `(howm-reminder-done-face ((,c :foreground ,prose-done)))
+     `(howm-reminder-todo-face ((,c :foreground ,prose-todo)))
+     `(howm-reminder-normal-face ((,c :foreground ,date-common)))
+     `(howm-reminder-today-face ((,c :inherit bold :foreground ,date-common)))
+     `(howm-reminder-tomorrow-face ((,c :inherit bold :foreground ,date-scheduled)))
+     `(howm-simulate-todo-mode-line-face ((,c :inherit bold)))
+     `(howm-view-empty-face (( )))
+     `(howm-view-hilit-face ((,c :inherit match)))
+     `(howm-view-name-face ((,c :inherit bold)))
+     `(iigrep-counts-face1 ((,c :foreground ,rainbow-1)))
+     `(iigrep-counts-face2 ((,c :foreground ,rainbow-2)))
+     `(iigrep-counts-face3 ((,c :foreground ,rainbow-3)))
+     `(iigrep-counts-face4 ((,c :foreground ,rainbow-4)))
+     `(iigrep-counts-face5 ((,c :foreground ,rainbow-5))))))
+
+(add-hook 'enable-theme-functions #'my-modus-themes-custom-faces)
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24" class="outline-3">
-<h3 id="h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24"><span class="section-number-3">8.21.</span> DIY Use a hook at the post-load-theme phase</h3>
+<h3 id="h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24"><span class="section-number-3">8.24.</span> DIY Use a hook at the post-load-theme phase</h3>
 <div class="outline-text-3" id="text-h:d87673fe-2ce1-4c80-a4b8-be36ca9f2d24">
 <p>
 Many of the Do-It-Yourself (DIY) snippets provided herein make use of
@@ -4882,7 +5016,7 @@ without <code>enable-theme-functions</code>).
 </p>
 </div>
 <div id="outline-container-h:86f6906b-f090-46cc-9816-1fe8aeb38776" class="outline-4">
-<h4 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-4">8.21.1.</span> DIY A theme-agnostic hook for theme loading</h4>
+<h4 id="h:86f6906b-f090-46cc-9816-1fe8aeb38776"><span class="section-number-4">8.24.1.</span> DIY A theme-agnostic hook for theme loading</h4>
 <div class="outline-text-4" id="text-h:86f6906b-f090-46cc-9816-1fe8aeb38776">
 <p>
 [ NOTE: The following is for versions of Emacs before 29. For Emacs 29
@@ -5074,6 +5208,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% true�
 <li>gotest</li>
 <li>golden-ratio-scroll-screen</li>
 <li>helpful</li>
+<li>hexl-mode [ Part of 4.6.0-dev. ]</li>
 <li>highlight-numbers</li>
 <li>highlight-parentheses (<a href="#h:24bab397-dcb2-421d-aa6e-ec5bd622b913">Note on highlight-parentheses.el</a>)</li>
 <li>highlight-thing</li>
@@ -6304,7 +6439,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org3785241">
+<pre class="example" id="orgab320ea">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6349,7 +6484,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org9599c4c">
+<pre class="example" id="orgb3c1d85">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -6715,7 +6850,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgf951f0f">
+<pre class="example" id="org491efaf">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -6797,19 +6932,19 @@ Santana, Eliraz Kedmi, Emanuele Michele Alberto Monterosso, Farasha
 Euker, Feng Shu, Filippo Argiolas, Gautier Ponsinet, Gerry Agbobada,
 Gianluca Recchia, Gonçalo Marrafa, Guilherme Semente, Gustavo
 Barros, Hörmetjan Yiltiz, Ilja Kocken, Imran Khan, Iris Garcia, Ivan
-Popovych, James Ferguson, Jeremy Friesen, Jerry Zhang, Johannes
-Grødem, John Haman, John Wick, Jonas Collberg, Jorge Morais, Joshua
-O&rsquo;Connor, Julio C. Villasante, Kenta Usami, Kevin Fleming, Kévin Le
-Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Lasse
-Lindner, Len Trigg, Lennart C. Karssen, Luis Miguel
-Castañeda, Magne Hov, Manuel Giraud, Manuel Uberti, Mark Bestley,
-Mark Burton, Mark Simpson, Marko Kocic, Markus Beppler, Matt
-Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro Aranda, Maxime
-Tréca, Michael Goldenberg, Morgan Smith, Morgan Willcock, Murilo
-Pereira, Nicky van Foreest, Nicolas De Jaeghere, Nicolas Semrau,
-Olaf Meeuwissen, Oliver Epper, Pablo Stafforini, Paul Poloskov,
-Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic, Pierre
-Téchoueyres, Przemysław Kryger, Robert Hepple, Roman Rudakov,
+Popovych, Jabir Ali Ouassou, James Ferguson, Jeremy Friesen, Jerry
+Zhang, Johannes Grødem, John Haman, John Wick, Jonas Collberg, Jorge
+Morais, Joshua O&rsquo;Connor, Julio C. Villasante, Kenta Usami, Kevin
+Fleming, Kévin Le Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith
+Bahodi, Lasse Lindner, Len Trigg, Lennart C. Karssen,
+Luis Miguel Castañeda, Magne Hov, Manuel Giraud, Manuel Uberti, Mark
+Bestley, Mark Burton, Mark Simpson, Marko Kocic, Markus Beppler,
+Matt Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro Aranda,
+Maxime Tréca, Michael Goldenberg, Morgan Smith, Morgan Willcock,
+Murilo Pereira, Nicky van Foreest, Nicolas De Jaeghere, Nicolas
+Semrau, Olaf Meeuwissen, Oliver Epper, Pablo Stafforini, Paul
+Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic,
+Pierre Téchoueyres, Przemysław Kryger, Robert Hepple, Roman Rudakov,
 Russell Sim, Ryan Phillips, Rytis Paškauskas, Rudolf Adamkovič, Sam
 Kleinman, Samuel Culpepper, Saša Janiška, Shreyas Ragavan, Simon
 Pugnet, Steve Downey, Tassilo Horn, Thanos Apollo, Thibaut Verron,
