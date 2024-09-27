@@ -182,12 +182,12 @@ how nicely I had adapted in such a short time. The locals were kind to
 me and I was helpful to them, always smiling and eager to improve. "If
 you stay here, I am sure there will be plenty of opportunities for
 you. Someone with your work ethic cannot get lost. My door is always
-open if you ever come back." Those were his words. Perhaps he was
-right, though I had already made up my mind. "Sometimes we have to
-take a step back in order to move forward", I pointed out while
-thanking him for the trust he had put in me and for the good moments
-we shared together, busily feeding the mountaineers. We shacked hands
-and I left, never to see him again.
+open if you ever return." Those were his words. Perhaps he was right,
+though I had already made up my mind. "Sometimes we have to take a
+step back in order to move forward", I pointed out while thanking him
+for the trust he had put in me and for the good moments we shared
+together, busily feeding the mountaineers. We shacked hands and I
+left, never to see him again.
 
 Life moves on. All we can do is be in the present. There was a week
 left. I learnt about Amber shortly after I had bought the plane
@@ -409,5 +409,5 @@ anymore. Just as I had to act a certain way, so was he restrained by
 the prevailing conditions.
 
 I wish to believe that Amber hoped for the same thing I do: that we
-experience each other unencumbered by grand schemes. Will this ever
-happen?
+experience each other unencumbered by grand schemes and peremptory
+rules. Will this ever happen?
