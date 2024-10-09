@@ -1627,7 +1627,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge2e2af0">
+<pre class="example" id="org5f1c9d0">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2409,7 +2409,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org5b116e7">
+<pre class="example" id="orga5e9022">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2429,7 +2429,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org8366635">
+<pre class="example" id="org43520fa">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3081,7 +3081,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org29fc951">
+<pre class="example" id="org8cc0c1e">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3213,7 +3213,7 @@ use the following in their Emacs configuration (<a href="#h:d375c6d2-92c7-425f-9
 
 (defun my-denote-sluggify-keyword (str)
   (downcase
-   (replace-regexp-in-string "[][{}!@#$%^&amp;*()+'\"?,.\|;:~`‘’“”/_ -=]*" ""
+   (replace-regexp-in-string "[][{}!@#$%^&amp;*()+'\"?,.\|;:~`‘’“”/_ =-]*" ""
                              (denote-slug-keep-only-ascii str))))
 
 (defcustom denote-file-name-slug-functions
@@ -3297,7 +3297,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgf44e254">
+<pre class="example" id="org9ebd2f1">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3309,7 +3309,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6f0d49f">
+<pre class="example" id="org2613e45">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3323,7 +3323,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org771df77">
+<pre class="example" id="orgf035bc8">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3337,7 +3337,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org26a3fe6">
+<pre class="example" id="org234643a">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3611,55 +3611,95 @@ other links.
 <h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">7.2.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
 <div class="outline-text-3" id="text-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">
 <p>
+[ Revised to also support context links that do not use a <code>PROPERTIES</code>
+  drawer but which are easier to break. This is done as part of
+  3.2.0-dev. ]
+</p>
+
+<p>
 The user option <code>denote-org-store-link-to-heading</code> determines whether
-<code>org-store-link</code> links to the current Org heading (such links are
-merely &ldquo;stored&rdquo; and need to be inserted afterwards with the command
-<code>org-insert-link</code>). Note that the <code>org-capture</code> command uses the
-<code>org-link</code> internally if it has to store a link.
+<code>org-store-link</code> links to the current Org heading.
 </p>
 
 <p>
-When its value is non-nil, <code>org-store-link</code> stores a link to the
-current Org heading inside the Denote Org file. If the heading does
-not have a <code>CUSTOM_ID</code>, it creates it and includes it in the heading&rsquo;s
-<code>PROPERTIES</code> drawer. If a <code>CUSTOM_ID</code> exists, <code>org-store-link</code> use it
-as-is.
+[ Remember that what <code>org-store-link</code> does is merely collect a link.  To
+  actually insert it, use the command <code>org-insert-link</code>.  Note that
+  <code>org-capture</code> uses <code>org-store-link</code> internally when it needs to store
+  a link.  ]
 </p>
 
 <p>
-This makes the resulting link a combination of the <code>denote:</code> link type,
-pointing to the identifier of the current file, plus the value of the
-heading&rsquo;s <code>CUSTOM_ID</code>, such as:
+When the value is nil, the Denote handler for <code>org-store-link</code> produces
+links only to the current file (by using the file&rsquo;s identifier).  For
+example:
 </p>
 
-<ul class="org-ul">
-<li><code>[[denote:20240118T060608][Some test]]</code></li>
-<li><code>[[denote:20240118T060608::#h:eed0fb8e-4cc7-478f-acb6-f0aa1a8bffcd][Some test::Heading text]]</code></li>
-</ul>
+<pre class="example">
+[[denote:20240118T060608][Some test]]
+</pre>
+
 
 <p>
-Both lead to the same Denote file, but the latter jumps to the heading
-with the given <code>CUSTOM_ID</code>. Notice that the link to the heading also
-has a different description, which includes the heading text.
+This is what Denote was doing in versions prior to 2.3.0.
 </p>
+
+<p>
+If the value is <code>context</code>, the link consists of the file&rsquo;s identifier
+and the text of the current heading, like this:
+</p>
+
+<pre class="example">
+[[denote:20240118T060608::*Heading text][Some test::Heading text]].
+</pre>
+
+
+<p>
+However, if there already exists a <code>CUSTOM_ID</code> property for the
+current heading, this is always given priority and is used instead of
+the context.
+</p>
+
+<p>
+If the value is <code>id</code> or, for backward-compatibility, any other non-nil
+value, then Denote will use the standard Org mechanism of the
+<code>CUSTOM_ID</code> property to create a unique link to the heading. If the
+heading does not have a <code>CUSTOM_ID</code>, it creates it and includes it in
+its <code>PROPERTIES</code> drawer. If a <code>CUSTOM_ID</code> exists, it takes it as-is.
+The result is like this:
+</p>
+
+<pre class="example">
+[[denote:20240118T060608::#h:eed0fb8e-4cc7-478f][Some test::Heading text]]
+</pre>
+
 
 <p>
 The value of the <code>CUSTOM_ID</code> is determined by the Org user option
 <code>org-id-method</code>. The sample shown above uses the default UUID
-infrastructure.
+infrastructure (though I deleted a few characters to not get
+complaints from the byte compiler about long lines in the doc
+string&#x2026;).
 </p>
 
 <p>
-If <code>denote-org-store-link-to-heading</code> is set to a nil value, the
-command <code>org-store-link</code> only stores links to the Denote file (using
-its identifier), but not to the given heading. This is what Denote was
-doing in versions prior to <code>2.3.0</code>.
+Note that this option does not affect how Org behaves with regard to
+<code>org-id-link-to-org-use-id</code>. If that user option is set to create <code>ID</code>
+properties, then those will be created by Org even if the Denote link
+handler will take care to not use/store the <code>ID</code> value. Concretely,
+users who never want <code>ID</code> properties under their headings should keep
+<code>org-id-link-to-org-use-id</code> in its nil value.
 </p>
 
 <p>
-Note that the optional extension <code>denote-org-extras.el</code> defines the command
-<code>denote-org-extras-link-to-heading</code>, which always links to a file+heading
-regardless of the aforementioned user option (<a href="#h:fc1ad245-ec08-41be-8d1e-7153d99daf02">Insert link to an Org file with a further pointer to a heading</a>).
+Context links are easier to break than those with a <code>CUSTOM_ID</code> in
+cases where either the heading text changes or there is another
+heading that matches that text. The potential advantage of context
+links is that they do not require a <code>PROPERTIES</code> drawer.
+</p>
+
+<p>
+When visiting a link to a heading, Org opens the Denote file and then
+navigates to that heading.
 </p>
 
 <p>
@@ -3668,6 +3708,12 @@ regardless of the aforementioned user option (<a href="#h:fc1ad245-ec08-41be-8d1
   headings or other patterns to jump to. If <code>org-store-link</code> is
   invoked in one such file, it captures only the Denote identifier of
   the file, even if this user option is set to a non-nil value. ]
+</p>
+
+<p>
+Note that the optional extension <code>denote-org-extras.el</code> defines the command
+<code>denote-org-extras-link-to-heading</code>, which always links to a file+heading
+regardless of the aforementioned user option (<a href="#h:fc1ad245-ec08-41be-8d1e-7153d99daf02">Insert link to an Org file with a further pointer to a heading</a>).
 </p>
 </div>
 </div>
@@ -3715,7 +3761,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org328236f">
+<pre class="example" id="orgfff8ef1">
 - link1
 - link2
 - link3
@@ -3733,7 +3779,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orga2722b0">
+<pre class="example" id="org8d1feb1">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3966,7 +4012,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgfe2125f">
+<pre class="example" id="org456dbb6">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3981,7 +4027,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org09dfc47">
+<pre class="example" id="orgcaea266">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5859,7 +5905,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org1cdb18e">
+<pre class="example" id="org84a0d50">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7556,7 +7602,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org8c46918">
+<pre class="example" id="org5def921">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7566,7 +7612,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org9da6530">
+<pre class="example" id="orgc1803e4">
 emacs -Q
 </pre>
 
@@ -7578,7 +7624,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgee4d410">
+<pre class="example" id="orgecdb64b">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7639,7 +7685,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8ec98ac">
+<pre class="example" id="org57e38f9">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
