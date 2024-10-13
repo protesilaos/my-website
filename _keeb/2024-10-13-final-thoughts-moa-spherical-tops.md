@@ -90,7 +90,7 @@ all.
 
 This granted, MOA's edges are smooth, which makes off-centre presses
 quite forgiving. If there was a variant with a sculptured height, I
-would strongly consider it. I theorise that the best profile for my
+would strongly consider it. I hypothesise that the best profile for my
 preferences would feature cylindrical tops like Cherry's (or
 marginally flatter), but with a sculpt that allows upward sliding
 motions (so the whole profile would look like an open `U` when seen
