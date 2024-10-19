@@ -4,14 +4,9 @@ excerpt: 'Demo of my custom build of the Iosevka font, which I call "Iosevka Com
 permalink: /emacs/iosevka-comfy-pictures
 ---
 
-The following screen shots correspond to version `1.2.0` and were
-taken on 2023-04-27.  The typeface is [Iosevka Comfy, my modified
-version of Iosevka](https://git.sr.ht/~protesilaos/iosevka-comfy).
-
-The `iosevka-comfy` and `iosevka-comfy-motion`, i.e. the compact
-forms, are presented at point size 10 (Emacs `:height` 100).  The wide
-forms are shown at point size 8 (Emacs `:height` 80) to make them all
-look similar.
+The following screen shots correspond to version `2.1.0` and were
+taken on 2024-10-19.  The typeface is [Iosevka Comfy, my modified
+version of Iosevka](https://github.com/protesilaos/iosevka-comfy).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.
