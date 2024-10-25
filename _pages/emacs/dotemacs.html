@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-10-24 11:40:17 +0300 with a word
-count of 105551.</b>
+<b>Last revised and exported on 2024-10-25 13:48:38 +0300 with a word
+count of 105584.</b>
 </p>
 
 <p>
@@ -412,7 +412,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-10-24 11:40:17 +0300):
+(2024-10-25 13:48:38 +0300):
 </p>
 
 <div class="org-src-container">
@@ -502,7 +502,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org64b9859">
+<pre class="example" id="orgeae98a5">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -582,7 +582,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orga2ca42c">
+<pre class="example" id="org7d2a58e">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -590,7 +590,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org20cb2c8">
+<pre class="example" id="org77be408">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -640,8 +640,8 @@ See definition of `prot-emacs-with-desktop-session'.")
 See `prot-emacs-tiling-window-manager-regexp' for what
 constitutes a matching tiling window manager."
   (declare (indent 0))
-  `(when-let ((session (getenv "DESKTOP_SESSION"))
-              ((not (string-match-p session prot-emacs-tiling-window-manager-regexp))))
+  `(when-let* ((session (getenv "DESKTOP_SESSION"))
+               ((not (string-match-p session prot-emacs-tiling-window-manager-regexp))))
      ,@body))
 </pre>
 </div>
@@ -814,13 +814,13 @@ the `delight' shell script."
 I place a file in ~/.config/prot-xtwm-active-theme which contains
 a single word describing my system-wide theme.  This is part of
 my dotfiles.  Check my `delight' shell script for more."
-  (when-let ((file "~/.config/prot-xtwm-active-theme")
-             ((file-exists-p file)))
-      (string-match-p
-       "dark"
-       (with-temp-buffer
-         (insert-file-contents file)
-         (buffer-string)))))
+  (when-let* ((file "~/.config/prot-xtwm-active-theme")
+              ((file-exists-p file)))
+    (string-match-p
+     "dark"
+     (with-temp-buffer
+       (insert-file-contents file)
+       (buffer-string)))))
 
 (defun prot-emacs-theme-environment-dark-p ()
   "Return non-nil if environment theme is dark."
@@ -832,7 +832,7 @@ my dotfiles.  Check my `delight' shell script for more."
 Add this to `after-make-frame-functions' so that new frames do
 not retain the generic background set by the function
 `prot-emacs-avoid-initial-flash-of-light'."
-  (when-let ((theme (car custom-enabled-themes)))
+  (when-let* ((theme (car custom-enabled-themes)))
     (enable-theme theme)))
 </pre>
 </div>
@@ -1510,7 +1510,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org9bcc635">
+<pre class="example" id="org11bcfd7">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1536,10 +1536,10 @@ effects."
   (declare (indent defun))
   (let ((eval))
     (dolist (element body)
-      (when-let (((plistp element))
-                 (key (car element))
-                 ((eq key :eval))
-                 (val (cadr element)))
+      (when-let* (((plistp element))
+                  (key (car element))
+                  ((eq key :eval))
+                  (val (cadr element)))
         (setq eval val
               body (delq element body))))
     (when eval `(progn ,@body))))
@@ -1598,8 +1598,8 @@ DEFINITIONS is a sequence of string and command pairs."
   (let ((keys (seq-filter #'stringp definitions))
         ;; We do accept nil as a definition: it unsets the given key.
         (commands (seq-remove #'stringp definitions)))
-    `(when-let (((keymapp ,keymap))
-                (map ,keymap))
+    `(when-let* (((keymapp ,keymap))
+                 (map ,keymap))
        ,@(mapcar
           (lambda (pair)
             (let* ((key (car pair))
@@ -1856,13 +1856,15 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
   :ensure t
   :demand t
   :bind (("&lt;f5&gt;" . modus-themes-toggle)
-         ("C-&lt;f5&gt;" . modus-themes-select))
+         ("C-&lt;f5&gt;" . modus-themes-select)
+         ("M-&lt;f5&gt;" . modus-themes-rotate))
   :config
   (setq modus-themes-custom-auto-reload nil
         modus-themes-to-toggle '(modus-operandi modus-vivendi)
         ;; modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
         ;; modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-deuteranopia)
         ;; modus-themes-to-toggle '(modus-operandi-tritanopia modus-vivendi-tritanopia)
+        modus-themes-to-rotate modus-themes-items
         modus-themes-mixed-fonts t
         modus-themes-variable-pitch-ui t
         modus-themes-italic-constructs t
@@ -1994,10 +1996,13 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
 (use-package ef-themes
   :ensure t
   :demand t
-  :bind ("&lt;f5&gt;" . ef-themes-select)
+  :bind
+  (("&lt;f5&gt;" . ef-themes-rotate)
+   ("C-&lt;f5&gt;" . ef-themes-select))
   :config
   (setq ef-themes-variable-pitch-ui t
         ef-themes-mixed-fonts t
+        ef-themes-rotate ef-themes-items
         ef-themes-headings ; read the manual's entry of the doc string
         '((0 . (variable-pitch light 1.9))
           (1 . (variable-pitch light 1.8))
@@ -2085,7 +2090,8 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
         (ef-themes-load-random 'dark)
       (ef-themes-load-random 'light))
 
-    (define-key global-map (kbd "&lt;f5&gt;") #'ef-themes-select)))
+    (define-key global-map (kbd "&lt;f5&gt;") #'ef-themes-rotate)
+    (define-key global-map (kbd "C-&lt;f5&gt;") #'ef-themes-select)))
 
 (provide 'prot-emacs-ef-themes)
 </pre>
@@ -2438,9 +2444,9 @@ to activate <code>rainbow-mode</code> if I am editing a theme file.
   (setq rainbow-x-colors nil)
 
   (defun prot/rainbow-mode-in-themes ()
-    (when-let ((file (buffer-file-name))
-               ((derived-mode-p 'emacs-lisp-mode))
-               ((string-match-p "-theme" file)))
+    (when-let* ((file (buffer-file-name))
+                ((derived-mode-p 'emacs-lisp-mode))
+                ((string-match-p "-theme" file)))
       (rainbow-mode 1)))
   :bind ( :map ctl-x-x-map
           ("c" . rainbow-mode)) ; C-x x c
@@ -4286,7 +4292,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org04c6838">
+<pre class="example" id="org9d40f3e">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5314,7 +5320,7 @@ Development continues on GitHub with GitLab as a mirror."))
 
   ;; Because the *scratch* buffer is produced before we load this, we
   ;; have to explicitly activate the mode there.
-  (when-let ((scratch (get-buffer "*scratch*")))
+  (when-let* ((scratch (get-buffer "*scratch*")))
     (with-current-buffer scratch
       (abbrev-mode 1)))
 
@@ -7159,12 +7165,12 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org8c1cefe">
+<pre class="example" id="orgc7e8ace">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 </pre>
 
-<pre class="example" id="orga8932f0">
+<pre class="example" id="orgde2b2cb">
 # Same idea for the `tmr` command.
 emacsclient -e '(prot-window-popup-tmr)'
 </pre>
@@ -7180,7 +7186,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org9423b49">
+<pre class="example" id="orgb147089">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7336,7 +7342,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org2afbc7c">
+<pre class="example" id="orga968441">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8897,7 +8903,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org1f8a58a">
+<pre class="example" id="orgc17299c">
 (info "(org) Search Options")
 </pre>
 
@@ -8989,7 +8995,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgb7d7acb">
+<pre class="example" id="orge0a953f">
 (require 'ob-python)
 
 ;; OR
@@ -9832,7 +9838,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgdf9f8c2">
+<pre class="example" id="org04909f6">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10055,11 +10061,10 @@ of packaging. I use it whenever I work on my numerous Emacs packages.
       (flymake-mode 1)))
 
   (defun prot/flymake-mode-in-my-projects ()
-    (when-let ((file (buffer-file-name))
-               ((string-prefix-p prot/flymake-mode-projects-path
-                                 (expand-file-name file)))
-               ((not (file-directory-p file)))
-               ((file-regular-p file)))
+    (when-let* ((file (buffer-file-name))
+                ((string-prefix-p prot/flymake-mode-projects-path (expand-file-name file)))
+                ((not (file-directory-p file)))
+                ((file-regular-p file)))
       (add-hook 'find-file-hook #'prot/flymake-mode-lexical-binding nil t)))
 
   (add-hook 'emacs-lisp-mode-hook #'prot/flymake-mode-in-my-projects)
@@ -10525,7 +10530,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org7967017">
+<pre class="example" id="org8798b28">
 machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
 
@@ -10537,7 +10542,7 @@ machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org46257c8">
+<pre class="example" id="orgb252bee">
 machine pub
 port 993
 login SOME-USER-NAME-HERE
@@ -10603,7 +10608,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org068d39e">
+<pre class="example" id="orga5b17a6">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10615,7 +10620,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgc292bf6">
+<pre class="example" id="orga189557">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10637,7 +10642,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org68ba7ed">
+<pre class="example" id="org67ced00">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11979,7 +11984,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org4f456b4">
+<pre class="example" id="org66e853b">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -12074,7 +12079,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgd20b6f7">
+<pre class="example" id="orgbf555ae">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12615,11 +12620,11 @@ Use completion among previous entries, retrieving their data from
 
 (defun prot-coach--name-prompt-default ()
   "Return default value for `prot-coach-name-prompt'."
-  (when-let ((from (cond
-                    ((derived-mode-p 'message-mode)
-                     (message-fetch-field "To"))
-                    ((derived-mode-p 'notmuch-show-mode)
-                     (notmuch-show-get-header :From)))))
+  (when-let* ((from (cond
+                     ((derived-mode-p 'message-mode)
+                      (message-fetch-field "To"))
+                     ((derived-mode-p 'notmuch-show-mode)
+                      (notmuch-show-get-header :From)))))
     (string-clean-whitespace (car (split-string from "&lt;")))))
 
 (defun prot-coach-name-prompt ()
@@ -12744,7 +12749,7 @@ Omit entries with a CANCEL state."
     (let (sessions)
       (org-map-entries
        (lambda ()
-         (when-let ((entry (prot-coach--get-deadline-and-close name)))
+         (when-let* ((entry (prot-coach--get-deadline-and-close name)))
            (push entry sessions))))
       (prot-coach--print-table-with-sessions name sessions))))
 
@@ -13149,7 +13154,7 @@ If FRAME is non-nil, inspect the current frame."
 ;;;###autoload
 (defun prot-common-completion-category ()
   "Return completion category."
-  (when-let ((window (active-minibuffer-window)))
+  (when-let* ((window (active-minibuffer-window)))
     (with-current-buffer (window-buffer window)
       (completion-metadata-get
        (completion-metadata (buffer-substring-no-properties
@@ -13261,7 +13266,7 @@ Return the exit code and output in a list."
 ;;;###autoload
 (defun prot-common-auth-get-field (host prop)
   "Find PROP in `auth-sources' for HOST entry."
-  (when-let ((source (auth-source-search :host host)))
+  (when-let* ((source (auth-source-search :host host)))
     (if (eq prop :secret)
         (funcall (plist-get (car source) prop))
       (plist-get (flatten-list source) prop))))
@@ -13414,8 +13419,8 @@ belong to the given subset of CONSEQUENCES.
   "Return a Dired buffer for files matching REGEXP.
 Perform the search recursively from the current directory."
   (interactive (list (prot-dired-regexp-prompt)))
-  (if-let ((files (prot-dired--get-files regexp))
-           (relative-paths (mapcar #'file-relative-name files)))
+  (if-let* ((files (prot-dired--get-files regexp))
+            (relative-paths (mapcar #'file-relative-name files)))
       (dired (cons (format "prot-flat-dired for `%s'" regexp) relative-paths))
     (error "No files matching `%s'" regexp)))
 
@@ -13557,7 +13562,7 @@ For more on such headings, read `dired-maybe-insert-subdir'."
   (while (and (prot-dired-subdirectory-previous)
               (not (equal (dired-current-directory)
                           (expand-file-name default-directory))))
-      (dired-kill-subdir)))
+    (dired-kill-subdir)))
 
 (autoload 'cl-remove-if-not "cl-seq")
 
@@ -14710,7 +14715,7 @@ As a final step, save `prot-eww-visited-history' to a file (see
 
 (defun prot-marginalia-buffer (buffer)
   "Annotate BUFFER with the return value of function `buffer-file-name'."
-  (if-let ((name (buffer-file-name (get-buffer buffer))))
+  (if-let* ((name (buffer-file-name (get-buffer buffer))))
       (prot-marginalia-display (abbreviate-file-name name))
     (prot-marginalia-display (format "%s" (buffer-local-value 'major-mode (get-buffer buffer))))))
 
@@ -14720,7 +14725,7 @@ As a final step, save `prot-eww-visited-history' to a file (see
               (pkg (intern-soft package))
               (desc (or (when (package-desc-p pkg) pkg)
                         (car (alist-get pkg pkg-alist))
-                        (if-let (built-in (assq pkg package--builtins))
+                        (if-let* ((built-in (assq pkg package--builtins)))
                             (package--from-builtin built-in)
                           (car (alist-get pkg package-archive-contents))))))
     (prot-marginalia-display (package-desc-summary desc))))
@@ -14735,15 +14740,15 @@ As a final step, save `prot-eww-visited-history' to a file (see
 
 (defun prot-marginalia--first-line-documentation (symbol)
   "Return first line of SYMBOL documentation string."
-  (when-let ((doc-string (prot-marginalia--get-symbol-doc symbol))
-             ((stringp doc-string))
-             ((not (string-empty-p doc-string))))
+  (when-let* ((doc-string (prot-marginalia--get-symbol-doc symbol))
+              ((stringp doc-string))
+              ((not (string-empty-p doc-string))))
     (car (split-string doc-string "[?!.\n]"))))
 
 (defun prot-marginalia-symbol (symbol)
   "Annotate SYMBOL with its documentation string."
-  (when-let ((sym (intern-soft symbol))
-             (doc-string (prot-marginalia--first-line-documentation sym)))
+  (when-let* ((sym (intern-soft symbol))
+              (doc-string (prot-marginalia--first-line-documentation sym)))
     (prot-marginalia-display doc-string)))
 
 (provide 'prot-marginalia)
@@ -15087,7 +15092,7 @@ Specific to the current window's mode line.")
 (defun prot-modeline--buffer-name ()
   "Return `buffer-name', truncating it if necessary.
 See `prot-modeline-string-cut-middle'."
-  (when-let ((name (buffer-name)))
+  (when-let* ((name (buffer-name)))
     (prot-modeline-string-cut-middle name)))
 
 (defun prot-modeline-buffer-name ()
@@ -15134,7 +15139,7 @@ face.  Let other buffers have no face.")
 
 (defun prot-modeline-major-mode-help-echo ()
   "Return `help-echo' value for `prot-modeline-major-mode'."
-  (if-let ((parent (get major-mode 'derived-mode-parent)))
+  (if-let* ((parent (get major-mode 'derived-mode-parent)))
       (format "Symbol: `%s'.  Derived from: `%s'" major-mode parent)
     (format "Symbol: `%s'." major-mode)))
 
@@ -15164,9 +15169,9 @@ face.  Let other buffers have no face.")
 
 (defun prot-modeline--vc-branch-name (file backend)
   "Return capitalized VC branch name for FILE with BACKEND."
-  (when-let ((rev (vc-working-revision file backend))
-             (branch (or (vc-git--symbolic-ref file)
-                         (substring rev 0 7))))
+  (when-let* ((rev (vc-working-revision file backend))
+              (branch (or (vc-git--symbolic-ref file)
+                          (substring rev 0 7))))
     (capitalize branch)))
 
 ;; NOTE 2023-07-27: This is a good idea, but it hardcodes Git, whereas
@@ -15237,7 +15242,7 @@ than `split-width-threshold'."
 
 (defun prot-modeline--vc-get-face (key)
   "Get face from KEY in `prot-modeline--vc-faces'."
-   (alist-get key prot-modeline--vc-faces 'up-to-date))
+  (alist-get key prot-modeline--vc-faces 'up-to-date))
 
 (defun prot-modeline--vc-face (file backend)
   "Return VC state face for FILE with BACKEND."
@@ -15281,18 +15286,18 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
 (defmacro prot-modeline-flymake-type (type indicator &amp;optional face)
   "Return function that handles Flymake TYPE with stylistic INDICATOR and FACE."
   `(defun ,(intern (format "prot-modeline-flymake-%s" type)) ()
-     (when-let ((count (prot-modeline-flymake-counter
-                        ,(intern (format ":%s" type)))))
+     (when-let* ((count (prot-modeline-flymake-counter
+                         ,(intern (format ":%s" type)))))
        (concat
         (propertize ,indicator 'face 'shadow)
         (propertize count
                     'face ',(or face type)
-                     'mouse-face 'mode-line-highlight
-                     ;; FIXME 2023-07-03: Clicking on the text with
-                     ;; this buffer and a single warning present, the
-                     ;; diagnostics take up the entire frame.  Why?
-                     'local-map prot-modeline-flymake-map
-                     'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
+                    'mouse-face 'mode-line-highlight
+                    ;; FIXME 2023-07-03: Clicking on the text with
+                    ;; this buffer and a single warning present, the
+                    ;; diagnostics take up the entire frame.  Why?
+                    'local-map prot-modeline-flymake-map
+                    'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
 
 (prot-modeline-flymake-type error "☣")
 (prot-modeline-flymake-type warning "!")
@@ -15707,8 +15712,8 @@ Add this to `notmuch-mua-send-hook'."
 
 (defun prot-orderless-beg-or-end (word _index _total)
   "Expand WORD~ to \\(^WORD\\|WORD$\\)."
-  (when-let (((string-suffix-p "~" word))
-             (word (substring word 0 -1)))
+  (when-let* (((string-suffix-p "~" word))
+              (word (substring word 0 -1)))
     `(orderless-regexp . ,(format "\\(^%s\\|%s$\\)" word word))))
 
 (provide 'prot-orderless)
@@ -15773,11 +15778,11 @@ Add this to `notmuch-mua-send-hook'."
 
 (defun prot-org--capture-coach-person-message-from ()
   "Return default value for `prot-org--capture-coach-person-prompt'."
-  (when-let ((from (cond
-                    ((derived-mode-p 'message-mode)
-                     (message-fetch-field "To"))
-                    ((derived-mode-p 'notmuch-show-mode)
-                     (notmuch-show-get-header :From)))))
+  (when-let* ((from (cond
+                     ((derived-mode-p 'message-mode)
+                      (message-fetch-field "To"))
+                     ((derived-mode-p 'notmuch-show-mode)
+                      (notmuch-show-get-header :From)))))
     (string-clean-whitespace (car (split-string from "&lt;")))))
 
 (defun prot-org--capture-coach-person-message-from-and-subject ()
@@ -16179,16 +16184,16 @@ backtick and single quote, else two backticks."
 
 (defun prot-pair--annotate (character)
   "Annotate CHARACTER with its description in `prot-pair-pairs'."
-  (when-let ((char (if (characterp character) character (string-to-char character)))
-             (plist (alist-get char prot-pair-pairs))
-             (description (plist-get plist :description)))
+  (when-let* ((char (if (characterp character) character (string-to-char character)))
+              (plist (alist-get char prot-pair-pairs))
+              (description (plist-get plist :description)))
     (format "  %s" description)))
 
 (defun prot-pair--get-pair (character)
   "Get the pair of corresponding to CHARACTER."
-  (when-let ((char (if (characterp character) character (string-to-char character)))
-             (plist (alist-get char prot-pair-pairs))
-             (pair (plist-get plist :pair)))
+  (when-let* ((char (if (characterp character) character (string-to-char character)))
+              (plist (alist-get char prot-pair-pairs))
+              (pair (plist-get plist :pair)))
     pair))
 
 (defun prot-pair--insert-prompt ()
@@ -16698,9 +16703,9 @@ the project in DIRECTORY using `project-dired'."
 
 (defun prot-project-rename-vc-root-log (&amp;rest _)
   "Rename the buffer of `vc-print-root-log' to mention the project."
-  (when-let ((root (vc-root-dir))
-             ((consp project--list))
-             ((member root (mapcar #'car project--list))))
+  (when-let* ((root (vc-root-dir))
+              ((consp project--list))
+              ((member root (mapcar #'car project--list))))
     (rename-buffer (format "*vc-root-log: %s*" root))))
 
 (advice-add #'vc-print-root-log :after #'prot-project-rename-vc-root-log)
@@ -16760,7 +16765,7 @@ is a string."
         (file-symbol (intern file)))
     `(progn
        (defun ,project-find-fn (dir)
-         (when-let ((root (locate-dominating-file dir ,file)))
+         (when-let* ((root (locate-dominating-file dir ,file)))
            (cons ',file-symbol root)))
 
        (cl-defmethod project-root ((project (head ,file-symbol)))
@@ -17253,8 +17258,8 @@ Also see `prot-search-grep-todo-keywords'."
 (defun prot-search-outline ()
   "Go to the line of the given outline using completion."
   (interactive)
-  (when-let ((selection (prot-search--outline-prompt))
-             (line (string-to-number (car (split-string selection "\t")))))
+  (when-let* ((selection (prot-search--outline-prompt))
+              (line (string-to-number (car (split-string selection "\t")))))
     (goto-line line)
     (run-hooks 'prot-search-outline-hook)))
 
@@ -17582,8 +17587,8 @@ Only account for the history Emacs knows about, ignoring
 (defun prot-shell-track-cd (&amp;rest _)
   "Track shell input of cd commands.
 Push `shell-last-dir' to `prot-shell-cd-directories'."
-  (when-let ((input (prot-shell--last-input))
-             ((string-match-p "cd " input)))
+  (when-let* ((input (prot-shell--last-input))
+              ((string-match-p "cd " input)))
     (push shell-last-dir prot-shell-cd-directories)))
 
 (defvar prot-shell--cd-history nil
@@ -17591,9 +17596,9 @@ Push `shell-last-dir' to `prot-shell-cd-directories'."
 
 (defun prot-shell--cd-prompt ()
   "Prompt for a directory among `prot-shell-cd-directories'."
-  (if-let ((history prot-shell-cd-directories)
-           (dirs (cons default-directory history))
-           (def (if (listp dirs) (car dirs) shell-last-dir)))
+  (if-let* ((history prot-shell-cd-directories)
+            (dirs (cons default-directory history))
+            (def (if (listp dirs) (car dirs) shell-last-dir)))
       (completing-read
        (format-prompt "Select directory" def)
        dirs nil :require-match nil 'prot-shell--cd-history def)
@@ -17619,7 +17624,7 @@ Push `shell-last-dir' to `prot-shell-cd-directories'."
 (defun prot-shell-cd-vc-root-dir ()
   "Change into the `vc-root-dir'."
   (interactive)
-  (if-let ((root (prot-shell--get-vc-root-dir)))
+  (if-let* ((root (prot-shell--get-vc-root-dir)))
       (prot-shell--insert-and-send "cd" root)
     (user-error "Cannot find the VC root of `%s'" default-directory)))
 
@@ -17881,11 +17886,11 @@ expression."
   (if (and (region-active-p)
            (eq last-command this-command))
       (ignore-errors (forward-sexp 1))
-    (when-let ((thing (cond
-                       ((thing-at-point 'url) 'url)
-                       ((thing-at-point 'sexp) 'sexp)
-                       ((thing-at-point 'string) 'string)
-                       ((thing-at-point 'word) 'word))))
+    (when-let* ((thing (cond
+                        ((thing-at-point 'url) 'url)
+                        ((thing-at-point 'sexp) 'sexp)
+                        ((thing-at-point 'string) 'string)
+                        ((thing-at-point 'word) 'word))))
       (prot-simple--mark (bounds-of-thing-at-point thing)))))
 
 ;;;###autoload
@@ -17963,8 +17968,8 @@ The DWIM behaviour of this command is as follows:
 ;;
 ;; (defun prot-simple--number-replace (number amount operation)
 ;;   "Perform OPERATION on NUMBER at point by AMOUNT."
-;;   (when-let ((bounds (bounds-of-thing-at-point 'number))
-;;              (replacement (prot-simple--number-operate number amount operation)))
+;;   (when-let* ((bounds (bounds-of-thing-at-point 'number))
+;;               (replacement (prot-simple--number-operate number amount operation)))
 ;;     (delete-region (car bounds) (cdr bounds))
 ;;     (save-excursion
 ;;       (insert (number-to-string replacement)))))
@@ -18131,7 +18136,7 @@ to `line-beginning-position'."
          (line-end-position) :no-error
          (prefix-numeric-value current-prefix-arg))
       (line-beginning-position))))
-  (when-let ((regexp-end (prot-simple--pos-url-on-line char)))
+  (when-let* ((regexp-end (prot-simple--pos-url-on-line char)))
     (goto-char regexp-end)
     (unless (looking-at "&gt;")
       (insert "&gt;")
@@ -18277,9 +18282,9 @@ demarcated by BEG and END."
 ;; When the region is active, toggle the presence of STRING for each
 ;; line in the region."
 ;;   (interactive (list (prot-simple-line-prefix-infer-or-prompt)))
-;;   (if-let ((region-p (region-active-p))
-;;            (beg (region-beginning))
-;;            (end (line-number-at-pos (region-end))))
+;;   (if-let* ((region-p (region-active-p))
+;;             (beg (region-beginning))
+;;             (end (line-number-at-pos (region-end))))
 ;;       (progn
 ;;         (goto-char beg)
 ;;         (push-mark (point))
@@ -18299,11 +18304,11 @@ demarcated by BEG and END."
          (end (pos-eol))
          diff-eol-point
          diff-eol-mark)
-    (when-let (((use-region-p))
-               (pos (point))
-               (mrk (mark))
-               (line-diff-mark-point (1+ (- (line-number-at-pos mrk)
-                                            (line-number-at-pos pos)))))
+    (when-let* (((use-region-p))
+                (pos (point))
+                (mrk (mark))
+                (line-diff-mark-point (1+ (- (line-number-at-pos mrk)
+                                             (line-number-at-pos pos)))))
       (if (&gt; pos mrk)
           (setq start (pos-bol line-diff-mark-point)) ; pos-bol of where the mark is
         (setq end (pos-eol line-diff-mark-point)))    ; pos-eol of the line where the mark is
@@ -18330,15 +18335,15 @@ demarcated by BEG and END."
 (defun prot-simple--move-line-user-error (boundary)
   "Return `user-error' with message accounting for BOUNDARY.
 BOUNDARY is a buffer position, expected to be `point-min' or `point-max'."
-  (when-let ((bound (line-number-at-pos boundary))
-             (scope (cond
-                     ((and (use-region-p)
-                           (or (= (line-number-at-pos (point)) bound)
-                               (= (line-number-at-pos (mark)) bound)))
-                      "region is ")
-                     ((= (line-number-at-pos (point)) bound)
-                      "")
-                     (t nil))))
+  (when-let* ((bound (line-number-at-pos boundary))
+              (scope (cond
+                      ((and (use-region-p)
+                            (or (= (line-number-at-pos (point)) bound)
+                                (= (line-number-at-pos (mark)) bound)))
+                       "region is ")
+                      ((= (line-number-at-pos (point)) bound)
+                       "")
+                      (t nil))))
     (user-error (format "Warning: %salready in the last line!" scope))))
 
 (defun prot-simple-move-above-dwim (arg)
@@ -18555,14 +18560,14 @@ Name the buffer after the defun's symbol."
 (defun prot-simple-display-unsaved-buffers ()
   "Produce buffer menu listing unsaved file-visiting buffers."
   (interactive)
-  (if-let ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
+  (if-let* ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
       (prot-simple--display-unsaved-buffers unsaved-buffers "*Unsaved buffers*")
     (message "No unsaved buffers")))
 
 (defun prot-simple-display-unsaved-buffers-on-exit (&amp;rest _)
   "Produce buffer menu listing unsaved file-visiting buffers.
 Add this as :before advice to `save-buffers-kill-emacs'."
-  (when-let ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
+  (when-let* ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
     (prot-simple--display-unsaved-buffers unsaved-buffers "*Unsaved buffers*")))
 
 ;;;###autoload
@@ -18674,8 +18679,8 @@ counter-clockwise."
 (cl-defmethod register--type ((_regval vector)) 'vector)
 
 (cl-defmethod register-val-describe ((val vector) _verbose)
-  (if-let ((pos (aref val 2))
-           (file (aref val 1)))
+  (if-let* ((pos (aref val 2))
+            (file (aref val 1)))
       (princ (format "%s at position %s" file pos))
     (princ "Garbage data")))
 
@@ -19021,7 +19026,7 @@ number (integer or floating point) or a function.")
 
 (defun prot-window--get-window-size (key)
   "Extract the value of KEY from `prot-window-window-sizes'."
-  (when-let ((value (plist-get prot-window-window-sizes key)))
+  (when-let* ((value (plist-get prot-window-window-sizes key)))
     (cond
      ((functionp value)
       (funcall value))
@@ -19121,9 +19126,9 @@ call NAME as a function."
 
 (defun prot-window--get-new-shell-buffer ()
   "Return buffer name for `shell' buffers."
-  (if-let ((buffers (prot-window--get-shell-buffers))
-           (buffers-length (length buffers))
-           ((&gt;= buffers-length 1)))
+  (if-let* ((buffers (prot-window--get-shell-buffers))
+            (buffers-length (length buffers))
+            ((&gt;= buffers-length 1)))
       (format "*shell*&lt;%s&gt;" (1+ buffers-length))
     "*shell*"))
 
@@ -19132,7 +19137,7 @@ call NAME as a function."
   (let ((name (prot-window--get-new-shell-buffer)))
     (shell name)
     (set-frame-name name)
-    (when-let ((buffer (get-buffer name)))
+    (when-let* ((buffer (get-buffer name)))
       (with-current-buffer buffer
         (add-hook
          'delete-frame-functions
@@ -19326,7 +19331,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgf9a2eba">
+<pre class="example" id="org036bf37">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19358,7 +19363,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org31dd2b2">
+<pre class="example" id="org8ba44ad">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
