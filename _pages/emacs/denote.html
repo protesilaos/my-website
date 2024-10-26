@@ -148,12 +148,13 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.9. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.10. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.11. Convert <code>denote:</code> links to <code>file:</code> links</a></li>
-<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.12. Fontify links in non-Org buffers</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.13. Miscellaneous information about links</a>
+<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.11. Convert <code>denote:</code> links to <code>file:</code> links in Org</a></li>
+<li><a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">7.12. Convert <code>:denote</code> links to paths in Markdown</a></li>
+<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.13. Fontify links in non-Org buffers</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.14. Miscellaneous information about links</a>
 <ul>
-<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.13.1. Aliases for the linking commands</a></li>
-<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.13.2. The <code>denote-link-description-function</code> to format links</a></li>
+<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.14.1. Aliases for the linking commands</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.14.2. The <code>denote-link-description-function</code> to format links</a></li>
 </ul>
 </li>
 </ul>
@@ -421,7 +422,12 @@ explained: <a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file naming sch
 
 <p>
 The <code>denote</code> command runs the hook <code>denote-after-new-note-hook</code> after
-creating the new note.
+creating the new note. When called from Lisp, it returns the path it
+generates. Before returning the path, it decides what to do with the
+buffer of the note, in accordance with the user option
+<code>denote-kill-buffers</code> (<a href="#h:c8fd826f-3ac9-4820-9709-4375603f8865">The <code>denote-kill-buffers</code> option</a>). [ As part of
+3.2.0-dev, the <code>denote</code> command runs the hook and then
+kills the buffer, whereas it was the other way around before. ]
 </p>
 
 <p>
@@ -1669,7 +1675,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgfc2def8">
+<pre class="example" id="org2dd74bc">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2451,7 +2457,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org62eb82c">
+<pre class="example" id="org1b94ba8">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2471,7 +2477,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org25c3728">
+<pre class="example" id="orgb184195">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2816,7 +2822,7 @@ identifiers inside the current directory:
   (interactive
    (list
     (read-directory-name "Select DIRECTORY to check for duplicate identifiers: " default-directory)))
-  (if-let ((duplicates (my-denote-find-duplicate-identifiers directory)))
+  (if-let* ((duplicates (my-denote-find-duplicate-identifiers directory)))
       (dired (cons (format "Denote duplicate identifiers" directory) duplicates))
     (message "No duplicates identifiers in `%s'" directory)))
 </pre>
@@ -3123,7 +3129,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org4aa6c5d">
+<pre class="example" id="orgd9dca89">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3339,7 +3345,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org56ac212">
+<pre class="example" id="org4ab6c7e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3351,7 +3357,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org9f8037a">
+<pre class="example" id="orgfe50279">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3365,7 +3371,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgd0cd5d6">
+<pre class="example" id="orgb51e41b">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3379,7 +3385,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orga977beb">
+<pre class="example" id="org36ffe29">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3803,7 +3809,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org3f52ce8">
+<pre class="example" id="org41e863b">
 - link1
 - link2
 - link3
@@ -3821,7 +3827,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org24d0151">
+<pre class="example" id="org3bf591b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4054,7 +4060,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org900bb89">
+<pre class="example" id="org1fafed0">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4069,7 +4075,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgc92e101">
+<pre class="example" id="orgcbd6d14">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4235,8 +4241,12 @@ in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The bac
 </div>
 </div>
 <div id="outline-container-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f" class="outline-3">
-<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.11.</span> Convert <code>denote:</code> links to <code>file:</code> links</h3>
+<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.11.</span> Convert <code>denote:</code> links to <code>file:</code> links in Org</h3>
 <div class="outline-text-3" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
+<p>
+[ Also: <a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">Convert <code>:denote</code> links to paths in Markdown</a>. ]
+</p>
+
 <p>
 Sometimes the user needs to translate all <code>denote:</code> link types to
 their <code>file:</code> equivalent. This may be because some other tool does not
@@ -4268,8 +4278,59 @@ system path and converts it into its identifier.</dd>
 </dl>
 </div>
 </div>
+<div id="outline-container-h:e01d6621-34e9-487d-8721-c4e42a6a286a" class="outline-3">
+<h3 id="h:e01d6621-34e9-487d-8721-c4e42a6a286a"><span class="section-number-3">7.12.</span> Convert <code>:denote</code> links to paths in Markdown</h3>
+<div class="outline-text-3" id="text-h:e01d6621-34e9-487d-8721-c4e42a6a286a">
+<p>
+[ Also: <a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links in Org</a>. ]
+</p>
+
+<p>
+[ These commands are part of 3.2.0-dev. ]
+</p>
+
+<p>
+Although Markdown is a ubiquitous file format, there is no
+standardised way to extend its link facility. This means that we
+cannot reliably make <code>denote:</code> links work in applications outside of
+Emacs. Though users will likely need this feature for interoperability.
+</p>
+
+<p>
+All we can do is provide commands which convert links from the
+<code>denote:</code> type to a relative or absolute file path, and vice versa:
+</p>
+
+<dl class="org-dl">
+<dt>Convert <code>denote:</code> links to file paths</dt><dd>The command
+<code>denote-md-extras-convert-links-to-file-paths</code> runs through the
+current Markdown file and converts every instance of a <code>denote:</code>
+link to file path implied by the Denote identifier. For example,
+this link <code>[Test description](denote:20241026T051243)</code> expands to
+the file <code>20241026T051243--test-description__denote_testing.md</code>.
+When <code>denote-md-extras-convert-links-to-file-paths</code> is called with a
+prefix argument (<code>C-u</code> by default), it produces absolute file system
+paths.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Convert file paths links to <code>denote:</code></dt><dd>The command
+<code>denote-md-extras-convert-links-to-denote-type</code> is the inverse of
+the above. It finds all the file paths , be they relative or
+absolute, and converts them into their corresponding <code>denote:</code> style
+links. It only does so for files with a Denote identifier.</dd>
+</dl>
+
+<p>
+DEVELOPMENT NOTE: The regular expressions I am using to determine what
+is a link are much simpler than what <code>markdown-mode</code> is using.
+Everything seems to work on my end, though do let me know if there are
+bugs.
+</p>
+</div>
+</div>
 <div id="outline-container-h:156c5ea3-147b-4f9d-a404-86a00558c60a" class="outline-3">
-<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">7.12.</span> Fontify links in non-Org buffers</h3>
+<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">7.13.</span> Fontify links in non-Org buffers</h3>
 <div class="outline-text-3" id="text-h:156c5ea3-147b-4f9d-a404-86a00558c60a">
 <p>
 Denote links are automatically fontified in Org buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
@@ -4316,11 +4377,11 @@ function <code>denote-link-markdown-follow</code> for the implementation details
 </div>
 </div>
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.13.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.14.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 </div>
 <div id="outline-container-h:078856d9-f608-43a8-be84-f2cad4c27d0e" class="outline-4">
-<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.13.1.</span> Aliases for the linking commands</h4>
+<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.14.1.</span> Aliases for the linking commands</h4>
 <div class="outline-text-4" id="text-h:078856d9-f608-43a8-be84-f2cad4c27d0e">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -4333,7 +4394,7 @@ select commands.
 </div>
 </div>
 <div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
-<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.13.2.</span> The <code>denote-link-description-function</code> to format links</h4>
+<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.14.2.</span> The <code>denote-link-description-function</code> to format links</h4>
 <div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
 The user option <code>denote-link-description-function</code> takes as its value
@@ -5723,17 +5784,17 @@ Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
         (reverse-sort (or reverse
                           denote-sort-dired-default-reverse-sort
                           nil)))
-    (if-let ((default-directory (denote-directory))
-             (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
-             (empty-files (seq-filter #'my-denote--note-has-no-contents-p files))
-             ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
-             ;; buffer-name produces an error if the regexp contains a
-             ;; wildcard for a directory. I can reproduce this in emacs
-             ;; -Q and am not sure if it is a bug. Anyway, I will report
-             ;; it upstream, but even if it is fixed we cannot use it
-             ;; for now (whatever fix will be available for Emacs 30+).
-             (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
-             (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
+    (if-let* ((default-directory (denote-directory))
+              (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
+              (empty-files (seq-filter #'my-denote--note-has-no-contents-p files))
+              ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
+              ;; buffer-name produces an error if the regexp contains a
+              ;; wildcard for a directory. I can reproduce this in emacs
+              ;; -Q and am not sure if it is a bug. Anyway, I will report
+              ;; it upstream, but even if it is fixed we cannot use it
+              ;; for now (whatever fix will be available for Emacs 30+).
+              (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
+              (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
         (let ((dired-buffer (dired (cons buffer-name (mapcar #'file-relative-name empty-files)))))
           (setq denote-sort--dired-buffer dired-buffer)
           (with-current-buffer dired-buffer
@@ -5757,17 +5818,17 @@ Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
         (reverse-sort (or reverse
                           denote-sort-dired-default-reverse-sort
                           nil)))
-    (if-let ((default-directory (denote-directory))
-             (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
-             (empty-files (seq-remove #'my-denote--note-has-no-contents-p files))
-             ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
-             ;; buffer-name produces an error if the regexp contains a
-             ;; wildcard for a directory. I can reproduce this in emacs
-             ;; -Q and am not sure if it is a bug. Anyway, I will report
-             ;; it upstream, but even if it is fixed we cannot use it
-             ;; for now (whatever fix will be available for Emacs 30+).
-             (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
-             (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
+    (if-let* ((default-directory (denote-directory))
+              (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
+              (empty-files (seq-remove #'my-denote--note-has-no-contents-p files))
+              ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
+              ;; buffer-name produces an error if the regexp contains a
+              ;; wildcard for a directory. I can reproduce this in emacs
+              ;; -Q and am not sure if it is a bug. Anyway, I will report
+              ;; it upstream, but even if it is fixed we cannot use it
+              ;; for now (whatever fix will be available for Emacs 30+).
+              (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
+              (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
         (let ((dired-buffer (dired (cons buffer-name (mapcar #'file-relative-name empty-files)))))
           (setq denote-sort--dired-buffer dired-buffer)
           (with-current-buffer dired-buffer
@@ -5949,7 +6010,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgadb4ec6">
+<pre class="example" id="orgb7cce84">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6349,7 +6410,7 @@ Prompt for keywords and rename all marked files in the Dired
 buffer to only have Denote-style keywords, but none of the other
 conventions of Denote's file-naming scheme."
   (interactive nil dired-mode)
-  (if-let ((marks (dired-get-marked-files)))
+  (if-let* ((marks (dired-get-marked-files)))
       (let ((keywords (denote-keywords-prompt)))
         (dolist (file marks)
           (let* ((dir (file-name-directory file))
@@ -6590,8 +6651,8 @@ If there are more than one files, prompt with completion for one among
 them.
 
 NAME is one among `my-denote-colleagues'."
-  (if-let ((files (denote-directory-files name))
-           (length-of-files (length files)))
+  (if-let* ((files (denote-directory-files name))
+            (length-of-files (length files)))
       (cond
        ((= length-of-files 1)
         (car files))
@@ -7646,7 +7707,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orge6865e7">
+<pre class="example" id="org14f382e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7656,7 +7717,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7ca99da">
+<pre class="example" id="orgc738cd4">
 emacs -Q
 </pre>
 
@@ -7668,7 +7729,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orga609566">
+<pre class="example" id="orga99d2f4">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7729,7 +7790,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org2817041">
+<pre class="example" id="orgc4de075">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8482,7 +8543,8 @@ Seebeck, Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Vineet C.
 Kulkarni, Wade Mealing, Wilf, Yi Liu, Ypot, atanasj, azegas,
 babusri, coherentstate, doolio, duli, drcxd, elge70, fingerknight,
 hpgisler, jtpavlock, mentalisttraceur, pRot0ta1p, rbenit68,
-relict007, sienic, skissue, sundar bp, yetanotherfossman, zadca123</dd>
+relict007, sarcom-sar, sienic, skissue, sundar bp,
+yetanotherfossman, zadca123</dd>
 </dl>
 
 <p>
