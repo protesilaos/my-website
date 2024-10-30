@@ -43,7 +43,7 @@ Current development target is 1.1.0-dev.
 <li><a href="#h:c002f811-ea06-4123-988b-a73183581fb9">1. COPYING</a></li>
 <li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a>
 <ul>
-<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid view</a></li>
+<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid or tabulated view</a></li>
 <li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.2. Hooks</a></li>
 <li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.3. Sound and desktop notifications</a></li>
 <li><a href="#h:fbedb656-2402-46bc-9763-d5112700c954">2.4. Minibuffer histories</a></li>
@@ -278,7 +278,7 @@ desired keys (<a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">Sample configura
 </p>
 </div>
 <div id="outline-container-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a" class="outline-3">
-<h3 id="h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a"><span class="section-number-3">2.1.</span> Grid view</h3>
+<h3 id="h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a"><span class="section-number-3">2.1.</span> Grid or tabulated view</h3>
 <div class="outline-text-3" id="text-h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">
 <p>
 Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
@@ -286,7 +286,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 buffer and looks like this:
 </p>
 
-<pre class="example" id="orga161bb0">
+<pre class="example" id="org8364c41">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -319,6 +319,32 @@ toggle sorting.
 While in this grid view, one can perform all the operations on timers we
 have already covered herein (the <code>C-h m</code> will show you their key
 bindings in this mode).
+</p>
+
+<p>
+[ The <code>tmr-list-timers-action-alist</code> and the option to call
+  <code>tmr-tabulated-view</code> from Lisp are part of 1.1.0-dev. ]
+</p>
+
+<p>
+The user option <code>tmr-list-timers-action-alist</code> controls how the
+command <code>tmr-tabulated-view</code> displays its buffer. Its default
+behaviour is to (i) place the buffer at the bottom of the Emacs frame,
+(ii) resize the window to match the height of the buffer, and (iii)
+select that window.
+</p>
+
+<p>
+The value of this user option is the same data that is passed to
+<code>display-buffer-alist</code>. It is meant to be customised by advanced
+users. Evaluate <code>(info "(elisp) Displaying Buffers")</code> to read the
+relevant entry in the manual.
+</p>
+
+<p>
+The <code>tmr-list-timers-action-alist</code> is relevant only when the command
+<code>tmr-tabulated-view</code> is called interactively. In Lisp, the <code>tmr-tabulated-view</code>
+requires the buffer it should use and the concomitant action alist.
 </p>
 </div>
 </div>
@@ -501,11 +527,34 @@ Everything is in place to set up the package.
 <h2 id="h:64711ce4-c023-4f6e-b9aa-b43942013423"><span class="section-number-2">5.</span> Integration with Embark</h2>
 <div class="outline-text-2" id="text-h:64711ce4-c023-4f6e-b9aa-b43942013423">
 <p>
-The <code>embark</code> package provides standards-compliant infrastructure to run
-context-dependent actions on all sorts of targets (symbol at point, current
-completion candidate, etc.). TMR is set up to make its timer objects
-recognisable by Embark and registers the <code>tmr-action-map</code> in Embark.
+The <code>embark</code> package provides standards-compliant infrastructure to
+run context-dependent actions on all sorts of targets (symbol at
+point, current completion candidate, etc.). Users can use the
+following glue code to make TMR timer objects recognisable by Embark.
 </p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar-keymap embark-tmr-action-map
+  :doc "Action map for TMRs, which can be utilized by Embark."
+  "k" #'tmr-remove
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "c" #'tmr-clone
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "s" #'tmr-reschedule)
+
+(defvar embark-keymap-alist)
+(defvar embark-post-action-hooks)
+
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . embark-tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of embark-tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-h:047ecc52-ca02-4424-a037-c5b6a02383de" class="outline-2">
