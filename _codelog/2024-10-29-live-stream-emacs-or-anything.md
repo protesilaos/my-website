@@ -5,6 +5,14 @@ layout: vlog
 mediaid: "1nbIaGw9tsA"
 ---
 
+I did a live stream where I answered all questions I got about Emacs,
+free software, politics, philosophy, my dating life, and more. I had a
+good time and will go it again sometime.
+
+Below is the old description.
+
+* * *
+
 I will do a live stream this Thursday. The idea is to answer any
 question from those who join the stream. The topics can be about
 anything, from Emacs to philosophy, to life in general.
