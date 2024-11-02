@@ -1,6 +1,6 @@
 ---
 title: "Live excerpt: comments on imperialism, AI, Linux VS Russia, Marxists, etc."
-excerpt: "These are the comments I made in my recent 'Ask me anything' live stream."
+excerpt: "These are the political comments I made in my recent 'Ask me anything' live stream."
 layout: vlog
 mediaid: "EmmktnklgsY"
 ---
