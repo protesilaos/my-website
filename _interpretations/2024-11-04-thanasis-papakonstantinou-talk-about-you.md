@@ -5,7 +5,7 @@ excerpt: "Translation of---and philosophical commentary on---a Greek song whose 
 
 In this entry, I translate and then comment on a wonderful Greek song
 produced by Thanasis Papakonstantinou. The original performance is by
-Melina Kana <https://www.youtube.com/watch?v=6Mx3siDKz-I>. Though for
+Melina Kana: <https://www.youtube.com/watch?v=6Mx3siDKz-I>. Though for
 the love of all that is musical, listen from start to end to this
 sensational live performance with Matoula Zamani:
 <https://www.youtube.com/watch?v=qHLqVSk5tzk>.
