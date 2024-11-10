@@ -149,12 +149,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.9. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.10. Visiting linked files via the minibuffer</a></li>
 <li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.11. Convert <code>denote:</code> links to <code>file:</code> links in Org</a></li>
-<li><a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">7.12. Convert <code>:denote</code> links to paths in Markdown</a></li>
+<li><a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">7.12. Convert <code>:denote</code> links to paths in Markdown or Obsidian style</a></li>
 <li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.13. Fontify links in non-Org buffers</a></li>
 <li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.14. Miscellaneous information about links</a>
 <ul>
 <li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.14.1. Aliases for the linking commands</a></li>
-<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.14.2. The <code>denote-link-description-function</code> to format links</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.14.2. The <code>denote-link-description-format</code> to format link descriptions</a></li>
 </ul>
 </li>
 </ul>
@@ -1675,7 +1675,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2dd74bc">
+<pre class="example" id="org11d36c0">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2457,7 +2457,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org1b94ba8">
+<pre class="example" id="org260ba07">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2477,7 +2477,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgb184195">
+<pre class="example" id="org2a28273">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3129,7 +3129,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgd9dca89">
+<pre class="example" id="org9a245cf">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3345,7 +3345,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org4ab6c7e">
+<pre class="example" id="org342e288">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3357,7 +3357,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgfe50279">
+<pre class="example" id="orgd05d2a8">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3371,7 +3371,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb51e41b">
+<pre class="example" id="orgb7b4ee0">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3385,7 +3385,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org36ffe29">
+<pre class="example" id="org1f8f261">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3809,7 +3809,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org41e863b">
+<pre class="example" id="orgb6d9192">
 - link1
 - link2
 - link3
@@ -3827,7 +3827,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3bf591b">
+<pre class="example" id="orgd407d9e">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3937,6 +3937,12 @@ Dired buffer.
 <p>
 As always, links are created only for files which qualify as a &ldquo;note&rdquo;
 for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+</p>
+
+<p>
+The <code>denote-dired-link-marked-notes</code> is an alias for
+<code>denote-link-dired-marked-notes</code>. [ The alias is part of
+3.2.0-dev. ]
 </p>
 </div>
 </div>
@@ -4060,7 +4066,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org1fafed0">
+<pre class="example" id="org1761c9e">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4075,7 +4081,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgcbd6d14">
+<pre class="example" id="orgb30cc50">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4279,7 +4285,7 @@ system path and converts it into its identifier.</dd>
 </div>
 </div>
 <div id="outline-container-h:e01d6621-34e9-487d-8721-c4e42a6a286a" class="outline-3">
-<h3 id="h:e01d6621-34e9-487d-8721-c4e42a6a286a"><span class="section-number-3">7.12.</span> Convert <code>:denote</code> links to paths in Markdown</h3>
+<h3 id="h:e01d6621-34e9-487d-8721-c4e42a6a286a"><span class="section-number-3">7.12.</span> Convert <code>:denote</code> links to paths in Markdown or Obsidian style</h3>
 <div class="outline-text-3" id="text-h:e01d6621-34e9-487d-8721-c4e42a6a286a">
 <p>
 [ Also: <a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links in Org</a>. ]
@@ -4319,6 +4325,19 @@ paths.</dd>
 the above. It finds all the file paths , be they relative or
 absolute, and converts them into their corresponding <code>denote:</code> style
 links. It only does so for files with a Denote identifier.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Convert <code>denote:</code> links to Obsidian type</dt><dd>The command
+<code>denote-md-extras-convert-links-to-obsidian-type</code> changes links from
+<code>[Test description](denote:20241026T051243)</code> becomes
+<code>[20241026T051243--test-description__keyword1](20241026T051243--test-description__keyword1.md)</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Convert Obsidian style links to <code>denote:</code> type</dt><dd>The command
+<code>denote-md-extras-convert-obsidian-links-to-denote-type</code> does the
+inverse of <code>denote-md-extras-convert-links-to-obsidian-type</code>.</dd>
 </dl>
 
 <p>
@@ -4394,18 +4413,77 @@ select commands.
 </div>
 </div>
 <div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
-<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.14.2.</span> The <code>denote-link-description-function</code> to format links</h4>
+<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.14.2.</span> The <code>denote-link-description-format</code> to format link descriptions</h4>
 <div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
-The user option <code>denote-link-description-function</code> takes as its value
-the symbol of a function. This is used to format the text of the link.
-The default function inserts the title. If the file has a signature,
-it includes that as well, prepending it to the title.
+[ As part of 3.2.0-dev, the old user option
+  <code>denote-link-description-function</code> is deprecated and superseded by
+  the new <code>denote-link-description-format</code>. The new user option still
+  accepts a custom function as its value, so the old behaviour should
+  be retained. ]
 </p>
 
 <p>
-The function specified accepts a single <code>FILE</code> argument and returns
-the description as a string.
+The user option <code>denote-link-description-format</code> controls how the
+command <code>denote-link</code> and related functions create a link description
+by default.
+</p>
+
+<p>
+The value can be either a function or a string. If it is a function,
+it is called with one argument, the file, and should return a string
+representing the link description.
+</p>
+
+<p>
+The default is a function that returns the active region or the title of
+the note (with the signature if present).
+</p>
+
+<p>
+If the value is a string, it treats specially the following specifiers:
+</p>
+
+<ul class="org-ul">
+<li>The <code>%t</code> is the Denote <code>TITLE</code> in the front matter or the file name.</li>
+<li>The <code>%T</code> is the Denote <code>TITLE</code> in the file name.</li>
+<li>The <code>%i</code> is the Denote <code>IDENTIFIER</code> of the file.</li>
+<li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
+<li>The <code>%s</code> is the Denote <code>SIGNATURE</code> of the file.</li>
+<li>The <code>%k</code> is the Denote <code>KEYWORDS</code> of the file.</li>
+<li>The <code>%%</code> is a literal percent sign.</li>
+</ul>
+
+<p>
+In addition, the following flags are available for each of the specifiers:
+</p>
+
+<dl class="org-dl">
+<dt>0</dt><dd>Pad to the width, if given, with zeros instead of spaces.</dd>
+<dt>-</dt><dd>Pad to the width, if given, on the right instead of the left.</dd>
+<dt>&lt;</dt><dd>Truncate to the width and precision, if given, on the left.</dd>
+<dt>&gt;</dt><dd>Truncate to the width and precision, if given, on the right.</dd>
+<dt>^</dt><dd>Convert to upper case.</dd>
+<dt>_</dt><dd>Convert to lower case.</dd>
+</dl>
+
+<p>
+When combined all together, the above are written thus:
+</p>
+
+<pre class="example">
+%&lt;flags&gt;&lt;width&gt;&lt;precision&gt;SPECIFIER-CHARACTER
+</pre>
+
+
+<p>
+Any other text in the string it taken as-is. Users may want, for
+example, to include some text that makes Denote links stand out, such
+as a <code>[D]</code> prefix.
+</p>
+
+<p>
+If the region is active, its text is used as the link&rsquo;s description.
 </p>
 </div>
 </div>
@@ -4577,7 +4655,8 @@ are placeholders for Denote file name components (<a href="#h:4e9c7512-84dc-4dfb
 </p>
 
 <ul class="org-ul">
-<li>The <code>%t</code> is the Denote <code>TITLE</code> of the file.</li>
+<li>The <code>%t</code> is the Denote <code>TITLE</code> in the front matter or the file name.</li>
+<li>The <code>%T</code> is the Denote <code>TITLE</code> in the file name. [ The <code>%T</code> is part of 3.2.0-dev. ]</li>
 <li>The <code>%i</code> is the Denote <code>IDENTIFIER</code> of the file.</li>
 <li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
 <li>The <code>%s</code> is the Denote <code>SIGNATURE</code> of the file.</li>
@@ -6010,7 +6089,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgb7cce84">
+<pre class="example" id="org327ff39">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6828,7 +6907,7 @@ Everything is in place to set up the package.
 
 ;; Key bindings specifically for Dired.
 (let ((map dired-mode-map))
-  (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+  (define-key map (kbd "C-c C-d C-i") #'denote-dired-link-marked-notes)
   (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-files)
   (define-key map (kbd "C-c C-d C-k") #'denote-dired-rename-marked-files-with-keywords)
   (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
@@ -6995,13 +7074,6 @@ underscore character, per the Denote file-naming scheme.</dd>
 valid <code>DATE</code> is a value that can be parsed by either <code>decode-time</code>
 or <code>date-to-time</code> .Those functions signal an error if <code>DATE</code> is a
 value they do not recognise. If <code>DATE</code> is nil, return nil.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-parse-date</code></dt><dd>Return <code>DATE</code> as an appropriate
-value for the <code>denote</code> command. Pass <code>DATE</code> through
-<code>denote-valid-date-p</code> and use its return value. If either that or
-<code>DATE</code> is nil, return <code>current-time</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7175,8 +7247,10 @@ the case when returning the value of the variable <code>denote-directory</code>)
 </p>
 
 <p>
-<code>ID</code> is a string holding the identifier of the note. It cannot be
-nil or an empty string and must match <code>denote-id-regexp</code>.
+<code>ID</code> is a string holding the identifier of the note. It can be an
+empty string, in which case its respective file name component is
+not added to the base file name. [ This is changed as part of
+3.2.0-dev. ]
 </p>
 
 <p>
@@ -7220,8 +7294,9 @@ identifier in <code>STRING</code>, else nil.</dd>
 
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier
-from <code>FILE</code> name, if present, else return nil.  To create a new one, refer to the
-<code>denote-create-unique-file-identifier</code> function.</dd>
+from <code>FILE</code> name, if present, else return nil. To create a new one
+from a date, refer to the <code>denote-get-identifier</code> function. [ This
+is changed as part of 3.2.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7249,35 +7324,8 @@ title for <code>FILE</code> given its <code>TYPE</code>. This is a wrapper for
 
 <dl class="org-dl">
 <dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
-identifier using <code>denote-id-format</code>. <code>DATE</code> is parsed by
-<code>denote-valid-date-p</code>. If <code>DATE</code> is nil, use the current time.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-create-unique-file-identifier</code></dt><dd><p>
-Create a new unique
-<code>FILE</code> identifier.  Test that the identifier is unique among
-<code>USED-IDS</code>.  The conditions are as follows:
-</p>
-
-<ul class="org-ul">
-<li>If <code>DATE</code> is non-nil, invoke <code>denote-prompt-for-date-return-id</code>.</li>
-
-<li>If <code>DATE</code> is nil, use the file attributes to determine the last
-modified date and format it as an identifier.</li>
-
-<li>As a fallback, derive an identifier from the current time.</li>
-</ul>
-
-<p>
-With optional <code>USED-IDS</code> as nil, test that the identifier is unique
-among all files and buffers in variable <code>denote-directory</code>.
-</p>
-
-<p>
-To only return an existing identifier, refer to the function
-<code>denote-retrieve-filename-identifier</code>.
-</p></dd>
+identifier using <code>denote-id-format</code>. If <code>DATE</code> is nil, return an
+empty string as the identifier. [ This is changed as part of 3.2.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7707,7 +7755,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org14f382e">
+<pre class="example" id="org0ff0366">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7717,7 +7765,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc738cd4">
+<pre class="example" id="org4b8adaa">
 emacs -Q
 </pre>
 
@@ -7729,7 +7777,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orga99d2f4">
+<pre class="example" id="org6816bae">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7790,7 +7838,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc4de075">
+<pre class="example" id="org55db87e">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8542,8 +8590,8 @@ Suhail Singh, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven
 Seebeck, Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Vineet C.
 Kulkarni, Wade Mealing, Wilf, Yi Liu, Ypot, atanasj, azegas,
 babusri, coherentstate, doolio, duli, drcxd, elge70, fingerknight,
-hpgisler, jtpavlock, mentalisttraceur, pRot0ta1p, rbenit68,
-relict007, sarcom-sar, sienic, skissue, sundar bp,
+hpgisler, hyperfocus1337, jtpavlock, mentalisttraceur, pRot0ta1p,
+rbenit68, relict007, sarcom-sar, sienic, skissue, sundar bp,
 yetanotherfossman, zadca123</dd>
 </dl>
 
