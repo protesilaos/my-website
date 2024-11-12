@@ -4,7 +4,7 @@ excerpt: "Commentary on how we can make things happen in our communities despite
 ---
 
 In an episode for the _Team Human_ podcast titled [Post-Election
-Monologue: This Game is Not Reality](https://sphinx.acast.com/p/open/s/58ad887a1608b1752663b04a/e/67318afa91bb1482605915e5/media.mp3?tk=eyJ0ayI6ImRlZmF1bHQiLCJhZHMiOnRydWUsInNwb25zIjp0cnVlLCJzdGF0dXMiOiJwdWJsaWMifQ==&sig=ljiT8ra_Q2hwW78n9JMeKJUU0kXsNZxNjEOeFds3SDE),
+Monologue: This Game is Not Reality](https://www.teamhuman.fm/episodes/303-rushkoff-post-election-monologue-this-game-is-not-reality),
 host Douglas Rushkoff provides a thoughtful commentary on the bigger
 picture of contemporary social and political trends in light of the
 presidential elections in the United States of America. Douglas'
