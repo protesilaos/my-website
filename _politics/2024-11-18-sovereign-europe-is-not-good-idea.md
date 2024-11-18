@@ -4,7 +4,7 @@ excerpt: "Comment on why interdependence is a better guarantee for peace than th
 ---
 
 In [an insightful interview for _Jacobin_ magazine](https://jacobin.com/2024/11/die-linke-schwerdtner-wagenknecht-workers/),
-Ines Schwerdtner, newly elected cochair of Germany's left-wing party
+Ines Schwerdtner, newly elected co-chair of Germany's left-wing party
 _Die Linke_, says this about European policy orientations (the
 parenthetic explanation is mine):
 
