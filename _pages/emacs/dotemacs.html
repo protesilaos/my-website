@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-11-17 12:06:37 +0200 with a word
-count of 106000.</b>
+<b>Last revised and exported on 2024-11-20 08:27:45 +0200 with a word
+count of 106300.</b>
 </p>
 
 <p>
@@ -314,7 +314,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:ee82e629-fb05-4c75-9175-48a760a25691">5.10.17.1. The <code>prot-emacs-langs.el</code> integration between Consult and Denote (<code>consult-denote</code>)</a></li>
 </ul>
 </li>
-<li><a href="#h:137c67f1-b112-42b7-aec9-c44ef4a6241a">5.10.18. The <code>prot-emacs-langs.el</code> settings for <code>logos</code> (writing extras and file navigation)</a></li>
+<li><a href="#h:137c67f1-b112-42b7-aec9-c44ef4a6241a">5.10.18. The <code>prot-emacs-langs.el</code> settings for <code>logos</code> (writing extras and buffer navigation)</a></li>
 </ul>
 </li>
 <li><a href="#h:755e195b-9471-48c7-963b-33055969b4e2">5.11. The <code>prot-emacs-email.el</code> module</a>
@@ -412,7 +412,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-11-17 12:06:37 +0200):
+(2024-11-20 08:27:46 +0200):
 </p>
 
 <div class="org-src-container">
@@ -502,7 +502,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org7cba4ea">
+<pre class="example" id="org63fd108">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -582,7 +582,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org0dc8318">
+<pre class="example" id="org4e4e7b5">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -590,7 +590,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgeaa05f4">
+<pre class="example" id="org32ae7cc">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1510,7 +1510,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org1af7921">
+<pre class="example" id="org1a66adc">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -3223,6 +3223,8 @@ this via some hook.
     ("C-M-SPC" . prot-simple-mark-sexp)   ; will be overriden by `expreg' if tree-sitter is available
     ;; Commands for lines
     ("M-k" . prot-simple-kill-line-backward)
+    ("M-j" . delete-indentation)
+    ("M-w" . prot-simple-kill-ring-save)
     ("C-S-d" . prot-simple-duplicate-line-or-region)
     ("C-S-w" . prot-simple-copy-line)
     ("C-S-y" . prot-simple-yank-replace-line-or-region)
@@ -4296,7 +4298,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org0c68bc1">
+<pre class="example" id="orgad492c7">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6986,13 +6988,14 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
                 "epub"
                 "\\)"))
 
-  (setq dired-preview-display-action-alist
-        '((display-buffer-in-side-window)
-          (side . bottom)
-          (window-height . 0.2)
-          (preserve-size . (t . t))
-          (window-parameters . ((mode-line-format . none)
-                                (header-line-format . none))))))
+  ;; (setq dired-preview-display-action-alist
+  ;;       '((display-buffer-in-side-window)
+  ;;         (side . bottom)
+  ;;         (window-height . 0.2)
+  ;;         (preserve-size . (t . t))
+  ;;         (window-parameters . ((mode-line-format . none)
+  ;;                               (header-line-format . none)))))
+  )
 </pre>
 </div>
 </div>
@@ -7168,12 +7171,12 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgaec8b37">
+<pre class="example" id="orgbb21d81">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 </pre>
 
-<pre class="example" id="org51d3dbd">
+<pre class="example" id="org79cc9b4">
 # Same idea for the `tmr` command.
 emacsclient -e '(prot-window-popup-tmr)'
 </pre>
@@ -7189,7 +7192,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org2a40349">
+<pre class="example" id="orgeb66e22">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7345,7 +7348,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgdcd2186">
+<pre class="example" id="orgf5b4257">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8907,7 +8910,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org7ba2b2d">
+<pre class="example" id="org1cc33b7">
 (info "(org) Search Options")
 </pre>
 
@@ -8999,7 +9002,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orge1c3a5c">
+<pre class="example" id="org1034b91">
 (require 'ob-python)
 
 ;; OR
@@ -9847,7 +9850,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org874bc78">
+<pre class="example" id="orgd074b12">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10007,7 +10010,9 @@ not even bother trying as I seldom have that need.
   :ensure nil
   :bind
   (("M-$" . prot-spell-spell-dwim)
-   ("C-M-$" . prot-spell-change-dictionary))
+   ("C-M-$" . prot-spell-change-dictionary)
+   ("M-i" . prot-spell-spell-dwim) ; override `tab-to-tab-stop'
+   ("C-M-i" . prot-spell-change-dictionary)) ; override `complete-symbol'
   :config
   (setq prot-spell-dictionaries
         '(("EN English" . "en")
@@ -10370,26 +10375,7 @@ Note Only The Epiphenomenal.</li>
   ;; instead of their long file name they have a literal "[D]"
   ;; followed by the file's title.  Read the doc string of
   ;; `denote-rename-buffer-format' for how to modify this.
-  (denote-rename-buffer-mode 1)
-
-  ;; ----- PERSONAL TWEAKS FOR EXPERIMENTS -----
-  (setq denote-text-front-matter "title: %s\n\n")
-
-  (defun prot/denote-add-text-front-matter-separator ()
-    "Add separator equal to the length of the title.
-Do this when the `denote-file-type' is `text'."
-    (when (and (eq denote-file-type 'text)
-              ;; Not `string=' because there may be a .gpg extension as well.
-              (string-match-p (file-name-extension buffer-file-name) "txt"))
-      (save-excursion
-        (goto-char (point-min))
-        (when (re-search-forward "title:" nil t)
-          (let ((text (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-            (if (re-search-forward "^$" nil t)
-                (insert (make-string (length text) ?-))
-              (error "Could not find an empty line after the front matter")))))))
-
-  (add-hook 'denote-after-new-note-hook #'prot/denote-add-text-front-matter-separator))
+  (denote-rename-buffer-mode 1))
 </pre>
 </div>
 </div>
@@ -10436,7 +10422,7 @@ Unambiguous Targets&#x2026;denote.</li>
 </div>
 </div>
 <div id="outline-container-h:137c67f1-b112-42b7-aec9-c44ef4a6241a" class="outline-4">
-<h4 id="h:137c67f1-b112-42b7-aec9-c44ef4a6241a"><span class="section-number-4">5.10.18.</span> The <code>prot-emacs-langs.el</code> settings for <code>logos</code> (writing extras and file navigation)</h4>
+<h4 id="h:137c67f1-b112-42b7-aec9-c44ef4a6241a"><span class="section-number-4">5.10.18.</span> The <code>prot-emacs-langs.el</code> settings for <code>logos</code> (writing extras and buffer navigation)</h4>
 <div class="outline-text-4" id="text-h:137c67f1-b112-42b7-aec9-c44ef4a6241a">
 <p>
 This package provides a simple approach to setting up a &ldquo;focus mode&rdquo;.
@@ -10475,11 +10461,8 @@ heading/section becomes its own &ldquo;slide&rdquo; simply by narrowing to it.
   (setq olivetti-body-width 0.7)
   (setq olivetti-minimum-body-width 80)
   (setq olivetti-recall-visual-line-mode-entry-state t))
-</pre>
-</div>
 
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package logos
+(use-package logos
   :ensure t
   :bind
   (("C-x n n" . logos-narrow-dwim)
@@ -10558,23 +10541,23 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org2b3c8e4">
-machine pub port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
-machine inf port 993 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
+<pre class="example" id="orgd4f9eb9">
+machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
+machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
-machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
-machine mail.gandi.net port 465 login SOME-USER-NAME-HERE password SOME-PASSWORD-HERE
+machine smtp.some-server.com port 465 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
+machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 </pre>
 
 <p>
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgda20520">
+<pre class="example" id="orgae470c5">
 machine pub
 port 993
-login SOME-USER-NAME-HERE
-password SOME-PASSWORD-HERE
+login SOME-USER-NAME-HERE-1
+password SOME-PASSWORD-HERE-1
 </pre>
 
 <p>
@@ -10636,7 +10619,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgd24d89b">
+<pre class="example" id="orge40ac2c">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10648,7 +10631,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orge044403">
+<pre class="example" id="orged7f852">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10670,7 +10653,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org21f6073">
+<pre class="example" id="orgc7a0355">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10916,6 +10899,32 @@ Doing things this way ensures that I do not share the details about
 the accounts I set.
 </p>
 
+<p>
+At any rate, the format of <code>notmuch-identities</code> is like this:
+</p>
+
+<pre class="example" id="org50bbc85">
+(setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
+</pre>
+
+<p>
+While the corresponding <code>notmuch-fcc-dirs</code> map those accounts to the
+relative path of their local sent mail folder (it is relative to the
+root of the directory that <code>notmuch</code> indexes, so something like
+<code>~/.mail/pub/Sent</code> needs to be written as <code>pub/Sent</code>). The data
+structure looks like this:
+</p>
+
+<pre class="example" id="orgdc4a3a0">
+(setq notmuch-fcc-dirs
+      '(("someone@somewhere.com" . "someone/Sent")
+        ("nickname@somewhere.com" . "nickname/Sent")))
+</pre>
+
+<p>
+Now the actual code I use:
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Account settings
 (use-package notmuch
@@ -10929,9 +10938,9 @@ the accounts I set.
                     (format "%s &lt;%s&gt;" user-full-name str))
                   (list prv pub inf))
           notmuch-fcc-dirs
-          `((,prv . "prv/Sent")
-            (,inf . "inf/Sent")
-            (,pub . "pub/Sent")))))
+          `((,prv . "mailbox/Sent")
+            (,inf . "mailbox/Sent")
+            (,pub . "mailbox/Sent")))))
 </pre>
 </div>
 </div>
@@ -12012,7 +12021,40 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org7a56dd5">
+<pre class="example" id="org7856d0b">
+IMAPAccount mailbox
+Host imap.mailbox.org
+UserCmd "gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $(NF-2); exit; }'"
+PassCmd "gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $NF; exit; }'"
+SSLType IMAPS
+
+IMAPStore mailbox-remote
+Account mailbox
+
+MaildirStore mailbox-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/mailbox/
+Inbox ~/.mail/mailbox/Inbox
+
+Channel mailbox
+Far :mailbox-remote:
+Near :mailbox-local:
+# Include everything
+Patterns *
+Sync All
+Create Both
+Remove Both
+Expunge Both
+SyncState *
+</pre>
+
+<p>
+Below is an older version of this file (as of 2024-11-20) that shows
+how to make things work with multiple accounts:
+</p>
+
+<pre class="example" id="org4bf5987">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -12107,7 +12149,33 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org723d1b1">
+<pre class="example" id="orgab36913">
+# See my mbsync config, which is reflected here.
+# https://github.com/protesilaos/dotfiles
+
+defaults
+auth on
+protocol smtp
+tls on
+tls_starttls off
+host smtp.mailbox.org
+port 465
+
+account mailbox
+eval echo from $(gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $(NF-2); exit; }')
+eval echo user $(gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $(NF-2); exit; }')
+passwordeval "gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $NF; exit; }'"
+
+# Set a default account (I copied from man msmtp)
+account default : mailbox
+</pre>
+
+<p>
+Below is an older version of this file (as of 2024-11-20) that shows
+how to make things work with multiple accounts:
+</p>
+
+<pre class="example" id="org15ac4e1">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12115,11 +12183,9 @@ defaults
 auth on
 protocol smtp
 tls on
-# FIXME 2023-08-08: I cannot send the message if `tls_starttls' is on.
-# Why?
-tls_starttls off
+tls_starttls on
 host mail.gandi.net
-port 465
+port 587
 
 # pub
 account pub
@@ -18097,6 +18163,16 @@ When called interactively without a prefix numeric argument, N is
 
 (make-obsolete 'prot-simple-copy-line-or-region 'prot-simple-copy-line "2023-09-26")
 
+;;;###autoload
+(defun prot-simple-kill-ring-save (beg end)
+  "Copy the current region or line.
+When the region is active, use `kill-ring-save' between the BEG and END
+positions.  Otherwise, copy the current line."
+  (interactive "r")
+  (if (region-active-p)
+      (kill-ring-save beg end)
+    (prot-simple-copy-line)))
+
 (defun prot-simple--duplicate-buffer-substring (boundaries)
   "Duplicate buffer substring between BOUNDARIES.
 BOUNDARIES is a cons cell representing buffer positions."
@@ -19396,7 +19472,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org4030f21">
+<pre class="example" id="orgaf139b2">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19428,7 +19504,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgb3bdf47">
+<pre class="example" id="orgcd70e6c">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
