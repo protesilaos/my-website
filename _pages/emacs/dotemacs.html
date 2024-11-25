@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-11-24 17:19:13 +0200 with a word
-count of 106707.</b>
+<b>Last revised and exported on 2024-11-25 09:43:52 +0200 with a word
+count of 106824.</b>
 </p>
 
 <p>
@@ -412,7 +412,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-11-24 17:19:14 +0200):
+(2024-11-25 09:43:52 +0200):
 </p>
 
 <div class="org-src-container">
@@ -421,7 +421,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-native-compilation=yes --with-tree-sitter=ifavailable --with-json --with-x-toolkit=gtk3
+--prefix=/usr/local --with-x-toolkit=gtk3 --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 </pre>
 
 
@@ -502,7 +502,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgb6d873d">
+<pre class="example" id="org6ac17b3">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -582,7 +582,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org9667402">
+<pre class="example" id="org8e55759">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -590,7 +590,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgd816956">
+<pre class="example" id="orgab7d50b">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1510,7 +1510,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org916dda2">
+<pre class="example" id="orgca8cb6f">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4298,7 +4298,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org87d3ee9">
+<pre class="example" id="org5bb3001">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7171,12 +7171,12 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgb4c2604">
+<pre class="example" id="org5bd191b">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 </pre>
 
-<pre class="example" id="org1470a9b">
+<pre class="example" id="orgd91c46c">
 # Same idea for the `tmr` command.
 emacsclient -e '(prot-window-popup-tmr)'
 </pre>
@@ -7192,7 +7192,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org3ca5a2e">
+<pre class="example" id="orgde60ef9">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7348,7 +7348,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org5fcd9fa">
+<pre class="example" id="org8e76500">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8910,7 +8910,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org68dffb1">
+<pre class="example" id="org2f42c32">
 (info "(org) Search Options")
 </pre>
 
@@ -9002,7 +9002,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org1a04326">
+<pre class="example" id="orgb091093">
 (require 'ob-python)
 
 ;; OR
@@ -9202,6 +9202,7 @@ activities in the given day based on those.</li>
            ,(concat "* %^{Title}\n"
                     ":PROPERTIES:\n"
                     ":CAPTURED: %U\n"
+                    ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
                     ":END:\n\n"
                     "%a\n%i%?")
            :empty-lines-after 1)
@@ -9210,21 +9211,26 @@ activities in the given day based on those.</li>
            ,(concat "* %^{Title} %^g\n"
                     ":PROPERTIES:\n"
                     ":CAPTURED: %U\n"
+                    ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
                     ":END:\n\n"
                     "%a%?")
            :empty-lines-after 1)
           ("t" "Task to do" entry
            (file+headline "tasks.org" "All tasks")
            ,(concat "* TODO %^{Title} %^g\n"
-                    "%^{How time sensitive it is|SCHEDULED|SCHEDULED|DEADLINE}: %^t\n"
                     ":PROPERTIES:\n"
                     ":CAPTURED: %U\n"
+                    ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
                     ":END:\n\n"
                     "%a%?")
            :empty-lines-after 1)
           ("s" "Select file and heading to add to" entry
            (function prot-org-capture-select-project)
-           "* TODO %^{Title} %^g\n%?"
+           ,(concat "* TODO %^{Title}%?\n"
+                    ":PROPERTIES:\n"
+                    ":CAPTURED: %U\n"
+                    ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
+                    ":END:\n\n")
            :empty-lines-after 1)
 
           ;; NOTE 2024-11-24: I am not using this, but am keeping it
@@ -9850,7 +9856,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgac6bb65">
+<pre class="example" id="org23bc6a4">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10541,7 +10547,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org61ec5b2">
+<pre class="example" id="org63aa1c8">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10553,7 +10559,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org152bcfe">
+<pre class="example" id="org616bcb2">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10619,7 +10625,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org838ddd6">
+<pre class="example" id="org058a888">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10631,7 +10637,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org8ad4ef1">
+<pre class="example" id="org5e4b734">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10653,7 +10659,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgb877365">
+<pre class="example" id="org9b65433">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10903,7 +10909,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org75fde82">
+<pre class="example" id="orgcade873">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10915,7 +10921,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org5932b77">
+<pre class="example" id="orgca8811e">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12014,7 +12020,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org3a6e7eb">
+<pre class="example" id="orgc537b45">
 IMAPAccount mailbox
 Host imap.mailbox.org
 UserCmd "gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/mailbox/ { print $(NF-2); exit; }'"
@@ -12047,7 +12053,7 @@ Below is an older version of this file (as of 2024-11-20) that shows
 how to make things work with multiple accounts:
 </p>
 
-<pre class="example" id="org64e02f8">
+<pre class="example" id="org1173d86">
 IMAPAccount pub
 Host mail.gandi.net
 UserCmd "gpg2 -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/pub/ { print $(NF-2); exit; }'"
@@ -12142,7 +12148,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org87e8c4c">
+<pre class="example" id="org3144b73">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12168,7 +12174,7 @@ Below is an older version of this file (as of 2024-11-20) that shows
 how to make things work with multiple accounts:
 </p>
 
-<pre class="example" id="org0832772">
+<pre class="example" id="orgb668b65">
 # See my mbsync config, which is reflectd here.
 # https://github.com/protesilaos/dotfiles
 
@@ -15918,7 +15924,7 @@ For use in `prot-org-capture-coach'."
 DEADLINE: %%^T
 :PROPERTIES:
 :CAPTURED: %%U
-:CUSTOM_ID: %s
+:CUSTOM_ID: h:%s
 :APPT_WARNTIME: 20
 :END:
 
@@ -15933,7 +15939,7 @@ DEADLINE: %%^T
   (format "* COACH %s %s :service:
 :PROPERTIES:
 :CAPTURED: %%U
-:CUSTOM_ID: %s
+:CUSTOM_ID: h:%s
 :END:
 
 %%a%%?"
@@ -16258,6 +16264,21 @@ create a new one."
   "Add missing CUSTOM_ID to headline at point."
   (interactive)
   (prot-org--id-get))
+
+;;;###autoload
+(defun prot-org-get-dotemacs-link ()
+  "Get URL to current heading in my dotemacs file."
+  (declare (interactive-only t))
+  (interactive)
+  (if (and (derived-mode-p 'org-mode)
+           (string-match-p "prot-emacs\\.org\\'" buffer-file-name))
+      (if-let ((id (org-entry-get (point) "CUSTOM_ID"))
+               (url (concat "https://protesilaos.com/emacs/dotemacs#" id)))
+          (progn
+            (kill-new url)
+            (message "Copied %s" (propertize url 'face 'success)))
+        (error "No CUSTOM_ID for the current entry"))
+    (user-error "You are not in the right file")))
 
 (provide 'prot-org)
 ;;; prot-org.el ends here
@@ -19541,7 +19562,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgf090dc9">
+<pre class="example" id="orge59cfc7">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19573,7 +19594,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org39bd237">
+<pre class="example" id="org0722b75">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
