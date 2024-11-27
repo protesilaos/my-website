@@ -6,6 +6,7 @@ layout: page
 ---
 
 - Email: <prot@protesilaos.com>
+- Signal app: <https://signal.me/#eu/AKio-VMi3643Lv6iuEAgrteICHl-cj14BPjVXKGhuSd7WewEnb1OA7BQx6-4Dsnv>
 
 Feel free to send me your message regarding the content of this
 website (blog posts, coding stuff, books, etc.). I normally reply
@@ -17,7 +18,8 @@ I provide coaching and services on Emacs, Linux, and Life in general.
 Check the details and email me about it, if it interests you (though
 you can send me a message regardless): <https://protesilaos.com/coach>
 
-I do not use social media.
+I do not use social media. Even the Signal app I have is my Plan B in
+case the email setup fails me.
 
 ## Citations (optional)
 
@@ -92,4 +94,3 @@ communications and establish it as your default method for trusted
 contacts.  You do not need to be a tech wizard to implement it.  Get
 started with this excellent guide by the Free Software Foundation on
 [email self-defence](https://emailselfdefense.fsf.org/en/).
-
