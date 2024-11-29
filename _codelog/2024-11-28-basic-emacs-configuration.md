@@ -128,7 +128,7 @@ Here we are activating the `delete-selection-mode` as soon as Emacs is initialis
 
 ## Make `C-g` a bit more helpful
 
-Having obsered beginners struggle with `C-g` not closing the open minibuffer, I know that the following is a quality-of-life refinement:
+Having observed beginners struggle with `C-g` not closing the open minibuffer, I know that the following is a quality-of-life refinement:
 
 ```elisp
 (defun prot/keyboard-quit-dwim ()
