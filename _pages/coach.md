@@ -120,7 +120,7 @@ me know about the specifics of your case and I will adapt accordingly.
 
 ## Contact me
 
-I look forward to you message: <https://protesilaos.com/contact/>.
+I look forward to your message: <https://protesilaos.com/contact/>.
 There is no need for formalities such as "Sir". Call me by my name,
 "Protesilaos", or nickname: "Prot".
 
