@@ -81,7 +81,7 @@ The function call `(package-initialize)` is technically not necessary, as Emacs 
 
 ## Set up `use-package`
 
-With `use-package`, user have a powerful tool for configuring packages in a streamlined way ([The complete configuration](#h:8d8c57cc-04c9-408f-aca1-6493bc5d8f0d)). Concretely, the user does not need to write a lot of repetitive code, figure out how to load packages when they are needed, installed missing dependencies, and the like. Emacs version 29 has `use-package` built-in, but earlier versions need to install it manually.
+With `use-package`, users have a powerful tool for configuring packages in a streamlined way ([The complete configuration](#h:8d8c57cc-04c9-408f-aca1-6493bc5d8f0d)). Concretely, the user does not need to write a lot of repetitive code, figure out how to load packages when they are needed, installed missing dependencies, and the like. Emacs version 29 has `use-package` built-in, but earlier versions need to install it manually.
 
 ```elisp
 (when (< emacs-major-version 29)
@@ -194,7 +194,7 @@ Fonts are an integral part of the text-centric Emacs experience ([The complete c
 
 The `default` face is the only one that must have an absolute `:height` value. Everything else uses a floating point, which is understood as a multiple of the `default`.
 
-Chance the above snippet to use the preferred font family names. Also adjust the `default` height to a larger/smaller number.
+Change the above snippet to use the preferred font family names. Also adjust the `default` height to a larger/smaller number.
 
 
 <a id="h:ba68d1bb-eb07-402a-96b6-2ec612a12b3a"></a>
@@ -214,7 +214,7 @@ I am the author of tens of themes for Emacs. Among them is the `modus-themes` pa
 
 ## Use icon fonts in various places
 
-Continuing with the stylistic refinements to Emacs, the following snippet will show compelementary icons in the minibuffer ([Configure the minibuffer and related](#h:126ab89f-a6a5-47af-b0ea-28375299183b)) and in Dired ([Tweak the `dired` Emacs file manager](#h:8179afea-2830-4225-8dab-ddb2daf0f822)). To make this setup work, the user must type `M-x` and then call the command `nerd-icons-install-fonts`. This will store the icon font files in a local directory (on Linux this is `~/.local/share/fonts`). To be sure everything is working, a restart to Emacs will guarantee that the new font files are read.
+Continuing with the stylistic refinements to Emacs, the following snippet will show complementary icons in the minibuffer ([Configure the minibuffer and related](#h:126ab89f-a6a5-47af-b0ea-28375299183b)) and in Dired ([Tweak the `dired` Emacs file manager](#h:8179afea-2830-4225-8dab-ddb2daf0f822)). To make this setup work, the user must type `M-x` and then call the command `nerd-icons-install-fonts`. This will store the icon font files in a local directory (on Linux this is `~/.local/share/fonts`). To be sure everything is working, a restart to Emacs will guarantee that the new font files are read.
 
 ```elisp
 (use-package nerd-icons
