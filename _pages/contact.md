@@ -6,6 +6,7 @@ layout: page
 ---
 
 - Email: <prot@protesilaos.com>
+- Telegram app: <https://t.me/protesilaos>
 - Signal app: <https://signal.me/#eu/AKio-VMi3643Lv6iuEAgrteICHl-cj14BPjVXKGhuSd7WewEnb1OA7BQx6-4Dsnv>
 
 Feel free to send me your message regarding the content of this
