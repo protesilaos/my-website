@@ -1677,7 +1677,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgeeadb8e">
+<pre class="example" id="org92a91a9">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2459,7 +2459,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org10d0585">
+<pre class="example" id="org191d9cf">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2479,7 +2479,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orge7e6483">
+<pre class="example" id="org3d17d9b">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3131,7 +3131,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org1f7d6c7">
+<pre class="example" id="orgc362ef9">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3347,7 +3347,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org23eda4e">
+<pre class="example" id="orgd486d55">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3359,7 +3359,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org3d9238f">
+<pre class="example" id="org0599a9c">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3373,7 +3373,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org589591f">
+<pre class="example" id="org9c3804c">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3387,7 +3387,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org5c83a4c">
+<pre class="example" id="org9d25353">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3833,7 +3833,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgc65926a">
+<pre class="example" id="orgf9d9306">
 - link1
 - link2
 - link3
@@ -3851,7 +3851,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc0cfaa5">
+<pre class="example" id="org941e9c2">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4090,7 +4090,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgc63a048">
+<pre class="example" id="org42eedf8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4105,7 +4105,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org614cb9b">
+<pre class="example" id="orgd3dd8ff">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4820,7 +4820,7 @@ following in an Org file:
 </p>
 
 <pre class="example">
-#+BEGIN: denote-links :regexp "YOUR REGEXP HERE" :excluded-dirs-regexp nil :sort-by-component nil :reverse-sort nil :id-only nil :include-date nil
+#+BEGIN: denote-links :regexp "YOUR REGEXP HERE" :not-regexp :excluded-dirs-regexp nil :sort-by-component nil :reverse-sort nil :id-only nil :include-date nil
 
 #+END:
 </pre>
@@ -4852,6 +4852,10 @@ read the documentation: <code>(info "(elisp) Rx Notation")</code>). Note that
 you do not need to write an actual regular expression to get
 meaningful results: even something like <code>_journal</code> will work to
 include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:not-regexp</code> parameter is optional. It is a regular expression
+that applies after <code>:regexp</code> to filter out the matching files. [
+Part of 3.2.0-dev. ]</li>
 
 <li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
 regular expression that matches against directory files names
@@ -5013,7 +5017,7 @@ or manually write the following block in an Org file and then type
 </p>
 
 <pre class="example">
-#+BEGIN: denote-files :regexp "YOUR REGEXP HERE" :sort-by-component nil :reverse-sort nil :no-front-matter nil :file-separator nil :add-links nil
+#+BEGIN: denote-files :regexp "YOUR REGEXP HERE" :not-regexp nil :sort-by-component nil :reverse-sort nil :no-front-matter nil :file-separator nil :add-links nil
 
 #+END:
 </pre>
@@ -5038,7 +5042,6 @@ To fully control the output, include these additional optional
 parameters, which are described further below:
 </p>
 
-
 <ul class="org-ul">
 <li>The <code>:regexp</code> parameter is mandatory. Its value is a string,
 representing a regular expression to match Denote file names. Its
@@ -5047,6 +5050,10 @@ in the previous section (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org d
 Note that you do not need to write an actual regular expression to
 get meaningful results: even something like <code>_journal</code> will work to
 include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:not-regexp</code> parameter is optional. It is a regular expression
+that applies after <code>:regexp</code> to filter out the matching files. [
+Part of 3.2.0-dev. ]</li>
 
 <li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
 regular expression that matches against directory files names
@@ -5156,7 +5163,7 @@ you get all the parameters included:
 </p>
 
 <pre class="example">
-#+BEGIN: denote-files-as-headings :regexp "YOUR REGEXP HERE" :excluded-dirs-regexp nil :sort-by-component title :reverse-sort nil :add-links t
+#+BEGIN: denote-files-as-headings :regexp "YOUR REGEXP HERE" :not-regexp nil :excluded-dirs-regexp nil :sort-by-component title :reverse-sort nil :add-links t
 
 #+END:
 </pre>
@@ -5170,6 +5177,10 @@ in the previous section (<a href="#h:50160fae-6515-4d7d-9737-995ad925e64b">Org d
 Note that you do not need to write an actual regular expression to
 get meaningful results: even something like <code>_journal</code> will work to
 include all files that have a <code>journal</code> keyword.</li>
+
+<li>The <code>:not-regexp</code> parameter is optional. It is a regular expression
+that applies after <code>:regexp</code> to filter out the matching files. [
+Part of 3.2.0-dev. ]</li>
 
 <li>The <code>:excluded-dirs-regexp</code> is a string that contains a word or
 regular expression that matches against directory files names
@@ -5224,8 +5235,13 @@ given file name component (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The
 <p>
 The command <code>denote-sort-dired</code> produces a Dired file listing with a
 flat, filtered, and sorted set of files from the <code>denote-directory</code>
-(<a href="#h:c958e087-1d23-4a25-afdd-db7bf5606b4c">Define a sorting function per component</a>). It does so by means of
-three minibuffer prompts:
+(<a href="#h:c958e087-1d23-4a25-afdd-db7bf5606b4c">Define a sorting function per component</a>). It does so by a series of
+prompts, which can be configured by the user option
+<code>denote-sort-dired-extra-prompts</code> (<a href="#h:a34228cb-484f-48fe-9cbc-8e41f313127b">Configure what extra prompts <code>denote-sort-dired</code> issues</a>).
+</p>
+
+<p>
+The out-of-the-box behaviour of <code>denote-sort-dired</code> is as follows:
 </p>
 
 <ol class="org-ol">
@@ -5262,10 +5278,23 @@ modifying the user option <code>denote-sort-dired-extra-prompts</code>.
 </p>
 
 <p>
-It accepts either a nil value or a list of symbols among <code>sort-by-component</code>
-and <code>reverse-sort</code>. The order those symbols appear in the list is
-significant, with the leftmost coming first.
+It accepts either a nil value or a list of symbols among
+<code>sort-by-component</code>, <code>reverse-sort</code>, and <code>exclude-regexp</code>. The order
+those symbols appear in the list is significant, with the leftmost
+coming first. [ The <code>exclude-regexp</code> feature is part of
+3.2.0-dev. ]
 </p>
+
+<p>
+These symbols correspond to the following:
+</p>
+
+<ul class="org-ul">
+<li>A choice to select the file name component to sort by.</li>
+<li>A yes or no prompt on whether to reverse the sorting.</li>
+<li>A string (or regular expression) of files to be excluded from the
+results.</li>
+</ul>
 
 <p>
 In case of a nil value, those extra prompts will not happen, meaning
@@ -6134,7 +6163,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org9372ba2">
+<pre class="example" id="org5b16c85">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7140,7 +7169,11 @@ file types that are not implied by <code>denote-file-type</code>. With optional
 regular expression. With optional <code>OMIT-CURRENT</code> as a non-nil value,
 do not include the current Denote file in the returned list. With
 optional <code>TEXT-ONLY</code> as a non-nil value, limit the results to text
-files that satisfy <code>denote-file-is-note-p</code>.</dd>
+files that satisfy <code>denote-file-is-note-p</code>. With optional
+<code>EXCLUDE-REGEXP</code> exclude the files that match the given regular
+expression. This is done after <code>FILES-MATCHING-REGEXP</code> and
+<code>OMIT-CURRENT</code> have been applied. [ The optional <code>EXCLUDE-REGEXP</code> is
+part of 3.2.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7801,7 +7834,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org4c85a7f">
+<pre class="example" id="org93f25da">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7811,7 +7844,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgd953ffc">
+<pre class="example" id="org51f10e8">
 emacs -Q
 </pre>
 
@@ -7823,7 +7856,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org4c44c73">
+<pre class="example" id="org4871f24">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7884,7 +7917,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org30e4eaf">
+<pre class="example" id="org2899045">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
