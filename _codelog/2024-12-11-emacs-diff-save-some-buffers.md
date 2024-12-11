@@ -1,5 +1,5 @@
 ---
-title: "Emacs: make `save-some-buffers` show diff on demand"
+title: "Emacs: make 'save-some-buffers' show diff on demand"
 excerpt: "A small tweak to make the `save-some-buffers` command show a diff on demand between the buffer and its file."
 ---
 
