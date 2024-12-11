@@ -38,6 +38,6 @@ Here is the idea:
 
 Now I can type `d` at the prompt whenever I am not sure about what I
 need to do with a given buffer and its file. When I am done reviewing
-the buffer, I type `q` to dismiss it and get back to the prompt. It works!
+the diff buffer, I type `q` to dismiss it and get back to the prompt. It works!
 
 
