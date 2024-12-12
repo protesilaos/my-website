@@ -296,10 +296,8 @@ shows how to extend the code to achieve the desired result.
 ## Pulsar
 
 This is a small package that temporarily highlights the current line
-after a given function is invoked.  The affected functions are defined
-in the user option `pulsar-pulse-functions`.  What Pulsar does is set up
-an advice so that those functions run a hook after they are called.  The
-pulse effect is added there (`pulsar-after-function-hook`).
+or region after a given function is invoked. Several user options
+control the exact behaviour. [Watch the original demo](https://protesilaos.com/codelog/2022-03-14-emacs-pulsar-demo/).
 
 + Package name (GNU ELPA): `pulsar`
 + Official manual: <https://protesilaos.com/emacs/pulsar>
