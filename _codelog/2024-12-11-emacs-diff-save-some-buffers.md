@@ -1,5 +1,5 @@
 ---
-title: "Emacs: make `save-some-buffers` show diff on demand"
+title: "Emacs: make 'save-some-buffers' show diff on demand"
 excerpt: "A small tweak to make the `save-some-buffers` command show a diff on demand between the buffer and its file."
 ---
 
@@ -38,6 +38,6 @@ Here is the idea:
 
 Now I can type `d` at the prompt whenever I am not sure about what I
 need to do with a given buffer and its file. When I am done reviewing
-the buffer, I type `q` to dismiss it and get back to the prompt. It works!
+the diff buffer, I type `q` to dismiss it and get back to the prompt. It works!
 
 
