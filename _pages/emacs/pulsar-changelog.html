@@ -14,6 +14,7 @@ the manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.c
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:3060295b-f66d-4eb9-9606-440c5fb5e408">Version 1.2.0 on 2024-12-12</a></li>
 <li><a href="#h:93705ad7-b2ff-491f-a108-69f4949d715b">Version 1.1.0 on 2024-08-29</a></li>
 <li><a href="#h:0d09da86-29be-461e-8ef6-1e93a07b756b">Version 1.0.0 on 2023-08-12</a></li>
 <li><a href="#h:20bf677d-bcef-4606-8cc2-ebd49bfc057b">Version 0.5.0 on 2022-08-19</a></li>
@@ -22,6 +23,127 @@ the manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.c
 <li><a href="#h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c">Version 0.2.0 on 2022-03-16</a></li>
 <li><a href="#h:92a23377-d4d9-43ea-a2d4-00a23ec37f57">Version 0.1.0 on 2022-03-14</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:3060295b-f66d-4eb9-9606-440c5fb5e408" class="outline-2">
+<h2 id="h:3060295b-f66d-4eb9-9606-440c5fb5e408">Version 1.2.0 on 2024-12-12</h2>
+<div class="outline-text-2" id="text-h:3060295b-f66d-4eb9-9606-440c5fb5e408">
+<p>
+This version refines an already stable base. Users do not need to make
+any changes to their setup, unless they wish to try the new features.
+</p>
+</div>
+<div id="outline-container-h:7c00c7e4-ccee-4559-a30e-9747f5f820c0" class="outline-3">
+<h3 id="h:7c00c7e4-ccee-4559-a30e-9747f5f820c0">Automatically pulse the affected region</h3>
+<div class="outline-text-3" id="text-h:7c00c7e4-ccee-4559-a30e-9747f5f820c0">
+<p>
+With the out-of-the-box settings, Pulsar temporarily highlights the
+current line after any of the <code>pulsar-pulse-functions</code> is invoked and
+<code>pulsar-mode</code> (or <code>pulsar-global-mode</code>) is enabled.
+</p>
+
+<p>
+The new user option <code>pulsar-pulse-region-functions</code> makes Pulsar
+temporarily highlight the affected region as well. For example, when
+pasting some text into the buffer, it will highlight the portion of
+text that was added.
+</p>
+
+<p>
+The default value of <code>pulsar-pulse-region-functions</code> is nil, meaning
+that no region pulsing is in effect (what we had before). Otherwise,
+it is a list of functions. A typical use-case is the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
+</pre>
+</div>
+
+<p>
+This covers common commands, such as for copying and pasting a region
+of text (restart <code>pulsar-mode</code> or <code>pulsar-global-mode</code> if needed).
+</p>
+
+<p>
+Thanks to shipmints and Abdelhak Bougouffa for contributing the core
+of this functionality. It was done in pull request 25:
+<a href="https://github.com/protesilaos/pulsar/pull/25">https://github.com/protesilaos/pulsar/pull/25</a>. Abdelhak's
+contribution is within the ~15 line limit, meaning that no copyright
+assignment to the Free Software Foundation is necessary, while
+shipmints has already done the paperwork.
+</p>
+
+<p>
+Relevant discussions took place in issues 10, 18, 21, and 22, as well
+as pull request 24:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/protesilaos/pulsar/issues/10">https://github.com/protesilaos/pulsar/issues/10</a></li>
+<li><a href="https://github.com/protesilaos/pulsar/issues/18">https://github.com/protesilaos/pulsar/issues/18</a></li>
+<li><a href="https://github.com/protesilaos/pulsar/issues/21">https://github.com/protesilaos/pulsar/issues/21</a></li>
+<li><a href="https://github.com/protesilaos/pulsar/issues/22">https://github.com/protesilaos/pulsar/issues/22</a></li>
+<li><a href="https://github.com/protesilaos/pulsar/pull/24">https://github.com/protesilaos/pulsar/pull/24</a></li>
+</ul>
+
+<p>
+Thanks to Anwesh Gangula, Alex Kreisher, Diego Alvarez, and Ronny
+Randen for their participation.
+</p>
+
+<p>
+The region pulsing is inspired by Daniel Mendler's <code>goggles</code> package,
+which itself is a take on a common theme covered by many other such
+packages.
+</p>
+</div>
+</div>
+<div id="outline-container-h:f0a6b22a-0534-4633-97fc-1cb072d93d59" class="outline-3">
+<h3 id="h:f0a6b22a-0534-4633-97fc-1cb072d93d59">Style region highlights differently</h3>
+<div class="outline-text-3" id="text-h:f0a6b22a-0534-4633-97fc-1cb072d93d59">
+<p>
+The following user options control the face of the <code>pulsar-pulse-region-functions</code>.
+</p>
+
+<dl class="org-dl">
+<dt><code>pulsar-region-face</code></dt><dd>Face to pulse a region that has not changed.</dd>
+<dt><code>pulsar-region-change-face</code></dt><dd>Face to pulse a region that has changed (added or removed).</dd>
+</dl>
+
+<p>
+Pulsar defines several faces to get a nice style. Here is an example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq pulsar-region-face 'pulsar-green) ; unchanged regions are green
+(setq pulsar-region-change-face 'pulsar-red) ; changed regions are red
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:90e443b2-448e-4938-8aa2-783ad84c87fc" class="outline-3">
+<h3 id="h:90e443b2-448e-4938-8aa2-783ad84c87fc">Pulse on window state change</h3>
+<div class="outline-text-3" id="text-h:90e443b2-448e-4938-8aa2-783ad84c87fc">
+<p>
+An alternative to how Pulsar works out-of-the-box by reacting to the
+<code>pulsar-pulse-functions</code> is to check for changes to the window layout.
+Users who wish to have this behaviour can set the new user option
+<code>pulsar-pulse-on-window-change</code> to a non-nil value.
+</p>
+
+<p>
+As there may be overlap between the <code>pulsar-pulse-functions</code> and the
+<code>pulsar-pulse-on-window-change</code>, users are advised to pick only one.
+This is not a hard rule though: Pulsar will blithely highlight
+everything if configured accordingly.
+</p>
+
+<p>
+Thanks again to shipmints and Abdelhak Bougouffa for this
+contribution. It is part of the aforementioned pull request 25.
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:93705ad7-b2ff-491f-a108-69f4949d715b" class="outline-2">
