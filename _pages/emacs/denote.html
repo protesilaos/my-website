@@ -1677,7 +1677,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf4a4f7e">
+<pre class="example" id="org78c07cf">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2459,7 +2459,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org76469a2">
+<pre class="example" id="org0f378bc">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2479,7 +2479,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgb214236">
+<pre class="example" id="org13fb9e2">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3131,7 +3131,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org98bc895">
+<pre class="example" id="orgfec1ef0">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3347,7 +3347,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgb8464b2">
+<pre class="example" id="orgb9fac77">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3359,7 +3359,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org9635f9b">
+<pre class="example" id="org6b4a46a">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3373,7 +3373,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org039c1ee">
+<pre class="example" id="orgf270925">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3387,7 +3387,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgb851854">
+<pre class="example" id="orgafb3781">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3530,36 +3530,65 @@ we shall act accordingly.
 <h3 id="h:54b48277-e0e5-4188-ad54-ef3db3b7e772"><span class="section-number-3">6.2.</span> Regenerate front matter</h3>
 <div class="outline-text-3" id="text-h:54b48277-e0e5-4188-ad54-ef3db3b7e772">
 <p>
+[ As part of 3.2.0-dev, the <code>denote-add-front-matter</code>
+  is for interactive use only. It is no longer possible to call it
+  from Lisp with the arguments <code>FILE</code>, <code>TITLE</code>, <code>KEYWORDS</code>, and
+  <code>SIGNATURE</code>. For this purpose, use the functions
+  <code>denote-prepend-front-matter</code>, <code>denote-rewrite-front-matter</code>. ]
+</p>
+
+<p>
 Sometimes the user needs to produce new front matter for an existing
-note.  Perhaps because they accidentally deleted a line and could not
-undo the operation.  The command <code>denote-add-front-matter</code> can be used
+note. Perhaps because they accidentally deleted a line and could not
+undo the operation. The command <code>denote-add-front-matter</code> can be used
 for this very purpose.
 </p>
 
 <p>
-In interactive use, <code>denote-add-front-matter</code> must be invoked from a
-buffer that visits a Denote note.  It prompts for a title and then for
-keywords.  These are the standard prompts we already use for note
-creation, so the keywords&rsquo; prompt allows minibuffer completion and the
-input of multiple entries, each separated by a comma (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
+It inserts front matter at the top of the current file if it is a
+Denote note.
 </p>
 
 <p>
-The newly created front matter is added to the top of the file.
+If front matter exists, fully or in part, it rewrites it. Else it
+prepends a new block to the current file.
 </p>
 
 <p>
-This command does not rename the file (e.g. to update the keywords).  To
-rename a file by reading its front matter as input, the user can rely on
-<code>denote-rename-file-using-front-matter</code> (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+To prepare the new front matter, it prompts for title, keywords, and
+signature. It does so depending on if those are part of the current
+file (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>). It thus skips the prompt for any
+missing file name component.
 </p>
 
 <p>
-Note that <code>denote-add-front-matter</code> is useful only for existing Denote
-notes.  If the user needs to convert a generic text file to a Denote
-note, they can use one of the command which first rename the file to
-make it comply with our file-naming scheme and then add the relevant
-front matter.
+At each prompt, it uses the current value of the given file name
+component as the default text in the minibuffer. For the title in
+particular, it reads from the existing front matter to get the
+human-readable version. Otherwise, it reads from the file name.
+</p>
+
+<p>
+It does not write the value of the given file name component if the
+minibuffer input is empty.
+</p>
+
+<p>
+Whatever the case, it does not rename the file upon completing the
+operation. This is the task of <code>denote-rename-file</code> or, more probably
+for this case, <code>denote-rename-file-using-front-matter</code>, among others
+(<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+</p>
+
+<p>
+[ NOTE: Please check with your minibuffer user interface how to
+  provide an empty input. The Emacs default setup accepts the empty
+  minibuffer contents as they are, though popular packages like
+  <code>vertico</code> use the first available completion candidate instead. For
+  <code>vertico</code>, the user must either move one up to select the prompt and
+  then type <code>RET</code> there with empty contents, or use the command
+  <code>vertico-exit-input</code> with empty contents. That Vertico command is
+  bound to <code>M-RET</code> as of this writing on 2024-02-29 09:24 +0200. ]
 </p>
 </div>
 </div>
@@ -3833,7 +3862,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org111d7d0">
+<pre class="example" id="org3a036a9">
 - link1
 - link2
 - link3
@@ -3851,7 +3880,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org41b7056">
+<pre class="example" id="org173c399">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4090,7 +4119,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org9f12e99">
+<pre class="example" id="orga9cbfec">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4105,7 +4134,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgc9a1718">
+<pre class="example" id="orgbceb7fd">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -6163,7 +6192,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orge1861d3">
+<pre class="example" id="org45ff067">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7559,6 +7588,14 @@ contain <code>modify-file-name</code>, return t without prompting.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-prepend-front-matter</code></dt><dd>Prepend front matter to
+<code>FILE</code>. The <code>TITLE</code>, <code>KEYWORDS</code>, <code>DATE</code>, <code>ID</code>, <code>SIGNATURE</code>, and
+<code>FILE-TYPE</code> are passed from the renaming command and are used to
+construct a new front matter block if appropriate. [ This function
+is available as part of 3.2.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-rewrite-front-matter</code></dt><dd>Rewrite front matter of
 note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
 <code>KEYWORDS</code>, <code>SIGNATURE</code>, <code>DATE</code>, <code>IDENTIFIER</code>, and <code>FILE-TYPE</code>
@@ -7849,7 +7886,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd9d5967">
+<pre class="example" id="org3592b8c">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7859,7 +7896,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org07931d1">
+<pre class="example" id="org14b20f2">
 emacs -Q
 </pre>
 
@@ -7871,7 +7908,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgf833e6b">
+<pre class="example" id="org9be65aa">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7932,7 +7969,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orga766a66">
+<pre class="example" id="org533767f">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8666,9 +8703,9 @@ Suhail Singh, Shreyas Ragavan, Stefan Thesing, Summer Emacs, Sven
 Seebeck, Taoufik, TJ Stankus, Vick (VicZz), Viktor Haag, Vineet C.
 Kulkarni, Wade Mealing, Wilf, Yi Liu, Ypot, atanasj, azegas,
 babusri, coherentstate, doolio, duli, drcxd, elge70, fingerknight,
-hpgisler, hyperfocus1337, jtpavlock, mentalisttraceur, pRot0ta1p,
-rbenit68, relict007, sarcom-sar, sienic, skissue, sundar bp,
-yetanotherfossman, zadca123</dd>
+hpgisler, hyperfocus1337, jtpavlock, juh, mentalisttraceur,
+pRot0ta1p, rbenit68, relict007, sarcom-sar, sienic, skissue, sundar
+bp, yetanotherfossman, zadca123</dd>
 </dl>
 
 <p>
