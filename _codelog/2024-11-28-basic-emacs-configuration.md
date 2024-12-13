@@ -268,7 +268,7 @@ The `orderless` package offers a life-saver for all those cases where we do not 
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-defaults nil)
-  (setq completion-category-overrrides nil))
+  (setq completion-category-overrides nil))
 ```
 
 The built-in `savehist` package keeps a record of user inputs and stores them across sessions. Thus, the user will always see their latest choices closer to the top (such as with `M-x`).
@@ -472,7 +472,7 @@ The DWIM behaviour of this command is as follows:
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-defaults nil)
-  (setq completion-category-overrrides nil))
+  (setq completion-category-overrides nil))
 
 (use-package savehist
   :ensure nil ; it is built-in
