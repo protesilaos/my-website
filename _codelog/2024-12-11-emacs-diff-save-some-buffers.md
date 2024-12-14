@@ -3,6 +3,12 @@ title: "Emacs: make 'save-some-buffers' show diff on demand"
 excerpt: "A small tweak to make the `save-some-buffers` command show a diff on demand between the buffer and its file."
 ---
 
+**UPDATE 2024-12-14 08:06 +0200:** I was told that this functionality
+has already been avaialble for more than a decade. I simply did not
+see it in the source code of `save-some-buffers-action-alist`. Sorry!
+
+* * *
+
 The command `save-some-buffers`, which is bound to `C-x s` by default
 is helpful when you need to save lots of buffers efficiently. Instead
 of figuring out which ones are modified and visiting each of them to
