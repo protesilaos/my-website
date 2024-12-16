@@ -149,13 +149,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">7.10. Writing metanotes</a></li>
 <li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">7.11. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.12. Convert <code>denote:</code> links to <code>file:</code> links in Org</a></li>
-<li><a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">7.13. Convert <code>:denote</code> links to paths in Markdown or Obsidian style</a></li>
-<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.14. Fontify links in non-Org buffers</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.15. Miscellaneous information about links</a>
+<li><a href="#h:f0d0bb34-3ecf-4842-9941-3829e0f51143">7.12. Use the <code>markdown-obsidian</code> file type</a></li>
+<li><a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">7.13. Convert <code>denote:</code> links to <code>file:</code> links in Org</a></li>
+<li><a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">7.14. Convert <code>:denote</code> links to paths in Markdown or Obsidian style</a></li>
+<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">7.15. Fontify links in non-Org buffers</a></li>
+<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">7.16. Miscellaneous information about links</a>
 <ul>
-<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.15.1. Aliases for the linking commands</a></li>
-<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.15.2. The <code>denote-link-description-format</code> to format link descriptions</a></li>
+<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">7.16.1. Aliases for the linking commands</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">7.16.2. The <code>denote-link-description-format</code> to format link descriptions</a></li>
 </ul>
 </li>
 </ul>
@@ -1677,7 +1678,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org78c07cf">
+<pre class="example" id="orge678233">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2459,7 +2460,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org0f378bc">
+<pre class="example" id="org231ae73">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2479,7 +2480,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org13fb9e2">
+<pre class="example" id="org8d37183">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3131,7 +3132,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgfec1ef0">
+<pre class="example" id="orgc449e44">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3347,7 +3348,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgb9fac77">
+<pre class="example" id="org5d63878">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3359,7 +3360,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6b4a46a">
+<pre class="example" id="org459de3e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3373,7 +3374,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgf270925">
+<pre class="example" id="org95b9d5e">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3387,7 +3388,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgafb3781">
+<pre class="example" id="org53ab864">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3862,7 +3863,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org3a036a9">
+<pre class="example" id="org36b1188">
 - link1
 - link2
 - link3
@@ -3880,7 +3881,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org173c399">
+<pre class="example" id="org424e146">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4119,7 +4120,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orga9cbfec">
+<pre class="example" id="org3143c70">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4134,7 +4135,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="orgbceb7fd">
+<pre class="example" id="orgfeb00d7">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4299,8 +4300,34 @@ in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The bac
 </p>
 </div>
 </div>
+<div id="outline-container-h:f0d0bb34-3ecf-4842-9941-3829e0f51143" class="outline-3">
+<h3 id="h:f0d0bb34-3ecf-4842-9941-3829e0f51143"><span class="section-number-3">7.12.</span> Use the <code>markdown-obsidian</code> file type</h3>
+<div class="outline-text-3" id="text-h:f0d0bb34-3ecf-4842-9941-3829e0f51143">
+<p>
+[ This is part of 3.2.0-dev. ]
+</p>
+
+<p>
+The optional <code>denote-md-extras.el</code> file which is part of the Denote
+package includes features that are relevant for users of Markdown
+files. Among them is the ability to write files using the
+Obsidian-style front matter (<a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">Convert <code>:denote</code> links to paths in Markdown or Obsidian style</a>).
+This is a plain representation of the file&rsquo;s title as a top-level
+heading, without any further data.
+</p>
+
+<p>
+Include this in the Denote configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(require 'denote-md-extras)
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f" class="outline-3">
-<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.12.</span> Convert <code>denote:</code> links to <code>file:</code> links in Org</h3>
+<h3 id="h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f"><span class="section-number-3">7.13.</span> Convert <code>denote:</code> links to <code>file:</code> links in Org</h3>
 <div class="outline-text-3" id="text-h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">
 <p>
 [ Also: <a href="#h:e01d6621-34e9-487d-8721-c4e42a6a286a">Convert <code>:denote</code> links to paths in Markdown</a>. ]
@@ -4338,7 +4365,7 @@ system path and converts it into its identifier.</dd>
 </div>
 </div>
 <div id="outline-container-h:e01d6621-34e9-487d-8721-c4e42a6a286a" class="outline-3">
-<h3 id="h:e01d6621-34e9-487d-8721-c4e42a6a286a"><span class="section-number-3">7.13.</span> Convert <code>:denote</code> links to paths in Markdown or Obsidian style</h3>
+<h3 id="h:e01d6621-34e9-487d-8721-c4e42a6a286a"><span class="section-number-3">7.14.</span> Convert <code>:denote</code> links to paths in Markdown or Obsidian style</h3>
 <div class="outline-text-3" id="text-h:e01d6621-34e9-487d-8721-c4e42a6a286a">
 <p>
 [ Also: <a href="#h:ed220cac-7dcb-4bb7-9243-1bb85e452e5f">Convert <code>denote:</code> links to <code>file:</code> links in Org</a>. ]
@@ -4384,7 +4411,8 @@ links. It only does so for files with a Denote identifier.</dd>
 <dt>Convert <code>denote:</code> links to Obsidian type</dt><dd>The command
 <code>denote-md-extras-convert-links-to-obsidian-type</code> changes links from
 <code>[Test description](denote:20241026T051243)</code> becomes
-<code>[20241026T051243--test-description__keyword1](20241026T051243--test-description__keyword1.md)</code>.</dd>
+<code>[20241026T051243--test-description__keyword1](20241026T051243--test-description__keyword1.md)</code>
+(<a href="#h:f0d0bb34-3ecf-4842-9941-3829e0f51143">Use the <code>markdown-obsidian</code> file type</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -4402,7 +4430,7 @@ bugs.
 </div>
 </div>
 <div id="outline-container-h:156c5ea3-147b-4f9d-a404-86a00558c60a" class="outline-3">
-<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">7.14.</span> Fontify links in non-Org buffers</h3>
+<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">7.15.</span> Fontify links in non-Org buffers</h3>
 <div class="outline-text-3" id="text-h:156c5ea3-147b-4f9d-a404-86a00558c60a">
 <p>
 Denote links are automatically fontified in Org buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
@@ -4449,11 +4477,11 @@ function <code>denote-link-markdown-follow</code> for the implementation details
 </div>
 </div>
 <div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.15.</span> Miscellaneous information about links</h3>
+<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">7.16.</span> Miscellaneous information about links</h3>
 <div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
 </div>
 <div id="outline-container-h:078856d9-f608-43a8-be84-f2cad4c27d0e" class="outline-4">
-<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.15.1.</span> Aliases for the linking commands</h4>
+<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">7.16.1.</span> Aliases for the linking commands</h4>
 <div class="outline-text-4" id="text-h:078856d9-f608-43a8-be84-f2cad4c27d0e">
 <p>
 For convenience, the <code>denote-link</code> command has an alias called
@@ -4466,7 +4494,7 @@ select commands.
 </div>
 </div>
 <div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
-<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.15.2.</span> The <code>denote-link-description-format</code> to format link descriptions</h4>
+<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">7.16.2.</span> The <code>denote-link-description-format</code> to format link descriptions</h4>
 <div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
 [ As part of 3.2.0-dev, the old user option
@@ -6192,7 +6220,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org45ff067">
+<pre class="example" id="orgef11213">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7531,11 +7559,10 @@ more advanced date selection utility if the user option
 (<a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">The denote-date-prompt-use-org-read-date option</a>). With optional
 <code>INITIAL-DATE</code> use it as the initial minibuffer text. With optional
 <code>PROMPT-TEXT</code> use it in the minibuffer instead of the default
-prompt. When <code>denote-date-prompt-use-org-read-date</code> is non-nil, the
-value of <code>INITIAL-DATE</code> is of the format understood by
-<code>org-read-date</code>. Otherwise, it is a string that can be processed by
-<code>denote-valid-date-p</code>. [ The <code>INITIAL-DATE</code> and <code>PROMPT-TEXT</code> are
-part of 3.2.0-dev. ]</dd>
+prompt. <code>INITIAL-DATE</code> is a string that can be processed by
+<code>denote-valid-date-p</code>, a value that can be parsed by <code>decode-time</code>
+or nil. [ The <code>INITIAL-DATE</code> and <code>PROMPT-TEXT</code> are part of
+3.2.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7886,7 +7913,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org3592b8c">
+<pre class="example" id="org4b0999e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7896,7 +7923,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org14b20f2">
+<pre class="example" id="org77805ef">
 emacs -Q
 </pre>
 
@@ -7908,7 +7935,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org9be65aa">
+<pre class="example" id="orgb117362">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7969,7 +7996,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org533767f">
+<pre class="example" id="orga64d64b">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
