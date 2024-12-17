@@ -388,14 +388,17 @@ behaviour.
 
 ## Standard themes
 
-The `standard-themes` are a pair of light and dark themes for GNU
-Emacs.  They emulate the out-of-the-box looks of Emacs (which
-technically do NOT constitute a theme) while bringing to them thematic
-consistency, customizability, and extensibility.  In practice, the
-Standard themes take the default style of the font-lock and Org faces,
-complement it with a wider and harmonious colour palette, address many
-inconsistencies, and apply established semantic patterns across all
-interfaces by supporting a large number of packages.
+The `standard-themes` are a collection of light and dark themes for
+GNU Emacs. The `standard-light` and `standard-dark` emulate the
+out-of-the-box looks of Emacs (which technically do NOT constitute a
+theme) while bringing to them thematic consistency, customizability,
+and extensibility. Other themes are stylistic variations of those.
+
+In practice, the Standard themes take the default style of the
+font-lock and Org faces, complement it with a wider and harmonious
+colour palette, address many inconsistencies, and apply established
+semantic patterns across all interfaces by supporting a large number
+of packages.
 
 + Package name (GNU ELPA): `standard-themes`
 + Official manual: <https://protesilaos.com/emacs/standard-themes>
