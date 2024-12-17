@@ -58,13 +58,15 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:c3975e07-8bbb-42b2-a160-27e3afeb3258">5. Customization options</a>
 <ul>
 <li><a href="#h:bc4827ec-7ec1-4511-ae1b-491c28835b19">5.1. Option to disable other themes</a></li>
-<li><a href="#h:a939ee30-f705-4d70-aa00-cca5528ef172">5.2. Option to enable mixed fonts</a></li>
-<li><a href="#h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">5.3. Option to control the UI typeface</a></li>
-<li><a href="#h:9bd84648-681b-4369-9868-4f89f2d6abf5">5.4. Option to enable more bold constructs</a></li>
-<li><a href="#h:a49f7515-04cb-4932-a75c-e45080f12c28">5.5. Option to enable more italic constructs</a></li>
-<li><a href="#h:eedd0b6b-9f84-48bc-8871-620934506aa6">5.6. Option for command prompts</a></li>
-<li><a href="#h:8540fd7a-7633-4eb9-af4b-4f160568f79a">5.7. Option for headings</a></li>
-<li><a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">5.8. Palette overrides</a></li>
+<li><a href="#h:e06a546a-4fb3-4112-8aa2-d80031d89d5c">5.2. Option for themes to toggle</a></li>
+<li><a href="#h:90131405-9fdb-44cd-b0d2-a9e1fa8f45ac">5.3. Option for themes to rotate</a></li>
+<li><a href="#h:a939ee30-f705-4d70-aa00-cca5528ef172">5.4. Option to enable mixed fonts</a></li>
+<li><a href="#h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">5.5. Option to control the UI typeface</a></li>
+<li><a href="#h:9bd84648-681b-4369-9868-4f89f2d6abf5">5.6. Option to enable more bold constructs</a></li>
+<li><a href="#h:a49f7515-04cb-4932-a75c-e45080f12c28">5.7. Option to enable more italic constructs</a></li>
+<li><a href="#h:eedd0b6b-9f84-48bc-8871-620934506aa6">5.8. Option for command prompts</a></li>
+<li><a href="#h:8540fd7a-7633-4eb9-af4b-4f160568f79a">5.9. Option for headings</a></li>
+<li><a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">5.10. Palette overrides</a></li>
 </ul>
 </li>
 <li><a href="#h:59c399d6-5dca-4686-b793-255be8bffc31">6. Loading a theme</a></li>
@@ -129,10 +131,16 @@ modify this GNU manual.”
 <h2 id="h:fd5bf657-937d-4e42-b936-b423ef4f45ee"><span class="section-number-2">2.</span> About the Standard themes</h2>
 <div class="outline-text-2" id="text-h:fd5bf657-937d-4e42-b936-b423ef4f45ee">
 <p>
-The <code>standard-themes</code> are a pair of light and dark themes for GNU
-Emacs.  They emulate the out-of-the-box looks of Emacs (which
-technically do NOT constitute a theme) while bringing to them thematic
-consistency, customizability, and extensibility.
+The <code>standard-themes</code> are a collection of light and dark themes for
+GNU Emacs. The <code>standard-light</code> and <code>standard-dark</code> emulate the
+out-of-the-box looks of Emacs (which technically do NOT constitute a
+theme) while bringing to them thematic consistency, customizability,
+and extensibility. Other themes are stylistic variations of those.
+</p>
+
+<p>
+Why call them &ldquo;standard&rdquo;? Obviously because: Standard Themes Are Not
+Derivatives but the Affectionately Reimagined Default &#x2026; themes.
 </p>
 </div>
 </div>
@@ -219,6 +227,8 @@ Everything is in place to set up the package.
       standard-themes-mixed-fonts t
       standard-themes-variable-pitch-ui t
       standard-themes-prompts '(extrabold italic)
+      standard-themes-to-toggle '(standard-light standard-dark)
+      standard-themes-to-rotate '(standard-light standard-light-tinted standard-dark standard-dark-tinted)
 
       ;; more complex alist to set weight, height, and optional
       ;; `variable-pitch' per heading level (t is for any level not
@@ -236,9 +246,11 @@ Everything is in place to set up the package.
         (agenda-structure . (variable-pitch light 1.8))
         (t . (variable-pitch 1.1))))
 
-(standard-themes-load-light) ; OR (standard-themes-load-dark)
+;; All the Standard themes are listed in `standard-themes-items'.
+(standard-themes-load-theme 'standard-light)
 
 (define-key global-map (kbd "&lt;f5&gt;") #'standard-themes-toggle)
+(define-key global-map (kbd "M-&lt;f5&gt;") #'standard-themes-rotate)
 </pre>
 </div>
 </div>
@@ -283,8 +295,38 @@ this variable to a nil value.
 </p>
 </div>
 </div>
+<div id="outline-container-h:e06a546a-4fb3-4112-8aa2-d80031d89d5c" class="outline-3">
+<h3 id="h:e06a546a-4fb3-4112-8aa2-d80031d89d5c"><span class="section-number-3">5.2.</span> Option for themes to toggle</h3>
+<div class="outline-text-3" id="text-h:e06a546a-4fb3-4112-8aa2-d80031d89d5c">
+<p>
+[ Part of 2.2.0-dev. ]
+</p>
+
+<p>
+The user option <code>standard-themes-to-toggle</code> is a list of Standard
+themes to switch between when using the command <code>standard-themes-toggle</code>.
+</p>
+
+<p>
+The list must include two items. If there are more, they are ignored.
+</p>
+</div>
+</div>
+<div id="outline-container-h:90131405-9fdb-44cd-b0d2-a9e1fa8f45ac" class="outline-3">
+<h3 id="h:90131405-9fdb-44cd-b0d2-a9e1fa8f45ac"><span class="section-number-3">5.3.</span> Option for themes to rotate</h3>
+<div class="outline-text-3" id="text-h:90131405-9fdb-44cd-b0d2-a9e1fa8f45ac">
+<p>
+[ Part of 2.2.0-dev. ]
+</p>
+
+<p>
+The user option <code>standard-themes-to-rotate</code> is a list of Standard
+themes to switch between when using the command <code>standard-themes-rotate</code>.
+</p>
+</div>
+</div>
 <div id="outline-container-h:a939ee30-f705-4d70-aa00-cca5528ef172" class="outline-3">
-<h3 id="h:a939ee30-f705-4d70-aa00-cca5528ef172"><span class="section-number-3">5.2.</span> Option to enable mixed fonts</h3>
+<h3 id="h:a939ee30-f705-4d70-aa00-cca5528ef172"><span class="section-number-3">5.4.</span> Option to enable mixed fonts</h3>
 <div class="outline-text-3" id="text-h:a939ee30-f705-4d70-aa00-cca5528ef172">
 <p>
 The user option <code>standard-themes-mixed-fonts</code> controls whether strictly
@@ -324,7 +366,7 @@ regard.
 </div>
 </div>
 <div id="outline-container-h:fbe4de97-f582-4a53-93cb-6ed4747cdc42" class="outline-3">
-<h3 id="h:fbe4de97-f582-4a53-93cb-6ed4747cdc42"><span class="section-number-3">5.3.</span> Option to control the UI typeface</h3>
+<h3 id="h:fbe4de97-f582-4a53-93cb-6ed4747cdc42"><span class="section-number-3">5.5.</span> Option to control the UI typeface</h3>
 <div class="outline-text-3" id="text-h:fbe4de97-f582-4a53-93cb-6ed4747cdc42">
 <p>
 The user option <code>standard-themes-variable-pitch-ui</code> controls whether
@@ -359,7 +401,7 @@ regard.
 </div>
 </div>
 <div id="outline-container-h:9bd84648-681b-4369-9868-4f89f2d6abf5" class="outline-3">
-<h3 id="h:9bd84648-681b-4369-9868-4f89f2d6abf5"><span class="section-number-3">5.4.</span> Option to enable more bold constructs</h3>
+<h3 id="h:9bd84648-681b-4369-9868-4f89f2d6abf5"><span class="section-number-3">5.6.</span> Option to enable more bold constructs</h3>
 <div class="outline-text-3" id="text-h:9bd84648-681b-4369-9868-4f89f2d6abf5">
 <p>
 The user option <code>standard-themes-bold-constructs</code> determines whether
@@ -374,7 +416,7 @@ keywords, builtins, and a few other elements.
 </div>
 </div>
 <div id="outline-container-h:a49f7515-04cb-4932-a75c-e45080f12c28" class="outline-3">
-<h3 id="h:a49f7515-04cb-4932-a75c-e45080f12c28"><span class="section-number-3">5.5.</span> Option to enable more italic constructs</h3>
+<h3 id="h:a49f7515-04cb-4932-a75c-e45080f12c28"><span class="section-number-3">5.7.</span> Option to enable more italic constructs</h3>
 <div class="outline-text-3" id="text-h:a49f7515-04cb-4932-a75c-e45080f12c28">
 <p>
 The user option <code>standard-themes-italic-constructs</code> determines whether
@@ -389,7 +431,7 @@ comments, doc strings, and a few other minor elements.
 </div>
 </div>
 <div id="outline-container-h:eedd0b6b-9f84-48bc-8871-620934506aa6" class="outline-3">
-<h3 id="h:eedd0b6b-9f84-48bc-8871-620934506aa6"><span class="section-number-3">5.6.</span> Option for command prompts</h3>
+<h3 id="h:eedd0b6b-9f84-48bc-8871-620934506aa6"><span class="section-number-3">5.8.</span> Option for command prompts</h3>
 <div class="outline-text-3" id="text-h:eedd0b6b-9f84-48bc-8871-620934506aa6">
 <p>
 The user option <code>standard-themes-prompts</code> controls the style of all
@@ -469,7 +511,7 @@ applying palette overrides (<a href="#h:34fe0582-960b-45dc-af5d-23c8f3e9d724">Pa
 </div>
 </div>
 <div id="outline-container-h:8540fd7a-7633-4eb9-af4b-4f160568f79a" class="outline-3">
-<h3 id="h:8540fd7a-7633-4eb9-af4b-4f160568f79a"><span class="section-number-3">5.7.</span> Option for headings</h3>
+<h3 id="h:8540fd7a-7633-4eb9-af4b-4f160568f79a"><span class="section-number-3">5.9.</span> Option for headings</h3>
 <div class="outline-text-3" id="text-h:8540fd7a-7633-4eb9-af4b-4f160568f79a">
 <p>
 The user option <code>standard-themes-headings</code> provides support for individual
@@ -620,7 +662,7 @@ modified by applying palette overrides (<a href="#h:34fe0582-960b-45dc-af5d-23c8
 </div>
 </div>
 <div id="outline-container-h:34fe0582-960b-45dc-af5d-23c8f3e9d724" class="outline-3">
-<h3 id="h:34fe0582-960b-45dc-af5d-23c8f3e9d724"><span class="section-number-3">5.8.</span> Palette overrides</h3>
+<h3 id="h:34fe0582-960b-45dc-af5d-23c8f3e9d724"><span class="section-number-3">5.10.</span> Palette overrides</h3>
 <div class="outline-text-3" id="text-h:34fe0582-960b-45dc-af5d-23c8f3e9d724">
 <p>
 The Standard themes define their own color palette as well as semantic
@@ -659,7 +701,7 @@ search for the <code>NAME-palette</code>.  The resulting Help buffer will look
 like this:
 </p>
 
-<pre class="example" id="orged0ac6e">
+<pre class="example" id="org3fb7947">
 standard-light-palette is a variable defined in ‘standard-light-theme.el’.
 
 Its value is shown below.
@@ -1444,7 +1486,7 @@ everything most users need.
 <li>isearch, occur, query-replace</li>
 <li>jit-spell</li>
 <li>keycast</li>
-<li>lin</li>
+<li>lin [ Part of 2.2.0-dev. ]</li>
 <li>line numbers (<code>display-line-numbers-mode</code> and global variant)</li>
 <li>magit</li>
 <li>man</li>
@@ -1469,7 +1511,7 @@ everything most users need.
 <li>package (<code>M-x list-packages</code>)</li>
 <li>perspective</li>
 <li>powerline</li>
-<li>pulsar</li>
+<li>pulsar [ Part of 2.2.0-dev. ]</li>
 <li>pulse</li>
 <li>rainbow-delimiters</li>
 <li>rcirc</li>
