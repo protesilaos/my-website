@@ -126,6 +126,9 @@ There is no need for formalities such as "Sir". Call me by my name,
 
 * * *
 
-This page is also available in [Chinese](https://protesilaos.com/cn/coach/),
-[German](https://protesilaos.com/de/coach/) and [Spanish](https://protesilaos.com/es/coach),
-thanks to people who have volunteered to send me translations.
+This page is also available in
+[Chinese](https://protesilaos.com/cn/coach/),
+[German](https://protesilaos.com/de/coach/),
+[Russian](https://protesilaos.com/ru/coach/), and
+[Spanish](https://protesilaos.com/es/coach), thanks to people who have
+volunteered to send me translations.
