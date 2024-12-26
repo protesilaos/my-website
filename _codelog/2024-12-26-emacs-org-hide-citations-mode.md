@@ -5,9 +5,15 @@ layout: vlog
 mediaid: "X3fEO1_QDHA"
 ---
 
-This is a short video demonstration of how I tone down Org citations using some custom code I wrote. I share the code and its annotated version. See the following two sections.
+This is a short video demonstration of how I tone down Org citations
+using some custom code I wrote. I share the code and its annotated
+version. See the following two sections.
 
 ## The code without any commentary
+
+**UPDATE 2024-12-26 20:02 +0200:** I updated the code to include the
+`save-excursion`, which I forgot to cover in my original publication.
+The annotated version has the same update.
 
 The annotated version is in the next section.
 
@@ -21,22 +27,23 @@ Groups 1, 2, and 3 are meant to be hidden when the minor mode
 (defun prot-org-cite-add-overlays ()
   "Add invisible overlays to `prot-org-cite-regexp' numbered groups."
   (let ((case-fold-search nil))
-    (save-restriction
-      (widen)
-      (goto-char (point-min))
-      (while (re-search-forward prot-org-cite-regexp nil t)
-        (dotimes (n 4)
-          (unless (= n 0)
-            (when-let* ((beg (match-beginning n))
-                        (end (match-end n))
-                        (overlay (make-overlay beg end)))
-              (overlay-put overlay 'invisible t)
-              ;; NOTE: I am not using the `after-string' in this case,
-              ;; but am adding here as it is a useful paradigm in
-              ;; general.
-              ;;
-              ;; (overlay-put overlay 'after-string "")
-              (overlay-put overlay 'prot-org-cite-overlay t))))))))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (while (re-search-forward prot-org-cite-regexp nil t)
+          (dotimes (n 4)
+            (unless (= n 0)
+              (when-let* ((beg (match-beginning n))
+                          (end (match-end n))
+                          (overlay (make-overlay beg end)))
+                (overlay-put overlay 'invisible t)
+                ;; NOTE: I am not using the `after-string' in this case,
+                ;; but am adding here as it is a useful paradigm in
+                ;; general.
+                ;;
+                ;; (overlay-put overlay 'after-string "")
+                (overlay-put overlay 'prot-org-cite-overlay t)))))))))
 
 (defun prot-org-cite-remove-overlays ()
   "Remove all `prot-org-cite-overlay' overlays from the current buffer."
@@ -105,79 +112,86 @@ Groups 1, 2, and 3 are meant to be hidden when the minor mode
   ;; variable to a nil value.  Otherwise, our results will depend on the
   ;; user's configuration.
   (let ((case-fold-search nil))
-    ;; We want to operate in the entire buffer.  But the user may have
-    ;; already narrowed to a portion thereof.  To respect their choice
-    ;; while still doing the right thing, we have to wrap our code in
-    ;; `save-restriction' and then `widen' the view.  This means that
-    ;; our subsequent calls will run in the unnarrowed buffer and the
-    ;; narrowing will be restored once we are done.
-    (save-restriction
-      (widen)
-      ;; We start from the minimum visible position in the buffer.
-      ;; Since we widened the view in the previous line of code, this
-      ;; is the beginning of the buffer.  Otherwise, it would have
-      ;; been the beginning of the narrowed portion of the buffer.
-      (goto-char (point-min))
-      ;; Starting from the top, we perform a search forward for the
-      ;; `prot-org-cite-regexp'.  We do this in a loop.  The loop
-      ;; works (i.e. is not infinite) because (i) the search has the
-      ;; side effect of moving the point to the end of the match so
-      ;; the search does not get stuck in one place, and (ii) we pass
-      ;; the relevant argument to `re-search-forward' to return nil if
-      ;; there is no match, instead of throwing an error.  The loop
-      ;; only runs when its condition is non-nil.
-      (while (re-search-forward prot-org-cite-regexp nil t)
-        ;; Here I had to make a stylistic decision.  We want to add
-        ;; overlays for the three numbered groups in our regular
-        ;; expression.  I could have arranged to do this with another
-        ;; `while', which would have its own local counter, but I
-        ;; thought it would make the code a bit harder to read for our
-        ;; purposes here.  So I am using `dotimes' instead, whose
-        ;; semantics are in line with what we are doing, i.e. run
-        ;; something N times.  The part about `dotimes' that I do not
-        ;; like is that it starts from 0 and its maximum number is
-        ;; exclusive, meaning that we only get up to 3 even though we
-        ;; have the 4 there.  Someone who is not familiar with this
-        ;; behaviour will thus find the following perplexing.
-        (dotimes (n 4)
-          ;; The group 0 in a regular expression is a special number
-          ;; which refers to the entire match.  We do not want to do
-          ;; anything with that.  We only care about numbers 1, 2, 3.
-          ;; Thus, the first run of this `dotimes' does nothing other
-          ;; than increment 0 to 1 and run again.
-          (unless (= n 0)
-            ;; Before we start adding our overlays, we need to be sure
-            ;; that there is a match for the Nth group in our regular
-            ;; expression.  If there is none, we skip it and move on
-            ;; with our loop.  If there is a match, then we store its
-            ;; beginning and end positions and then make an overlay
-            ;; that stretches between those two.
-            (when-let* ((beg (match-beginning n))
-                        (end (match-end n))
-                        (overlay (make-overlay beg end)))
-              ;; Now that we have created our overlay, we are ready to
-              ;; associated properties with it.  These are symbols
-              ;; that may already have an internal meaning, such as
-              ;; `invisible' or arbitrary symbols that we can use for
-              ;; our own purposes later.  Each time we set a property,
-              ;; we specify its value.  In principle, we could have a
-              ;; fine-grained system with different values, though all
-              ;; we need here is something that returns non-nil.
-              (overlay-put overlay 'invisible t)
-              ;; I keep the `after-string' overlay property here for
-              ;; this demonstration.  We do not need it, though it is
-              ;; how we can add an arbitrary string in the stead of
-              ;; the text we made invisible (think of how Org folds
-              ;; its headings, for example).
-              ;;
-              ;; (overlay-put overlay 'after-string "")
+    ;; Our code will have the side effect of changing the position of
+    ;; the cursor (technically, the "point").  This is needed for our
+    ;; purposes, but the user will ultimately want the changes to
+    ;; happen without them losing their context.  The `save-excursion'
+    ;; allows us to move the point and then trust that Emacs will
+    ;; restore it to where it was before.
+    (save-excursion
+      ;; We want to operate in the entire buffer.  But the user may have
+      ;; already narrowed to a portion thereof.  To respect their choice
+      ;; while still doing the right thing, we have to wrap our code in
+      ;; `save-restriction' and then `widen' the view.  This means that
+      ;; our subsequent calls will run in the unnarrowed buffer and the
+      ;; narrowing will be restored once we are done.
+      (save-restriction
+        (widen)
+        ;; We start from the minimum visible position in the buffer.
+        ;; Since we widened the view in the previous line of code, this
+        ;; is the beginning of the buffer.  Otherwise, it would have
+        ;; been the beginning of the narrowed portion of the buffer.
+        (goto-char (point-min))
+        ;; Starting from the top, we perform a search forward for the
+        ;; `prot-org-cite-regexp'.  We do this in a loop.  The loop
+        ;; works (i.e. is not infinite) because (i) the search has the
+        ;; side effect of moving the point to the end of the match so
+        ;; the search does not get stuck in one place, and (ii) we pass
+        ;; the relevant argument to `re-search-forward' to return nil if
+        ;; there is no match, instead of throwing an error.  The loop
+        ;; only runs when its condition is non-nil.
+        (while (re-search-forward prot-org-cite-regexp nil t)
+          ;; Here I had to make a stylistic decision.  We want to add
+          ;; overlays for the three numbered groups in our regular
+          ;; expression.  I could have arranged to do this with another
+          ;; `while', which would have its own local counter, but I
+          ;; thought it would make the code a bit harder to read for our
+          ;; purposes here.  So I am using `dotimes' instead, whose
+          ;; semantics are in line with what we are doing, i.e. run
+          ;; something N times.  The part about `dotimes' that I do not
+          ;; like is that it starts from 0 and its maximum number is
+          ;; exclusive, meaning that we only get up to 3 even though we
+          ;; have the 4 there.  Someone who is not familiar with this
+          ;; behaviour will thus find the following perplexing.
+          (dotimes (n 4)
+            ;; The group 0 in a regular expression is a special number
+            ;; which refers to the entire match.  We do not want to do
+            ;; anything with that.  We only care about numbers 1, 2, 3.
+            ;; Thus, the first run of this `dotimes' does nothing other
+            ;; than increment 0 to 1 and run again.
+            (unless (= n 0)
+              ;; Before we start adding our overlays, we need to be sure
+              ;; that there is a match for the Nth group in our regular
+              ;; expression.  If there is none, we skip it and move on
+              ;; with our loop.  If there is a match, then we store its
+              ;; beginning and end positions and then make an overlay
+              ;; that stretches between those two.
+              (when-let* ((beg (match-beginning n))
+                          (end (match-end n))
+                          (overlay (make-overlay beg end)))
+                ;; Now that we have created our overlay, we are ready to
+                ;; associated properties with it.  These are symbols
+                ;; that may already have an internal meaning, such as
+                ;; `invisible' or arbitrary symbols that we can use for
+                ;; our own purposes later.  Each time we set a property,
+                ;; we specify its value.  In principle, we could have a
+                ;; fine-grained system with different values, though all
+                ;; we need here is something that returns non-nil.
+                (overlay-put overlay 'invisible t)
+                ;; I keep the `after-string' overlay property here for
+                ;; this demonstration.  We do not need it, though it is
+                ;; how we can add an arbitrary string in the stead of
+                ;; the text we made invisible (think of how Org folds
+                ;; its headings, for example).
+                ;;
+                ;; (overlay-put overlay 'after-string "")
 
-              ;; Finally, we want to make our overlays have a unique
-              ;; property that allows us to identify them later.  I
-              ;; have called this `prot-org-cite-overlay', though it
-              ;; has no inherent meaning.  What matters is that it is
-              ;; unambiguously ours and that it has a non-nil value.
-              (overlay-put overlay 'prot-org-cite-overlay t))))))))
+                ;; Finally, we want to make our overlays have a unique
+                ;; property that allows us to identify them later.  I
+                ;; have called this `prot-org-cite-overlay', though it
+                ;; has no inherent meaning.  What matters is that it is
+                ;; unambiguously ours and that it has a non-nil value.
+                (overlay-put overlay 'prot-org-cite-overlay t)))))))))
 
 ;; This is the function which reverts `prot-org-cite-add-overlays'.
 ;; You will notice the same pattern of `save-restriction' for the
