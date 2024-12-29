@@ -15,6 +15,14 @@ version. See the following two sections.
 `save-excursion`, which I forgot to cover in my original publication.
 The annotated version has the same update.
 
+**UPDATE 2024-12-29 10:33 +0200:** Also check the code of JD Smith,
+which relies on the Org API to achieve this result:
+<https://gist.github.com/jdtsmith/d49eaaae852c5496a80e2489014bc41c>.
+In principle, this is a more reliable approach than using regular
+expressions. Still, what I provide below is useful in general.
+
+* * *
+
 The annotated version is in the next section.
 
 ```elisp
