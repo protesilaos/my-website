@@ -3,6 +3,11 @@ title: "Emacs: sequence notes with new 'denote-sequence.el'"
 excerpt: "Introduction to the optional 'denote-sequence.el' extension, which is part of the 'denote' Emacs package."
 ---
 
+**UPDATE 2025-01-01 10:02 +0200:** The code is merged into `main` and
+is expanded with more functionality. I will update the manual accordingly.
+
+* * *
+
 Today I wrote the initial version of the new optional extension
 `denote-sequence.el`, which is part of the `denote` package (current
 development version is `3.2.0-dev`). It provides commands to create
