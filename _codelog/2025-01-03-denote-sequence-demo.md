@@ -6,8 +6,8 @@ mediaid: "27krzVtflQY"
 ---
 
 In this ~21-minute video I demonstrate the new optional extension for
-Denote that I am developing. The 'denote-sequence.el' is part of the
-'denote' package. Its purpose is to streamline the creation of
+Denote that I am developing. The `denote-sequence.el` is part of the
+`denote` package. Its purpose is to streamline the creation of
 "sequence notes", i.e. files that have an inherent relationship
 between them. The sequence is represented as a number.
 
