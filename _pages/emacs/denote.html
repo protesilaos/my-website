@@ -177,7 +177,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:d6254a12-b762-4096-a5de-66a0d423e204">11.5. Org dynamic block to insert Org files as headings</a></li>
 </ul>
 </li>
-<li><a href="#h:d5ca722d-e7fa-46fa-9a57-6363b1d4186f">12. Write sequence notes or &ldquo;folgezettel&rdquo;</a></li>
+<li><a href="#h:d5ca722d-e7fa-46fa-9a57-6363b1d4186f">12. Sequence notes</a></li>
 <li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">13. Sort files by component</a>
 <ul>
 <li><a href="#h:a34228cb-484f-48fe-9cbc-8e41f313127b">13.1. Configure what extra prompts <code>denote-sort-dired</code> issues</a></li>
@@ -1684,7 +1684,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org7723a48">
+<pre class="example" id="org5024762">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2466,7 +2466,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgecfb4d6">
+<pre class="example" id="org13c3246">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2486,7 +2486,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org4863022">
+<pre class="example" id="org7273767">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3138,7 +3138,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgffa485d">
+<pre class="example" id="org52a2e73">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3354,7 +3354,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org0f5958c">
+<pre class="example" id="orgf065433">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3366,7 +3366,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org17d95ab">
+<pre class="example" id="orgb7445e3">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3380,7 +3380,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org6c7f8dc">
+<pre class="example" id="org7d3398d">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3394,7 +3394,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org8ba50c9">
+<pre class="example" id="org2fe5b6b">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3815,7 +3815,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orgd45342d">
+<pre class="example" id="orgcea30cb">
 - link1
 - link2
 - link3
@@ -3833,7 +3833,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org6fb8079">
+<pre class="example" id="org9e8bb92">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4072,7 +4072,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org0adc8c7">
+<pre class="example" id="orga093a20">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4087,7 +4087,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org66e79e3">
+<pre class="example" id="orga2ffbf3">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5314,9 +5314,23 @@ sequence, prompting for it using minibuffer completion.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt><code>denote-sequence-new-child-of-current</code></dt><dd>This will create a new
+child of the current file&rsquo;s sequence. If the current file does not
+have such a sequence, then the command behaves the same as the
+aforementioned <code>denote-sequence-new-child</code>.</dd>
+</dl>
+
+<dl class="org-dl">
 <dt><code>denote-sequence-new-sibling</code></dt><dd>This is a convenience wrapper of
 <code>denote-sequence</code> which directly creates a sibling of an existing
 sequence, prompting for it using minibuffer completion.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-sibling-of-current</code></dt><dd>This will create a new
+sibling of the current file&rsquo;s sequence. If the current file does not
+have such a sequence, then the command behaves the same as the
+aforementioned <code>denote-sequence-new-sibling</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6299,7 +6313,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org6cfc7e0">
+<pre class="example" id="org74c6588">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7997,7 +8011,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org261df6e">
+<pre class="example" id="orgc0600b7">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8007,7 +8021,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7e2ccf4">
+<pre class="example" id="org12d67ab">
 emacs -Q
 </pre>
 
@@ -8019,7 +8033,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org5411878">
+<pre class="example" id="orga532566">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8080,7 +8094,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org82a2531">
+<pre class="example" id="orgb72903a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
