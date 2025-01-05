@@ -107,7 +107,7 @@ express their individuality, with all its peculiarities. It is to
 assume that they are not a person with strengths and weaknesses; with
 a talent for some things but not all of them. It also is a
 misunderstanding of love as a purely blissful experience. The world is
-one of admixture, where there is no pure instantiating of the ideals
+one of admixture, where there is no pure instantiation of the ideals
 we infer out of the patterns we discern, such as beauty, harmony, love,
 and so on.
 
