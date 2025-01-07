@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2024-12-28 09:55:43 +0200 with a word
-count of 106489.</b>
+<b>Last revised and exported on 2025-01-07 09:28:56 +0200 with a word
+count of 106488.</b>
 </p>
 
 <p>
@@ -411,7 +411,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2024-12-28 09:55:43 +0200):
+(2025-01-07 09:28:56 +0200):
 </p>
 
 <div class="org-src-container">
@@ -501,7 +501,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgc775457">
+<pre class="example" id="org6b493f1">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -581,7 +581,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgfbd33e3">
+<pre class="example" id="org0de708d">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -589,7 +589,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org7123ad0">
+<pre class="example" id="orgf360741">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1509,7 +1509,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgb223a68">
+<pre class="example" id="org8729721">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2390,16 +2390,11 @@ I also take care to make it work with my customised mode line
            :left-fringe-width 20
            :right-fringe-width 20))
 
-  ;; (setq spacious-padding-subtle-mode-line
-  ;;       `( :mode-line-active ,(if (or (eq prot-emacs-load-theme-family 'modus)
-  ;;                                     (eq prot-emacs-load-theme-family 'standard))
-  ;;                                 'default
-  ;;                               'help-key-binding)
-  ;;          :mode-line-inactive window-divider))
-
   ;; Read the doc string of `spacious-padding-subtle-mode-line' as
   ;; it is very flexible.
-  (setq spacious-padding-subtle-mode-line nil))
+  (setq spacious-padding-subtle-mode-line
+        '( :mode-line-active spacious-padding-subtle-mode-line-active
+           :mode-line-inactive spacious-padding-subtle-mode-line-inactive)))
 </pre>
 </div>
 </div>
@@ -4279,7 +4274,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org27b4df0">
+<pre class="example" id="org25721d8">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5942,6 +5937,8 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
     ("&lt;up&gt;" . prot-vertico-private-previous)
     ("C-l" . vertico-multiform-vertical))
   :config
+  (setq vertico-multiform-commands
+        `(("consult-\\(.*\\)?\\(find\\|grep\\|ripgrep\\)" ,@prot-vertico-multiform-maximal)))
   (setq vertico-multiform-categories
         `(;; Maximal
           (embark-keybinding ,@prot-vertico-multiform-maximal)
@@ -5951,7 +5948,6 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
           (unicode-name ,@prot-vertico-multiform-maximal)
           ;; Minimal
           (file ,@prot-vertico-multiform-minimal
-                (vertico-preselect . prompt)
                 (vertico-sort-function . prot-vertico-sort-directories-first))
           (t ,@prot-vertico-multiform-minimal)))
 
@@ -7153,12 +7149,12 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org4a3a2fc">
+<pre class="example" id="orgd91001f">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 </pre>
 
-<pre class="example" id="org304c8bd">
+<pre class="example" id="orgbf7a5f5">
 # Same idea for the `tmr` command.
 emacsclient -e '(prot-window-popup-tmr)'
 </pre>
@@ -7174,7 +7170,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgc8cb47f">
+<pre class="example" id="orgd3630fe">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7330,7 +7326,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgb8be8dc">
+<pre class="example" id="org8810bfd">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8892,7 +8888,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org491f643">
+<pre class="example" id="org846710a">
 (info "(org) Search Options")
 </pre>
 
@@ -8984,7 +8980,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org2230b4a">
+<pre class="example" id="orga533916">
 (require 'ob-python)
 
 ;; OR
@@ -9831,7 +9827,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org43575dc">
+<pre class="example" id="orga6a0dbb">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10522,7 +10518,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgfdddd39">
+<pre class="example" id="org8397c9e">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10534,7 +10530,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgbad9c4f">
+<pre class="example" id="org68ad200">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10600,7 +10596,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org8cd2258">
+<pre class="example" id="orgb2d33b4">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10612,7 +10608,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org8fe947e">
+<pre class="example" id="org1b1f078">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10634,7 +10630,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgf0cba25">
+<pre class="example" id="org5c6ac55">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10884,7 +10880,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org660d870">
+<pre class="example" id="org6ffc2ac">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10896,7 +10892,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org5556d35">
+<pre class="example" id="org49d0ba8">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12016,7 +12012,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgb93a7c4">
+<pre class="example" id="org18159be">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12113,7 +12109,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org798786d">
+<pre class="example" id="orgbe28f6b">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19040,7 +19036,8 @@ function.  Then you can control the buffer's specifics via
                              :prompt    ""
                              :separator ""
                              :ellipsis  ""
-                             :no-match  "")))
+                             :no-match  ""))
+    (vertico-preselect . prompt))
   "List of configurations for minimal Vertico multiform.
 The minimal view is intended to be more private or less
 revealing.  This is important when, for example, a prompt shows
@@ -19054,6 +19051,7 @@ automatically.")
 
 (defvar prot-vertico-multiform-maximal
   '((vertico-count . 10)
+    (vertico-preselect . directory)
     (vertico-resize . t))
   "List of configurations for maximal Vertico multiform.")
 
@@ -19463,7 +19461,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org33384cb">
+<pre class="example" id="org49b9b87">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19495,7 +19493,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org0792855">
+<pre class="example" id="org4d20b69">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
