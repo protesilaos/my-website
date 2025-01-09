@@ -133,11 +133,11 @@ numbers.  Compare MONTH to them."
     term-name))
 
 (defun prot-oxford--get-months (term)
-  "Get the start and end weeks of TERM as a list."
+  "Get start and end months of `prot-oxford-dates' TERM as a list."
   (mapcar #'car (alist-get term prot-oxford-dates)))
 
 (defun prot-oxford-month (year month)
-  "Return abbreviate name of MONTH for YEAR.
+  "Return abbreviated name of MONTH for YEAR.
 Append the Oxford term name based on the `prot-oxford-dates'."
   (pcase-let* ((`(,m-beg ,m-end) (prot-oxford--get-months 'michaelmas))
                (`(,h-beg ,h-end) (prot-oxford--get-months 'hilary))
