@@ -35,6 +35,13 @@ the regular calendar information.
 
 ## The code
 
+**UPDATE 2025-01-09 18:36 +0200:** I revised a few lines of code to
+(i) work with either Sunday or Monday as the first day of the week,
+(ii) not show any Oxford week beyond the years specified in
+`prot-oxford-dates`.
+
+* * *
+
 I wrote this over the course of a few hours. It may be refined here
 and there, but I think it is already good enough. The only major
 improvement would be to implement the formula that Oxford uses to
@@ -48,17 +55,17 @@ to be updated manually each year.
 ;;
 ;; Source: <https://www.ox.ac.uk/about/facts-and-figures/dates-of-term>.
 (defvar prot-oxford-dates
-  '((michaelmas (10 13 2024)  (12 7 2024))
-    (hilary     (1  19 2025)  (3 15 2025))
-    (trinity    (4  27 2025)  (6 21 2025)))
+  '((michaelmas  (10 13 2024)  (12 7 2024))
+    (hilary      (1  19 2025)  (3 15 2025))
+    (trinity     (4  27 2025)  (6 21 2025)))
   "Alist of Oxford calendar terms with start and end date.
 Each element is of the form (NAME START END), where NAME is the name of
 the term, as a symbol, START is the start date and END is the end date.
 START and END each are of the form (month day year), where each element
 is a number.")
 
-(defun prot-oxford--get-gregorian-week (date)
-  "Get the Gregorian week of DATE.
+(defun prot-oxford--get-iso-week (date)
+  "Get the ISO week of DATE.
 DATE is a list of the form (month day year)."
   (unless (calendar-date-is-valid-p date)
     (error "The date `%s' does not conform with `calendar-date-is-valid-p'" date))
@@ -66,31 +73,43 @@ DATE is a list of the form (month day year)."
    (calendar-iso-from-absolute
     (calendar-absolute-from-gregorian date))))
 
-(defun prot-oxford--get-term-week (term-start-week term-end-week gregorian-week prefix)
+(defun prot-oxford--get-term-week (term-start-week term-end-week iso-week prefix)
   "Return the number of the Oxford term week or nil.
 Determine the week given TERM-START-WEEK and TERM-END-WEEK as Gregorian
-week numbers.  Compare GREGORIAN-WEEK to them.
+week numbers.  Compare ISO-WEEK to them.
+
+If `calendar-week-start-day' is a Monday, then start counting weeks from
+0, because Oxford weeks start from Sunday (otherwise, Week 1 includes 6
+days before the first Sunday).
 
 When returning the number, concatenate it with PREFIX.  PREFIX is a
 single letter string.  A longer PREFIX is trimmed accordingly."
-  (when-let* ((number (cond
-                       ((> gregorian-week term-end-week)
-                        nil)
-                       ((= term-start-week gregorian-week)
-                        1)
-                       ((< term-start-week gregorian-week)
-                        (+ (- gregorian-week term-start-week) 1))))
-              (pre (if (> (length prefix) 1)
-                       (substring prefix 0 1)
-                     prefix)))
-    (concat pre (number-to-string number))))
+  (when (and term-start-week term-end-week iso-week)
+    (when-let* ((offset (pcase calendar-week-start-day
+                          (0 1)
+                          (1 0)))
+                (number (cond
+                         ((> iso-week term-end-week)
+                          nil)
+                         ((= term-start-week iso-week)
+                          offset)
+                         ((< term-start-week iso-week)
+                          (+ (- iso-week term-start-week) offset))))
+                (pre (if (> (length prefix) 1)
+                         (substring prefix 0 1)
+                       prefix)))
+      (concat pre (number-to-string number)))))
 
-(defun prot-oxford--get-term-weeks (term)
-  "Return Oxford TERM stard and end week numbers as a list."
+(defun prot-oxford--get-term-weeks (term year)
+  "Return Oxford TERM start and end week numbers as a list.
+Check YEAR to determine if the date is out of bonds of the
+`prot-oxford-dates'."
   (pcase-let* ((`(,beg-date ,end-date) (alist-get term prot-oxford-dates))
-               (beg-week (prot-oxford--get-gregorian-week beg-date))
-               (end-week (prot-oxford--get-gregorian-week end-date)))
-    (list beg-week end-week)))
+               (`(,_ ,_ ,term-year) beg-date)
+               (beg-week (prot-oxford--get-iso-week beg-date))
+               (end-week (prot-oxford--get-iso-week end-date)))
+    (when (= term-year year)
+      (list beg-week end-week))))
 
 (defface prot-oxford-term-indicator
   '((((class color) (min-colors 88) (background light))
@@ -107,17 +126,17 @@ single letter string.  A longer PREFIX is trimmed accordingly."
 (defun prot-oxford-week (month day year)
   "Use MONTH DAY YEAR to determine current week.
 Derive the Oxford term week based on the `prot-oxford-dates'."
-  (pcase-let* ((`(,m-w-beg ,m-w-end) (prot-oxford--get-term-weeks 'michaelmas))
-               (`(,h-w-beg ,h-w-end) (prot-oxford--get-term-weeks 'hilary))
-               (`(,t-w-beg ,t-w-end) (prot-oxford--get-term-weeks 'trinity))
-               (gregorian-week (prot-oxford--get-gregorian-week (list month day year)))
+  (pcase-let* ((`(,m-w-beg ,m-w-end) (prot-oxford--get-term-weeks 'michaelmas year))
+               (`(,h-w-beg ,h-w-end) (prot-oxford--get-term-weeks 'hilary year))
+               (`(,t-w-beg ,t-w-end) (prot-oxford--get-term-weeks 'trinity year))
+               (gregorian-week (prot-oxford--get-iso-week (list month day year)))
                (oxford-week (or (prot-oxford--get-term-week m-w-beg m-w-end gregorian-week "M")
                                 (prot-oxford--get-term-week h-w-beg h-w-end gregorian-week "H")
                                 (prot-oxford--get-term-week t-w-beg t-w-end gregorian-week "T")
                                 "")))
-        (format " %2s  %2s  "
-                (propertize oxford-week 'face 'prot-oxford-term-indicator)
-                (propertize (format "%2s" gregorian-week) 'face 'prot-oxford-regular-week))))
+    (format " %2s  %2s  "
+            (propertize oxford-week 'face 'prot-oxford-term-indicator)
+            (propertize (format "%2s" gregorian-week) 'face 'prot-oxford-regular-week))))
 
 (defun prot-oxford--get-term-month (term-name term-start-month term-end-month month)
   "Return the TERM-NAME of the term month or nil.
@@ -158,6 +177,10 @@ Append the Oxford term name based on the `prot-oxford-dates'."
           (propertize "Week" 'face 'shadow)))
 
 (setopt calendar-left-margin 10
+        ;; Oxford assumes Sunday starts the week, but we want to work
+        ;; with the ISO commercial dates, so Monday (1) is the first
+        ;; day of the week.  But Sunday (0) will still work.
+        calendar-week-start-day 1
         calendar-intermonth-spacing 12
         calendar-intermonth-header (prot-oxford-intermonth-header)
         calendar-intermonth-text '(prot-oxford-week month day year)
