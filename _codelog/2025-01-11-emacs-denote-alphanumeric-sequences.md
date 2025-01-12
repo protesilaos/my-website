@@ -28,6 +28,9 @@ and so on, with Denote taking care to use/generate the correct
 sequence each time.  In principle, the two schemes are interoperable
 and there will be relevant commands to switch between them.
 
+[ **UPDATE 2025-01-12 11:25 +0200:** Now merged into `main` and
+  deleted the feature branch. ]
+
 Below is the commit I worked on today. For now it lives in the `alphanumeric-sequence-extension`
 branch: <https://github.com/protesilaos/denote/tree/alphanumeric-sequence-extension>.
 I will merge it into `main` as soon as I am done with the user-facing
