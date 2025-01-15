@@ -179,7 +179,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:d5ca722d-e7fa-46fa-9a57-6363b1d4186f">12. Sequence notes</a>
 <ul>
-<li><a href="#h:8c682f08-f162-4ddd-be03-805e87737d55">12.1. Select a sequencing scheme for <code>denote-sequence-scheme</code></a></li>
+<li><a href="#h:8c682f08-f162-4ddd-be03-805e87737d55">12.1. Select a sequencing scheme for <code>denote-sequence-scheme</code></a>
+<ul>
+<li><a href="#h:373710df-a62e-4400-961c-87fac019b0a0">12.1.1. Convert from one sequencing scheme to another</a></li>
+</ul>
+</li>
 <li><a href="#h:6293ec17-05ef-4e41-9ae3-25df2ad86303">12.2. Create parent, child, or sibling sequence notes</a></li>
 <li><a href="#h:e83902ff-4594-494b-88cd-722f6b4fb0b7">12.3. Link only to sequences</a></li>
 <li><a href="#h:98eb8ee5-93c4-49ba-9092-65a3b61c69c6">12.4. Re-parent a file to extend a given sequence</a></li>
@@ -1693,7 +1697,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge5b8d44">
+<pre class="example" id="org3977b1a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2475,7 +2479,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgfe3d8ca">
+<pre class="example" id="org477ae0e">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2495,7 +2499,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgc68c887">
+<pre class="example" id="org29cbf88">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3147,7 +3151,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org8022179">
+<pre class="example" id="orgcdd7c84">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3363,7 +3367,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org9d276f6">
+<pre class="example" id="org292d43f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3375,7 +3379,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgc402b90">
+<pre class="example" id="orgb5c18fc">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3389,7 +3393,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org99d78b9">
+<pre class="example" id="org206ec01">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3403,7 +3407,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org14bfefd">
+<pre class="example" id="org609b21f">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3824,7 +3828,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org9b9d0ee">
+<pre class="example" id="org378a977">
 - link1
 - link2
 - link3
@@ -3842,7 +3846,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc55389b">
+<pre class="example" id="org7580d88">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4081,7 +4085,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org2b4e137">
+<pre class="example" id="org8f5c193">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4096,7 +4100,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org8014983">
+<pre class="example" id="org61fcc4a">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5308,7 +5312,7 @@ manually. The purpose of this extension is to streamline this work.
 <p>
 The user option <code>denote-sequence-scheme</code> allows users to select either
 the <code>numeric</code> scheme, which is like <code>1=1=2</code> or the <code>alphanumeric</code>
-scheme, which is <code>1a2</code> for the same sequence:
+scheme, which is <code>1a2</code> for the same sequence (<a href="#h:373710df-a62e-4400-961c-87fac019b0a0">Convert from one sequencing scheme to another</a>):
 </p>
 
 <dl class="org-dl">
@@ -5330,6 +5334,39 @@ large numbers, such as <code>1zzzv2zx</code> corresponding to the numeric
 zz, and so on). In practice, large numbers may not be a problem,
 though this is something to keep in mind.</dd>
 </dl>
+</div>
+<div id="outline-container-h:373710df-a62e-4400-961c-87fac019b0a0" class="outline-4">
+<h4 id="h:373710df-a62e-4400-961c-87fac019b0a0"><span class="section-number-4">12.1.1.</span> Convert from one sequencing scheme to another</h4>
+<div class="outline-text-4" id="text-h:373710df-a62e-4400-961c-87fac019b0a0">
+<p>
+[ The <code>denote-sequence.el</code> is part of 3.2.0-dev. ]
+</p>
+
+<p>
+The decision on the desired <code>denote-sequence-scheme</code> wil affect new
+notes long-term (<a href="#h:8c682f08-f162-4ddd-be03-805e87737d55">Select a sequencing scheme for <code>denote-sequence-scheme</code></a>).
+It thus is important to think through your needs and proceed accordingly.
+</p>
+
+<p>
+Still, one cannot be sure which scheme they prefer until they
+experiment with it. It then is inconvenient to manually revert to the
+alternative scheme. To this end, we provide the command
+<code>denote-sequence-convert</code>. It convers one or more files from their
+current scheme to its counterpart.
+</p>
+
+<p>
+When called from inside a Denote file, it converts that file. When
+called from a Dired buffer, it operates on the marked files. If no
+files are marked, it works with the Dired file at point.
+</p>
+
+<p>
+Note that <code>denote-sequence-convert</code> DOES NOT REPARENT OR ANYHOW CHECK
+THE RESULTING SEQUENCES FOR DUPLICATES (<a href="#h:98eb8ee5-93c4-49ba-9092-65a3b61c69c6">Re-parent a file to extend a given sequence</a>).
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:6293ec17-05ef-4e41-9ae3-25df2ad86303" class="outline-3">
@@ -6434,7 +6471,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org5ea8684">
+<pre class="example" id="org19afd35">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -8132,7 +8169,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org9f5943a">
+<pre class="example" id="org2fcb722">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8142,7 +8179,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org05c33ae">
+<pre class="example" id="orga5552cf">
 emacs -Q
 </pre>
 
@@ -8154,7 +8191,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org693efcd">
+<pre class="example" id="org69ba839">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8215,7 +8252,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orga1b96a5">
+<pre class="example" id="org5cd67ca">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
