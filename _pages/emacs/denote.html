@@ -92,7 +92,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:53db09de-2cec-4670-b163-5cb791f997b4">3.10. Exclude certain files from file prompts</a></li>
 <li><a href="#h:8458f716-f9c2-4888-824b-2bf01cc5850a">3.11. Exclude certain directories from all operations</a></li>
 <li><a href="#h:69e518ee-ed43-40ab-a5f4-c780a23e5358">3.12. Exclude certain keywords from being inferred</a></li>
-<li><a href="#h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">3.13. Use Denote commands from the menu bar or context menu</a></li>
+<li><a href="#h:c0fb477f-4f99-4d76-9cce-132bcfcb351d">3.13. Create a controlled vocabulary for keywords</a></li>
+<li><a href="#h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">3.14. Use Denote commands from the menu bar or context menu</a></li>
 </ul>
 </li>
 <li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">4. Renaming files</a>
@@ -462,7 +463,7 @@ The keywords&rsquo; prompt supports minibuffer completion.  Available
 candidates are those defined in the user option <code>denote-known-keywords</code>.
 More candidates can be inferred from the names of existing notes, by
 setting <code>denote-infer-keywords</code> to non-nil (which is the case by
-default).
+default) (<a href="#h:c0fb477f-4f99-4d76-9cce-132bcfcb351d">Create a controlled vocabulary for keywords</a>).
 </p>
 
 <p>
@@ -1695,7 +1696,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgfa68f6b">
+<pre class="example" id="orgddce41c">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2184,8 +2185,41 @@ The match is performed with <code>string-match-p</code>.
 </p>
 </div>
 </div>
+<div id="outline-container-h:c0fb477f-4f99-4d76-9cce-132bcfcb351d" class="outline-3">
+<h3 id="h:c0fb477f-4f99-4d76-9cce-132bcfcb351d"><span class="section-number-3">3.13.</span> Create a controlled vocabulary for keywords</h3>
+<div class="outline-text-3" id="text-h:c0fb477f-4f99-4d76-9cce-132bcfcb351d">
+<p>
+Denote has two ways to know about keywords: the predefined list of
+strings specified in the user option <code>denote-known-keywords</code> as well
+as all the keywords it finds in the files of the <code>denote-directory</code>
+when the user option <code>denote-infer-keywords</code> is set to a non-nil value
+(<a href="#h:69e518ee-ed43-40ab-a5f4-c780a23e5358">Exclude certain keywords from being inferred</a>).
+</p>
+
+<p>
+While this is a viable setup, users may prefer to implement a
+&ldquo;controlled vocabulary&rdquo;. This is a predefined set of keywords whose
+purpose is to avoid the creation of overly specific or inconsistent
+keywords.
+</p>
+
+<p>
+To establish such a controlled vocabulary, users need only have
+something like this in their configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Do not read keywords from files.  The only source is the `denote-known-keywords'.
+(setq denote-infer-keywords nil)
+
+;; Define the list of keywords.  Each keyword is a string.
+(setq denote-known-keywords (list "politics" "economics" "emacs" "philosophy"))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:c4290e15-e97e-4a9b-b8db-6b9738e37e78" class="outline-3">
-<h3 id="h:c4290e15-e97e-4a9b-b8db-6b9738e37e78"><span class="section-number-3">3.13.</span> Use Denote commands from the menu bar or context menu</h3>
+<h3 id="h:c4290e15-e97e-4a9b-b8db-6b9738e37e78"><span class="section-number-3">3.14.</span> Use Denote commands from the menu bar or context menu</h3>
 <div class="outline-text-3" id="text-h:c4290e15-e97e-4a9b-b8db-6b9738e37e78">
 <p>
 Denote registers a submenu for the <code>menu-bar-mode</code>.  Users will find
@@ -2477,7 +2511,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org6215243">
+<pre class="example" id="orgd9cace5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2497,7 +2531,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org94c393c">
+<pre class="example" id="org871b81d">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3150,7 +3184,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org105e151">
+<pre class="example" id="org09e2a78">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3366,7 +3400,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org1cf2984">
+<pre class="example" id="org0fa2912">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3378,7 +3412,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org567a380">
+<pre class="example" id="org67d5492">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3392,7 +3426,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org00bbf20">
+<pre class="example" id="org9ebaf8d">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3406,7 +3440,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgf5fdc27">
+<pre class="example" id="org528e71e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3828,7 +3862,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="orga176fe1">
+<pre class="example" id="org569ccfb">
 - link1
 - link2
 - link3
@@ -3846,7 +3880,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org2782ecc">
+<pre class="example" id="org1883d32">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4060,7 +4094,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="org0da36e3">
+<pre class="example" id="orgce09e56">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4075,7 +4109,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org20c362d">
+<pre class="example" id="orga458633">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -6487,7 +6521,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org455810f">
+<pre class="example" id="org8266509">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -8180,7 +8214,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org6cde507">
+<pre class="example" id="orgdc18e15">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8190,7 +8224,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgd7bb3ad">
+<pre class="example" id="org0f41ce5">
 emacs -Q
 </pre>
 
@@ -8202,7 +8236,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org5a59748">
+<pre class="example" id="org9b483d4">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8263,7 +8297,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgd7290d5">
+<pre class="example" id="org43c7f90">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
