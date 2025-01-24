@@ -3,7 +3,7 @@ title: "Interpretation of “Letter” by Socratis Malamas"
 excerpt: "Translation of---and philosophical commentary on---a song whose translated title is 'Letter'."
 ---
 
-What follows is my translation of a song titled "To gramma" (The letter)
+What follows is my interpretation of a song titled "To gramma" (The letter)
 by Socratis Malamas (Σωκράτης Μάλαμας): <https://www.youtube.com/watch?v=-_BiKXbz4bQ>.
 
 First I provide the original lyrics, followed by my translation, and
