@@ -15,6 +15,122 @@ project's main git repository: <a href="https://github.com/protesilaos/beframe">
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
 </p>
+<div id="outline-container-h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235" class="outline-2">
+<h2 id="h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235">Version 1.3.0 on 2025-01-24</h2>
+<div class="outline-text-2" id="text-h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235">
+<p>
+This version contains quality-of-life refinements to an already stable
+package.
+</p>
+</div>
+<div id="outline-container-h:ce628b27-1f7a-4572-81d6-352cde2ce291" class="outline-3">
+<h3 id="h:ce628b27-1f7a-4572-81d6-352cde2ce291">Make frame names unique, if needed</h3>
+<div class="outline-text-3" id="text-h:ce628b27-1f7a-4572-81d6-352cde2ce291">
+<p>
+We provide the user option <code>beframe-rename-function</code>, which will be
+called with the new frame when <code>beframe-mode</code> is enabled. The idea is
+to automatically apply a helpful name to the frame that was created.
+The default function we use is <code>beframe-rename-frame</code>, which will do
+the right thing to get a suitable name. To make this even more robust,
+we now disambiguate equal frame names by appending a number to their
+name. So instead of having two or more frames all named <code>hello</code>, you
+get <code>hello</code>, <code>hello&lt;2&gt;</code>, and so on.
+</p>
+
+<p>
+Thanks to Vedang Manerikar for the original contribution in pull
+request 12: <a href="https://github.com/protesilaos/beframe/pull/12">https://github.com/protesilaos/beframe/pull/12</a>. The
+change is within the ~15-line limit, meaning that Vedang does not need
+to assign copyright to the Free Software Foundation (though I believe
+the paperwork is done anyway). I made some further changes on top.
+</p>
+
+<p>
+Remember that you can make certain commands automatically generate a
+frame and run therein by adding them to the list of <code>beframe-functions-in-frames</code>.
+A common use-case is to do this for switching to a new project, hence:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq beframe-functions-in-frames '(project-prompt-project-dir))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:cf5cc19b-daf5-4f4f-8c70-b18cb694eb55" class="outline-3">
+<h3 id="h:cf5cc19b-daf5-4f4f-8c70-b18cb694eb55">Use the optional <code>beframe-transient</code> instead of the prefix key map</h3>
+<div class="outline-text-3" id="text-h:cf5cc19b-daf5-4f4f-8c70-b18cb694eb55">
+<p>
+We provide a regular prefix key map where Beframe commands are bound
+to. Users can access all the commands via a prefix key, such as with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
+</pre>
+</div>
+
+<p>
+Users who prefer a more graphical interface can instead rely on the
+new <code>beframe-transient</code>. It is the same principle as the prefix key
+map:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-transient)
+</pre>
+</div>
+
+<p>
+[ The difference between the two interfaces is small when using the
+  <code>which-key</code> package. ]
+</p>
+</div>
+</div>
+<div id="outline-container-h:93f16de4-c6f0-4c4d-8888-56ded7407b2f" class="outline-3">
+<h3 id="h:93f16de4-c6f0-4c4d-8888-56ded7407b2f">The buffer prompt clarifies that it is "Beframed"</h3>
+<div class="outline-text-3" id="text-h:93f16de4-c6f0-4c4d-8888-56ded7407b2f">
+<p>
+While using the <code>beframe-mode</code>, the standard <code>read-buffer-function</code> is
+set to a Beframe function that prompts for a buffer. The idea is to
+filter the list of buffers to only show those that are specific to the
+current/given frame. To make this more clear, the text of the prompt
+now has <code>[Beframed]</code> prepended to it.
+</p>
+
+<p>
+I do not think we need a user option for this, though I am happy to
+reconsider if there is a good reason for it.
+</p>
+</div>
+</div>
+<div id="outline-container-h:064beab3-8f24-4d58-9d28-4727c2e563c5" class="outline-3">
+<h3 id="h:064beab3-8f24-4d58-9d28-4727c2e563c5">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:064beab3-8f24-4d58-9d28-4727c2e563c5">
+<ul class="org-ul">
+<li>Fixed the function aliases of the "assume" and "unassume" commands
+that take a regular expression as input to perform their operation.
+The old aliases where written in the wrong way, such that they were
+rendering the original function void.</li>
+
+<li>Bound a few more commands to the <code>beframe-prefix-map</code>. Everything
+should now be there, to improve discoverability (remember that <code>C-h</code>
+after an incomplete key sequence will produce a Help buffer that
+lists all the keys+commands which extend the given key sequence).</li>
+
+<li>The name of the <code>beframe-buffer-menu</code> buffer is more descriptive.
+The command <code>beframe-buffer-menu</code> puts the beframed list of buffers
+in a buffer. Its old naming scheme was <code>*Buffer list for NAME*</code>,
+where <code>NAME</code> is the name of the frame. Whereas now it is <code>*Buffer
+  list for ‘NAME’ frame*</code>.</li>
+
+<li>Same as above for the frame-specific scratch buffers. Those are
+generated for new frames when <code>beframe-create-frame-scratch-buffer</code>
+is non-nil (the default) and <code>beframe-mode</code> is enabled.</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-h:c6250209-9bb9-4243-bec0-e925adeffaeb" class="outline-2">
 <h2 id="h:c6250209-9bb9-4243-bec0-e925adeffaeb">Version 1.2.0 on 2024-10-23</h2>
 <div class="outline-text-2" id="text-h:c6250209-9bb9-4243-bec0-e925adeffaeb">
