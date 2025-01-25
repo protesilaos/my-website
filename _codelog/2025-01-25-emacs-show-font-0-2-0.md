@@ -11,6 +11,8 @@ three ways:
 - Provide a major mode to preview a font whose file is among the
   installed ones.
 
+Sources:
+
 + Package name (GNU ELPA): `show-font`
 + Official manual: <https://protesilaos.com/emacs/show-font>
 + Change log: <https://protesilaos.com/emacs/show-font-changelog>
@@ -59,4 +61,3 @@ displayed: <https://protesilaos.com/codelog/2024-02-08-emacs-window-rules-displa
 
 The default value of `show-font-display-buffer-action-alist` will show
 the buffer at the bottom of the frame.
-
