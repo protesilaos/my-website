@@ -256,7 +256,7 @@ Check out its sources:
 + Change log: <https://protesilaos.com/emacs/show-font-changelog>
 + Git repository: <https://github.com/protesilaos/show-font>
 + Sample pictures: <https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/>
-+ Backronym: Should Highlight Only With the Family Of the Named Type.
++ Backronym: Should Highlight Only With the Family Of the Named Typeface.
 
 ## sxhkdrc-mode
 
