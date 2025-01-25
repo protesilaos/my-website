@@ -29,7 +29,7 @@ Below are the release notes.
 This version includes quality-of-life refinements.
 
 
-## Show fonts in a tabulated listing
+### Show fonts in a tabulated listing
 
 The command `show-font-tabulated` will produce a listing of font
 families and their preview that uses the built-in tabulated interface.
@@ -42,7 +42,7 @@ default), it prompts for a string or regular expression. It then shows
 only the font families matching the given input.
 
 
-## Limit font listing using a regular expression
+### Limit font listing using a regular expression
 
 The command `show-font-list` which we already had in version 0.1.0 is
 like the `show-font-tabulated`, but uses a bespoke buffer where each
@@ -51,7 +51,7 @@ accepts an optional prefix argument to limit the list to only the
 matching fonts.
 
 
-## The `show-font-display-buffer-action-alist` controls buffer placement
+### The `show-font-display-buffer-action-alist` controls buffer placement
 
 The preview buffers we use will now conform with the value of the new
 user option `show-font-display-buffer-action-alist`. This is a more
