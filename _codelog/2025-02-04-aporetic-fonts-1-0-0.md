@@ -26,7 +26,7 @@ Iosevka Comfy:
 "Iosevka" is a reserved name. I had not realised this until I reread
 the SIL Open Font License, Version 1.1, specifically:
 
-> 3. No Modified Version of the Font Software may use the Reserved
+> 3  No Modified Version of the Font Software may use the Reserved
 >    Font Name(s) unless explicit written permission is granted by the
 >    corresponding Copyright Holder. This restriction only applies to
 >    the primary font name as presented to the users.
