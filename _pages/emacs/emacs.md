@@ -434,10 +434,32 @@ piece of functionality does.
   Configurations, Stranger (dotemacs); Dotfiles Operate Transparently
   For the Included Linux and Emacs Setups (dotfiles).
 
-## Iosevka Comfy
+## Aporetic
+
+[ _Aporetic_ is the successor to my _Iosevka Comfy_, mainly because
+  "Iosevka" is a reserved name, but also to simplify the overall
+  project: <https://github.com/protesilaos/iosevka-comfy>. ]
 
 This is not an "Emacs package" per se though I use it full time in my
-Emacs setup (it complements my work on Emacs theme and `fontaine`, for
+Emacs setup (it complements my work on Emacs themes and `fontaine`, for
+example).
+
+Customised build of the Iosevka typeface, with a consistent rounded
+style and overrides for almost all individual glyphs in both roman
+(upright) and italic (slanted) variants.
+
++ Git repository: <https://github.com/protesilaos/aporetic>.
++ Sample pictures: <https://protesilaos.com/emacs/aporetic-fonts-pictures>
++ Backronym: Aporetic's Predecessor Objects' Reserved Eponym Truly Included "Comfy".
+
+## Iosevka Comfy
+
+[ As of 2025-02-04, the Iosevka Comfy project is discontinued. The
+  main reason is that "Iosevka" is a reserved name. See my Aporetic
+  fonts instead. ]
+
+This is not an "Emacs package" per se though I use it full time in my
+Emacs setup (it complements my work on Emacs themes and `fontaine`, for
 example).
 
 _Iosevka Comfy_ is a customised build of the Iosevka typeface, with a
