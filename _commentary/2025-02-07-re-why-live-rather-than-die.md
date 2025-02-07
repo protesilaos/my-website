@@ -71,5 +71,5 @@ anything because achieving something is inconsequential. I then choose
 to take phenomena as they come and to smile even when I can no longer
 see the light.
 
-Take care,
+Take care,  
 Prot
