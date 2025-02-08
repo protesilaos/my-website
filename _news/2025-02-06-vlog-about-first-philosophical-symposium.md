@@ -11,3 +11,7 @@ a local tavern. I made a brief introduction and then we had an open
 discussion that went on until the early morning hours. In this video I
 talk about the event and also include the clip I recorded at the
 tavern (in Greek).
+
+* * *
+
+**UPDATE 2025-02-08 13:04 +0200:** [I translated what I said at the symposium](https://protesilaos.com/news/2025-02-08-translation-first-philosophical-symposium).
