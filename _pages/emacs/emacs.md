@@ -35,6 +35,23 @@ the themes across the years.
   + GitLab: <https://gitlab.com/protesilaos/modus-themes>
 + Backronym: My Old Display Unexpectedly Sharpened ... themes.
 
+## Ef (εὖ) themes
+
+The `ef-themes` are a collection of light and dark themes for GNU
+Emacs that provide colourful ("pretty") yet legible options for users
+who want something with a bit more flair than the `modus-themes` (also
+designed by me).
+
++ Package name (GNU ELPA): `ef-themes`
++ Official manual: <https://protesilaos.com/emacs/ef-themes>
++ Change log: <https://protesilaos.com/emacs/ef-themes-changelog>
++ Sample pictures: <https://protesilaos.com/emacs/ef-themes-pictures>
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/ef-themes>
+  + GitLab: <https://gitlab.com/protesilaos/ef-themes>
++ Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
+  Embellishments, and Sparkles.
+
 ## Denote
 
 Denote is a simple note-taking tool for Emacs.  It is based on the idea
@@ -74,22 +91,18 @@ sources to the `consult-buffer` command.
 + Backronym: Consult-Orchestrated Navigation and Selection of
   Unambiguous Targets...denote.
 
-## Ef (εὖ) themes
+## Denote Sequence (Sequence notes or Folgezettel with Denote)
 
-The `ef-themes` are a collection of light and dark themes for GNU
-Emacs that provide colourful ("pretty") yet legible options for users
-who want something with a bit more flair than the `modus-themes` (also
-designed by me).
+The `denote-sequence` package provides an optional extension to
+~denote~ for naming files with a sequencing scheme. The idea is to
+establish hiearchical relationships between files, such that the
+contents of one logically follow or complement those of another.
 
-+ Package name (GNU ELPA): `ef-themes`
-+ Official manual: <https://protesilaos.com/emacs/ef-themes>
-+ Change log: <https://protesilaos.com/emacs/ef-themes-changelog>
-+ Sample pictures: <https://protesilaos.com/emacs/ef-themes-pictures>
-+ Git repositories:
-  + GitHub: <https://github.com/protesilaos/ef-themes>
-  + GitLab: <https://gitlab.com/protesilaos/ef-themes>
-+ Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
-  Embellishments, and Sparkles.
++ Package name (GNU ELPA): `denote-sequence` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-sequence>
++ Git repository: <https://github.com/protesilaos/denote-sequence>
++ Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
+  Notwithstanding Curation Efforts.
 
 ## Theme buffet
 
