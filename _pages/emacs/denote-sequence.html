@@ -1,0 +1,983 @@
+---
+layout: page
+title: 'Denote Sequence (denote-sequence.el)'
+subtitle: 'Sequence notes or Folgezettel with Denote'
+excerpt: "Denote Sequence is an extension to Denote that allows users to write sequence notes or Folgezettel"
+permalink: /emacs/denote-sequence
+---
+
+<p>
+WORK-IN-PROGRESS. Not all links may work and I will update things as
+part of 0.1.0-dev.
+</p>
+
+<p>
+This manual, written by Protesilaos Stavrou, describes the customization
+options for the Emacs package called <code>denote</code> (or <code>denote.el</code>), and
+provides every other piece of information pertinent to it.
+</p>
+
+<p>
+The documentation furnished herein corresponds to stable version
+0.0.0, released on N/A.  Any reference to
+a newer feature which does not yet form part of the latest tagged
+commit, is explicitly marked as such.
+</p>
+
+<p>
+Current development target is 0.1.0-dev.
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote-sequence</code> (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-sequence">https://protesilaos.com/emacs/denote-sequence</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-sequence">https://github.com/protesilaos/denote-sequence</a></li>
+<li>Backronym: Denote&#x2026; Sequences Efficiently Queue Unsorted Entries
+Notwithstanding Curation Efforts.</li>
+</ul>
+
+<p>
+If you are viewing the README.org version of this file, please note that
+the GNU ELPA machinery automatically generates an Info manual out of it.
+</p>
+
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#h:copying">1. COPYING</a></li>
+<li><a href="#h:write-sequence-notes-or-folgezettel">2. Sequence notes</a>
+<ul>
+<li><a href="#h:select-a-sequencing-scheme-for-denote-sequence-scheme">2.1. Select a sequencing scheme for <code>denote-sequence-scheme</code></a>
+<ul>
+<li><a href="#h:convert-from-one-sequencing-scheme-to-another">2.1.1. Convert from one sequencing scheme to another</a></li>
+</ul>
+</li>
+<li><a href="#h:create-parent-child-or-sibling-sequence-notes">2.2. Create parent, child, or sibling sequence notes</a></li>
+<li><a href="#h:find-a-relative-of-the-current-sequence">2.3. Find a relative of the current sequence</a></li>
+<li><a href="#h:link-only-to-sequences">2.4. Link only to sequences</a></li>
+<li><a href="#h:re-parent-a-file-to-extend-a-given-sequence">2.5. Re-parent a file to extend a given sequence</a></li>
+<li><a href="#h:show-all-or-some-sequences-in-a-dired-buffer">2.6. Show all or some sequences in a Dired buffer</a></li>
+</ul>
+</li>
+<li><a href="#h:installation">3. Installation</a>
+<ul>
+<li><a href="#h:gnu-elpa-package">3.1. GNU ELPA package</a></li>
+<li><a href="#h:manual-installation">3.2. Manual installation</a></li>
+</ul>
+</li>
+<li><a href="#h:sample-configuration">4. Sample configuration</a></li>
+<li><a href="#h:acknowledgements">5. Acknowledgements</a></li>
+<li><a href="#h:gnu-free-documentation-license">6. GNU Free Documentation License</a></li>
+<li><a href="#h:indices">7. Indices</a>
+<ul>
+<li><a href="#h:function-index">7.1. Function index</a></li>
+<li><a href="#h:variable-index">7.2. Variable index</a></li>
+<li><a href="#h:concept-index">7.3. Concept index</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:copying" class="outline-2">
+<h2 id="h:copying"><span class="section-number-2">1.</span> COPYING</h2>
+<div class="outline-text-2" id="text-h:copying">
+<p>
+Copyright (C) 2022-2025  Free Software Foundation, Inc.
+</p>
+
+<blockquote>
+<p>
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover Texts being “A GNU Manual,” and
+with the Back-Cover Texts as in (a) below.  A copy of the license is
+included in the section entitled “GNU Free Documentation License.”
+</p>
+
+<p>
+(a) The FSF’s Back-Cover Text is: “You have the freedom to copy and
+modify this GNU manual.”
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-h:write-sequence-notes-or-folgezettel" class="outline-2">
+<h2 id="h:write-sequence-notes-or-folgezettel"><span class="section-number-2">2.</span> Write sequence notes or &ldquo;folgezettel&rdquo;</h2>
+<div class="outline-text-2" id="text-h:write-sequence-notes-or-folgezettel">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+The <code>denote-sequence</code> package provides an optional extension to
+<code>denote</code> for naming files with a sequencing scheme. The idea is to
+establish hiearchical relationships between files, such that the
+contents of one logically follow or complement those of another.
+</p>
+
+<p>
+Denote defines an optional file name component called the <code>SIGNATURE</code>
+(read about the file-naming scheme in the Denote manual). This is a
+free form field that users can fill in with whatever text they want,
+such as to have a video split up into <code>part1</code> and <code>part2</code>, or to set
+some kind of priority like <code>a</code> and <code>b</code>, or even to have a special tag
+that stands out from the rest of the keywords.
+</p>
+
+<p>
+A more specialised use-case of the <code>SIGNATURE</code> is to define a
+hierarchical relationship between notes, such that the thoughts they
+expound on form sequences. For example, an article about the Labrador
+Retriever dog breed is a continuation of a thought process that
+extends something about dog breeds in general which, in turn, is a
+topic that belongs to the wider theme of dogs. A sequence, then, is a
+representation of such relationships. A note with a <code>SIGNATURE</code> of
+<code>1=1</code> (the <code>=</code> is the field separator of signatures, per the Denote
+file-naming scheme) is thus the first child of note <code>1</code> and the
+sibling of note <code>1=2</code>. In this regard, something unrelated to dogs
+will be its own parent, such as <code>2</code>, and so on.
+</p>
+
+<p>
+All the relevant functions we provide take care to automatically use
+the right number for a given sequence (<a href="#h:create-parent-child-or-sibling-sequence-notes">Create parent, child, or sibling sequence notes</a>).
+If, for example, we create a new child of parent <code>1=1</code>, we make sure
+that it is the largest number among any existing children, so if
+<code>1=1=1</code> already exists we use <code>1=1=2</code>, and the like.
+</p>
+
+<p>
+The <code>denote-sequence.el</code> optional extension is not necessary for such
+a workflow. Users can always define whatever <code>SIGNATURE</code> they want
+manually. The purpose of this extension is to streamline this work.
+</p>
+</div>
+<div id="outline-container-h:select-a-sequencing-scheme-for-denote-sequence-scheme" class="outline-3">
+<h3 id="h:select-a-sequencing-scheme-for-denote-sequence-scheme"><span class="section-number-3">2.1.</span> Select a sequencing scheme for <code>denote-sequence-scheme</code></h3>
+<div class="outline-text-3" id="text-h:select-a-sequencing-scheme-for-denote-sequence-scheme">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-sequence-scheme</code> allows users to select either
+the <code>numeric</code> scheme, which is like <code>1=1=2</code> or the <code>alphanumeric</code>
+scheme, which is <code>1a2</code> for the same sequence (<a href="#h:convert-from-one-sequencing-scheme-to-another">Convert from one sequencing scheme to another</a>):
+</p>
+
+<dl class="org-dl">
+<dt>Numeric sequencing scheme</dt><dd>A numeric sequence consists only of
+numbers. The level of depth is derived from the number of fields in
+the sequence, separated by the equals sign. Thus, the sequence
+<code>1=1=2</code> consists of three levels of depth. For deeper sequences, the
+numeric scheme will get longer, which some users may consider
+unwieldy. The upside, however, is that is easier to reason about
+larger numbers, such as <code>1=100=2=50</code>.</dd>
+
+<dt>Alphanumeric sequencing scheme</dt><dd>An alphanumeric sequence combines
+numbers and letters. The level of depth is undestand by the
+alteration from numbers to letters and vice versa. As such, the
+sequence <code>1a2</code> has three levels of depth. This scheme is more
+compact, which users may like but can be harder to reason about
+large numbers, such as <code>1zzzv2zx</code> corresponding to the numeric
+<code>1=100=2=50</code> (this is because the number 26 is z, 27 is za, 52 is
+zz, and so on). In practice, large numbers may not be a problem,
+though this is something to keep in mind.</dd>
+</dl>
+</div>
+<div id="outline-container-h:convert-from-one-sequencing-scheme-to-another" class="outline-4">
+<h4 id="h:convert-from-one-sequencing-scheme-to-another"><span class="section-number-4">2.1.1.</span> Convert from one sequencing scheme to another</h4>
+<div class="outline-text-4" id="text-h:convert-from-one-sequencing-scheme-to-another">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+The decision on the desired <code>denote-sequence-scheme</code> wil affect new
+notes long-term (<a href="#h:select-a-sequencing-scheme-for-denote-sequence-scheme">Select a sequencing scheme for <code>denote-sequence-scheme</code></a>).
+It thus is important to think through your needs and proceed accordingly.
+</p>
+
+<p>
+Still, one cannot be sure which scheme they prefer until they
+experiment with it. It then is inconvenient to manually revert to the
+alternative scheme. To this end, we provide the command
+<code>denote-sequence-convert</code>. It convers one or more files from their
+current scheme to its counterpart.
+</p>
+
+<p>
+When called from inside a Denote file, it converts that file. When
+called from a Dired buffer, it operates on the marked files. If no
+files are marked, it works with the Dired file at point.
+</p>
+
+<p>
+Note that <code>denote-sequence-convert</code> DOES NOT REPARENT OR ANYHOW CHECK
+THE RESULTING SEQUENCES FOR DUPLICATES (<a href="#h:re-parent-a-file-to-extend-a-given-sequence">Re-parent a file to extend a given sequence</a>).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:create-parent-child-or-sibling-sequence-notes" class="outline-3">
+<h3 id="h:create-parent-child-or-sibling-sequence-notes"><span class="section-number-3">2.2.</span> Create parent, child, or sibling sequence notes</h3>
+<div class="outline-text-3" id="text-h:create-parent-child-or-sibling-sequence-notes">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+[ In the interest of simplicity, here we provide examples using the
+  <code>numeric</code> value of <code>denote-sequence-scheme</code>, though the <code>alphanumeric</code>
+  will work as well (<a href="#h:select-a-sequencing-scheme-for-denote-sequence-scheme">Select a sequencing scheme for <code>denote-sequence-scheme</code></a>). ]
+</p>
+
+<p>
+A new sequence note can be of the type <code>parent</code>, <code>child</code>, and
+<code>sibling</code>. For the convenience of the user, we provide commands to
+create such &ldquo;sequence notes&rdquo;, link only between them (as opposed to a
+link to any other file with the Denote file-naming scheme (read the
+Denote manual about link-related commands)), and re-parent them on
+demand.
+</p>
+
+<p>
+Concretely, we provide the following commands:
+</p>
+
+<dl class="org-dl">
+<dt><code>denote-sequence</code></dt><dd>The most general way to create a new sequence
+note. It prompts for a type of sequence among <code>parent</code>, <code>child</code>, and
+<code>sibling</code> and the rest of the work accordingly. If the new sequence
+is not a parent, it thus prompts for an existing file to extend
+from. The rest of the interaction is that of all the usual Denote
+commands, such as to prompt for a title and keywords (read the
+Denote manual about the main points of entry).</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-parent</code></dt><dd>This is a convenience wrapper of
+<code>denote-sequence</code> which directly creates a parent sequence.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-child</code></dt><dd>This is a convenience wrapper of
+<code>denote-sequence</code> which directly creates a child of an existing
+sequence, prompting for it using minibuffer completion.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-child-of-current</code></dt><dd>This will create a new
+child of the current file&rsquo;s sequence. If the current file does not
+have such a sequence, then the command behaves the same as the
+aforementioned <code>denote-sequence-new-child</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-sibling</code></dt><dd>This is a convenience wrapper of
+<code>denote-sequence</code> which directly creates a sibling of an existing
+sequence, prompting for it using minibuffer completion.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>denote-sequence-new-sibling-of-current</code></dt><dd>This will create a new
+sibling of the current file&rsquo;s sequence. If the current file does not
+have such a sequence, then the command behaves the same as the
+aforementioned <code>denote-sequence-new-sibling</code>.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-h:find-a-relative-of-the-current-sequence" class="outline-3">
+<h3 id="h:find-a-relative-of-the-current-sequence"><span class="section-number-3">2.3.</span> Find a relative of the current sequence</h3>
+<div class="outline-text-3" id="text-h:find-a-relative-of-the-current-sequence">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+While reading a file with a sequence, you may want to find what its
+relatives are about. To this end, the command <code>denote-sequence-find</code>
+prompts for a type among <code>parent</code>, <code>sibling</code>, <code>child</code>, and then asks
+to select a file among those matching the given type. It then visits
+the file.
+</p>
+
+<p>
+Instead of selecting a single file, the command <code>denote-sequence-find-dired</code>
+puts all the matching files in a bespoke Dired buffer (<a href="#h:show-all-or-some-sequences-in-a-dired-buffer">Show all or some sequences in a Dired buffer</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:link-only-to-sequences" class="outline-3">
+<h3 id="h:link-only-to-sequences"><span class="section-number-3">2.4.</span> Link only to sequences</h3>
+<div class="outline-text-3" id="text-h:link-only-to-sequences">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+The command <code>denote-sequence-link</code> is a variant of the standard
+<code>denote-link</code> command which limits the list of files only to those
+which contain a sequence (read the Denote manual about link-related
+commands). Consider it a convenience to link to sequence notes more
+quickly. It is by no means necessary though, as the regular linking
+commands will work as expected with any Denote file, including those
+which contain a sequence as their file name <code>SIGNATURE</code> (<a href="#h:write-sequence-notes-or-folgezettel">Write sequence notes or &ldquo;folgezettel&rdquo;</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:re-parent-a-file-to-extend-a-given-sequence" class="outline-3">
+<h3 id="h:re-parent-a-file-to-extend-a-given-sequence"><span class="section-number-3">2.5.</span> Re-parent a file to extend a given sequence</h3>
+<div class="outline-text-3" id="text-h:re-parent-a-file-to-extend-a-given-sequence">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+The command <code>denote-sequence-reparent</code> can be used from inside a file
+or for the file-at-point in Dired to make that file a child of a given
+sequence. It does so by prompting for the target file using minibuffer
+completion. Files available at this prompt are only those which
+contain a sequence as their file name <code>SIGNATURE</code> (<a href="#h:write-sequence-notes-or-folgezettel">Write sequence notes or &ldquo;folgezettel&rdquo;</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:show-all-or-some-sequences-in-a-dired-buffer" class="outline-3">
+<h3 id="h:show-all-or-some-sequences-in-a-dired-buffer"><span class="section-number-3">2.6.</span> Show all or some sequences in a Dired buffer</h3>
+<div class="outline-text-3" id="text-h:show-all-or-some-sequences-in-a-dired-buffer">
+<p>
+[ The <code>denote-sequence.el</code> is part of 0.1.0-dev. ]
+</p>
+
+<p>
+[ In the interest of simplicity, here we provide examples using the
+  <code>numeric</code> value of <code>denote-sequence-scheme</code>, though the <code>alphanumeric</code>
+  will work as well (<a href="#h:select-a-sequencing-scheme-for-denote-sequence-scheme">Select a sequencing scheme for <code>denote-sequence-scheme</code></a>). ]
+</p>
+
+<p>
+The command <code>denote-sequence-dired</code> produces a bespoke and fully
+fledged Dired buffers that contains all the sequences in their order
+(as opposed to a regular Dired which sorts files using the <code>ls</code>
+flags).
+</p>
+
+<p>
+With an optional <code>C-u</code> prefix argument, this command prompts for a
+prefix to only show sequences that include it (e.g. only show notes
+with <code>1=1</code>, like <code>1=1=1</code> and <code>1=1=2</code> but not <code>1=2</code>).
+</p>
+
+<p>
+With an optional double prefix argument of <code>C-u C-u</code>, this command
+will prompt for the prefix as well as the level of depth to limit the
+results to. Here &ldquo;depth&rdquo; means how deep to go in a sequence where, for
+example, <code>1=1=2</code> is three levels of depth. It is possible to use an
+empty string at the prefix prompt to not limit the results to any
+prefix.
+</p>
+
+<p>
+A more specialised alternative for only relatives of a given sequence
+is also available (<a href="#h:find-a-relative-of-the-current-sequence">Find a relative of the current sequence</a>).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:installation" class="outline-2">
+<h2 id="h:installation"><span class="section-number-2">3.</span> Installation</h2>
+<div class="outline-text-2" id="text-h:installation">
+</div>
+<div id="outline-container-h:gnu-elpa-package" class="outline-3">
+<h3 id="h:gnu-elpa-package"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:gnu-elpa-package">
+<p>
+The package is available as <code>denote-sequence</code>.  Simply do:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+
+<p>
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the GNU-devel ELPA archive.  Read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:manual-installation" class="outline-3">
+<h3 id="h:manual-installation"><span class="section-number-3">3.2.</span> Manual installation</h3>
+<div class="outline-text-3" id="text-h:manual-installation">
+<p>
+Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
+following commands in a shell prompt:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">cd ~/.emacs.d
+
+# Create a directory for manually-installed packages
+mkdir manual-packages
+
+# Go to the new directory
+cd manual-packages
+
+# Clone this repo, naming it "denote-sequence"
+git clone https://github.com/protesilaos/denote-sequence denote-sequence
+</pre>
+</div>
+
+<p>
+Finally, in your <code>init.el</code> (or equivalent) evaluate this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+(add-to-list 'load-path "~/.emacs.d/manual-packages/denote-sequence")
+</pre>
+</div>
+
+<p>
+Everything is in place to set up the package.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:sample-configuration" class="outline-2">
+<h2 id="h:sample-configuration"><span class="section-number-2">4.</span> Sample configuration</h2>
+<div class="outline-text-2" id="text-h:sample-configuration">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package denote-sequence
+  :ensure t
+  :bind
+  ( :map global-map
+    ;; Here we make "C-c n s" a prefix for all "[n]otes with [s]equence".
+    ;; This is just for demonstration purposes: use the key bindings
+    ;; that work for you.  Also check the commands:
+    ;;
+    ;; - `denote-sequence-new-parent'
+    ;; - `denote-sequence-new-sibling'
+    ;; - `denote-sequence-new-child'
+    ;; - `denote-sequence-new-child-of-current'
+    ;; - `denote-sequence-new-sibling-of-current'
+    ("C-c n s s" . denote-sequence)
+    ("C-c n s f" . denote-sequence-find)
+    ("C-c n s l" . denote-sequence-link)
+    ("C-c n s d" . denote-sequence-dired)
+    ("C-c n s r" . denote-sequence-reparent)
+    ("C-c n s c" . denote-sequence-convert))
+  :config
+  ;; The default sequence scheme is `numeric'.
+  (setq denote-sequence-scheme 'alphanumeric))
+  
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:acknowledgements" class="outline-2">
+<h2 id="h:acknowledgements"><span class="section-number-2">5.</span> Acknowledgements</h2>
+<div class="outline-text-2" id="text-h:acknowledgements">
+<p>
+Denote Sequence is meant to be a collective effort.  Every bit of help matters.
+</p>
+
+<dl class="org-dl">
+<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+
+<dt>Contributions to code or the manual</dt><dd>Claudio Migliorelli, Kierin Bell.</dd>
+
+<dt>Ideas and/or user feedback</dt><dd>Mirko Hernandez.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-h:gnu-free-documentation-license" class="outline-2">
+<h2 id="h:gnu-free-documentation-license"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
+<div class="outline-text-2" id="text-h:gnu-free-documentation-license">
+<pre>
+
+                GNU Free Documentation License
+                 Version 1.3, 3 November 2008
+
+
+ Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+0. PREAMBLE
+
+The purpose of this License is to make a manual, textbook, or other
+functional and useful document "free" in the sense of freedom: to
+assure everyone the effective freedom to copy and redistribute it,
+with or without modifying it, either commercially or noncommercially.
+Secondarily, this License preserves for the author and publisher a way
+to get credit for their work, while not being considered responsible
+for modifications made by others.
+
+This License is a kind of "copyleft", which means that derivative
+works of the document must themselves be free in the same sense.  It
+complements the GNU General Public License, which is a copyleft
+license designed for free software.
+
+We have designed this License in order to use it for manuals for free
+software, because free software needs free documentation: a free
+program should come with manuals providing the same freedoms that the
+software does.  But this License is not limited to software manuals;
+it can be used for any textual work, regardless of subject matter or
+whether it is published as a printed book.  We recommend this License
+principally for works whose purpose is instruction or reference.
+
+
+1. APPLICABILITY AND DEFINITIONS
+
+This License applies to any manual or other work, in any medium, that
+contains a notice placed by the copyright holder saying it can be
+distributed under the terms of this License.  Such a notice grants a
+world-wide, royalty-free license, unlimited in duration, to use that
+work under the conditions stated herein.  The "Document", below,
+refers to any such manual or work.  Any member of the public is a
+licensee, and is addressed as "you".  You accept the license if you
+copy, modify or distribute the work in a way requiring permission
+under copyright law.
+
+A "Modified Version" of the Document means any work containing the
+Document or a portion of it, either copied verbatim, or with
+modifications and/or translated into another language.
+
+A "Secondary Section" is a named appendix or a front-matter section of
+the Document that deals exclusively with the relationship of the
+publishers or authors of the Document to the Document's overall
+subject (or to related matters) and contains nothing that could fall
+directly within that overall subject.  (Thus, if the Document is in
+part a textbook of mathematics, a Secondary Section may not explain
+any mathematics.)  The relationship could be a matter of historical
+connection with the subject or with related matters, or of legal,
+commercial, philosophical, ethical or political position regarding
+them.
+
+The "Invariant Sections" are certain Secondary Sections whose titles
+are designated, as being those of Invariant Sections, in the notice
+that says that the Document is released under this License.  If a
+section does not fit the above definition of Secondary then it is not
+allowed to be designated as Invariant.  The Document may contain zero
+Invariant Sections.  If the Document does not identify any Invariant
+Sections then there are none.
+
+The "Cover Texts" are certain short passages of text that are listed,
+as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+the Document is released under this License.  A Front-Cover Text may
+be at most 5 words, and a Back-Cover Text may be at most 25 words.
+
+A "Transparent" copy of the Document means a machine-readable copy,
+represented in a format whose specification is available to the
+general public, that is suitable for revising the document
+straightforwardly with generic text editors or (for images composed of
+pixels) generic paint programs or (for drawings) some widely available
+drawing editor, and that is suitable for input to text formatters or
+for automatic translation to a variety of formats suitable for input
+to text formatters.  A copy made in an otherwise Transparent file
+format whose markup, or absence of markup, has been arranged to thwart
+or discourage subsequent modification by readers is not Transparent.
+An image format is not Transparent if used for any substantial amount
+of text.  A copy that is not "Transparent" is called "Opaque".
+
+Examples of suitable formats for Transparent copies include plain
+ASCII without markup, Texinfo input format, LaTeX input format, SGML
+or XML using a publicly available DTD, and standard-conforming simple
+HTML, PostScript or PDF designed for human modification.  Examples of
+transparent image formats include PNG, XCF and JPG.  Opaque formats
+include proprietary formats that can be read and edited only by
+proprietary word processors, SGML or XML for which the DTD and/or
+processing tools are not generally available, and the
+machine-generated HTML, PostScript or PDF produced by some word
+processors for output purposes only.
+
+The "Title Page" means, for a printed book, the title page itself,
+plus such following pages as are needed to hold, legibly, the material
+this License requires to appear in the title page.  For works in
+formats which do not have any title page as such, "Title Page" means
+the text near the most prominent appearance of the work's title,
+preceding the beginning of the body of the text.
+
+The "publisher" means any person or entity that distributes copies of
+the Document to the public.
+
+A section "Entitled XYZ" means a named subunit of the Document whose
+title either is precisely XYZ or contains XYZ in parentheses following
+text that translates XYZ in another language.  (Here XYZ stands for a
+specific section name mentioned below, such as "Acknowledgements",
+"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
+of such a section when you modify the Document means that it remains a
+section "Entitled XYZ" according to this definition.
+
+The Document may include Warranty Disclaimers next to the notice which
+states that this License applies to the Document.  These Warranty
+Disclaimers are considered to be included by reference in this
+License, but only as regards disclaiming warranties: any other
+implication that these Warranty Disclaimers may have is void and has
+no effect on the meaning of this License.
+
+2. VERBATIM COPYING
+
+You may copy and distribute the Document in any medium, either
+commercially or noncommercially, provided that this License, the
+copyright notices, and the license notice saying this License applies
+to the Document are reproduced in all copies, and that you add no
+other conditions whatsoever to those of this License.  You may not use
+technical measures to obstruct or control the reading or further
+copying of the copies you make or distribute.  However, you may accept
+compensation in exchange for copies.  If you distribute a large enough
+number of copies you must also follow the conditions in section 3.
+
+You may also lend copies, under the same conditions stated above, and
+you may publicly display copies.
+
+
+3. COPYING IN QUANTITY
+
+If you publish printed copies (or copies in media that commonly have
+printed covers) of the Document, numbering more than 100, and the
+Document's license notice requires Cover Texts, you must enclose the
+copies in covers that carry, clearly and legibly, all these Cover
+Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+the back cover.  Both covers must also clearly and legibly identify
+you as the publisher of these copies.  The front cover must present
+the full title with all words of the title equally prominent and
+visible.  You may add other material on the covers in addition.
+Copying with changes limited to the covers, as long as they preserve
+the title of the Document and satisfy these conditions, can be treated
+as verbatim copying in other respects.
+
+If the required texts for either cover are too voluminous to fit
+legibly, you should put the first ones listed (as many as fit
+reasonably) on the actual cover, and continue the rest onto adjacent
+pages.
+
+If you publish or distribute Opaque copies of the Document numbering
+more than 100, you must either include a machine-readable Transparent
+copy along with each Opaque copy, or state in or with each Opaque copy
+a computer-network location from which the general network-using
+public has access to download using public-standard network protocols
+a complete Transparent copy of the Document, free of added material.
+If you use the latter option, you must take reasonably prudent steps,
+when you begin distribution of Opaque copies in quantity, to ensure
+that this Transparent copy will remain thus accessible at the stated
+location until at least one year after the last time you distribute an
+Opaque copy (directly or through your agents or retailers) of that
+edition to the public.
+
+It is requested, but not required, that you contact the authors of the
+Document well before redistributing any large number of copies, to
+give them a chance to provide you with an updated version of the
+Document.
+
+
+4. MODIFICATIONS
+
+You may copy and distribute a Modified Version of the Document under
+the conditions of sections 2 and 3 above, provided that you release
+the Modified Version under precisely this License, with the Modified
+Version filling the role of the Document, thus licensing distribution
+and modification of the Modified Version to whoever possesses a copy
+of it.  In addition, you must do these things in the Modified Version:
+
+A. Use in the Title Page (and on the covers, if any) a title distinct
+   from that of the Document, and from those of previous versions
+   (which should, if there were any, be listed in the History section
+   of the Document).  You may use the same title as a previous version
+   if the original publisher of that version gives permission.
+B. List on the Title Page, as authors, one or more persons or entities
+   responsible for authorship of the modifications in the Modified
+   Version, together with at least five of the principal authors of the
+   Document (all of its principal authors, if it has fewer than five),
+   unless they release you from this requirement.
+C. State on the Title page the name of the publisher of the
+   Modified Version, as the publisher.
+D. Preserve all the copyright notices of the Document.
+E. Add an appropriate copyright notice for your modifications
+   adjacent to the other copyright notices.
+F. Include, immediately after the copyright notices, a license notice
+   giving the public permission to use the Modified Version under the
+   terms of this License, in the form shown in the Addendum below.
+G. Preserve in that license notice the full lists of Invariant Sections
+   and required Cover Texts given in the Document's license notice.
+H. Include an unaltered copy of this License.
+I. Preserve the section Entitled "History", Preserve its Title, and add
+   to it an item stating at least the title, year, new authors, and
+   publisher of the Modified Version as given on the Title Page.  If
+   there is no section Entitled "History" in the Document, create one
+   stating the title, year, authors, and publisher of the Document as
+   given on its Title Page, then add an item describing the Modified
+   Version as stated in the previous sentence.
+J. Preserve the network location, if any, given in the Document for
+   public access to a Transparent copy of the Document, and likewise
+   the network locations given in the Document for previous versions
+   it was based on.  These may be placed in the "History" section.
+   You may omit a network location for a work that was published at
+   least four years before the Document itself, or if the original
+   publisher of the version it refers to gives permission.
+K. For any section Entitled "Acknowledgements" or "Dedications",
+   Preserve the Title of the section, and preserve in the section all
+   the substance and tone of each of the contributor acknowledgements
+   and/or dedications given therein.
+L. Preserve all the Invariant Sections of the Document,
+   unaltered in their text and in their titles.  Section numbers
+   or the equivalent are not considered part of the section titles.
+M. Delete any section Entitled "Endorsements".  Such a section
+   may not be included in the Modified Version.
+N. Do not retitle any existing section to be Entitled "Endorsements"
+   or to conflict in title with any Invariant Section.
+O. Preserve any Warranty Disclaimers.
+
+If the Modified Version includes new front-matter sections or
+appendices that qualify as Secondary Sections and contain no material
+copied from the Document, you may at your option designate some or all
+of these sections as invariant.  To do this, add their titles to the
+list of Invariant Sections in the Modified Version's license notice.
+These titles must be distinct from any other section titles.
+
+You may add a section Entitled "Endorsements", provided it contains
+nothing but endorsements of your Modified Version by various
+parties--for example, statements of peer review or that the text has
+been approved by an organization as the authoritative definition of a
+standard.
+
+You may add a passage of up to five words as a Front-Cover Text, and a
+passage of up to 25 words as a Back-Cover Text, to the end of the list
+of Cover Texts in the Modified Version.  Only one passage of
+Front-Cover Text and one of Back-Cover Text may be added by (or
+through arrangements made by) any one entity.  If the Document already
+includes a cover text for the same cover, previously added by you or
+by arrangement made by the same entity you are acting on behalf of,
+you may not add another; but you may replace the old one, on explicit
+permission from the previous publisher that added the old one.
+
+The author(s) and publisher(s) of the Document do not by this License
+give permission to use their names for publicity for or to assert or
+imply endorsement of any Modified Version.
+
+
+5. COMBINING DOCUMENTS
+
+You may combine the Document with other documents released under this
+License, under the terms defined in section 4 above for modified
+versions, provided that you include in the combination all of the
+Invariant Sections of all of the original documents, unmodified, and
+list them all as Invariant Sections of your combined work in its
+license notice, and that you preserve all their Warranty Disclaimers.
+
+The combined work need only contain one copy of this License, and
+multiple identical Invariant Sections may be replaced with a single
+copy.  If there are multiple Invariant Sections with the same name but
+different contents, make the title of each such section unique by
+adding at the end of it, in parentheses, the name of the original
+author or publisher of that section if known, or else a unique number.
+Make the same adjustment to the section titles in the list of
+Invariant Sections in the license notice of the combined work.
+
+In the combination, you must combine any sections Entitled "History"
+in the various original documents, forming one section Entitled
+"History"; likewise combine any sections Entitled "Acknowledgements",
+and any sections Entitled "Dedications".  You must delete all sections
+Entitled "Endorsements".
+
+
+6. COLLECTIONS OF DOCUMENTS
+
+You may make a collection consisting of the Document and other
+documents released under this License, and replace the individual
+copies of this License in the various documents with a single copy
+that is included in the collection, provided that you follow the rules
+of this License for verbatim copying of each of the documents in all
+other respects.
+
+You may extract a single document from such a collection, and
+distribute it individually under this License, provided you insert a
+copy of this License into the extracted document, and follow this
+License in all other respects regarding verbatim copying of that
+document.
+
+
+7. AGGREGATION WITH INDEPENDENT WORKS
+
+A compilation of the Document or its derivatives with other separate
+and independent documents or works, in or on a volume of a storage or
+distribution medium, is called an "aggregate" if the copyright
+resulting from the compilation is not used to limit the legal rights
+of the compilation's users beyond what the individual works permit.
+When the Document is included in an aggregate, this License does not
+apply to the other works in the aggregate which are not themselves
+derivative works of the Document.
+
+If the Cover Text requirement of section 3 is applicable to these
+copies of the Document, then if the Document is less than one half of
+the entire aggregate, the Document's Cover Texts may be placed on
+covers that bracket the Document within the aggregate, or the
+electronic equivalent of covers if the Document is in electronic form.
+Otherwise they must appear on printed covers that bracket the whole
+aggregate.
+
+
+8. TRANSLATION
+
+Translation is considered a kind of modification, so you may
+distribute translations of the Document under the terms of section 4.
+Replacing Invariant Sections with translations requires special
+permission from their copyright holders, but you may include
+translations of some or all Invariant Sections in addition to the
+original versions of these Invariant Sections.  You may include a
+translation of this License, and all the license notices in the
+Document, and any Warranty Disclaimers, provided that you also include
+the original English version of this License and the original versions
+of those notices and disclaimers.  In case of a disagreement between
+the translation and the original version of this License or a notice
+or disclaimer, the original version will prevail.
+
+If a section in the Document is Entitled "Acknowledgements",
+"Dedications", or "History", the requirement (section 4) to Preserve
+its Title (section 1) will typically require changing the actual
+title.
+
+
+9. TERMINATION
+
+You may not copy, modify, sublicense, or distribute the Document
+except as expressly provided under this License.  Any attempt
+otherwise to copy, modify, sublicense, or distribute it is void, and
+will automatically terminate your rights under this License.
+
+However, if you cease all violation of this License, then your license
+from a particular copyright holder is reinstated (a) provisionally,
+unless and until the copyright holder explicitly and finally
+terminates your license, and (b) permanently, if the copyright holder
+fails to notify you of the violation by some reasonable means prior to
+60 days after the cessation.
+
+Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.
+
+Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, receipt of a copy of some or all of the same material does
+not give you any rights to use it.
+
+
+10. FUTURE REVISIONS OF THIS LICENSE
+
+The Free Software Foundation may publish new, revised versions of the
+GNU Free Documentation License from time to time.  Such new versions
+will be similar in spirit to the present version, but may differ in
+detail to address new problems or concerns.  See
+https://www.gnu.org/licenses/.
+
+Each version of the License is given a distinguishing version number.
+If the Document specifies that a particular numbered version of this
+License "or any later version" applies to it, you have the option of
+following the terms and conditions either of that specified version or
+of any later version that has been published (not as a draft) by the
+Free Software Foundation.  If the Document does not specify a version
+number of this License, you may choose any version ever published (not
+as a draft) by the Free Software Foundation.  If the Document
+specifies that a proxy can decide which future versions of this
+License can be used, that proxy's public statement of acceptance of a
+version permanently authorizes you to choose that version for the
+Document.
+
+11. RELICENSING
+
+"Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+World Wide Web server that publishes copyrightable works and also
+provides prominent facilities for anybody to edit those works.  A
+public wiki that anybody can edit is an example of such a server.  A
+"Massive Multiauthor Collaboration" (or "MMC") contained in the site
+means any set of copyrightable works thus published on the MMC site.
+
+"CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+license published by Creative Commons Corporation, a not-for-profit
+corporation with a principal place of business in San Francisco,
+California, as well as future copyleft versions of that license
+published by that same organization.
+
+"Incorporate" means to publish or republish a Document, in whole or in
+part, as part of another Document.
+
+An MMC is "eligible for relicensing" if it is licensed under this
+License, and if all works that were first published under this License
+somewhere other than this MMC, and subsequently incorporated in whole or
+in part into the MMC, (1) had no cover texts or invariant sections, and
+(2) were thus incorporated prior to November 1, 2008.
+
+The operator of an MMC Site may republish an MMC contained in the site
+under CC-BY-SA on the same site at any time before August 1, 2009,
+provided the MMC is eligible for relicensing.
+
+
+ADDENDUM: How to use this License for your documents
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and
+license notices just after the title page:
+
+    Copyright (c)  YEAR  YOUR NAME.
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.3
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    A copy of the license is included in the section entitled "GNU
+    Free Documentation License".
+
+If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
+replace the "with...Texts." line with this:
+
+    with the Invariant Sections being LIST THEIR TITLES, with the
+    Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
+
+If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License,
+to permit their use in free software.
+</pre>
+
+<!--
+</div>
+</div>
+<div id="outline-container-h:indices" class="outline-2">
+<h2 id="h:indices"><span class="section-number-2">7.</span> Indices</h2>
+<div class="outline-text-2" id="text-h:indices">
+</div>
+<div id="outline-container-h:function-index" class="outline-3">
+<h3 id="h:function-index"><span class="section-number-3">7.1.</span> Function index</h3>
+<div class="outline-text-3" id="text-h:function-index">
+</div>
+</div>
+<div id="outline-container-h:variable-index" class="outline-3">
+<h3 id="h:variable-index"><span class="section-number-3">7.2.</span> Variable index</h3>
+<div class="outline-text-3" id="text-h:variable-index">
+</div>
+</div>
+<div id="outline-container-h:concept-index" class="outline-3">
+<h3 id="h:concept-index"><span class="section-number-3">7.3.</span> Concept index</h3>
+<div class="outline-text-3" id="text-h:concept-index">
+-->
+</div>
+</div>
+</div>
