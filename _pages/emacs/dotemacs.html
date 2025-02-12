@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-02-05 08:00:23 +0200 with a word
-count of 106686.</b>
+<b>Last revised and exported on 2025-02-12 08:30:32 +0200 with a word
+count of 107135.</b>
 </p>
 
 <p>
@@ -410,7 +410,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-02-05 08:00:23 +0200):
+(2025-02-12 08:30:32 +0200):
 </p>
 
 <div class="org-src-container">
@@ -500,7 +500,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org6989a6b">
+<pre class="example" id="org8d0efa6">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -580,7 +580,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org839c785">
+<pre class="example" id="org8366316">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -588,7 +588,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org765c1be">
+<pre class="example" id="org0ab3d67">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1508,7 +1508,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org4c60f76">
+<pre class="example" id="orgf960ce5">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4228,7 +4228,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org2ccd489">
+<pre class="example" id="org0e69f14">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7065,24 +7065,32 @@ popup frame. I did a video demonstrating this functionality: <a href="https://pr
 </p>
 
 <p>
-All we need here is the hooks that close the frame after the commands
-run succesfully. The commands I configure are for <code>org-capture</code> and
-<code>tmr</code>:
+The code I have also sets up the appropriate hooks so that after the
+command runs it deletes the popup frame. This way we do not end up
+with more frames than we need. Here is the sample of what it does:
+</p>
+
+<pre class="example" id="org8caeb14">
+(with-eval-after-load 'org-capture
+  (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
+
+(with-eval-after-load 'tmr
+  (add-hook 'tmr-timer-created-functions #'prot-window-delete-popup-frame))
+
+(with-eval-after-load 'prot-project
+  (add-hook 'prot-project-switch-hook #'prot-window-delete-popup-frame))
+</pre>
+
+<p>
+The commands I configure are for <code>org-capture</code> and <code>tmr</code> as well as my
+custom <code>prot-project-switch</code>:
 </p>
 
 <ul class="org-ul">
 <li><a href="#h:f8f06938-0dfe-45c3-b4cf-996d36cba82d">The <code>prot-emacs-org.el</code> Org capture templates (<code>org-capture</code>)</a></li>
 <li><a href="#h:6dce278e-86c7-4620-9271-d5af5499f0cc">The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</a></li>
+<li><a href="#h:7dcbcadf-8af6-487d-b864-e4ce56d69530">The <code>prot-emacs-git.el</code> section about <code>project.el</code></a></li>
 </ul>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(with-eval-after-load 'org-capture
-  (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
-
-(with-eval-after-load 'tmr
-  (add-hook 'tmr-timer-created-functions #'prot-window-delete-popup-frame))
-</pre>
-</div>
 
 <p>
 At my system level I also have keybindings bound to call the following
@@ -7090,14 +7098,15 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgf4aaf4f">
+<pre class="example" id="orga8df55c">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
-</pre>
 
-<pre class="example" id="org4549b67">
 # Same idea for the `tmr` command.
 emacsclient -e '(prot-window-popup-tmr)'
+
+# Same idea for the `prot-project-switch` command.
+emacsclient -e '(prot-window-popup-prot-project-switch)'
 </pre>
 </div>
 </div>
@@ -7111,7 +7120,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org0734210">
+<pre class="example" id="org4ba532c">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7267,7 +7276,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org58ba5a5">
+<pre class="example" id="org728b6f0">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7403,6 +7412,7 @@ and the other more basic functions I have defined for this purpose.
   :ensure nil
   :demand t
   :config
+  (setq split-window-preferred-direction 'horizontal) ; Emacs 31
   (setq window-combination-resize t)
   (setq even-window-sizes 'height-only)
   (setq window-sides-vertical nil)
@@ -8304,7 +8314,11 @@ cases, a combination of <code>vc</code> and the command-line will suffice
   ;; reason.
   (setq git-commit-style-convention-checks '(non-empty-second-line))
 
-  (setq magit-diff-refine-hunk t))
+  (setq magit-diff-refine-hunk t)
+
+  ;; Show icons for files in the Magit status and other buffers.
+  (with-eval-after-load 'magit
+    (setq magit-format-file-function #'magit-format-file-nerd-icons)))
 
 (use-package magit-repos
   :ensure nil ; part of `magit'
@@ -8826,7 +8840,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgb397c0d">
+<pre class="example" id="orgc4f7d97">
 (info "(org) Search Options")
 </pre>
 
@@ -8918,7 +8932,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org8bddc2a">
+<pre class="example" id="orgdfd7e08">
 (require 'ob-python)
 
 ;; OR
@@ -9765,7 +9779,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org358d41d">
+<pre class="example" id="orgcef563e">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10456,7 +10470,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org8a3962a">
+<pre class="example" id="org79fd853">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10468,7 +10482,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org97c091e">
+<pre class="example" id="orgb9b0aaf">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10534,7 +10548,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org214b6a3">
+<pre class="example" id="org4e19439">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10546,7 +10560,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5b7a02d">
+<pre class="example" id="orga07f522">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10568,7 +10582,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgb79cf36">
+<pre class="example" id="org4ead197">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10818,7 +10832,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org37a34d9">
+<pre class="example" id="orgc7b008e">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10830,7 +10844,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgfb05aa0">
+<pre class="example" id="org951953d">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -11954,7 +11968,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org7d9ed8f">
+<pre class="example" id="org3e6f8c9">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12051,7 +12065,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orge7e5d32">
+<pre class="example" id="org0e7aeb9">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12566,7 +12580,7 @@ not test it as much and do not try to make it perfect.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-abbrev.el --- Functions for use with abbrev-mode -*- lexical-binding: t -*-
 
-;; Copyright (C) 2024-2024  Protesilaos Stavrou
+;; Copyright (C) 2025-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -12653,7 +12667,7 @@ Use completion among previous entries, retrieving their data from
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-comment.el --- Extensions newcomment.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou
+;; Copyright (C) 2021-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -12815,7 +12829,7 @@ an alternative date format, as specified by
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-common.el --- Common functions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Protesilaos Stavrou
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -13245,7 +13259,7 @@ belong to the given subset of CONSEQUENCES.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-dired.el --- Extensions to dired.el for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Protesilaos Stavrou
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -13541,7 +13555,7 @@ Add this to `dired-mode-hook'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-elfeed.el --- Elfeed extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou
+;; Copyright (C) 2021-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -13733,7 +13747,7 @@ minibuffer with something like `exit-minibuffer'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-embark.el --- Custom Embark keymaps -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -13879,7 +13893,7 @@ minibuffer with something like `exit-minibuffer'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-eww.el --- Extensions for EWW -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou, Abhiseck Paira
+;; Copyright (C) 2021-2025  Protesilaos Stavrou, Abhiseck Paira
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;;         Abhiseck Paira &lt;abhiseckpaira@disroot.org&gt;
@@ -14551,7 +14565,7 @@ As a final step, save `prot-eww-visited-history' to a file (see
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-modeline.el --- Code for my custom mode line -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -15164,7 +15178,7 @@ Specific to the current window's mode line.")
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-notmuch.el --- Tweaks for my notmuch.el configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou
+;; Copyright (C) 2021-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -15447,7 +15461,7 @@ Add this to `notmuch-mua-send-hook'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-orderless.el --- Extensions for Orderless -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Protesilaos Stavrou
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -15515,7 +15529,7 @@ Add this to `notmuch-mua-send-hook'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-org.el --- Tweaks for my org-mode configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou
+;; Copyright (C) 2021-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16154,7 +16168,7 @@ from the heading text instead of a UUID."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-pair.el --- Insert character pair around symbol or region -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16330,7 +16344,7 @@ controlled by `delete-pair-blink-delay'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-prefix.el --- Prefix keymap for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16698,7 +16712,7 @@ controlled by `delete-pair-blink-delay'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-project.el --- Extensions for project.el -*- lexical-binding: t -*-
 
-;; Copyright (C) 2024-2024  Protesilaos Stavrou
+;; Copyright (C) 2025-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16755,6 +16769,9 @@ With optional COMMAND, run it in DIRECTORY."
   "Return a list of frame names."
   (mapcar #'car (make-frame-names-alist)))
 
+(defvar prot-project-switch-hook nil
+  "Normal hook called after `prot-project-switch'.")
+
 ;;;###autoload
 (defun prot-project-switch (directory)
   "Switch to project DIRECTORY.
@@ -16765,7 +16782,9 @@ the project in DIRECTORY using `project-dired'."
   (let ((name (file-name-nondirectory (directory-file-name directory))))
     (if (member name (prot-project--frame-names))
         (select-frame-by-name name)
-      (prot-project--switch directory 'project-dired))))
+      (prot-project--switch directory 'project-dired))
+    (run-hooks 'prot-project-switch-hook)
+    (setq this-command 'project-switch-project)))
 
 ;;;; Produce a VC root log for the project
 
@@ -16856,7 +16875,7 @@ is a string."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-scratch.el --- Scratch buffers for editable major mode of choice -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -16993,7 +17012,7 @@ for the given MAJOR-MODE, any text is appended to it."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-search.el --- Extensions to isearch, replace, grep for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Protesilaos Stavrou
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -17546,7 +17565,7 @@ and function as links to the context they reference."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-shell.el --- M-x shell extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -17897,7 +17916,7 @@ Add a bookmark handler for shell buffer and activate the
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-simple.el --- Common commands for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Protesilaos Stavrou
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -18857,7 +18876,7 @@ VARIANT is either `dark' or `light'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-spell.el --- Spelling-related extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021-2024  Protesilaos Stavrou
+;; Copyright (C) 2021-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -18970,7 +18989,7 @@ function.  Then you can control the buffer's specifics via
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-vertico.el --- Custom Vertico extras -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -19093,6 +19112,31 @@ Else do `vertico-exit'."
    (t
     (vertico-exit))))
 
+;; I want to keep `prot-window-define-with-popup-frame' as-is because
+;; it is useful for other users as well.  But I also wish to extend it
+;; to make Vertico use its buffer mode, if I am running Vertico.  So I
+;; do this with an advice even though the proper way would be to
+;; modify my macro directly.
+(defun prot-vertico-with-buffer-mode (&amp;rest args)
+  "Apply ARGS with `vertico-buffer-mode' enabled.
+Do so when `prot-emacs-completion-ui' is set to use Vertico.
+
+Add this function as an advice around another."
+  (when (eq prot-emacs-completion-ui 'vertico)
+    (unwind-protect
+        (progn
+          (let ((vertico-multiform-categories `((t ,@prot-vertico-multiform-maximal)))
+                (vertico-buffer-display-action '(display-buffer-full-frame)))
+            (vertico-buffer-mode 1)
+            (apply args)))
+      (vertico-buffer-mode -1))))
+
+(with-eval-after-load 'prot-window
+  (dolist (command '(prot-window-popup-org-capture
+                     prot-window-popup-tmr
+                     prot-window-popup-prot-project-switch))
+    (advice-add command :around #'prot-vertico-with-buffer-mode)))
+
 (provide 'prot-vertico)
 ;;; prot-vertico.el ends here
 </pre>
@@ -19105,7 +19149,7 @@ Else do `vertico-exit'."
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-window.el --- Display-buffer and window-related extensions for my dotemacs -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023-2024  Protesilaos Stavrou
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
 
 ;; Author: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 ;; URL: https://protesilaos.com/emacs/dotemacs
@@ -19307,9 +19351,12 @@ call NAME as a function."
 (defun prot-window-delete-popup-frame (&amp;rest _)
   "Kill selected selected frame if it has parameter `prot-window-popup-frame'.
 Use this function via a hook."
-  (when (frame-parameter nil 'prot-window-popup-frame)
-    (delete-frame)))
+  (dolist (frame (frame-list))
+    (when (frame-parameter frame 'prot-window-popup-frame)
+      (delete-frame frame))))
 
+;; NOTE 2025-02-11: Also see `prot-vertico-with-buffer-mode', which
+;; extends this to use a full-frame buffer for Vertico.
 (defmacro prot-window-define-with-popup-frame (command)
   "Define function which calls COMMAND in a new frame.
 Make the new frame have the `prot-window-popup-frame' parameter."
@@ -19317,7 +19364,9 @@ Make the new frame have the `prot-window-popup-frame' parameter."
      ,(format "Run `%s' in a popup frame with `prot-window-popup-frame' parameter.
 Also see `prot-window-delete-popup-frame'." command)
      (interactive)
-     (let ((frame (make-frame '((prot-window-popup-frame . t)))))
+     (let ((frame (make-frame '((prot-window-popup-frame . t)
+                                (explicit-name . t)
+                                (name . "prot-window-popup")))))
        (select-frame frame)
        (switch-to-buffer " prot-window-hidden-buffer-for-popup-frame")
        (condition-case nil
@@ -19326,16 +19375,30 @@ Also see `prot-window-delete-popup-frame'." command)
           (delete-frame frame))))))
 
 (declare-function org-capture "org-capture" (&amp;optional goto keys))
-(defvar org-capture-after-finalize-hook)
+(declare-function tmr "tmr" (time &amp;optional description acknowledgep))
+(declare-function prot-project-switch "prot-project" (directory))
 
 ;;;###autoload (autoload 'prot-window-popup-org-capture "prot-window")
-(prot-window-define-with-popup-frame org-capture)
-
-(declare-function tmr "tmr" (time &amp;optional description acknowledgep))
-(defvar tmr-timer-created-functions)
+(prot-window-define-with-popup-frame org-capture) ; defines command `prot-window-popup-org-capture'
 
 ;;;###autoload (autoload 'prot-window-popup-tmr "prot-window")
-(prot-window-define-with-popup-frame tmr)
+(prot-window-define-with-popup-frame tmr)  ; defines command `prot-window-popup-tmr'
+
+;;;###autoload (autoload 'prot-window-popup-tmr "prot-window")
+(prot-window-define-with-popup-frame prot-project-switch)  ; defines command `prot-window-popup-prot-project-switch'
+
+(defun prot-window-set-delete-popup-hook (feature hook)
+  "Set up `prot-window-delete-popup-frame' for FEATURE with HOOK."
+  (with-eval-after-load feature
+    (add-hook hook #'prot-window-delete-popup-frame)))
+
+(defvar org-capture-after-finalize-hook)
+(defvar tmr-timer-created-functions)
+(defvar prot-project-switch-hook)
+
+(prot-window-set-delete-popup-hook 'org-capture 'org-capture-after-finalize-hook)
+(prot-window-set-delete-popup-hook 'tmr 'tmr-timer-created-functions)
+(prot-window-set-delete-popup-hook 'prot-project 'prot-project-switch-hook)
 
 (provide 'prot-window)
 ;;; prot-window.el ends here
@@ -19458,7 +19521,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org3f2bb39">
+<pre class="example" id="org7c7208f">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19490,7 +19553,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgc1ecd2f">
+<pre class="example" id="org2a2659b">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
