@@ -449,17 +449,14 @@ piece of functionality does.
 
 ## Aporetic
 
-[ _Aporetic_ is the successor to my _Iosevka Comfy_, mainly because
-  "Iosevka" is a reserved name, but also to simplify the overall
-  project: <https://github.com/protesilaos/iosevka-comfy>. ]
-
 This is not an "Emacs package" per se though I use it full time in my
 Emacs setup (it complements my work on Emacs themes and `fontaine`, for
 example).
 
 Customised build of the Iosevka typeface, with a consistent rounded
-style and overrides for almost all individual glyphs in both roman
-(upright) and italic (slanted) variants.
+style and overrides for almost all individual glyphs in both upright
+(roman) and slanted (italic) variants. This is the successor to my
+now-discontinued "Iosevka Comfy" fonts.
 
 + Git repository: <https://github.com/protesilaos/aporetic>.
 + Sample pictures: <https://protesilaos.com/emacs/aporetic-fonts-pictures>
@@ -467,9 +464,10 @@ style and overrides for almost all individual glyphs in both roman
 
 ## Iosevka Comfy
 
-[ As of 2025-02-04, the Iosevka Comfy project is discontinued. The
-  main reason is that "Iosevka" is a reserved name. See my Aporetic
-  fonts instead. ]
+[ As of 2025-02-04, the Iosevka Comfy project is discontinued:
+  <https://protesilaos.com/codelog/2025-02-04-aporetic-fonts-1-0-0/>.
+  The main reason is that "Iosevka" is a reserved name. See my
+  Aporetic fonts instead. ]
 
 This is not an "Emacs package" per se though I use it full time in my
 Emacs setup (it complements my work on Emacs themes and `fontaine`, for
