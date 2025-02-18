@@ -67,6 +67,8 @@ such as videos.  Naming files in a consistent way makes their
 filtering and retrieval considerably easier.  Denote provides relevant
 facilities to rename files, regardless of file type.
 
+[ Further down on this list I include more of my Denote-related packages. ]
+
 + Package name (GNU ELPA): `denote`
 + Official manual: <https://protesilaos.com/emacs/denote>
 + Change log: <https://protesilaos.com/emacs/denote-changelog>
@@ -76,51 +78,6 @@ facilities to rename files, regardless of file type.
 + Video demo: <https://protesilaos.com/codelog/2022-06-18-denote-demo/>
 + Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
   Note Only The Epiphenomenal.
-
-## Consult-Denote
-
-Glue code to integrate my `denote` package with Daniel Mendler's
-`consult`. The idea is to enhance minibuffer interactions, such as by
-providing a preview of the file-to-linked/opened and by adding more
-sources to the `consult-buffer` command.
-
-+ Package name (GNU ELPA): `consult-denote`
-+ Official manual: <https://protesilaos.com/emacs/consult-denote>
-+ Change log: <https://protesilaos.com/emacs/consult-denote-changelog>
-+ Git repository: <https://github.com/protesilaos/consult-denote>
-+ Backronym: Consult-Orchestrated Navigation and Selection of
-  Unambiguous Targets...denote.
-
-## Denote Sequence (Sequence notes or Folgezettel with Denote)
-
-The `denote-sequence` package provides an optional extension to
-~denote~ for naming files with a sequencing scheme. The idea is to
-establish hiearchical relationships between files, such that the
-contents of one logically follow or complement those of another.
-
-+ Package name (GNU ELPA): `denote-sequence` (⚠️ Not available yet)
-+ Official manual: <https://protesilaos.com/emacs/denote-sequence>
-+ Git repository: <https://github.com/protesilaos/denote-sequence>
-+ Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
-  Notwithstanding Curation Efforts.
-
-## Theme buffet
-
-The `theme-buffet` package arranges to automatically change themes
-during specific times of the day or at fixed intervals. The collection
-of themes is customisable, with the default options covering the
-built-in Emacs themes as well as my `modus-themes` and `ef-themes`.
-
-Bruno Boal is the lead developer and I am a co-maintainer.
-
-+ Package name (GNU ELPA): `theme-buffet`
-+ Git repo on SourceHut: <https://git.sr.ht/~bboal/theme-buffet>
-  - Mirrors:
-    + GitHub: <https://github.com/BBoal/theme-buffet>
-    + Codeberg: <https://codeberg.org/BBoal/theme-buffet>
-+ Mailing list: <https://lists.sr.ht/~bboal/general-issues>
-+ Backronym: Themes Harmoniously Exchanged Mid Evening Beget
-  Understandable Feelings of Fascination, Excitement, and Thrill.
 
 ## Beframe
 
@@ -423,6 +380,52 @@ of packages.
 + Backronym: Standard Themes Are Not Derivatives but the
   Affectionately Reimagined Default ... themes.
 
+
+## Consult-Denote
+
+Glue code to integrate my `denote` package with Daniel Mendler's
+`consult`. The idea is to enhance minibuffer interactions, such as by
+providing a preview of the file-to-linked/opened and by adding more
+sources to the `consult-buffer` command.
+
++ Package name (GNU ELPA): `consult-denote`
++ Official manual: <https://protesilaos.com/emacs/consult-denote>
++ Change log: <https://protesilaos.com/emacs/consult-denote-changelog>
++ Git repository: <https://github.com/protesilaos/consult-denote>
++ Backronym: Consult-Orchestrated Navigation and Selection of
+  Unambiguous Targets...denote.
+
+## Denote Org (extras for integrating Denote with Org)
+
+The `denote-org` package contains extra features that better integrate
+Denote with Org mode. These used to be available as part of the main
+`denote` package in a file called `denote-org-extras.el`, but now live
+in this standalone package to main things easier to maintain and
+understand.
+
+With `denote-org`, users have Org-specific extensions such as dynamic
+blocks, links to headings, and splitting an Org subtree into its own
+standalone file. This package's official manual covers the
+technicalities.
+
++ Package name (GNU ELPA): `denote-org` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-org>
++ Git repository: <https://github.com/protesilaos/denote-org>
++ Backronym: Denote... Ordinarily Restricts Gyrations.
+
+## Denote Sequence (Sequence notes or Folgezettel with Denote)
+
+The `denote-sequence` package provides an optional extension to
+~denote~ for naming files with a sequencing scheme. The idea is to
+establish hiearchical relationships between files, such that the
+contents of one logically follow or complement those of another.
+
++ Package name (GNU ELPA): `denote-sequence` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-sequence>
++ Git repository: <https://github.com/protesilaos/denote-sequence>
++ Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
+  Notwithstanding Curation Efforts.
+
 ## The official Emacs TUTORIAL in Greek
 
 I am the author and maintainer of the `TUTORIAL.el_GR` file that is
@@ -446,6 +449,24 @@ piece of functionality does.
 + Backronym: Do Observe, Transpose, Examine, or Mirror All
   Configurations, Stranger (dotemacs); Dotfiles Operate Transparently
   For the Included Linux and Emacs Setups (dotfiles).
+
+## Theme buffet
+
+The `theme-buffet` package arranges to automatically change themes
+during specific times of the day or at fixed intervals. The collection
+of themes is customisable, with the default options covering the
+built-in Emacs themes as well as my `modus-themes` and `ef-themes`.
+
+Bruno Boal is the lead developer and I am a co-maintainer.
+
++ Package name (GNU ELPA): `theme-buffet`
++ Git repo on SourceHut: <https://git.sr.ht/~bboal/theme-buffet>
+  - Mirrors:
+    + GitHub: <https://github.com/BBoal/theme-buffet>
+    + Codeberg: <https://codeberg.org/BBoal/theme-buffet>
++ Mailing list: <https://lists.sr.ht/~bboal/general-issues>
++ Backronym: Themes Harmoniously Exchanged Mid Evening Beget
+  Understandable Feelings of Fascination, Excitement, and Thrill.
 
 ## Aporetic
 
