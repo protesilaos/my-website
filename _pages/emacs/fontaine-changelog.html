@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:a8cd979f-851f-4e97-ae90-96022b4cfe7a">Version 3.0.0 on 2025-02-20</a></li>
 <li><a href="#h:684117cb-76c6-4a74-97ef-a37852bd3612">Version 2.1.0 on 2024-09-02</a></li>
 <li><a href="#h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">Version 2.0.0 on 2024-04-16</a></li>
 <li><a href="#h:bb9803bd-6491-4b58-a685-822b0247fffc">Version 1.0.0 on 2023-02-11</a></li>
@@ -27,6 +28,106 @@ the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos
 <li><a href="#h:f9399542-29b7-4d26-af82-090fed802cc8">Version 0.2.0 on 2022-05-09</a></li>
 <li><a href="#h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38">Version 0.1.0 on 2022-04-28</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:a8cd979f-851f-4e97-ae90-96022b4cfe7a" class="outline-2">
+<h2 id="h:a8cd979f-851f-4e97-ae90-96022b4cfe7a">Version 3.0.0 on 2025-02-20</h2>
+<div class="outline-text-2" id="text-h:a8cd979f-851f-4e97-ae90-96022b4cfe7a">
+<p>
+This version changes the underlying implementation of Fontaine's font
+configuration presets. In principle, this should not have any effect
+on how users experience the package, though there are some important
+details that are different.
+</p>
+</div>
+<div id="outline-container-h:6d051d64-2623-4877-935f-4792579888a3" class="outline-3">
+<h3 id="h:6d051d64-2623-4877-935f-4792579888a3">Fontaine is now a "theme"</h3>
+<div class="outline-text-3" id="text-h:6d051d64-2623-4877-935f-4792579888a3">
+<p>
+Fontaine has always modified typography-related faces, such as
+<code>default</code>, <code>fixed-pitch</code>, and <code>variable-pitch</code>, to apply the font
+family, height, and weight specified by the user. In the past, this
+was done in a way that could get overridden under certain conditions,
+such as by loading a theme after setting a Fontaine preset configuration.
+</p>
+
+<p>
+By making Fontaine a theme, we guarantee that its settings are not
+undone. In practice, this means that users do not have to re-apply the
+current preset after loading a theme. The function <code>fontaine-apply-current-preset</code>
+is thus obsolete.
+</p>
+
+<p>
+In Emacs, a "theme" is a bundle of configurations. Those typically
+cover colours (such as with my <code>modus-themes</code>), but a theme can focus
+on other settings as well. For example, the popular <code>use-package</code> is
+internally done as a theme (check the value of <code>custom-known-themes</code>).
+</p>
+
+<p>
+Fontaine is a theme in the same way <code>use-package</code> is, meaning that it
+will (i) persist its effects, (ii) not show up in the
+<code>custom-enabled-themes</code> and so not be affected by something like
+<code>(mapc #'disable-theme custom-enabled-themes)</code>,
+and (iii) not be an option among those presented by <code>load-theme</code>.
+</p>
+
+<p>
+There are no known bugs, though please contact me if you encounter a
+scenario where Fontaine does not do the right thing. Thanks, in this
+regard, to Haruko and Emily Hyland for reporting a couple of bugs:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/protesilaos/fontaine/issues/14">https://github.com/protesilaos/fontaine/issues/14</a>.</li>
+<li><a href="https://github.com/protesilaos/fontaine/issues/15">https://github.com/protesilaos/fontaine/issues/15</a>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:01648e81-6499-41ef-b200-b6784cbf4c96" class="outline-3">
+<h3 id="h:01648e81-6499-41ef-b200-b6784cbf4c96">Fontaine no longer has frame-specific effects</h3>
+<div class="outline-text-3" id="text-h:01648e81-6499-41ef-b200-b6784cbf4c96">
+<p>
+In the past, users could apply a Fontaine preset to the current frame
+without affecting other frames. While this could be useful in certain
+situations, it was ultimately making the code more complex for
+marginal gains. As part of the transition to a theme, which is anyway
+global, I am removing everything related to frame-specific functionality.
+</p>
+</div>
+</div>
+<div id="outline-container-h:e4e3a4c0-aefd-4398-a46b-dbfa102b04fa" class="outline-3">
+<h3 id="h:e4e3a4c0-aefd-4398-a46b-dbfa102b04fa">Quality-of-life refinements</h3>
+<div class="outline-text-3" id="text-h:e4e3a4c0-aefd-4398-a46b-dbfa102b04fa">
+<ul class="org-ul">
+<li>The <code>fontaine-generic-face-families</code> are used when necessary to
+guard against <code>nil</code> values. Those font families are symbolic
+references to whatever the operating system is configured to use
+(e.g. on Linux this is handled by fontconfig).</li>
+
+<li>If Fontaine is instructed to load an invalid preset, it displays a
+warning and does nothing else. Before, it would produce an error,
+which could prevent Emacs from starting up normally if this were to
+happen at startup. A warning is enough to inform the user of what is
+happening.</li>
+
+<li>Same principle as above when Emacs is not ran in a graphical
+interface. In text terminals, Fontaine cannot work because it is not
+possible to have different font families, styles, and heights, than
+those of the terminal (hence the backronym of FONTAINE "Fonts,
+Ornaments, and Neat Typography Are Irrelevant in Non-graphical
+Emacs"). Thanks to Jorge Gomez for the patch in pull request 13:
+<a href="https://github.com/protesilaos/fontaine/pull/13">https://github.com/protesilaos/fontaine/pull/13</a>. Further tweaks by
+me.</li>
+
+<li>The <code>fontaine-toggle-preset</code> command will produce an error if it
+cannot find the preset it is supposed to switch to. The toggle is
+between the last two loaded presets, as done by the command
+<code>fontaine-set-preset</code> (the <code>fontaine-mode</code> takes care to persist the
+relevant history).</li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-h:684117cb-76c6-4a74-97ef-a37852bd3612" class="outline-2">
@@ -506,7 +607,7 @@ you some ideas:
 ;; Iosevka Comfy is my highly customised build of Iosevka with
 ;; monospaced and duospaced (quasi-proportional) variants as well as
 ;; support or no support for ligatures:
-;; &lt;https://git.sr.ht/~protesilaos/iosevka-comfy&gt;.
+;; &lt;https://github.com/protesilaos/iosevka-comfy&gt;.
 ;;
 ;; Iosevka Comfy            == monospaced, supports ligatures
 ;; Iosevka Comfy Fixed      == monospaced, no ligatures
