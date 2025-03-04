@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-02-21 09:32:44 +0200 with a word
-count of 104909.</b>
+<b>Last revised and exported on 2025-03-04 07:48:43 +0200 with a word
+count of 105261.</b>
 </p>
 
 <p>
@@ -323,7 +323,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">5.11.1. The <code>prot-emacs-email.el</code> basic settings (including <code>authinfo</code>)</a></li>
 <li><a href="#h:49815c07-737f-4f10-95ee-63640f9ae18b">5.11.2. The <code>prot-emacs-email.el</code> message composition and encryption settings (<code>message.el</code>)</a></li>
 <li><a href="#h:deccd4f1-c1bd-4b02-993e-914f57ea0fac">5.11.3. The <code>prot-emacs-email.el</code> integration with Dired for email attachments (<code>gnus-dired-mode</code>)</a></li>
-<li><a href="#h:c7c9815c-e259-4810-816a-9ebc1a146004">5.11.4. The <code>prot-emacs-email.el</code> settings for <code>sendmail</code></a></li>
+<li><a href="#h:c7c9815c-e259-4810-816a-9ebc1a146004">5.11.4. The <code>prot-emacs-email.el</code> settings for <code>sendmail</code> (SMTP)</a></li>
 <li><a href="#h:200bc618-678a-4dc8-9d30-876d89e1edae">5.11.5. The <code>prot-emacs-email.el</code> loading of the email client and call to <code>provide</code></a></li>
 <li><a href="#h:b26c6297-ebe8-4f99-b069-df53cfd90520">5.11.6. The <code>prot-emacs-email.el</code> submodule for <code>notmuch</code> (<code>prot-emacs-notmuch.el</code>)</a>
 <ul>
@@ -411,7 +411,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-02-21 09:32:44 +0200):
+(2025-03-04 07:48:43 +0200):
 </p>
 
 <div class="org-src-container">
@@ -420,7 +420,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-pgtk --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+--prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=yes --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json --without-gsettings --without-gconf --with-pgtk 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection         -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -g -ffile-prefix-map=/home/prot/Git/Projects/emacs-arch-linux-pkgbuild/src=/usr/src/debug/emacs-git -flto=auto' 'LDFLAGS=-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now          -Wl,-z,pack-relative-relocs -flto=auto'
 </pre>
 
 
@@ -501,7 +501,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org49e915d">
+<pre class="example" id="orgd60f2a2">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -581,7 +581,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgc2d586c">
+<pre class="example" id="org2dae0fa">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -589,7 +589,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org7125d88">
+<pre class="example" id="orgab2ad9a">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1509,7 +1509,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org10c4d81">
+<pre class="example" id="orgbc21f5b">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -3188,7 +3188,7 @@ for it and do not want the extra noise.</li>
 <pre class="src src-emacs-lisp">(use-package prot-common
   :ensure nil
   :functions (prot-common-truncate-lines-silently)
-  :hook ((text-mode prog-mode dired-mode prot/fundamental-mode) . prot-common-truncate-lines-silently)
+  :hook ((text-mode prog-mode dired-mode prot/fundamental-mode hexl-mode) . prot-common-truncate-lines-silently)
   :init
   (defvar prot/fundamental-mode-hook nil
     "Normal hook for `fundamental-mode' (which is missing by default).")
@@ -4223,7 +4223,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org1d99e35">
+<pre class="example" id="org6fdba4c">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6900,16 +6900,17 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
                 "epub"
                 "\\)"))
 
-  ;; (setq dired-preview-display-action-alist
-  ;;       '((display-buffer-in-side-window)
-  ;;         (side . bottom)
-  ;;         (window-height . 0.2)
-  ;;         (preserve-size . (t . t))
-  ;;         (window-parameters . ((mode-line-format . none)
-  ;;                               (header-line-format . none)))))
-
   (setq dired-preview-display-action-alist
-        #'dired-preview-display-action-alist-below))
+        '((display-buffer-in-side-window)
+          (side . right)
+          (window-width . 0.2)
+          (preserve-size . (t . t))
+          (window-parameters . ((mode-line-format . none)
+                                (header-line-format . none)))))
+
+  ;; (setq dired-preview-display-action-alist
+  ;;       #'dired-preview-display-action-alist-below)
+  )
 </pre>
 </div>
 </div>
@@ -7065,7 +7066,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orged8940d">
+<pre class="example" id="orge482547">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7093,7 +7094,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org83e8b3c">
+<pre class="example" id="org1fe2af4">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7115,7 +7116,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgce584d4">
+<pre class="example" id="orgff69e90">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7271,7 +7272,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org212f272">
+<pre class="example" id="orgcadaa81">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8913,7 +8914,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org11c4ade">
+<pre class="example" id="orgf831e62">
 (info "(org) Search Options")
 </pre>
 
@@ -9005,7 +9006,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org9a0cb91">
+<pre class="example" id="orgdb70afe">
 (require 'ob-python)
 
 ;; OR
@@ -9852,7 +9853,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org4899ea3">
+<pre class="example" id="orgbd8954f">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10543,7 +10544,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgd6e4e9f">
+<pre class="example" id="org91de747">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10555,7 +10556,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org36e28ae">
+<pre class="example" id="org6916f6d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10621,7 +10622,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org01aea63">
+<pre class="example" id="org5c61374">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10633,7 +10634,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5bf4150">
+<pre class="example" id="org87274dc">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10655,7 +10656,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgc8884a4">
+<pre class="example" id="org9099d5c">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10772,28 +10773,19 @@ numerous accoutrements.
 </div>
 </div>
 <div id="outline-container-h:c7c9815c-e259-4810-816a-9ebc1a146004" class="outline-4">
-<h4 id="h:c7c9815c-e259-4810-816a-9ebc1a146004"><span class="section-number-4">5.11.4.</span> The <code>prot-emacs-email.el</code> settings for <code>sendmail</code></h4>
+<h4 id="h:c7c9815c-e259-4810-816a-9ebc1a146004"><span class="section-number-4">5.11.4.</span> The <code>prot-emacs-email.el</code> settings for <code>sendmail</code> (SMTP)</h4>
 <div class="outline-text-4" id="text-h:c7c9815c-e259-4810-816a-9ebc1a146004">
 <p>
 As I explain in the <a href="#h:33151014-3621-4be6-9185-aacc34ee2d2c">Overview of my email setup (<code>mbsync</code>, <code>msmtp</code>, mail indexer, and MUA)</a>,
-I use the external <code>msmtp</code> program to handle email sending, else to
+I have used the external <code>msmtp</code> program to handle email sending, else to
 set up the Mail Transfer Agent (MTA). With <code>msmtp</code> and a compatibility
-package installed (<code>msmtp-mta</code> on Arch Linux), the standard <code>sendmail</code>
-executable becomes a symlink to the <code>msmtp</code> program.
+package installed (<code>msmtp-mta</code> on Arch Linux and Debian), the standard <code>sendmail</code>
+executable becomes a symlink to the <code>msmtp</code> program. My <code>msmtp</code> setup
+worked fine for a long time until my outgoing messages started getting
+rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<p>
-I use this method because it is more portable and flexible. With the
-standard built-in Emacs design to use the <code>smtpmail-send-it</code> function
-as the value of <code>send-mail-function</code>, I also need to declare in Elisp
-what the SMTP server is. I would rather encapsulate the login
-credentials in a separate configuration file, independent of Emacs,
-while also ensuring that different accounts can use their own SMTP
-server.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;;; `sendmail' (mail transfer agent)
+<pre class="example" id="orge10ac39">
 (use-package sendmail
   :ensure nil
   :after message
@@ -10805,6 +10797,30 @@ server.
         ;;
         ;; sendmail-program (executable-find "msmtp")
         message-sendmail-envelope-from 'header))
+</pre>
+
+<p>
+I have not been able to determine the exact cause of my troubles with
+spam, but it seems that not relying on <code>msmtp</code> fixes the problem. So
+the following code block is how I do it now. What I liked about the
+<code>msmtp</code> approach as opposed to what I have now is that I did not have
+to specify any login credentials in Emacs and could, in principle,
+define distinct authentication methods for different email accounts.
+Whereas the following is for single-account setups, even though we can
+technically make it work with more of them via hooks and custom
+functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; `sendmail' (mail transfer agent)
+(use-package smtpmail
+  :ensure nil
+  :after message
+  :config
+  (setq send-mail-function #'smtpmail-send-it)
+  (setq smtpmail-smtp-server "mail.gandi.net")
+  (setq smtpmail-smtp-service 587)
+  (setq smtpmail-stream-type 'starttls))
 </pre>
 </div>
 </div>
@@ -10905,7 +10921,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgc26cecd">
+<pre class="example" id="org80edfcb">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10917,7 +10933,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org80d6064">
+<pre class="example" id="org1100b19">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -11922,42 +11938,49 @@ accessing mail on multiple machines.
 
 <p>
 A copy of my server&rsquo;s contents needs to be stored locally. This is
-valuable for backup purposes. It also provides the option to move to
-another email service provider by just syncing the local data to the
-new location while deleting the old one. More importantly though,
-local files can be indexed, granting us access to a powerful search
-mechanism (more below).
+valuable for backup purposes but also to remove old messages from the
+server where I no longer need them. Having all my mail locally also
+provides the option to move to another email service provider by just
+syncing the local data to the new location while deleting the old one.
+More importantly though, local files can be indexed, granting us
+access to a powerful search mechanism (more below).
 </p>
 
 <p>
-The program that stores email locally is called <code>mbsync</code>. For whatever
-reason, the system package is <code>isync</code>. This is true for Arch Linux and
-Debian. (I also heard it is the case with <code>homebrew</code>, but please check.)
+The program that communicates with the server to store email locally
+is called <code>mbsync</code>. For whatever reason, the system package is
+<code>isync</code>. This is true for Arch Linux and Debian. (I also heard it is
+the case with <code>homebrew</code>, but please check.)
 </p>
 
 <p>
 With <code>mbsync</code> we synchronise the state from the server (known as the
-&ldquo;far&rdquo; side) to our computer (the &ldquo;near&rdquo; side). The directionality can
-be one-way, far to near or near to far. Or it can be two-way, as is
+<code>far</code> side) to our computer (the <code>near</code> side). The directionality can
+be one-way: far to near or near to far. Or it can be two-way, as is
 the case on my end. Concretely, what I have on my computer is mirrored
-on the server.
+on the server. This directionality can be different for certain
+operations, such as the creation of folders and the permanent removal
+of message files.
 </p>
 
 <p>
 The format <code>mbsync</code> uses is called <code>maildir</code>. This is in contrast to
-the Unix <code>mbox</code>. I do not know about the pros and cons of each format,
-other than the fact that <code>maildir</code> has been working flawlessly for me
-for years&#x2014;and email is my primary medium of communication online
+the Unix <code>mbox</code>. With <code>maildir</code> each email is a single file and they
+are all organised by directory. Whereas in <code>mbox</code> there is one huge
+file which is internally parsed into the individual messages&#x2014;a
+method that I do not like. In practical terms though, what matters is
+reliability: <code>maildir</code> has been working flawlessly for me for
+years&#x2014;and email is my primary medium of communication online
 (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
 <p>
 The local files are indexed with a &ldquo;mail indexer&rdquo; system program.
-There are a few of those. The ones I have used are <code>mu</code> and <code>notmuch</code>.
-Both are built on top of the <code>xapian</code> search engine software and both
-offer the same features. The noticeable differences exist at the level
-of the email client, else the Mail User Agent (MUA), which I cover
-further below.
+There are a few of those available. The ones I have used are <code>mu</code> and
+<code>notmuch</code>. Both are built on top of the <code>xapian</code> search engine
+software and both offer the same features. The noticeable differences
+exist at the level of the email client, else the Mail User Agent
+(MUA), which I cover further below.
 </p>
 
 <p>
@@ -11971,19 +11994,20 @@ message contents.
 </p>
 
 <p>
-Indexation is an archiving process. We do not need a Mail User Agent
-(MUA) to handle all the interactivity involved. There are cases where
-we can have some old messages in such a read-only state. Though we
-most probably need to deal with email in present time, hence the need
-for a MUA.
+Indexation is an archiving process: it simply creates a database
+representation of the files on the system. As such, we do not need a
+Mail User Agent (MUA) to handle all the interactivity involved. There
+are cases where we can have some old messages in such a read-only
+state. Though we most probably need to deal with email in present
+time, hence the need for a MUA.
 </p>
 
 <p>
 The MUA is responsible for all the interactive aspects of dealing with
 email: show a list of messages, display an individual email, handle
-message composition, and others such as tagging, searching,
-downloading&#x2026; In short, the mail user agent is what we normally
-understand as the &ldquo;email app&rdquo;.
+message composition, and other conveniences such as tagging,
+searching, downloading&#x2026; In short, the mail user agent is what we
+normally understand as the &ldquo;email app&rdquo;.
 </p>
 
 <p>
@@ -12004,11 +12028,27 @@ am testing something.
 </p>
 
 <p>
+The <code>notmuch</code> system program also provides a hooks mechanism, which is
+a way to define custom behaviour at various stages of the indexing
+process. In practical terms, we can have rules to tag messages or move
+them into specific folders. These are implemented as shell scripts.
+</p>
+
+<p>
 Behind the scenes, the MUA needs some other program to actually send
-messages. For this purpose, I set up the <code>msmtp</code> system package, which
-defines a handler for the standard <code>sendmail</code> system utility. Not to
-bother you with the technicalities: <code>msmtp</code> is basically the same as
-<code>mbsync</code> but for sending instead of fetching.
+messages. For this purpose, we can set up the <code>msmtp</code> system package,
+which defines a handler for the standard <code>sendmail</code> system utility.
+Not to bother you with the technicalities: <code>msmtp</code> is basically the
+same as <code>mbsync</code> but for sending instead of fetching (it is
+technically called a Mail Transfer Agent (MTA)).
+</p>
+
+<p>
+I used <code>msmtp</code> for at least a couple of years and was content with its
+functionality, though from around the summer of 2024 I kept
+experiencing issues with my outgoing messages getting rejected as
+spam. I have since reverted to the more generic method that Emacs
+implements, which does not rely on <code>msmtp</code> (<a href="#h:c7c9815c-e259-4810-816a-9ebc1a146004">The <code>prot-emacs-email.el</code> settings for <code>sendmail</code> (SMTP)</a>).
 </p>
 
 <p>
@@ -12041,7 +12081,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgbffbdd7">
+<pre class="example" id="orgf76dc6e">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12138,7 +12178,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org351b454">
+<pre class="example" id="org42c786c">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -17716,12 +17756,19 @@ When called interactively without a prefix numeric argument, N is
 (make-obsolete 'prot-simple-copy-line-or-region 'prot-simple-copy-line "2023-09-26")
 
 ;;;###autoload
-(defun prot-simple-kill-ring-save (beg end)
+(defun prot-simple-kill-ring-save (&amp;optional beg end)
   "Copy the current region or line.
 When the region is active, use `kill-ring-save' between the BEG and END
 positions.  Otherwise, copy the current line."
-  (interactive "r")
-  (if (region-active-p)
+  ;; NOTE 2025-02-23: Using (interactive "r") returns an error before
+  ;; running the body of this function if there is no mark.  This
+  ;; happens when visiting a file.
+  (interactive
+   (when (region-active-p)
+     (list
+      (region-beginning)
+      (region-end))))
+  (if (and beg end)
       (kill-ring-save beg end)
     (prot-simple-copy-line)))
 
@@ -19069,7 +19116,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgfa95b4e">
+<pre class="example" id="org51b4663">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19101,7 +19148,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org12e7a42">
+<pre class="example" id="org656a049">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
