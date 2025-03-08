@@ -172,7 +172,6 @@ _you should not follow me_, for I am not going anywhere in particular.
 
 ## Also on
 
-* [SourceHut](https://sr.ht/~protesilaos/)
 * [GitLab](https://gitlab.com/protesilaos)
 * [GitHub](https://github.com/protesilaos)
 * [YouTube](https://www.youtube.com/@protesilaos)
