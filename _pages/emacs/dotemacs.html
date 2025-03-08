@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-03-04 07:48:43 +0200 with a word
-count of 105261.</b>
+<b>Last revised and exported on 2025-03-08 10:15:28 +0200 with a word
+count of 105366.</b>
 </p>
 
 <p>
@@ -411,7 +411,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-03-04 07:48:43 +0200):
+(2025-03-08 10:15:28 +0200):
 </p>
 
 <div class="org-src-container">
@@ -420,7 +420,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=yes --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json --without-gsettings --without-gconf --with-pgtk 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection         -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -g -ffile-prefix-map=/home/prot/Git/Projects/emacs-arch-linux-pkgbuild/src=/usr/src/debug/emacs-git -flto=auto' 'LDFLAGS=-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now          -Wl,-z,pack-relative-relocs -flto=auto'
+--prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=yes --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json --without-gsettings --without-gconf --with-x-toolkit=no --without-toolkit-scroll-bars --without-xft --without-xaw3d 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection         -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -g -ffile-prefix-map=/home/prot/Git/Projects/emacs-arch-linux-pkgbuild/src=/usr/src/debug/prot-emacs-nox-git -flto=auto' 'LDFLAGS=-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now          -Wl,-z,pack-relative-relocs -flto=auto'
 </pre>
 
 
@@ -501,7 +501,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgd60f2a2">
+<pre class="example" id="orgd9bf55a">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -581,7 +581,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org2dae0fa">
+<pre class="example" id="orgea083c3">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -589,7 +589,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgab2ad9a">
+<pre class="example" id="orgcb3f9f5">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1509,7 +1509,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgbc21f5b">
+<pre class="example" id="org0e18ba1">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1867,15 +1867,20 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
         modus-themes-mixed-fonts t
         modus-themes-variable-pitch-ui t
         modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-completions '((t . (extrabold)))
-        modus-themes-prompts '(extrabold)
+        modus-themes-bold-constructs t
+        modus-themes-completions '((t . (bold)))
+        modus-themes-prompts '(bold)
         modus-themes-headings
         '((agenda-structure . (variable-pitch light 2.2))
           (agenda-date . (variable-pitch regular 1.3))
           (t . (regular 1.15))))
 
-  (setq modus-themes-common-palette-overrides nil)
+  ;; (setq modus-themes-common-palette-overrides nil)
+  (setq modus-themes-common-palette-overrides
+        '((cursor cyan-intense)
+          (comment magenta-faint)
+          (bg-paren-match bg-magenta-subtle)
+          (fg-paren-match magenta)))
 
   (if (prot-emacs-theme-environment-dark-p)
       (modus-themes-load-theme (cadr modus-themes-to-toggle))
@@ -3243,10 +3248,12 @@ this via some hook.
     ("C-g" . prot-simple-keyboard-quit-dwim)
     ("C-M-SPC" . prot-simple-mark-sexp)   ; will be overriden by `expreg' if tree-sitter is available
     ;; Commands for lines
+    ("C-d" . prot-simple-delete-line) ; overrides `delete-char'
+    ("C-S-d" . prot-simple-delete-line-backward)
     ("M-k" . prot-simple-kill-line-backward)
     ("M-j" . delete-indentation)
     ("M-w" . prot-simple-kill-ring-save)
-    ("C-S-d" . prot-simple-duplicate-line-or-region)
+    ("C-a" . prot-simple-duplicate-line-or-region) ; "again" mnemonic, overrides `move-beginning-of-line'
     ("C-S-w" . prot-simple-copy-line)
     ("C-S-y" . prot-simple-yank-replace-line-or-region)
     ("C-v" . prot-simple-multi-line-below) ; overrides `scroll-up-command'
@@ -4223,7 +4230,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org6fdba4c">
+<pre class="example" id="org8f204eb">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7066,7 +7073,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orge482547">
+<pre class="example" id="orgb6be35e">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7094,7 +7101,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org1fe2af4">
+<pre class="example" id="orga990aed">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7116,7 +7123,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgff69e90">
+<pre class="example" id="orgf3f5585">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7272,7 +7279,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgcadaa81">
+<pre class="example" id="orgeb1bc45">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8562,6 +8569,9 @@ on how I use Org.
     :map org-mode-map
     ;; I don't like that Org binds one zillion keys, so if I want one
     ;; for something more important, I disable it from here.
+    ("C-a" . nil)
+    ("C-d" . nil)
+    ("C-S-d" . nil)
     ("C-'" . nil)
     ("C-," . nil)
     ("M-;" . nil)
@@ -8914,7 +8924,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgf831e62">
+<pre class="example" id="org8c35fcd">
 (info "(org) Search Options")
 </pre>
 
@@ -9006,7 +9016,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgdb70afe">
+<pre class="example" id="org755f4b7">
 (require 'ob-python)
 
 ;; OR
@@ -9853,7 +9863,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgbd8954f">
+<pre class="example" id="org405b89d">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10544,7 +10554,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org91de747">
+<pre class="example" id="orgb783dd9">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10556,7 +10566,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org6916f6d">
+<pre class="example" id="org813b3b2">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10622,7 +10632,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org5c61374">
+<pre class="example" id="org2ff5828">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10634,7 +10644,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org87274dc">
+<pre class="example" id="org1ca43fa">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10656,7 +10666,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org9099d5c">
+<pre class="example" id="orgc8ffdae">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10785,7 +10795,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orge10ac39">
+<pre class="example" id="org82f94ea">
 (use-package sendmail
   :ensure nil
   :after message
@@ -10921,7 +10931,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org80edfcb">
+<pre class="example" id="org32723d2">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10933,7 +10943,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org1100b19">
+<pre class="example" id="orgd923253">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12081,7 +12091,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgf76dc6e">
+<pre class="example" id="org44f8de6">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12178,7 +12188,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org42c786c">
+<pre class="example" id="org00068d2">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -17826,6 +17836,18 @@ This command can then be followed by the standard
   (kill-line 0))
 
 ;;;###autoload
+(defun prot-simple-delete-line ()
+  "Delete (not kill) from point to the end of the line."
+  (interactive)
+  (delete-region (point) (line-end-position)))
+
+;;;###autoload
+(defun prot-simple-delete-line-backward ()
+  "Delete (not kill) from point to the beginning of the line."
+  (interactive)
+  (delete-region (line-beginning-position) (point)))
+
+;;;###autoload
 (define-minor-mode prot-simple-auto-fill-visual-line-mode
   "Enable `visual-line-mode' and disable `auto-fill-mode' in the current buffer."
   :global nil
@@ -19116,7 +19138,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org51b4663">
+<pre class="example" id="org78e00d5">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19148,7 +19170,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org656a049">
+<pre class="example" id="orgd9cf704">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
