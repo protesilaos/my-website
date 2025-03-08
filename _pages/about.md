@@ -172,8 +172,8 @@ _you should not follow me_, for I am not going anywhere in particular.
 
 ## Also on
 
-* [GitLab](https://gitlab.com/protesilaos)
 * [GitHub](https://github.com/protesilaos)
+* [GitLab](https://gitlab.com/protesilaos)
 * [YouTube](https://www.youtube.com/@protesilaos)
 * [Telegram app](https://t.me/protesilaos)
 * [Signal app](https://signal.me/#eu/AKio-VMi3643Lv6iuEAgrteICHl-cj14BPjVXKGhuSd7WewEnb1OA7BQx6-4Dsnv)
