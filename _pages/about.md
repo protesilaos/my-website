@@ -177,7 +177,6 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [YouTube](https://www.youtube.com/@protesilaos)
 * [Telegram app](https://t.me/protesilaos)
 * [Signal app](https://signal.me/#eu/AKio-VMi3643Lv6iuEAgrteICHl-cj14BPjVXKGhuSd7WewEnb1OA7BQx6-4Dsnv)
-* [Odysee](https://odysee.com/@protesilaos:69b6498b147014fe819188848f8961657f3bf6f3)
 * [Douyin 抖音](https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE) (Chinese TikTok) (or use ID: `65118858653`).
 * IRC and Reddit: `protesilaos`.
 
