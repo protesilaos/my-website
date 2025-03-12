@@ -394,26 +394,6 @@ sources to the `consult-buffer` command.
 + Backronym: Consult-Orchestrated Navigation and Selection of
   Unambiguous Targets...denote.
 
-## Denote Journal (extras for dailies)
-
-The `denote-journal` package makes it easier to use Denote for
-journaling. While it is possible to use the generic `denote` command
-(and related) to maintain a journal, this package defines extra
-functionality to streamline the journaling workflow.
-
-The code of `denote-journal` used to be bundled up with the `denote`
-package before version `4.0.0` of the latter and was available in the
-file `denote-journal-extras.el`. Users of the old code will need to
-adapt their setup to use the `denote-journal` package. This can be
-done by replacing all instances of `denote-journal-extras` with
-`denote-journal` across their configuration.
-
-+ Package name (GNU ELPA): `denote-journal` (⚠️ Not available yet)
-+ Official manual: <https://protesilaos.com/emacs/denote-journal>
-+ Git repository: <https://github.com/protesilaos/denote-journal>
-+ Backronym: Denote... Journaling Obviously Utilises Reasonableness
-  Notwithstanding Affectionate Longing.
-
 ## Denote Org (extras for integrating Denote with Org)
 
 The `denote-org` package contains extra features that better integrate
@@ -444,6 +424,45 @@ contents of one logically follow or complement those of another.
 + Git repository: <https://github.com/protesilaos/denote-sequence>
 + Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
   Notwithstanding Curation Efforts.
+
+## Denote Silo
+
+The `denote-silo` package makes it easier to work with multiple
+"silos", as explained in the Denote manual. In short, a "silo" is a
+localised `denote-directory` that is not connected to the
+default/global `denote-directory` and other silos.
+
+The code of `denote-silo` used to be bundled up with the `denote`
+package before version `4.0.0` of the latter and was available in the
+file `denote-silo-extras.el`. Users of the old code will need to adapt
+their setup to use the `denote-silo` package. This can be done by
+replacing all instances of `denote-silo-extras` with `denote-silo`
+across their configuration.
+
++ Package name (GNU ELPA): `denote-silo` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-silo>
++ Git repository: <https://github.com/protesilaos/denote-silo>
++ Backronym: Denote... Silos Insulate Localised Objects.
+
+## Denote Journal (extras for dailies)
+
+The `denote-journal` package makes it easier to use Denote for
+journaling. While it is possible to use the generic `denote` command
+(and related) to maintain a journal, this package defines extra
+functionality to streamline the journaling workflow.
+
+The code of `denote-journal` used to be bundled up with the `denote`
+package before version `4.0.0` of the latter and was available in the
+file `denote-journal-extras.el`. Users of the old code will need to
+adapt their setup to use the `denote-journal` package. This can be
+done by replacing all instances of `denote-journal-extras` with
+`denote-journal` across their configuration.
+
++ Package name (GNU ELPA): `denote-journal` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-journal>
++ Git repository: <https://github.com/protesilaos/denote-journal>
++ Backronym: Denote... Journaling Obviously Utilises Reasonableness
+  Notwithstanding Affectionate Longing.
 
 ## The official Emacs TUTORIAL in Greek
 
