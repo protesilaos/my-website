@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-03-15 07:53:12 +0200 with a word
-count of 105355.</b>
+<b>Last revised and exported on 2025-03-15 08:25:14 +0200 with a word
+count of 106396.</b>
 </p>
 
 <p>
@@ -313,6 +313,11 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:e86a66dc-7ef9-4f09-ad7e-946de2034e8d">5.10.17. The <code>prot-emacs-langs.el</code> settings for <code>denote</code> (notes and file-naming)</a>
 <ul>
 <li><a href="#h:ee82e629-fb05-4c75-9175-48a760a25691">5.10.17.1. The <code>prot-emacs-langs.el</code> integration between Consult and Denote (<code>consult-denote</code>)</a></li>
+<li><a href="#h:b30cdbfe-71a1-46ed-b243-32c270963d68">5.10.17.2. The <code>prot-emacs-langs.el</code> extension for Denote Org extras (<code>denote-org</code>)</a></li>
+<li><a href="#h:020e7df6-0a7b-4c71-9188-f871bca2bf48">5.10.17.3. The <code>prot-emacs-langs.el</code> extension for Denote sequence notes or folgezettel (<code>denote-sequence</code>)</a></li>
+<li><a href="#h:523bf4f8-fb4e-42e9-bf64-d7c7ebbfbab5">5.10.17.4. The <code>prot-emacs-langs.el</code> extension for Denote Markdown extras (<code>denote-markdown</code>)</a></li>
+<li><a href="#h:5812a834-f294-4714-85a5-f8466ececaa8">5.10.17.5. The <code>prot-emacs-langs.el</code> extension for Denote Journal extras (<code>denote-journal</code>)</a></li>
+<li><a href="#h:87b9b59c-6adb-4d40-a4ae-90705d193932">5.10.17.6. The <code>prot-emacs-langs.el</code> extension for Denote Silo extras (<code>denote-silo</code>)</a></li>
 </ul>
 </li>
 <li><a href="#h:137c67f1-b112-42b7-aec9-c44ef4a6241a">5.10.18. The <code>prot-emacs-langs.el</code> settings for <code>logos</code> (writing extras and buffer navigation)</a></li>
@@ -411,7 +416,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-03-15 07:53:12 +0200):
+(2025-03-15 08:25:14 +0200):
 </p>
 
 <div class="org-src-container">
@@ -501,7 +506,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgf71c177">
+<pre class="example" id="org22adc94">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -581,7 +586,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org0d844a0">
+<pre class="example" id="org41d8fff">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -589,7 +594,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orga410114">
+<pre class="example" id="orgfb9765b">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1515,7 +1520,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org7d5acb3">
+<pre class="example" id="org2cd45e3">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4236,7 +4241,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orgf5d94ee">
+<pre class="example" id="orgb6e020e">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7079,7 +7084,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org3970ba8">
+<pre class="example" id="orgbe3f954">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7107,7 +7112,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgdde7e84">
+<pre class="example" id="orgd2649cc">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7129,7 +7134,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgafd212a">
+<pre class="example" id="org36bfd84">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7285,7 +7290,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org9b516e5">
+<pre class="example" id="org71e9ed6">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8930,7 +8935,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org7963d7e">
+<pre class="example" id="org9b6da7e">
 (info "(org) Search Options")
 </pre>
 
@@ -9022,7 +9027,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org35ca3e8">
+<pre class="example" id="org538d528">
 (require 'ob-python)
 
 ;; OR
@@ -9869,7 +9874,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org9554b78">
+<pre class="example" id="org333c9ea">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10278,8 +10283,8 @@ Shitposts.</li>
 <h4 id="h:e86a66dc-7ef9-4f09-ad7e-946de2034e8d"><span class="section-number-4">5.10.17.</span> The <code>prot-emacs-langs.el</code> settings for <code>denote</code> (notes and file-naming)</h4>
 <div class="outline-text-4" id="text-h:e86a66dc-7ef9-4f09-ad7e-946de2034e8d">
 <p>
-This is another one of my packages and is extended by my
-<code>consult-denote</code> package (<a href="#h:ee82e629-fb05-4c75-9175-48a760a25691">The <code>prot-emacs-langs.el</code> integration between Consult and Denote (<code>consult-denote</code>)</a>).
+This is another one of my packages and is extended by several other
+packages further below.
 </p>
 
 <p>
@@ -10325,7 +10330,6 @@ Note Only The Epiphenomenal.</li>
   ;; If you use Markdown or plain text files you want to fontify links
   ;; upon visiting the file (Org renders links as buttons right away).
   ((text-mode . denote-fontify-links-mode-maybe)
-
    ;; Highlight Denote file names in Dired buffers.  Below is the
    ;; generic approach, which is great if you rename files Denote-style
    ;; in lots of places as I do.
@@ -10342,7 +10346,7 @@ Note Only The Epiphenomenal.</li>
   ( :map global-map
     ("C-c n n" . denote)
     ("C-c n N" . denote-type)
-    ("C-c n o" . denote-sort-dired) ; "order" mnemonic
+    ("C-c n d" . denote-sort-dired)
     ;; Note that `denote-rename-file' can work from any context, not
     ;; just Dired buffers.  That is why we bind it here to the
     ;; `global-map'.
@@ -10359,9 +10363,6 @@ Note Only The Epiphenomenal.</li>
     ("C-c n b" . denote-backlinks)
     ;; Also see `denote-rename-file' further above.
     ("C-c n R" . denote-rename-file-using-front-matter)
-    :map org-mode-map
-    ("C-c n d l" . denote-org-extras-dblock-insert-links)
-    ("C-c n d b" . denote-org-extras-dblock-insert-backlinks)
     ;; Key bindings specifically for Dired.
     :map dired-mode-map
     ("C-c C-d C-i" . denote-dired-link-marked-notes)
@@ -10377,16 +10378,13 @@ Note Only The Epiphenomenal.</li>
   ;; meaning that you only use a predefined set of them, then you want
   ;; `denote-infer-keywords' to be nil and `denote-known-keywords' to
   ;; have the keywords you need.
-  (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
+  (setq denote-known-keywords '("emacs" "philosophy" "politics"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
-
   (setq denote-excluded-directories-regexp nil)
   (setq denote-date-format nil) ; read its doc string
   (setq denote-rename-confirmations nil) ; CAREFUL with this if you are not familiar with Denote!
-
   (setq denote-backlinks-show-context nil)
-
   (setq denote-rename-buffer-format "[D] %t%b")
   (setq denote-buffer-has-backlinks-string " (&lt;---&gt;)")
 
@@ -10427,7 +10425,9 @@ Unambiguous Targets&#x2026;denote.</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(when prot-emacs-completion-extras
+<pre class="src src-emacs-lisp">;;;; Integrate Consult with Denote
+
+(when prot-emacs-completion-extras
   (use-package consult-denote
     :ensure t
     :bind
@@ -10435,6 +10435,217 @@ Unambiguous Targets&#x2026;denote.</li>
      ("C-c n g" . consult-denote-grep))
     :config
     (consult-denote-mode 1)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:b30cdbfe-71a1-46ed-b243-32c270963d68" class="outline-5">
+<h5 id="h:b30cdbfe-71a1-46ed-b243-32c270963d68"><span class="section-number-5">5.10.17.2.</span> The <code>prot-emacs-langs.el</code> extension for Denote Org extras (<code>denote-org</code>)</h5>
+<div class="outline-text-5" id="text-h:b30cdbfe-71a1-46ed-b243-32c270963d68">
+<p>
+This is another one of my packages. With <code>denote-org</code>, users have
+Org-specific extensions such as dynamic blocks, links to headings, and
+splitting an Org subtree into its own standalone file. This package&rsquo;s
+official manual covers the technicalities.
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote-org</code> (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-org">https://protesilaos.com/emacs/denote-org</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-org">https://github.com/protesilaos/denote-org</a></li>
+<li>Backronym: Denote&#x2026; Ordinarily Restricts Gyrations.</li>
+</ul>
+
+<p>
+Watch:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://protesilaos.com/codelog/2023-11-25-emacs-denote-org-dynamic-blocks/">Denote Org dynamic blocks</a> (2023-11-25)</li>
+<li><a href="https://protesilaos.com/codelog/2023-12-04-emacs-denote-sort-mechanism/">The new Denote sort mechanism (Dired, Org dynamic blocks)</a> (2023-12-04)</li>
+<li><a href="https://protesilaos.com/codelog/2024-07-30-emacs-denote-exclude-dirs-org-blocks/">Exclude directories in Denote&rsquo;s Org dynamic blocks</a> (2024-07-30)</li>
+<li><a href="https://protesilaos.com/codelog/2024-01-20-emacs-denote-link-org-headings/">Denote links to Org headings</a> (2024-01-20)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Denote Org extras (denote-org)
+
+(use-package denote-org
+  :ensure t
+  :commands
+  ( denote-org-link-to-heading
+    denote-org-backlinks-for-heading
+
+    denote-org-extract-org-subtree
+
+    denote-org-convert-links-to-file-type
+    denote-org-convert-links-to-denote-type
+
+    denote-org-dblock-insert-files
+    denote-org-dblock-insert-links
+    denote-org-dblock-insert-backlinks
+    denote-org-dblock-insert-missing-links
+    denote-org-dblock-insert-files-as-headings))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:020e7df6-0a7b-4c71-9188-f871bca2bf48" class="outline-5">
+<h5 id="h:020e7df6-0a7b-4c71-9188-f871bca2bf48"><span class="section-number-5">5.10.17.3.</span> The <code>prot-emacs-langs.el</code> extension for Denote sequence notes or folgezettel (<code>denote-sequence</code>)</h5>
+<div class="outline-text-5" id="text-h:020e7df6-0a7b-4c71-9188-f871bca2bf48">
+<p>
+This is another one of my packages. The <code>denote-sequence</code> package
+provides an optional extension to <code>denote</code> for naming files with a
+sequencing scheme. The idea is to establish hiearchical relationships
+between files, such that the contents of one logically follow or
+complement those of another.
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote-sequence</code> (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-sequence">https://protesilaos.com/emacs/denote-sequence</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-sequence">https://github.com/protesilaos/denote-sequence</a></li>
+<li>Backronym: Denote&#x2026; Sequences Efficiently Queue Unsorted Entries
+Notwithstanding Curation Efforts.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Denote Sequence notes or folgezettel (denote-sequence)
+
+(use-package denote-sequence
+  :ensure t
+  :bind
+  ( :map global-map
+    ;; Here we make "C-c n s" a prefix for all "[n]otes with [s]equence".
+    ;; This is just for demonstration purposes: use the key bindings
+    ;; that work for you.  Also check the commands:
+    ;;
+    ;; - `denote-sequence-new-parent'
+    ;; - `denote-sequence-new-sibling'
+    ;; - `denote-sequence-new-child'
+    ;; - `denote-sequence-new-child-of-current'
+    ;; - `denote-sequence-new-sibling-of-current'
+    ("C-c n s s" . denote-sequence)
+    ("C-c n s f" . denote-sequence-find)
+    ("C-c n s l" . denote-sequence-link)
+    ("C-c n s d" . denote-sequence-dired)
+    ("C-c n s r" . denote-sequence-reparent)
+    ("C-c n s c" . denote-sequence-convert))
+  :config
+  ;; The default sequence scheme is `numeric'.
+  (setq denote-sequence-scheme 'alphanumeric))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:523bf4f8-fb4e-42e9-bf64-d7c7ebbfbab5" class="outline-5">
+<h5 id="h:523bf4f8-fb4e-42e9-bf64-d7c7ebbfbab5"><span class="section-number-5">5.10.17.4.</span> The <code>prot-emacs-langs.el</code> extension for Denote Markdown extras (<code>denote-markdown</code>)</h5>
+<div class="outline-text-5" id="text-h:523bf4f8-fb4e-42e9-bf64-d7c7ebbfbab5">
+<p>
+This is another one of my packages. It provides some convenience
+functions to better integrate Markdown with Deonte. This is mostly
+about converting links from one type to another so that they can work
+in different applications (because Markdown does not have a
+standardised way to define custom link types).
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote-markdown</code> (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-markdown">https://protesilaos.com/emacs/denote-markdown</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-markdown">https://github.com/protesilaos/denote-markdown</a></li>
+<li>Backronyms: Denote&#x2026; Markdown&rsquo;s Ambitious Reimplimentations
+Knowingly Dilute Obvious Widespread Norms; Denote&#x2026; Markup
+Agnosticism Requires Knowhow to Do Only What&rsquo;s Necessary.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Denote Markdown extras (denote-markdown)
+
+(use-package denote-markdown
+  :ensure t
+  :commands ( denote-markdown-convert-links-to-file-paths
+              denote-markdown-convert-links-to-denote-type
+              denote-markdown-convert-links-to-obsidian-type
+              denote-markdown-convert-obsidian-links-to-denote-type ))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:5812a834-f294-4714-85a5-f8466ececaa8" class="outline-5">
+<h5 id="h:5812a834-f294-4714-85a5-f8466ececaa8"><span class="section-number-5">5.10.17.5.</span> The <code>prot-emacs-langs.el</code> extension for Denote Journal extras (<code>denote-journal</code>)</h5>
+<div class="outline-text-5" id="text-h:5812a834-f294-4714-85a5-f8466ececaa8">
+<p>
+This is another one of my packages. The <code>denote-journal</code> package makes
+it easier to use Denote for journaling. While it is possible to use
+the generic <code>denote</code> command (and related) to maintain a journal, this
+package defines extra functionality to streamline the journaling
+workflow.
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): `denote-journal` (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-journal">https://protesilaos.com/emacs/denote-journal</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-journal">https://github.com/protesilaos/denote-journal</a></li>
+<li>Backronym: Denote&#x2026; Journaling Obviously Utilises Reasonableness
+Notwithstanding Affectionate Longing.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Denote Journal extras (denote-journal)
+
+(use-package denote-journal
+  :ensure t
+  :commands ( denote-journal-new-entry
+              denote-journal-new-or-existing-entry
+              denote-journal-link-or-create-entry )
+  :config
+  ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
+  ;; to nil to use the `denote-directory' instead.
+  (setq denote-journal-directory (expand-file-name "journal" denote-directory))
+  ;; Default keyword for new journal entries. It can also be a list of
+  ;; strings.
+  (setq denote-journal-keyword "journal")
+  ;; Read the doc string of `denote-journal-title-format'.
+  (setq denote-journal-title-format 'day-date-month-year))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:87b9b59c-6adb-4d40-a4ae-90705d193932" class="outline-5">
+<h5 id="h:87b9b59c-6adb-4d40-a4ae-90705d193932"><span class="section-number-5">5.10.17.6.</span> The <code>prot-emacs-langs.el</code> extension for Denote Silo extras (<code>denote-silo</code>)</h5>
+<div class="outline-text-5" id="text-h:87b9b59c-6adb-4d40-a4ae-90705d193932">
+<p>
+This is another package of mine. It makes it easier to work with
+multiple &ldquo;silos&rdquo;, as explained in the Denote manual. In short, a
+&ldquo;silo&rdquo; is a localised <code>denote-directory</code> that is not connected to the
+default/global <code>denote-directory</code> and other silos.
+</p>
+
+<ul class="org-ul">
+<li>Package name (GNU ELPA): <code>denote-silo</code> (⚠️ Not available yet)</li>
+<li>Official manual: <a href="https://protesilaos.com/emacs/denote-silo">https://protesilaos.com/emacs/denote-silo</a></li>
+<li>Git repository: <a href="https://github.com/protesilaos/denote-silo">https://github.com/protesilaos/denote-silo</a></li>
+<li>Backronym: Denote&#x2026; Silos Insulate Localised Objects.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;;; Denote Silo extras (denote-silo)
+
+(use-package denote-silo
+  :ensure t
+  ;; Bind these commands to key bindings of your choice.
+  :commands ( denote-silo-create-note
+              denote-silo-open-or-create
+              denote-silo-select-silo-then-command
+              denote-silo-dired
+              denote-silo-cd )
+  :config
+  ;; Add your silos to this list.  By default, it only includes the
+  ;; value of the variable `denote-directory'.
+  (setq denote-silo-directories
+        (list denote-directory
+              "~/Documents/books/"
+              "~/Documents/denote-test-silo/")))
 </pre>
 </div>
 </div>
@@ -10560,7 +10771,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org506df98">
+<pre class="example" id="orgd9859a8">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10572,7 +10783,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org4865593">
+<pre class="example" id="org94fa427">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10638,7 +10849,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgb9201f7">
+<pre class="example" id="orga656c05">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10650,7 +10861,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgeed55b8">
+<pre class="example" id="orga90173b">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10672,7 +10883,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgf32662b">
+<pre class="example" id="org4101669">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10801,7 +11012,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org257a606">
+<pre class="example" id="org27db601">
 (use-package sendmail
   :ensure nil
   :after message
@@ -10937,7 +11148,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgb3d93d0">
+<pre class="example" id="org775dd0b">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -10949,7 +11160,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org25a7f09">
+<pre class="example" id="org71a3374">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12088,7 +12299,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org535b809">
+<pre class="example" id="org02e7139">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12185,7 +12396,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgdedf96d">
+<pre class="example" id="orge434749">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19143,7 +19354,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgbae93c6">
+<pre class="example" id="org819a578">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19175,7 +19386,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org5638c36">
+<pre class="example" id="orgcae3871">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
