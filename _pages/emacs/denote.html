@@ -221,7 +221,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:c916d8c5-540a-409f-b780-6ccbd90e088e">18. For developers or advanced users</a>
 <ul>
-<li><a href="#h:e824c215-1c31-4b26-b994-7df67341d075">18.1. Xref interface for developers or advanced users</a></li>
+<li><a href="#h:c98aed45-341a-40a0-91ce-347a29c98ab4">18.1. Common building blocks for developers or advanced users</a></li>
+<li><a href="#h:08e696e4-c9e1-48b4-8349-e53451aed1df">18.2. File path interface for developers or advanced users</a></li>
+<li><a href="#h:9b32bf7d-1569-4495-801c-8835f022d72e">18.3. Data retrieval interface for developers or advanced users</a></li>
+<li><a href="#h:e9d05541-bd00-43b9-8146-8c4445f78f07">18.4. Prompt interface for developers or advanced users</a></li>
+<li><a href="#h:80ddc044-5c64-4fb3-b4f4-2eaf6bceda3b">18.5. Front matter interface for developers or advanced users</a></li>
+<li><a href="#h:97b8eb9e-07e1-4992-8b59-2a0e3b65574b">18.6. Link interface for developers or advanced users</a></li>
+<li><a href="#h:e824c215-1c31-4b26-b994-7df67341d075">18.7. Xref interface for developers or advanced users</a></li>
+<li><a href="#h:66d31f42-6092-493a-97db-83b217db9d96">18.8. Renaming files interface for developers or advanced users</a></li>
 </ul>
 </li>
 <li><a href="#h:9c4467d5-6480-4681-80fb-cd9717bf8b3b">19. Troubleshoot Denote in a pristine environment</a></li>
@@ -1731,7 +1738,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org794f3c6">
+<pre class="example" id="org1fe2f14">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2305,7 +2312,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orga20d3f1">
+<pre class="example" id="orgc70de95">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2325,7 +2332,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgd0d0ca1">
+<pre class="example" id="org0c88718">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2978,7 +2985,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgdfc5317">
+<pre class="example" id="orge476a75">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3194,7 +3201,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgf3c6ad1">
+<pre class="example" id="org6ba23d2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3206,7 +3213,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgab53390">
+<pre class="example" id="org7c7199e">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3220,7 +3227,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge410ba8">
+<pre class="example" id="orgbd0fc5b">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3234,7 +3241,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgece372f">
+<pre class="example" id="orgf1e1820">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3615,7 +3622,7 @@ regular expression or plain string.  The links are inserted as a
 typographic list, such as:
 </p>
 
-<pre class="example" id="org5c98715">
+<pre class="example" id="org4258430">
 - link1
 - link2
 - link3
@@ -3633,7 +3640,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org1a16a03">
+<pre class="example" id="org9d2a0fb">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3839,7 +3846,7 @@ of the note linking to the current entry.  Each file name is presented
 on its own line, like this:
 </p>
 
-<pre class="example" id="orgd041be4">
+<pre class="example" id="org9db459b">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3854,7 +3861,7 @@ note occurs.  It also shows multiple occurrences, if present.  It looks
 like this (and has the appropriate fontification):
 </p>
 
-<pre class="example" id="org2f733b8">
+<pre class="example" id="orgb208d64">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5314,7 +5321,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgeb47021">
+<pre class="example" id="org6fd2e41">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6009,6 +6016,13 @@ its symbol such as <code>denote--file-extension</code>.  Do not use those as we
 might change them without further notice.
 </p>
 
+<p>
+The following sections cover the specifics.
+</p>
+</div>
+<div id="outline-container-h:c98aed45-341a-40a0-91ce-347a29c98ab4" class="outline-3">
+<h3 id="h:c98aed45-341a-40a0-91ce-347a29c98ab4"><span class="section-number-3">18.1.</span> Common building blocks for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:c98aed45-341a-40a0-91ce-347a29c98ab4">
 <dl class="org-dl">
 <dt>Variable <code>denote-id-format</code></dt><dd>Format of ID prefix of a note&rsquo;s
 filename.  The note&rsquo;s ID is derived from the date and time of its
@@ -6107,11 +6121,24 @@ return something like <code>.org</code> even if the actual file extension is
 </dl>
 
 <dl class="org-dl">
+<dt>Functions <code>denote-infer-keywords-from-files</code></dt><dd>Return list of
+keywords in <code>denote-directory-files</code>. With optional
+<code>FILES-MATCHING-REGEXP</code>, only extract keywords from the matching
+files. Otherwise, do it for all files. Keep any duplicates. Users
+who do not want duplicates should refer to the functions
+<code>denote-keywords</code>. [ Part of 4.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-keywords</code></dt><dd>Return appropriate list of keyword
-candidates.  If <code>denote-infer-keywords</code> is non-nil, infer keywords
+candidates. If <code>denote-infer-keywords</code> is non-nil, infer keywords
 from existing notes and combine them into a list with
-<code>denote-known-keywords</code>.  Else use only the latter set of keywords
-(<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>).</dd>
+<code>denote-known-keywords</code>. Else use only the latter set of keywords
+(<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>). In the case of keyword inferrence, use
+optional <code>FILES-MATCHING-REGEXP</code>, to extract keywords only from the
+matching files. Otherwise, do it for all files. Filter inferred
+keywords with the user option <code>denote-excluded-keywords-regexp</code>. [
+The optional <code>FILES-MATCHING-REGEXP</code> parameter is part of 4.0.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6167,21 +6194,15 @@ as .git) unconditionally.  Also exclude whatever matches
 <code>denote-directory</code> accepts a directory-local value for what we call
 &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
 </dl>
-
+</div>
+</div>
+<div id="outline-container-h:08e696e4-c9e1-48b4-8349-e53451aed1df" class="outline-3">
+<h3 id="h:08e696e4-c9e1-48b4-8349-e53451aed1df"><span class="section-number-3">18.2.</span> File path interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:08e696e4-c9e1-48b4-8349-e53451aed1df">
 <dl class="org-dl">
 <dt>Function <code>denote-file-name-relative-to-denote-directory</code></dt><dd>Return
 name of <code>FILE</code> relative to the variable <code>denote-directory</code>.  <code>FILE</code>
 must be an absolute path.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-get-path-by-id</code></dt><dd>Return absolute path of <code>ID</code>
-string in <code>denote-directory-files</code>.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-get-identifier-at-point</code></dt><dd>Return the identifier
-at point or <code>POINT</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6216,25 +6237,6 @@ slug for signatures (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggific
 <dl class="org-dl">
 <dt>Function <code>denote-sluggify-keywords</code></dt><dd>Sluggify <code>KEYWORDS</code>, which is
 a list of strings (<a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">Sluggification of file name components</a>).</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-filetype-heuristics</code></dt><dd><p>
-Return likely file type of
-<code>FILE</code>. If in the process of <code>org-capture</code>, consider the file type to
-be that of Org. Otherwise, use the file extension to detect the file
-type of <code>FILE</code>.
-</p>
-
-<p>
-If more than one file type correspond to this file extension, use
-the first file type for which the :title-key-regexp in
-<code>denote-file-types</code> matches in the file.
-</p>
-
-<p>
-Return nil if the file type is not recognized.
-</p></dd>
 </dl>
 
 <dl class="org-dl">
@@ -6337,6 +6339,20 @@ type extension. It can be an empty string or a nil value, in which
 case it is not added to the base file name.
 </p></dd>
 </dl>
+</div>
+</div>
+<div id="outline-container-h:9b32bf7d-1569-4495-801c-8835f022d72e" class="outline-3">
+<h3 id="h:9b32bf7d-1569-4495-801c-8835f022d72e"><span class="section-number-3">18.3.</span> Data retrieval interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:9b32bf7d-1569-4495-801c-8835f022d72e">
+<dl class="org-dl">
+<dt>Function <code>denote-get-path-by-id</code></dt><dd>Return absolute path of <code>ID</code>
+string in <code>denote-directory-files</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-get-identifier-at-point</code></dt><dd>Return the identifier
+at point or <code>POINT</code>.</dd>
+</dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-extract-keywords-from-path</code></dt><dd>Extract keywords
@@ -6409,7 +6425,11 @@ of strings.</dd>
 <dt>Function <code>denote-retrieve-front-matter-keywords-line</code></dt><dd>Return keywords line
 from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 </dl>
-
+</div>
+</div>
+<div id="outline-container-h:e9d05541-bd00-43b9-8146-8c4445f78f07" class="outline-3">
+<h3 id="h:e9d05541-bd00-43b9-8146-8c4445f78f07"><span class="section-number-3">18.4.</span> Prompt interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:e9d05541-bd00-43b9-8146-8c4445f78f07">
 <dl class="org-dl">
 <dt>Function <code>denote-add-prompts</code></dt><dd>Add list of <code>ADDITIONAL-PROMPTS</code> to
 <code>denote-prompts</code>. This is best done inside of a <code>let</code> to create a
@@ -6520,60 +6540,117 @@ the variable <code>denote-directory</code>.  The table uses the <code>file</code
 completion category (so it works with packages such as <code>marginalia</code>
 and <code>embark</code>).</dd>
 </dl>
-
+</div>
+</div>
+<div id="outline-container-h:80ddc044-5c64-4fb3-b4f4-2eaf6bceda3b" class="outline-3">
+<h3 id="h:80ddc044-5c64-4fb3-b4f4-2eaf6bceda3b"><span class="section-number-3">18.5.</span> Front matter interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:80ddc044-5c64-4fb3-b4f4-2eaf6bceda3b">
 <dl class="org-dl">
-<dt>Function <code>denote-rename-file-prompt</code></dt><dd>Prompt to rename file named
-<code>OLD-NAME</code> to <code>NEW-NAME</code>. If <code>denote-rename-confirmations</code> does not
-contain <code>modify-file-name</code>, return t without prompting.</dd>
+<dt>Function <code>denote-filetype-heuristics</code></dt><dd><p>
+Return likely file type of
+<code>FILE</code>. If in the process of <code>org-capture</code>, consider the file type to
+be that of Org. Otherwise, use the file extension to detect the file
+type of <code>FILE</code>.
+</p>
+
+<p>
+If more than one file type correspond to this file extension, use
+the first file type for which the :title-key-regexp in
+<code>denote-file-types</code> matches in the file.
+</p>
+
+<p>
+Return nil if the file type is not recognized.
+</p></dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-rename-file-and-buffer</code></dt><dd>Rename file named
-<code>OLD-NAME</code> to <code>NEW-NAME</code>, updating buffer name.</dd>
+<dt>Variable <code>denote-org-front-matter</code></dt><dd>Specifies the Org front
+matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>, <code>DATE</code>,
+<code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-prepend-front-matter</code></dt><dd>Prepend front matter to
-<code>FILE</code>. The <code>TITLE</code>, <code>KEYWORDS</code>, <code>DATE</code>, <code>ID</code>, <code>SIGNATURE</code>, and
-<code>FILE-TYPE</code> are passed from the renaming command and are used to
-construct a new front matter block if appropriate. [ This function
-is available as part of 4.0.0-dev. ]</dd>
+<dt>Variable <code>denote-yaml-front-matter</code></dt><dd>Specifies the YAML (Markdown)
+front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
+<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-rewrite-front-matter</code></dt><dd>Rewrite front matter of
-note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
-<code>KEYWORDS</code>, <code>SIGNATURE</code>, <code>DATE</code>, <code>IDENTIFIER</code>, and <code>FILE-TYPE</code>
-arguments are given by the renaming command and are used to construct
-new front matter values if appropriate. If <code>denote-rename-confirmations</code>
-contains <code>rewrite-front-matter</code>, prompt to confirm the rewriting of
-the front matter. Otherwise produce a <code>y-or-n-p</code> prompt to that
-effect. [ This function is changed as part of 4.0.0-dev. ]</dd>
+<dt>Variable <code>denote-toml-front-matter</code></dt><dd>Specifies the TOML (Markdown)
+front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
+<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-add-front-matter-prompt</code></dt><dd>Prompt to add a
-front-matter to <code>FILE</code>. Return non-nil if a new front matter should
-be added. If <code>denote-rename-confirmations</code> does not contain
-<code>add-front-matter</code>, return t without prompting.</dd>
+<dt>Variable <code>denote-text-front-matter</code></dt><dd>Specifies the plain text
+front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
+<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-rewrite-keywords</code></dt><dd>Rewrite <code>KEYWORDS</code> in <code>FILE</code>
-outright according to <code>FILE-TYPE</code>. Do the same as
-<code>denote-rewrite-front-matter</code> for keywords, but do not ask for
-confirmation. With optional <code>SAVE-BUFFER</code>, save the buffer
-corresponding to <code>FILE</code>. This function is for use in the commands
-<code>denote-keywords-add</code>, <code>denote-keywords-remove</code>,
-<code>denote-dired-rename-files</code>, or related.</dd>
+<dt>Function <code>denote-date-org-timestamp</code></dt><dd>Format <code>DATE</code> using the Org
+inactive timestamp notation.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-update-dired-buffers</code></dt><dd>Update Dired buffers of
-variable <code>denote-directory</code>. Also revert the current Dired buffer
-even if it is not inside the <code>denote-directory</code>. Note that the
-<code>denote-directory</code> accepts a directory-local value for what we
-internally refer to as &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
+<dt>Function <code>denote-date-rfc3339</code></dt><dd>Format <code>DATE</code> using the RFC3339
+specification.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-date-iso-8601</code></dt><dd>Format <code>DATE</code> according to ISO
+8601 standard.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-trim-whitespace</code></dt><dd>Trim whitespace around string
+<code>S</code>.  This can be used in <code>denote-file-types</code> to format front
+mattter.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-trim-whitespace-then-quotes</code></dt><dd>Trim whitespace
+then quotes around string <code>S</code>.  This can be used in
+<code>denote-file-types</code> to format front mattter.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-string-for-org-front-matter</code></dt><dd>Return
+string <code>S</code> as-is for Org or plain text front matter. If <code>S</code> is not a
+string, return an empty string.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-string-for-md-front-matter</code></dt><dd>Surround
+string <code>S</code> with quotes. If <code>S</code> is not a string, return a literal
+emptry string. This can be used in <code>denote-file-types</code> to format
+front mattter.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-keywords-for-md-front-matter</code></dt><dd>Format
+front matter <code>KEYWORDS</code> for markdown file type.  <code>KEYWORDS</code> is a
+list of strings.  Consult the <code>denote-file-types</code> for how this is
+used.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-keywords-for-text-front-matter</code></dt><dd>Format
+front matter <code>KEYWORDS</code> for text file type.  <code>KEYWORDS</code> is a list of
+strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-format-keywords-for-org-front-matter</code></dt><dd>Format
+front matter <code>KEYWORDS</code> for org file type.  <code>KEYWORDS</code> is a list of
+strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-extract-keywords-from-front-matter</code></dt><dd>Format front
+matter <code>KEYWORDS</code> for org file type.  <code>KEYWORDS</code> is a list of
+strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6645,31 +6722,11 @@ If <code>denote-file-type</code> is nil, use the first element of this list for
 new note creation.  The default is <code>org</code>.
 </p></dd>
 </dl>
-
-<dl class="org-dl">
-<dt>Variable <code>denote-org-front-matter</code></dt><dd>Specifies the Org front
-matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>, <code>DATE</code>,
-<code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Variable <code>denote-yaml-front-matter</code></dt><dd>Specifies the YAML (Markdown)
-front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Variable <code>denote-toml-front-matter</code></dt><dd>Specifies the TOML (Markdown)
-front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Variable <code>denote-text-front-matter</code></dt><dd>Specifies the plain text
-front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
-</dl>
-
+</div>
+</div>
+<div id="outline-container-h:97b8eb9e-07e1-4992-8b59-2a0e3b65574b" class="outline-3">
+<h3 id="h:97b8eb9e-07e1-4992-8b59-2a0e3b65574b"><span class="section-number-3">18.6.</span> Link interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:97b8eb9e-07e1-4992-8b59-2a0e3b65574b">
 <dl class="org-dl">
 <dt>Variable <code>denote-org-link-format</code></dt><dd>Format of Org link to note.
 The value is passed to <code>format</code> with <code>IDENTIFIER</code> and <code>TITLE</code>
@@ -6703,71 +6760,6 @@ Markdown link in its context.  The format of such links is <code>denote-md-link-
 <dt>Variable <code>denote-id-only-link-in-context-regexp</code></dt><dd>Regexp to match
 an identifier-only link in its context.  The format of such links is
 <code>denote-id-only-link-format</code>.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-date-org-timestamp</code></dt><dd>Format <code>DATE</code> using the Org
-inactive timestamp notation.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-date-rfc3339</code></dt><dd>Format <code>DATE</code> using the RFC3339
-specification.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-date-iso-8601</code></dt><dd>Format <code>DATE</code> according to ISO
-8601 standard.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-trim-whitespace</code></dt><dd>Trim whitespace around string
-<code>S</code>.  This can be used in <code>denote-file-types</code> to format front
-mattter.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-trim-whitespace-then-quotes</code></dt><dd>Trim whitespace
-then quotes around string <code>S</code>.  This can be used in
-<code>denote-file-types</code> to format front mattter.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-format-string-for-org-front-matter</code></dt><dd>Return
-string <code>S</code> as-is for Org or plain text front matter. If <code>S</code> is not a
-string, return an empty string.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-format-string-for-md-front-matter</code></dt><dd>Surround
-string <code>S</code> with quotes. If <code>S</code> is not a string, return a literal
-emptry string. This can be used in <code>denote-file-types</code> to format
-front mattter.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-format-keywords-for-md-front-matter</code></dt><dd>Format
-front matter <code>KEYWORDS</code> for markdown file type.  <code>KEYWORDS</code> is a
-list of strings.  Consult the <code>denote-file-types</code> for how this is
-used.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-format-keywords-for-text-front-matter</code></dt><dd>Format
-front matter <code>KEYWORDS</code> for text file type.  <code>KEYWORDS</code> is a list of
-strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-format-keywords-for-org-front-matter</code></dt><dd>Format
-front matter <code>KEYWORDS</code> for org file type.  <code>KEYWORDS</code> is a list of
-strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-extract-keywords-from-front-matter</code></dt><dd>Format front
-matter <code>KEYWORDS</code> for org file type.  <code>KEYWORDS</code> is a list of
-strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6808,8 +6800,9 @@ a <code>FILE</code> argument and should return the description as a string. By
 default, the title of the file is returned as the description.</dd>
 </dl>
 </div>
+</div>
 <div id="outline-container-h:e824c215-1c31-4b26-b994-7df67341d075" class="outline-3">
-<h3 id="h:e824c215-1c31-4b26-b994-7df67341d075"><span class="section-number-3">18.1.</span> Xref interface for developers or advanced users</h3>
+<h3 id="h:e824c215-1c31-4b26-b994-7df67341d075"><span class="section-number-3">18.7.</span> Xref interface for developers or advanced users</h3>
 <div class="outline-text-3" id="text-h:e824c215-1c31-4b26-b994-7df67341d075">
 <p>
 [ All of the following are part of 4.0.0-dev. ]
@@ -6829,6 +6822,65 @@ with location of matches for <code>QUERY</code>. With optional
 <code>FILES-MATCHING-REGEXP</code>, limit the list of files accordingly (per
 <code>denote-directory-files</code>). At all times limit the search to text
 files.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-h:66d31f42-6092-493a-97db-83b217db9d96" class="outline-3">
+<h3 id="h:66d31f42-6092-493a-97db-83b217db9d96"><span class="section-number-3">18.8.</span> Renaming files interface for developers or advanced users</h3>
+<div class="outline-text-3" id="text-h:66d31f42-6092-493a-97db-83b217db9d96">
+<dl class="org-dl">
+<dt>Function <code>denote-rename-file-prompt</code></dt><dd>Prompt to rename file named
+<code>OLD-NAME</code> to <code>NEW-NAME</code>. If <code>denote-rename-confirmations</code> does not
+contain <code>modify-file-name</code>, return t without prompting.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-rename-file-and-buffer</code></dt><dd>Rename file named
+<code>OLD-NAME</code> to <code>NEW-NAME</code>, updating buffer name.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-prepend-front-matter</code></dt><dd>Prepend front matter to
+<code>FILE</code>. The <code>TITLE</code>, <code>KEYWORDS</code>, <code>DATE</code>, <code>ID</code>, <code>SIGNATURE</code>, and
+<code>FILE-TYPE</code> are passed from the renaming command and are used to
+construct a new front matter block if appropriate. [ This function
+is available as part of 4.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-rewrite-front-matter</code></dt><dd>Rewrite front matter of
+note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
+<code>KEYWORDS</code>, <code>SIGNATURE</code>, <code>DATE</code>, <code>IDENTIFIER</code>, and <code>FILE-TYPE</code>
+arguments are given by the renaming command and are used to construct
+new front matter values if appropriate. If <code>denote-rename-confirmations</code>
+contains <code>rewrite-front-matter</code>, prompt to confirm the rewriting of
+the front matter. Otherwise produce a <code>y-or-n-p</code> prompt to that
+effect. [ This function is changed as part of 4.0.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-add-front-matter-prompt</code></dt><dd>Prompt to add a
+front-matter to <code>FILE</code>. Return non-nil if a new front matter should
+be added. If <code>denote-rename-confirmations</code> does not contain
+<code>add-front-matter</code>, return t without prompting.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-rewrite-keywords</code></dt><dd>Rewrite <code>KEYWORDS</code> in <code>FILE</code>
+outright according to <code>FILE-TYPE</code>. Do the same as
+<code>denote-rewrite-front-matter</code> for keywords, but do not ask for
+confirmation. With optional <code>SAVE-BUFFER</code>, save the buffer
+corresponding to <code>FILE</code>. This function is for use in the commands
+<code>denote-keywords-add</code>, <code>denote-keywords-remove</code>,
+<code>denote-dired-rename-files</code>, or related.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-update-dired-buffers</code></dt><dd>Update Dired buffers of
+variable <code>denote-directory</code>. Also revert the current Dired buffer
+even if it is not inside the <code>denote-directory</code>. Note that the
+<code>denote-directory</code> accepts a directory-local value for what we
+internally refer to as &ldquo;silos&rdquo; (<a href="#h:15719799-a5ff-4e9a-9f10-4ca03ef8f6c5">Maintain separate directories for notes</a>).</dd>
 </dl>
 </div>
 </div>
@@ -6852,7 +6904,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgee134bd">
+<pre class="example" id="org3a76ddf">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6862,7 +6914,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org6222c88">
+<pre class="example" id="org71a348d">
 emacs -Q
 </pre>
 
@@ -6874,7 +6926,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org4676215">
+<pre class="example" id="org53ce291">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6935,7 +6987,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6fccaad">
+<pre class="example" id="orga776d8d">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
