@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-03-18 19:05:07 +0200 with a word
-count of 106405.</b>
+<b>Last revised and exported on 2025-03-20 09:00:33 +0200 with a word
+count of 106418.</b>
 </p>
 
 <p>
@@ -358,7 +358,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:f23d9cef-ab7b-4486-a070-9c7ae664eadf">5.12. <span class="todo TODO">TODO</span> The <code>prot-emacs-web.el</code> module</a>
 <ul>
 <li><a href="#h:edb70963-d590-4959-bc59-1e5435c8e78a">5.12.1. The <code>prot-emacs-web.el</code> settings about following links (<code>browse-url</code>)</a></li>
-<li><a href="#h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a">5.12.2. The <code>prot-emacs-web.el</code> settings about buttonising links (<code>goto-addr</code>)</a></li>
+<li><a href="#h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a">5.12.2. The <code>prot-emacs-web.el</code> settings about buttonising links (<code>goto-address-mode</code>)</a></li>
 <li><a href="#h:60483672-aeb6-427b-bbef-54a5c31e39ab">5.12.3. The <code>prot-emacs-web.el</code> settings about the Simple HTML Renderer (<code>shr</code>)</a></li>
 <li><a href="#h:399f1ec8-30e6-40c3-931b-e7c7409716c8">5.12.4. The <code>prot-emacs-web.el</code> settings about browser cookies</a></li>
 <li><a href="#h:b09b4fce-31fe-4381-a49a-6a7206ac5f1b">5.12.5. The <code>prot-emacs-web.el</code> settings about the web browser (<code>eww</code>)</a></li>
@@ -416,7 +416,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-03-18 19:05:07 +0200):
+(2025-03-20 09:00:33 +0200):
 </p>
 
 <div class="org-src-container">
@@ -425,7 +425,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --with-pgtk --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+--prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=yes --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json --without-gsettings --without-gconf --with-x-toolkit=no --without-toolkit-scroll-bars --without-xft --without-xaw3d
 </pre>
 
 
@@ -506,7 +506,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org70230bc">
+<pre class="example" id="org992aa26">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -586,7 +586,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgb5744dc">
+<pre class="example" id="org5940106">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -594,7 +594,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org217bc06">
+<pre class="example" id="org93dd137">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1520,7 +1520,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgb3655b7">
+<pre class="example" id="org9ac11ef">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4241,7 +4241,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org52713a0">
+<pre class="example" id="org90c9d71">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7084,7 +7084,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org47da065">
+<pre class="example" id="orgc5e26f1">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7112,7 +7112,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org236c4f3">
+<pre class="example" id="orga655a75">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7134,7 +7134,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org2731049">
+<pre class="example" id="org37f2242">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7290,7 +7290,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgcfc3be7">
+<pre class="example" id="org8d45919">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8935,7 +8935,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org8962916">
+<pre class="example" id="org899ca41">
 (info "(org) Search Options")
 </pre>
 
@@ -9027,7 +9027,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgeb071df">
+<pre class="example" id="org519dd87">
 (require 'ob-python)
 
 ;; OR
@@ -9874,7 +9874,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org831ff8d">
+<pre class="example" id="org3c5b27e">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10771,7 +10771,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org5b81b7d">
+<pre class="example" id="org1f7d1e0">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10783,7 +10783,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgfbb9f0f">
+<pre class="example" id="org8d4e7ac">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10849,7 +10849,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org667cce0">
+<pre class="example" id="org27b7518">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10861,7 +10861,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org0c992df">
+<pre class="example" id="orgd878360">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10883,7 +10883,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgc69a54e">
+<pre class="example" id="org3e6d3f7">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11012,7 +11012,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orga753271">
+<pre class="example" id="org166185e">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11148,7 +11148,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org19022f0">
+<pre class="example" id="orgac3b275">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11160,7 +11160,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org1ae2257">
+<pre class="example" id="org9787a25">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12299,7 +12299,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgb2066dc">
+<pre class="example" id="org6af974c">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12396,7 +12396,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org4f5297d">
+<pre class="example" id="org0ab0c22">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12495,7 +12495,7 @@ with RSS and IRC clients:
 </div>
 </div>
 <div id="outline-container-h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a" class="outline-4">
-<h4 id="h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a"><span class="section-number-4">5.12.2.</span> The <code>prot-emacs-web.el</code> settings about buttonising links (<code>goto-addr</code>)</h4>
+<h4 id="h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a"><span class="section-number-4">5.12.2.</span> The <code>prot-emacs-web.el</code> settings about buttonising links (<code>goto-address-mode</code>)</h4>
 <div class="outline-text-4" id="text-h:7639683b-4b6f-42ee-9ae0-76eeec6fee9a">
 <p>
 The built-in <code>goto-addr</code> is used to turn any plain text web URL into a
@@ -12510,7 +12510,10 @@ have, which are strictly stylistic.
 <pre class="src src-emacs-lisp">;;;; `goto-addr'
 (use-package goto-addr
   :ensure nil
-  :commands (goto-addr-mode goto-addr-prog-mode)
+  :commands (goto-address-mode goto-address-prog-mode)
+  :hook
+  ((text-mode . goto-address-mode)
+   (prog-mode . goto-address-prog-mode))
   :config
   (setq goto-address-url-face 'link)
   (setq goto-address-url-mouse-face 'highlight)
@@ -19356,7 +19359,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgb4dfb41">
+<pre class="example" id="org63ca6eb">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19388,7 +19391,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgfa6c98e">
+<pre class="example" id="org8cc36b2">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
