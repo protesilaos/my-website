@@ -26,6 +26,10 @@ In short:
   (just how our backlinks work when they show context---I am
   generalising this mechanism).
 
+_Direct links_ can point to any file, including PDFs, videos, and
+pictures (assuming it is renamed to use the Denote file-naming
+scheme). Whereas _query links_ are limited to text files.
+
 ## Development discussion and screenshots
 
 This is a work-in-progress that lives on its own branch as of this
