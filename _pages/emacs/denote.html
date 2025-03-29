@@ -137,23 +137,21 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">9. Linking notes</a>
 <ul>
-<li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">9.1. Adding a single direct link</a></li>
-<li><a href="#h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d">9.2. Adding a query link</a></li>
-<li><a href="#h:6aa22a2d-3338-433e-ab9f-ba272417aab9">9.3. The <code>denote-open-link-function</code> user option</a></li>
-<li><a href="#h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">9.4. The <code>denote-org-store-link-to-heading</code> user option</a></li>
-<li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">9.5. Insert links matching a regexp</a></li>
-<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">9.6. Insert links from marked files in Dired</a></li>
-<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">9.7. Link to an existing note or create a new one</a></li>
-<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">9.8. The backlinks&rsquo; buffer</a></li>
-<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">9.9. Writing metanotes</a></li>
-<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">9.10. Visiting linked files via the minibuffer</a></li>
-<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">9.11. Fontify links in non-Org buffers</a></li>
-<li><a href="#h:dd8f2231-8d77-49b9-acc4-af525c68b271">9.12. Miscellaneous information about links</a>
-<ul>
-<li><a href="#h:078856d9-f608-43a8-be84-f2cad4c27d0e">9.12.1. Aliases for the linking commands</a></li>
-<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">9.12.2. The <code>denote-link-description-format</code> to format link descriptions</a></li>
-</ul>
-</li>
+<li><a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">9.1. Add a single direct link using a file name prompt</a></li>
+<li><a href="#h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">9.2. Add a direct link to a file whose contents include the given query</a></li>
+<li><a href="#h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d">9.3. Add a query link</a></li>
+<li><a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">9.4. Insert links to all files matching a query in their file name</a></li>
+<li><a href="#h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9">9.5. Insert links to all files matching a query in their contents</a></li>
+<li><a href="#h:6aa22a2d-3338-433e-ab9f-ba272417aab9">9.6. The <code>denote-open-link-function</code> user option</a></li>
+<li><a href="#h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">9.7. The <code>denote-org-store-link-to-heading</code> user option</a></li>
+<li><a href="#h:28cb8d14-cf56-4d73-b126-8ff269dbaa64">9.8. Adding direct links to files matching contents</a></li>
+<li><a href="#h:9cbb692e-5d8a-44a6-9193-899a07872a07">9.9. Insert links from marked files in Dired</a></li>
+<li><a href="#h:b6056e6b-93df-4e6b-a778-eebd105bac46">9.10. Link to an existing note or create a new one</a></li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">9.11. The backlinks&rsquo; buffer</a></li>
+<li><a href="#h:6060a7e6-f179-4d42-a9de-a9968aaebecc">9.12. Writing metanotes</a></li>
+<li><a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">9.13. Visiting linked files via the minibuffer</a></li>
+<li><a href="#h:156c5ea3-147b-4f9d-a404-86a00558c60a">9.14. Fontify links in non-Org buffers</a></li>
+<li><a href="#h:f634427c-b451-40e2-993e-e00ac627af68">9.15. The <code>denote-link-description-format</code> to format link descriptions</a></li>
 </ul>
 </li>
 <li><a href="#h:98c732ac-da0e-4ebd-a0e3-5c47f9075e51">10. Choose which commands to prompt for</a></li>
@@ -1735,7 +1733,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2f14f45">
+<pre class="example" id="orge025d38">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2309,7 +2307,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge2c5616">
+<pre class="example" id="orgb0bf937">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2329,7 +2327,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgb27614f">
+<pre class="example" id="org82ce04c">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2982,7 +2980,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org309ce71">
+<pre class="example" id="org484073d">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3198,7 +3196,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org59cc813">
+<pre class="example" id="org91b3b8c">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3210,7 +3208,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org51512a3">
+<pre class="example" id="org890d051">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3224,7 +3222,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org313e6f8">
+<pre class="example" id="org62419cb">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3238,7 +3236,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgc0edd5f">
+<pre class="example" id="org4ed1a65">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3429,14 +3427,14 @@ The following sections cover all the details (<a href="#h:4f354db1-aa78-47fd-ac6
 </p>
 </div>
 <div id="outline-container-h:5e5e3370-12ab-454f-ba09-88ff44214324" class="outline-3">
-<h3 id="h:5e5e3370-12ab-454f-ba09-88ff44214324"><span class="section-number-3">9.1.</span> Adding a single direct link</h3>
+<h3 id="h:5e5e3370-12ab-454f-ba09-88ff44214324"><span class="section-number-3">9.1.</span> Add a single direct link using a file name prompt</h3>
 <div class="outline-text-3" id="text-h:5e5e3370-12ab-454f-ba09-88ff44214324">
 <p>
-The <code>denote-link</code> command inserts a link at point to a file selected
-at the minibuffer prompt. Links are formatted depending on the file
-type of the current note. In Org and plain text buffers, links are
-formatted thus: <code>[[denote:IDENTIFIER][DESCRIPTION]]</code>. While in
-Markdown they are expressed as <code>[DESCRIPTION](denote:IDENTIFIER)</code>.
+The <code>denote-link</code> command (alias <code>denote-insert-link</code>) inserts a link
+at point to a file selected at the minibuffer prompt. Links are
+formatted depending on the file type of the current note. In Org and
+plain text buffers, links are formatted thus: <code>[[denote:IDENTIFIER][DESCRIPTION]]</code>.
+While in Markdown they are expressed as <code>[DESCRIPTION](denote:IDENTIFIER)</code>.
 </p>
 
 <p>
@@ -3464,6 +3462,17 @@ name.</li>
 </ul>
 
 <p>
+To insert multiple such links at once, use the command
+<code>denote-add-links</code> (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links matching a regexp in their file name</a>).
+</p>
+
+<p>
+If you want to directly link to a single file whose contents match a
+given query, then use the command <code>denote-link-to-file-with-contents</code>
+(<a href="#h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">Adding a direct link to a file whose contents include the given query</a>).
+</p>
+
+<p>
 Links are styled with the <code>denote-faces-link</code> face, which looks
 exactly like an ordinary link by default.
 </p>
@@ -3476,8 +3485,40 @@ exactly like an ordinary link by default.
 </p>
 </div>
 </div>
+<div id="outline-container-h:25a983ca-049e-43d4-8f6e-06a2325e2c3c" class="outline-3">
+<h3 id="h:25a983ca-049e-43d4-8f6e-06a2325e2c3c"><span class="section-number-3">9.2.</span> Add a direct link to a file whose contents include the given query</h3>
+<div class="outline-text-3" id="text-h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">
+<p>
+[ The <code>denote-link-to-file-with-contents</code> is part of 4.0.0-dev. ]
+</p>
+
+<p>
+The <code>denote-link</code> command that we covered before prompts to select a
+file among those in the <code>denote-directory</code> (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single direct link using a file name prompt</a>).
+The match is done against the file&rsquo;s name. Users may, however, be
+interested to create a link to a file whose contents include some
+text, regardless of how the file name is called. To this end, the
+command <code>denote-link-to-file-with-contents</code>, (i) prompts for a query
+which is a plain string or regular expression, (ii) if there are
+matching files, asks to select one among them, and (iii) inserts the
+direct link at point.
+</p>
+
+<p>
+When called with an optional prefix argument (<code>C-u</code> by default), the
+command <code>denote-link-to-file-with-contents</code> creates a link that does
+not include a description for the target file: it just has the file&rsquo;s
+identifier (same as with <code>denote-link</code>).
+</p>
+
+<p>
+The command <code>denote-link-to-file-with-contents</code> is the counterpart of
+<code>denote-link-to-all-files-with-contents</code> (<a href="#h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9">Insert links to all files matching a query in their contents</a>).
+</p>
+</div>
+</div>
 <div id="outline-container-h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d" class="outline-3">
-<h3 id="h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d"><span class="section-number-3">9.2.</span> Adding a query link</h3>
+<h3 id="h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d"><span class="section-number-3">9.3.</span> Add a query link</h3>
 <div class="outline-text-3" id="text-h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d">
 <p>
 [ Query links are part of 4.0.0-dev. ]
@@ -3524,10 +3565,119 @@ The user option <code>denote-query-links-display-buffer-action</code> controls
 the placement of query link buffers. By default, they are designed to
 appear below the current window.
 </p>
+
+<p>
+Query links are styled with the <code>denote-faces-query-link</code> face, which
+looks a bit different that <code>denote-faces-link</code> (though this depends on
+the active theme).
+</p>
+</div>
+</div>
+<div id="outline-container-h:9bec2c83-36ca-4951-aefc-7187c5463f90" class="outline-3">
+<h3 id="h:9bec2c83-36ca-4951-aefc-7187c5463f90"><span class="section-number-3">9.4.</span> Insert links to all files matching a query in their file name</h3>
+<div class="outline-text-3" id="text-h:9bec2c83-36ca-4951-aefc-7187c5463f90">
+<p>
+The command <code>denote-add-links</code> adds links at point to all file names
+in the <code>denote-directory</code> that match a regular expression or plain
+string. This is similar to the <code>denote-link</code> command, which
+establishes a direct link to a specified file (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single direct link</a>).
+Links to files whose names match the given search terms are inserted
+as a typographic list, such as:
+</p>
+
+<pre class="example" id="org00b45de">
+- link1
+- link2
+- link3
+</pre>
+
+<p>
+Each link is formatted according to the file type of the current note,
+as explained further above about the <code>denote-link</code> command.  The current
+note is excluded from the matching entries (adding a link to itself is
+pointless).
+</p>
+
+<p>
+When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</code> will
+format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
+</p>
+
+<pre class="example" id="org1b7a23a">
+- [[denote:IDENTIFIER-1]]
+- [[denote:IDENTIFIER-2]]
+- [[denote:IDENTIFIER-3]]
+</pre>
+
+<p>
+Same examples of a regular expression that can be used with this
+command:
+</p>
+
+<ul class="org-ul">
+<li><code>journal</code> match all files which include <code>journal</code> anywhere in their
+name.</li>
+
+<li><code>_journal</code> match all files which include <code>journal</code> as a keyword.</li>
+
+<li><code>^2022.*_journal</code> match all file names starting with <code>2022</code> and
+including the keyword <code>journal</code>.</li>
+
+<li><code>\.txt</code> match all files including <code>.txt</code>.  In practical terms, this
+only applies to the file extension, as Denote automatically removes
+dots (and other characters) from the base file name.</li>
+</ul>
+
+<p>
+If files are created with <code>denote-sort-keywords</code> as non-nil (the
+default), then it is easy to write a regexp that includes multiple
+keywords in alphabetic order:
+</p>
+
+<ul class="org-ul">
+<li><code>_denote.*_package</code> match all files that include both the <code>denote</code> and
+<code>package</code> keywords, in this order.</li>
+
+<li><code>\(.*denote.*package.*\)\|\(.*package.*denote.*\)</code> is the same as
+above, but out-of-order.</li>
+</ul>
+
+<p>
+Remember that regexp constructs only need to be escaped once (like <code>\|</code>)
+when done interactively but twice when called from Lisp.  What we show
+above is for interactive usage.
+</p>
+
+<p>
+Links are created only for files which qualify as a &ldquo;note&rdquo; for our
+purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9" class="outline-3">
+<h3 id="h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9"><span class="section-number-3">9.5.</span> Insert links to all files matching a query in their contents</h3>
+<div class="outline-text-3" id="text-h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9">
+<p>
+[ The command <code>denote-link-to-all-files-with-contents</code> is part of 4.0.0-dev. ]
+</p>
+
+<p>
+The aforementioned <code>denote-add-links</code> command takes a query that
+matches it against file names (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links to all files matching a query in their file name</a>).
+It then creates a typographic list (bullet list) with direct links to
+all the matching files. Users who wish to achieve the same result but
+have the query be matched against file contents (not file names), can
+use the command <code>denote-link-to-all-files-with-contents</code>.
+</p>
+
+<p>
+The command <code>denote-link-to-all-files-with-contents</code> is the
+counterpart of <code>denote-link-to-file-with-contents</code> (<a href="#h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">Add a direct link to a file whose contents include the given query</a>).
+</p>
 </div>
 </div>
 <div id="outline-container-h:6aa22a2d-3338-433e-ab9f-ba272417aab9" class="outline-3">
-<h3 id="h:6aa22a2d-3338-433e-ab9f-ba272417aab9"><span class="section-number-3">9.3.</span> The <code>denote-open-link-function</code> user option</h3>
+<h3 id="h:6aa22a2d-3338-433e-ab9f-ba272417aab9"><span class="section-number-3">9.6.</span> The <code>denote-open-link-function</code> user option</h3>
 <div class="outline-text-3" id="text-h:6aa22a2d-3338-433e-ab9f-ba272417aab9">
 <p>
 [ This is part of 4.0.0-dev. ]
@@ -3549,7 +3699,7 @@ the command <code>org-open-at-point</code>).
 </div>
 </div>
 <div id="outline-container-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4" class="outline-3">
-<h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">9.4.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
+<h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">9.7.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
 <div class="outline-text-3" id="text-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">
 <p>
 [ Revised to also support context links that do not use a <code>PROPERTIES</code>
@@ -3648,86 +3798,13 @@ navigates to that heading.
 </p>
 </div>
 </div>
-<div id="outline-container-h:9bec2c83-36ca-4951-aefc-7187c5463f90" class="outline-3">
-<h3 id="h:9bec2c83-36ca-4951-aefc-7187c5463f90"><span class="section-number-3">9.5.</span> Insert links matching a regexp</h3>
-<div class="outline-text-3" id="text-h:9bec2c83-36ca-4951-aefc-7187c5463f90">
-<p>
-The command <code>denote-add-links</code> adds links at point matching a
-regular expression or plain string.  The links are inserted as a
-typographic list, such as:
-</p>
-
-<pre class="example" id="orgee6f042">
-- link1
-- link2
-- link3
-</pre>
-
-<p>
-Each link is formatted according to the file type of the current note,
-as explained further above about the <code>denote-link</code> command.  The current
-note is excluded from the matching entries (adding a link to itself is
-pointless).
-</p>
-
-<p>
-When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</code> will
-format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
-</p>
-
-<pre class="example" id="orgc40479b">
-- [[denote:IDENTIFIER-1]]
-- [[denote:IDENTIFIER-2]]
-- [[denote:IDENTIFIER-3]]
-</pre>
-
-<p>
-Same examples of a regular expression that can be used with this
-command:
-</p>
-
-<ul class="org-ul">
-<li><code>journal</code> match all files which include <code>journal</code> anywhere in their
-name.</li>
-
-<li><code>_journal</code> match all files which include <code>journal</code> as a keyword.</li>
-
-<li><code>^2022.*_journal</code> match all file names starting with <code>2022</code> and
-including the keyword <code>journal</code>.</li>
-
-<li><code>\.txt</code> match all files including <code>.txt</code>.  In practical terms, this
-only applies to the file extension, as Denote automatically removes
-dots (and other characters) from the base file name.</li>
-</ul>
-
-<p>
-If files are created with <code>denote-sort-keywords</code> as non-nil (the
-default), then it is easy to write a regexp that includes multiple
-keywords in alphabetic order:
-</p>
-
-<ul class="org-ul">
-<li><code>_denote.*_package</code> match all files that include both the <code>denote</code> and
-<code>package</code> keywords, in this order.</li>
-
-<li><code>\(.*denote.*package.*\)\|\(.*package.*denote.*\)</code> is the same as
-above, but out-of-order.</li>
-</ul>
-
-<p>
-Remember that regexp constructs only need to be escaped once (like <code>\|</code>)
-when done interactively but twice when called from Lisp.  What we show
-above is for interactive usage.
-</p>
-
-<p>
-Links are created only for files which qualify as a &ldquo;note&rdquo; for our
-purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
-</p>
+<div id="outline-container-h:28cb8d14-cf56-4d73-b126-8ff269dbaa64" class="outline-3">
+<h3 id="h:28cb8d14-cf56-4d73-b126-8ff269dbaa64"><span class="section-number-3">9.8.</span> Adding direct links to files matching contents</h3>
+<div class="outline-text-3" id="text-h:28cb8d14-cf56-4d73-b126-8ff269dbaa64">
 </div>
 </div>
 <div id="outline-container-h:9cbb692e-5d8a-44a6-9193-899a07872a07" class="outline-3">
-<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">9.6.</span> Insert links from marked files in Dired</h3>
+<h3 id="h:9cbb692e-5d8a-44a6-9193-899a07872a07"><span class="section-number-3">9.9.</span> Insert links from marked files in Dired</h3>
 <div class="outline-text-3" id="text-h:9cbb692e-5d8a-44a6-9193-899a07872a07">
 <p>
 The command <code>denote-link-dired-marked-notes</code> is similar to
@@ -3770,7 +3847,7 @@ The <code>denote-dired-link-marked-notes</code> is an alias for
 </div>
 </div>
 <div id="outline-container-h:b6056e6b-93df-4e6b-a778-eebd105bac46" class="outline-3">
-<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">9.7.</span> Link to an existing note or create a new one</h3>
+<h3 id="h:b6056e6b-93df-4e6b-a778-eebd105bac46"><span class="section-number-3">9.10.</span> Link to an existing note or create a new one</h3>
 <div class="outline-text-3" id="text-h:b6056e6b-93df-4e6b-a778-eebd105bac46">
 <p>
 In one&rsquo;s note-taking workflow, there may come a point where they are
@@ -3867,7 +3944,7 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 </div>
 </div>
 <div id="outline-container-h:c73f1f68-e214-49d5-b369-e694f6a5d708" class="outline-3">
-<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">9.8.</span> The backlinks&rsquo; buffer</h3>
+<h3 id="h:c73f1f68-e214-49d5-b369-e694f6a5d708"><span class="section-number-3">9.11.</span> The backlinks&rsquo; buffer</h3>
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
 [ Older versions of Denote had two types of formatting for the
@@ -3878,11 +3955,12 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 </p>
 
 <p>
-The command <code>denote-backlinks</code> produces a bespoke buffer which
-displays backlinks to the current note. A &ldquo;backlink&rdquo; is a link back to
-the present entry. Backlinks can be generated for any file type that
-has a Denote file-naming scheme, such as PDFs, images, and videos, as
-well as the regular plain text files.
+The command <code>denote-backlinks</code> (alias <code>denote-show-backlinks-buffer</code>)
+produces a bespoke buffer which displays backlinks to the current
+note. A &ldquo;backlink&rdquo; is a link back to the present entry. Backlinks can
+be generated for any file type that has a Denote file-naming scheme,
+such as PDFs, images, and videos, as well as the regular plain text
+files.
 </p>
 
 <p>
@@ -3893,7 +3971,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org8b4ae7a">
+<pre class="example" id="orgbfa78e6">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -3935,7 +4013,7 @@ command (<a href="#h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">Visiting linked files
 </div>
 </div>
 <div id="outline-container-h:6060a7e6-f179-4d42-a9de-a9968aaebecc" class="outline-3">
-<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">9.9.</span> Writing metanotes</h3>
+<h3 id="h:6060a7e6-f179-4d42-a9de-a9968aaebecc"><span class="section-number-3">9.12.</span> Writing metanotes</h3>
 <div class="outline-text-3" id="text-h:6060a7e6-f179-4d42-a9de-a9968aaebecc">
 <p>
 A &ldquo;metanote&rdquo; is an entry that describes other entries who have something
@@ -3984,7 +4062,7 @@ knowledge derived from the deliberate self-reflection.
 </div>
 </div>
 <div id="outline-container-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4" class="outline-3">
-<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">9.10.</span> Visiting linked files via the minibuffer</h3>
+<h3 id="h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4"><span class="section-number-3">9.13.</span> Visiting linked files via the minibuffer</h3>
 <div class="outline-text-3" id="text-h:1bc2adad-dca3-4878-b9f0-b105d5dec6f4">
 <p>
 Denote has a major-mode-agnostic mechanism to collect all linked file
@@ -4009,7 +4087,7 @@ in a dedicated buffer (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The bac
 </div>
 </div>
 <div id="outline-container-h:156c5ea3-147b-4f9d-a404-86a00558c60a" class="outline-3">
-<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">9.11.</span> Fontify links in non-Org buffers</h3>
+<h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">9.14.</span> Fontify links in non-Org buffers</h3>
 <div class="outline-text-3" id="text-h:156c5ea3-147b-4f9d-a404-86a00558c60a">
 <p>
 Denote links are automatically fontified in Org buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
@@ -4055,26 +4133,9 @@ function <code>denote-link-markdown-follow</code> for the implementation details
 </p>
 </div>
 </div>
-<div id="outline-container-h:dd8f2231-8d77-49b9-acc4-af525c68b271" class="outline-3">
-<h3 id="h:dd8f2231-8d77-49b9-acc4-af525c68b271"><span class="section-number-3">9.12.</span> Miscellaneous information about links</h3>
-<div class="outline-text-3" id="text-h:dd8f2231-8d77-49b9-acc4-af525c68b271">
-</div>
-<div id="outline-container-h:078856d9-f608-43a8-be84-f2cad4c27d0e" class="outline-4">
-<h4 id="h:078856d9-f608-43a8-be84-f2cad4c27d0e"><span class="section-number-4">9.12.1.</span> Aliases for the linking commands</h4>
-<div class="outline-text-4" id="text-h:078856d9-f608-43a8-be84-f2cad4c27d0e">
-<p>
-For convenience, the <code>denote-link</code> command has an alias called
-<code>denote-insert-link</code>.  The <code>denote-backlinks</code> can also be used as
-<code>denote-show-backlinks-buffer</code>.  While <code>denote-add-links</code> is
-aliased <code>denote-link-insert-links-matching-regexp</code>.  The purpose of
-these aliases is to offer alternative, more descriptive names of
-select commands.
-</p>
-</div>
-</div>
-<div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-4">
-<h4 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-4">9.12.2.</span> The <code>denote-link-description-format</code> to format link descriptions</h4>
-<div class="outline-text-4" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
+<div id="outline-container-h:f634427c-b451-40e2-993e-e00ac627af68" class="outline-3">
+<h3 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-3">9.15.</span> The <code>denote-link-description-format</code> to format link descriptions</h3>
+<div class="outline-text-3" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
 [ As part of 4.0.0-dev, the old user option
   <code>denote-link-description-function</code> is deprecated and superseded by
@@ -4145,7 +4206,6 @@ as a <code>[D]</code> prefix.
 <p>
 If the region is active, its text is used as the link&rsquo;s description.
 </p>
-</div>
 </div>
 </div>
 </div>
@@ -5317,7 +5377,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgdb0bc98">
+<pre class="example" id="org5f08d81">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6900,7 +6960,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgdd1d637">
+<pre class="example" id="orgff8b22b">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -6910,7 +6970,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org929e450">
+<pre class="example" id="orgc56b0de">
 emacs -Q
 </pre>
 
@@ -6922,7 +6982,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org253ce6c">
+<pre class="example" id="orgb5854fa">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -6983,7 +7043,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgaf8c57f">
+<pre class="example" id="org541d126">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
