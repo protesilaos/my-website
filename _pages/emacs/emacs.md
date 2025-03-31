@@ -4,6 +4,33 @@ excerpt: 'List of all my packages and/or custom code for GNU Emacs'
 permalink: /emacs/
 ---
 
+## Denote
+
+Denote is a simple note-taking tool for Emacs.  It is based on the idea
+that notes should follow a predictable and descriptive file-naming
+scheme.  The file name must offer a clear indication of what the note is
+about, without reference to any other metadata.  Denote basically
+streamlines the creation of such files while providing facilities to
+link between them.
+
+Denote's file-naming scheme is not limited to "notes".  It can be used
+for all types of file, including those that are not editable in Emacs,
+such as videos.  Naming files in a consistent way makes their
+filtering and retrieval considerably easier.  Denote provides relevant
+facilities to rename files, regardless of file type.
+
+[ Further down on this list I include more of my Denote-related packages. ]
+
++ Package name (GNU ELPA): `denote`
++ Official manual: <https://protesilaos.com/emacs/denote>
++ Change log: <https://protesilaos.com/emacs/denote-changelog>
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/denote>
+  + GitLab: <https://gitlab.com/protesilaos/denote>
++ Video demo: <https://protesilaos.com/codelog/2022-06-18-denote-demo/>
++ Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
+  Note Only The Epiphenomenal.
+
 ## Modus themes
 
 Highly accessible themes, conforming with the highest standard for
@@ -52,49 +79,6 @@ designed by me).
 + Backronym: Eclectic Fashion in Themes Hides Exaggerated Markings,
   Embellishments, and Sparkles.
 
-## Denote
-
-Denote is a simple note-taking tool for Emacs.  It is based on the idea
-that notes should follow a predictable and descriptive file-naming
-scheme.  The file name must offer a clear indication of what the note is
-about, without reference to any other metadata.  Denote basically
-streamlines the creation of such files while providing facilities to
-link between them.
-
-Denote's file-naming scheme is not limited to "notes".  It can be used
-for all types of file, including those that are not editable in Emacs,
-such as videos.  Naming files in a consistent way makes their
-filtering and retrieval considerably easier.  Denote provides relevant
-facilities to rename files, regardless of file type.
-
-[ Further down on this list I include more of my Denote-related packages. ]
-
-+ Package name (GNU ELPA): `denote`
-+ Official manual: <https://protesilaos.com/emacs/denote>
-+ Change log: <https://protesilaos.com/emacs/denote-changelog>
-+ Git repositories:
-  + GitHub: <https://github.com/protesilaos/denote>
-  + GitLab: <https://gitlab.com/protesilaos/denote>
-+ Video demo: <https://protesilaos.com/codelog/2022-06-18-denote-demo/>
-+ Backronyms: Denote Everything Neatly; Omit The Excesses.  Don't Ever
-  Note Only The Epiphenomenal.
-
-## Beframe
-
-`beframe` enables a frame-oriented Emacs workflow where each frame has
-access only to the list of buffers visited therein.  In the interest of
-brevity, we call buffers that belong to frames "beframed".
-
-+ Package name (GNU ELPA): `beframe`
-+ Official manual: <https://protesilaos.com/emacs/beframe>
-+ Change log: <https://protesilaos.com/emacs/beframe-changelog>
-+ Git repositories:
-  + GitHub: <https://github.com/protesilaos/beframe>
-  + GitLab: <https://gitlab.com/protesilaos/beframe>
-+ Video demo: <https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/>
-+ Backronym: Buffers Encapsulated in Frames Realise Advanced
-  Management of Emacs.
-
 ## Fontaine
 
 Fontaine allows the user to define detailed font configurations and set
@@ -137,6 +121,22 @@ designs](https://github.com/rougier) and [Daniel Mendler's
   Usability State ... padding; Spacious ... Precise Adjustments to
   Desktop Divider Internals Neatly Generated.
 
+## Beframe
+
+`beframe` enables a frame-oriented Emacs workflow where each frame has
+access only to the list of buffers visited therein.  In the interest of
+brevity, we call buffers that belong to frames "beframed".
+
++ Package name (GNU ELPA): `beframe`
++ Official manual: <https://protesilaos.com/emacs/beframe>
++ Change log: <https://protesilaos.com/emacs/beframe-changelog>
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/beframe>
+  + GitLab: <https://gitlab.com/protesilaos/beframe>
++ Video demo: <https://protesilaos.com/codelog/2023-02-28-emacs-beframe-demo/>
++ Backronym: Buffers Encapsulated in Frames Realise Advanced
+  Management of Emacs.
+
 ## Substitute
 
 Efficiently replace targets in the buffer or context.
@@ -159,24 +159,6 @@ perform the substitution outright, without moving the point.
 + Video demo: <https://protesilaos.com/codelog/2023-01-16-emacs-substitute-package-demo/>
 + Backronym: Some Utilities Built to Substitute Targets Independent of
   Their Utterances, Thoroughly and Easily.
-
-## Minibuffer Confines Transcended (mct.el)
-
-Enhancements for the default minibuffer completion UI of Emacs.  In
-essence, MCT is (i) a very thin layer of interactivity on top of the
-out-of-the-box completion experience, and (ii) glue code that combines
-built-in functionalities to make the default completion framework work
-like that of more featureful third-party options.
-
-+ Package name (GNU ELPA): `mct`
-+ Official manual: <https://protesilaos.com/emacs/mct>
-+ Change log: <https://protesilaos.com/emacs/mct-changelog>
-+ Git repositories:
-  + GitHub: <https://github.com/protesilaos/mct>
-  + GitLab: <https://gitlab.com/protesilaos/mct>
-+ Video demo: <https://protesilaos.com/codelog/2021-10-22-emacs-mct-demo/>
-+ Backronym: Minibuffer Confines Transcended; Minibuffer and
-  Completions in Tandem.
 
 ## TMR
 
@@ -227,21 +209,6 @@ Check out its sources:
 + Git repository: <https://github.com/protesilaos/show-font>
 + Sample pictures: <https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/>
 + Backronym: Should Highlight Only With the Family Of the Named Typeface.
-
-## sxhkdrc-mode
-
-This is a major mode for editing `sxhkdrc` files. SXHKD is the Simple
-X Hot Key Daemon which is commonly used in minimalist desktop sessions
-on Xorg (I use it with bspwm, herbstluftwm, and i3wm). The `sxhkdrc`
-file configures key chords, binding them to commands. For the
-technicalities, read the man page `sxhkd(1)`.
-
-+ Package name (GNU ELPA): `sxhkdrc-mode`
-+ Git repositories:
-  + GitHub: <https://github.com/protesilaos/sxhkdrc-mode>
-  + GitLab: <https://gitlab.com/protesilaos/sxhkdrc-mode>
-+ Backronym: Such Xenotropic Hot Keys Demonstrate Robustness and
-  Configurability ... mode.
 
 ## Logos
 
@@ -380,6 +347,24 @@ of packages.
 + Backronym: Standard Themes Are Not Derivatives but the
   Affectionately Reimagined Default ... themes.
 
+## Minibuffer Confines Transcended (mct.el)
+
+Enhancements for the default minibuffer completion UI of Emacs.  In
+essence, MCT is (i) a very thin layer of interactivity on top of the
+out-of-the-box completion experience, and (ii) glue code that combines
+built-in functionalities to make the default completion framework work
+like that of more featureful third-party options.
+
++ Package name (GNU ELPA): `mct`
++ Official manual: <https://protesilaos.com/emacs/mct>
++ Change log: <https://protesilaos.com/emacs/mct-changelog>
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/mct>
+  + GitLab: <https://gitlab.com/protesilaos/mct>
++ Video demo: <https://protesilaos.com/codelog/2021-10-22-emacs-mct-demo/>
++ Backronym: Minibuffer Confines Transcended; Minibuffer and
+  Completions in Tandem.
+
 ## Consult-Denote
 
 Glue code to integrate my `denote` package with Daniel Mendler's
@@ -485,6 +470,21 @@ across their configuration.
 + Backronyms: Denote... Markdown's Ambitious Reimplimentations
   Knowingly Dilute Obvious Widespread Norms; Denote... Markup
   Agnosticism Requires Knowhow to Do Only What's Necessary.
+
+## sxhkdrc-mode
+
+This is a major mode for editing `sxhkdrc` files. SXHKD is the Simple
+X Hot Key Daemon which is commonly used in minimalist desktop sessions
+on Xorg (I use it with bspwm, herbstluftwm, and i3wm). The `sxhkdrc`
+file configures key chords, binding them to commands. For the
+technicalities, read the man page `sxhkd(1)`.
+
++ Package name (GNU ELPA): `sxhkdrc-mode`
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/sxhkdrc-mode>
+  + GitLab: <https://gitlab.com/protesilaos/sxhkdrc-mode>
++ Backronym: Such Xenotropic Hot Keys Demonstrate Robustness and
+  Configurability ... mode.
 
 ## The official Emacs TUTORIAL in Greek
 
