@@ -162,7 +162,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">13. Use Org dynamic blocks</a></li>
-<li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">14. Display filtered and sorted files with <code>denote-sort-dired</code></a>
+<li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">14. Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></a>
 <ul>
 <li><a href="#h:a34228cb-484f-48fe-9cbc-8e41f313127b">14.1. Configure what extra prompts <code>denote-sort-dired</code> issues</a></li>
 <li><a href="#h:c958e087-1d23-4a25-afdd-db7bf5606b4c">14.2. Define a sorting function per component</a>
@@ -393,7 +393,8 @@ code sample if you need some ideas (<a href="#h:58c4746b-b0d8-4896-9d88-a99b1d48
    ("C-c n r" . denote-rename-file)
    ("C-c n l" . denote-link)
    ("C-c n b" . denote-backlinks)
-   ("C-c n d" . denote-sort-dired))
+   ("C-c n d" . denote-dired)
+   ("C-c n g" . denote-grep))
   :config
   (setq denote-directory (expand-file-name "~/Documents/notes/"))
 
@@ -431,7 +432,8 @@ Here we include more of what you can configure with Denote (<a href="#h:998ae528
   ;; decide.  For example:
   ( :map global-map
     ("C-c n n" . denote)
-    ("C-c n d" . denote-sort-dired)
+    ("C-c n d" . denote-dired)
+    ("C-c n g" . denote-grep)
     ;; If you intend to use Denote with a variety of file types, it is
     ;; easier to bind the link-related commands to the `global-map', as
     ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
@@ -439,6 +441,8 @@ Here we include more of what you can configure with Denote (<a href="#h:998ae528
     ("C-c n l" . denote-link)
     ("C-c n L" . denote-add-links)
     ("C-c n b" . denote-backlinks)
+    ("C-c n q c" . denote-query-contents-link) ; create link that triggers a grep
+    ("C-c n q f" . denote-query-filenames-link) ; create link that triggers a dired
     ;; Note that `denote-rename-file' can work from any context, not just
     ;; Dired bufffers.  That is why we bind it here to the `global-map'.
     ("C-c n r" . denote-rename-file)
@@ -1735,7 +1739,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org8ae71ee">
+<pre class="example" id="orgc86dbc0">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2309,7 +2313,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org20b21f5">
+<pre class="example" id="orgd8f7978">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2329,7 +2333,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org55ef5d4">
+<pre class="example" id="org7ebd1b8">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2982,7 +2986,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgd2fc00c">
+<pre class="example" id="orgf72d632">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3198,7 +3202,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgdb0416f">
+<pre class="example" id="org8bdeaa4">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3210,7 +3214,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org1591c02">
+<pre class="example" id="org97ea40b">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3224,7 +3228,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgb4cbf71">
+<pre class="example" id="org8847324">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3238,7 +3242,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgb248bcf">
+<pre class="example" id="orgbb64d8e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3588,7 +3592,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org6fd2a3f">
+<pre class="example" id="orgff4ad9a">
 - link1
 - link2
 - link3
@@ -3606,7 +3610,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orga5100e1">
+<pre class="example" id="org6a72b6d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3974,7 +3978,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org217a183">
+<pre class="example" id="orgc589a13">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4490,7 +4494,7 @@ reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a996
 </div>
 </div>
 <div id="outline-container-h:9fe01e63-f34f-4479-8713-f162a5ca865e" class="outline-2">
-<h2 id="h:9fe01e63-f34f-4479-8713-f162a5ca865e"><span class="section-number-2">14.</span> Display filtered and sorted files with <code>denote-sort-dired</code></h2>
+<h2 id="h:9fe01e63-f34f-4479-8713-f162a5ca865e"><span class="section-number-2">14.</span> Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></h2>
 <div class="outline-text-2" id="text-h:9fe01e63-f34f-4479-8713-f162a5ca865e">
 <p>
 [ With 4.0.0-dev, the code of <code>denote-sort.el</code> is
@@ -5491,7 +5495,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org882fb35">
+<pre class="example" id="orgdfeda93">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7074,7 +7078,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orge78c65a">
+<pre class="example" id="org4a6bd4c">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7084,7 +7088,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org2622671">
+<pre class="example" id="org5f637a3">
 emacs -Q
 </pre>
 
@@ -7096,7 +7100,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org64cd14d">
+<pre class="example" id="org941f6c0">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7157,7 +7161,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org950a548">
+<pre class="example" id="orgc45355f">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
