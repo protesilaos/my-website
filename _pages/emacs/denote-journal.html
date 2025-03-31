@@ -41,25 +41,26 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:copying">1. COPYING</a></li>
-<li><a href="#h:overview">2. Overview</a>
+<li><a href="#h:installation">2. Installation</a>
 <ul>
-<li><a href="#h:create-new-journal-entry">2.1. Create new journal entry</a></li>
-<li><a href="#h:create-a-new-journal-entry-or-use-an-existing-one">2.2. Create a new journal entry or use an existing one</a></li>
-<li><a href="#h:link-to-a-journal-entry-or-create-it-if-missing">2.3. Link to a journal entry or create it if missing</a></li>
-<li><a href="#h:the-denote-journal-directory">2.4. The <code>denote-journal-directory</code></a></li>
-<li><a href="#h:title-format-of-new-journal-entries">2.5. Title format of new journal entries</a></li>
-<li><a href="#h:create-a-journal-entry-using-org-capture">2.6. Create a journal entry using Org capture</a></li>
-<li><a href="#h:the-denote-journal-hook">2.7. The <code>denote-journal-hook</code></a></li>
-<li><a href="#h:journaling-with-a-timer">2.8. Journaling with a timer</a></li>
+<li><a href="#h:gnu-elpa-package">2.1. GNU ELPA package</a></li>
+<li><a href="#h:manual-installation">2.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:installation">3. Installation</a>
+<li><a href="#h:sample-configuration">3. Sample configuration</a></li>
+<li><a href="#h:overview">4. Overview</a>
 <ul>
-<li><a href="#h:gnu-elpa-package">3.1. GNU ELPA package</a></li>
-<li><a href="#h:manual-installation">3.2. Manual installation</a></li>
+<li><a href="#h:create-new-journal-entry">4.1. Create new journal entry</a></li>
+<li><a href="#h:create-a-new-journal-entry-or-use-an-existing-one">4.2. Create a new journal entry or use an existing one</a></li>
+<li><a href="#h:link-to-a-journal-entry-or-create-it-if-missing">4.3. Link to a journal entry or create it if missing</a></li>
+<li><a href="#h:integrate-with-the-calendar-to-view-or-create-journal-entries">4.4. Integrate with the <code>calendar</code> to view or create journal entries</a></li>
+<li><a href="#h:the-denote-journal-directory">4.5. The <code>denote-journal-directory</code></a></li>
+<li><a href="#h:title-format-of-new-journal-entries">4.6. Title format of new journal entries</a></li>
+<li><a href="#h:create-a-journal-entry-using-org-capture">4.7. Create a journal entry using Org capture</a></li>
+<li><a href="#h:the-denote-journal-hook">4.8. The <code>denote-journal-hook</code></a></li>
+<li><a href="#h:journaling-with-a-timer">4.9. Journaling with a timer</a></li>
 </ul>
 </li>
-<li><a href="#h:sample-configuration">4. Sample configuration</a></li>
 <li><a href="#h:acknowledgements">5. Acknowledgements</a></li>
 <li><a href="#h:gnu-free-documentation-license">6. GNU Free Documentation License</a></li>
 <li><a href="#h:indices">7. Indices</a>
@@ -96,8 +97,101 @@ modify this GNU manual.”
 </blockquote>
 </div>
 </div>
+<div id="outline-container-h:installation" class="outline-2">
+<h2 id="h:installation"><span class="section-number-2">2.</span> Installation</h2>
+<div class="outline-text-2" id="text-h:installation">
+</div>
+<div id="outline-container-h:gnu-elpa-package" class="outline-3">
+<h3 id="h:gnu-elpa-package"><span class="section-number-3">2.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:gnu-elpa-package">
+<p>
+The package is available as <code>denote-journal</code>.  Simply do:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+
+<p>
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the GNU-devel ELPA archive.  Read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:manual-installation" class="outline-3">
+<h3 id="h:manual-installation"><span class="section-number-3">2.2.</span> Manual installation</h3>
+<div class="outline-text-3" id="text-h:manual-installation">
+<p>
+Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
+following commands in a shell prompt:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">cd ~/.emacs.d
+
+# Create a directory for manually-installed packages
+mkdir manual-packages
+
+# Go to the new directory
+cd manual-packages
+
+# Clone this repo, naming it "denote-journal"
+git clone https://github.com/protesilaos/denote-journal denote-journal
+</pre>
+</div>
+
+<p>
+Finally, in your <code>init.el</code> (or equivalent) evaluate this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+(add-to-list 'load-path "~/.emacs.d/manual-packages/denote-journal")
+</pre>
+</div>
+
+<p>
+Everything is in place to set up the package.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:sample-configuration" class="outline-2">
+<h2 id="h:sample-configuration"><span class="section-number-2">3.</span> Sample configuration</h2>
+<div class="outline-text-2" id="text-h:sample-configuration">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package denote-journal
+  :ensure t
+  ;; Bind those to some key for your convenience.
+  :commands ( denote-journal-new-entry
+              denote-journal-new-or-existing-entry
+              denote-journal-link-or-create-entry )
+  :config
+  ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
+  ;; to nil to use the `denote-directory' instead.
+  (setq denote-journal-directory
+        (expand-file-name "journal" denote-directory))
+  ;; Default keyword for new journal entries. It can also be a list of
+  ;; strings.
+  (setq denote-journal-keyword "journal")
+  ;; Read the doc string of `denote-journal-title-format'.
+  (setq denote-journal-title-format 'day-date-month-year)
+
+  (denote-journal-calendar-mode 1))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:overview" class="outline-2">
-<h2 id="h:overview"><span class="section-number-2">2.</span> Overview</h2>
+<h2 id="h:overview"><span class="section-number-2">4.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:overview">
 <p>
 The <code>denote-journal</code> package makes it easier to use Denote for
@@ -116,7 +210,7 @@ done by replacing all instances of <code>denote-journal-extras</code> with
 </p>
 </div>
 <div id="outline-container-h:create-new-journal-entry" class="outline-3">
-<h3 id="h:create-new-journal-entry"><span class="section-number-3">2.1.</span> Create new journal entry</h3>
+<h3 id="h:create-new-journal-entry"><span class="section-number-3">4.1.</span> Create new journal entry</h3>
 <div class="outline-text-3" id="text-h:create-new-journal-entry">
 <p>
 The command <code>denote-journal-new-entry</code> creates a new entry in the
@@ -147,7 +241,7 @@ per day should use <code>denote-journal-new-or-existing-entry</code> instead
 </div>
 </div>
 <div id="outline-container-h:create-a-new-journal-entry-or-use-an-existing-one" class="outline-3">
-<h3 id="h:create-a-new-journal-entry-or-use-an-existing-one"><span class="section-number-3">2.2.</span> Create a new journal entry or use an existing one</h3>
+<h3 id="h:create-a-new-journal-entry-or-use-an-existing-one"><span class="section-number-3">4.2.</span> Create a new journal entry or use an existing one</h3>
 <div class="outline-text-3" id="text-h:create-a-new-journal-entry-or-use-an-existing-one">
 <p>
 The command <code>denote-journal-new-or-existing-entry</code> locates an existing
@@ -167,11 +261,12 @@ be done via <code>org-capture</code>  (<a href="#h:create-a-journal-entry-using-
 
 <p>
 When called with a prefix argument (<code>C-u</code> with default key bindings),
-the command <code>denote-journal-new-or-existing-entry</code> prompts for a date.
-It then determines whether to visit an existing file or create a new
-one, as described above. The date selection interface is controlled by
-the user option <code>denote-date-prompt-use-org-read-date</code>, which is part
-of the main <code>denote</code> package. By default, this is a simple minibuffer
+the command <code>denote-journal-new-or-existing-entry</code> prompts for a date
+(<a href="#h:integrate-with-the-calendar-to-view-or-create-journal-entries">Integrate with the <code>calendar</code> to view or create journal entries</a>). It
+then determines whether to visit an existing file or create a new one,
+as described above. The date selection interface is controlled by the
+user option <code>denote-date-prompt-use-org-read-date</code>, which is part of
+the main <code>denote</code> package. By default, this is a simple minibuffer
 prompt, though users can opt in to the more advanced
 minibuffer+calendar date picker that Org uses for its own date
 selection operations.
@@ -179,7 +274,7 @@ selection operations.
 </div>
 </div>
 <div id="outline-container-h:link-to-a-journal-entry-or-create-it-if-missing" class="outline-3">
-<h3 id="h:link-to-a-journal-entry-or-create-it-if-missing"><span class="section-number-3">2.3.</span> Link to a journal entry or create it if missing</h3>
+<h3 id="h:link-to-a-journal-entry-or-create-it-if-missing"><span class="section-number-3">4.3.</span> Link to a journal entry or create it if missing</h3>
 <div class="outline-text-3" id="text-h:link-to-a-journal-entry-or-create-it-if-missing">
 <p>
 The command <code>denote-journal-link-or-create-entry</code> links to the
@@ -194,8 +289,43 @@ includes just the file&rsquo;s identifier.
 </p>
 </div>
 </div>
+<div id="outline-container-h:integrate-with-the-calendar-to-view-or-create-journal-entries" class="outline-3">
+<h3 id="h:integrate-with-the-calendar-to-view-or-create-journal-entries"><span class="section-number-3">4.4.</span> Integrate with the <code>calendar</code> to view or create journal entries</h3>
+<div class="outline-text-3" id="text-h:integrate-with-the-calendar-to-view-or-create-journal-entries">
+<p>
+[ Part of 0.1.0-dev. ]
+</p>
+
+<p>
+The command <code>denote-journal-calendar-new-or-existing</code> creates a new
+journal entry for the date at point in the <code>M-x calendar</code> buffer. If
+an entry exists, it visits it. This is the same as the command
+<code>denote-journal-new-or-existing-entry</code> (<a href="#h:create-a-new-journal-entry-or-use-an-existing-one">Create a new journal entry or use an existing one</a>).
+</p>
+
+<p>
+The command <code>denote-journal-calendar-find-file</code> visits the Denote
+journal entry corresponding to the date at point in the <code>M-x
+calendar</code>. If there are multiple entries, it prompts with minibuffer
+completion to select one among them.
+</p>
+
+<p>
+The minor mode <code>denote-journal-calendar-mode</code> marks the dates in the
+<code>M-x calendar</code> that have a Denote journal entry. The face applied to
+them is the <code>denote-journal-calendar</code>.
+</p>
+
+<p>
+The <code>denote-journal-calendar-mode</code> also activates the key map called
+<code>denote-journal-calendar-mode-map</code>. It defines bindings for the
+aforementioned commands: <code>F</code> for <code>denote-journal-calendar-find-file</code>
+and <code>N</code> for <code>denote-journal-calendar-new-or-existing</code>.
+</p>
+</div>
+</div>
 <div id="outline-container-h:the-denote-journal-directory" class="outline-3">
-<h3 id="h:the-denote-journal-directory"><span class="section-number-3">2.4.</span> The <code>denote-journal-directory</code></h3>
+<h3 id="h:the-denote-journal-directory"><span class="section-number-3">4.5.</span> The <code>denote-journal-directory</code></h3>
 <div class="outline-text-3" id="text-h:the-denote-journal-directory">
 <p>
 New journal entries are placed in the <code>denote-journal-directory</code>,
@@ -213,7 +343,7 @@ the file-naming scheme for searching or filtering&rdquo;).
 </div>
 </div>
 <div id="outline-container-h:title-format-of-new-journal-entries" class="outline-3">
-<h3 id="h:title-format-of-new-journal-entries"><span class="section-number-3">2.5.</span> Title format of new journal entries</h3>
+<h3 id="h:title-format-of-new-journal-entries"><span class="section-number-3">4.6.</span> Title format of new journal entries</h3>
 <div class="outline-text-3" id="text-h:title-format-of-new-journal-entries">
 <p>
 New journal entries will use the current date as the title of the new
@@ -280,7 +410,7 @@ thought or event (though this can also be achieved with the regular
 </div>
 </div>
 <div id="outline-container-h:create-a-journal-entry-using-org-capture" class="outline-3">
-<h3 id="h:create-a-journal-entry-using-org-capture"><span class="section-number-3">2.6.</span> Create a journal entry using Org capture</h3>
+<h3 id="h:create-a-journal-entry-using-org-capture"><span class="section-number-3">4.7.</span> Create a journal entry using Org capture</h3>
 <div class="outline-text-3" id="text-h:create-a-journal-entry-using-org-capture">
 <p>
 Users who prefer to consolidate all their note-creating or todo-making
@@ -309,7 +439,7 @@ documentation of <code>org-capture-templates</code>.
 </div>
 </div>
 <div id="outline-container-h:the-denote-journal-hook" class="outline-3">
-<h3 id="h:the-denote-journal-hook"><span class="section-number-3">2.7.</span> The <code>denote-journal-hook</code></h3>
+<h3 id="h:the-denote-journal-hook"><span class="section-number-3">4.8.</span> The <code>denote-journal-hook</code></h3>
 <div class="outline-text-3" id="text-h:the-denote-journal-hook">
 <p>
 All commands that create a new journal entry call the normal hook
@@ -320,7 +450,7 @@ package from GNU ELPA (<a href="#h:journaling-with-a-timer">Journaling with a ti
 </div>
 </div>
 <div id="outline-container-h:journaling-with-a-timer" class="outline-3">
-<h3 id="h:journaling-with-a-timer"><span class="section-number-3">2.8.</span> Journaling with a timer</h3>
+<h3 id="h:journaling-with-a-timer"><span class="section-number-3">4.9.</span> Journaling with a timer</h3>
 <div class="outline-text-3" id="text-h:journaling-with-a-timer">
 <p>
 Sometimes journaling is done with the intent to hone one&rsquo;s writing
@@ -396,97 +526,6 @@ Sources for <code>tmr</code>:
 </ul></li>
 <li>Backronym: TMR May Ring; Timer Must Run.</li>
 </ul>
-</div>
-</div>
-</div>
-<div id="outline-container-h:installation" class="outline-2">
-<h2 id="h:installation"><span class="section-number-2">3.</span> Installation</h2>
-<div class="outline-text-2" id="text-h:installation">
-</div>
-<div id="outline-container-h:gnu-elpa-package" class="outline-3">
-<h3 id="h:gnu-elpa-package"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
-<div class="outline-text-3" id="text-h:gnu-elpa-package">
-<p>
-The package is available as <code>denote-journal</code>.  Simply do:
-</p>
-
-<pre class="example">
-M-x package-refresh-contents
-M-x package-install
-</pre>
-
-
-<p>
-And search for it.
-</p>
-
-<p>
-GNU ELPA provides the latest stable release.  Those who prefer to follow
-the development process in order to report bugs or suggest changes, can
-use the version of the package from the GNU-devel ELPA archive.  Read:
-<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
-</p>
-</div>
-</div>
-<div id="outline-container-h:manual-installation" class="outline-3">
-<h3 id="h:manual-installation"><span class="section-number-3">3.2.</span> Manual installation</h3>
-<div class="outline-text-3" id="text-h:manual-installation">
-<p>
-Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
-following commands in a shell prompt:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
-
-# Create a directory for manually-installed packages
-mkdir manual-packages
-
-# Go to the new directory
-cd manual-packages
-
-# Clone this repo, naming it "denote-journal"
-git clone https://github.com/protesilaos/denote-journal denote-journal
-</pre>
-</div>
-
-<p>
-Finally, in your <code>init.el</code> (or equivalent) evaluate this:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
-(add-to-list 'load-path "~/.emacs.d/manual-packages/denote-journal")
-</pre>
-</div>
-
-<p>
-Everything is in place to set up the package.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-h:sample-configuration" class="outline-2">
-<h2 id="h:sample-configuration"><span class="section-number-2">4.</span> Sample configuration</h2>
-<div class="outline-text-2" id="text-h:sample-configuration">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package denote-journal
-  :ensure t
-  ;; Bind those to some key for your convenience.
-  :commands ( denote-journal-new-entry
-              denote-journal-new-or-existing-entry
-              denote-journal-link-or-create-entry )
-  :config
-  ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
-  ;; to nil to use the `denote-directory' instead.
-  (setq denote-journal-directory
-        (expand-file-name "journal" denote-directory))
-  ;; Default keyword for new journal entries. It can also be a list of
-  ;; strings.
-  (setq denote-journal-keyword "journal")
-  ;; Read the doc string of `denote-journal-title-format'.
-  (setq denote-journal-title-format 'day-date-month-year))
-</pre>
 </div>
 </div>
 </div>
