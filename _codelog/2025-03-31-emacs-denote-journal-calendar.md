@@ -80,8 +80,6 @@ such as videos.  Naming files in a consistent way makes their
 filtering and retrieval considerably easier.  Denote provides relevant
 facilities to rename files, regardless of file type.
 
-[ Further down on this list I include more of my Denote-related packages. ]
-
 + Package name (GNU ELPA): `denote`
 + Official manual: <https://protesilaos.com/emacs/denote>
 + Change log: <https://protesilaos.com/emacs/denote-changelog>
