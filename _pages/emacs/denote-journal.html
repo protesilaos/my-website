@@ -351,67 +351,31 @@ the file-naming scheme for searching or filtering&rdquo;).
 <h3 id="h:title-format-of-new-journal-entries"><span class="section-number-3">4.6.</span> Title format of new journal entries</h3>
 <div class="outline-text-3" id="text-h:title-format-of-new-journal-entries">
 <p>
-New journal entries will use the current date as the title of the new
+New journal entries will use the current date as the title of the
 entry. The exact format is controlled by the user option
-<code>denote-journal-title-format</code>. Acceptable values for this user option
-and their corresponding styles are:
+<code>denote-journal-title-format</code>. The value it can take is either nil, a
+custom string, or a symbol:
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<ul class="org-ul">
+<li>When <code>denote-journal-title-format</code> is set to a nil value, then new
+journal entries always prompt for a title. Users will want this if
+they prefer to journal using a given theme for the day rather than
+the date itself (e.g. instead of &ldquo;1st of April 2025&rdquo; they may prefer
+something like &ldquo;Early Spring at the hut&rdquo;).</li>
 
+<li>When <code>denote-journal-title-format</code> is set to a symbol, it is one
+among <code>day</code> (results in a title like <code>Tuesday</code>), <code>day-date-month-year</code>
+(for a result like <code>Tuesday 1 April 2025</code>), <code>day-date-month-year-24h</code>
+(for <code>Tuesday 1 April 2025 13:46</code>), or <code>day-date-month-year-12h</code>
+(e.g. <code>Tuesday 1 April 2025 02:46 PM</code>).</li>
 
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Symbol</th>
-<th scope="col" class="org-left">Style</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">day</td>
-<td class="org-left">Monday</td>
-</tr>
-
-<tr>
-<td class="org-left">day-date-month-year</td>
-<td class="org-left">Monday 19 September 2023</td>
-</tr>
-
-<tr>
-<td class="org-left">day-date-month-year-24h</td>
-<td class="org-left">Monday 19 September 2023 20:49</td>
-</tr>
-
-<tr>
-<td class="org-left">day-date-month-year-12h</td>
-<td class="org-left">Monday 19 September 2023 08:49 PM</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-For example:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-journal-title-format 'day-date-month-year)
-</pre>
-</div>
-
-<p>
-If the value of this user option is <code>nil</code>, then the command
-<code>denote-journal-new-entry</code> will prompt for a title. In terms of
-workflow, using the current date as the title is better for
-maintaining a daily journal. A prompt for an arbitrary title is more
-suitable for those who like to keep a record of something like a
-thought or event (though this can also be achieved with the regular
-<code>denote</code> command or a variant thereof like <code>denote-subdirectory</code>).
-</p>
+<li>When <code>denote-journal-title-format</code> is set to a string, it is used
+literally except for any &ldquo;format specifiers&rdquo;, as interpreted by the
+function <code>format-time-string</code>, which are replaced by their given
+date component. For example, the <code>"Week %V on %A %e %B %Y at %H:%M"</code>
+will yield a title like <code>Week 14 on 1 April 2025 at 13:48</code>.</li>
+</ul>
 </div>
 </div>
 <div id="outline-container-h:create-a-journal-entry-using-org-capture" class="outline-3">
