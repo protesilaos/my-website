@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-04-08 13:48:52 +0300 with a word
-count of 107169.</b>
+<b>Last revised and exported on 2025-04-10 08:09:56 +0300 with a word
+count of 107270.</b>
 </p>
 
 <p>
@@ -416,7 +416,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-04-08 13:48:52 +0300):
+(2025-04-10 08:09:56 +0300):
 </p>
 
 <div class="org-src-container">
@@ -511,7 +511,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orga4f76e8">
+<pre class="example" id="orgab36ad6">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -591,7 +591,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org0b36d26">
+<pre class="example" id="org16faaf9">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -599,7 +599,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orga308c55">
+<pre class="example" id="orgc819392">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1526,7 +1526,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org352ff61">
+<pre class="example" id="org9bb0a38">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2282,7 +2282,11 @@ are called. The pulse effect is added there (<code>pulsar-after-function-hook</c
           pulsar-iterations 10
           pulsar-face 'pulsar-green
           pulsar-highlight-face 'pulsar-magenta)
+  ;; Pulse after `pulsar-pulse-region-functions'.
+  (setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
 
+  ;; Pulse after `pulsar-pulse-functions'.  The default value of that
+  ;; user option is comprehensive.
   (pulsar-global-mode 1)
   :hook
   ;; There are convenience functions/commands which pulse the line using
@@ -3288,10 +3292,10 @@ this via some hook.
     ("C-g" . prot-simple-keyboard-quit-dwim)
     ("C-M-SPC" . prot-simple-mark-sexp)   ; will be overriden by `expreg' if tree-sitter is available
     ;; Commands for lines
-
     ("C-S-d" . prot-simple-delete-line-backward)
     ("M-k" . prot-simple-kill-line-backward)
     ("M-j" . delete-indentation)
+    ("C-w" . prot-simple-kill-region)
     ("M-w" . prot-simple-kill-ring-save)
 
     ("C-S-w" . prot-simple-copy-line)
@@ -4267,7 +4271,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org35b8071">
+<pre class="example" id="org7eb8920">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -6951,17 +6955,7 @@ Require Extra Viewing Instructions for Emacs to Work.</li>
                 "epub"
                 "\\)"))
 
-  (setq dired-preview-display-action-alist
-        '((display-buffer-in-side-window display-buffer-below-selected display-buffer-no-window)
-          (side . right)
-          (window-width . 0.2)
-          (preserve-size . (t . t))
-          (window-parameters . ((mode-line-format . none)
-                                (header-line-format . none)))))
-
-  ;; (setq dired-preview-display-action-alist
-  ;;       #'dired-preview-display-action-alist-below)
-  )
+  (setq dired-preview-display-action-alist #'dired-preview-display-action-alist-below))
 </pre>
 </div>
 </div>
@@ -7117,7 +7111,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org8b9d290">
+<pre class="example" id="orgb361c31">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7145,7 +7139,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgb0c6f34">
+<pre class="example" id="org9c86374">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7167,7 +7161,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org28f81b0">
+<pre class="example" id="org31e7a57">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7323,7 +7317,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org2621215">
+<pre class="example" id="org5a59426">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8350,7 +8344,12 @@ cases, a combination of <code>vc</code> and the command-line will suffice
 
 (use-package magit
   :ensure t
-  :bind ("C-c g" . magit-status)
+  :bind
+  ( :map global-map
+    ("C-c g" . magit-status)
+    :map magit-mode-map
+    ("C-w" . nil)
+    ("M-w" . nil))
   :init
   (setq magit-define-global-key-bindings nil)
   (setq magit-section-visibility-indicator '("⮧"))
@@ -8973,7 +8972,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org58dfabd">
+<pre class="example" id="org13bcb3d">
 (info "(org) Search Options")
 </pre>
 
@@ -9065,7 +9064,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgf55c212">
+<pre class="example" id="orgcbc6d0c">
 (require 'ob-python)
 
 ;; OR
@@ -9912,7 +9911,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org440d9a8">
+<pre class="example" id="org74d9597">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10820,7 +10819,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org84bc980">
+<pre class="example" id="orgbef3b48">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10832,7 +10831,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org4c80df4">
+<pre class="example" id="org5a9995a">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10898,7 +10897,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org409657a">
+<pre class="example" id="org573e840">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10910,7 +10909,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org02852cc">
+<pre class="example" id="orgd1a7824">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10932,7 +10931,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org6c1f977">
+<pre class="example" id="org5afd3b3">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11061,7 +11060,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org7018159">
+<pre class="example" id="orgaf240e0">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11197,7 +11196,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org0b701bc">
+<pre class="example" id="orge9f898e">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11209,7 +11208,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org4896900">
+<pre class="example" id="org4f82a85">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12348,7 +12347,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org4a74726">
+<pre class="example" id="org7f9a56d">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12445,7 +12444,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org3903eb2">
+<pre class="example" id="org664a756">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -18080,8 +18079,23 @@ positions.  Otherwise, copy the current line."
       (region-beginning)
       (region-end))))
   (if (and beg end)
-      (kill-ring-save beg end)
-    (prot-simple-copy-line)))
+      (copy-region-as-kill beg end)
+    (prot-simple-copy-line))
+  (setq this-command 'kill-ring-save))
+
+;;;###autoload
+(defun prot-simple-kill-region (&amp;optional beg end)
+  "Do `kill-region' when the region is active, else `kill-ring-save' symbol at point."
+  (interactive
+   (when (region-active-p)
+     (list
+      (region-beginning)
+      (region-end))))
+  (if (and beg end)
+      (kill-region beg end)
+    (prot-simple-mark-sexp)
+    (copy-region-as-kill (region-beginning) (region-end)))
+  (setq this-command 'kill-ring-save))
 
 (defun prot-simple--duplicate-buffer-substring (boundaries)
   "Duplicate buffer substring between BOUNDARIES.
@@ -18103,7 +18117,8 @@ BOUNDARIES is a cons cell representing buffer positions."
   (prot-simple--duplicate-buffer-substring
    (if (region-active-p)
        (cons (region-beginning) (region-end))
-     (cons (line-beginning-position) (line-end-position)))))
+     (cons (line-beginning-position) (line-end-position))))
+  (setq this-command 'yank))
 
 ;;;###autoload
 (defun prot-simple-yank-replace-line-or-region ()
@@ -18114,7 +18129,8 @@ This command can then be followed by the standard
   (if (use-region-p)
       (delete-region (region-beginning) (region-end))
     (delete-region (line-beginning-position) (line-end-position)))
-  (yank))
+  (yank)
+  (setq this-command 'yank))
 
 ;;;###autoload
 (defun prot-simple-multi-line-below ()
@@ -18134,7 +18150,8 @@ This command can then be followed by the standard
 (defun prot-simple-kill-line-backward ()
   "Kill from point to the beginning of the line."
   (interactive)
-  (kill-line 0))
+  (kill-line 0)
+  (setq this-command 'kill-line))
 
 ;;;###autoload
 (defun prot-simple-delete-line ()
@@ -18144,7 +18161,8 @@ This command can then be followed by the standard
         (end (line-end-position)))
     (if (eq point end)
         (delete-region point (+ end 1))
-      (delete-region point end))))
+      (delete-region point end)))
+  (setq this-command 'kill-whole-line))
 
 ;;;###autoload
 (defun prot-simple-delete-line-backward ()
@@ -18154,7 +18172,8 @@ This command can then be followed by the standard
         (beg (line-beginning-position)))
     (if (eq point beg)
         (delete-region (- beg 1) point)
-      (delete-region point beg))))
+      (delete-region point beg)))
+  (setq this-command 'kill-whole-line))
 
 ;;;###autoload
 (define-minor-mode prot-simple-auto-fill-visual-line-mode
@@ -19462,7 +19481,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgd023291">
+<pre class="example" id="org3476b8e">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19494,7 +19513,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org20d3807">
+<pre class="example" id="orge5b234f">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
