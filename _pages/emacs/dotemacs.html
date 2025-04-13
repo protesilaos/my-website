@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-04-12 18:17:44 +0300 with a word
-count of 106359.</b>
+<b>Last revised and exported on 2025-04-13 09:41:15 +0300 with a word
+count of 106706.</b>
 </p>
 
 <p>
@@ -271,7 +271,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:8b426a69-e3cd-42ac-8788-f41f6629f879">5.8.3. The <code>prot-emacs-git.el</code> section about <code>diff-mode</code></a></li>
 <li><a href="#h:50add1d8-f0f4-49be-9e57-ab280a4aa300">5.8.4. The <code>prot-emacs-git.el</code> section about <code>vc.el</code> and related</a></li>
 <li><a href="#h:257b9118-4407-410e-a56a-134fd5d1a3b4">5.8.5. The <code>prot-emacs-git.el</code> section about <code>agitate</code></a></li>
-<li><a href="#h:b08af527-9ebf-4425-ac3a-24b4f371a4fd">5.8.6. The <code>prot-emacs-git.el</code> section about <code>magit</code> (great Git client)</a></li>
+<li><a href="#h:b08af527-9ebf-4425-ac3a-24b4f371a4fd">5.8.6. The <code>prot-emacs-git.el</code> section about <code>magit</code> (great Git interface)</a></li>
 <li><a href="#h:4e7035c5-9350-4c51-be85-85f2539ed295">5.8.7. The <code>prot-emacs-git.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
@@ -415,7 +415,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-04-12 18:17:44 +0300):
+(2025-04-13 09:41:15 +0300):
 </p>
 
 <div class="org-src-container">
@@ -424,7 +424,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=yes --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json --without-gsettings --without-gconf --with-x-toolkit=no --without-toolkit-scroll-bars --without-xft --without-xaw3d
+--prefix=/usr/local --with-native-compilation=yes --with-x-toolkit=no --without-toolkit-scroll-bars --without-xaw3d --without-gsettings --without-gconf --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-sound=no --without-gif --without-tiff --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --with-json
 </pre>
 
 
@@ -510,7 +510,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org145e2a3">
+<pre class="example" id="org6f6acae">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -590,7 +590,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgf5d5a27">
+<pre class="example" id="orge6e54ff">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -598,7 +598,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgc7de642">
+<pre class="example" id="org50b416d">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1525,7 +1525,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org35b1c98">
+<pre class="example" id="org009ea52">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2276,22 +2276,23 @@ are called. The pulse effect is added there (<code>pulsar-after-function-hook</c
 (use-package pulsar
   :ensure t
   :config
-  (setopt pulsar-pulse t
-          pulsar-delay 0.055
-          pulsar-iterations 10
-          pulsar-face 'pulsar-green
-          pulsar-highlight-face 'pulsar-magenta)
+  (setq pulsar-pulse t
+        pulsar-delay 0.055
+        pulsar-iterations 5
+        pulsar-face 'pulsar-green
+        pulsar-region-face 'pulsar-cyan
+        pulsar-highlight-face 'pulsar-magenta)
   ;; Pulse after `pulsar-pulse-region-functions'.
   (setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
-
-  ;; Pulse after `pulsar-pulse-functions'.  The default value of that
-  ;; user option is comprehensive.
-  (pulsar-global-mode 1)
   :hook
   ;; There are convenience functions/commands which pulse the line using
   ;; a specific colour: `pulsar-pulse-line-red' is one of them.
   ((next-error . (pulsar-pulse-line-red pulsar-recenter-top pulsar-reveal-entry))
-   (minibuffer-setup . pulsar-pulse-line-red))
+   (minibuffer-setup . pulsar-pulse-line-red)
+   ;; Pulse right after the use of `pulsar-pulse-functions' and
+   ;; `pulsar-pulse-region-functions'.  The default value of the
+   ;; former user option is comprehensive.
+   (after-init . pulsar-global-mode))
   :bind
   ;; pulsar does not define any key bindings.  This is just my personal
   ;; preference.  Remember to read the manual on the matter.  Evaluate:
@@ -3218,7 +3219,7 @@ for it and do not want the extra noise.</li>
 <pre class="src src-emacs-lisp">(use-package prot-common
   :ensure nil
   :functions (prot-common-truncate-lines-silently)
-  :hook ((text-mode prog-mode dired-mode prot/fundamental-mode hexl-mode) . prot-common-truncate-lines-silently)
+  :hook ((text-mode prog-mode dired-mode prot/fundamental-mode hexl-mode comint-mode) . prot-common-truncate-lines-silently)
   :init
   (defvar prot/fundamental-mode-hook nil
     "Normal hook for `fundamental-mode' (which is missing by default).")
@@ -4271,7 +4272,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org4119fa8">
+<pre class="example" id="org2126a83">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -5269,7 +5270,9 @@ templates to have a real need for it&#x2014;but it works).
 
   (with-eval-after-load 'org
     (prot-emacs-abbrev org-mode-abbrev-table
-      ";dev" "{{{development-version}}}")
+      ";dev" "{{{development-version}}}"
+      ";key" #'prot-abbrev-org-macro-key
+      ";cmd" #'prot-abbrev-org-macro-key-command)
     (abbrev-table-put org-mode-abbrev-table :regexp "\\(?:^\\|[\t\s]+\\)\\(?1:[:;_].*\\|.*\\)"))
 
   (with-eval-after-load 'message
@@ -7051,7 +7054,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orgbeea303">
+<pre class="example" id="org7603206">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7079,7 +7082,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org0d17118">
+<pre class="example" id="orgce59b4c">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7101,7 +7104,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org9576e56">
+<pre class="example" id="orgb57798c">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7257,7 +7260,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org03daf92">
+<pre class="example" id="orgf1b651c">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8192,18 +8195,18 @@ Control framework and its accoutrements (`diff-mode.el`,
 </div>
 </div>
 <div id="outline-container-h:b08af527-9ebf-4425-ac3a-24b4f371a4fd" class="outline-4">
-<h4 id="h:b08af527-9ebf-4425-ac3a-24b4f371a4fd"><span class="section-number-4">5.8.6.</span> The <code>prot-emacs-git.el</code> section about <code>magit</code> (great Git client)</h4>
+<h4 id="h:b08af527-9ebf-4425-ac3a-24b4f371a4fd"><span class="section-number-4">5.8.6.</span> The <code>prot-emacs-git.el</code> section about <code>magit</code> (great Git interface)</h4>
 <div class="outline-text-4" id="text-h:b08af527-9ebf-4425-ac3a-24b4f371a4fd">
 <p>
 The <code>magit</code> package, maintained by Jonas Bernoulli, is the best
-front-end to <code>git</code> I have ever used. Not only is it excellent at
+interface to <code>git</code> I have ever used. Not only is it excellent at
 getting the job done, it also helps you learn more about what <code>git</code>
 has to offer.
 </p>
 
 <p>
-At the core of its interface is <code>transient</code>. This is a library that
-was originally developed as Magit-specific code that was then
+At the core of its interaction model is <code>transient</code>. This is a library
+that was originally developed as Magit-specific code that was then
 abstracted away and ultimately incorporated into Emacs version 29.
 With <code>transient</code>, we get a window pop up with keys and commands
 corresponding to them. The window is interactive, as the user can set
@@ -8407,6 +8410,13 @@ The <code>calendar</code> is technically independent of Org, though it tightly
 integrates with it. We witness this when we are setting timestamps,
 such as while setting a <code>SCHEDULED</code> or <code>DEADLINE</code> entry for a given
 heading. All I do here is set some stylistic preferences.
+</p>
+
+<p>
+My <code>denote-journal</code> package also integrates with the <code>calendar</code> to (i)
+show days that have a journal entry and (ii) provide commands to
+create a journal entry for the given date or visit an existing one
+(<a href="#h:5812a834-f294-4714-85a5-f8466ececaa8">The <code>prot-emacs-langs.el</code> extension for Denote Journal extras (<code>denote-journal</code>)</a>).
 </p>
 
 <p>
@@ -8912,7 +8922,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org5735a8b">
+<pre class="example" id="org0d89098">
 (info "(org) Search Options")
 </pre>
 
@@ -9004,7 +9014,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgf6961e9">
+<pre class="example" id="org00ac4d6">
 (require 'ob-python)
 
 ;; OR
@@ -9851,7 +9861,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgabfa40a">
+<pre class="example" id="orge3e6361">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10553,7 +10563,10 @@ This is another one of my packages. The <code>denote-journal</code> package make
 it easier to use Denote for journaling. While it is possible to use
 the generic <code>denote</code> command (and related) to maintain a journal, this
 package defines extra functionality to streamline the journaling
-workflow.
+workflow. It also integrates with the built-in <code>calendar</code>, to (i)
+highlight days that have a journal entry and (ii) provide commands
+that can be used from inside the <code>calendar</code> buffer to either visit a
+journal entry for the current date or create a new entry (<a href="#h:94d48381-1711-4d6b-8449-918bc1e3836c">The <code>prot-emacs-org.el</code> section on the <code>calendar</code></a>).
 </p>
 
 <ul class="org-ul">
@@ -10759,7 +10772,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org26ec28c">
+<pre class="example" id="orga863ee7">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10771,7 +10784,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org57e044a">
+<pre class="example" id="org3c6f8b5">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10837,7 +10850,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org7db83ef">
+<pre class="example" id="org3d978d1">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10849,7 +10862,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgabc786f">
+<pre class="example" id="org0ac0882">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10871,7 +10884,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgb6d0118">
+<pre class="example" id="org4681a59">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11000,7 +11013,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgf4e0af0">
+<pre class="example" id="orgbafb06a">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11136,7 +11149,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org057cfdc">
+<pre class="example" id="org3f1d0f5">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11148,7 +11161,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org269b06a">
+<pre class="example" id="orgc0bf74c">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12287,7 +12300,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org6e983c3">
+<pre class="example" id="orgde9ab60">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12384,7 +12397,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org3087d01">
+<pre class="example" id="org5cb48bc">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13028,6 +13041,40 @@ Use completion among previous entries, retrieving their data from
 (defun prot-abbrev-update-html ()
   "Insert message to update NAME.html page, by prompting for NAME."
   (insert (format "Update %s.html" (prot-abbrev-update-html-prompt))))
+
+(defvar prot-abbrev-org-macro-key-history nil
+  "Minibuffer history for `prot-abbrev-org-macro-key-prompt'.")
+
+(defun prot-abbrev-org-macro-key-prompt ()
+  "Minibuffer prompt for `prot-abbrev-org-macro-key'.
+Use completion among previous entries, retrieving their data from
+`prot-abbrev-org-macro-key-history'."
+  (completing-read
+   "Key binding: "
+   prot-abbrev-org-macro-key-history
+   nil nil nil 'prot-abbrev-org-macro-key-history))
+
+(defvar prot-abbrev-org-macro-key-symbol-history nil
+  "Minibuffer history for `prot-abbrev-org-macro-key-symbol-prompt'.")
+
+(defun prot-abbrev-org-macro-key-symbol-prompt ()
+  "Minibuffer prompt for `prot-abbrev-org-macro-key'.
+Use completion among previous entries, retrieving their data from
+`prot-abbrev-org-macro-key-symbol-history'."
+  (completing-read
+   "Command name: "
+   prot-abbrev-org-macro-key-symbol-history
+   nil nil nil 'prot-abbrev-org-macro-key-symbol-history))
+
+(defun prot-abbrev-org-macro-key-command ()
+  "Insert {{{kbd(KEY)}}} (~SYMBOL~) by prompting for KEY and SYMBOL."
+  (insert (format "{{{kbd(%s)}}} (~%s~)"
+                  (prot-abbrev-org-macro-key-prompt)
+                  (prot-abbrev-org-macro-key-symbol-prompt))))
+
+(defun prot-abbrev-org-macro-key ()
+  "Insert {{{kbd(KEY)}}} by prompting for KEY."
+  (insert (format "{{{kbd(%s)}}}" (prot-abbrev-org-macro-key-prompt))))
 
 (provide 'prot-abbrev)
 ;;; prot-abbrev.el ends here
@@ -14753,11 +14800,12 @@ than `split-width-threshold'."
 
 (defun prot-modeline--vc-get-face (key)
   "Get face from KEY in `prot-modeline--vc-faces'."
-  (alist-get key prot-modeline--vc-faces 'up-to-date))
+  (alist-get key prot-modeline--vc-faces 'vc-up-to-date-state))
 
 (defun prot-modeline--vc-face (file backend)
   "Return VC state face for FILE with BACKEND."
-  (prot-modeline--vc-get-face (vc-state file backend)))
+  (when-let* ((key (vc-state file backend)))
+    (prot-modeline--vc-get-face key)))
 
 (defvar-local prot-modeline-vc-branch
     '(:eval
@@ -19274,7 +19322,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org18b2568">
+<pre class="example" id="orgb693af3">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19306,7 +19354,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org0a57341">
+<pre class="example" id="orgb0a663e">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
