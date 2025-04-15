@@ -413,7 +413,7 @@ blocks, links to headings, and splitting an Org subtree into its own
 standalone file. This package's official manual covers the
 technicalities.
 
-+ Package name (GNU ELPA): `denote-org` (⚠️ Not available yet)
++ Package name (GNU ELPA): `denote-org`
 + Official manual: <https://protesilaos.com/emacs/denote-org>
 + Git repository: <https://github.com/protesilaos/denote-org>
 + Backronym: Denote... Ordinarily Restricts Gyrations.
@@ -425,7 +425,7 @@ The `denote-sequence` package provides an optional extension to
 establish hiearchical relationships between files, such that the
 contents of one logically follow or complement those of another.
 
-+ Package name (GNU ELPA): `denote-sequence` (⚠️ Not available yet)
++ Package name (GNU ELPA): `denote-sequence`
 + Official manual: <https://protesilaos.com/emacs/denote-sequence>
 + Git repository: <https://github.com/protesilaos/denote-sequence>
 + Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
@@ -445,7 +445,7 @@ their setup to use the `denote-silo` package. This can be done by
 replacing all instances of `denote-silo-extras` with `denote-silo`
 across their configuration.
 
-+ Package name (GNU ELPA): `denote-silo` (⚠️ Not available yet)
++ Package name (GNU ELPA): `denote-silo`
 + Official manual: <https://protesilaos.com/emacs/denote-silo>
 + Git repository: <https://github.com/protesilaos/denote-silo>
 + Backronym: Denote... Silos Insulate Localised Objects.
@@ -464,7 +464,7 @@ adapt their setup to use the `denote-journal` package. This can be
 done by replacing all instances of `denote-journal-extras` with
 `denote-journal` across their configuration.
 
-+ Package name (GNU ELPA): `denote-journal` (⚠️ Not available yet)
++ Package name (GNU ELPA): `denote-journal`
 + Official manual: <https://protesilaos.com/emacs/denote-journal>
 + Git repository: <https://github.com/protesilaos/denote-journal>
 + Backronym: Denote... Journaling Obviously Utilises Reasonableness
@@ -485,7 +485,7 @@ their setup to use the `denote-markdown` package. This can be done by
 replacing all instances of `denote-md-extras` with `denote-markdown`
 across their configuration.
 
-+ Package name (GNU ELPA): `denote-markdown` (⚠️ Not available yet)
++ Package name (GNU ELPA): `denote-markdown`
 + Official manual: <https://protesilaos.com/emacs/denote-markdown>
 + Git repository: <https://github.com/protesilaos/denote-markdown>
 + Backronyms: Denote... Markdown's Ambitious Reimplimentations
