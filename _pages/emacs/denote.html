@@ -14,13 +14,13 @@ provides every other piece of information pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-3.1.0, released on 2024-09-04.  Any reference to
+4.0.0, released on 2025-04-15.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 4.0.0-dev.
+Current development target is 4.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -613,11 +613,6 @@ creating the new note (<a href="#h:a947908e-1847-4471-ba07-377ee2f4b36c">Access 
 called from Lisp, it returns the path it generates. Before returning
 the path, it decides what to do with the buffer of the note, in
 accordance with the user option <code>denote-kill-buffers</code> (<a href="#h:c8fd826f-3ac9-4820-9709-4375603f8865">The <code>denote-kill-buffers</code> option</a>).
-</p>
-
-<p>
-[ As part of 4.0.0-dev, the <code>denote</code> command runs the
-  hook and then kills the buffer, whereas it was the other way around before. ]
 </p>
 
 <p>
@@ -1750,7 +1745,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgb9c0c78">
+<pre class="example" id="org7c3d493">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2324,7 +2319,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb86c393">
+<pre class="example" id="orgb737094">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2344,7 +2339,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgc857243">
+<pre class="example" id="org451f820">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2997,7 +2992,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org8eca33b">
+<pre class="example" id="org74ce3ec">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3213,7 +3208,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgd5f63a1">
+<pre class="example" id="org482df26">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3225,7 +3220,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org6a735ba">
+<pre class="example" id="org3296848">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3239,7 +3234,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgca1b041">
+<pre class="example" id="org9149f35">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3253,7 +3248,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org096b08c">
+<pre class="example" id="orga65a0cd">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3396,11 +3391,10 @@ we shall act accordingly.
 <h3 id="h:54b48277-e0e5-4188-ad54-ef3db3b7e772"><span class="section-number-3">8.2.</span> Regenerate front matter</h3>
 <div class="outline-text-3" id="text-h:54b48277-e0e5-4188-ad54-ef3db3b7e772">
 <p>
-As part of version 3.2.0 (currently 4.0.0-dev), the
-command <code>denote-add-front-matter</code> is superseded by
-<code>denote-rename-file</code> and related (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>). Those commands will
-add missing front matter or rewrite the modified lines of existing
-front matter.
+As part of version 4.0.0, the command <code>denote-add-front-matter</code> is
+superseded by <code>denote-rename-file</code> and related (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>). Those
+commands will add missing front matter or rewrite the modified lines
+of existing front matter.
 </p>
 </div>
 </div>
@@ -3408,10 +3402,6 @@ front matter.
 <div id="outline-container-h:fc913d54-26c8-4c41-be86-999839e8ad31" class="outline-2">
 <h2 id="h:fc913d54-26c8-4c41-be86-999839e8ad31"><span class="section-number-2">9.</span> Linking notes</h2>
 <div class="outline-text-2" id="text-h:fc913d54-26c8-4c41-be86-999839e8ad31">
-<p>
-[ Support for query links is part of 4.0.0-dev. ]
-</p>
-
 <p>
 Denote offers several commands for linking between notes. Those use
 the <code>denote:</code> hyperlink type. There are two types of links supported
@@ -3506,10 +3496,6 @@ exactly like an ordinary link by default.
 <h3 id="h:25a983ca-049e-43d4-8f6e-06a2325e2c3c"><span class="section-number-3">9.2.</span> Add a direct link to a file whose contents include the given query</h3>
 <div class="outline-text-3" id="text-h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">
 <p>
-[ The <code>denote-link-to-file-with-contents</code> is part of 4.0.0-dev. ]
-</p>
-
-<p>
 The <code>denote-link</code> command that we covered before prompts to select a
 file among those in the <code>denote-directory</code> (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single direct link using a file name prompt</a>).
 The match is done against the file&rsquo;s name. Users may, however, be
@@ -3537,10 +3523,6 @@ The command <code>denote-link-to-file-with-contents</code> is the counterpart of
 <div id="outline-container-h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d" class="outline-3">
 <h3 id="h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d"><span class="section-number-3">9.3.</span> Add a query link</h3>
 <div class="outline-text-3" id="text-h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d">
-<p>
-[ Query links are part of 4.0.0-dev. ]
-</p>
-
 <p>
 As noted in the introduction to this section of the manual, the
 <code>denote:</code> hyperlink type supports query links (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>). Unlike
@@ -3603,7 +3585,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orgfefb24b">
+<pre class="example" id="org92b0eb4">
 - link1
 - link2
 - link3
@@ -3621,7 +3603,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org2e4fb70">
+<pre class="example" id="org8edcce0">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3676,10 +3658,6 @@ purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking notes</a>).
 <h3 id="h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9"><span class="section-number-3">9.5.</span> Insert links to all files matching a query in their contents</h3>
 <div class="outline-text-3" id="text-h:299d3aeb-9946-489e-bd91-e06f8c4ae2a9">
 <p>
-[ The command <code>denote-link-to-all-files-with-contents</code> is part of 4.0.0-dev. ]
-</p>
-
-<p>
 The aforementioned <code>denote-add-links</code> command takes a query that
 matches it against file names (<a href="#h:9bec2c83-36ca-4951-aefc-7187c5463f90">Insert links to all files matching a query in their file name</a>).
 It then creates a typographic list (bullet list) with direct links to
@@ -3698,10 +3676,6 @@ counterpart of <code>denote-link-to-file-with-contents</code> (<a href="#h:25a98
 <h3 id="h:6aa22a2d-3338-433e-ab9f-ba272417aab9"><span class="section-number-3">9.6.</span> The <code>denote-open-link-function</code> user option</h3>
 <div class="outline-text-3" id="text-h:6aa22a2d-3338-433e-ab9f-ba272417aab9">
 <p>
-[ This is part of 4.0.0-dev. ]
-</p>
-
-<p>
 The user option <code>denote-open-link-function</code> specifies the function
 used by Denote to open the file of a link. The default value opens the
 file in the other window. Another common value is the function
@@ -3719,12 +3693,6 @@ the command <code>org-open-at-point</code>).
 <div id="outline-container-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4" class="outline-3">
 <h3 id="h:d99de1fb-b1b7-4a74-8667-575636a4d6a4"><span class="section-number-3">9.7.</span> The <code>denote-org-store-link-to-heading</code> user option</h3>
 <div class="outline-text-3" id="text-h:d99de1fb-b1b7-4a74-8667-575636a4d6a4">
-<p>
-[ Revised to also support context links that do not use a <code>PROPERTIES</code>
-  drawer but which are easier to break. This is done as part of
-  4.0.0-dev. Also revised to have a nil value by default. ]
-</p>
-
 <p>
 The user option <code>denote-org-store-link-to-heading</code> determines whether
 <code>org-store-link</code> links to the current Org heading.
@@ -3858,9 +3826,7 @@ for our purposes (<a href="#h:fc913d54-26c8-4c41-be86-999839e8ad31">Linking note
 </p>
 
 <p>
-The <code>denote-dired-link-marked-notes</code> is an alias for
-<code>denote-link-dired-marked-notes</code>. [ The alias is part of
-4.0.0-dev. ]
+The <code>denote-dired-link-marked-notes</code> is an alias for <code>denote-link-dired-marked-notes</code>.
 </p>
 </div>
 </div>
@@ -3966,10 +3932,9 @@ creating a new one (<a href="#h:ad91ca39-cf10-4e16-b224-fdf78f093883">Open an ex
 <div class="outline-text-3" id="text-h:c73f1f68-e214-49d5-b369-e694f6a5d708">
 <p>
 [ Older versions of Denote had two types of formatting for the
-  backlinks&rsquo; buffer. As part of version <code>4.0.0</code> (4.0.0-dev),
-  we only support the standard Xref view which shows matches in their
-  context. The user option <code>denote-backlinks-show-context</code> is thus
-  removed. ]
+  backlinks&rsquo; buffer. As part of version <code>4.0.0</code>, we only support the
+  standard Xref view which shows matches in their context. The user
+  option <code>denote-backlinks-show-context</code> is thus removed. ]
 </p>
 
 <p>
@@ -3989,7 +3954,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org8e5405d">
+<pre class="example" id="org9800dd8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4155,14 +4120,6 @@ function <code>denote-link-markdown-follow</code> for the implementation details
 <h3 id="h:f634427c-b451-40e2-993e-e00ac627af68"><span class="section-number-3">9.15.</span> The <code>denote-link-description-format</code> to format link descriptions</h3>
 <div class="outline-text-3" id="text-h:f634427c-b451-40e2-993e-e00ac627af68">
 <p>
-[ As part of 4.0.0-dev, the old user option
-  <code>denote-link-description-function</code> is deprecated and superseded by
-  the new <code>denote-link-description-format</code>. The new user option still
-  accepts a custom function as its value, so the old behaviour should
-  be retained. ]
-</p>
-
-<p>
 The user option <code>denote-link-description-format</code> controls how the
 command <code>denote-link</code> and related functions create a link description
 by default.
@@ -4187,6 +4144,11 @@ If the value is a string, it treats specially the following specifiers:
 <li>The <code>%t</code> is the Denote <code>TITLE</code> in the front matter or the file name.</li>
 <li>The <code>%T</code> is the Denote <code>TITLE</code> in the file name.</li>
 <li>The <code>%i</code> is the Denote <code>IDENTIFIER</code> of the file.</li>
+<li>The <code>%I</code> is the identifier converted to <code>DAYNAME, DAYNUM MONTHNUM
+  YEAR</code>.</li>
+<li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
+<li>The <code>%D</code> is a &ldquo;do what I mean&rdquo; which behaves the same as <code>%t</code> and if
+that returns nothing, it falls back to <code>%I</code>, then <code>%i</code>.</li>
 <li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
 <li>The <code>%s</code> is the Denote <code>SIGNATURE</code> of the file.</li>
 <li>The <code>%k</code> is the Denote <code>KEYWORDS</code> of the file.</li>
@@ -4350,11 +4312,6 @@ its standand attachments&rsquo; facility).
 <h2 id="h:3ca4db16-8f26-4d7d-b748-bac48ae32d69"><span class="section-number-2">12.</span> Automatically rename Denote buffers</h2>
 <div class="outline-text-2" id="text-h:3ca4db16-8f26-4d7d-b748-bac48ae32d69">
 <p>
-[ As part of 4.0.0-dev, the code of <code>denote-rename-buffer.el</code>
-  is now part of <code>denote.el</code> as part of a wider reorganisation of the project. ]
-</p>
-
-<p>
 The minor mode <code>denote-rename-buffer-mode</code> provides the means to
 automatically rename the buffer of a Denote file upon visiting the
 file. This applies both to existing Denote files as well as new ones
@@ -4387,11 +4344,6 @@ available to all programs.
 <h3 id="h:35507c18-35b1-41b9-9d80-52f54fcef3cb"><span class="section-number-3">12.1.</span> The <code>denote-rename-buffer-format</code> option</h3>
 <div class="outline-text-3" id="text-h:35507c18-35b1-41b9-9d80-52f54fcef3cb">
 <p>
-[ Updated as part of 4.0.0-dev to use a default &ldquo;do
-  what I mean&rdquo; value. ]
-</p>
-
-<p>
 The user option <code>denote-rename-buffer-format</code> controls how the
 function <code>denote-rename-buffer</code> chooses the name of the
 buffer-to-be-renamed.
@@ -4404,15 +4356,13 @@ are placeholders for Denote file name components (<a href="#h:4e9c7512-84dc-4dfb
 
 <ul class="org-ul">
 <li>The <code>%t</code> is the Denote <code>TITLE</code> in the front matter or the file name.</li>
-<li>The <code>%T</code> is the Denote <code>TITLE</code> in the file name. [ The <code>%T</code> is part
-of 4.0.0-dev. ]</li>
+<li>The <code>%T</code> is the Denote <code>TITLE</code> in the file name.</li>
 <li>The <code>%i</code> is the Denote <code>IDENTIFIER</code> of the file.</li>
 <li>The <code>%I</code> is the identifier converted to <code>DAYNAME, DAYNUM MONTHNUM
-  YEAR</code>. [ The <code>%I</code> is part of 4.0.0-dev. ]</li>
+  YEAR</code>.</li>
 <li>The <code>%d</code> is the same as <code>%i</code> (<code>DATE</code> mnemonic).</li>
 <li>The <code>%D</code> is a &ldquo;do what I mean&rdquo; which behaves the same as <code>%t</code> and if
-that returns nothing, it falls back to <code>%I</code>, then <code>%i</code>. [ The <code>%D</code>
-is part of 4.0.0-dev. ]</li>
+that returns nothing, it falls back to <code>%I</code>, then <code>%i</code>.</li>
 <li>The <code>%s</code> is the Denote <code>SIGNATURE</code> of the file.</li>
 <li>The <code>%k</code> is the Denote <code>KEYWORDS</code> of the file.</li>
 <li>The <code>%b</code> is an indicator of whether or not the file has backlinks
@@ -4485,12 +4435,6 @@ own function and assigning it to the <code>denote-rename-buffer-function</code>.
 <h2 id="h:8b542c50-dcc9-4bca-8037-a36599b22779"><span class="section-number-2">13.</span> Use Org dynamic blocks</h2>
 <div class="outline-text-2" id="text-h:8b542c50-dcc9-4bca-8037-a36599b22779">
 <p>
-[ The <code>denote-org</code> package is developed in tandem with <code>denote</code>
-  4.0.0-dev and will be available when the new Denote
-  version is published. ]
-</p>
-
-<p>
 This section is about the external package <code>denote-org</code> (by
 Protesilaos). The code of <code>denote-org</code> used to be available as part of
 the main <code>denote</code> package, but we decided to keep each optional
@@ -4511,7 +4455,7 @@ reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a996
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): <code>denote-org</code> (⚠️ Not available yet)</li>
+<li>Package name (GNU ELPA): <code>denote-org</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-org">https://protesilaos.com/emacs/denote-org</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-org">https://github.com/protesilaos/denote-org</a></li>
 <li>Backronym: Denote&#x2026; Ordinarily Restricts Gyrations.</li>
@@ -4521,12 +4465,6 @@ reflect on the status of earlier notes (<a href="#h:6060a7e6-f179-4d42-a9de-a996
 <div id="outline-container-h:9fe01e63-f34f-4479-8713-f162a5ca865e" class="outline-2">
 <h2 id="h:9fe01e63-f34f-4479-8713-f162a5ca865e"><span class="section-number-2">14.</span> Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></h2>
 <div class="outline-text-2" id="text-h:9fe01e63-f34f-4479-8713-f162a5ca865e">
-<p>
-[ With 4.0.0-dev, the code of <code>denote-sort.el</code> is
-  merged into <code>denote.el</code> as part of a wider reorganisation of the
-  project. ]
-</p>
-
 <p>
 The <code>denote.el</code> file contains functions which empower user or
 developers to sort files by the given file name component (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).
@@ -4588,8 +4526,7 @@ Users can configure the latter two by modifying the user option
 The <code>denote-sort-dired-extra-prompts</code> accepts either a nil value or a
 list of symbols among <code>sort-by-component</code>, <code>reverse-sort</code>, and
 <code>exclude-regexp</code>. The order those symbols appear in the list is
-significant, with the leftmost coming first. [ The <code>exclude-regexp</code>
-feature is part of 4.0.0-dev. ]
+significant, with the leftmost coming first.
 </p>
 
 <p>
@@ -4647,8 +4584,7 @@ These are subject to user configuration:
 </p>
 
 <ul class="org-ul">
-<li><code>denote-sort-identifier-comparison-function</code> [ This one was missing
-is older versions and is now added as part of 4.0.0-dev. ]</li>
+<li><code>denote-sort-identifier-comparison-function</code></li>
 </ul>
 
 <ul class="org-ul">
@@ -4736,10 +4672,6 @@ Perform the comparison with `string&lt;'."
 <h2 id="h:e71c9d14-7e88-4386-91d0-9ad249947077"><span class="section-number-2">15.</span> Use <code>denote-grep</code> to search inside files</h2>
 <div class="outline-text-2" id="text-h:e71c9d14-7e88-4386-91d0-9ad249947077">
 <p>
-[ The <code>denote-grep</code> command and everything related to it is part of 4.0.0-dev. ]
-</p>
-
-<p>
 The command <code>denote-grep</code> searches for the given query across all
 readable files in the <code>denote-directory</code>. It puts the collected
 results in an Xref buffer (just like with our backlinks and query
@@ -4752,15 +4684,33 @@ they can perform and the keys they are bound to (<a href="#h:435592bc-e896-429f-
 Think of <code>denote-grep</code> as the counterpart to the Unix <code>grep</code> command.
 While <code>denote-sort-dired</code> corresponds to the Unix <code>find</code> (<a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">Display filtered and sorted files with <code>denote-sort-dired</code></a>).
 </p>
+
+<p>
+The command <code>denote-grep-marked-dired-files</code> is like <code>denote-grep</code> but
+operates on the files that are marked in a Dired buffer.
+</p>
+
+<p>
+The command <code>denote-grep-files-referenced-in-region</code> is like
+<code>denote-grep</code> for any files referenced within the boundaries of the
+marked region. Files are referenced by their identifier. This includes
+links with just the identifier (as described in <code>denote-link</code> and
+related (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Add a single direct link using a file name prompt</a>)), links
+written by an Org dynamic block (see the <code>denote-org</code> package (<a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">Use Org dynamic blocks</a>)),
+or even file listings such as those of <code>dired</code> and the command-line
+<code>ls</code> program.
+</p>
+
+<p>
+The user option <code>denote-grep-display-buffer-action</code> controls where the
+buffer with the search results is displayed at. By default, they appear in
+the same window where the command <code>denote-grep</code> is called from.
+</p>
 </div>
 </div>
 <div id="outline-container-h:435592bc-e896-429f-a599-9f1bcd5ab9b8" class="outline-2">
 <h2 id="h:435592bc-e896-429f-a599-9f1bcd5ab9b8"><span class="section-number-2">16.</span> Interact with the links buffer</h2>
 <div class="outline-text-2" id="text-h:435592bc-e896-429f-a599-9f1bcd5ab9b8">
-<p>
-[ Part of 4.0.0-dev. ]
-</p>
-
 <p>
 Denote commands, such as <code>denote-grep</code>, <code>denote-backlinks</code>, and
 <code>denote-query-contents-link</code>, produce an Xref buffer with search
@@ -4931,7 +4881,7 @@ concepts and relevant commands in further detail:
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): <code>denote-sequence</code> (⚠️ Not available yet)</li>
+<li>Package name (GNU ELPA): <code>denote-sequence</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-sequence">https://protesilaos.com/emacs/denote-sequence</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-sequence">https://github.com/protesilaos/denote-sequence</a></li>
 <li>Backronym: Denote&#x2026; Sequences Efficiently Queue Unsorted Entries
@@ -4960,7 +4910,7 @@ across their configuration.
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): <code>denote-markdown</code> (⚠️ Not available yet)</li>
+<li>Package name (GNU ELPA): <code>denote-markdown</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-markdown">https://protesilaos.com/emacs/denote-markdown</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-markdown">https://github.com/protesilaos/denote-markdown</a></li>
 <li>Backronyms: Denote&#x2026; Markdown&rsquo;s Ambitious Reimplimentations
@@ -4989,7 +4939,7 @@ done by replacing all instances of <code>denote-journal-extras</code> with
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): <code>denote-journal</code> (⚠️ Not available yet)</li>
+<li>Package name (GNU ELPA): <code>denote-journal</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-journal">https://protesilaos.com/emacs/denote-journal</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-journal">https://github.com/protesilaos/denote-journal</a></li>
 <li>Backronym: Denote&#x2026; Journaling Obviously Utilises Reasonableness
@@ -5015,7 +4965,7 @@ across their configuration.
 </p>
 
 <ul class="org-ul">
-<li>Package name (GNU ELPA): <code>denote-silo</code> (⚠️ Not available yet)</li>
+<li>Package name (GNU ELPA): <code>denote-silo</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-silo">https://protesilaos.com/emacs/denote-silo</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-silo">https://github.com/protesilaos/denote-silo</a></li>
 <li>Backronym: Denote&#x2026; Silos Insulate Localised Objects.</li>
@@ -5026,9 +4976,9 @@ across their configuration.
 <h3 id="h:c905b733-e959-4aa4-8f2c-0ed9eba459df"><span class="section-number-3">18.6.</span> Use the <code>denote-search</code> package as a search interface</h3>
 <div class="outline-text-3" id="text-h:c905b733-e959-4aa4-8f2c-0ed9eba459df">
 <p>
-[ As part of version <code>4.0.0</code> (4.0.0-dev), Denote comes
-  with the <code>denote-grep</code> command and related functionality (<a href="#h:e71c9d14-7e88-4386-91d0-9ad249947077">Use <code>denote-grep</code> to search inside files</a>).
-The core of this feature set was written by Lucas Quintana. ]
+[ As part of version <code>4.0.0</code>, Denote comes with the <code>denote-grep</code>
+  command and related functionality (<a href="#h:e71c9d14-7e88-4386-91d0-9ad249947077">Use <code>denote-grep</code> to search inside files</a>).
+  The core of this feature set was written by Lucas Quintana. ]
 </p>
 
 <p>
@@ -5520,7 +5470,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org665796a">
+<pre class="example" id="orgb7388f2">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6269,7 +6219,7 @@ has a Denote identifier.</dd>
 <code>FILE</code> respects the file-naming scheme of Denote. This tests the
 rules of Denote&rsquo;s file-naming scheme. Sluggification is ignored. It
 is done by removing all file name components and validating what
-remains. [ This function is part of 4.0.0-dev. ]</dd>
+remains.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6325,7 +6275,7 @@ keywords in <code>denote-directory-files</code>. With optional
 <code>FILES-MATCHING-REGEXP</code>, only extract keywords from the matching
 files. Otherwise, do it for all files. Keep any duplicates. Users
 who do not want duplicates should refer to the functions
-<code>denote-keywords</code>. [ Part of 4.0.0-dev. ]</dd>
+<code>denote-keywords</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6336,8 +6286,7 @@ from existing notes and combine them into a list with
 (<a href="#h:6a92a8b5-d766-42cc-8e5b-8dc255466a23">Standard note creation</a>). In the case of keyword inferrence, use
 optional <code>FILES-MATCHING-REGEXP</code>, to extract keywords only from the
 matching files. Otherwise, do it for all files. Filter inferred
-keywords with the user option <code>denote-excluded-keywords-regexp</code>. [
-The optional <code>FILES-MATCHING-REGEXP</code> parameter is part of 4.0.0-dev. ]</dd>
+keywords with the user option <code>denote-excluded-keywords-regexp</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6381,8 +6330,7 @@ optional <code>TEXT-ONLY</code> as a non-nil value, limit the results to text
 files that satisfy <code>denote-file-is-note-p</code>. With optional
 <code>EXCLUDE-REGEXP</code> exclude the files that match the given regular
 expression. This is done after <code>FILES-MATCHING-REGEXP</code> and
-<code>OMIT-CURRENT</code> have been applied. [ The optional <code>EXCLUDE-REGEXP</code> is
-part of 4.0.0-dev. ]</dd>
+<code>OMIT-CURRENT</code> have been applied.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6465,7 +6413,7 @@ prompt will be skipped.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-use-keywords</code></dt><dd>The keywords to be used in a note
 creation command. See the documentation of <code>denote</code> for acceptable
-values. This variable is ignored if nil. Only ever <code>let</code> bind this,
+values. This variable is ignored if <code>default</code>. Only ever <code>let</code> bind this,
 otherwise the title will always be the same and the title prompt
 will be skipped.</dd>
 </dl>
@@ -6511,8 +6459,7 @@ the case when returning the value of the variable <code>denote-directory</code>)
 <p>
 <code>ID</code> is a string holding the identifier of the note. It can be an
 empty string, in which case its respective file name component is
-not added to the base file name. [ This is changed as part of
-4.0.0-dev. ]
+not added to the base file name.
 </p>
 
 <p>
@@ -6558,9 +6505,7 @@ at point or <code>POINT</code>.</dd>
 from <code>PATH</code> and return them as a list of strings.  <code>PATH</code> must be a
 Denote-style file name where keywords are prefixed with an
 underscore.  If <code>PATH</code> has no such keywords, which is possible,
-return nil (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>). [ As part of 4.0.0-dev,
-this function has an alias <code>denote-retrieve-filename-keywords-as-list</code>
-which should make it easier to discover this functionality. ]</dd>
+return nil (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6571,8 +6516,7 @@ identifier in <code>STRING</code>, else nil.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier
 from <code>FILE</code> name, if present, else return nil. To create a new one
-from a date, refer to the <code>denote-get-identifier</code> function. [ This
-is changed as part of 4.0.0-dev. ]</dd>
+from a date, refer to the <code>denote-get-identifier</code> function.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6601,7 +6545,7 @@ title for <code>FILE</code> given its <code>TYPE</code>. This is a wrapper for
 <dl class="org-dl">
 <dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
 identifier using <code>denote-id-format</code>. If <code>DATE</code> is nil, return an
-empty string as the identifier. [ This is changed as part of 4.0.0-dev. ]</dd>
+empty string as the identifier.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6698,8 +6642,7 @@ more advanced date selection utility if the user option
 <code>PROMPT-TEXT</code> use it in the minibuffer instead of the default
 prompt. <code>INITIAL-DATE</code> is a string that can be processed by
 <code>denote-valid-date-p</code>, a value that can be parsed by <code>decode-time</code>
-or nil. [ The <code>INITIAL-DATE</code> and <code>PROMPT-TEXT</code> are part of
-4.0.0-dev. ]</dd>
+or nil.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7003,10 +6946,6 @@ default, the title of the file is returned as the description.</dd>
 <div id="outline-container-h:e824c215-1c31-4b26-b994-7df67341d075" class="outline-3">
 <h3 id="h:e824c215-1c31-4b26-b994-7df67341d075"><span class="section-number-3">20.7.</span> Xref interface for developers or advanced users</h3>
 <div class="outline-text-3" id="text-h:e824c215-1c31-4b26-b994-7df67341d075">
-<p>
-[ All of the following are part of 4.0.0-dev. ]
-</p>
-
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-groups-xref-query</code></dt><dd>Access location of
 xrefs for <code>QUERY</code> and group them per file. Limit the search to text
@@ -7042,19 +6981,18 @@ contain <code>modify-file-name</code>, return t without prompting.</dd>
 <dt>Function <code>denote-prepend-front-matter</code></dt><dd>Prepend front matter to
 <code>FILE</code>. The <code>TITLE</code>, <code>KEYWORDS</code>, <code>DATE</code>, <code>ID</code>, <code>SIGNATURE</code>, and
 <code>FILE-TYPE</code> are passed from the renaming command and are used to
-construct a new front matter block if appropriate. [ This function
-is available as part of 4.0.0-dev. ]</dd>
+construct a new front matter block if appropriate.</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Function <code>denote-rewrite-front-matter</code></dt><dd>Rewrite front matter of
-note after <code>denote-rename-file</code> (or related) The <code>FILE</code>, <code>TITLE</code>,
+note after <code>denote-rename-file</code> (or related). The <code>FILE</code>, <code>TITLE</code>,
 <code>KEYWORDS</code>, <code>SIGNATURE</code>, <code>DATE</code>, <code>IDENTIFIER</code>, and <code>FILE-TYPE</code>
 arguments are given by the renaming command and are used to construct
 new front matter values if appropriate. If <code>denote-rename-confirmations</code>
 contains <code>rewrite-front-matter</code>, prompt to confirm the rewriting of
 the front matter. Otherwise produce a <code>y-or-n-p</code> prompt to that
-effect. [ This function is changed as part of 4.0.0-dev. ]</dd>
+effect.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7103,7 +7041,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd7e0ad5">
+<pre class="example" id="orgea7dd12">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7113,7 +7051,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org15f4390">
+<pre class="example" id="orgbfd71c2">
 emacs -Q
 </pre>
 
@@ -7125,7 +7063,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org331a23d">
+<pre class="example" id="orgce6d905">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7186,7 +7124,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org320ee39">
+<pre class="example" id="orgec85317">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7899,11 +7837,11 @@ Fintel, Kierin Bell, Kostas Andreadis, Kristoffer Balintona, Kyle
 Meyer, Laurent Gatto, Lucas Quintana, Maikol Solis, Marc Fargas,
 Matthew Lemon, Noboru Ota (nobiot), Norwid Behrnd, Octavian, Peter
 Prevos, Philip Kaludercic, Quiliro Ordóñez, Stephen R. Kifer, Stefan
-Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz, Vedang
-Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101, bryanrinders,
-eum3l, ezchi, jarofromel, leinfink (Henrik), l-o-l-h (Lincoln),
-mattyonweb, maxbrieiev, mentalisttraceur, pmenair, relict007,
-skissue.</dd>
+Monnier, Stefan Thesing, Thibaut Benjamin, Tomasz Hołubowicz,
+TomoeMami , Vedang Manerikar, Wesley Harvey, Zhenxu Xu, arsaber101,
+bryanrinders, eum3l, ezchi, jarofromel, leinfink (Henrik), l-o-l-h
+(Lincoln), mattyonweb, maxbrieiev, mentalisttraceur, pmenair,
+relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Griffin, Alex Hirschfeld, Alexis
