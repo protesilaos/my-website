@@ -30,13 +30,13 @@ This release introduces many subtle stylistic tweaks to the "tinted",
 
 ### The `modus-themes-list-colors` command uses a tabulated list
 
-This command and its `modus-themes-list-colors-current` help users see
-the colour values and semantic palette mappings defined by the given
-theme. In the past, their buffer was designed in the same spirit as
-that of the command `list-faces-display`, whereas now it is like the
-buffer of the command `list-packages`. Concretely, users may now sort
-by column. Do `M-x describe-mode` while in that buffer to learn about
-the available commands and their respective key bindings.
+This command and its `modus-themes-list-colors-current` variant help
+users see the colour values and semantic palette mappings defined by
+the given theme. In the past, their buffer was designed in the same
+spirit as that of the command `list-faces-display`, whereas now it is
+like the buffer of the command `list-packages`. Concretely, users may
+now sort by column. Do `M-x describe-mode` while in that buffer to
+learn about the available commands and their respective key bindings.
 
 
 ### The "tinted" themes have slightly different colours
