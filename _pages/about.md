@@ -72,10 +72,10 @@ charging adapter, and a selfie stick.
 
 ### Work on GNU Emacs
 
-I maintain lots of packages for Emacs, including the `modus-themes`
-which are a part of core Emacs and the increasingly popular `denote`
-note-taking system.  Find all my packages here:
-<https://protesilaos.com/emacs>.  And follow my coding blog for
+I have written a book on the Emacs Lisp programming language, wrote
+the Greek version of the Emacs tutorial, and have developed lots of
+packages, as well as videos and writings. Find further information
+here: <https://protesilaos.com/emacs>. And follow my coding blog for
 relevant updates: <https://protesilaos.com/codelog>.
 
 Sometimes I blend programming with philosophy, as made evident by such
@@ -151,14 +151,14 @@ physical item:
 (pictures too!).
 
 In May 2023 I received the _Google Open Source Peer Bonus Program_
-award for my Emacs `modus-themes`:
+award for my Emacs `modus-themes` package:
 <https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html>.
 Relevant essay of mine on _Accessibility and software freedom_:
 <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
 
 ## protesilaos.com
 
-This website has been online since 2011.  It contains more than 1000
+This website has been online since 2011.  It contains more than 1500
 entries on a wide range of topics, all of which are available under the
 appropriate _copyleft_ terms that ensure end user freedom—see the
 [license and resources](https://protesilaos.com/license/) page.  Read,
