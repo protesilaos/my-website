@@ -180,8 +180,8 @@ _you should not follow me_, for I am not going anywhere in particular.
 * [Douyin 抖音](https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE) (Chinese TikTok) (or use ID: `65118858653`).
 * IRC and Reddit: `protesilaos`.
 
-1. My active Git repositories are on SourceHut.  For select projects,
-   mirrors are available on GitLab and GitHub.
+1. My active Git repositories are on GitHub. Some projects have
+   mirrors on GitLab.
 2. The Douyin/TikTok account is not maintained by me (I don't know
    Chinese).  This is done by friends of mine in China who want to
    help me by sharing some of my publications.
