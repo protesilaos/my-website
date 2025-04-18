@@ -15,13 +15,13 @@ pronounced as &ldquo;timer&rdquo; or &ldquo;T-M-R&rdquo;.
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.0.0, released on 2024-08-30.  Any reference to
+1.1.0, released on 2025-04-18.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.1.0-dev.
+Current development target is 1.2.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -73,7 +73,7 @@ Current development target is 1.1.0-dev.
 <h2 id="h:c002f811-ea06-4123-988b-a73183581fb9"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:c002f811-ea06-4123-988b-a73183581fb9">
 <p>
-Copyright (C) 2021-2023  Free Software Foundation, Inc.
+Copyright (C) 2021-2025  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -286,7 +286,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 buffer and looks like this:
 </p>
 
-<pre class="example" id="org8364c41">
+<pre class="example" id="org4497385">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -319,11 +319,6 @@ toggle sorting.
 While in this grid view, one can perform all the operations on timers we
 have already covered herein (the <code>C-h m</code> will show you their key
 bindings in this mode).
-</p>
-
-<p>
-[ The <code>tmr-list-timers-action-alist</code> and the option to call
-  <code>tmr-tabulated-view</code> from Lisp are part of 1.1.0-dev. ]
 </p>
 
 <p>
@@ -527,34 +522,11 @@ Everything is in place to set up the package.
 <h2 id="h:64711ce4-c023-4f6e-b9aa-b43942013423"><span class="section-number-2">5.</span> Integration with Embark</h2>
 <div class="outline-text-2" id="text-h:64711ce4-c023-4f6e-b9aa-b43942013423">
 <p>
-The <code>embark</code> package provides standards-compliant infrastructure to
-run context-dependent actions on all sorts of targets (symbol at
-point, current completion candidate, etc.). Users can use the
-following glue code to make TMR timer objects recognisable by Embark.
+The <code>embark</code> package provides standards-compliant infrastructure to run
+context-dependent actions on all sorts of targets (symbol at point, current
+completion candidate, etc.). TMR is set up to make its timer objects
+recognisable by Embark and registers the <code>tmr-action-map</code> in Embark.
 </p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar-keymap embark-tmr-action-map
-  :doc "Action map for TMRs, which can be utilized by Embark."
-  "k" #'tmr-remove
-  "r" #'tmr-remove
-  "R" #'tmr-remove-finished
-  "c" #'tmr-clone
-  "a" #'tmr-toggle-acknowledge
-  "e" #'tmr-edit-description
-  "s" #'tmr-reschedule)
-
-(defvar embark-keymap-alist)
-(defvar embark-post-action-hooks)
-
-(with-eval-after-load 'embark
-  (add-to-list 'embark-keymap-alist '(tmr-timer . embark-tmr-action-map))
-  (cl-loop
-   for cmd the key-bindings of embark-tmr-action-map
-   if (commandp cmd) do
-   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
-</pre>
-</div>
 </div>
 </div>
 <div id="outline-container-h:047ecc52-ca02-4424-a037-c5b6a02383de" class="outline-2">
