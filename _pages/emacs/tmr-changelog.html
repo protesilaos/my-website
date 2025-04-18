@@ -19,12 +19,96 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:41248cbf-d399-411d-91ff-5359a00a1577">Version 1.1.0 on 2025-04-18</a></li>
 <li><a href="#h:88595352-0263-425c-baab-6042f63ae28a">Version 1.0.0 on 2024-08-30</a></li>
 <li><a href="#h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0">Version 0.4.0 on 2022-07-07</a></li>
 <li><a href="#h:0a2d4909-0079-47e9-97f4-220e85a811f9">Version 0.3.0 on 2022-05-17</a></li>
 <li><a href="#h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</a></li>
 <li><a href="#h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:41248cbf-d399-411d-91ff-5359a00a1577" class="outline-2">
+<h2 id="h:41248cbf-d399-411d-91ff-5359a00a1577">Version 1.1.0 on 2025-04-18</h2>
+<div class="outline-text-2" id="text-h:41248cbf-d399-411d-91ff-5359a00a1577">
+<p>
+This version makes small refinements to an already stable package.
+</p>
+</div>
+<div id="outline-container-h:cd10fa6b-60ed-4045-ae32-780e62b50f21" class="outline-3">
+<h3 id="h:cd10fa6b-60ed-4045-ae32-780e62b50f21">All of <code>tmr-tabulated.el</code>  is part of <code>tmr.el</code></h3>
+<div class="outline-text-3" id="text-h:cd10fa6b-60ed-4045-ae32-780e62b50f21">
+<p>
+The command <code>tmr-tabulated-view</code>, which produces a grid with
+timers+descriptions, used to be in a separate file. It now is part of
+the singular <code>tmr.el</code> to keep things simple. Users who were using
+<code>(require 'tmr-tabulated)</code> or similar will now get a warning. Simply
+load <code>tmr</code> instead.
+</p>
+</div>
+</div>
+<div id="outline-container-h:bd56a213-7714-4bd7-bd1a-f3ac108f27d2" class="outline-3">
+<h3 id="h:bd56a213-7714-4bd7-bd1a-f3ac108f27d2">Refined the behaviour of the <code>tmr-tabulated-view</code> command</h3>
+<div class="outline-text-3" id="text-h:bd56a213-7714-4bd7-bd1a-f3ac108f27d2">
+<p>
+When the command <code>tmr-tabulated-view</code> (alias <code>tmr-list-timers</code>) is
+called interactively, it uses the <code>*tmr-tabulated-view*</code> buffer just
+as it did before. Though it also evaluates the new user option
+<code>tmr-list-timers-action-alist</code>: it is a variable that controls where
+the buffer is displayed. The default value displays the buffer at the
+bottom of the Emacs frame and makes some other tweaks for usability.
+</p>
+
+<p>
+Watch my video on the <code>display-buffer-alist</code> for further details on
+how to control the display of buffers: <a href="https://protesilaos.com/codelog/2024-02-08-emacs-window-rules-display-buffer-alist/">https://protesilaos.com/codelog/2024-02-08-emacs-window-rules-display-buffer-alist/</a>.
+</p>
+
+<p>
+The <code>tmr-tabulated-view</code> command is further revised to make it
+callable from a program. One scenario where we do this is to interrupt
+the termination of Emacs if there are running timers (more below).
+</p>
+</div>
+</div>
+<div id="outline-container-h:5a4bf956-b1c2-446b-848c-eb64ffa50109" class="outline-3">
+<h3 id="h:5a4bf956-b1c2-446b-848c-eb64ffa50109">TMR interrupts the termination of Emacs if it must</h3>
+<div class="outline-text-3" id="text-h:5a4bf956-b1c2-446b-848c-eb64ffa50109">
+<p>
+In the past, we did not have anything to prevent the termination of
+Emacs if timers were running: Emacs would simply shut down. Now we
+define the <code>tmr-kill-emacs-query-function</code>, which is added to the
+standard <code>kill-emacs-query-functions</code>: if there are running timers, it
+asks for confirmation before closing Emacs. To make it easier for
+users to decide how to proceed, it also pops up the list with all the
+timers (i.e. it uses <code>tmr-tabulated-view</code> from Lisp, as noted above).
+</p>
+</div>
+</div>
+<div id="outline-container-h:c432f1ab-dcaf-4a01-8004-cf268a24b228" class="outline-3">
+<h3 id="h:c432f1ab-dcaf-4a01-8004-cf268a24b228">The list view is easier to follow</h3>
+<div class="outline-text-3" id="text-h:c432f1ab-dcaf-4a01-8004-cf268a24b228">
+<p>
+The buffer produced by <code>tmr-tabulated-view</code> now uses more colours to
+make it easier to track the data it presents. These are all the faces
+it applies:
+</p>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-start-time</code></dt><dd>The time when the timer was started.</dd>
+
+<dt><code>tmr-tabulated-end-time</code></dt><dd>The time when the timer is set to end.</dd>
+
+<dt><code>tmr-tabulated-remaining-time</code></dt><dd>The remaining time.</dd>
+
+<dt><code>tmr-tabulated-acknowledgement</code></dt><dd>Whether the timer needs to be
+"acknowledged" after it ends (if it is marked as "acknowledged",
+then it will not go away until the user confirms they have seen it).</dd>
+
+<dt><code>tmr-tabulated-description</code></dt><dd>The text describing what the timer is
+about.</dd>
+</dl>
+</div>
 </div>
 </div>
 <div id="outline-container-h:88595352-0263-425c-baab-6042f63ae28a" class="outline-2">
@@ -235,7 +319,7 @@ The tabulated view now shows the remaining time for all timer objects.
 This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
 </p>
 
-<pre class="example" id="orga2d661d">
+<pre class="example" id="org89d8ac1">
   Start      End        Remaining  Description
   10:11:49   10:11:54   ✔
   10:11:36   10:31:36   19m 35s
@@ -364,7 +448,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="orgbac867d">
+<pre class="example" id="orgb49b0e3">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
