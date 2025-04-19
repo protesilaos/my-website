@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Minor adulterations” by Vasilis Papakonstantinou"
-excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Here'."
+excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Minor adulterations'."
 ---
 
 For this entry, I have picked one of the many masterpieces performed

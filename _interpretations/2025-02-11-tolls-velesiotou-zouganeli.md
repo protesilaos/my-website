@@ -1,6 +1,6 @@
 ---
 title: "Interpretation of “Tolls” by Fotini Velesiotou and Eleonora Zouganeli"
-excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Here'."
+excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'Tolls'."
 ---
 
 For this entry in the series, I have selected a song that I only
