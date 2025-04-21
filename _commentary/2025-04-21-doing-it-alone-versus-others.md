@@ -3,9 +3,9 @@ title: "Re: doing it alone VS doing it with others"
 excerpt: "There are times where going on your own is fine and other times where it is better to rely on others. It all is about finding the balance."
 ---
 
-The following is an excerpt from a private exchange that I publishing
-with permission and without sharing the personal details of my
-correspondent. The quoted/indented parts are from my correspondent.
+The following is an excerpt from a private exchange that I am
+publishing with permission and without sharing the personal details of
+my correspondent. The quoted/indented parts are from my correspondent.
 
 * * *
 
