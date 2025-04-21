@@ -55,7 +55,7 @@ The mindful consideration then is all about finding the right balance.
 Loving your self is a good basis for a relationship. I have first-hand
 experience with people who did not have that quality at the time,
 which made them insecure about the most trivial things. That quickly
-turns into a toxic of abusive environment, which is not healthy for a
+turns into a toxic or abusive environment, which is not healthy for a
 relationship (and for one's own wellness by extension).
 
 Still, I think that the "do it on your own first" does not work for
@@ -132,7 +132,7 @@ original general point.
 
 Trust, then, is subject to social pressures and expectations. It is
 situational. Of course, the notion of "let me be ready for it first"
-can play a role. This overthinking may ever be a reflection of the
+can play a role. This overthinking may even be a reflection of the
 underlying deficit in trust, rather that what causes this deficit. It
 is all about the specifics of the case.
 
@@ -194,7 +194,7 @@ proving that I can do it. It may all be but a game to me and I am
 finding the pretext to continue playing it each time. Who knows?
 Hypotheses aside, there may be latent hubris in my lifestyle: the
 hubris of me seeking challenges that will ultimately undo me. Greek
-myths must have been inspired to such real stories. But I try to keep
+myths must have been inspired by such real stories. But I try to keep
 things in perspective and recognise my limits.
 
 Back to your question, I cannot answer the counterfactual. I cannot
