@@ -95,7 +95,7 @@ the more subdued and general form of love, else _agape_ (αγάπη).
 Erotas has been symbolised since antiquity as the god Eros, who is
 related to Aphrodite, the goddess of both beauty and love in their
 broadest sense. In English we have terms such as "erotic" (pertaining
-to Eros) and "aphrodisiac" (related to Aphrodite, though here this a
+to Eros) and "aphrodisiac" (related to Aphrodite, though here this is a
 proxy for erotic and thus not faithful to the archetype of the goddess).
 
 What _Just two days_ describes is the intensely passionate phenomenon
@@ -107,7 +107,7 @@ momentary.
 
 Erotas is passion throughout. Authenticity is its beauty. As the
 ancient saying goes, it is invincible in battle (_eros anikate mahan_,
-«έρως ανίκατε μάχαν»). It being short lived does not detract from the
+«έρως ανίκατε μάχαν»). It being short-lived does not detract from the
 experience. If anything, it is what keeps it honest. The encounter has
 to be brief, just long enough to ride the wave of excitement but also
 to keep lust as the driving force.
@@ -140,8 +140,8 @@ wants.
 We can choose to echo whatever moral precepts find currency in our
 milieu, about suppressing this and sacrificing that, or take the art
 as-is. However we go about it, reality does not care about our norms.
-Eros will continue to be there, even if we condemn it as frivolous. It
-will still be felt equally by the unabashed womaniser and the shy
+Erotas will continue to be there, even if we condemn it as frivolous.
+It can still be felt equally by the unabashed womaniser and the shy
 girl, no matter the era and prevailing tradition.
 
 Those who wish to understand what it is to be human, do not argue with
