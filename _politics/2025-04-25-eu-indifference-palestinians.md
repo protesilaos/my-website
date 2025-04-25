@@ -3,11 +3,11 @@ title: "On the EU's indifference towards the Palestinians"
 excerpt: "The EU is applying double standards because its elites are not actually upholding the values they claim to be the stewards of."
 ---
 
-Writing for _Social Europe_, Josep Borell, the former "foreign
-minister" of the European Union (technically, the "High Representative
-of the European Union for Foreign Affairs") laments the Union's
-apparent double standard in how it treats the Ukrainian and
-Palestinian peoples:
+[Writing for _Social Europe_](https://www.socialeurope.eu/gazas-descent-into-catastrophe-tests-europes-conscience),
+Josep Borell, the former "foreign minister" of the European Union
+(technically, the "High Representative of the European Union for
+Foreign Affairs") laments the Union's apparent double standard in how
+it treats the Ukrainian and Palestinian peoples:
 
 > For some European countries, historical guilt over the Holocaust has
 > arguably been transformed into a “reason of state” that justifies
