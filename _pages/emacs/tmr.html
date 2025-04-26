@@ -44,9 +44,10 @@ Current development target is 1.2.0-dev.
 <li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a>
 <ul>
 <li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid or tabulated view</a></li>
-<li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.2. Hooks</a></li>
-<li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.3. Sound and desktop notifications</a></li>
-<li><a href="#h:fbedb656-2402-46bc-9763-d5112700c954">2.4. Minibuffer histories</a></li>
+<li><a href="#h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc">2.2. Display timers on the mode line</a></li>
+<li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.3. Hooks</a></li>
+<li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.4. Sound and desktop notifications</a></li>
+<li><a href="#h:fbedb656-2402-46bc-9763-d5112700c954">2.5. Minibuffer histories</a></li>
 </ul>
 </li>
 <li><a href="#h:46378bdf-f6cc-469e-b0b0-1b90dd9aa595">3. Installation</a>
@@ -286,7 +287,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 buffer and looks like this:
 </p>
 
-<pre class="example" id="org4497385">
+<pre class="example" id="org080938e">
 Start      End        Remaining  Description
 10:11:49   10:11:54   ✔
 10:11:36   10:31:36   19m 35s
@@ -341,10 +342,95 @@ The <code>tmr-list-timers-action-alist</code> is relevant only when the command
 <code>tmr-tabulated-view</code> is called interactively. In Lisp, the <code>tmr-tabulated-view</code>
 requires the buffer it should use and the concomitant action alist.
 </p>
+
+<p>
+Faces used in the tabulated view:
+</p>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-start-time</code></dt><dd>The time the timer started.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-end-time</code></dt><dd>The time the timer will end.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-remaining-time</code></dt><dd>The timer&rsquo;s remaining time.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-acknowledgement</code></dt><dd>Whether the timer needs to be
+acknowledged.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-tabulated-description</code></dt><dd>The description of the timer.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc" class="outline-3">
+<h3 id="h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc"><span class="section-number-3">2.2.</span> Display timers on the mode line</h3>
+<div class="outline-text-3" id="text-h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc">
+<p>
+[ This is part of 1.2.0-dev. ]
+</p>
+
+<p>
+The <code>tmr-mode-line-mode</code> is a minor mode that displays running timers
+on the mode line. Specifically, the timers are shown as part of the
+<code>global-mode-string</code>. This means that they may be displayed on the
+<code>tab-bar-mode</code> instead of the mode line if the user option
+<code>tab-bar-format</code> is configured accordingly.
+</p>
+
+<p>
+The user option <code>tmr-mode-line-format</code> controls how the timers are
+rendered. This is a string that treats specially the <code>%r</code> and <code>%d</code>
+specifiers. The <code>%r</code> represents the remaining time, while <code>%d</code> is the
+description of the timer.
+</p>
+
+<p>
+The user option <code>tmr-mode-line-max-desc-length</code> sets the maximum
+length of a timers description, when the <code>tmr-mode-line-format</code> is
+configured to show descriptions.
+</p>
+
+<p>
+The user option <code>tmr-mode-line-max-timers</code> sets the maximum number of
+running timers that are shown on the mode line at any one time.
+</p>
+
+<p>
+The user option <code>tmr-mode-line-separator</code> specifies a string that is
+inserted between timers on the mode line to visually separate them.
+</p>
+
+<p>
+The user option <code>tmr-mode-line-prefix</code> specifies a string that is
+prepended to the indicator with all the running timers.
+</p>
+
+<p>
+Applicable faces for this case are:
+</p>
+
+<dl class="org-dl">
+<dt><code>tmr-mode-line-active</code></dt><dd>Any active timer.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-mode-line-soon</code></dt><dd>A timer that expires within 2 minutes.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt><code>tmr-mode-line-urgent</code></dt><dd>A timer that expires within 30 seconds.</dd>
+</dl>
 </div>
 </div>
 <div id="outline-container-h:c908f440-da08-462e-be4e-a61fb274ecbc" class="outline-3">
-<h3 id="h:c908f440-da08-462e-be4e-a61fb274ecbc"><span class="section-number-3">2.2.</span> Hooks</h3>
+<h3 id="h:c908f440-da08-462e-be4e-a61fb274ecbc"><span class="section-number-3">2.3.</span> Hooks</h3>
 <div class="outline-text-3" id="text-h:c908f440-da08-462e-be4e-a61fb274ecbc">
 <p>
 TMR provides the following hooks:
@@ -374,7 +460,7 @@ was cancelled.</dd>
 </div>
 </div>
 <div id="outline-container-h:56bbbd6f-5b63-4375-9c86-e1eb231be356" class="outline-3">
-<h3 id="h:56bbbd6f-5b63-4375-9c86-e1eb231be356"><span class="section-number-3">2.3.</span> Sound and desktop notifications</h3>
+<h3 id="h:56bbbd6f-5b63-4375-9c86-e1eb231be356"><span class="section-number-3">2.4.</span> Sound and desktop notifications</h3>
 <div class="outline-text-3" id="text-h:56bbbd6f-5b63-4375-9c86-e1eb231be356">
 <p>
 Once the timer has run its course, it produces a desktop notification and
@@ -408,7 +494,7 @@ available, TMR will issue a warning informing the user accordingly.
 </div>
 </div>
 <div id="outline-container-h:fbedb656-2402-46bc-9763-d5112700c954" class="outline-3">
-<h3 id="h:fbedb656-2402-46bc-9763-d5112700c954"><span class="section-number-3">2.4.</span> Minibuffer histories</h3>
+<h3 id="h:fbedb656-2402-46bc-9763-d5112700c954"><span class="section-number-3">2.5.</span> Minibuffer histories</h3>
 <div class="outline-text-3" id="text-h:fbedb656-2402-46bc-9763-d5112700c954">
 <p>
 TMR defines two variables that store user input: <code>tmr-duration-history</code>
@@ -444,7 +530,6 @@ The package is available as <code>tmr</code>.  Simply do:
 M-x package-refresh-contents
 M-x package-install
 </pre>
-
 
 <p>
 And search for it.
@@ -538,7 +623,7 @@ TMR is meant to be a collective effort.  Every bit of help matters.
 
 <dl class="org-dl">
 <dt>Authors</dt><dd>Protesilaos Stavrou (maintainer), Damien Cassou, Daniel
-Mendler.</dd>
+Mendler, Steven Allen.</dd>
 
 <dt>Contributions to the code or manual</dt><dd>Christian Tietze, Ed Tavinor,
 Nathan R. DeGruchy.</dd>
