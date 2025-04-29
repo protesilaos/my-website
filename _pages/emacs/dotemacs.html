@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-04-24 07:15:26 +0300 with a word
-count of 106739.</b>
+<b>Last revised and exported on 2025-04-29 13:08:10 +0300 with a word
+count of 106795.</b>
 </p>
 
 <p>
@@ -415,7 +415,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-04-24 07:15:26 +0300):
+(2025-04-29 13:08:10 +0300):
 </p>
 
 <div class="org-src-container">
@@ -509,7 +509,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgc63bffb">
+<pre class="example" id="org55fa6f6">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -589,7 +589,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org1b8084a">
+<pre class="example" id="orga3253c9">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -597,7 +597,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orge465dd9">
+<pre class="example" id="org21cc21d">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -758,7 +758,7 @@ once Emacs is done loading.
 
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 1000 1000 8)
+            (setq gc-cons-threshold (* 100 100 8)
                   gc-cons-percentage 0.1
                   file-name-handler-alist prot-emacs--file-name-handler-alist
                   vc-handled-backends prot-emacs--vc-handled-backends)))
@@ -1524,7 +1524,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org69131f7">
+<pre class="example" id="orge62f1d7">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2023,7 +2023,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
   :config
   (setq ef-themes-variable-pitch-ui t
         ef-themes-mixed-fonts t
-        ef-themes-rotate ef-themes-items
+        ef-themes-to-rotate ef-themes-items
         ef-themes-headings ; read the manual's entry of the doc string
         '((0 . (variable-pitch light 1.9))
           (1 . (variable-pitch light 1.8))
@@ -4070,7 +4070,7 @@ word.  Fall back to regular `expreg-expand'."
 This is a package that I wrote and for which I received substantial
 code contributions from Damien Cassou and Daniel Mendler. With <code>tmr</code>
 we set timers using a convenient notation. The point of entry is the
-<code>tmr</code> command (or <code>tmr-with-description</code> if you want to describe what
+<code>tmr</code> command (or <code>tmr-with-details</code> if you want to describe what
 the timer is about).
 </p>
 
@@ -4140,14 +4140,8 @@ to learn about all the available commands and their respective key bindings.
   :ensure t
   :bind
   (("C-c t t" . tmr)
-   ("C-c t T" . tmr-with-description)
-   ("C-c t l" . tmr-tabulated-view) ; "list timers" mnemonic
-   ("C-c t c" . tmr-clone)
-   ("C-c t k" . tmr-cancel)
-   ("C-c t s" . tmr-reschedule)
-   ("C-c t e" . tmr-edit-description)
-   ("C-c t r" . tmr-remove)
-   ("C-c t R" . tmr-remove-finished))
+   ("C-c t T" . tmr-with-details)
+   ("C-c t l" . tmr-list-timers))
   :config
   (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
         tmr-notification-urgency 'normal
@@ -4271,7 +4265,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="org91b1f15">
+<pre class="example" id="org71cf545">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7053,7 +7047,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org8cdf70b">
+<pre class="example" id="org491d586">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7081,7 +7075,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org8f0fac9">
+<pre class="example" id="org61ee121">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7103,7 +7097,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org37d31de">
+<pre class="example" id="org2095bba">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7259,7 +7253,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orge0c1f9d">
+<pre class="example" id="orgee100cc">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8924,7 +8918,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org8a34369">
+<pre class="example" id="org7d91ee4">
 (info "(org) Search Options")
 </pre>
 
@@ -9016,7 +9010,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org6c7877e">
+<pre class="example" id="org5a47ebc">
 (require 'ob-python)
 
 ;; OR
@@ -9863,7 +9857,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org1c8a061">
+<pre class="example" id="org6142e83">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10381,7 +10375,22 @@ Note Only The Epiphenomenal.</li>
   ;; instead of their long file name they have a literal "[D]"
   ;; followed by the file's title.  Read the doc string of
   ;; `denote-rename-buffer-format' for how to modify this.
-  (denote-rename-buffer-mode 1))
+  (denote-rename-buffer-mode 1)
+
+  ;; EXPERIMENT 2025-04-25: This is not the default order, though
+  ;; Denote supports any order for its file name components.
+  (setq denote-file-name-components-order '(identifier signature keywords title))
+
+  (defun prot/denote-rename-all-to-reorder-components ()
+    "Call `denote-dired-rename-files' without any prompts.
+In other words, preserve the value of each Denote file name component.
+
+Use this command if you want to modify the user option
+`denote-file-name-components-order' and then want your files to
+retroactively follow that order."
+    (interactive)
+    (let ((denote-prompts nil))
+      (call-interactively 'denote-dired-rename-files))))
 </pre>
 </div>
 </div>
@@ -10774,7 +10783,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org0f6ecd0">
+<pre class="example" id="org6911306">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10786,7 +10795,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org255d7f6">
+<pre class="example" id="orgc6a2954">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10852,7 +10861,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org8304461">
+<pre class="example" id="orgf01a39a">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10864,7 +10873,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgcc8d16f">
+<pre class="example" id="org9992373">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10886,7 +10895,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org5b1400c">
+<pre class="example" id="org34a4740">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11015,7 +11024,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org810046f">
+<pre class="example" id="org6f259e2">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11151,7 +11160,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orge409f02">
+<pre class="example" id="org3c49408">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11163,7 +11172,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org36dcb5a">
+<pre class="example" id="orgd295e98">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12302,7 +12311,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org340990f">
+<pre class="example" id="org70386c8">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12399,7 +12408,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgf84752f">
+<pre class="example" id="org4f30ac8">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19324,7 +19333,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org7b723c5">
+<pre class="example" id="org22af809">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19356,7 +19365,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org1703650">
+<pre class="example" id="org64fc580">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
