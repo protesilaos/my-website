@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/ef-themes">https://protesilao
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:728b510a-3e93-433f-9c3c-582f716321f9">Version 1.10.0 on 2025-04-29</a></li>
 <li><a href="#h:3c1baf6a-69f1-4109-9a5e-b587beda56bc">Version 1.9.0 on 2024-11-16</a></li>
 <li><a href="#h:b00cf88f-791c-4d58-a3e7-56677b1ff448">Version 1.8.0 on 2024-08-27</a></li>
 <li><a href="#h:c5de16f9-1f16-46b9-b9fa-07b9b6b9bcfc">Version 1.7.0 on 2024-04-28</a></li>
@@ -41,6 +42,96 @@ the manual: <a href="https://protesilaos.com/emacs/ef-themes">https://protesilao
 <li><a href="#h:1e875631-853a-4bd1-9a33-ff4e51fe7614">Version 0.2.0 on 2022-08-18</a></li>
 <li><a href="#h:fb284e98-ec9c-434d-9e9a-1773300d2fb6">Version 0.1.0 on 2022-08-17</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:728b510a-3e93-433f-9c3c-582f716321f9" class="outline-2">
+<h2 id="h:728b510a-3e93-433f-9c3c-582f716321f9">Version 1.10.0 on 2025-04-29</h2>
+<div class="outline-text-2" id="text-h:728b510a-3e93-433f-9c3c-582f716321f9">
+<p>
+This version introduces minor refinements to an already stable
+package.
+</p>
+</div>
+<div id="outline-container-h:2db8bd88-b941-4c55-b8c3-f54a85666def" class="outline-3">
+<h3 id="h:2db8bd88-b941-4c55-b8c3-f54a85666def">The palette preview uses a tabulated interface</h3>
+<div class="outline-text-3" id="text-h:2db8bd88-b941-4c55-b8c3-f54a85666def">
+<p>
+The commands <code>ef-themes-preview-colors</code> and <code>ef-themes-preview-colors-current</code>
+produce a preview of the given theme's palette. In the past, we were
+using a bespoke buffer for this task, just how the built-in command
+<code>list-colors-display</code> does it.
+</p>
+
+<p>
+Now we rely on the built-in <code>tabulated-list-mode</code> to get a cleaner
+tabulated view. Plus, users can sort by column.
+</p>
+</div>
+</div>
+<div id="outline-container-h:296dadf4-a87d-4cf1-8058-959f65dfc2b4" class="outline-3">
+<h3 id="h:296dadf4-a87d-4cf1-8058-959f65dfc2b4">Support for more faces or face groups</h3>
+<div class="outline-text-3" id="text-h:296dadf4-a87d-4cf1-8058-959f65dfc2b4">
+<ul class="org-ul">
+<li>Added support for my <code>tmr</code> package. This will be especially
+noticeable in its tabulated view (used to show timers, with the
+command <code>tmr-tabulated-view</code> (alias <code>tmr-list-timers</code>)).</li>
+
+<li><p>
+Added explicit support for my <code>spacious-padding</code> package.
+Specifically, this is for the faces <code>spacious-padding-subtle-mode-line-active</code>
+and <code>spacious-padding-subtle-mode-line-inactive</code>. Those can be
+configured as part of the user option <code>spacious-padding-subtle-mode-line</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (setq spacious-padding-subtle-mode-line
+        '( :mode-line-active spacious-padding-subtle-mode-line-active
+           :mode-line-inactive spacious-padding-subtle-mode-line-inactive))
+</pre>
+</div></li>
+
+<li>Made the <code>helpful</code> headings use whatever the style of level 1
+headings is, as defined by the user option <code>ef-themes-heading</code>.
+Thanks to John Haman for applying the relevant code we have for the
+<code>modus-themes</code>. The change is small (and comes from my <code>modus-themes</code>,
+anyway), meaning that John does not need to assign copyright to the
+Free Software Foundation.</li>
+
+<li>Added support for the <code>howm</code> package.</li>
+
+<li>Extended support for the <code>auto-dim-other-buffers</code> package to include
+its <code>auto-dim-other-buffers-hide-face</code>.</li>
+
+<li><p>
+Made sure that all new <code>transient</code> faces conform with the design
+priorities of the themes. Concretely, this means that they do not
+support any colour-coding: all keys look the same, regardless of
+whether they mean "continue", "exit", or anything else.
+Colour-coding with a full spectrum of colours cannot be accessible
+(and I do not believe colour-coding alone even works because the
+colours have nothing else to be associated with, like how a red line
+in a diff buffer also goes together with the minus sign).
+</p>
+
+<p>
+Thanks to Kevin Fleming for including the <code>transient-key-stack</code> face
+that I had originally missed. This was done in pull request 54:
+<a href="https://github.com/protesilaos/ef-themes/pull/54">https://github.com/protesilaos/ef-themes/pull/54</a>. The change is
+small, meaning that Kevin does not need to assign copyright to the
+Free Software Foundation
+</p></li>
+
+<li><p>
+Extended support for <code>adoc-mode</code> courtesy of Leilei332. This was
+done in pull request 52: <a href="https://github.com/protesilaos/ef-themes/pull/52">https://github.com/protesilaos/ef-themes/pull/52</a>.
+</p>
+
+<p>
+The change is within the ~15-line limit, meaning that its author does
+not need to assign copyright to the Free Software Foundation.
+</p></li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-h:3c1baf6a-69f1-4109-9a5e-b587beda56bc" class="outline-2">
@@ -1937,7 +2028,7 @@ This was used for escaped parentheses and the like.  It was making
 certain strings harder to read, such as:
 </p>
 
-<pre class="example" id="orgbcc0ea2">
+<pre class="example" id="org5358cd6">
 "\\(?:\\.\\(?:m\\(?:kv\\|p4\\)\\|ogg\\|webm\\)\\)"
 </pre>
 </div>
@@ -2722,7 +2813,7 @@ plans with the <code>ef-themes</code> and how maintainable the project is:
 <a href="https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html">https://lists.gnu.org/archive/html/emacs-devel/2022-10/msg00060.html</a>.
 </p>
 
-<pre class="example" id="orgcf705fc">
+<pre class="example" id="org9760758">
 From: Protesilaos Stavrou &lt;info@protesilaos.com&gt;
 To: Philip Kaludercic &lt;philipk@posteo.net&gt;, emacs-devel@gnu.org
 Subject: Re: [elpa] externals/ef-themes b6fc326946: Add ef-bio theme
