@@ -173,7 +173,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:e71c9d14-7e88-4386-91d0-9ad249947077">15. Use <code>denote-grep</code> to search inside files</a></li>
-<li><a href="#h:435592bc-e896-429f-a599-9f1bcd5ab9b8">16. Interact with the links buffer</a></li>
+<li><a href="#h:435592bc-e896-429f-a599-9f1bcd5ab9b8">16. Interact with the links buffer</a>
+<ul>
+<li><a href="#h:ec3d009a-518b-439f-a3e5-38342b1c13fe">16.1. Control the default sort of a query buffer</a></li>
+</ul>
+</li>
 <li><a href="#h:82dc1203-d689-44b2-9a6c-b37776209651">17. Minibuffer histories</a></li>
 <li><a href="#h:08b14682-e73f-4b11-b2e2-be3b788c8572">18. Packages that build on Denote</a>
 <ul>
@@ -1745,7 +1749,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf91f439">
+<pre class="example" id="org3777cfc">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2319,7 +2323,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org37504c5">
+<pre class="example" id="orga5f30c1">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2339,7 +2343,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgd83bf4a">
+<pre class="example" id="org6b77bc1">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2992,7 +2996,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgaa450b0">
+<pre class="example" id="orgb8567f3">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3208,7 +3212,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org4aef63e">
+<pre class="example" id="org235eb01">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3220,7 +3224,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org1dc8e1b">
+<pre class="example" id="org0c90a47">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3234,7 +3238,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org112ca96">
+<pre class="example" id="orgcc86360">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3248,7 +3252,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgd2ee9fd">
+<pre class="example" id="org98648a3">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3585,7 +3589,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org33e6c24">
+<pre class="example" id="org2fb22a9">
 - link1
 - link2
 - link3
@@ -3603,7 +3607,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org5ee706d">
+<pre class="example" id="orgbeaddc7">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3954,7 +3958,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org8a6d5ab">
+<pre class="example" id="org288e6b5">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4787,6 +4791,19 @@ from the last search whose name includes the given keywords.</dd>
 <dt><code>denote-query-clear-all-filters</code></dt><dd>Clear all the applied filters.</dd>
 </dl>
 
+<dl class="org-dl">
+<dt><code>denote-query-sort-last-search</code></dt><dd><p>
+Change the sorting of files from
+the last search. The user option <code>denote-query-sorting</code> controlls
+the default sort (<a href="#h:ec3d009a-518b-439f-a3e5-38342b1c13fe">Control the default sort of a query buffer</a>).
+</p>
+
+<p>
+[ Both the command <code>denote-query-sorting</code> and the user option
+  <code>denote-query-sorting</code> are part of 4.1.0-dev. ]
+</p></dd>
+</dl>
+
 <p>
 Remember that these are easy to use even without knowledge of regular
 expressions, thanks to the efficiency of the Denote file-naming scheme
@@ -4804,6 +4821,52 @@ provided by the Xref infrastructure. Users can do <code>M-x describe-mode</code>
 (<code>C-h m</code> with default key bindings) to learn about all the actions
 they can perform.
 </p>
+</div>
+<div id="outline-container-h:ec3d009a-518b-439f-a3e5-38342b1c13fe" class="outline-3">
+<h3 id="h:ec3d009a-518b-439f-a3e5-38342b1c13fe"><span class="section-number-3">16.1.</span> Control the default sort of a query buffer</h3>
+<div class="outline-text-3" id="text-h:ec3d009a-518b-439f-a3e5-38342b1c13fe">
+<p>
+[ Part of 4.1.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-query-sorting</code> controls the order of matching
+files in a query buffer (buffers that use the <code>denote-query-mode</code>. The
+applies to the buffer that is produced by query links, backlinks, and
+the <code>denote-grep</code> command:
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:d9a84289-2f73-4ef9-b4f0-9a0aa3e9bf0d">Add a query link</a>.</li>
+<li><a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The backlinks&rsquo; buffer</a>.</li>
+<li><a href="#h:e71c9d14-7e88-4386-91d0-9ad249947077">Use <code>denote-grep</code> to search inside files</a>.</li>
+</ul>
+
+<p>
+By default, no sorting of matching files is performed. They appear in
+the query buffer in the order they were retrieved.
+</p>
+
+<p>
+The <code>denote-query-sorting</code> can be set to a symbol among <code>title</code>,
+<code>keywords</code>, <code>signature</code>, or <code>identifier</code> to sort by the given file
+name component (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>). The symbol <code>random</code> produces
+a random order each time.
+</p>
+
+<p>
+The <code>denote-query-sorting</code> can also be set to the symbol of a
+function. In that case, the given function is used to perform the
+sorting. This is for advanced users, who may refer to the
+documentation of the <code>denote-sort-files</code> for the technicalities.
+</p>
+
+<p>
+Whatever the value of <code>denote-query-sorting</code>, users may change the
+sort of query buffers by calling the command <code>denote-query-sort-last-search</code>
+(<a href="#h:435592bc-e896-429f-a599-9f1bcd5ab9b8">Interact with the links buffer</a>).
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:82dc1203-d689-44b2-9a6c-b37776209651" class="outline-2">
@@ -5496,7 +5559,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org8b4cf1f">
+<pre class="example" id="org97eba7e">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7078,7 +7141,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgd060e3d">
+<pre class="example" id="org11d722b">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7088,7 +7151,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgf97efeb">
+<pre class="example" id="orgde3f719">
 emacs -Q
 </pre>
 
@@ -7100,7 +7163,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org4749b49">
+<pre class="example" id="orgee7947e">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7161,7 +7224,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org85e41db">
+<pre class="example" id="orgbe6482a">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
