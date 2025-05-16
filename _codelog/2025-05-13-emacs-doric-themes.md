@@ -19,6 +19,10 @@ Enjoy your new theme!
 
 <a href="{{'/assets/images/doric/doric-light.png' | absolute_url }}"><img alt="doric-light theme sample" src="{{'/assets/images/doric/doric-light.png' | absolute_url }}"/></a>
 
+### doric-marble
+
+<a href="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"/></a>
+
 ### doric-earth
 
 <a href="{{'/assets/images/doric/doric-earth.png' | absolute_url }}"><img alt="doric-earth theme sample" src="{{'/assets/images/doric/doric-earth.png' | absolute_url }}"/></a>
@@ -30,6 +34,10 @@ Enjoy your new theme!
 ### doric-dark
 
 <a href="{{'/assets/images/doric/doric-dark.png' | absolute_url }}"><img alt="doric-dark theme sample" src="{{'/assets/images/doric/doric-dark.png' | absolute_url }}"/></a>
+
+### doric-obsidian
+
+<a href="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"><img alt="doric-obsidian theme sample" src="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"/></a>
 
 ### doric-fire
 
