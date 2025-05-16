@@ -5,7 +5,7 @@ permalink: /emacs/doric-themes-pictures
 ---
 
 The following screen shots correspond to version `0.1.0-dev`. The
-typeface is my [Aporetic fonts](https://github.com/protesilaos/aporetic).
+typeface is one of my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.  Also note that dark themes are best
@@ -15,6 +15,10 @@ subtle differences in colour.
 ## doric-light
 
 <a href="{{'/assets/images/doric/doric-light.png' | absolute_url }}"><img alt="doric-light theme sample" src="{{'/assets/images/doric/doric-light.png' | absolute_url }}"/></a>
+
+## doric-marble
+
+<a href="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"/></a>
 
 ## doric-earth
 
@@ -27,6 +31,10 @@ subtle differences in colour.
 ## doric-dark
 
 <a href="{{'/assets/images/doric/doric-dark.png' | absolute_url }}"><img alt="doric-dark theme sample" src="{{'/assets/images/doric/doric-dark.png' | absolute_url }}"/></a>
+
+## doric-obsidian
+
+<a href="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"><img alt="doric-obsidian theme sample" src="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"/></a>
 
 ## doric-fire
 
