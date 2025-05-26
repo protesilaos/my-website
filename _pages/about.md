@@ -8,113 +8,95 @@ redirect_from:
 layout: page
 ---
 
-* Name: Protesilaos (Protésilaos, Πρωτεσίλαος)
+* Name: Protesilaos (Protésilaos, Πρωτεσίλαος) also known as "Prot"
 * Birth place: Greece
 * Birth year: 1988
 * Residence: Cyprus (Troodos mountain range)
-* Occupation: [Private coach on Emacs, Linux, and Life](https://protesilaos.com/coach/)
-* Email: <public@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
+* Occupation: [One-on-one coach on Emacs, Linux, and Life in general](https://protesilaos.com/coach/)
+* Email: <prot@protesilaos.com> (check the [contact page](https://protesilaos.com/contact/)
   for further information)
 
 ## Profile
 
-In my teens I was a semi-professional football (soccer) player and, at
-times, an assistant to a land surveyor and a motorcycle mechanic.
+I am a philosopher living in the mountains of Cyprus at a house I
+built myself which I affectionately call "the hut." I spend my free
+time programming on GNU Emacs, writing essays on a wide range of life
+issues, and doing infrastructure work around my house. My background
+is diverse and reflects my intellectual curiosity as well as
+consistently high work ethic.
 
-During my university years I was employed as a bartender, construction
-worker, receptionist, waiter, etc.  I hold a Bachelor's degree in
-European Politics, Economics, and Law.
+In my teens I was a semi-professional football (soccer) player. I had
+to quit that career path due to an untimely injury. I also worked as
+an assistant to a land surveyor and a motorcycle mechanic.
+
+I left my hometown in Greece to go to Cyprus for university studies. I
+got a degree in European Politics, Economics, and Law. My family could
+not afford any of my expenses. I covered it all by working in parallel
+to studying. In practice, I did not have a "student life" because that
+was a luxury I could not afford. If I was not studying, I was working.
+To that end, I was employed as a bartender in the tourism sector, a
+receptionist, a waiter, and a construction worker.
 
 After my studies in mid-2011 and up until ~2016 I got involved in
-politics-related fields (parliamentary assistant at the European
-Parliament, independent researcher and external contractor, etc.), with
-a specialisation in the European Union's Economic and Monetary Union.
+politics-related fields, starting with the role of an accredited
+parliamentary assistant to a Member of the European Parliament. I was
+one of the people doing the technical, behind-the-scenes work that
+goes into law-making. I also worked as an independent researcher and
+external contractor. My specialisation was in the Economic and
+Monetary Union.
 
-Now I am providing coaching services on Emacs, Linux, and general Life
-issues.  More details here: <https://protesilaos.com/coach/>.
+I decided to quit politics and relocate to the mountains of Cyprus. I
+did it to take control of my experience, prioritise my values, and
+remain honest. I thus continued to live by doing construction work and
+agriculture-related menial tasks, until I decided to provide
+one-on-one coaching services on Emacs, Linux, and general Life issues.
+This has been my job since early 2023. More details here:
+<https://protesilaos.com/coach/>.
 
-Those granted, I am just a philosopher.  I spend much of my time doing
-philosophy, whether that is by thinking or writing.  I also program my
-custom computing environment and generally try to do things my way for
-their inherent recreational or educational value.
+Since the summer of 2023, I live at "the hut", which I homesteaded on
+a piece of land that used to be a vineyard. The project is ongoing, as
+I continue to expand its infrastructure and further improve the living
+conditions it makes possible.
 
-I care about human connections and hope my publications will help in
-that regard.
+My diverse experiences combined with my philosophical thinking empower
+me to create connections between seemingly unrelated fields. The
+insights I develop are thus original and probably thought-provoking.
 
-As of Spring 2023 I am building a hut (i.e. makeshift construction) in
-the mountains of Cyprus.  I am doing this to address my accommodation
-woes: I am priced out of the market for rent.
+## About protesilaos.com and all my publications
 
-### Work on philosophy
+This website has been online since 2011. It contains more than 1500
+in-depth entries on a wide range of topics, all of which are available
+under the appropriate _copyleft_ terms that ensure end user
+freedom—see the [license and resources](https://protesilaos.com/license/) page. I usually make
+several new publications per week which, if nothing else, shows my
+uninterrupted commitment to this project. Read, learn, think, and
+reach your own conclusions.
 
-I talk, write, and do philosophy.  I generally try to express myself
-in plain terms and make my thoughts relatable to everyone.  I consider
-my theories "practical", in the sense that I put them to the test and
-live by those precepts.
+To the question of "where do I start from", my answer is that it does
+not matter. Each article of mine either stands on its own or links to
+related entries. Pick any of the following subsections of my website:
 
-My website contains three distinct sections with philosophical
-content:
+<ul>
+  {% for i in site.data.indices %}
+  <li>
+    <p>
+      <strong><a href="{{ i.url | absolute_url }}">{{ i.name }}</a> :: </strong> {{ i.description }}
+    </p>
+  </li>
+  {% endfor %}
+</ul>
 
-1. The "books and standalone essays" contains my core work:
-   <https://protesilaos.com/books>.
-2. The "general commentary on life" consists of anonymised excerpts
-   from exchanges I have with other people and/or entries from my
-   journal: <https://protesilaos.com/commentary/>.
-3. The "interpretations" cover my philosophical commentary on works of
-   art (typically Greek songs which I translate):
-   <https://protesilaos.com/interpretations>.
+## Emacs and programming
 
-As of 2022-10-07, I am doing videos on philosophy where I walk in
-nature and expound on my thoughts.  Find those in the aforementioned
-"books" section.  This effort is made possible by a 500 EUR donation I
-received which allowed me to buy a smartphone (Samsung A53), its
-charging adapter, and a selfie stick.
+As I state in the description of my GitHub profile:
 
-### Work on GNU Emacs
+> At what point does a tinkerer become a programmer, provided no
+> formal background in the latter?
 
-I have written a book on the Emacs Lisp programming language, wrote
-the Greek version of the Emacs tutorial, and have developed lots of
-packages, as well as videos and writings. Find further information
-here: <https://protesilaos.com/emacs>. And follow my coding blog for
-relevant updates: <https://protesilaos.com/codelog>.
-
-Sometimes I blend programming with philosophy, as made evident by such
-questions as the one that populates my GitLab/GitHub profile's
-description:
-
-> At what point does a tinkerer become a programmer, provided no formal
-> background in the latter?
-
-Or in some of the older videos I made which are nominally about a text
-editor but I actually talk philosophy, such as:
-
-+ [Why Emacs itself is my “favourite Emacs
-  package”](https://protesilaos.com/codelog/2020-10-21-emacs-favourite-package/)
-  (2020-10-21).
-+ [Moral lessons from free software and GNU
-  Emacs](https://protesilaos.com/codelog/2021-04-16-emacs-moral-lessons/)
-  (2021-04-16).
-+ [Live stream: Emacs as a 'second brain' and
-  mindfulness](https://protesilaos.com/codelog/2021-08-31-emacs-second-brain-mindfulness/)
-  (2021-08-31).
-+ [Live stream: Emacs and the Unix
-  philosophy](https://protesilaos.com/codelog/2021-09-22-live-stream-emacs-unix/)
-  (2021-09-22).
-+ [EmacsConf 2021: How Emacs made me appreciate software
-  freedom](https://protesilaos.com/codelog/2021-12-21-emacsconf2021-freedom/)
-  (published on 2021-12-21---the actual event was on November 27-28, 2021).
-+ [LibrePlanet 2022: Living in freedom with GNU
-  Emacs](https://protesilaos.com/codelog/2022-03-22-libreplanet-emacs-living-freedom/)
-  (published on 2022-03-22---the actual event was on March 19-20,
-  2022).
-+ [EmacsConf 2023: hyperdrive.el peer-to-peer filesystem with Joseph
-  Turner and
-  Protesilaos](https://protesilaos.com/codelog/2023-12-23-emacsconf2023-hyperdrive/)
-  (published on 2023-12-23---the actual event was on Decemeber 2-3,
-  2023).
-
-In a manner of speaking, I just talk to programmers about philosophy and
-to philosophers about programming.
+I am a self-taught programmer who enjoys learning by doing. I maintain
+more than 20 Emacs packages and continue to make contributions to the
+benefit of the Emacs community and free software at-large. Find all
+the relevant projects here: <https://protesilaos.com/emacs>.
 
 ## Interviews and other media
 
@@ -156,34 +138,11 @@ award for my Emacs `modus-themes` package:
 Relevant essay of mine on _Accessibility and software freedom_:
 <https://protesilaos.com/codelog/2023-05-11-accessibility-software-freedom/>.
 
-## protesilaos.com
-
-This website has been online since 2011.  It contains more than 1500
-entries on a wide range of topics, all of which are available under the
-appropriate _copyleft_ terms that ensure end user freedom—see the
-[license and resources](https://protesilaos.com/license/) page.  Read,
-learn, think, and reach your own conclusions.
-
-What I wrote in the past may not represent my current views.  I review,
-change, refine my beliefs as part of a life of research and reflection.
-If you are looking for consistency, a dogma to follow, a narcissist to
-idolise, you need to look elsewhere.  It is important to understand that
-_you should not follow me_, for I am not going anywhere in particular.
-
 ## Also on
 
+* [YouTube](https://www.youtube.com/@protesilaos)
 * [GitHub](https://github.com/protesilaos)
 * [GitLab](https://gitlab.com/protesilaos)
-* [YouTube](https://www.youtube.com/@protesilaos)
 * [Telegram app](https://t.me/protesilaos)
 * [Signal app](https://signal.me/#eu/AKio-VMi3643Lv6iuEAgrteICHl-cj14BPjVXKGhuSd7WewEnb1OA7BQx6-4Dsnv)
-* [Douyin 抖音](https://www.douyin.com/user/MS4wLjABAAAANZSXf5HrluXSm5lrbU8FoOw4SRQ1frVicGxDrsHZ4PE) (Chinese TikTok) (or use ID: `65118858653`).
-* IRC and Reddit: `protesilaos`.
-
-1. My active Git repositories are on GitHub. Some projects have
-   mirrors on GitLab.
-2. The Douyin/TikTok account is not maintained by me (I don't know
-   Chinese).  This is done by friends of mine in China who want to
-   help me by sharing some of my publications.
-3. I seldom use IRC/Reddit.  The username is there "just in case" I
-   ever need it.
+* IRC and Reddit: `protesilaos` (I rarely use those and I NEVER post any of my publications there).
