@@ -1,13 +1,15 @@
 ---
 title: "Two baby foxes"
-excerpt: "An entry from my journal where I comment on my encounter with two fox cubs."
+excerpt: "An entry from my journal where I comment on my encounter with two fox kits."
 ---
+
+**UPDATE 2025-06-09 06:27 +0300:** In the original version I described baby foxes as "cubs" but the correct word is "kits".
 
 This is an excerpt from my journal.
 
 * * *
 
-Earlier today, I encountered two fox cubs while doing my regular long walk around the mountains. Both of them were hiding under the bushes by the side of the dirt road. Their relatively large eyes fixed on me, while their short snouts were protruding from the foliage. I guess they were waiting for their mother to bring them food. I noticed them from afar but did not change my behaviour. The point was to not startle them. I was curious to learn how they would respond to my presence. My plan was to stick to my path and not disturb them at all, not even by trying to pet them or by making some noise. As soon as they saw me, they stopped moving. Exactly how cats react to some animal that is an unknown quantity to them. The foxes were cautious. Once I got within two metres of them, they ran down the slope until I could no longer see them. Their den must have been somewhere nearby.
+Earlier today, I encountered two fox kits while doing my regular long walk around the mountains. Both of them were hiding under the bushes by the side of the dirt road. Their relatively large eyes fixed on me, while their short snouts were protruding from the foliage. I guess they were waiting for their mother to bring them food. I noticed them from afar but did not change my behaviour. The point was to not startle them. I was curious to learn how they would respond to my presence. My plan was to stick to my path and not disturb them at all, not even by trying to pet them or by making some noise. As soon as they saw me, they stopped moving. Exactly how cats react to some animal that is an unknown quantity to them. The foxes were cautious. Once I got within two metres of them, they ran down the slope until I could no longer see them. Their den must have been somewhere nearby.
 
 About an hour later, I was on my way back home. Instead of going in a circle, as I usually do, I decided to return whence I came. My hope was to meet the babies one last time. Indeed, there they were. Just as sweet as before, if not more so. Still waiting for their mother. Part of me wanted to make an attempt at befriending them. I knew that they are wild animals, their cuteness notwithstanding, and I could probably help them sate their hunger. But would that be the right move? As I was walking past their location, I decided not to engage with them. Wildlife has to be left to its own devices. Were I to tend to them in that moment, assuming I could, I would be denying them of a valuable lesson that life teaches them. They have to be resilient out there: feed off the available prey and operate with the requisite caution to avoid dangers. Above all, foxes must remain wary of people if they are to survive. Humans have probably been a perennial existential threat to them. Some kill foxes for sport while hunting, others do it via entrapment.
 
