@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-05-31 07:51:53 +0300 with a word
-count of 107330.</b>
+<b>Last revised and exported on 2025-06-09 08:00:27 +0300 with a word
+count of 107472.</b>
 </p>
 
 <p>
@@ -162,7 +162,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:85755648-bf1f-408b-bc65-4db357fbf1dd">5.2.6. The <code>prot-emacs-essentials.el</code> section for comments</a></li>
 <li><a href="#h:15ad94b3-f714-4b39-973e-b68c76b38be3">5.2.7. The <code>prot-emacs-essentials.el</code> section about <code>prot-prefix.el</code> (prefix nested keymaps)</a></li>
 <li><a href="#h:f9aa7523-d88a-4080-add6-073f36cb8b9a">5.2.8. The <code>prot-emacs-essentials.el</code> configuration to track recently visited files</a></li>
-<li><a href="#h:982ad7cd-01b9-4178-be58-0e24251d3608">5.2.9. The <code>prot-emacs-essentials.el</code> mouse configurations</a></li>
+<li><a href="#h:982ad7cd-01b9-4178-be58-0e24251d3608">5.2.9. The <code>prot-emacs-essentials.el</code> mouse configurations and scroll behaviour</a></li>
 <li><a href="#h:fbe6f9da-25ee-46a3-bb03-8fa7c1d48dab">5.2.10. The <code>prot-emacs-essentials.el</code> settings for <code>repeat-mode</code></a></li>
 <li><a href="#h:581aa0ff-b136-4099-a321-3b86edbfbccb">5.2.11. The <code>prot-emacs-essentials.el</code> settings for bookmarks</a></li>
 <li><a href="#h:5685df62-4484-42ad-a062-d55ab19022e3">5.2.12. The <code>prot-emacs-essentials.el</code> settings for registers</a></li>
@@ -416,7 +416,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-05-31 07:51:53 +0300):
+(2025-06-09 08:00:28 +0300):
 </p>
 
 <div class="org-src-container">
@@ -510,7 +510,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgb718926">
+<pre class="example" id="org9234185">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -590,7 +590,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org7f410ff">
+<pre class="example" id="org355c213">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -598,7 +598,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org25955ef">
+<pre class="example" id="orgd2d9fc6">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1541,7 +1541,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org1942b0c">
+<pre class="example" id="org2ee3aaf">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2523,6 +2523,18 @@ to activate <code>rainbow-mode</code> if I am editing a theme file.
                 ((derived-mode-p 'emacs-lisp-mode))
                 ((string-match-p "-theme" file)))
       (rainbow-mode 1)))
+  :config
+  (defun prot/rainbow-colorize-match (color &amp;optional match)
+  "Like `rainbow-colorize-match' but works with `hl-line-mode'."
+  (let ((match (or match 0)))
+    (put-text-property
+     (match-beginning match) (match-end match)
+     'face `((:background ,(if (&gt; 0.5 (rainbow-x-color-luminance color))
+                               "white" "black"))
+             (:foreground ,color)
+             (:inverse-video t)))))
+
+  (advice-add #'rainbow-colorize-match :override #'prot/rainbow-colorize-match)
   :bind ( :map ctl-x-x-map
           ("c" . rainbow-mode)) ; C-x x c
   :hook (emacs-lisp-mode . prot/rainbow-mode-in-themes))
@@ -3392,7 +3404,7 @@ this via some hook.
     ;; Commands for windows and pages
     ("C-x o" . prot-simple-other-window)
     ("C-x n k" . prot-simple-delete-page-delimiters)
-    ("M-r" . rotate-windows) ; Emacs 31 override `move-to-window-line-top-bottom'
+    ("M-r" . window-layout-transpose) ; Emacs 31 override `move-to-window-line-top-bottom'
     ("M-S-r" . rotate-windows-back) ; Emacs 31
     ;; Commands for buffers
     ("&lt;C-f2&gt;" . prot-simple-rename-file-and-buffer)
@@ -3564,7 +3576,7 @@ revisit a file that I do not need to keep track of.
 </div>
 </div>
 <div id="outline-container-h:982ad7cd-01b9-4178-be58-0e24251d3608" class="outline-4">
-<h4 id="h:982ad7cd-01b9-4178-be58-0e24251d3608"><span class="section-number-4">5.2.9.</span> The <code>prot-emacs-essentials.el</code> mouse configurations</h4>
+<h4 id="h:982ad7cd-01b9-4178-be58-0e24251d3608"><span class="section-number-4">5.2.9.</span> The <code>prot-emacs-essentials.el</code> mouse configurations and scroll behaviour</h4>
 <div class="outline-text-4" id="text-h:982ad7cd-01b9-4178-be58-0e24251d3608">
 <p>
 I do use the mouse on occasion. More so when I am doing a video
@@ -4335,7 +4347,7 @@ bookmark, Emacs will automatically handle the <code>sudo</code> part while takin
 me to that shell in its directory. Relevant note from my source code:
 </p>
 
-<pre class="example" id="orge2ca2c8">
+<pre class="example" id="orgcc9c5d7">
 ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
 ;; (bug#65039).  I received approval to proceed with the change, but I
 ;; did not do it because a user reported an issue with SSH (TRAMP).  I
@@ -7130,7 +7142,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orga16f0e2">
+<pre class="example" id="org20239b3">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7158,7 +7170,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgf036a53">
+<pre class="example" id="orgf4142ca">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7180,7 +7192,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org4661aa4">
+<pre class="example" id="orge67c6af">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7338,7 +7350,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgb02f11f">
+<pre class="example" id="orga8728fc">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8896,20 +8908,22 @@ the capture phase (<a href="#h:f8f06938-0dfe-45c3-b4cf-996d36cba82d">The <code>p
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-cache t)
   (setq org-reverse-note-order nil)
-  ;; ;; NOTE 2023-04-07: Leaving this here for demo purposes.
-  ;; (setq org-todo-keywords
-  ;;       '((sequence "TODO(t)" "MAYBE(m)" "WAIT(w@/!)" "|" "CANCEL(c@)" "DONE(d!)")
-  ;;         (sequence "COACH(k)" "|" "COACHED(K!)")))
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "|" "CANCEL(c@)" "DONE(d!)")
-          (sequence "COACH(k)" "|" "COACHED(K!)")))
 
-  (defface prot/org-bold-done
-    '((t :inherit (bold org-done)))
-    "Face for bold DONE-type Org keywords.")
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "MAYBE(m)" "|" "CANCELED(c@)" "DONE(d!)")))
+
+  (defface prot/org-todo-alternative
+    '((t :inherit (italic org-todo)))
+    "Face for alternative TODO-type Org keywords.")
+
+  (defface prot/org-done-alternative
+    '((t :inherit (italic org-done)))
+    "Face for alternative DONE-type Org keywords.")
 
   (setq org-todo-keyword-faces
-        '(("CANCEL" . prot/org-bold-done)))
+        '(("MAYBE" . prot/org-todo-alternative)
+          ("CANCELED" . prot/org-done-alternative)))
+
   (setq org-use-fast-todo-selection 'expert)
 
   (setq org-fontify-done-headline nil)
@@ -9012,7 +9026,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org843cd51">
+<pre class="example" id="orgcb61901">
 (info "(org) Search Options")
 </pre>
 
@@ -9104,7 +9118,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgb156442">
+<pre class="example" id="org2970410">
 (require 'ob-python)
 
 ;; OR
@@ -9443,7 +9457,10 @@ from it and thus keeps me focused.
     ("C-c a" . (lambda ()
                  "Call Org agenda with `prot-org-custom-daily-agenda' configuration."
                  (interactive)
-                 (org-agenda nil "A"))))
+                 (org-agenda nil "A")))
+    :map org-agenda-mode-map
+    ("n" . org-agenda-next-item)
+    ("p" . org-agenda-previous-item))
   :config
 ;;;;; Custom agenda blocks
 
@@ -9951,7 +9968,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org3bde454">
+<pre class="example" id="org1f91ac5">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10877,7 +10894,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org1e7f437">
+<pre class="example" id="org3105328">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10889,7 +10906,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org8227b84">
+<pre class="example" id="orgb5ecc88">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10955,7 +10972,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org301d60f">
+<pre class="example" id="org209b40a">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -10967,7 +10984,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org597bcad">
+<pre class="example" id="org2e2a884">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -10989,7 +11006,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgee916ab">
+<pre class="example" id="org99eaae1">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11118,7 +11135,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org309b2cc">
+<pre class="example" id="orgd1a9f2f">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11254,7 +11271,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org062fe89">
+<pre class="example" id="org3aba189">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11266,7 +11283,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org20357e0">
+<pre class="example" id="orgce1629c">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12405,7 +12422,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgdcb6959">
+<pre class="example" id="org8de6184">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12502,7 +12519,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org87f93d1">
+<pre class="example" id="orge2f0722">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -15480,7 +15497,7 @@ For use in `prot-org-capture-coach'."
 (defun prot-org-capture-coach ()
   "Contents of an Org capture template for my coaching lessons."
   (let ((identifier (format-time-string "%Y%m%dT%H%M%S")))
-    (format "* COACH %s %s :lesson:
+    (format "* TODO %s %s :coaching:
 DEADLINE: %%^T
 :PROPERTIES:
 :CAPTURED: %%U
@@ -15496,7 +15513,7 @@ DEADLINE: %%^T
 
 (defun prot-org-capture-coach-clock ()
   "Contents of an Org capture for my clocked coaching services."
-  (format "* COACH %s %s :service:
+  (format "* TODO %s %s :service:
 :PROPERTIES:
 :CAPTURED: %%U
 :CUSTOM_ID: h:%s
@@ -15876,6 +15893,13 @@ continue, per `org-agenda-skip-function'."
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done)))))
   "Custom agenda for use in `org-agenda-custom-commands'.")
 
+(defun prot-org-agenda-set-outline ()
+  "Set `outline-regexp' for my Org agenda buffers."
+  (when (derived-mode-p 'org-agenda-mode)
+    (setq-local outline-regexp "^\\([\s\t]+\\)\\([A-Z]+ \\|[0-9]+:[0-9]+ \\)\\(Deadline\\|Scheduled\\)")))
+
+(add-hook 'org-agenda-mode-hook #'prot-org-agenda-set-outline)
+
 ;;;;; agenda appointments
 
 (defvar prot-org-agenda-after-edit-hook nil
@@ -15965,10 +15989,11 @@ create a new one."
     (downcase)
     (concat "h:")))
 
-(defun prot-org--id-get-readable ()
-  "Like `prot-org--id-get' but use the heading wording to create and ID."
+(defun prot-org--id-get-readable (&amp;optional force)
+  "Like `prot-org--id-get' but use the heading wording to create and ID.
+With optional FORCE, update the value even if one exists."
   (let* ((pos (point))
-         (id (org-entry-get pos "CUSTOM_ID")))
+         (id (unless force (org-entry-get pos "CUSTOM_ID"))))
     (or (and id (stringp id) (string-match-p "\\S-" id))
         (and (setq id (prot-org--heading-to-id))
              (org-entry-put pos "CUSTOM_ID" id)))
@@ -15983,12 +16008,14 @@ create a new one."
   (org-map-entries (lambda () (prot-org--id-get))))
 
 ;;;###autoload
-(defun prot-org-id-headlines-readable ()
+(defun prot-org-id-headlines-readable (&amp;optional force)
   "Like `prot-org-id-headlines' but with readable IDs.
 A readable identifier is one derived from the text of the heading.  In
-theory, this may not be unique."
-  (interactive)
-  (org-map-entries (lambda () (prot-org--id-get-readable))))
+theory, this may not be unique.
+
+With optional FORCE, update the value even if one exists."
+  (interactive "P")
+  (org-map-entries (lambda () (prot-org--id-get-readable force))))
 
 ;;;###autoload
 (defun prot-org-id-headline (&amp;optional readable)
@@ -19416,7 +19443,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgdb0d0c1">
+<pre class="example" id="org6c9d124">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19448,7 +19475,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org0b73b8d">
+<pre class="example" id="org96d0251">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
