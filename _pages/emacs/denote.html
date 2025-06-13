@@ -1157,28 +1157,11 @@ value '(template subdirectory title keywords)."
 <h4 id="h:bf80f4cd-6f56-4f7c-a991-8573161e4511"><span class="section-number-4">5.1.5.</span> The <code>denote-save-buffers</code> option</h4>
 <div class="outline-text-4" id="text-h:bf80f4cd-6f56-4f7c-a991-8573161e4511">
 <p>
-The user option <code>denote-save-buffer-after-creation</code> controls whether
-commands that create new notes save their buffer outright.
-</p>
-
-<p>
-The default behaviour of commands such as <code>denote</code> (or related) is to
-not save the buffer they create (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>). This gives the user
-the chance to review the text before writing it to a file. The user
-may choose to delete the unsaved buffer, thus not creating a new note
-(<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffer-after-creation</code> option</a>).
-</p>
-
-<p>
-This option also applies to notes affected by the renaming commands
-(<code>denote-rename-file</code> and related).
-</p>
-
-<p>
-If this user option is set to a non-nil value, such buffers are saved
-automatically. The assumption is that the user who opts in to this
-feature is familiar with the <code>denote-rename-file</code> operation (or
-related) and knows it is reliable (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).
+The user option <code>denote-save-buffers</code> controls whether commands that
+create new notes (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>) or rename existing files save their
+buffer outright (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>). By default, when the value of this
+user option is <code>nil</code>, buffers are not saved. They are saved when the
+value is non-<code>nil</code>.
 </p>
 
 <p>
@@ -1202,7 +1185,7 @@ creating a new file or renaming an existing one.
 
 <p>
 The default behaviour of creation or renaming commands such as
-<code>denote</code> or <code>denote-rename-file</code> is to not kill the buffer they
+<code>denote</code> and <code>denote-rename-file</code> is to not kill the buffer they
 create or modify at the end of their operation. The idea is to give
 the user the chance to confirm that everything is in order.
 </p>
@@ -1217,8 +1200,7 @@ If set to the symbol <code>on-creation</code>, new notes are automatically kille
 </p>
 
 <p>
-If set to the symbol <code>on-rename</code>, renamed notes are automatically
-killed.
+If set to the symbol <code>on-rename</code>, renamed notes are automatically killed.
 </p>
 
 <p>
@@ -1227,7 +1209,7 @@ If set to t, new and renamed notes are killed.
 
 <p>
 If a buffer is killed, it is also saved, as if <code>denote-save-buffers</code>
-were t (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffers</code> option</a>).
+were set to a non-<code>nil</code> value (<a href="#h:bf80f4cd-6f56-4f7c-a991-8573161e4511">The <code>denote-save-buffers</code> option</a>).
 </p>
 
 <p>
@@ -1725,7 +1707,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org1d0ae46">
+<pre class="example" id="org2e2515c">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2299,7 +2281,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org46fd19b">
+<pre class="example" id="orgee1df66">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2318,7 +2300,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga899fc9">
+<pre class="example" id="orga880a16">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2967,7 +2949,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org5af151c">
+<pre class="example" id="orgab194a3">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3180,7 +3162,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org9485c37">
+<pre class="example" id="org8a86799">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3192,7 +3174,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org0d830d1">
+<pre class="example" id="org4d44c11">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3206,7 +3188,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org5eb3b69">
+<pre class="example" id="orgcdba0ca">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3220,7 +3202,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgefe9863">
+<pre class="example" id="orgd38dd2e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3557,7 +3539,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org028a93f">
+<pre class="example" id="org41fb0c1">
 - link1
 - link2
 - link3
@@ -3575,7 +3557,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd3ec752">
+<pre class="example" id="org1f4fd9d">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3923,7 +3905,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org656592d">
+<pre class="example" id="org5a8b300">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5561,7 +5543,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org0503d7c">
+<pre class="example" id="org44e0fd0">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7161,7 +7143,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgaa10e8e">
+<pre class="example" id="orgeb5c49e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7171,7 +7153,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org15a4f13">
+<pre class="example" id="org7d4c875">
 emacs -Q
 </pre>
 
@@ -7183,7 +7165,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgb08cff5">
+<pre class="example" id="org1a3820a">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7244,7 +7226,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org82d116d">
+<pre class="example" id="org66694e0">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7974,14 +7956,14 @@ Jay Rajput, Jean-Charles Bagneris, Jeff Valk, Jens Östlund, Jeremy
 Friesen, Jonathan Sahar, Johan Bolmsjö, Jonas Großekathöfer,
 Jousimies, Juanjo Presa, Julian Hoch, Kai von Fintel, Kaushal Modi,
 Kolmas, Lukas C. Bossert, M. Hadi Timachi, Maikol Solis, Mark Olson,
-Mirko Hernandez, Niall Dooley, Nick Bell, Oliver Epper, Paul van
-Gelder, Peter Prevos, Peter Smith, Riccardo Giannitrapani, Samuel W.
-Flint, Sergio Rey, Suhail Singh, Shreyas Ragavan, Stefan Thesing,
-Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Vick (VicZz),
-Viktor Haag, Vineet C. Kulkarni, Wade Mealing, Wilf, Yi Liu, Ypot,
-atanasj, azegas, babusri, bdillahu, coherentstate, doolio, duli,
-drcxd, elge70, elliottw, fingerknight, hpgisler,
-hyperfocus1337,johkneisl, jtpavlock, juh, leafarbelm,
+Mirko Hernandez, Morten Kjeldgaard, Niall Dooley, Nick Bell, Oliver
+Epper, Paul van Gelder, Peter Prevos, Peter Smith, Riccardo
+Giannitrapani, Samuel W. Flint, Sergio Rey, Suhail Singh, Shreyas
+Ragavan, Stefan Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ
+Stankus, Vick (VicZz), Viktor Haag, Vineet C. Kulkarni, Wade
+Mealing, Wilf, Yi Liu, Ypot, atanasj, azegas, babusri, bdillahu,
+coherentstate, doolio, duli, drcxd, elge70, elliottw, fingerknight,
+hpgisler, hyperfocus1337,johkneisl, jtpavlock, juh, leafarbelm,
 mentalisttraceur, mjkalyan, pRot0ta1p, rbenit68, relict007,
 sarcom-sar, sienic, skissue, sundar bp, yetanotherfossman, zadca123</dd>
 </dl>
