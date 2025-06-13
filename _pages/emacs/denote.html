@@ -713,6 +713,10 @@ like 2022-06-16 or a date plus time: 2022-06-16 14:30.  Without the
 <a href="#h:e7ef08d6-af1b-4ab3-bb00-494a653e6d63">The denote-date-prompt-use-org-read-date option</a>.
 </p></li>
 
+<li><code>identifier</code>: Prompts with completion for the identifier of the new
+note. It expects a string that has the format of
+<code>denote-date-identifier-format</code>.</li>
+
 <li><code>template</code>: Prompts for a KEY among the <code>denote-templates</code>.  The value
 of that KEY is used to populate the new note with content, which is
 added after the front matter (<a href="#h:f635a490-d29e-4608-9372-7bd13b34d56c">The denote-templates option</a>).</li>
@@ -743,7 +747,7 @@ Recall that Denote&rsquo;s standard file-naming scheme is defined as follows
 </p>
 
 <pre class="example">
-DATE--TITLE__KEYWORDS.EXT
+ID--TITLE__KEYWORDS.EXT
 </pre>
 
 <p>
@@ -753,9 +757,9 @@ those permutations:
 </p>
 
 <pre class="example">
-DATE.EXT
-DATE--TITLE.EXT
-DATE__KEYWORDS.EXT
+ID.EXT
+ID--TITLE.EXT
+ID__KEYWORDS.EXT
 </pre>
 
 <p>
@@ -1707,7 +1711,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org2e2515c">
+<pre class="example" id="org8cc6b0b">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2281,7 +2285,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgee1df66">
+<pre class="example" id="orgd3af340">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2300,7 +2304,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orga880a16">
+<pre class="example" id="orgfd00268">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2695,15 +2699,16 @@ Every note produced by Denote follows this pattern by default
 </p>
 
 <pre class="example">
-DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
+ID==SIGNATURE--TITLE__KEYWORDS.EXTENSION
 </pre>
 
 <p>
-The <code>DATE</code> field represents the date in year-month-day format followed
-by the capital letter <code>T</code> (for &ldquo;time&rdquo;) and the current time in
-hour-minute-second notation.  The presentation is compact:
-<code>20220531T091625</code>.  The <code>DATE</code> serves as the unique identifier of each
-note and, as such, is also known as the file&rsquo;s ID or identifier.
+The <code>ID</code> field represents the identifier which, by default, is the
+date in year-month-day format followed by the capital letter <code>T</code> (for
+&ldquo;time&rdquo;) and the current time in hour-minute-second notation. The
+presentation is compact: <code>20220531T091625</code>. The <code>ID</code> serves as the
+unique identifier of each note and, as such, is also known as the
+file&rsquo;s ID or identifier.
 </p>
 
 <p>
@@ -2784,13 +2789,13 @@ following file name permutations:
 </p>
 
 <pre class="example">
-DATE.EXT
-DATE--TITLE.EXT
-DATE__KEYWORDS.EXT
-DATE==SIGNATURE.EXT
-DATE==SIGNATURE--TITLE.EXT
-DATE==SIGNATURE--TITLE__KEYWORDS.EXT
-DATE==SIGNATURE__KEYWORDS.EXT
+ID.EXT
+ID--TITLE.EXT
+ID__KEYWORDS.EXT
+ID==SIGNATURE.EXT
+ID==SIGNATURE--TITLE.EXT
+ID==SIGNATURE--TITLE__KEYWORDS.EXT
+ID==SIGNATURE__KEYWORDS.EXT
 </pre>
 
 <p>
@@ -2949,7 +2954,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgab194a3">
+<pre class="example" id="org2742f1e">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3102,7 +3107,7 @@ delimiters between them:
 </p>
 
 <pre class="example">
-DATE--TITLE__KEYWORDS.EXTENSION
+ID--TITLE__KEYWORDS.EXTENSION
 </pre>
 
 <p>
@@ -3110,7 +3115,7 @@ When a signature is present, this becomes:
 </p>
 
 <pre class="example">
-DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION
+ID==SIGNATURE--TITLE__KEYWORDS.EXTENSION
 </pre>
 
 <p>
@@ -3162,7 +3167,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org8a86799">
+<pre class="example" id="org7edb6b2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3174,7 +3179,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org4d44c11">
+<pre class="example" id="org9534f5b">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3188,7 +3193,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgcdba0ca">
+<pre class="example" id="org2a04faf">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3202,7 +3207,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgd38dd2e">
+<pre class="example" id="org088b651">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3539,7 +3544,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org41fb0c1">
+<pre class="example" id="orge0856ef">
 - link1
 - link2
 - link3
@@ -3557,7 +3562,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org1f4fd9d">
+<pre class="example" id="org55f747b">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3905,7 +3910,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org5a8b300">
+<pre class="example" id="org9f46e10">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5543,7 +5548,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org44e0fd0">
+<pre class="example" id="org0e3d64a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6245,14 +6250,14 @@ The following sections cover the specifics.
 <h3 id="h:c98aed45-341a-40a0-91ce-347a29c98ab4"><span class="section-number-3">21.1.</span> Common building blocks for developers or advanced users</h3>
 <div class="outline-text-3" id="text-h:c98aed45-341a-40a0-91ce-347a29c98ab4">
 <dl class="org-dl">
-<dt>Variable <code>denote-id-format</code></dt><dd>Format of ID prefix of a note&rsquo;s
+<dt>Variable <code>denote-date-identifier-format</code></dt><dd>Format of ID prefix of a note&rsquo;s
 filename.  The note&rsquo;s ID is derived from the date and time of its
 creation (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>).</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Variable <code>denote-id-regexp</code></dt><dd>Regular expression to match
-<code>denote-id-format</code>.</dd>
+<dt>Variable <code>denote-date-identifier-regexp</code></dt><dd>Regular expression to match
+<code>denote-date-identifier-format</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6271,8 +6276,8 @@ the <code>SIGNATURE</code> field in a file name.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-identifier-p</code></dt><dd>Return non-nil if <code>IDENTIFIER</code>
-string is a Denote identifier.</dd>
+<dt>Function <code>denote-date-identifier-p</code></dt><dd>Return non-nil if <code>IDENTIFIER</code>
+string is a Denote date identifier.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6607,7 +6612,8 @@ identifier in <code>STRING</code>, else nil.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier
 from <code>FILE</code> name, if present, else return nil. To create a new one
-from a date, refer to the <code>denote-get-identifier</code> function.</dd>
+from a date, refer to the <code>denote--identifier-generation-function</code>
+variable.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6631,12 +6637,6 @@ from <code>FILE</code> name, if present, else return nil.</dd>
 title for <code>FILE</code> given its <code>TYPE</code>. This is a wrapper for
 <code>denote-retrieve-front-matter-title-value</code> and
 <code>denote-retrieve-filename-title</code>.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-get-identifier</code></dt><dd>Convert <code>DATE</code> into a Denote
-identifier using <code>denote-id-format</code>. If <code>DATE</code> is nil, return an
-empty string as the identifier.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6669,6 +6669,15 @@ from <code>FILE</code> front matter per <code>FILE-TYPE</code>.</dd>
 <code>denote-prompts</code>. This is best done inside of a <code>let</code> to create a
 wrapper function around <code>denote</code>, <code>denote-rename-file</code>, and
 generally any command that consults the value of <code>denote-prompts</code>.</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-identifier-prompt</code></dt><dd>Prompt for identifier string.
+With optional <code>INITIAL-IDENTIFIER</code> use it as the initial minibuffer
+text. With optional <code>PROMPT-TEXT</code> use it in the minibuffer instead
+of the default prompt. Previous inputs at this prompt are available
+for minibuffer completion if the user option <code>denote-history-completion-in-prompts</code>
+is set to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>denote-history-completion-in-prompts</code> option</a>).</dd>
 </dl>
 
 <dl class="org-dl">
@@ -6755,11 +6764,6 @@ to a non-nil value (<a href="#h:403422a7-7578-494b-8f33-813874c12da3">The <code>
 <dt>Function <code>denote-files-matching-regexp-prompt</code></dt><dd>Prompt for
 <code>REGEXP</code> to filter Denote files by. With optional <code>PROMPT-TEXT</code> use
 it instead of a generic prompt.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-prompt-for-date-return-id</code></dt><dd>Use
-<code>denote-date-prompt</code> and return it as <code>denote-id-format</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7143,7 +7147,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgeb5c49e">
+<pre class="example" id="orge9ac340">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7153,7 +7157,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7d4c875">
+<pre class="example" id="orgd5afe7a">
 emacs -Q
 </pre>
 
@@ -7165,7 +7169,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org1a3820a">
+<pre class="example" id="org26b4719">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7226,7 +7230,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org66694e0">
+<pre class="example" id="orgb95d4f7">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
