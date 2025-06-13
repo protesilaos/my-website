@@ -3,7 +3,7 @@ title: "Between humans and other animals"
 excerpt: "A journal entry about cultural trends that are all about hating others in juxtaposition to the experience of emotionally connecting with another animal."
 ---
 
-This is an entry from my journal. It is about cultural trends that are all about hating others in juxtaposition to the experience of emotionally connecting with another animal.
+This is an entry from my journal concerning cultural trends that are all about hating others in juxtaposition to the experience of emotionally connecting with another animal.
 
 * * *
 
