@@ -1766,7 +1766,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org5252efe">
+<pre class="example" id="org5c9514a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2340,7 +2340,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgb498eac">
+<pre class="example" id="orgc10bff9">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2359,7 +2359,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf84e788">
+<pre class="example" id="orga485432">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3009,7 +3009,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org7e95555">
+<pre class="example" id="org6469a16">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3222,7 +3222,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgc4d919b">
+<pre class="example" id="orgc78470f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3234,7 +3234,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgd1f43b9">
+<pre class="example" id="org7a2891b">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3248,7 +3248,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org5abd50e">
+<pre class="example" id="org5d9df63">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3262,7 +3262,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org8fec2a4">
+<pre class="example" id="org15e6079">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3599,7 +3599,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orgc9aca41">
+<pre class="example" id="org9cf8845">
 - link1
 - link2
 - link3
@@ -3617,7 +3617,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3a62f84">
+<pre class="example" id="org4b44493">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3965,7 +3965,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orga64f5d8">
+<pre class="example" id="org1c274f9">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5603,7 +5603,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org38d0653">
+<pre class="example" id="orgf71381a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6642,6 +6642,19 @@ case it is not added to the base file name.
 <h3 id="h:9b32bf7d-1569-4495-801c-8835f022d72e"><span class="section-number-3">21.4.</span> Data retrieval interface for developers or advanced users</h3>
 <div class="outline-text-3" id="text-h:9b32bf7d-1569-4495-801c-8835f022d72e">
 <dl class="org-dl">
+<dt>Variable <code>denote-get-identifier-function</code></dt><dd>The function to
+generate an identifier as a non-empty string. The function takes two
+arguments: an initial identifier and a date. Both can be nil. The
+initial identifier is used as a reference to derive a unique variant
+of it, if possible (e.g. to keep incrementing seconds while keeping
+the rest of the date+time the same). Existing identifiers are stored
+in the variable <code>denote-used-identifiers</code>. If the initial identifier
+is nil or an identifier cannot be derived from it, then the date can
+be used instead. The date has the same format as <code>current-time</code>.
+When it is nil, the <code>current-time</code> is used. [ Part of 4.1.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Function <code>denote-get-path-by-id</code></dt><dd>Return absolute path of <code>ID</code>
 string in <code>denote-directory-files</code>.</dd>
 </dl>
@@ -6667,8 +6680,8 @@ identifier in <code>STRING</code>, else nil.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-retrieve-filename-identifier</code></dt><dd>Extract identifier
 from <code>FILE</code> name, if present, else return nil. To create a new one
-from a date, refer to the <code>denote--identifier-generation-function</code>
-variable.</dd>
+from a date, refer to the <code>denote-identifier-generation-function</code>
+variable. [ The <code>denote-identifier-generation-function</code> is part of 4.1.0-dev. ]</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7202,7 +7215,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org2befbf3">
+<pre class="example" id="org047fd9f">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7212,7 +7225,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgd7c5790">
+<pre class="example" id="org3f3ce34">
 emacs -Q
 </pre>
 
@@ -7224,7 +7237,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgd73a309">
+<pre class="example" id="org3a6dd6d">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7285,7 +7298,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org717dd13">
+<pre class="example" id="org88784f9">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
