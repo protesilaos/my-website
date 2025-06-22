@@ -1,0 +1,36 @@
+---
+title: "The “cool uncle” archetype"
+excerpt: "An entry from my journal where I comment on the socialisation of boys and what mental qualities allow them to grow into men."
+---
+
+This is an entry from my journal.
+
+* * *
+
+I remember when I was a little kid growing up in rural Greece how me and the boys would argue with each other over whose uncle was the coolest. "My uncle beats yours" was the usual claim, followed by justifications that ranged from plausible to preposterous. None of this was ever put to the test: our relatives had families and were peaceful people. We were just talking and having fun. Perhaps, unbeknownst to us, we were in fact sharpening our argumentative skills while learning to cope with evolving social dynamics. Nature is full of games with a deeper didactic value, after all.
+
+The cool uncle figure has to be realistic. His "wow factor" consists in (i) being approachable as someone the boys can someday meet and emulate, (ii) actually be competent and look the part as well, and (iii) be capable of taking matters into his own hands when the situation is unfavourable. The relative who does not pass these criteria will naturally attract ridicule, which nobody wants to be at the receiving end of.
+
+Comparisons are not limited to strength. They cover a broad range of skills from intelligence, to courage, to discipline, and perseverance. Though boys will immediately relate to the capacity for brute force because they have an intimate understanding it: it is part of their games and thus of their very socialisation.
+
+Inexperienced mothers the world over panic whenever their son all but gets a scratch. A grandmother or some other elder had better be nearby to explain how things work, how "the baby" is fine, and to keep everybody calm. Some obvious exceptions notwithstanding, males need to be exposed to a degree of controlled hardship, both physical and mental, to understand that, regardless of what they do in life, deeds matter more than words.
+
+This is the most important lesson I have learnt and is why I am not fond of too much theorising about life that does not get distilled into a modus vivendi. Playing football, for example, involves physical contact, including crunching tackles and the occasional fist fight with those who are sore losers. If a player cannot take a hit, then they have no right to talk big. Similarly, if a player cannot accept defeat, then they are taught the lesson of acceptance the hard way.
+
+In my experience, the bully types, those who prey on the most vulnerable, are people who (i) cannot live up to their claims, (ii) do not yet understand the need of recalibrating their goals to match their skills and have thus not accepted who they are, (iii) do not recognise how they can lose fairly in whatever contest they participate in, and (iv) exploit an unfair advantage to reign supreme while pretending they did not commit any foul play. In essence, the bully suffers from a mismatch between their projected self and their actuality.
+
+The idea that the most competent ones will be the most abusive is incorrect. The high achievers in any fair game, such as those who are good at football and who will kick your ass if you talk nonsense, know how hard it is to do what they are doing and they have no need whatsoever to prove their worth by picking on easy targets. Indeed, the high achiever thrives in competitiveness, in rising up to a greater challenge, as well as in maintaining their current level through continuous efforts. To their mind, winning a game on easy mode is a form of defeat or, at least, something they would not boast about.
+
+The easy mode is preferable when it performs a pro-social function. I did this many times with my relatives, where I would feign weakness to give them a chance of competing with me. For example, I would pretend how my cousin, who was eight years old at the time versus eighteen-year-old me, would beat me on his PlayStation in a game of Pro Evolution Soccer. I would fumble the controls and concede easy goals on purpose. As soon as he would get cocky, I would switch gears to beat him 20-0 or something like that (in football, winning by more than three goals is already a resounding victory). He would cry in response only for me to explain how he got distracted from his previous wins and thus became complacent. The morale of the story is to not rest on your laurels.
+
+There are variations on the cool uncle theme, such as with a father or elder brother performing the function of the superior male model. Though the uncle is the prevalent one. I think boys gravitate to the uncle for this specific role instead of the father or elder brother because they have everyday experience with the latter two, making their qualities more familiar and thus less noticeable.
+
+Other relatives are not necessarily around all the time, adding a sense of mystery to their personality: they are close but not too close. There is room for the imagination there to fill in the blanks. Besides, the elder brother is likely to join a game sometime, only to be found inadequate. This is risky business if you are boy wanting to sound cool. I recall telling a classmate how I soundly beat his elder brother in football and how, therefore, his lofty standards were exaggerated and he was not living up to them anyway. The point was to quit yapping.
+
+Fundamentally, the exercise is about learning to live in accordance with one's claims. If you prop up your relative too much, then you are inviting challengers who will scrutinise your words and test your mettle. Better then back up your claims with actions or be ready for the reckoning with reality.
+
+Where boys fall short is in appreciating the little things. Their capacity to discern nuance is underdeveloped and will only be sharpened later in life, perhaps in response to challenging situations that demand the skill of discerning nuance. It is why they must already be conditioned to deal with unsettling circumstances, else they risk collapsing under the pressure.
+
+The cool uncle archetype is overcome by learning how to discern the permutations between the extremes and to spot understated qualities. This is when the boy becomes a man; when foresight and discernment are his defining features. There is correlation with age, of simply growing into an adult at, say, the age of twenty one, but years alone do not suffice. There has to be a qualitative shift in the person's mental side, which happens through the accumulation of diverse experiences combined with self reflection.
+
+We do not call somebody a "badass" for waking up early each day, for example, or for always showing up on time, or for not going paranoid in the face of uncertainty. No! In a sense, we take those for granted because of how germane to the quotidian experience they are. Yet they are not easy. They are the outward facet of capacities that have been built up and reinforced over time through patience and persistence. They are "basic powers", in the sense of pertaining to the basis but also of being potent. The kind of person who is diligent about such everyday things has the mental fortitude to deal gracefully with more demanding tasks: their foundations are unshakeable. Boys at the playground are not yet ready to reason about this finer point. More so if they are cuddled the whole time.
