@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-06-21 09:04:53 +0300 with a word
-count of 108179.</b>
+<b>Last revised and exported on 2025-06-23 08:16:58 +0300 with a word
+count of 108737.</b>
 </p>
 
 <p>
@@ -179,9 +179,11 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:ceb193bf-0de3-4c43-8ab7-6daa50817754">5.2.23. The <code>prot-emacs-essentials.el</code> section about <code>expreg</code> (tree-sitter mark syntactically)</a></li>
 <li><a href="#h:6dce278e-86c7-4620-9271-d5af5499f0cc">5.2.24. The <code>prot-emacs-essentials.el</code> section about <code>tmr</code> (set timers)</a></li>
 <li><a href="#h:aac21cc5-19eb-4a6c-a8ab-01b829df0d64">5.2.25. The <code>prot-emacs-essentials.el</code> section about <code>password-store</code></a></li>
-<li><a href="#h:7c25e281-d92e-4605-b5d6-18fe1f280a73">5.2.26. The <code>prot-emacs-essentials.el</code> section about <code>shell</code></a></li>
-<li><a href="#h:080aa291-95b4-4d54-8783-d156b13190e9">5.2.27. The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</a></li>
-<li><a href="#h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">5.2.28. The <code>prot-emacs-essentials.el</code> call to <code>provide</code></a></li>
+<li><a href="#h:3ce29c2d-27ce-4f04-86ff-6acaf9426604">5.2.26. The <code>prot-emacs-essentials.el</code> section about generic shells and REPLs (<code>comint</code>)</a></li>
+<li><a href="#h:61c101b0-fd5e-41ba-9031-9236851af696">5.2.27. The <code>prot-emacs-essentials.el</code> section about the compilation interface (<code>compile</code>)</a></li>
+<li><a href="#h:7c25e281-d92e-4605-b5d6-18fe1f280a73">5.2.28. The <code>prot-emacs-essentials.el</code> section about <code>shell</code></a></li>
+<li><a href="#h:080aa291-95b4-4d54-8783-d156b13190e9">5.2.29. The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</a></li>
+<li><a href="#h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">5.2.30. The <code>prot-emacs-essentials.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
 <li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. The <code>prot-emacs-modeline.el</code> module</a>
@@ -417,7 +419,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-06-21 09:04:53 +0300):
+(2025-06-23 08:16:58 +0300):
 </p>
 
 <div class="org-src-container">
@@ -511,7 +513,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org858561f">
+<pre class="example" id="org50fdd84">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -591,7 +593,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgd67ad82">
+<pre class="example" id="orgd9a2801">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -599,7 +601,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgc450ce0">
+<pre class="example" id="org834caa1">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1542,7 +1544,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgf1bf4d4">
+<pre class="example" id="orge8f8a42">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4279,9 +4281,128 @@ easy to retrieve what I need.
 </div>
 </div>
 </div>
+<div id="outline-container-h:3ce29c2d-27ce-4f04-86ff-6acaf9426604" class="outline-4">
+<h4 id="h:3ce29c2d-27ce-4f04-86ff-6acaf9426604"><span class="section-number-4">5.2.26.</span> The <code>prot-emacs-essentials.el</code> section about generic shells and REPLs (<code>comint</code>)</h4>
+<div class="outline-text-4" id="text-h:3ce29c2d-27ce-4f04-86ff-6acaf9426604">
+<p>
+The built-in <code>comint</code> library defines the infrastructure necessary to
+run a command line shell or other Read Evaluate Print Loop (REPL)
+interface. It underpins the standard <code>M-x shell</code>, which I configure
+elsewhere (<a href="#h:7c25e281-d92e-4605-b5d6-18fe1f280a73">The <code>prot-emacs-essentials.el</code> section about <code>shell</code></a>), as
+well as the built-in Emacs Lisp REPL of <code>M-x ielm</code>.
+</p>
+
+<p>
+What I define here are some basic tweaks to control the behaviour of
+Comint buffers. The <code>ansi-color-for-comint-mode</code> in particular takes
+care to interpret the ANSI escape sequences such that they produce the
+same result they would have had they been executed in a terminal
+emulator. For example:
+</p>
+
+<pre class="example" id="orgf4702ee">
+echo -e "\e[31mThis text is red\e[0m"
+</pre>
+
+<p>
+I never want to see the escape sequences. They look busy and will
+distort the output when there are lots of them. In the section about
+<code>M-x compile</code>, I have a similar setting for the compilation buffers
+(<a href="#h:61c101b0-fd5e-41ba-9031-9236851af696">The <code>prot-emacs-essentials.el</code> section about the compilation interface (<code>compile</code>)</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;;; Generic interface for shells or REPLs (comint)
+(use-package comint
+  :ensure nil
+  ;; Support for OS-specific escape sequences such as what `ls
+  ;; --hyperlink' uses.  I normally don't use those, but I am checking
+  ;; this to see if there are any obvious advantages/disadvantages.
+  :hook
+  (comint-output-filter-functions . comint-osc-process-output)
+  :config
+  (setq ansi-color-for-comint-mode t) ; also see `ansi-color-for-compilation-mode'
+  (setq comint-prompt-read-only t)
+  (setq comint-buffer-maximum-size 9999)
+  (setq comint-completion-autolist t)
+  (setq comint-input-ignoredups t)
+  (setq-default comint-scroll-to-bottom-on-input t)
+  (setq-default comint-scroll-to-bottom-on-output nil)
+  (setq-default comint-input-autoexpand 'input))
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:61c101b0-fd5e-41ba-9031-9236851af696" class="outline-4">
+<h4 id="h:61c101b0-fd5e-41ba-9031-9236851af696"><span class="section-number-4">5.2.27.</span> The <code>prot-emacs-essentials.el</code> section about the compilation interface (<code>compile</code>)</h4>
+<div class="outline-text-4" id="text-h:61c101b0-fd5e-41ba-9031-9236851af696">
+<p>
+Similar to the <code>comint</code> library (<a href="#h:3ce29c2d-27ce-4f04-86ff-6acaf9426604">The <code>prot-emacs-essentials.el</code> section about generic shells and REPLs (<code>comint</code>)</a>),
+Emacs comes with a built-in interface for running compilation-related
+commands. In principle, any shell command will do. The output is
+collected in a buffer which (i) keeps tracks of errors and warnings,
+and (ii) add direct links to the relevant sources.
+</p>
+
+<p>
+I personally do not have a need to modify how <code>compile</code> adds those
+links, though I have played around with the code before, which is
+described in great detail in the doc string of the variable
+<code>compilation-error-regexp-alist</code>. Here is a sample:
+</p>
+
+<pre class="example" id="orgb74353f">
+(add-to-list 'compilation-error-regexp-alist-alist
+             '(prot-sample
+               "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
+               1 2 3))
+
+(add-to-list 'compilation-error-regexp-alist 'prot-sample)
+</pre>
+
+<p>
+The difference between <code>compile</code> and <code>comint</code> is that the latter is
+interactive and does not add links to errors/warnings. Use whichever
+one is relevant to the task at hand.
+</p>
+
+<p>
+All I do in my configuration of <code>compile</code> is set it up to handle ANSI
+escape sequences, like I do with <code>comint</code> (I linked to it
+above&#x2014;check there for an example of an ANSI escape sequence).
+</p>
+
+<p>
+Note that for version controlled projects, we have the command
+<code>project-compile</code> (<a href="#h:7dcbcadf-8af6-487d-b864-e4ce56d69530">The <code>prot-emacs-git.el</code> section about <code>project.el</code></a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;;; Compilation interface (M-x compile)
+(use-package compile
+  :ensure nil
+  :hook
+  (compilation-filter . ansi-color-compilation-filter)
+  :config
+  (setq ansi-color-for-compilation-mode t)) ; also see `ansi-color-for-comint-mode'
+</code></pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:7c25e281-d92e-4605-b5d6-18fe1f280a73" class="outline-4">
-<h4 id="h:7c25e281-d92e-4605-b5d6-18fe1f280a73"><span class="section-number-4">5.2.26.</span> The <code>prot-emacs-essentials.el</code> section about <code>shell</code></h4>
+<h4 id="h:7c25e281-d92e-4605-b5d6-18fe1f280a73"><span class="section-number-4">5.2.28.</span> The <code>prot-emacs-essentials.el</code> section about <code>shell</code></h4>
 <div class="outline-text-4" id="text-h:7c25e281-d92e-4605-b5d6-18fe1f280a73">
+<p>
+This section relies on <code>comint</code> configurations, though also check the
+ones about <code>compile</code> to get the full picture of what is available in
+Emacs:
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:3ce29c2d-27ce-4f04-86ff-6acaf9426604">The <code>prot-emacs-essentials.el</code> section about generic shells and REPLs (<code>comint</code>)</a>.</li>
+<li><a href="#h:61c101b0-fd5e-41ba-9031-9236851af696">The <code>prot-emacs-essentials.el</code> section about the compilation interface (<code>compile</code>)</a>.</li>
+</ul>
+
 <p>
 Before using Emacs, I did not have a clear idea of what the
 distinction between a &ldquo;shell&rdquo; and a &ldquo;terminal&rdquo; is. But I quickly
@@ -4340,30 +4461,29 @@ commands (<a href="#h:4ed6593f-6f55-4258-a1c2-ddb50e9e2465">The <code>init.el</c
 My <code>prot-shell-mode</code> defines a few extra key bindings (per the
 <code>prot-shell-mode-map</code>) and also implements a bookmark handler for
 shell buffers (<a href="#h:581aa0ff-b136-4099-a321-3b86edbfbccb">The <code>prot-emacs-essentials.el</code> settings for bookmarks</a>).
+</p>
+
+<p>
+[ Emacs 31 supports this bookmarking natively now, so I am disabling my
+  relevant code for it. ]
+</p>
+
+<p>
 The bookmarking functionality is a wonderful extra, as it leverages
 Emacs&rsquo; TRAMP infrastructure to re-establish the connection to the
 given host. For example, if I do <code>M-x find-file</code> and then input
 <code>/sudo::/usr/share/</code> to go to <code>/usr/share/</code> with <code>sudo</code> privileges,
 then I can open a shell there and bookmark it. When I jump back to the
 bookmark, Emacs will automatically handle the <code>sudo</code> part while taking
-me to that shell in its directory. Relevant note from my source code:
+me to that shell in its directory.
 </p>
-
-<pre class="example" id="org2198f29">
-;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
-;; (bug#65039).  I received approval to proceed with the change, but I
-;; did not do it because a user reported an issue with SSH (TRAMP).  I
-;; do not have access to SSH and am not familiar with such workflows.
-;; If/when that changes, I will try again.  In the meantime, this is
-;; good code and it works for me.
-</pre>
 
 <p>
 Now the actual configurations:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>;;; Shell (M-x shell)
+<pre class="src src-emacs-lisp"><code>;;; Standard Unix Shell (M-x shell)
 (use-package shell
   :ensure nil
   :bind
@@ -4389,33 +4509,19 @@ Now the actual configurations:
   ;;     # Quit once you try to scroll past the end of the file.
   ;;     export PAGER="less --quit-at-eof"
   ;; fi
-
   (setq shell-command-prompt-show-cwd t) ; Emacs 27.1
-  (setq ansi-color-for-comint-mode t)
   (setq shell-input-autoexpand 'input)
   (setq shell-highlight-undef-enable t) ; Emacs 29.1
   (setq shell-has-auto-cd nil) ; Emacs 29.1
   (setq shell-get-old-input-include-continuation-lines t) ; Emacs 30.1
   (setq shell-kill-buffer-on-exit t) ; Emacs 29.1
   (setq shell-completion-fignore '("~" "#" "%"))
-  (setq-default comint-scroll-to-bottom-on-input t)
-  (setq-default comint-scroll-to-bottom-on-output nil)
-  (setq-default comint-input-autoexpand 'input)
-  (setq comint-prompt-read-only t)
-  (setq comint-buffer-maximum-size 9999)
-  (setq comint-completion-autolist t)
-  (setq comint-input-ignoredups t)
   (setq tramp-default-remote-shell "/bin/bash")
 
   (setq shell-font-lock-keywords
         '(("[ \t]\\([+-][^ \t\n]+\\)" 1 font-lock-builtin-face)
           ("^[^ \t\n]+:.*" . font-lock-string-face)
-          ("^\\[[1-9][0-9]*\\]" . font-lock-constant-face)))
-
-  ;; Support for OS-specific escape sequences such as what `ls
-  ;; --hyperlink' uses.  I normally don't use those, but I am checking
-  ;; this to see if there are any obvious advantages/disadvantages.
-  (add-hook 'comint-output-filter-functions 'comint-osc-process-output))
+          ("^\\[[1-9][0-9]*\\]" . font-lock-constant-face))))
 
 (use-package prot-shell
   :ensure nil
@@ -4426,7 +4532,7 @@ Now the actual configurations:
 </div>
 </div>
 <div id="outline-container-h:080aa291-95b4-4d54-8783-d156b13190e9" class="outline-4">
-<h4 id="h:080aa291-95b4-4d54-8783-d156b13190e9"><span class="section-number-4">5.2.27.</span> The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</h4>
+<h4 id="h:080aa291-95b4-4d54-8783-d156b13190e9"><span class="section-number-4">5.2.29.</span> The <code>prot-emacs-essentials.el</code> section about the laptop-specific settings</h4>
 <div class="outline-text-4" id="text-h:080aa291-95b4-4d54-8783-d156b13190e9">
 <p>
 Due to my limited electricity setup, I spend about half my computer
@@ -4464,7 +4570,7 @@ line.
 </div>
 </div>
 <div id="outline-container-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2" class="outline-4">
-<h4 id="h:c8b2f021-fe5a-4f6b-944c-20340f764fb2"><span class="section-number-4">5.2.28.</span> The <code>prot-emacs-essentials.el</code> call to <code>provide</code></h4>
+<h4 id="h:c8b2f021-fe5a-4f6b-944c-20340f764fb2"><span class="section-number-4">5.2.30.</span> The <code>prot-emacs-essentials.el</code> call to <code>provide</code></h4>
 <div class="outline-text-4" id="text-h:c8b2f021-fe5a-4f6b-944c-20340f764fb2">
 <p>
 Finally, we <code>provide</code> the module. This is the mirror function of
@@ -7144,7 +7250,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org9dd87c4">
+<pre class="example" id="orga21a763">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7172,7 +7278,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org6a2aeb8">
+<pre class="example" id="orgb2b22e5">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7194,7 +7300,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgb1751c5">
+<pre class="example" id="org86a21f3">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7352,7 +7458,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgfb67c2a">
+<pre class="example" id="orgcc41aa3">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9052,7 +9158,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org622f04d">
+<pre class="example" id="org45320ec">
 (info "(org) Search Options")
 </pre>
 
@@ -9145,7 +9251,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org18c1837">
+<pre class="example" id="org9bac6c9">
 (require 'ob-python)
 
 ;; OR
@@ -9995,7 +10101,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org5cb4715">
+<pre class="example" id="org949dda5">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10921,7 +11027,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org9374125">
+<pre class="example" id="org89a9df9">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10933,7 +11039,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org44735c4">
+<pre class="example" id="org6382ac4">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -10999,7 +11105,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org25347a9">
+<pre class="example" id="orgc421297">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11011,7 +11117,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org7721de4">
+<pre class="example" id="orgc800998">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11033,7 +11139,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgd317755">
+<pre class="example" id="org51b20b4">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11162,7 +11268,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgca48078">
+<pre class="example" id="orgedb800c">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11298,7 +11404,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgd52b53f">
+<pre class="example" id="org9e35d2d">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11310,7 +11416,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org74862c7">
+<pre class="example" id="org4a607ff">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12449,7 +12555,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgc4cae10">
+<pre class="example" id="orgaa96723">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12546,7 +12652,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org813f23b">
+<pre class="example" id="org7c984a7">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -17735,42 +17841,45 @@ Push `shell-last-dir' to `prot-shell-cd-directories'."
       (prot-shell--insert-and-send "cd" root)
     (user-error "Cannot find the VC root of `%s'" default-directory)))
 
-;;;; Bookmark support
+;; NOTE 2025-06-23: Emacs 31 supports shell bookmarks, so I no longer
+;; need this.  I am keeping it here for reference.
 
-;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
-;; (bug#65039).  I received approval to proceed with the change, but I
-;; did not do it because a user reported an issue with SSH (TRAMP).  I
-;; do not have access to SSH and am not familiar with such workflows.
-;; If/when that changes, I will try again.  In the meantime, this is
-;; good code and it works for me.
-
-;; Adapted from esh-mode.el
-(declare-function bookmark-prop-get "bookmark" (bookmark prop))
-
-(defun prot-shell-bookmark-name ()
-  "Return name of bookmark based on currect directory."
-  (format "prot-shell-%s"
-          (file-name-nondirectory
-           (directory-file-name
-            (file-name-directory default-directory)))))
-
-(defvar sh-shell-file)
-
-(defun prot-shell-bookmark-make-record ()
-  "Create a bookmark for the current Shell buffer."
-  `(,(prot-shell-bookmark-name)
-    (location . ,default-directory)
-    (shell-file-name . ,sh-shell-file)
-    (handler . prot-shell-bookmark-jump)))
-
-;;;###autoload
-(defun prot-shell-bookmark-jump (bookmark)
-  "Default BOOKMARK handler for Shell buffers."
-  (let ((default-directory (bookmark-prop-get bookmark 'location))
-        (explicit-shell-file-name (bookmark-prop-get bookmark 'shell-file-name)))
-    (shell (get-buffer-create (car bookmark)))))
-
-(put 'prot-shell-bookmark-jump 'bookmark-handler-type "Shell")
+;; ;;;; Bookmark support
+;;
+;; ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
+;; ;; (bug#65039).  I received approval to proceed with the change, but I
+;; ;; did not do it because a user reported an issue with SSH (TRAMP).  I
+;; ;; do not have access to SSH and am not familiar with such workflows.
+;; ;; If/when that changes, I will try again.  In the meantime, this is
+;; ;; good code and it works for me.
+;;
+;; ;; Adapted from esh-mode.el
+;; (declare-function bookmark-prop-get "bookmark" (bookmark prop))
+;;
+;; (defun prot-shell-bookmark-name ()
+;;   "Return name of bookmark based on currect directory."
+;;   (format "prot-shell-%s"
+;;           (file-name-nondirectory
+;;            (directory-file-name
+;;             (file-name-directory default-directory)))))
+;;
+;; (defvar sh-shell-file)
+;;
+;; (defun prot-shell-bookmark-make-record ()
+;;   "Create a bookmark for the current Shell buffer."
+;;   `(,(prot-shell-bookmark-name)
+;;     (location . ,default-directory)
+;;     (shell-file-name . ,sh-shell-file)
+;;     (handler . prot-shell-bookmark-jump)))
+;;
+;; ;;;###autoload
+;; (defun prot-shell-bookmark-jump (bookmark)
+;;   "Default BOOKMARK handler for Shell buffers."
+;;   (let ((default-directory (bookmark-prop-get bookmark 'location))
+;;         (explicit-shell-file-name (bookmark-prop-get bookmark 'shell-file-name)))
+;;     (shell (get-buffer-create (car bookmark)))))
+;;
+;; (put 'prot-shell-bookmark-jump 'bookmark-handler-type "Shell")
 
 ;; ;;;; Convert YouTube links to Invidious
 ;;
@@ -19577,7 +19686,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgcbc5f91">
+<pre class="example" id="org3600e45">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19609,7 +19718,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org8acfd8c">
+<pre class="example" id="org07f4887">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
