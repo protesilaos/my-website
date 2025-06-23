@@ -1769,7 +1769,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org6d11028">
+<pre class="example" id="orgb8914e4">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2343,7 +2343,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org5215594">
+<pre class="example" id="org536d6e5">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2363,7 +2363,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org991bea2">
+<pre class="example" id="org0ba8b2c">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3017,7 +3017,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgcaba5d8">
+<pre class="example" id="org39e1a81">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3233,7 +3233,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org3e9b1c4">
+<pre class="example" id="org3da48ea">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3245,7 +3245,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org9d9423e">
+<pre class="example" id="orge58d422">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3259,7 +3259,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org8567b05">
+<pre class="example" id="orga22c1f5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3273,7 +3273,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org64cfb99">
+<pre class="example" id="org71c0c11">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3610,7 +3610,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orged2bf13">
+<pre class="example" id="orgb082ec7">
 - link1
 - link2
 - link3
@@ -3628,7 +3628,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orge57e7cc">
+<pre class="example" id="org1b1b054">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3979,7 +3979,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org117f177">
+<pre class="example" id="orgf81d341">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5365,14 +5365,8 @@ commands:
 <li><code>my-denote-sort-dired-without-all-empty-files</code></li>
 </ul>
 
-<p>
-FIXME 2025-06-23: The code here is outdated. I will make the requisite tweaks.
-</p>
-
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'denote-sort)
-
-(defun my-denote--note-has-no-contents-p (file)
+<pre class="src src-emacs-lisp">(defun my-denote--note-has-no-contents-p (file)
   "Return non-nil if FILE is an empty note.
 This means that FILE conforms with `denote-file-is-note-p' and either
 has no contents or has only the front matter."
@@ -5386,7 +5380,7 @@ has no contents or has only the front matter."
            ;; "empty" even if it only has front matter.
            (denote--file-empty-p file))))
 
-(defun my-denote-sort-dired-empty-files (files-matching-regexp sort-by-component reverse)
+(defun my-denote-sort-dired-empty-files (files-matching-regexp sort-by-component reverse exclude-regexp)
   "Like `denote-sort-dired' but only cover empty files.
 Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
   (interactive
@@ -5396,31 +5390,19 @@ Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
                        'identifier))
         (reverse-sort (or reverse
                           denote-sort-dired-default-reverse-sort
-                          nil)))
+                          nil))
+        (exclude-rx (or exclude-regexp nil)))
     (if-let* ((default-directory (denote-directory))
               (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
               (empty-files (seq-filter #'my-denote--note-has-no-contents-p files))
-              ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
-              ;; buffer-name produces an error if the regexp contains a
-              ;; wildcard for a directory. I can reproduce this in emacs
-              ;; -Q and am not sure if it is a bug. Anyway, I will report
-              ;; it upstream, but even if it is fixed we cannot use it
-              ;; for now (whatever fix will be available for Emacs 30+).
-              (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
-              (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
-        (let ((dired-buffer (dired (cons buffer-name (mapcar #'file-relative-name empty-files)))))
-          (setq denote-sort--dired-buffer dired-buffer)
+              (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component)))
+        (let ((dired-buffer (dired (cons default-directory (mapcar #'file-relative-name empty-files))))
+              (buffer-name (funcall denote-sort-dired-buffer-name-function files-matching-regexp component reverse-sort exclude-rx)))
           (with-current-buffer dired-buffer
-            (setq-local revert-buffer-function
-                        (lambda (&amp;rest _)
-                          (kill-buffer dired-buffer)
-                          (denote-sort-dired files-matching-regexp component reverse-sort))))
-          ;; Because of the above NOTE, I am printing a message.  Not
-          ;; what I want, but it is better than nothing...
-          (message denote-sort-dired-buffer-name))
+            (rename-buffer buffer-name :unique)))
       (message "No matching files for: %s" files-matching-regexp))))
 
-(defun my-denote-sort-dired-without-empty-files (files-matching-regexp sort-by-component reverse)
+(defun my-denote-sort-dired-without-empty-files (files-matching-regexp sort-by-component reverse exclude-regexp)
   "Like `denote-sort-dired' but only cover empty files.
 Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
   (interactive
@@ -5430,28 +5412,15 @@ Empty files are those that satisfy `my-denote--note-has-no-contents-p'."
                        'identifier))
         (reverse-sort (or reverse
                           denote-sort-dired-default-reverse-sort
-                          nil)))
+                          nil))
+        (exclude-rx (or exclude-regexp nil)))
     (if-let* ((default-directory (denote-directory))
               (files (denote-sort-get-directory-files files-matching-regexp component reverse-sort))
-              (empty-files (seq-remove #'my-denote--note-has-no-contents-p files))
-              ;; NOTE 2023-12-04: Passing the FILES-MATCHING-REGEXP as
-              ;; buffer-name produces an error if the regexp contains a
-              ;; wildcard for a directory. I can reproduce this in emacs
-              ;; -Q and am not sure if it is a bug. Anyway, I will report
-              ;; it upstream, but even if it is fixed we cannot use it
-              ;; for now (whatever fix will be available for Emacs 30+).
-              (denote-sort-dired-buffer-name (format "Denote sort `%s' by `%s'" files-matching-regexp component))
-              (buffer-name (format "Denote sort by `%s' at %s" component (format-time-string "%T"))))
-        (let ((dired-buffer (dired (cons buffer-name (mapcar #'file-relative-name empty-files)))))
-          (setq denote-sort--dired-buffer dired-buffer)
+              (empty-files (seq-remove #'my-denote--note-has-no-contents-p files)))
+        (let ((dired-buffer (dired (cons default-directory (mapcar #'file-relative-name empty-files))))
+              (buffer-name (funcall denote-sort-dired-buffer-name-function files-matching-regexp component reverse-sort exclude-rx)))
           (with-current-buffer dired-buffer
-            (setq-local revert-buffer-function
-                        (lambda (&amp;rest _)
-                          (kill-buffer dired-buffer)
-                          (denote-sort-dired files-matching-regexp component reverse-sort))))
-          ;; Because of the above NOTE, I am printing a message.  Not
-          ;; what I want, but it is better than nothing...
-          (message denote-sort-dired-buffer-name))
+            (rename-buffer buffer-name :unique)))
       (message "No matching files for: %s" files-matching-regexp))))
 
 (defun my-denote-sort-dired-all-empty-files ()
@@ -5460,10 +5429,8 @@ This is the same as calling `my-denote-sort-dired' with a
 FILES-MATCHING-REGEXP of \".*\"."
   (declare (interactive-only t))
   (interactive)
-  (let* ((other-prompts (denote-sort-dired--prompts))
-         (sort-key (nth 1 other-prompts))
-         (reverse (nth 2 other-prompts)))
-    (funcall-interactively #'my-denote-sort-dired-empty-files ".*" sort-key reverse)))
+  (pcase-let ((`(,sort-by ,reverse ,exclude-rx) (denote-sort-dired--prompts)))
+    (my-denote-sort-dired-empty-files ".*" sort-by reverse exclude-rx)))
 
 (defun my-denote-sort-dired-without-all-empty-files ()
   "List all empty files in a Dired buffer.
@@ -5471,10 +5438,8 @@ This is the same as calling `my-denote-sort-dired' with a
 FILES-MATCHING-REGEXP of \".*\"."
   (declare (interactive-only t))
   (interactive)
-  (let* ((other-prompts (denote-sort-dired--prompts))
-         (sort-key (nth 1 other-prompts))
-         (reverse (nth 2 other-prompts)))
-    (funcall-interactively #'my-denote-sort-dired-without-empty-files ".*" sort-key reverse)))
+  (pcase-let ((`(,sort-by ,reverse ,exclude-rx) (denote-sort-dired--prompts)))
+    (my-denote-sort-dired-without-empty-files ".*" sort-by reverse exclude-rx)))
 </pre>
 </div>
 
@@ -5623,7 +5588,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org15132ad">
+<pre class="example" id="orgfe908f9">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7250,7 +7215,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgc9d20f6">
+<pre class="example" id="org5748759">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7260,7 +7225,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org72c23ba">
+<pre class="example" id="org313e872">
 emacs -Q
 </pre>
 
@@ -7272,7 +7237,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org3c32552">
+<pre class="example" id="org15b9ce3">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7333,7 +7298,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org529f9ac">
+<pre class="example" id="orga69ed85">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
