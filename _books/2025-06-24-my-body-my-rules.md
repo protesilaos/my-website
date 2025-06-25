@@ -1,5 +1,5 @@
 ---
-title: "Philosophy: “my body; my rules!”"
+title: "Philosophy: “my body; my rules!?”"
 excerpt: "In this video I talk about the notion of “my body; my rules” and how it is incomplete because it does not cover responsibility."
 layout: vlog
 mediaid: "5Z2_dpuz4LI"
