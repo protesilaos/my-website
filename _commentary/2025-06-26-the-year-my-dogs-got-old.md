@@ -1,0 +1,28 @@
+---
+title: "The year my dogs got old"
+excerpt: "An entry from my journal where I comment on the ageing of my dogs and what I have learnt from them."
+---
+
+The following is taken from my journal.
+
+* * *
+
+I just got home from a two-hour walk. For ~10 years now, my dogs have been accompanying me in my hikes. Availability has been our best ability. Not a single day missed since I first got them, no matter the weather conditions (and, thankfully, I have not been ill once). Throughout this decade we would go out at least two times a day, one early in the morning and another at night. The exact times would depend on the season. During the summer, the early morning and late night hours are the best options. Whereas in the winter it is better to wait for the sun to come out and then to not delay the next excursion until too late in the evening.
+
+Recent months have been different. The dogs do not have the same tenacity anymore. They are more picky about when to go out and how far to venture into the mountain. If they do not feel like walking, they simply stay back and let me walk alone. Perhaps they also do not need to cover so much ground now. The land around the hut is part of the natural milieu. They can go out whenever they feel like. As there are no neighbours or a built-up area in my immediate vicinity, the dogs do not even wear a collar and are always off leash. Contrast that to the small, closed spaces they had to occupy in years prior. This simply is the best dwelling they could ever have.
+
+The combination of them ageing and the hut's environment giving them an outlet for their personhood has resulted in me going for increasingly more solo walks. It is expected to feel sad about this state of affairs. I remember, for example, how Atlas and I would sprint uphill to start our hike with intensity. These days are gone. What remains is a memory and the unchanging desire to live honestly. When I go out, I still perform the same ritual: a burst of pace followed by a vigorous walk. Only now there are cases where nobody is there to share my enthusiasm. Those will eventually become the new normal.
+
+Life expectancy for dogs the size of my own is around 12 years, with 14 being on the upper end. In other words, we are not far away from the inevitability of death. I cannot know the ultimate "why" the human life is that much longer than that of our beloved pets. Sure, there are intermediate explanations such as evolutionary theory, but they cannot delve into the essence of things. The essence is not our domain. All we have once we push against the limits is faith. We can give the beyond names and ascribe to it attributes which we believe it has, though there is no way for us to know for sure. Otherwise it would not be a terminus.
+
+"God" is an alias for "I do not know for sure and am hopeful thus." Those who purport to have certainty wield fire and steel in the name of "the truth." The rest remain dubitative. Perhaps the gods of this world have arranged things in such a way to give us the opportunity to learn something about the cosmos. By outliving dogs we get to experience a microcosm, a full life cycle, and then live on with the knowledge we have accumulated and the feelings it has engendered. "For what?" We can only speculate. The cosmic music is playing, everybody is dancing, and we are on the dance floor. So we might as well dance along. It is a universal pulse, a continuous cycle of transfiguration as forms come and go in this continuum of everlasting life.
+
+By understanding the dogs, I have figured out humans. We are far more animalistic than we dare to admit. Or, to put it differently, we think we are vastly superior to other animals, when we are not. Look past somebody's rationalisations and politeness to spot the animal within. It is not too difficult. Preaching alone will not do. There has to be action. Whatever remains limited to the mind ends up in the dustbin of history.
+
+Give people what they need to deal with hunger, fear, beauty, excitement, discovery, achievement, recognition, love, domination, cooperation, challenge, violence, peace, solitude, community, indeterminacy. Neglect most of their facets, insist on only tending to some of them, and you get disorder; disorder which, nevertheless, begets disturbances whose counter forces reestablish order in the form of bringing forth the other facets of humankind that were hitherto suppressed.
+
+One is not enough. All gods have their place. The pretty and the ugly. When the animal spirits are rendered apparent and the human is seen for what it actually is, stripped of its pretences, we can develop sympathy and understanding by not taking everything to heart. At its root, all disappointment in people consists in thinking of them as something greater than they are.
+
+As I am writing this, a bee-eater sits on a branch across my window looking at my direction. Most of its body is covered in blue and green feathers. I can discern a white patch on its chest and accents of yellow around its neck. Another summer is upon us!
+
+There will be a day when my dogs will die and another day when I will die too. Maybe soon, maybe far into the future. We come alone and leave alone, establishing connections along the way. Ephemera is all we get. These are the workings of this world for which we have no definitive answers. I am powerless to affect the cosmic magnitudes and have learnt to accept whatever comes my way. What I can do is try to muster all my energy in honouring what my dogs have given me and will continue to offer until their last breath. For as long as I tread these paths, I will remember to be present in my presence, to live wholeheartedly without complaining, and to not wait for that which is elusive.
