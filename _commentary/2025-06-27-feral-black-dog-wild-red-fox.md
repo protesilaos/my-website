@@ -1,0 +1,26 @@
+---
+title: "The feral black dog and the wild red fox"
+excerpt: "An entry from my journal where I comment on my encounter with two wild animals. I also write about dog abuse."
+---
+
+The following is an excerpt from my journal.
+
+* * *
+
+This morning I witnessed something extraordinary. A black dog and a red fox were playing together in a vinyard. I spotted them fairly close to my house on my way back home. The sun was still behind the mountain. Local time was around half past five. The dog was chewing on a plastic bottle, tossing it up in the air and catching it on the way down, while the fox was right behind observing in anticipation. The demeanour of the fox reminded me of cats: careful and measured. The dog was as boisterous as I have come to expect of their species.
+
+Judging by how the dog was playing with the bottle, I surmise it was young though clearly not a puppy. I do not know much about foxes to make an educated guess. This one looked smaller than others I have seen roaming the mountains, presumably on their prowl. I assume those that go hunting are adults so this one must have been young like the dog. It clearly was not a kit though. Adult foxes are still small, anyway. Maybe they are the same size as the landrace of cat we have in Cyprus.
+
+I attempted to approach the two animals, knowing that my presence would most likely scare them away. I wanted to get a closer look and test their response. Walking at my normal pace, I came within ten metres of their location. The dog stood at around 35 centimetres tall at the withers. Its ears were floppy and its snout was fairly long. These are the features of a scenthound, especially popular with small game hunters (there is no big game here).
+
+Many hunters I have known are irresponsible dog handlers. They treat animals as tools, keeping them confined to small cages during the week and letting them run around only for hunting purposes. Dogs that are not good enough at their task are either culled or abandoned in the wilderness. Whenever I see a skinny scenthound in the wild, I can tell that it was the victim of abuse at the hands of a hunter. These dogs are scared of people. I have tried to feed them on multiple occasions, but have always failed to calm them down. They run away as fast as they can. Their distrust for humans is such that they are unlikely to be domesticated again, while they also lack the skills to survive on their own. The life of abused hunting dogs is cruel and short.
+
+Other abused dogs turn aggressive and are dangerous. This includes tiny dogs, like those otherwise cute chihuahuas that some ladies treat as fashion accessories. They bark at everyone and show their teeth. Though nobody takes them seriously, owning to their apparent lack of strength. Larger breeds, like pitbulls, rottweilers, and dobermans exhibit the same antisocial ferocity with the added disadvantage of having the sheer power to kill even an able-bodied man. Dog shelters eventually have to euthanise such specimens.
+
+It is not necessarily malice that causes harm. Negligence is enough to mistreat an animal. I once helped a guy train his Siberian husky. He got the dog as a gift for his two baby daughters. This was their fluffy little friend. Good intentions, yes, but terrible choice regardless. Huskies are large animals who require a space to expend their seemingly boundless enthusiasm. They are sled dogs, after all, and the Siberian steppes stretch as far as the eye can see. Huskies need a handler who will match their intelligence as well as their intensity. This guy could not cope with the demands because he was out working all day. The daughters were obviously too little to handle the situation and the mother was also at work. The dog thus had an untimely end.
+
+Most people should never have a dog. At least not without prior training. Even the toy-sized canines have the genes of their apex predator relatives, the wolves. More so for breeds that are assertive and animal aggressive to varying degrees, including my own pets, Atlas and Raizou. Without proper socialisation and a daily outlet for their energy, dogs become a liability as they are unsuitable for life among humans.
+
+This morning's black dog must not have belonged to a hunter and was not left to die in these parts. It would not have survived for so long. Plus, it looked healthy. It did flee as soon as it noticed me, though its body language was communicating caution rather than fear: it did not ran as fast as it could. The fox stood still for a couple of seconds, not knowing how to react. It then turned around and ran towards the nearest bush. It too was acting cautiously. I could still see it amid the foliage but decided to disengage.
+
+I suspect there is more to this story. At around four o'clock this morning, I heard a canine drinking water from a bucket that I keep right outside my room. It could have been this black dog. Unless foxes produce the same familiar sound when they drink water. I have thought of leaving food around. Though I have to be careful not to tame the fox. I may be trustworthy but it is better for its own sake to be wary of humans. Otherwise, I fear it will eventually show faith in some hunter, only to be turned into a trophy; a token of vanity and disrespect.
