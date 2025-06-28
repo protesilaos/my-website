@@ -101,7 +101,11 @@ limited to those that the current frame knows about.</li>
 <li>By enabling the global minor mode <code>beframe-mode</code>.  It sets the
 <code>read-buffer-function</code> to one that filters buffers per frame.  As
 such, commands like <code>switch-to-buffer</code>, <code>next-buffer</code>, and
-<code>previous-buffer</code> automatically work in a beframed way.</li>
+<code>previous-buffer</code> automatically work in a beframed way. Buffer
+prompts affected by this get the <code>beframe-prompt-prefix</code> text,
+which is styled with <code>beframe-face-prompt-prefix</code>. [ The
+<code>beframe-prompt-prefix</code> and its corresponding face are part of
+1.4.0-dev. ]</li>
 </ol>
 
 <ol class="org-ol">
@@ -308,8 +312,8 @@ For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -331,8 +335,8 @@ example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-transient)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") #'beframe-transient)
+</code></pre>
 </div>
 </div>
 </div>
@@ -351,7 +355,6 @@ The package is available as <code>beframe</code>.  Simply do:
 M-x package-refresh-contents
 M-x package-install
 </pre>
-
 
 <p>
 And search for it.
@@ -374,7 +377,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -384,7 +387,7 @@ cd manual-packages
 
 # Clone this repo, naming it "beframe"
 git clone https://github.com/protesilaos/beframe beframe
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -392,9 +395,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/beframe")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -407,7 +410,7 @@ Everything is in place to set up the package.
 <h2 id="h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7"><span class="section-number-2">6.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'beframe)
+<pre class="src src-emacs-lisp"><code>(require 'beframe)
 
 ;; This is the default value.  Write here the names of buffers that
 ;; should not be beframed.
@@ -419,7 +422,7 @@ Everything is in place to set up the package.
 (define-key global-map (kbd "C-c b") #'beframe-prefix-map)
 ;; OR use the transient instead of the prefix map:
 (define-key global-map (kbd "C-c b") #'beframe-transient)
-</pre>
+</code></pre>
 </div>
 </div>
 <div id="outline-container-h:1c2d3d64-aa7b-4585-a418-ccedbb548b38" class="outline-3">
@@ -441,7 +444,7 @@ It is possible to add beframed buffers to the list of sources the
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar consult-buffer-sources)
+<pre class="src src-emacs-lisp"><code>(defvar consult-buffer-sources)
 (declare-function consult--buffer-state "consult")
 
 (with-eval-after-load 'consult
@@ -465,7 +468,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
        :state    ,#'consult--buffer-state))
 
   (add-to-list 'consult-buffer-sources 'beframe-consult-source))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -486,7 +489,7 @@ works:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(with-eval-after-load 'ibuffer
+<pre class="src src-emacs-lisp"><code>(with-eval-after-load 'ibuffer
   (defun beframe-buffer-in-frame (buf frame)
     "Return non-nil if BUF is in FRAME."
     (memq buf (beframe-buffer-list (beframe-frame-object frame))))
@@ -510,7 +513,7 @@ works:
       "Limit current view to buffers in frames."
     (:description "frame")
     (memq buf (beframe-buffer-list))))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
