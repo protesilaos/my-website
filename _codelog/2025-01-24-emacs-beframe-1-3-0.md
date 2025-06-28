@@ -1,5 +1,5 @@
 ---
-title: "Emacs: beframe version 1.2.0"
+title: "Emacs: beframe version 1.3.0"
 excerpt: 'Information about the latest version of my beframe package for GNU Emacs.'
 ---
 
