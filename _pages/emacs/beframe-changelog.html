@@ -15,6 +15,54 @@ project's main git repository: <a href="https://github.com/protesilaos/beframe">
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
 </p>
+<div id="outline-container-h:43536015-8c68-4aca-a02a-1a80f23350be" class="outline-2">
+<h2 id="h:43536015-8c68-4aca-a02a-1a80f23350be">Version 1.4.0 on 2025-06-28</h2>
+<div class="outline-text-2" id="text-h:43536015-8c68-4aca-a02a-1a80f23350be">
+<p>
+This version adds some minor improvements to a stable package.
+</p>
+</div>
+<div id="outline-container-h:d1a17d72-cb2f-4611-ac38-c7d0106cc102" class="outline-3">
+<h3 id="h:d1a17d72-cb2f-4611-ac38-c7d0106cc102">Per-frame Xref histories</h3>
+<div class="outline-text-3" id="text-h:d1a17d72-cb2f-4611-ac38-c7d0106cc102">
+<p>
+The built-in Xref mechanism is typically used to navigate to the
+definition of the symbol at point in a programming major mode. The
+command <code>xref-find-definitions</code> (<code>M-.</code> by default) jumps to the
+source, while <code>xref-go-back</code> (<code>M-,</code> by default) goes back in the
+history of visited positions until it reaches the starting point.
+</p>
+
+<p>
+When <code>beframe-mode</code> is enabled, each new frame has its own Xref
+history. This means that finding a definition in one frame does not
+interfere with the Xref history of another frame.
+</p>
+</div>
+</div>
+<div id="outline-container-h:575b310f-e7c5-4d6c-a366-e0dd95219dc0" class="outline-3">
+<h3 id="h:575b310f-e7c5-4d6c-a366-e0dd95219dc0">"Beframed" buffer prompt text is now optional</h3>
+<div class="outline-text-3" id="text-h:575b310f-e7c5-4d6c-a366-e0dd95219dc0">
+<p>
+When <code>beframe-mode</code> is enabled, it sets the standard
+<code>read-buffer-function</code> to one that filters buffers by frame. Any
+command that uses that, such as <code>switch-to-buffer</code> (<code>C-x b</code> by
+default) is thus beframing its completion candidates.
+</p>
+
+<p>
+Such prompts get a prefix to inform the user of their behaviour. By
+default this is <code>[Beframed]</code>: it is subject to the user option <code>beframe-prompt-prefix</code>.
+Users who do not wish to have any prefix can set this option to nil or
+an empty string.
+</p>
+
+<p>
+When there is a string, it is styled with the face <code>beframe-face-prompt-prefix</code>.
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235" class="outline-2">
 <h2 id="h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235">Version 1.3.0 on 2025-01-24</h2>
 <div class="outline-text-2" id="text-h:1ff9bbfe-6a4e-4bcb-958d-6930a7816235">
@@ -52,8 +100,8 @@ A common use-case is to do this for switching to a new project, hence:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq beframe-functions-in-frames '(project-prompt-project-dir))
-</pre>
+<pre class="src src-emacs-lisp"><code>(setq beframe-functions-in-frames '(project-prompt-project-dir))
+</code></pre>
 </div>
 </div>
 </div>
@@ -66,8 +114,8 @@ to. Users can access all the commands via a prefix key, such as with:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") #'beframe-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -77,8 +125,8 @@ map:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") #'beframe-transient)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") #'beframe-transient)
+</code></pre>
 </div>
 
 <p>
@@ -204,7 +252,6 @@ buffers into the current frame, the message will be something like:
 Assumed into current frame 2 buffers: (name-of-buffer-one name-of-buffer-two)
 </pre>
 
-
 <p>
 Similarly:
 </p>
@@ -212,7 +259,6 @@ Similarly:
 <pre class="example">
 Unassumed from current frame 2 buffers: (name-of-buffer-one name-of-buffer-two)
 </pre>
-
 
 <p>
 If the command does not change the frame's buffer list, it will report
@@ -285,8 +331,8 @@ Consider this example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq beframe-global-buffers '("\\*scratch\\*" ".*notmuch.*" emacs-lisp-mode))
-</pre>
+<pre class="src src-emacs-lisp"><code>(setq beframe-global-buffers '("\\*scratch\\*" ".*notmuch.*" emacs-lisp-mode))
+</code></pre>
 </div>
 
 <p>
@@ -311,8 +357,8 @@ key, such as:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") beframe-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") beframe-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -331,8 +377,8 @@ trivial:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") 'beframe-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") 'beframe-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -520,8 +566,8 @@ which will be treated as a prefix key.  For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c b") beframe-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c b") beframe-prefix-map)
+</code></pre>
 </div>
 
 <p>
