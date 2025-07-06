@@ -62,11 +62,12 @@ of it.
 <li><a href="#h:499ee65d-429d-48c0-9e3a-a60ca649e32d">3.4.4. Find completion category</a></li>
 </ul>
 </li>
-<li><a href="#h:2fcf708f-4edf-41f3-9e29-0e750f3a80af">3.5. Size boundaries of the Completions</a></li>
-<li><a href="#h:36adcbbb-f534-4595-9629-babe38a35efc">3.6. Hide the Completions mode line</a></li>
-<li><a href="#h:9d637155-04a5-419e-a9c5-471258130057">3.7. Remove shadowed file paths</a></li>
-<li><a href="#h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341">3.8. Show an indicator for <code>completing-read-multiple</code> prompts</a></li>
-<li><a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">3.9. MCT in the minibuffer and completion in regular buffers</a></li>
+<li><a href="#h:d5cd6e2e-d121-425c-96ec-f8bc9c630dd2">3.5. Sort completions based on the command or completion category</a></li>
+<li><a href="#h:2fcf708f-4edf-41f3-9e29-0e750f3a80af">3.6. Size boundaries of the Completions</a></li>
+<li><a href="#h:36adcbbb-f534-4595-9629-babe38a35efc">3.7. Hide the Completions mode line</a></li>
+<li><a href="#h:9d637155-04a5-419e-a9c5-471258130057">3.8. Remove shadowed file paths</a></li>
+<li><a href="#h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341">3.9. Show an indicator for <code>completing-read-multiple</code> prompts</a></li>
+<li><a href="#h:8109fe09-fcce-4212-88eb-943cc72f2c75">3.10. MCT in the minibuffer and completion in regular buffers</a></li>
 </ul>
 </li>
 <li><a href="#h:884d6702-8666-4d89-87a2-7d74843653f3">4. Usage</a>
@@ -497,8 +498,62 @@ To review echo area messages, use <code>C-h e</code> (<code>view-echo-area-messa
 </div>
 </div>
 </div>
+<div id="outline-container-h:d5cd6e2e-d121-425c-96ec-f8bc9c630dd2" class="outline-3">
+<h3 id="h:d5cd6e2e-d121-425c-96ec-f8bc9c630dd2"><span class="section-number-3">3.5.</span> Sort completions based on the command or completion category</h3>
+<div class="outline-text-3" id="text-h:d5cd6e2e-d121-425c-96ec-f8bc9c630dd2">
+<p>
+[ This is part of 1.1.0-dev. ]
+</p>
+
+<p>
+Brief: Sort completion candidates based on the command or completion
+category.
+</p>
+
+<p>
+Symbol: <code>mct-sort-by-command-or-category</code> (<code>alist</code> type)
+</p>
+
+<p>
+This is an alist where each element is of the form <code>(SYMBOLS . SORT-FUNCTION)</code>.
+</p>
+
+<p>
+<code>SYMBOLS</code> is either a symbol or a list of symbols. <code>SYMBOLS</code> can refer to
+the symbol of a function or completion category. It can also be <code>t</code>,
+which refers to the fallback value.
+</p>
+
+<p>
+<code>SORT-FUNCTION</code> is a function that takes a list of strings and returns a
+list of strings, sorting them accordingly. Examples of a <code>SORT-FUNCTION</code>
+are:
+</p>
+
+<ul class="org-ul">
+<li><code>mct-sort-by-alpha</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>mct-sort-by-alpha-then-by-length</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>mct-sort-by-history</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>mct-sort-by-directory-then-by-file</code></li>
+</ul>
+
+<p>
+To not perform any sorting on the completion candidates that match
+<code>SYMBOLS</code> set <code>SORT-FUNCTION</code> to <code>nil</code>.
+</p>
+</div>
+</div>
 <div id="outline-container-h:2fcf708f-4edf-41f3-9e29-0e750f3a80af" class="outline-3">
-<h3 id="h:2fcf708f-4edf-41f3-9e29-0e750f3a80af"><span class="section-number-3">3.5.</span> Size boundaries of the Completions</h3>
+<h3 id="h:2fcf708f-4edf-41f3-9e29-0e750f3a80af"><span class="section-number-3">3.6.</span> Size boundaries of the Completions</h3>
 <div class="outline-text-3" id="text-h:2fcf708f-4edf-41f3-9e29-0e750f3a80af">
 <p>
 Brief: Set the maximum and minimum height of the Completions&rsquo; buffer.
@@ -534,7 +589,7 @@ If nil, do not try to fit the Completions&rsquo; buffer to its window.
 </div>
 </div>
 <div id="outline-container-h:36adcbbb-f534-4595-9629-babe38a35efc" class="outline-3">
-<h3 id="h:36adcbbb-f534-4595-9629-babe38a35efc"><span class="section-number-3">3.6.</span> Hide the Completions mode line</h3>
+<h3 id="h:36adcbbb-f534-4595-9629-babe38a35efc"><span class="section-number-3">3.7.</span> Hide the Completions mode line</h3>
 <div class="outline-text-3" id="text-h:36adcbbb-f534-4595-9629-babe38a35efc">
 <p>
 Brief: Do not show a mode line in the Completions&rsquo; buffer.
@@ -552,7 +607,7 @@ line.
 </div>
 </div>
 <div id="outline-container-h:9d637155-04a5-419e-a9c5-471258130057" class="outline-3">
-<h3 id="h:9d637155-04a5-419e-a9c5-471258130057"><span class="section-number-3">3.7.</span> Remove shadowed file paths</h3>
+<h3 id="h:9d637155-04a5-419e-a9c5-471258130057"><span class="section-number-3">3.8.</span> Remove shadowed file paths</h3>
 <div class="outline-text-3" id="text-h:9d637155-04a5-419e-a9c5-471258130057">
 <p>
 Brief: Delete shadowed parts of file names from the minibuffer.
@@ -576,7 +631,7 @@ again from the user&rsquo;s <code>$HOME</code>.
 </div>
 </div>
 <div id="outline-container-h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341" class="outline-3">
-<h3 id="h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341"><span class="section-number-3">3.8.</span> Show an indicator for <code>completing-read-multiple</code> prompts</h3>
+<h3 id="h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341"><span class="section-number-3">3.9.</span> Show an indicator for <code>completing-read-multiple</code> prompts</h3>
 <div class="outline-text-3" id="text-h:211065de-6ea8-4cfd-b0a2-c1f28a5ae341">
 <p>
 [ Part of 1.1.0-dev. ]
@@ -600,10 +655,16 @@ ones.
 The indicator informs the user this is a <code>completing-read-multiple</code>
 prompt and also shows the <code>crm-separator</code>, which is usually a comma.
 </p>
+
+<p>
+The <code>mct-completing-read-multiple-indicator</code> has no effect on versions
+of Emacs &gt;= 31, as those have the user option <code>crm-prompt</code> which
+covers the same use-case.
+</p>
 </div>
 </div>
 <div id="outline-container-h:8109fe09-fcce-4212-88eb-943cc72f2c75" class="outline-3">
-<h3 id="h:8109fe09-fcce-4212-88eb-943cc72f2c75"><span class="section-number-3">3.9.</span> MCT in the minibuffer and completion in regular buffers</h3>
+<h3 id="h:8109fe09-fcce-4212-88eb-943cc72f2c75"><span class="section-number-3">3.10.</span> MCT in the minibuffer and completion in regular buffers</h3>
 <div class="outline-text-3" id="text-h:8109fe09-fcce-4212-88eb-943cc72f2c75">
 <p>
 Emacs draws a distinction between two types of completion sessions:
@@ -628,7 +689,7 @@ these in your init file:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Define the small wrapper functions
+<pre class="src src-emacs-lisp"><code>;; Define the small wrapper functions
 (defun my-mct-next-line-or-completion (n)
   "Select next completion or move to next line N times.
 Select the next completion if `completion-in-region-mode' is
@@ -672,7 +733,7 @@ active and the Completions window is on display."
 (setq completion-show-inline-help nil)
 (setq completions-max-height 6)
 (setq completions-highlight-face 'completions-highlight)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -701,7 +762,7 @@ which add commands for cycling between the minibuffer and the
 completions.  Suppose the following standard layout:
 </p>
 
-<pre class="example" id="org4a47873">
+<pre class="example" id="orgac3a0e6">
 -----------------
 |        |      |
 | Buffers| Buf  |
@@ -868,9 +929,9 @@ configuration.  The following commands shall suffice:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">M-x package-refresh-contents
+<pre class="src src-emacs-lisp"><code>M-x package-refresh-contents
 M-x package-install RET mct
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -878,8 +939,8 @@ A package is also available via Guix:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">guix package -i emacs-mct
-</pre>
+<pre class="src src-sh"><code>guix package -i emacs-mct
+</code></pre>
 </div>
 </div>
 </div>
@@ -892,7 +953,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -902,7 +963,7 @@ cd manual-packages
 
 # Clone this repo and name it "mct"
 git clone https://github.com/protesilaos/mct mct
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -910,9 +971,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/mct")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -929,9 +990,9 @@ Minimal setup for the minibuffer and in-buffer completion:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'mct)
+<pre class="src src-emacs-lisp"><code>(require 'mct)
 (mct-mode 1)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -939,7 +1000,7 @@ And with more options:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'mct)
+<pre class="src src-emacs-lisp"><code>(require 'mct)
 
 (setq mct-completion-window-size (cons #'mct-frame-height-third 1))
 (setq mct-remove-shadowed-file-names t) ; works when `file-name-shadow-mode' is enabled
@@ -972,7 +1033,7 @@ And with more options:
 (setq mct-completion-blocklist nil)
 
 (mct-mode 1)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -980,7 +1041,7 @@ Other useful extras from the Emacs source code (read their doc strings):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq completion-styles
+<pre class="src src-emacs-lisp"><code>(setq completion-styles
       '(basic substring initials flex partial-completion))
 (setq completion-category-overrides
       '((file (styles . (basic partial-completion initials substring)))))
@@ -1040,7 +1101,7 @@ Other useful extras from the Emacs source code (read their doc strings):
       '(basic substring initials flex partial-completion orderless))
 (setq completion-category-overrides
       '((file (styles . (basic partial-completion orderless)))))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -1079,6 +1140,14 @@ In this section we cover custom code that builds on what MCT offers.
 <h3 id="h:493922c7-efdc-4b63-aa96-b31c684eb4fa"><span class="section-number-3">8.1.</span> Sort completion candidates on Emacs 29</h3>
 <div class="outline-text-3" id="text-h:493922c7-efdc-4b63-aa96-b31c684eb4fa">
 <p>
+[ As part of 1.1.0-dev, MCT provides the user option
+  <code>mct-sort-by-command-or-category</code> and sets the <code>completions-sort</code>
+  accordingly (<a href="#h:d5cd6e2e-d121-425c-96ec-f8bc9c630dd2">Sort completions based on the command or completion category</a>).
+  The information herein is thus not needed, but may still be useful
+  in writing a custom sort function. ]
+</p>
+
+<p>
 Starting with Emacs 29 (current development target), the user option
 <code>completions-sort</code> controls the sorting method of candidates in the
 <code>*Completions*</code> buffer.  Beside the default of using <code>string-lessp</code>, it
@@ -1086,7 +1155,7 @@ accepts a custom function.  Consider any of the following examples:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Some sorting functions...
+<pre class="src src-emacs-lisp"><code>;; Some sorting functions...
 (defun my-sort-by-alpha-length (elems)
   "Sort ELEMS first alphabetically, then by length."
   (sort elems (lambda (c1 c2)
@@ -1111,7 +1180,7 @@ Use `mct-sort-sort-by-alpha-length' if no history is available."
 
 ;; Specify the sorting function.
 (setq completions-sort #'my-sort-multi-category)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -1137,7 +1206,7 @@ not be part of <code>mct.el</code>.  Use this in your init file instead:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Add prompt indicator to `completing-read-multiple'.  We display
+<pre class="src src-emacs-lisp"><code>;; Add prompt indicator to `completing-read-multiple'.  We display
 ;; [`completing-read-multiple': &lt;separator&gt;], e.g.,
 ;; [`completing-read-multiple': ,] if the separator is a comma.  This
 ;; is adapted from the README of the `vertico' package by Daniel
@@ -1154,7 +1223,7 @@ not be part of <code>mct.el</code>.  Use this in your init file instead:
         (cdr args)))
 
 (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -1170,7 +1239,7 @@ Add this to your own configuration file instead:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Adaptation of `icomplete-fido-backward-updir'.
+<pre class="src src-emacs-lisp"><code>;; Adaptation of `icomplete-fido-backward-updir'.
 (defun my-backward-updir ()
   "Delete char before point or go up a directory."
   (interactive nil mct-mode)
@@ -1188,7 +1257,7 @@ Add this to your own configuration file instead:
    (t (call-interactively 'backward-delete-char))))
 
 (define-key minibuffer-local-filename-completion-map (kbd "DEL") #'my-backward-updir)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -1252,8 +1321,8 @@ preview the candidate at point.  All we need to enable it in the
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
-</pre>
+<pre class="src src-emacs-lisp"><code>(add-hook 'completion-list-mode-hook #'consult-preview-at-point-mode)
+</code></pre>
 </div>
 </div>
 </div>
