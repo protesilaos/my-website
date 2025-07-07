@@ -15,12 +15,138 @@ tagged commit on the project's main git repository:
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/mct">https://protesilaos.com/emacs/mct</a>.
 </p>
+<div id="outline-container-h:3d13a704-6bdb-4dbc-958e-6b6059270c6a" class="outline-2">
+<h2 id="h:3d13a704-6bdb-4dbc-958e-6b6059270c6a">Version 1.1.0 on 2025-07-07</h2>
+<div class="outline-text-2" id="text-h:3d13a704-6bdb-4dbc-958e-6b6059270c6a">
+<p>
+This version contains several refinements to an already stable package.
+</p>
+</div>
+<div id="outline-container-h:96f16728-46c4-4e0a-9f5a-90e1a5241c93" class="outline-3">
+<h3 id="h:96f16728-46c4-4e0a-9f5a-90e1a5241c93">Sort by command or completion category</h3>
+<div class="outline-text-3" id="text-h:96f16728-46c4-4e0a-9f5a-90e1a5241c93">
+<p>
+The new user option <code>mct-sort-by-command-or-category</code> determines how
+completion candidates are sorted.
+</p>
 
+<p>
+This is an alist where each element is of the form <code>(SYMBOLS . SORT-FUNCTION)</code>.
+</p>
+
+<p>
+<code>SYMBOLS</code> is either a symbol or a list of symbols. <code>SYMBOLS</code> can refer
+to the symbol of a function or completion category. It can also be <code>t</code>,
+which refers to the fallback value.
+</p>
+
+<p>
+<code>SORT-FUNCTION</code> is a function that takes a list of strings and returns a
+list of strings, sorting them accordingly.  Examples of a <code>SORT-FUNCTION</code>
+are:
+</p>
+
+<ul class="org-ul">
+<li><code>mct-sort-by-alpha</code></li>
+<li><code>mct-sort-by-alpha-then-by-length</code></li>
+<li><code>mct-sort-by-history</code></li>
+<li><code>mct-sort-by-directory-then-by-file</code></li>
+</ul>
+
+<p>
+To not perform any sorting on the completion candidates that match
+<code>SYMBOLS</code> set <code>SORT-FUNCTION</code> to nil.
+</p>
+
+<p>
+If there are conflicting configurations between a <code>SYMBOLS</code> function and
+completion category, then the function takes precedence (for example
+<code>find-file</code> is set to sort directories first whereas the <code>file</code>
+completion category is set to sort by history).
+</p>
+</div>
+</div>
+<div id="outline-container-h:7c82c656-bf14-4934-938e-567229193f90" class="outline-3">
+<h3 id="h:7c82c656-bf14-4934-938e-567229193f90">Optional indicator for <code>completing-read-multiple</code></h3>
+<div class="outline-text-3" id="text-h:7c82c656-bf14-4934-938e-567229193f90">
+<p>
+Users of Emacs prior to version 31 do not have a built-in way to
+inform them when they are dealing with a <code>completing-read-multiple</code>
+minibuffer prompt. Emacs 31 introduces the user option <code>crm-prompt</code>
+and its related functionality to tell the user what they need to know.
+</p>
+
+<p>
+The <code>mct-completing-read-multiple-indicator</code> can be used in the
+meantime to achieve the same results. It is set to a non-nil value by
+default. Opt out by changing it to nil.
+</p>
+</div>
+</div>
+<div id="outline-container-h:14e286c9-5a32-4745-bd7a-f41036263e07" class="outline-3">
+<h3 id="h:14e286c9-5a32-4745-bd7a-f41036263e07">The <code>*Completions*</code> are persistent when needed</h3>
+<div class="outline-text-3" id="text-h:14e286c9-5a32-4745-bd7a-f41036263e07">
+<p>
+This concerns the case where a command or completion category is part
+of the <code>mct-completion-passlist</code> or when the user option
+<code>mct-live-completion</code> is set to non-nil or <code>visible</code>. In such cases,
+the completion candidates are on display and we want to keep them
+there while performing a dynamic completion, such as with the
+<code>find-file</code> command ("dynamic" in the sense that it returns a new list
+of candidates to match the current path).
+</p>
+
+<p>
+Persisting the <code>*Completions*</code> means that as we narrow the list, we
+still see all the matching results.
+</p>
+
+<p>
+In the past, we provided the option <code>mct-persist-dynamic-completion</code>
+though we do not need it anymore.
+</p>
+
+<p>
+I was inspired to make this change in response to a question posed by
+Ryan Davis regarding the behaviour of <code>mct-persist-dynamic-completion</code>.
+This was done in issue 7: <a href="https://github.com/protesilaos/mct/issues/7">https://github.com/protesilaos/mct/issues/7</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:ec8f6624-f5b0-47fd-b9e6-0950a9a10a60" class="outline-3">
+<h3 id="h:ec8f6624-f5b0-47fd-b9e6-0950a9a10a60">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:ec8f6624-f5b0-47fd-b9e6-0950a9a10a60">
+<ul class="org-ul">
+<li>Vertical alignment of the <code>*Completions*</code> buffer is more precise.
+Thanks to Jessie Hu for the contribution in pull request 6:
+<a href="https://github.com/protesilaos/mct/pull/6">https://github.com/protesilaos/mct/pull/6</a>.</li>
+
+<li><p>
+The command <code>mct-choose-completion-exit</code> no longer tries to expand
+further. In the previous implementation it would try to match the
+last known selection from the history when using a file prompt. For
+example we have this workflow:
+</p>
+
+<ul class="org-ul">
+<li>In the previous prompt we type <code>/path/to/file/</code> and exit.</li>
+<li>Now we type <code>/pa</code>, the completions pop up, we select <code>/path</code> and
+invoke <code>mct-choose-completion-exit</code>. This wrongly expands into
+<code>/path/foo/</code> instead of taking just <code>/path</code> (given that it has no
+further input to determine an extension of that string).</li>
+</ul>
+
+<p>
+Now the command will do the right thing based on the user's input.
+</p></li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-h:64daac36-a953-46cf-bc12-81a0a99bf964" class="outline-2">
 <h2 id="h:64daac36-a953-46cf-bc12-81a0a99bf964">Version 1.0.0 on 2023-09-24</h2>
 <div class="outline-text-2" id="text-h:64daac36-a953-46cf-bc12-81a0a99bf964">
 </div>
-
 <div id="outline-container-h:39f6904b-a045-4539-aa66-76be822064f9" class="outline-3">
 <h3 id="h:39f6904b-a045-4539-aa66-76be822064f9">Resumption of MCT development</h3>
 <div class="outline-text-3" id="text-h:39f6904b-a045-4539-aa66-76be822064f9">
@@ -70,7 +196,6 @@ can be added directly to <code>mnibuffer.el</code> or related.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:6ee9aea9-91f3-47cf-aab3-984fe9e23157" class="outline-3">
 <h3 id="h:6ee9aea9-91f3-47cf-aab3-984fe9e23157">MCT supports Emacs 29 or higher</h3>
 <div class="outline-text-3" id="text-h:6ee9aea9-91f3-47cf-aab3-984fe9e23157">
@@ -93,7 +218,6 @@ assess their options.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:bf50160c-07e9-4625-af0a-5142d79ed35b" class="outline-3">
 <h3 id="h:bf50160c-07e9-4625-af0a-5142d79ed35b">Deprecation of <code>mct-region-mode</code></h3>
 <div class="outline-text-3" id="text-h:bf50160c-07e9-4625-af0a-5142d79ed35b">
@@ -111,7 +235,7 @@ settings, which affect the default UI (modify as you see fit):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Define the small wrapper functions
+<pre class="src src-emacs-lisp"><code>;; Define the small wrapper functions
 (defun my-mct-next-line-or-completion (n)
   "Select next completion or move to next line N times.
 Select the next completion if `completion-in-region-mode' is
@@ -155,11 +279,10 @@ active and the Completions window is on display."
 (setq completion-show-inline-help nil)
 (setq completions-max-height 6)
 (setq completions-highlight-face 'completions-highlight)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:d93fc6b9-3b21-4072-91d3-29a51d8f26f3" class="outline-3">
 <h3 id="h:d93fc6b9-3b21-4072-91d3-29a51d8f26f3">The <code>mct-minibuffer-mode</code> is renamed to <code>mct-mode</code></h3>
 <div class="outline-text-3" id="text-h:d93fc6b9-3b21-4072-91d3-29a51d8f26f3">
@@ -171,7 +294,6 @@ longer pertinent and the original name can be restored.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:03b4eae8-fda2-42d4-aaf7-ad87e5211725" class="outline-3">
 <h3 id="h:03b4eae8-fda2-42d4-aaf7-ad87e5211725">The <code>completing-read-multiple</code> indicator has been removed</h3>
 <div class="outline-text-3" id="text-h:03b4eae8-fda2-42d4-aaf7-ad87e5211725">
@@ -183,7 +305,7 @@ should not be part of <code>mct.el</code>.  Use this in your init file instead:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Add prompt indicator to `completing-read-multiple'.  We display
+<pre class="src src-emacs-lisp"><code>;; Add prompt indicator to `completing-read-multiple'.  We display
 ;; [`completing-read-multiple': &lt;separator&gt;], e.g.,
 ;; [`completing-read-multiple': ,] if the separator is a comma.  This
 ;; is adapted from the README of the `vertico' package by Daniel
@@ -200,11 +322,10 @@ should not be part of <code>mct.el</code>.  Use this in your init file instead:
         (cdr args)))
 
 (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:4cf5c77c-d991-4a7a-b59c-06f1cf67317b" class="outline-3">
 <h3 id="h:4cf5c77c-d991-4a7a-b59c-06f1cf67317b">No more IDO-like file navigation</h3>
 <div class="outline-text-3" id="text-h:4cf5c77c-d991-4a7a-b59c-06f1cf67317b">
@@ -217,7 +338,7 @@ Add this to your own configuration file instead:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Adaptation of `icomplete-fido-backward-updir'.
+<pre class="src src-emacs-lisp"><code>;; Adaptation of `icomplete-fido-backward-updir'.
 (defun my-backward-updir ()
   "Delete char before point or go up a directory."
   (interactive nil mct-mode)
@@ -235,11 +356,10 @@ Add this to your own configuration file instead:
    (t (call-interactively 'backward-delete-char))))
 
 (define-key minibuffer-local-filename-completion-map (kbd "DEL") #'my-backward-updir)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:ab0091bf-cbd1-4453-a674-66c195a95622" class="outline-3">
 <h3 id="h:ab0091bf-cbd1-4453-a674-66c195a95622">Lots of changes under the hood</h3>
 <div class="outline-text-3" id="text-h:ab0091bf-cbd1-4453-a674-66c195a95622">
@@ -264,7 +384,6 @@ that, I think, make the user experience a little bit easier.
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1" class="outline-2">
 <h2 id="h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1">Version 0.5.0 on 2022-02-08</h2>
 <div class="outline-text-2" id="text-h:c8d8ad3a-06c9-445d-a4e7-11a68ee17df1">
@@ -281,16 +400,14 @@ following expression if you already have <code>mct</code> installed:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(info "(mct) Top")
-</pre>
+<pre class="src src-emacs-lisp"><code>(info "(mct) Top")
+</code></pre>
 </div>
 </div>
-
 <div id="outline-container-h:95aca1ab-ce8a-4187-94ee-430d44a321b1" class="outline-3">
 <h3 id="h:95aca1ab-ce8a-4187-94ee-430d44a321b1">Customisation options</h3>
 <div class="outline-text-3" id="text-h:95aca1ab-ce8a-4187-94ee-430d44a321b1">
 </div>
-
 <div id="outline-container-h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611" class="outline-4">
 <h4 id="h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611">Size of the Completions buffer</h4>
 <div class="outline-text-4" id="text-h:1b49d3f4-be28-4c6e-a1cb-a473eb87f611">
@@ -304,8 +421,8 @@ illustration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
-</pre>
+<pre class="src src-emacs-lisp"><code>(setq mct-completion-window-size (cons #'mct--frame-height-fraction 1))
+</code></pre>
 </div>
 
 <p>
@@ -331,7 +448,6 @@ Thanks to Daniel Mendler for the feedback in issue 14:
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e" class="outline-4">
 <h4 id="h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e">Passlist and blocklist accept completion categories</h4>
 <div class="outline-text-4" id="text-h:cc1102ca-0a3f-4b34-84e0-c5d684a4c37e">
@@ -346,7 +462,7 @@ Sample code:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; This is for commands or completion categories that should always pop
+<pre class="src src-emacs-lisp"><code>;; This is for commands or completion categories that should always pop
 ;; up the completions' buffer.  It circumvents the default method of
 ;; waiting for some user input (see `mct-minimum-input') before
 ;; displaying and updating the completions' buffer.
@@ -362,7 +478,7 @@ Sample code:
         buffer
         kill-ring
         consult-location))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -379,7 +495,6 @@ Or evaluate:
 </pre>
 </div>
 </div>
-
 <div id="outline-container-h:21788d38-c916-4a36-93fd-6695776d954f" class="outline-4">
 <h4 id="h:21788d38-c916-4a36-93fd-6695776d954f">Persist live completion for dynamic completion tables</h4>
 <div class="outline-text-4" id="text-h:21788d38-c916-4a36-93fd-6695776d954f">
@@ -441,7 +556,6 @@ to raise awareness about this state of affairs.
 </blockquote>
 </div>
 </div>
-
 <div id="outline-container-h:3f04e53d-c0bf-481e-861d-46511ef37265" class="outline-4">
 <h4 id="h:3f04e53d-c0bf-481e-861d-46511ef37265">Deprecation of mct-region-completions-format</h4>
 <div class="outline-text-4" id="text-h:3f04e53d-c0bf-481e-861d-46511ef37265">
@@ -460,7 +574,6 @@ minibuffer-based counterpart.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:e40c90cc-3d65-4623-80fc-160df5cb540b" class="outline-4">
 <h4 id="h:e40c90cc-3d65-4623-80fc-160df5cb540b">Deprecation of regexp for name of Completions</h4>
 <div class="outline-text-4" id="text-h:e40c90cc-3d65-4623-80fc-160df5cb540b">
@@ -475,7 +588,6 @@ customisation of this sort.  The <code>defcustom</code> has been converted into 
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531" class="outline-3">
 <h3 id="h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531">Sorting the completions on Emacs 29</h3>
 <div class="outline-text-3" id="text-h:4e7f9589-a5c0-426a-98ae-6e4c3ade6531">
@@ -500,13 +612,12 @@ Or evaluate:
 (info "(mct) Sort completion candidates on Emacs 29")
 </pre>
 
-
 <p>
 For your convenience:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Some sorting functions...
+<pre class="src src-emacs-lisp"><code>;; Some sorting functions...
 (defun my-sort-by-alpha-length (elems)
   "Sort ELEMS first alphabetically, then by length."
   (sort elems (lambda (c1 c2)
@@ -531,7 +642,7 @@ Use `mct-sort-sort-by-alpha-length' if no history is available."
 
 ;; Specify the sorting function.
 (setq completions-sort #'my-sort-multi-category)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -539,7 +650,6 @@ Remember to check the manual for all known completion categories.
 </p>
 </div>
 </div>
-
 <div id="outline-container-h:e0a18893-eaa7-4805-baa4-b238ac80f2ad" class="outline-3">
 <h3 id="h:e0a18893-eaa7-4805-baa4-b238ac80f2ad">Changes to the manual</h3>
 <div class="outline-text-3" id="text-h:e0a18893-eaa7-4805-baa4-b238ac80f2ad">
@@ -571,7 +681,6 @@ making it happen: <a href="https://issues.guix.gnu.org/53812">https://issues.gui
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:688a7b6e-683c-4687-b6b7-2f7227eee1fb" class="outline-3">
 <h3 id="h:688a7b6e-683c-4687-b6b7-2f7227eee1fb">Bug fixes and other refinements</h3>
 <div class="outline-text-3" id="text-h:688a7b6e-683c-4687-b6b7-2f7227eee1fb">
@@ -615,7 +724,6 @@ Hołubowicz for reporting the bug in issue 2 over at the GitHub mirror:
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c" class="outline-2">
 <h2 id="h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">Version 0.4.0 on 2022-01-19</h2>
 <div class="outline-text-2" id="text-h:1f8fc960-4e4b-4bb1-a1c4-5083f287a28c">
@@ -632,8 +740,8 @@ expression if you already have <code>mct</code> installed:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(info "(mct) Top")
-</pre>
+<pre class="src src-emacs-lisp"><code>(info "(mct) Top")
+</code></pre>
 </div>
 
 <p>
@@ -641,7 +749,6 @@ As most changes pertain to optimisations in the code base, we limit this
 log to what is of interest to the end-user.
 </p>
 </div>
-
 <div id="outline-container-h:6ee71a37-cada-43af-93b3-a1d65e2be4a8" class="outline-3">
 <h3 id="h:6ee71a37-cada-43af-93b3-a1d65e2be4a8">Minibuffer Confines Transcended (aka mct-region-mode)</h3>
 <div class="outline-text-3" id="text-h:6ee71a37-cada-43af-93b3-a1d65e2be4a8">
@@ -693,7 +800,6 @@ Given this new functionality, we can now joke that "MCT" stands for
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:902574cf-edf0-4182-9d34-5e8e28730193" class="outline-2">
 <h2 id="h:902574cf-edf0-4182-9d34-5e8e28730193">Version 0.3.0 on 2021-11-19</h2>
 <div class="outline-text-2" id="text-h:902574cf-edf0-4182-9d34-5e8e28730193">
@@ -706,8 +812,8 @@ the following expression if you have the <code>mct</code> package installed:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(info "(mct) Top")
-</pre>
+<pre class="src src-emacs-lisp"><code>(info "(mct) Top")
+</code></pre>
 </div>
 
 <p>
@@ -717,7 +823,6 @@ than anticipated so that users could get a stable package on GNU ELPA).
 Here is a brief description of what has been achieved in <code>0.3.0</code>.
 </p>
 </div>
-
 <div id="outline-container-h:c05100f7-a525-4d76-8f88-8de4cfe69e67" class="outline-3">
 <h3 id="h:c05100f7-a525-4d76-8f88-8de4cfe69e67">MCT on Emacs 27</h3>
 <div class="outline-text-3" id="text-h:c05100f7-a525-4d76-8f88-8de4cfe69e67">
@@ -760,7 +865,6 @@ testing in issue 1: <a href="https://gitlab.com/protesilaos/mct/-/issues/1">http
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:db448e8b-5416-4561-993a-4f5f3a8ad7e4" class="outline-3">
 <h3 id="h:db448e8b-5416-4561-993a-4f5f3a8ad7e4">Miscellaneous changes</h3>
 <div class="outline-text-3" id="text-h:db448e8b-5416-4561-993a-4f5f3a8ad7e4">
@@ -803,7 +907,6 @@ noteworthy changes hitherto.</li>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:4fab7648-d672-4af3-90b5-74242292f633" class="outline-2">
 <h2 id="h:4fab7648-d672-4af3-90b5-74242292f633">Version 0.2.0 on 2021-11-12</h2>
 <div class="outline-text-2" id="text-h:4fab7648-d672-4af3-90b5-74242292f633">
@@ -816,11 +919,10 @@ expression if you have the <code>mct</code> package installed:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(info "(mct) Top")
-</pre>
+<pre class="src src-emacs-lisp"><code>(info "(mct) Top")
+</code></pre>
 </div>
 </div>
-
 <div id="outline-container-h:0fb1fb23-636f-41f3-97bf-880d83ac42e0" class="outline-3">
 <h3 id="h:0fb1fb23-636f-41f3-97bf-880d83ac42e0">Packaged version of MCT</h3>
 <div class="outline-text-3" id="text-h:0fb1fb23-636f-41f3-97bf-880d83ac42e0">
@@ -830,13 +932,13 @@ version 28 or higher.  One can install the package without any further
 configuration.  The following commands shall suffice:
 </p>
 
-<pre class="example">
-M-x package-refresh-contents
+<div class="org-src-container">
+<pre class="src src-nil"><code>M-x package-refresh-contents
 M-x package-install RET mct
-</pre>
+</code></pre>
 </div>
 </div>
-
+</div>
 <div id="outline-container-h:97eba994-45ad-4f86-945f-a60772f764b5" class="outline-3">
 <h3 id="h:97eba994-45ad-4f86-945f-a60772f764b5">Changes to the format and placement of the Completions</h3>
 <div class="outline-text-3" id="text-h:97eba994-45ad-4f86-945f-a60772f764b5">
@@ -946,7 +1048,6 @@ functionality of MCT.</li>
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:5f9027f9-fad0-4c03-8269-60eb670d0b38" class="outline-3">
 <h3 id="h:5f9027f9-fad0-4c03-8269-60eb670d0b38">Group motions</h3>
 <div class="outline-text-3" id="text-h:5f9027f9-fad0-4c03-8269-60eb670d0b38">
@@ -963,7 +1064,6 @@ contribution in merge request 2:
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:ed67abef-dad3-4620-bc70-1c3dc268db59" class="outline-3">
 <h3 id="h:ed67abef-dad3-4620-bc70-1c3dc268db59">Miscellaneous changes</h3>
 <div class="outline-text-3" id="text-h:ed67abef-dad3-4620-bc70-1c3dc268db59">
@@ -1009,7 +1109,6 @@ patch in commit <code>6bd2457</code>.</li>
 </ul>
 </div>
 </div>
-
 <div id="outline-container-h:19c69838-c480-4b98-80e3-da25642a2c23" class="outline-3">
 <h3 id="h:19c69838-c480-4b98-80e3-da25642a2c23">Updates to the manual</h3>
 <div class="outline-text-3" id="text-h:19c69838-c480-4b98-80e3-da25642a2c23">
@@ -1030,7 +1129,6 @@ feedback, &#x2026;).</li>
 </div>
 </div>
 </div>
-
 <div id="outline-container-h:a4b2152a-96e2-46fc-b9e0-ba223028118f" class="outline-2">
 <h2 id="h:a4b2152a-96e2-46fc-b9e0-ba223028118f">Version 0.1.0 on 2021-10-22</h2>
 <div class="outline-text-2" id="text-h:a4b2152a-96e2-46fc-b9e0-ba223028118f">
