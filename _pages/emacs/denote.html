@@ -120,7 +120,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">7. The file-naming scheme</a>
 <ul>
-<li><a href="#h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">7.1. Change the order of file name components</a></li>
+<li><a href="#h:dc8c40e0-233a-4991-9ad3-2cf5f05ef1cd">7.1. Change the order of file name components</a>
+<ul>
+<li><a href="#h:c10d2b5f-edb7-4bdf-bc0d-a7c7c91064bf">7.1.1. Retroactively reorder the components of Denote file names</a></li>
+</ul>
+</li>
 <li><a href="#h:ae8b19a1-7f67-4258-96b3-370a72c43f4e">7.2. Sluggification of file name components</a></li>
 <li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">7.3. User-defined sluggification of file name components</a>
 <ul>
@@ -1766,7 +1770,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgfdd5497">
+<pre class="example" id="org627e179">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2340,7 +2344,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge5c3eb9">
+<pre class="example" id="orgd548943">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2359,7 +2363,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org4aca3a0">
+<pre class="example" id="org173e7ab">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2937,6 +2941,52 @@ predictable and thus easier to find. So pick one order and never touch
 it again. When in doubt, leave the default file-naming scheme as-is.
 </p>
 </div>
+<div id="outline-container-h:c10d2b5f-edb7-4bdf-bc0d-a7c7c91064bf" class="outline-4">
+<h4 id="h:c10d2b5f-edb7-4bdf-bc0d-a7c7c91064bf"><span class="section-number-4">7.1.1.</span> Retroactively reorder the components of Denote file names</h4>
+<div class="outline-text-4" id="text-h:c10d2b5f-edb7-4bdf-bc0d-a7c7c91064bf">
+<p>
+While experimenting with the <code>denote-file-name-components-order</code> to
+change the way Denote formats file names, you may end up with files
+that look inconsistent. They still work the same way as before, but
+you prefer to enforce the same order across your Denote files. The
+following custom command does just that. It technically &ldquo;renames&rdquo; the
+files it is applied to, though only insofar as reordering their Denote
+file name components, but not changing the contents of those
+components.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>(defun my-denote-rename-all-to-reorder-components ()
+  "Call `denote-dired-rename-files' without any prompts.
+In other words, preserve the value of each Denote file name component.
+
+Use this command if you want to modify the user option
+`denote-file-name-components-order' and then want your files to
+retroactively follow that order."
+  (interactive)
+  (let ((denote-prompts nil))
+    (call-interactively 'denote-dired-rename-files)))
+</code></pre>
+</div>
+
+<p>
+Simply go to a Dired buffer, mark the files you wish to operate on,
+and call the command. You may also use the <code>denote-dired</code> command to
+produce a filtered+sorted flat listing of your Denote files, mark
+them, and then invoke <code>my-denote-rename-all-to-reorder-components</code>
+(<a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></a>).
+</p>
+
+<p>
+Video demonstration: <a href="https://protesilaos.com/codelog/2025-07-09-emacs-denote-reorder-components/">https://protesilaos.com/codelog/2025-07-09-emacs-denote-reorder-components/</a>.
+</p>
+
+<p>
+DEVELOPMENT NOTE: If you have a more specific use-case, then we can
+discuss it and expand the documentation we provide herein.
+</p>
+</div>
+</div>
 </div>
 <div id="outline-container-h:ae8b19a1-7f67-4258-96b3-370a72c43f4e" class="outline-3">
 <h3 id="h:ae8b19a1-7f67-4258-96b3-370a72c43f4e"><span class="section-number-3">7.2.</span> Sluggification of file name components</h3>
@@ -3009,7 +3059,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org501825f">
+<pre class="example" id="orgc1af946">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3222,7 +3272,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org238e750">
+<pre class="example" id="org00ed3d2">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3234,7 +3284,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org20cd74f">
+<pre class="example" id="org908686d">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3248,7 +3298,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbf2c470">
+<pre class="example" id="org975a829">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3262,7 +3312,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgc7fe49f">
+<pre class="example" id="org8fea6d4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3599,7 +3649,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orgce38ddb">
+<pre class="example" id="orgf026e00">
 - link1
 - link2
 - link3
@@ -3617,7 +3667,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org3420394">
+<pre class="example" id="org4182e50">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -3965,7 +4015,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orgd270577">
+<pre class="example" id="orgfa2e7f9">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5580,7 +5630,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org7d7eebe">
+<pre class="example" id="orgbe375c4">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7206,7 +7256,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgbb7514e">
+<pre class="example" id="orge305140">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7216,7 +7266,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org7e9cb1b">
+<pre class="example" id="orgdaf86d4">
 emacs -Q
 </pre>
 
@@ -7228,7 +7278,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org2a65166">
+<pre class="example" id="org91c677f">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7289,7 +7339,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6466f08">
+<pre class="example" id="orgbb13a12">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
