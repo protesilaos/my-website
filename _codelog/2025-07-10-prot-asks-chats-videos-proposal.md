@@ -14,3 +14,5 @@ Are you interested to talk with me? All I ask of you is that (i) you agree to sh
 Contact me and we will sort out the meeting details: <https://protesilaos.com/contact>. Also let me know if you have any further questions.
 
 We can do this!
+
+**UPDATE 2025-07-14 20:47 +0300:** I have a follow-up publication where I answer some common questions: <https://protesilaos.com/codelog/2025-07-14-common-questions-about-prot-asks-videos-emacs-life/>.
