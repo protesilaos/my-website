@@ -69,7 +69,7 @@ Current development target is 1.2.0-dev.
 <h2 id="h:acadd212-7168-48b2-aded-f257d5fafeb3"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:acadd212-7168-48b2-aded-f257d5fafeb3">
 <p>
-Copyright (C) 2022-2024  Free Software Foundation, Inc.
+Copyright (C) 2022-2025  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -124,14 +124,15 @@ They look like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(bar
+<pre class="src src-emacs-lisp"><code>(bar
+ :cursor-color unspecified
  :cursor-type (bar . 2)
  :cursor-in-non-selected-windows hollow
  :blink-cursor-mode 1
  :blink-cursor-blinks 10
  :blink-cursor-interval 0.5
  :blink-cursor-delay 0.2)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -141,6 +142,17 @@ built-in variables: <code>cursor-type</code>, <code>cursor-in-non-selected-windo
 <code>blink-cursor-blinks</code>, <code>blink-cursor-interval</code>, <code>blink-cursor-delay</code>.
 The value each property accepts is the same as the variable it
 references.
+</p>
+
+<p>
+The <code>:cursor-color</code> specifies the color value applied to the <code>cursor</code>
+face. When the value is nil or <code>unspecified</code>, no changes to the
+<code>cursor</code> face are made. When the value is a hexadecimal RGB color
+value, like <code>#123456</code> it is used as-is. Same if it is a named color
+among those produced by the command <code>list-colors-display</code>. When the
+value is the symbol of a face (unquoted), then the foreground of that
+face is used for the <code>cursor</code> face, falling back to <code>default</code>. [ The
+<code>:cursor-color</code> is part of 1.2.0-dev. ]
 </p>
 
 <p>
@@ -155,7 +167,7 @@ property, like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq cursory-presets
+<pre class="src src-emacs-lisp"><code>(setq cursory-presets
       '(
         ;; Sample code here ...
         (bar
@@ -171,7 +183,7 @@ property, like this:
          :cursor-in-non-selected-windows nil)
         ;; More sample code here ...
         ))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -198,7 +210,7 @@ value of this variable for how that is done:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defcustom cursory-presets
+<pre class="src src-emacs-lisp"><code>(defcustom cursory-presets
   '((box
      :blink-cursor-interval 0.8)
     (box-no-blink
@@ -224,7 +236,7 @@ value of this variable for how that is done:
      :blink-cursor-delay 0.2))
   ;; Omitting the doc string for demo purposes
   )
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -233,21 +245,8 @@ PRESET argument, such as:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(cursory-set-preset 'bar)
-</pre>
-</div>
-
-<p>
-The default behaviour of <code>cursory-set-preset</code> is to change cursors
-globally.  The user can, however, limit the effect to the current
-buffer.  With interactive use, this is done by invoking the command with
-a universal prefix argument (<code>C-u</code> by default).  When called from Lisp,
-the LOCAL argument must be non-nil, thus:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(cursory-set-preset 'bar :local)
-</pre>
+<pre class="src src-emacs-lisp"><code>(cursory-set-preset 'bar)
+</code></pre>
 </div>
 
 <p>
@@ -276,7 +275,7 @@ invoked without any arguments), which is called after the command
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Imagine you have a preset where you want minimal cursor styles.
+<pre class="src src-emacs-lisp"><code>;; Imagine you have a preset where you want minimal cursor styles.
 ;; You call this `focus' and want when you switch to it to change the
 ;; cursor color.
 (defun my-cursory-change-color ()
@@ -287,9 +286,9 @@ invoked without any arguments), which is called after the command
 
 (defun my-cursory-change-color-disable-line-numbers ()
   "Disable line numbers if the Cursory preset is `presentation' or `focus'."
-  (when (member cursory-last-selected-preset '(presentation focus))
+  (when (memq cursory-last-selected-preset '(presentation focus))
     (display-line-numbers-mode -1)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -314,7 +313,6 @@ M-x package-refresh-contents
 M-x package-install
 </pre>
 
-
 <p>
 And search for it.
 </p>
@@ -336,7 +334,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -346,7 +344,7 @@ cd manual-packages
 
 # Clone this repo, naming it "cursory"
 git clone https://github.com/protesilaos/cursory cursory
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -354,9 +352,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/cursory")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -373,7 +371,7 @@ Remember to read the doc string of each of these variables or functions.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'cursory)
+<pre class="src src-emacs-lisp"><code>(require 'cursory)
 
 ;; Check the `cursory-presets' for how to set your own preset styles.
 
@@ -388,7 +386,7 @@ Remember to read the doc string of each of these variables or functions.
 ;; We have to use the "point" mnemonic, because C-c c is often the
 ;; suggested binding for `org-capture'.
 (define-key global-map (kbd "C-c p") #'cursory-set-preset)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
