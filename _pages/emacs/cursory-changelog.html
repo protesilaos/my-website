@@ -20,16 +20,156 @@ the manual: <a href="https://protesilaos.com/emacs/cursory">https://protesilaos.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h:475f025a-fa3d-4709-884f-bd0b32dc78cc">1. Version 1.1.0 on 2024-09-14</a></li>
-<li><a href="#h:9fed228e-cde0-4d23-952a-937301b82b22">2. Version 1.0.0 on 2023-06-09</a></li>
-<li><a href="#h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1">3. Version 0.3.0 on 2022-09-04</a></li>
-<li><a href="#h:76673384-4888-4160-b4fe-b294e78c54ac">4. Version 0.2.0 on 2022-07-01</a></li>
-<li><a href="#h:750618bd-d3ea-4eac-a061-95d3120d5f6e">5. Version 0.1.0 on 2022-04-15</a></li>
+<li><a href="#h:eb19d9c7-a13b-41ac-bc6c-5b436b75844f">1. Version 1.2.0 on 2025-07-22</a></li>
+<li><a href="#h:475f025a-fa3d-4709-884f-bd0b32dc78cc">2. Version 1.1.0 on 2024-09-14</a></li>
+<li><a href="#h:9fed228e-cde0-4d23-952a-937301b82b22">3. Version 1.0.0 on 2023-06-09</a></li>
+<li><a href="#h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1">4. Version 0.3.0 on 2022-09-04</a></li>
+<li><a href="#h:76673384-4888-4160-b4fe-b294e78c54ac">5. Version 0.2.0 on 2022-07-01</a></li>
+<li><a href="#h:750618bd-d3ea-4eac-a061-95d3120d5f6e">6. Version 0.1.0 on 2022-04-15</a></li>
 </ul>
 </div>
 </div>
+<div id="outline-container-h:eb19d9c7-a13b-41ac-bc6c-5b436b75844f" class="outline-2">
+<h2 id="h:eb19d9c7-a13b-41ac-bc6c-5b436b75844f"><span class="section-number-2">1.</span> Version 1.2.0 on 2025-07-22</h2>
+<div class="outline-text-2" id="text-h:eb19d9c7-a13b-41ac-bc6c-5b436b75844f">
+<p>
+This version contains small additions to a stable package.
+</p>
+</div>
+<div id="outline-container-h:31ab2945-3f9f-41c8-9e06-b9360d23ccd8" class="outline-3">
+<h3 id="h:31ab2945-3f9f-41c8-9e06-b9360d23ccd8"><span class="section-number-3">1.1.</span> Set the last preset when starting up Emacs</h3>
+<div class="outline-text-3" id="text-h:31ab2945-3f9f-41c8-9e06-b9360d23ccd8">
+<p>
+The new function <code>cursory-set-last-or-fallback</code> makes it easier to set
+the last known preset when starting Emacs or via a hook such as <code>after-init-hook</code>.
+Internally, it takes care to fall back to a set of default values that
+always work.
+</p>
+
+<p>
+Before the introduction of <code>cursory-set-last-or-fallback</code> users had to
+do something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;; Old way of setting a preset:
+(cursory-set-preset (or cursory-last-selected-preset cursory-recovered-preset 'box))
+
+;; Old way of doing the above via a hook:
+(add-hook 'after-init-hook (lambda () (cursory-set-preset (or cursory-last-selected-preset cursory-recovered-preset 'box))))
+</code></pre>
+</div>
+
+<p>
+Those would also fail if the named preset did not exist (<code>box</code> in the
+above example). Whereas the addition of a fallback preset guarantees a
+result that works.
+</p>
+
+<p>
+Note that I am defining the <code>cursory-fallback-preset</code> using <code>defconst</code>
+instead of exposing it as a user option. This is to avoid a scenario
+where the values are accidentally set incorrectly.
+</p>
+</div>
+</div>
+<div id="outline-container-h:4e083edb-dde1-4d3a-905f-fc91d917ad32" class="outline-3">
+<h3 id="h:4e083edb-dde1-4d3a-905f-fc91d917ad32"><span class="section-number-3">1.2.</span> Presets can define a <code>:cursor-color</code></h3>
+<div class="outline-text-3" id="text-h:4e083edb-dde1-4d3a-905f-fc91d917ad32">
+<p>
+This is a new attribute which corresponds to the background value of
+the <code>cursor</code> face.
+</p>
+
+<ul class="org-ul">
+<li>When the value is nil or <code>unspecified</code> (the default), Cursory does
+not modify the <code>cursor</code> face.</li>
+
+<li>When the value is a hexadecimal RGB color value, like <code>#123456</code> it
+is used as-is. Same if it is a named color among those produced by
+the command <code>list-colors-display</code>.</li>
+
+<li>When the value is the symbol of a face (unquoted), then the
+foreground of that face is used for the <code>cursor</code> face, falling back
+to <code>default</code>.</li>
+</ul>
+
+<p>
+Concretely, users can have something like this in their configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>(setq cursory-presets
+      '((box
+         :cursor-color "#21439f"
+         :blink-cursor-interval 1.2)
+        (baring
+         :cursor-type (bar . 2)
+         :cursor-color error ; the `error' face will typically be red (see `list-faces-display')
+         :blink-cursor-interval 0.8)
+        (underscore
+         :cursor-color "green" ; see `list-colors-display'
+         :cursor-type (hbar . 1)
+         :blink-cursor-interval 0.3
+         :blink-cursor-blinks 50)
+        (t ; the default values
+         :cursor-color unspecified ; use the theme's original
+         :cursor-type box
+         :cursor-in-non-selected-windows hollow
+         :blink-cursor-mode 1
+         :blink-cursor-blinks 10
+         :blink-cursor-interval 0.2
+         :blink-cursor-delay 0.2)))
+</code></pre>
+</div>
+
+<p>
+Remember to read the documentation of <code>cursory-presets</code> for all the rest.
+</p>
+</div>
+</div>
+<div id="outline-container-h:b425ae98-bb25-4af5-9f1d-0a6299cf6856" class="outline-3">
+<h3 id="h:b425ae98-bb25-4af5-9f1d-0a6299cf6856"><span class="section-number-3">1.3.</span> The <code>cursory-mode</code> persists the <code>:cursor-color</code> while changing themes</h3>
+<div class="outline-text-3" id="text-h:b425ae98-bb25-4af5-9f1d-0a6299cf6856">
+<p>
+Before, the <code>cursory-mode</code> would only take care to save the last
+selected preset and to persist it across Emacs sessions. In addition
+to that, it now also ensures that loading a new theme does not
+override the <code>:cursor-color</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:1a1e4447-a6ee-4f6c-9ef5-4a9546338644" class="outline-3">
+<h3 id="h:1a1e4447-a6ee-4f6c-9ef5-4a9546338644"><span class="section-number-3">1.4.</span> The <code>cursory-set-preset</code> prompt is smarter about its default value</h3>
+<div class="outline-text-3" id="text-h:1a1e4447-a6ee-4f6c-9ef5-4a9546338644">
+<p>
+When the <code>cursory-set-preset</code> is called interactively, it uses the
+minibuffer to prompt for a preset among the <code>cursory-presets</code>.
+</p>
+
+<p>
+In the past, its default value would simply be the last selected
+preset. Cursory would not check whether that symbol was still a member
+of the <code>cursory-presets</code>. This had the potential to set the wrong
+configurations.
+</p>
+
+<p>
+Now the prompt only uses as its default value the last selected and
+existing preset among those found in the history of selections. It
+will not provide a default if it cannot find any.
+</p>
+
+<p>
+Note that the &ldquo;default value&rdquo; in the context of the minibuffer refers
+to the input that will normally be provided if the user types <code>RET</code>
+without writing anything into the minibuffer.
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-h:475f025a-fa3d-4709-884f-bd0b32dc78cc" class="outline-2">
-<h2 id="h:475f025a-fa3d-4709-884f-bd0b32dc78cc"><span class="section-number-2">1.</span> Version 1.1.0 on 2024-09-14</h2>
+<h2 id="h:475f025a-fa3d-4709-884f-bd0b32dc78cc"><span class="section-number-2">2.</span> Version 1.1.0 on 2024-09-14</h2>
 <div class="outline-text-2" id="text-h:475f025a-fa3d-4709-884f-bd0b32dc78cc">
 <p>
 Cursory is in a stable state. This version includes quality-of-life
@@ -37,7 +177,7 @@ refinements.
 </p>
 </div>
 <div id="outline-container-h:d2ccd7ea-2379-40d2-b329-3e5d6ab2686c" class="outline-3">
-<h3 id="h:d2ccd7ea-2379-40d2-b329-3e5d6ab2686c"><span class="section-number-3">1.1.</span> The <code>cursory-mode</code> simplifies how the state is stored</h3>
+<h3 id="h:d2ccd7ea-2379-40d2-b329-3e5d6ab2686c"><span class="section-number-3">2.1.</span> The <code>cursory-mode</code> simplifies how the state is stored</h3>
 <div class="outline-text-3" id="text-h:d2ccd7ea-2379-40d2-b329-3e5d6ab2686c">
 <p>
 Cursory has functions to store and restore its state. In previous
@@ -56,15 +196,15 @@ The &ldquo;restore&rdquo; phase is the same as before. For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Set last preset, if available, or fall back to the `bar' preset
+<pre class="src src-emacs-lisp"><code>;; Set last preset, if available, or fall back to the `bar' preset
 ;; from the `cursory-presets'.
 (cursory-set-preset (or (cursory-restore-latest-preset) 'bar))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 <div id="outline-container-h:d60030aa-cfa2-4d94-9757-bbd783cbb7fd" class="outline-3">
-<h3 id="h:d60030aa-cfa2-4d94-9757-bbd783cbb7fd"><span class="section-number-3">1.2.</span> Use the <code>cursory-set-preset-hook</code></h3>
+<h3 id="h:d60030aa-cfa2-4d94-9757-bbd783cbb7fd"><span class="section-number-3">2.2.</span> Use the <code>cursory-set-preset-hook</code></h3>
 <div class="outline-text-3" id="text-h:d60030aa-cfa2-4d94-9757-bbd783cbb7fd">
 <p>
 The <code>cursory-set-preset-hook</code> is a normal hook (where functions are
@@ -73,7 +213,7 @@ invoked without any arguments), which is called after the command
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Imagine you have a preset where you want minimal cursor styles.
+<pre class="src src-emacs-lisp"><code>;; Imagine you have a preset where you want minimal cursor styles.
 ;; You call this `focus' and want when you switch to it to change the
 ;; cursor color.
 (defun my-cursory-change-color ()
@@ -90,7 +230,7 @@ invoked without any arguments), which is called after the command
   "Disable line numbers if the Cursory preset is `presentation' or `focus'."
   (when (member cursory-last-selected-preset '(presentation focus))
     (display-line-numbers-mode -1)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -99,7 +239,7 @@ I am happy to include more examples here, if users have any questions.
 </div>
 </div>
 <div id="outline-container-h:c7233f22-1610-430c-a60a-1cd9168ae624" class="outline-3">
-<h3 id="h:c7233f22-1610-430c-a60a-1cd9168ae624"><span class="section-number-3">1.3.</span> Miscellaneous</h3>
+<h3 id="h:c7233f22-1610-430c-a60a-1cd9168ae624"><span class="section-number-3">2.3.</span> Miscellaneous</h3>
 <div class="outline-text-3" id="text-h:c7233f22-1610-430c-a60a-1cd9168ae624">
 <ul class="org-ul">
 <li>Fixed a dependency for older Emacs versions. The <code>subr-x</code>, which is
@@ -121,7 +261,7 @@ repository is now on GitHub.</li>
 </div>
 </div>
 <div id="outline-container-h:9fed228e-cde0-4d23-952a-937301b82b22" class="outline-2">
-<h2 id="h:9fed228e-cde0-4d23-952a-937301b82b22"><span class="section-number-2">2.</span> Version 1.0.0 on 2023-06-09</h2>
+<h2 id="h:9fed228e-cde0-4d23-952a-937301b82b22"><span class="section-number-2">3.</span> Version 1.0.0 on 2023-06-09</h2>
 <div class="outline-text-2" id="text-h:9fed228e-cde0-4d23-952a-937301b82b22">
 <p>
 Cursory has been in a stable state for a long time.  I use it daily
@@ -131,7 +271,7 @@ quality-of-life feature for users.
 </p>
 </div>
 <div id="outline-container-h:d559a5c7-dfec-40f6-9b48-160424de2fed" class="outline-3">
-<h3 id="h:d559a5c7-dfec-40f6-9b48-160424de2fed"><span class="section-number-3">2.1.</span> A preset can now inherit from another</h3>
+<h3 id="h:d559a5c7-dfec-40f6-9b48-160424de2fed"><span class="section-number-3">3.1.</span> A preset can now inherit from another</h3>
 <div class="outline-text-3" id="text-h:d559a5c7-dfec-40f6-9b48-160424de2fed">
 <p>
 In the interest of defining multiple presets while avoiding
@@ -140,7 +280,7 @@ duplication, the user option <code>cursory-presets</code> now accepts an
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq cursory-presets
+<pre class="src src-emacs-lisp"><code>(setq cursory-presets
       '(
         ;; Sample code here ...
 
@@ -158,7 +298,7 @@ duplication, the user option <code>cursory-presets</code> now accepts an
 
         ;; More sample code here ...
         ))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -172,7 +312,7 @@ this mechanism and to showcase how it is done:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defcustom cursory-presets
+<pre class="src src-emacs-lisp"><code>(defcustom cursory-presets
   '((box
      :blink-cursor-interval 0.8)
     (box-no-blink
@@ -198,7 +338,7 @@ this mechanism and to showcase how it is done:
      :blink-cursor-delay 0.2))
   ;; Omitting the doc string for demo purposes...
   )
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -213,7 +353,7 @@ then the default one.
 </div>
 </div>
 <div id="outline-container-h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1" class="outline-2">
-<h2 id="h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1"><span class="section-number-2">3.</span> Version 0.3.0 on 2022-09-04</h2>
+<h2 id="h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1"><span class="section-number-2">4.</span> Version 0.3.0 on 2022-09-04</h2>
 <div class="outline-text-2" id="text-h:ca7dd1d2-f32c-4141-b9bb-9493457dd4e1">
 <ul class="org-ul">
 <li><p>
@@ -226,7 +366,7 @@ value:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (setq cursory-presets
+<pre class="src src-emacs-lisp"><code>  (setq cursory-presets
         '((box
            :blink-cursor-interval 0.8)
           (box-no-blink
@@ -244,7 +384,7 @@ value:
            :blink-cursor-blinks 10
            :blink-cursor-interval 0.2
            :blink-cursor-delay 0.2)))
-</pre>
+</code></pre>
 </div></li>
 
 <li>Expanded the available properties of the user option <code>cursory-presets</code>
@@ -270,7 +410,7 @@ GNU ELPA package.  A link is shown in Custom UI buffers.</li>
 </div>
 </div>
 <div id="outline-container-h:76673384-4888-4160-b4fe-b294e78c54ac" class="outline-2">
-<h2 id="h:76673384-4888-4160-b4fe-b294e78c54ac"><span class="section-number-2">4.</span> Version 0.2.0 on 2022-07-01</h2>
+<h2 id="h:76673384-4888-4160-b4fe-b294e78c54ac"><span class="section-number-2">5.</span> Version 0.2.0 on 2022-07-01</h2>
 <div class="outline-text-2" id="text-h:76673384-4888-4160-b4fe-b294e78c54ac">
 <p>
 This is a stability release that introduces minor tweaks while
@@ -288,9 +428,9 @@ after starting Emacs.  The code is now written as follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  ;; Set last preset or fall back to desired style from `cursory-presets'.
+<pre class="src src-emacs-lisp"><code>  ;; Set last preset or fall back to desired style from `cursory-presets'.
   (cursory-set-preset (or (cursory-restore-latest-preset) 'bar))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -305,7 +445,7 @@ looks like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  '((bar
+<pre class="src src-emacs-lisp"><code>  '((bar
      :cursor-type (bar . 2)
      :cursor-in-non-selected-windows hollow
      :blink-cursor-blinks 10
@@ -323,7 +463,7 @@ looks like this:
      :blink-cursor-blinks 50
      :blink-cursor-interval 0.2
      :blink-cursor-delay 0.2))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -360,7 +500,7 @@ For example, the box is the default and switches to a bar when
 </div>
 </div>
 <div id="outline-container-h:750618bd-d3ea-4eac-a061-95d3120d5f6e" class="outline-2">
-<h2 id="h:750618bd-d3ea-4eac-a061-95d3120d5f6e"><span class="section-number-2">5.</span> Version 0.1.0 on 2022-04-15</h2>
+<h2 id="h:750618bd-d3ea-4eac-a061-95d3120d5f6e"><span class="section-number-2">6.</span> Version 0.1.0 on 2022-04-15</h2>
 <div class="outline-text-2" id="text-h:750618bd-d3ea-4eac-a061-95d3120d5f6e">
 <p>
 Initial release of the package.  Please read the manual.
