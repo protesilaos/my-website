@@ -5,7 +5,7 @@ layout: vlog
 mediaid: "ZrPtIGln5ps"
 ---
 
-In this new video series, I talk to anybody who is interested to have a video call with me (so do contact me if you want!). The topics cover anything related to Emacs, technology, and life in general. More information in the announcement I posted: https://protesilaos.com/codelog/2025-07-10-prot-asks-chats-videos-proposal/.
+In this new video series, I talk to anybody who is interested to have a video call with me (so do contact me if you want!). The topics cover anything related to Emacs, technology, and life in general. More information in the announcement I posted: <https://protesilaos.com/codelog/2025-07-10-prot-asks-chats-videos-proposal/>.
 
 Today I learnt from Ihor Radchenko what kind of work goes into maintaining the Emacs Org package. We discussed the process of contributing to Org and how the community is involved in the process. Other than the technicalities of Emacs, I asked Ihor about general interests in life. Some of those involve the study of history, which we explored in some further depth. Ihor has travelled and worked in various parts of the planet. I wanted to understand more about those experiences. Towards the end of our meeting, I wanted to gain insights into what "material science" is in practice.
 
