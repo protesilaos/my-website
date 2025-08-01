@@ -123,7 +123,7 @@ philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emac
   philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
 
 - A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs,
-  NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/)
+  NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/) (2025-08-01).
 
 ## Awards
 
