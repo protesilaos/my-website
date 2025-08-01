@@ -122,6 +122,9 @@ philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emac
 - An hour-long video exchange [with Gavin Freeborn about Emacs,
   philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
 
+- A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs,
+  NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/)
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
