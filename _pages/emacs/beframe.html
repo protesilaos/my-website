@@ -64,7 +64,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </li>
 <li><a href="#h:5e12ce34-be5b-40e0-a524-9ee1b1d28cc7">6. Sample configuration</a>
 <ul>
-<li><a href="#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">6.1. Integration with Consult</a></li>
+<li><a href="#h:1c2d3d64-aa7b-4585-a418-ccedbb548b38">6.1. Integration with Consult</a>
+<ul>
+<li><a href="#h:f16747e6-ebd3-45ac-bb5c-6e9fdf937ba8">6.1.1. Beframed buffers as a Consult buffer source</a></li>
+<li><a href="#h:8f23bcd4-829c-4f8c-b1ee-00f91d07c783">6.1.2. Beframed buffers as the complete Consult buffer list</a></li>
+</ul>
+</li>
 <li><a href="#h:ae6c4c6b-179a-4d35-86b5-8b63bf614697">6.2. Integration with Ibuffer</a></li>
 </ul>
 </li>
@@ -434,11 +439,15 @@ possibly other sources in a single interface.  With <code>consult-buffer</code>
 the user can see previews of the given completion candidate and also
 narrow to a specific source.
 </p>
-
+</div>
+<div id="outline-container-h:f16747e6-ebd3-45ac-bb5c-6e9fdf937ba8" class="outline-4">
+<h4 id="h:f16747e6-ebd3-45ac-bb5c-6e9fdf937ba8"><span class="section-number-4">6.1.1.</span> Beframed buffers as a Consult buffer source</h4>
+<div class="outline-text-4" id="text-h:f16747e6-ebd3-45ac-bb5c-6e9fdf937ba8">
 <p>
 It is possible to add beframed buffers to the list of sources the
-<code>consult-buffer</code> command reads from. Just add the following to the
-<code>beframe</code> configuration:
+<code>consult-buffer</code> command reads from. The alternative is to replace the
+full list altogether (<a href="#h:8f23bcd4-829c-4f8c-b1ee-00f91d07c783">Beframed buffers as the complete Consult buffer list</a>).
+Just add the following to the <code>beframe</code> configuration:
 </p>
 
 <div class="org-src-container">
@@ -470,12 +479,37 @@ With optional argument FRAME, return the list of buffers of FRAME."
 </div>
 
 <p>
-As you can see from the snippet above, much like <code>consult--buffer-query</code>
-itself, the <code>beframe-buffer-names</code> function may take a keyword argument
+The <code>beframe-buffer-names</code> function may take a keyword argument
 <code>:sort</code>.  In our case, it is set to <code>beframe-buffer-sort-visibility</code>,
 which groups buffers by visibility, the first element of the list
 being the most recently selected buffer other than the current one.
 </p>
+</div>
+</div>
+<div id="outline-container-h:8f23bcd4-829c-4f8c-b1ee-00f91d07c783" class="outline-4">
+<h4 id="h:8f23bcd4-829c-4f8c-b1ee-00f91d07c783"><span class="section-number-4">6.1.2.</span> Beframed buffers as the complete Consult buffer list</h4>
+<div class="outline-text-4" id="text-h:8f23bcd4-829c-4f8c-b1ee-00f91d07c783">
+<p>
+Other than defining a <code>consult-buffer</code> source (<a href="#h:f16747e6-ebd3-45ac-bb5c-6e9fdf937ba8">Beframed buffers as a Consult buffer source</a>),
+it is possible to limit the <code>consult-buffer-list</code> completely to only
+show beframed buffers:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>(defun consult-beframe-buffer-list (&amp;optional frame)
+  "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
+With optional argument FRAME, return the list of buffers of FRAME."
+  (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
+
+(setq consult-buffer-list #'consult-beframe-buffer-list)
+</code></pre>
+</div>
+
+<p>
+Similar to <code>beframe-buffer-names</code>, the function <code>beframe-buffer-list</code>
+takes a keyword argument <code>:sort</code>, which we use to sort by visibility.
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:ae6c4c6b-179a-4d35-86b5-8b63bf614697" class="outline-3">
@@ -527,8 +561,9 @@ matters.
 <dl class="org-dl">
 <dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
 
-<dt>Contributions to code or the manual</dt><dd>Bruno Boal, Edgar Vincent,
-Fritz Grabo, Stefan Monnier, Tony Zorman, Vedang Manerikar.</dd>
+<dt>Contributions to code or the manual</dt><dd>Bruno Boal, Daniel Mendler,
+Edgar Vincent, Fritz Grabo, Stefan Monnier, Tony Zorman, Vedang
+Manerikar.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Derek Passen, Karan Ahlawat, Karthik
 Chikmagalur, Valentino, duli.</dd>
