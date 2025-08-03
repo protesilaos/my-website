@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-08-01 08:26:59 +0300 with a word
-count of 109688.</b>
+<b>Last revised and exported on 2025-08-03 07:34:22 +0300 with a word
+count of 109744.</b>
 </p>
 
 <p>
@@ -420,7 +420,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-08-01 08:26:59 +0300):
+(2025-08-03 07:34:22 +0300):
 </p>
 
 <div class="org-src-container">
@@ -514,7 +514,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgb5d50f2">
+<pre class="example" id="orgbd9e495">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -594,7 +594,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org87f2529">
+<pre class="example" id="orgbf3d40b">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -602,7 +602,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org646e02b">
+<pre class="example" id="org511d0c6">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1545,7 +1545,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org5f0d8e8">
+<pre class="example" id="orgc151ff6">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4298,7 +4298,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org78fae1a">
+<pre class="example" id="org99618c9">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4349,7 +4349,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org535df6a">
+<pre class="example" id="org0ca0edc">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -4997,7 +4997,7 @@ literal string, initialism, et cetera, which is not as useful to me.
   :config
   ;; Remember to check my `completion-styles' and the
   ;; `completion-category-overrides'.
-  (setq orderless-matching-styles '(orderless-prefixes orderless-regexp orderless-flex))
+  (setq orderless-matching-styles '(orderless-prefixes orderless-regexp))
   (setq orderless-smart-case nil)
 
   ;; SPC should never complete: use it for `orderless' groups.
@@ -7281,7 +7281,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org6c96fcb">
+<pre class="example" id="org685d2c9">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7309,7 +7309,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgdd41f41">
+<pre class="example" id="org7288a5b">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7387,7 +7387,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org430a402">
+<pre class="example" id="org0efe31c">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7545,7 +7545,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org33ff800">
+<pre class="example" id="orgdfa1076">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7854,7 +7854,21 @@ screen real estate (<a href="#h:080aa291-95b4-4d54-8783-d156b13190e9">The <code>
     "C-x C-b" #'beframe-buffer-menu
     ;; Not specific to Beframe, but since it renames frames (by means
     ;; of `beframe-mode') it is appropriate to have this here:
-    "C-x B" #'select-frame-by-name))
+    "C-x B" #'select-frame-by-name)
+
+  ;; Integration with the `consult-buffer' command.  It will show only
+  ;; buffers from the current frame.  To view all buffers, first input
+  ;; a space at the empty minibuffer prompt.  This enables the "hidden
+  ;; buffers" view.
+  (with-eval-after-load 'consult
+    (defun consult-beframe-buffer-list (&amp;optional frame)
+      "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
+With optional argument FRAME, return the list of buffers of FRAME.
+
+For use in `consult-buffer-list'."
+      (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
+
+    (setq consult-buffer-list #'consult-beframe-buffer-list))
 </code></pre>
 </div>
 </div>
@@ -9274,7 +9288,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org849c082">
+<pre class="example" id="orga4a2c2b">
 (info "(org) Search Options")
 </pre>
 
@@ -9367,7 +9381,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org6fac859">
+<pre class="example" id="org2edca25">
 (require 'ob-python)
 
 ;; OR
@@ -10231,7 +10245,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org296ef57">
+<pre class="example" id="org6a0dd0d">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10742,13 +10756,9 @@ Note Only The Epiphenomenal.</li>
   (setq denote-date-format nil) ; read its doc string
   (setq denote-rename-confirmations nil) ; CAREFUL with this if you are not familiar with Denote!
   (setq denote-backlinks-show-context nil)
-  (setq denote-rename-buffer-format "%D%b")
-  (setq denote-buffer-has-backlinks-string " (&lt;---&gt;)")
+  (setq denote-buffer-name-prefix "[D] ") ; to identify all Denote buffers
+  (setq denote-rename-buffer-format "%D")
 
-  ;; Automatically rename Denote buffers when opening them so that
-  ;; instead of their long file name they have a literal "[D]"
-  ;; followed by the file's title.  Read the doc string of
-  ;; `denote-rename-buffer-format' for how to modify this.
   (denote-rename-buffer-mode 1)
 
   ;; EXPERIMENT 2025-04-25: This is not the default order, though
@@ -11157,7 +11167,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgc54c227">
+<pre class="example" id="org12ad7aa">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11169,7 +11179,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgfcabf9b">
+<pre class="example" id="orgf2244ae">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11235,7 +11245,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgcbf1c66">
+<pre class="example" id="org88adc97">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11247,7 +11257,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org2b75616">
+<pre class="example" id="org64405e3">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11269,7 +11279,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org23b6636">
+<pre class="example" id="org8135cb4">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11398,7 +11408,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org77933a7">
+<pre class="example" id="org97e51d6">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11534,7 +11544,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgf7fa8d7">
+<pre class="example" id="org84cf946">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11546,7 +11556,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org6dc8ac7">
+<pre class="example" id="org18b9690">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12685,7 +12695,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgf7b3777">
+<pre class="example" id="orgad31272">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12782,7 +12792,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orge5a2e58">
+<pre class="example" id="orgbcf2266">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19843,7 +19853,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org508f732">
+<pre class="example" id="org1332d2d">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19875,7 +19885,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgdbdcc7b">
+<pre class="example" id="org4636d1a">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
