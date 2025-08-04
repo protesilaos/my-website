@@ -28,6 +28,10 @@ subtle differences in colour.
 
 <a href="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"/></a>
 
+## doric-oak
+
+<a href="{{'/assets/images/doric/doric-oak.png' | absolute_url }}"><img alt="doric-oak theme sample" src="{{'/assets/images/doric/doric-oak.png' | absolute_url }}"/></a>
+
 ## doric-wind
 
 <a href="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"/></a>
@@ -43,6 +47,10 @@ subtle differences in colour.
 ## doric-obsidian
 
 <a href="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"><img alt="doric-obsidian theme sample" src="{{'/assets/images/doric/doric-obsidian.png' | absolute_url }}"/></a>
+
+## doric-pine
+
+<a href="{{'/assets/images/doric/doric-pine.png' | absolute_url }}"><img alt="doric-pine theme sample" src="{{'/assets/images/doric/doric-pine.png' | absolute_url }}"/></a>
 
 ## doric-plum
 
