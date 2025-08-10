@@ -1,5 +1,5 @@
 ---
-title: "Prot Asks: PizzaTorgue about Emacs for programming, linguistics, art and community"
+title: "Prot Asks: PizzaTorque about Emacs for programming, linguistics, art and community"
 excerpt: "In this video, I learn from PizzaTorque about using Emacs for programming, some themes in linguistics, artistic topics and the importance of community."
 layout: vlog
 mediaid: "-g8o0M9CRkA"
