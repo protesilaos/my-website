@@ -5,6 +5,11 @@ layout: vlog
 mediaid: "L_4pLN0gXGI"
 ---
 
+**UPDATE 2025-08-11 08:45 +0300:** Tweaked the configuration for opening
+files externally.
+
+* * *
+
 Video overview of file navigation in Emacs.  There are lots of
 powerful commands to find files, open directories, and perform
 operations on the contents of the filesystem.  Technically, I talk
@@ -67,8 +72,13 @@ Same basic configurations based on what I mentioned in the video:
 ;; remaining strings are external programs that Dired will provide as
 ;; suggestions.  Of course, you can always type an arbitrary program
 ;; despite these defaults.
+;;
+;; Note that the * can be added to a program to instruct it to open
+;; all the files as a set rather than all as separate instances.  You
+;; write the name of the program, then space followed by the asterisk
+;; (thanks to @mac68tm on YouTube for pointing this out).
 (setq dired-guess-shell-alist-user
-      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh" "xdg-open")
-        ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv" "xdg-open")
+      '(("\\.\\(png\\|jpe?g\\|tiff\\)" "feh *" "xdg-open")
+        ("\\.\\(mp[34]\\|m4a\\|ogg\\|flac\\|webm\\|mkv\\)" "mpv *" "xdg-open")
 		(".*" "xdg-open")))
 ```
