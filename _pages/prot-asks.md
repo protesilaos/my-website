@@ -6,10 +6,11 @@ permalink: /prot-asks/
 ---
 
 The "Prot Asks" series of videos contain friendly and casual
-discussions. The topics range from Emacs, to general technology
-themes, to life at-large. Everybody is welcome to participate. The
-only requirements are that (i) you are willing to show your face on
-camera, and (ii) the video is posted on my YouTube channel.
+discussions that last around 1 hour. The topics range from Emacs, to
+general technology themes, to life at-large. Everybody is welcome to
+participate. The only requirements are that (i) you are willing to
+show your face on camera, and (ii) the video is posted on my YouTube
+channel.
 
 The way this works is that anybody interested contacts me:
 <https://protesilaos.com/contact>. They tell me a few things about who
