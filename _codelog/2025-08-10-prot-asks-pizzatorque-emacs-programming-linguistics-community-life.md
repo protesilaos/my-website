@@ -8,7 +8,7 @@ mediaid: "-g8o0M9CRkA"
 In this new video series, I talk to anybody who is interested to have
 a video call with me (so do contact me if you want!). The topics cover
 anything related to Emacs, technology, and life in general. More here:
-https://protesilaos.com/prot-asks/.
+<https://protesilaos.com/prot-asks/>.
 
 Today I learn from PizzaTorque about how Emacs is used for programming
 in the field of data science. We discuss the kind of infrastructure
@@ -23,5 +23,4 @@ conversation on community and an individual's outlook, tying it all
 together.
 
 PizzaTorque does video streams on programming-related topics, while
-using Emacs. Here is the YouTube channel:
-https://www.youtube.com/@pizzatorque
+using Emacs. Here is the YouTube channel: <https://www.youtube.com/@pizzatorque>.
