@@ -4,13 +4,17 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `0.1.0`. The
+The following screen shots correspond to version `0.4.0-dev`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.  Also note that dark themes are best
 reviewed against a dark backdrop, otherwise it is very hard to discern
 subtle differences in colour.
+
+## doric-bearch
+
+<a href="{{'/assets/images/doric/doric-beach.png' | absolute_url }}"><img alt="doric-beach theme sample" src="{{'/assets/images/doric/doric-beach.png' | absolute_url }}"/></a>
 
 ## doric-cherry
 
@@ -55,6 +59,10 @@ subtle differences in colour.
 ## doric-plum
 
 <a href="{{'/assets/images/doric/doric-plum.png' | absolute_url }}"><img alt="doric-plum theme sample" src="{{'/assets/images/doric/doric-plum.png' | absolute_url }}"/></a>
+
+## doric-valley
+
+<a href="{{'/assets/images/doric/doric-valley.png' | absolute_url }}"><img alt="doric-valley theme sample" src="{{'/assets/images/doric/doric-valley.png' | absolute_url }}"/></a>
 
 ## doric-water
 
