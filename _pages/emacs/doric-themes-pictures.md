@@ -12,7 +12,7 @@ perception of what is on display.  Also note that dark themes are best
 reviewed against a dark backdrop, otherwise it is very hard to discern
 subtle differences in colour.
 
-## doric-bearch
+## doric-beach
 
 <a href="{{'/assets/images/doric/doric-beach.png' | absolute_url }}"><img alt="doric-beach theme sample" src="{{'/assets/images/doric/doric-beach.png' | absolute_url }}"/></a>
 
