@@ -54,11 +54,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:create-a-new-journal-entry-or-use-an-existing-one">4.2. Create a new journal entry or use an existing one</a></li>
 <li><a href="#h:link-to-a-journal-entry-or-create-it-if-missing">4.3. Link to a journal entry or create it if missing</a></li>
 <li><a href="#h:integrate-with-the-calendar-to-view-or-create-journal-entries">4.4. Integrate with the <code>calendar</code> to view or create journal entries</a></li>
-<li><a href="#h:the-denote-journal-directory">4.5. The <code>denote-journal-directory</code></a></li>
-<li><a href="#h:title-format-of-new-journal-entries">4.6. Title format of new journal entries</a></li>
-<li><a href="#h:create-a-journal-entry-using-org-capture">4.7. Create a journal entry using Org capture</a></li>
-<li><a href="#h:the-denote-journal-hook">4.8. The <code>denote-journal-hook</code></a></li>
-<li><a href="#h:journaling-with-a-timer">4.9. Journaling with a timer</a></li>
+<li><a href="#h:the-denote-journal-directory">4.5. The <code>denote-journal-directory</code> option</a></li>
+<li><a href="#h:e1fe2ec8-9acf-41ec-b2d8-a94b21735d30">4.6. The <code>denote-journal-signature</code> option</a></li>
+<li><a href="#h:title-format-of-new-journal-entries">4.7. Title format of new journal entries</a></li>
+<li><a href="#h:create-a-journal-entry-using-org-capture">4.8. Create a journal entry using Org capture</a></li>
+<li><a href="#h:the-denote-journal-hook">4.9. The <code>denote-journal-hook</code></a></li>
+<li><a href="#h:journaling-with-a-timer">4.10. Journaling with a timer</a></li>
 </ul>
 </li>
 <li><a href="#h:acknowledgements">5. Acknowledgements</a></li>
@@ -249,13 +250,14 @@ journal entry and opens it for editing or creates a new one.
 
 <p>
 A journal entry is an editable file that has <code>denote-journal-keyword</code>
-as part of its file name. If there are multiple journal entries for
-the current date, <code>denote-journal-new-or-existing-entry</code> prompts to
-select one among them using minibuffer completion. If there is only
-one matching file, it visits it outright. If there is no journal
-entry, it creates a new one by calling <code>denote-journal-new-entry</code>
-(<a href="#h:create-new-journal-entry">Create new journal entry</a>). Depending on one&rsquo;s workflow, this can also
-be done via <code>org-capture</code>  (<a href="#h:create-a-journal-entry-using-org-capture">Create a journal entry using Org capture</a>).
+as part of its file name (<a href="#h:e1fe2ec8-9acf-41ec-b2d8-a94b21735d30">The <code>denote-journal-signature</code> option</a>). If
+there are multiple journal entries for the current date,
+<code>denote-journal-new-or-existing-entry</code> prompts to select one among
+them using minibuffer completion. If there is only one matching file,
+it visits it outright. If there is no journal entry, it creates a new
+one by calling <code>denote-journal-new-entry</code> (<a href="#h:create-new-journal-entry">Create new journal entry</a>).
+Depending on one&rsquo;s workflow, this can also be done via <code>org-capture</code>
+(<a href="#h:create-a-journal-entry-using-org-capture">Create a journal entry using Org capture</a>).
 </p>
 
 <p>
@@ -334,7 +336,7 @@ and <code>N</code> for <code>denote-journal-calendar-new-or-existing</code>.
 </div>
 </div>
 <div id="outline-container-h:the-denote-journal-directory" class="outline-3">
-<h3 id="h:the-denote-journal-directory"><span class="section-number-3">4.5.</span> The <code>denote-journal-directory</code></h3>
+<h3 id="h:the-denote-journal-directory"><span class="section-number-3">4.5.</span> The <code>denote-journal-directory</code> option</h3>
 <div class="outline-text-3" id="text-h:the-denote-journal-directory">
 <p>
 New journal entries are placed in the <code>denote-journal-directory</code>,
@@ -351,8 +353,45 @@ the file-naming scheme for searching or filtering&rdquo;).
 </p>
 </div>
 </div>
+<div id="outline-container-h:e1fe2ec8-9acf-41ec-b2d8-a94b21735d30" class="outline-3">
+<h3 id="h:e1fe2ec8-9acf-41ec-b2d8-a94b21735d30"><span class="section-number-3">4.6.</span> The <code>denote-journal-signature</code> option</h3>
+<div class="outline-text-3" id="text-h:e1fe2ec8-9acf-41ec-b2d8-a94b21735d30">
+<p>
+[ The <code>denote-journal-signature</code> is part of 0.2.0-dev. ]
+</p>
+
+<p>
+The user option <code>denote-journal-signature</code> specifies a predefined
+signature to use in new journal entries. This is used by
+<code>denote-journal-new-entry</code> and all related commands (<a href="#h:create-new-journal-entry">Create new journal entry</a>).
+</p>
+
+<p>
+The value of this user option can be one of the following:
+</p>
+
+<ul class="org-ul">
+<li><code>nil</code>, which means to not use a predefined signature;</li>
+<li>a string, which is used as-is;</li>
+<li>a function that returns a string, which is then used as-is.</li>
+</ul>
+
+<p>
+In the case of a function, users may wish to integrate the
+<code>denote-journal</code> package with <code>denote-sequence</code>. For example, each new
+journal entry should be defined as a new parent sequence. Thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-journal-signature
+      (lambda ()
+        (denote-sequence-get-new 'parent)))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:title-format-of-new-journal-entries" class="outline-3">
-<h3 id="h:title-format-of-new-journal-entries"><span class="section-number-3">4.6.</span> Title format of new journal entries</h3>
+<h3 id="h:title-format-of-new-journal-entries"><span class="section-number-3">4.7.</span> Title format of new journal entries</h3>
 <div class="outline-text-3" id="text-h:title-format-of-new-journal-entries">
 <p>
 New journal entries will use the current date as the title of the
@@ -387,7 +426,7 @@ will yield a title like <code>Week 14 on 1 April 2025 at 13:48</code>.</li>
 </div>
 </div>
 <div id="outline-container-h:create-a-journal-entry-using-org-capture" class="outline-3">
-<h3 id="h:create-a-journal-entry-using-org-capture"><span class="section-number-3">4.7.</span> Create a journal entry using Org capture</h3>
+<h3 id="h:create-a-journal-entry-using-org-capture"><span class="section-number-3">4.8.</span> Create a journal entry using Org capture</h3>
 <div class="outline-text-3" id="text-h:create-a-journal-entry-using-org-capture">
 <p>
 Users who prefer to consolidate all their note-creating or todo-making
@@ -416,7 +455,7 @@ documentation of <code>org-capture-templates</code>.
 </div>
 </div>
 <div id="outline-container-h:the-denote-journal-hook" class="outline-3">
-<h3 id="h:the-denote-journal-hook"><span class="section-number-3">4.8.</span> The <code>denote-journal-hook</code></h3>
+<h3 id="h:the-denote-journal-hook"><span class="section-number-3">4.9.</span> The <code>denote-journal-hook</code></h3>
 <div class="outline-text-3" id="text-h:the-denote-journal-hook">
 <p>
 All commands that create a new journal entry call the normal hook
@@ -427,7 +466,7 @@ package from GNU ELPA (<a href="#h:journaling-with-a-timer">Journaling with a ti
 </div>
 </div>
 <div id="outline-container-h:journaling-with-a-timer" class="outline-3">
-<h3 id="h:journaling-with-a-timer"><span class="section-number-3">4.9.</span> Journaling with a timer</h3>
+<h3 id="h:journaling-with-a-timer"><span class="section-number-3">4.10.</span> Journaling with a timer</h3>
 <div class="outline-text-3" id="text-h:journaling-with-a-timer">
 <p>
 Sometimes journaling is done with the intent to hone one&rsquo;s writing
@@ -519,7 +558,7 @@ Denote Journal is meant to be a collective effort.  Every bit of help matters.
 <dt>Contributions to code or the manual</dt><dd>Alan Schmitt, Ettore Berardi,
 Honza Pokorny, Stefan Monnier, Vineet C. Kulkarni, gk2803, jbwfu.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Alan Schmitt, Kevin McCarthy.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Alan Schmitt, Kevin McCarthy, Halogen3576.</dd>
 </dl>
 </div>
 </div>
