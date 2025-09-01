@@ -59,7 +59,7 @@ Below are the original lyrics, my faithful translation of them, and some further
 ```
 Alkaline leaves
 
-Singers:  Ioulia Karapataki
+Singer:   Ioulia Karapataki
 Lyrics:   Alkis Alkaios
 Music:    Socratis Malamas
 

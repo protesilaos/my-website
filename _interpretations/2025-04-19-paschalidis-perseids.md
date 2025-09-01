@@ -54,7 +54,7 @@ Miltos Paschalidis: [Tale with sad ending](https://protesilaos.com/interpretatio
 ```
 Perseids
 
-Singers:  Miltos Paschalidis
+Singer:   Miltos Paschalidis
 Lyrics:   Miltos Paschalidis
 Music:    Miltos Paschalidis
 

@@ -52,7 +52,7 @@ Papakonstantinou's songs:
 ```
 Minor adulterations
 
-Singers:  Vasilis Papakonstantinou
+Singer:   Vasilis Papakonstantinou
 Lyrics:   Odysseas Ioannou
 Music:    Thanos Mikroutsikos
 

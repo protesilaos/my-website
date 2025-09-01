@@ -47,7 +47,7 @@ some further philosophical comments.
 ```
 Personally
 
-Singers:  Penny Baltatzi
+Singer:   Penny Baltatzi
 Lyrics:   Lina Nikolakopoulou
 Music:    Yiannis Spanos
 

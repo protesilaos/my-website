@@ -65,7 +65,7 @@ some further philosophical remarks.
 ```
 Ode to the Sun
 
-Singers:  Kleopas
+Singer:   Kleopas
 Lyrics:   Kleopas
 Music:    Kleopas
 

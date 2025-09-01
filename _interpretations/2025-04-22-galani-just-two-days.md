@@ -52,7 +52,7 @@ then some comments on the substantive point.
 ```
 Just two days
 
-Singers:  Dimitra Galani
+Singer:   Dimitra Galani
 Lyrics:   Paraskevas Karasoulos
 Music:    Dimitra Galani
 
