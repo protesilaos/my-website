@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-08-26 09:14:14 +0300 with a word
-count of 109873.</b>
+<b>Last revised and exported on 2025-09-03 08:05:53 +0300 with a word
+count of 110084.</b>
 </p>
 
 <p>
@@ -420,7 +420,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-08-26 09:14:14 +0300):
+(2025-09-03 08:05:53 +0300):
 </p>
 
 <div class="org-src-container">
@@ -515,7 +515,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgedd0096">
+<pre class="example" id="orgcbdf68d">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -595,7 +595,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org7bcf479">
+<pre class="example" id="orgcfa66e2">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -603,7 +603,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org8e745fa">
+<pre class="example" id="orgecd4650">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1546,7 +1546,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org8a0b8c5">
+<pre class="example" id="orgd1a13f1">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4298,7 +4298,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org732e9f5">
+<pre class="example" id="org9706850">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4349,7 +4349,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgad97255">
+<pre class="example" id="org9f2b5d1">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -5212,27 +5212,33 @@ completion (such as the <code>corfu</code> package).
   :demand t
   :hook (minibuffer-setup . prot-common-truncate-lines-silently)
   :config
-  (setq completion-auto-deselect nil)
-  (setq completion-auto-help 'always)
-  (setq completion-auto-select nil)
-  (setq completion-show-help nil)
-  (setq completion-show-inline-help nil)
-  (setq completions-detailed t)
-  (setq completions-format 'one-column)
-  (setq completions-header-format "")
   ;; (setq completions-header-format (propertize "%s candidates:\n" 'face 'bold-italic))
+  (setq completions-header-format "")
   (setq completions-highlight-face 'completions-highlight)
   (setq completions-max-height 10)
   (setq completions-sort 'historical)
-  ;; This one is for Emacs 31.  It relies on what I am doing with the `completion-category-overrides'.
-  (setq completion-eager-display 'auto)
-  ;; This is also for Emacs 31 and it too leverages the `completion-category-overrides' if set to `auto'.
-  (setq completion-eager-update t)
 
-  (setq minibuffer-completion-auto-choose nil)
-  (setq minibuffer-visible-completions t) ; Emacs 30
-
+  ;; These settings make the generic minibuffer completion interface
+  ;; work more like my `mct' package.  Though it still has some issues
+  ;; with how candidates are selected.  Those might be fixed
+  ;; eventually.  The concrete problem I see with these settings is
+  ;; how the Completions can behave in very different ways, so we need
+  ;; to figure out which combination of these options works correctly.
   (unless prot-emacs-completion-ui
+    (setq completion-auto-help 'always)
+    (setq completion-show-help nil)
+    (setq completion-show-inline-help nil)
+    (setq completion-auto-select nil)
+    (setq completion-auto-deselect nil)
+    (setq completions-detailed t)
+    (setq completions-format 'one-column)
+    (setq minibuffer-completion-auto-choose nil)
+    (setq minibuffer-visible-completions nil) ; Emacs 30
+    ;; This one is for Emacs 31.  It relies on what I am doing with the `completion-category-overrides'.
+    (setq completion-eager-display 'auto)
+    ;; This is also for Emacs 31 and it too leverages the `completion-category-overrides' if set to `auto'.
+    (setq completion-eager-update t)
+
     (prot-emacs-keybind minibuffer-local-completion-map
       "&lt;up&gt;" #'minibuffer-previous-line-completion
       "&lt;down&gt;" #'minibuffer-next-line-completion
@@ -5250,7 +5256,9 @@ completion (such as the <code>corfu</code> package).
       (when (and completions-header-format
                  (not (string-blank-p completions-header-format)))
         (setq-local display-line-numbers-offset -1))
-      (display-line-numbers-mode 1))
+      (display-line-numbers-mode 1)
+      (unless (eq (prot-common-completion-category) 'file)
+        (setq-local minibuffer-visible-completions t)))
 
     (add-hook 'completion-list-mode-hook #'prot/completions-tweak-style)
 
@@ -7294,7 +7302,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orge9de47e">
+<pre class="example" id="org9c5f536">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7322,7 +7330,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org5ba3696">
+<pre class="example" id="orgc3fa628">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7359,7 +7367,7 @@ desktop[s].
 
 <p>
 The way I do it, each tab can hold its own project, thanks to some
-custom code I have (<a href="#h:7dcbcadf-8af6-487d-b864-e4ce56d69530">The <code>prot-emacs-git.el</code> section about <code>project.el</code></a>). 
+custom code I have (<a href="#h:7dcbcadf-8af6-487d-b864-e4ce56d69530">The <code>prot-emacs-git.el</code> section about <code>project.el</code></a>).
 I do not need to enforce separation between tabs, such that each sees
 only the buffers opened inside of it. The reason is that I mostly use
 the laptop for shorter coding/writing sessions and for video calls.
@@ -7400,7 +7408,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org9ab87e5">
+<pre class="example" id="org1f38339">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7558,7 +7566,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org4babcc8">
+<pre class="example" id="org8d72574">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9303,7 +9311,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgce90201">
+<pre class="example" id="orgc143872">
 (info "(org) Search Options")
 </pre>
 
@@ -9396,7 +9404,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orga04fa9f">
+<pre class="example" id="orgc10441f">
 (require 'ob-python)
 
 ;; OR
@@ -10260,7 +10268,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orge404829">
+<pre class="example" id="orgb99b355">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11182,7 +11190,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org34070b3">
+<pre class="example" id="org8e15c58">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11194,7 +11202,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org3252328">
+<pre class="example" id="org3aa7e54">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11260,7 +11268,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org28d128f">
+<pre class="example" id="org99de9fc">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11272,7 +11280,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org4d2d810">
+<pre class="example" id="orgf680662">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11294,7 +11302,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org76b217e">
+<pre class="example" id="org6136a77">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11423,7 +11431,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org9e92a72">
+<pre class="example" id="orgc490c04">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11559,7 +11567,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org2dc3d7d">
+<pre class="example" id="orga2c1749">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11571,7 +11579,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org1fa6860">
+<pre class="example" id="org7ce760d">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12710,7 +12718,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgf403123">
+<pre class="example" id="org475b63c">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12807,7 +12815,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgc4f90f5">
+<pre class="example" id="orgc8f55db">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19225,6 +19233,29 @@ VARIANT is either `dark' or `light'."
   (interactive (list (prot-simple--list-accessible-colors-prompt)))
   (list-colors-display (prot-simple-accessible-colors variant)))
 
+;;;###autoload
+(defun prot-simple-update-all-my-package-repositories ()
+  "Pull or clone all `prot-emacs-my-packages'."
+  (interactive)
+  (unless (executable-find "git")
+    (user-error "Cannot find git program; install it first or add it to the $PATH; aborting"))
+  (unless (getenv "SSH_AUTH_SOCK")
+    (user-error "Cannot find $SSH_AUTH_SOCK; check your SSH connection; aborting"))
+  (dolist (package prot-emacs-my-packages)
+    (condition-case error-data
+        (let* ((common-directory (expand-file-name "~/Git/Projects/"))
+               (default-directory (expand-file-name (symbol-name package) common-directory)))
+          (if (file-directory-p default-directory)
+              (shell-command-to-string "git pull")
+            (let ((default-directory common-directory))
+              (shell-command-to-string (format "git clone git@github.com:protesilaos/%s" package)))))
+      (:success
+       (message "Updated %s repository" package))
+      ((error user-error)
+       (message "The package returned error data: %s" error-data))
+      (quit
+       (message "Aborted by the user")))))
+
 ;;;; Global minor mode to override key maps
 
 (defvar prot-simple-override-mode-map (make-sparse-keymap)
@@ -19874,7 +19905,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgde7ce6b">
+<pre class="example" id="org5ca802b">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19906,7 +19937,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orge7133e5">
+<pre class="example" id="org4951c61">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
