@@ -12,28 +12,28 @@ make-belief, everything is pretty, and everybody is happy.
 
 Policy-makers and investors have gotten the memo: a theme park is good
 business, your country is a brand, ergo it is to be unscrupulously
-exploited. The country image towards visitors is to be packaged a
+exploited. The country's image towards visitors is to be packaged a
 certain way to appeal to those with a mere superficial interest in the
 local culture. In turn, the culture is to be moulded into a caricature
 of itself. The parts of it that are typical of the locality shall be
 exaggerated and offered in spades. Those who are participating
 in---and contributing to the continuous making of---the living
-culture, will be pushed to the margins, forced away from the hotspots
+culture will be pushed to the margins, forced away from the hotspots
 of tourist attraction, and blamed for breaking the immersion. Their
-land shall be appropriated by rapacious "foreign direct investment",
+land shall be appropriated by rapacious "foreign direct investment"
 as they themselves will become alienated from a world that no longer
 represents them.
 
 Such is the reality of my part of the planet. The first time I got a
-hint of the demand for a theme park version of historical reality, was
+hint of the demand for a theme park version of historical reality was
 a few years back when a British woman of Cypriot descent was asking to
 buy some handkerchief that was typical of marriages held over a
 century ago. I explained how Cypriots do not marry this way anymore.
 To no avail... For her, this item is the irreducible factor of a
-Cypriot marriage, that which adds the unmistakable Cypriotness to the
+Cypriot marriage: that which adds the unmistakable Cypriotness to the
 event. What the contemporary people do is apparently not genuine. In
 truth, hers was but a kitsch, a misunderstanding of culture as
-gimmickry rather than a lived experience, a life form unto itself that
+gimmickry rather than a lived experience and a life form unto itself that
 changes with the times. I could still understand her though, as her
 ancestors took a snapshot of their local culture with them when they
 left for Great Britain. Yet the idea of some product encapsulating the
@@ -55,12 +55,12 @@ our intelligence, servings consist of tiny portions presented in
 disproportionately large plates. Again, nobody actually eats this way
 outside the controlled environment. It does not matter. The theme park
 is all about reinforcing a belief in the verisimilitude of a product.
-The trick is to maintain a shadow play of consumerist cosmopolitanism,
+The trick is to maintain a shadow play of consumerist cosmopolitanism
 in which there appears to be a unifying global culture that simply has
 its own cute little particularities from one locale to another.
 
 This is the result of homogeneisation, of mass production, and of
-streamlined marketing. The true culture is threatened with extinction,
+streamlined marketing. The true culture is threatened with extinction
 because its people are impoverished and pressured to move out of the
 way. There are no locals serving guests at those taverns, for example.
 Not one! The waiters have been imported for pennies from some
