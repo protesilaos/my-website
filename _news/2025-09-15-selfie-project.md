@@ -19,7 +19,7 @@ I plan to change this. I want to appreciate myself and others in a
 different way. This can only start from within. There are no selfies
 because, fundamentally, I do not like something about them. "What"
 exactly I cannot tell. It does not matter, anyway. I shall condition
-myself to pay attention what the camera is telling me. This is the
+myself to pay attention to what the camera is telling me. This is the
 time of acceptance; of committing to a course of action that cannot be
 undone. Hence the publicity of it: to have an external accountability
 structure, to empower others to call me out in the scenario where I
