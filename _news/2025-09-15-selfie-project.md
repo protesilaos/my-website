@@ -4,6 +4,11 @@ subtitle: "In which I may or may not appear naked"
 excerpt: "I will be taking selfies and posting them on a daily basis."
 ---
 
+**UPDATE 2025-09-16 09:17 +0300:** There now is a dedicated "selfies"
+section on my website: <https://protesilaos.com/selfies>.
+
+* * *
+
 A while back I noticed that I did not have a single selfie in my
 phone's camera roll:
 <https://protesilaos.com/commentary/2025-05-16-not-one-selfie/>. In
