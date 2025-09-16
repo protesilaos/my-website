@@ -45,6 +45,7 @@ its own feed, as it caters to a potentially different audience.
 * [Interpretations and critiques](https://protesilaos.com/interpretations.xml)
 * [Mechanical keyboards and ergonomics](https://protesilaos.com/keeb.xml)
 * [My poems](https://protesilaos.com/poems.xml)
+* [My selfies](https://protesilaos.com/selfies.xml)
 * [News and announcements](https://protesilaos.com/news.xml)
 * [Political writings](https://protesilaos.com/politics.xml)
 * [Master feed](https://protesilaos.com/master.xml) (captures every new publication)
