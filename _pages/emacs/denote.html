@@ -132,6 +132,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">7.4. Features of the file-naming scheme for searching or filtering</a></li>
+<li><a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">7.5. Define a completely custom identifier scheme</a></li>
 </ul>
 </li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">8. Front matter</a>
@@ -1782,7 +1783,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org38b8d5b">
+<pre class="example" id="orge4a3f18">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2356,7 +2357,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org776506c">
+<pre class="example" id="org117ca69">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2376,7 +2377,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org51afa33">
+<pre class="example" id="orgabe21f2">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -2758,10 +2759,6 @@ minibuffer prompts:
 <h2 id="h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d"><span class="section-number-2">7.</span> The file-naming scheme</h2>
 <div class="outline-text-2" id="text-h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">
 <p>
-[Customization of the identifier format is part of 4.1.0-dev.]
-</p>
-
-<p>
 Notes are stored in the <code>denote-directory</code>.  The default path is
 <code>~/Documents/notes</code>.  The <code>denote-directory</code> can be a flat listing,
 meaning that it has no subdirectories, or it can be a directory tree.
@@ -2787,7 +2784,8 @@ date in year-month-day format followed by the capital letter <code>T</code> (for
 presentation is compact: <code>20220531T091625</code>. When it has this format
 (the default), the delimiter (<code>@@</code>) is optional. The <code>ID</code> serves as
 the unique identifier of each note and, as such, is also known as the
-file&rsquo;s ID or identifier.
+file&rsquo;s ID or identifier. The <code>ID</code> can be any string: it does not need
+to be associated with a date (<a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">Define a completely custom identifier scheme</a>). [ Custom identifiers are part of 4.1.0-dev. ]
 </p>
 
 <p>
@@ -3092,7 +3090,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orga115751">
+<pre class="example" id="orgafc85b6">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3290,6 +3288,159 @@ words at the relevant prompts.
 </p>
 </div>
 </div>
+<div id="outline-container-h:3048f558-7d84-45d6-9ef2-53055483e801" class="outline-3">
+<h3 id="h:3048f558-7d84-45d6-9ef2-53055483e801"><span class="section-number-3">7.5.</span> Define a completely custom identifier scheme</h3>
+<div class="outline-text-3" id="text-h:3048f558-7d84-45d6-9ef2-53055483e801">
+<p>
+[ The following is possible as part of 4.1.0-dev. ]
+</p>
+
+<p>
+[ DEVELOPER NOTE: This is for advanced users. If you really need
+  custom identifiers but are not sure how to proceed, please ask and I
+  will help you. ]
+</p>
+
+<p>
+By default, the Denote identifier consists of the date and time in a
+compact format (<a href="#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d">The file-naming scheme</a>). Denote, however, can work
+with identifiers of an arbitrary format, provided each identifier is
+unique. Any string will do.
+</p>
+
+<p>
+The variable <code>denote-get-identifier-function</code> specifies the function
+that Denote uses to derive a new identifier. The return value is a
+string. This function is called while creating new files and when
+renaming an existing file:
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a></li>
+<li><a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a></li>
+</ul>
+
+<p>
+The function assigned to <code>denote-get-identifier-function</code> takes two
+arguments: an initial identifier and a date. The initial identifier is
+used as a reference to derive a unique variant of it (e.g. to keep
+incrementing seconds while keeping the rest of the date+time the
+same). Existing identifiers are stored in the variable
+<code>denote-used-identifiers</code>. If the initial identifier is nil or an
+identifier cannot be derived from it, then the date can be used
+instead. The date has the same format as ‘current-time’. When it is
+nil, the ‘current-time’ is used.
+</p>
+
+<p>
+In the following code block, we provide an example of an identifier
+scheme that encodes information related to publications: the year, the
+edition, the author or authors, the format (e.g. book or paper), and
+the publisher. For users who maintain a library of academic works, for
+example, this kind of identifier is more useful than the default
+date+time scheme.
+</p>
+
+<p>
+This custom identifier cannot be derived programmatically though, so
+the function <code>my-denote-get-identifier</code> makes a series of prompts to
+get the relevant data. Then it joins them all together with the
+current date to create a unique identifier. The helper function
+<code>my-denote-custom-identifier--make-unique-identifier</code> makes sure to
+make small tweaks to the &ldquo;current date&rdquo; part of this identifier so
+that it is always unique.
+</p>
+
+<p>
+We can always flesh out this example with, for example, prompts that
+leverage <code>completing-read</code>, though the point is to show how custom
+identifiers can be implemented in full. Everything else Denote does
+with identifiers, namely, links and backlinks, should work as
+intended.
+</p>
+
+<p>
+Good luck!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; NOTE 2025-09-18: This is for testing the following custom code.
+;; The dates will need to be updated to match the test day.
+;;
+;; (let* ((denote-used-identifiers (make-hash-table :test #'equal))
+;;        (_ (progn
+;;             (puthash "2000E1AprotFbookPmaxT20250918" t denote-used-identifiers)
+;;             (puthash "2000E1AprotFbookPmaxT20250919" t denote-used-identifiers)
+;;             (puthash "2000E1AprotFbookPmaxT20250920" t denote-used-identifiers))))
+;;   (my-denote-get-identifier "2000E1AprotFbookPmaxT20250918" nil))
+;; 
+;; (let* ((denote-used-identifiers (make-hash-table :test #'equal))
+;;        (_ (progn
+;;             (puthash "2000E1AprotFbookPmaxT20250918" t denote-used-identifiers)
+;;             (puthash "2000E1AprotFbookPmaxT20250919" t denote-used-identifiers)
+;;             (puthash "2000E1AprotFbookPmaxT20250920" t denote-used-identifiers))))
+;;   (my-denote-custom-identifier--make-unique-identifier "2000E1AprotFbookPmax" (format-time-string "%Y%m%d") denote-used-identifiers))
+
+
+
+
+;; The code herein is a custom function for use with `denote-get-identifier-function':
+(setq denote-get-identifier-function #'my-denote-get-identifier)
+
+(defun my-denote-custom-identifier--make-unique-identifier (base-identifier date-string identifiers)
+  (let* ((current-date-string date-string)
+         (id (format "%sT%s" base-identifier current-date-string)))
+    (while (gethash id identifiers)
+      (let* ((year (string-to-number (substring current-date-string 0 4)))
+             (month (string-to-number (substring current-date-string 4 6)))
+             (day (string-to-number (substring current-date-string 6 8)))
+             (time (encode-time 0 0 0 day month year))
+             (next-day-time (seconds-to-time (+ (time-to-seconds time) 86400)))
+             (next-date-string (format-time-string "%Y%m%d" next-day-time)))
+        (setq current-date-string next-date-string)
+        (setq id (format "%sT%s" base-identifier current-date-string))))
+    id))
+
+(defvar my-denote-custom-identifier-year-history nil)
+(defvar my-denote-custom-identifier-edition-history nil)
+(defvar my-denote-custom-identifier-format-history nil)
+(defvar my-denote-custom-identifier-publisher-history nil)
+
+(defvar my-denote-custom-identifier-author-history nil
+  "Minibuffer history for `my-denote-custom-identifier-author-prompt'.")
+
+;; TODO 2025-09-18: Flesh out the other prompts as well.  Some can
+;; benefit from a `completing-read' approach.
+(defun my-denote-custom-identifier-author-prompt ()
+  "Prompt for one or more authors.
+Multiple authors are separated by a space or comma."
+  (read-string "Author (space or comma for many): " nil 'my-denote-custom-identifier-author-history))
+
+(defun my-denote-custom-identifier-author-format (author)
+  "Format AUTHOR to use an A delimiter before each name."
+  (let ((authors (split-string author "[ ,]+" t "[\s\f\t\n\r\v]+")))
+    (format "A%s" (mapconcat #'identity authors "A"))))
+
+(defun my-denote-get-identifier (initial-identifier date)
+  (let ((denote-used-identifiers (or denote-used-identifiers (denote--get-all-used-ids))))
+    (cond
+     ((and initial-identifier (not (gethash initial-identifier denote-used-identifiers)))
+      initial-identifier)
+     (t
+      (let ((base-id (concat
+                      (read-string "Year: " nil 'my-denote-custom-identifier-year-history)
+                      "E" (read-string "Edition: " nil 'my-denote-custom-identifier-edition-history)
+                      (my-denote-custom-identifier-author-format (my-denote-custom-identifier-author-prompt))
+                      "F" (read-string "Format: " nil 'my-denote-custom-identifier-format-history)
+                      "P" (read-string "Publisher: " nil 'my-denote-custom-identifier-publisher-history))))
+        (my-denote-custom-identifier--make-unique-identifier
+         base-id
+         (format-time-string "%Y%m%d" (or date (current-time)))
+         denote-used-identifiers))))))
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="outline-container-h:13218826-56a5-482a-9b91-5b6de4f14261" class="outline-2">
 <h2 id="h:13218826-56a5-482a-9b91-5b6de4f14261"><span class="section-number-2">8.</span> Front matter</h2>
@@ -3308,7 +3459,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org55bd7a8">
+<pre class="example" id="orge8e8ced">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3320,7 +3471,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgbd87962">
+<pre class="example" id="org12f25ad">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3334,7 +3485,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orga565e23">
+<pre class="example" id="orgd37a64f">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3348,7 +3499,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org72e55fb">
+<pre class="example" id="org46a17bd">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3685,7 +3836,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org0c68587">
+<pre class="example" id="org12486b0">
 - link1
 - link2
 - link3
@@ -3703,7 +3854,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org1ad16af">
+<pre class="example" id="org0490f99">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4054,7 +4205,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org2aa7d51">
+<pre class="example" id="org45889eb">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5645,7 +5796,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgd343846">
+<pre class="example" id="org3209e70">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7273,7 +7424,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org23f04a5">
+<pre class="example" id="org70cc240">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7283,7 +7434,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org3cfde7e">
+<pre class="example" id="org0e54068">
 emacs -Q
 </pre>
 
@@ -7295,7 +7446,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgfca1675">
+<pre class="example" id="org8a50d33">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7356,7 +7507,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8e9598c">
+<pre class="example" id="orgb420699">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
