@@ -1,5 +1,5 @@
 ---
-title: "Our finest flowers (my poem)"
+title: "Poem: Our finest flowers"
 excerpt: "Just read the poem.  No further comment."
 ---
 

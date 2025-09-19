@@ -1,5 +1,5 @@
 ---
-title: "Rise of the druid (my poem)"
+title: "Poem: Rise of the druid"
 excerpt: "Just read the poem.  No further comment."
 ---
 

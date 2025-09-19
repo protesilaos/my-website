@@ -1,5 +1,5 @@
 ---
-title: "What you seek (my poem)"
+title: "Poem: What you seek"
 excerpt: "Just read the poem. No further comment."
 ---
 

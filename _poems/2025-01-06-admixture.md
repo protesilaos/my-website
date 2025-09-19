@@ -1,5 +1,5 @@
 ---
-title: "Admixture (my poem)"
+title: "Poem: Admixture"
 excerpt: "Just read the poem.  No further comment."
 ---
 

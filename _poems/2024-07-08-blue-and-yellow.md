@@ -1,5 +1,5 @@
 ---
-title: "Blue and yellow (my poem)"
+title: "Poem: Blue and yellow"
 excerpt: "Just read the poem.  No further comment."
 ---
 

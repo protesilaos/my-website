@@ -1,5 +1,5 @@
 ---
-title: "Rainmaker (my poem)"
+title: "Poem: Rainmaker"
 excerpt: "Just read the poem.  No further comment."
 ---
 

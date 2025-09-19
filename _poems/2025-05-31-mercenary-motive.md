@@ -1,5 +1,5 @@
 ---
-title: "The mercenary's motive (my poem)"
+title: "Poem: The mercenary's motive"
 excerpt: "Just read the poem. No further comment."
 ---
 

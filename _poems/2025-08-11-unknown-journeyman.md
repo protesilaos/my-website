@@ -1,5 +1,5 @@
 ---
-title: "To the unknown journeyman (my poem)"
+title: "Poem: To the unknown journeyman"
 excerpt: "Just read the poem. No further comment."
 ---
 

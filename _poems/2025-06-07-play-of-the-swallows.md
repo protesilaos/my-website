@@ -1,5 +1,5 @@
 ---
-title: "Play of the swallows (my poem)"
+title: "Poem: Play of the swallows"
 excerpt: "Just read the poem. No further comment."
 ---
 

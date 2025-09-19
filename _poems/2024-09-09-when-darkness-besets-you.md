@@ -1,5 +1,5 @@
 ---
-title: "When darkness besets you (my poem)"
+title: "Poem: When darkness besets you"
 excerpt: "Just read the poem.  No further comment."
 ---
 

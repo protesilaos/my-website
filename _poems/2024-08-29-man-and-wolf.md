@@ -1,5 +1,5 @@
 ---
-title: "Man and wolf (my poem)"
+title: "Poem: Man and wolf"
 excerpt: "Just read the poem.  No further comment."
 ---
 

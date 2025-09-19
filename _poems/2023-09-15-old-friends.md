@@ -1,5 +1,5 @@
 ---
-title: "Old friends (my poem)"
+title: "Poem: Old friends"
 excerpt: "Just read the poem.  No further comment."
 ---
 

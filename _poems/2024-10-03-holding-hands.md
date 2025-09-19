@@ -1,5 +1,5 @@
 ---
-title: "Holding hands (my poem)"
+title: "Poem: Holding hands"
 excerpt: "Just read the poem.  No further comment."
 ---
 

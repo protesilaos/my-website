@@ -1,5 +1,5 @@
 ---
-title: "Large dogs (my poem)"
+title: "Poem: Large dogs"
 excerpt: "Prejudice in the form of praise continues to be prejudice."
 ---
 

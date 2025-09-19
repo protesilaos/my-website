@@ -1,5 +1,5 @@
 ---
-title: "Cowardice (my poem)"
+title: "Poem: Cowardice"
 excerpt: "Just read the poem. No further comment."
 ---
 

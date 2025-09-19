@@ -1,5 +1,5 @@
 ---
-title: "Constraints (my poem)"
+title: "Poem: Constraints"
 excerpt: "Hope for the best."
 ---
 

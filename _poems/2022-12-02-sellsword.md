@@ -1,5 +1,5 @@
 ---
-title: "Sellsword (my poem + audio)"
+title: "Poem: Sellsword"
 excerpt: "Just read the poem or listen to it.  No further comment."
 ---
 

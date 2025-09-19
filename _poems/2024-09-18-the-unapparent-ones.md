@@ -1,5 +1,5 @@
 ---
-title: "The unapparent ones (my poem)"
+title: "Poem: The unapparent ones"
 excerpt: "Just read the poem.  No further comment."
 ---
 

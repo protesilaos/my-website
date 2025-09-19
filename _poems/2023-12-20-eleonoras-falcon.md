@@ -1,5 +1,5 @@
 ---
-title: "Eleonora's falcon (my poem)"
+title: "Poem: Eleonora's falcon"
 excerpt: "Just read the poem.  No further comment."
 ---
 

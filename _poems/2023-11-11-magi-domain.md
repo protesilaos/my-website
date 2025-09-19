@@ -1,5 +1,5 @@
 ---
-title: "Magi's domain (my poem)"
+title: "Poem: Magi's domain"
 excerpt: "Just read the poem.  No further comment."
 ---
 

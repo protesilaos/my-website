@@ -1,5 +1,5 @@
 ---
-title: "Late bloomer (my poem)"
+title: "Poem: Late bloomer"
 excerpt: "Just read the poem.  No further comment."
 ---
 

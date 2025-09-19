@@ -1,5 +1,5 @@
 ---
-title: "Acceptance (my poem)"
+title: "Poem: Acceptance"
 excerpt: "Just read the poem.  No further comment."
 ---
 

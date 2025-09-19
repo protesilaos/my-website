@@ -1,5 +1,5 @@
 ---
-title: "Resident grief (my poem)"
+title: "Poem: Resident grief"
 excerpt: "Just read the poem.  No further comment."
 ---
 

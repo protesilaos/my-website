@@ -1,5 +1,5 @@
 ---
-title: "Travellers (my poem)"
+title: "Poem: Travellers"
 excerpt: "Just read the poem.  No further comment."
 ---
 

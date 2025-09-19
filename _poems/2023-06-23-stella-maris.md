@@ -1,5 +1,5 @@
 ---
-title: "Stella maris (my poem)"
+title: "Poem: Stella maris"
 excerpt: "Just read the poem.  No further comment."
 ---
 

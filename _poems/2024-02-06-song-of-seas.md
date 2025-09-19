@@ -1,5 +1,5 @@
 ---
-title: "The song of seas (my poem)"
+title: "Poem: The song of seas"
 excerpt: "Just read the poem.  No further comment."
 ---
 

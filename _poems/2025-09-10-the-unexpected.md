@@ -1,5 +1,5 @@
 ---
-title: "The unexpected (my poem)"
+title: "Poem: The unexpected"
 excerpt: "Just read the poem. No further comment."
 ---
 

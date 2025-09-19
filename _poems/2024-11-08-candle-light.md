@@ -1,5 +1,5 @@
 ---
-title: "Candle light (my poem)"
+title: "Poem: Candle light"
 excerpt: "Just read the poem.  No further comment."
 ---
 

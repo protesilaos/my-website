@@ -1,5 +1,5 @@
 ---
-title: "Cold bones (my poem)"
+title: "Poem: Cold bones"
 excerpt: "Just read the poem.  No further comment."
 ---
 

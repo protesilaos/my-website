@@ -1,5 +1,5 @@
 ---
-title: "Path of the hawthorns (my poem)"
+title: "Poem: Path of the hawthorns"
 excerpt: "Just read the poem.  No further comment."
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "The hundred magpies (my poem)"
+title: "Poem: The hundred magpies"
 excerpt: "Just read the poem.  No further comment."
 ---
 

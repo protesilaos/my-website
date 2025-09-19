@@ -1,5 +1,5 @@
 ---
-title: "Enchantress (my poem + audio)"
+title: "Poem: Enchantress"
 excerpt: "Just read the poem or listen to it.  No further comment."
 ---
 

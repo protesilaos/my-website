@@ -1,5 +1,5 @@
 ---
-title: "Eagle Rock (my poem)"
+title: "Poem: Eagle Rock"
 excerpt: "Just read the poem.  No further comment."
 ---
 

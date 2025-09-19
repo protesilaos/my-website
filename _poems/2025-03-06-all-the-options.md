@@ -1,5 +1,5 @@
 ---
-title: "All the options (my poem)"
+title: "Poem: All the options"
 excerpt: "Just read the poem.  No further comment."
 ---
 

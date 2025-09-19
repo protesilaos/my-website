@@ -1,5 +1,5 @@
 ---
-title: "Borderland (my poem)"
+title: "Poem: Borderland"
 excerpt: "Just read the poem.  No further comment."
 ---
 

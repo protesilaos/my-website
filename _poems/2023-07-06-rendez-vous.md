@@ -1,5 +1,5 @@
 ---
-title: "Rendez-vous (my poem)"
+title: "Poem: Rendez-vous"
 excerpt: "Just read the poem.  No further comment."
 ---
 
