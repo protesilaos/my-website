@@ -135,7 +135,8 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">7.5. Define a completely custom identifier scheme</a>
 <ul>
 <li><a href="#h:8b8a4fa9-09fe-4d5c-a003-8808fe292e8b">7.5.1. A custom identifier that is a simple incrementing number scheme</a></li>
-<li><a href="#h:f92cd454-51f4-4403-9061-3b2efaef2851">7.5.2. A custom identifier to encode publisher data</a></li>
+<li><a href="#h:197f83af-6149-4262-a186-14d0eab24f1e">7.5.2. A custom identifier that is a simple string given at the prompt each time</a></li>
+<li><a href="#h:f92cd454-51f4-4403-9061-3b2efaef2851">7.5.3. A custom identifier to encode publisher data</a></li>
 </ul>
 </li>
 </ul>
@@ -787,8 +788,8 @@ like 2022-06-16 or a date plus time: 2022-06-16 14:30.  Without the
 </p></li>
 
 <li><code>identifier</code>: Prompts with completion for the identifier of the new
-note. It expects a string that has the format of
-<code>denote-date-identifier-format</code>.</li>
+note. It expects a string that has the format of <code>denote-date-identifier-format</code>.
+[ Also see: <a href="#h:197f83af-6149-4262-a186-14d0eab24f1e">A custom identifier that is a simple string given at the prompt each time</a>. ]</li>
 
 <li><code>template</code>: Prompts for a KEY among the <code>denote-templates</code>.  The value
 of that KEY is used to populate the new note with content, which is
@@ -1788,7 +1789,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org1a34db7">
+<pre class="example" id="org6b19104">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2362,7 +2363,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orgbb7501f">
+<pre class="example" id="org93285ed">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2382,7 +2383,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgbb967ca">
+<pre class="example" id="org0393352">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3095,7 +3096,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org6dd2b32">
+<pre class="example" id="org16e9cc6">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3406,10 +3407,92 @@ makes Denote use the custom identifier scheme.
 ;;   (my-denote-get-identifier "1" nil))
 </pre>
 </div>
+
+<p>
+An alternative for the above:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote--find-first-unused-id-as-number (id)
+  (while (gethash id denote-used-identifiers)
+    (setq id (number-to-string (1+ (string-to-number id)))))
+  id)
+
+(defun my-denote-generate-identifier-as-number (initial-identifier _date)
+  (let ((denote-used-identifiers (or denote-used-identifiers (denote--get-all-used-ids))))
+    (cond (;; Always use the supplied initial-identifier if possible,
+           ;; regardless of format.
+           (and initial-identifier
+                (not (gethash initial-identifier denote-used-identifiers)))
+           initial-identifier)
+          (;; If the supplied initial-identifier is already used, but
+           ;; it has the right format, make is unique.
+           (and initial-identifier
+                (string-match-p "[1-9][0-9]*" initial-identifier))
+           (my-denote--find-first-unused-id-as-number initial-identifier))
+          (;; Else, the supplied initial-identifier is nil or it is
+           ;; already used or it does not match the supplied
+           ;; format. Ignore it and generate a valid identifier with
+           ;; the right format.
+           t
+           (my-denote--find-first-unused-id-as-number "1")))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:197f83af-6149-4262-a186-14d0eab24f1e" class="outline-4">
+<h4 id="h:197f83af-6149-4262-a186-14d0eab24f1e"><span class="section-number-4">7.5.2.</span> A custom identifier that is a simple string given at the prompt each time</h4>
+<div class="outline-text-4" id="text-h:197f83af-6149-4262-a186-14d0eab24f1e">
+<p>
+This is a sample implementation of custom Denote identifiers (<a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">Define a completely custom identifier scheme</a>).
+</p>
+
+<p>
+While it is possible to implement a certain automatic scheme for the
+Denote identifier, users may prefer to have a prompt each time that
+asks them for a simple string which is then used as-is. This can be
+done by modifying the user option <code>denote-prompts</code> to include the
+<code>identifier</code> in the list of file name components to prompt for (<a href="#h:f9204f1f-fcee-49b1-8081-16a08a338099">The <code>denote-prompts</code> option</a>).
+</p>
+
+<p>
+For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; The default is '(title keywords)
+(setq denote-prompts '(identifier title keywords))
+</pre>
+</div>
+
+<p>
+With the above, each time Denote needs to produce a new file name it
+will prompt for the identifier. Note that it is then up to the user to
+guarantee the uniqueness of the resulting identifiers. With this code,
+Denote will fall back to using the current date as the identifier if
+the provided string is not yielding a unique match.
+</p>
+
+<p>
+In practice, the identifier prompt is a useful tool for wrapper
+functions that need to do something special in a given context. For
+example, in a folder with some ancient photos the user wants to have
+an identifier scheme that is <code>PLACE+PEOPLE+N</code> where it is easier to
+prompt for that value each time than write some extra code to do the
+work. To this end, here is a sample wrapper function of <code>denote-rename-file</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-denote-rename-file-with-identifier-prompt ()
+  (interactive)
+  (let ((denote-prompts '(identifier title keywords)))
+    (call-interactively 'denote-rename-file)))
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-h:f92cd454-51f4-4403-9061-3b2efaef2851" class="outline-4">
-<h4 id="h:f92cd454-51f4-4403-9061-3b2efaef2851"><span class="section-number-4">7.5.2.</span> A custom identifier to encode publisher data</h4>
+<h4 id="h:f92cd454-51f4-4403-9061-3b2efaef2851"><span class="section-number-4">7.5.3.</span> A custom identifier to encode publisher data</h4>
 <div class="outline-text-4" id="text-h:f92cd454-51f4-4403-9061-3b2efaef2851">
 <p>
 This is a sample implementation of custom Denote identifiers (<a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">Define a completely custom identifier scheme</a>).
@@ -3534,7 +3617,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org108420e">
+<pre class="example" id="orgec0e1b8">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3546,7 +3629,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org3d6fde4">
+<pre class="example" id="org91e79c3">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3560,7 +3643,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgdcd5760">
+<pre class="example" id="org0689782">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3574,7 +3657,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge727cdf">
+<pre class="example" id="org373b8f4">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3911,7 +3994,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org440619e">
+<pre class="example" id="org217e23e">
 - link1
 - link2
 - link3
@@ -3929,7 +4012,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org789ad7c">
+<pre class="example" id="org2858b74">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4280,7 +4363,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org020e217">
+<pre class="example" id="orgd84eb67">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5871,7 +5954,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org0761a4e">
+<pre class="example" id="org146a985">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7499,7 +7582,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org058e83e">
+<pre class="example" id="org0ead23d">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7509,7 +7592,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgdd4d2f6">
+<pre class="example" id="org55779f7">
 emacs -Q
 </pre>
 
@@ -7521,7 +7604,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgd712e29">
+<pre class="example" id="org49ce04d">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7582,7 +7665,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org5d11e2d">
+<pre class="example" id="orgd59b895">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
