@@ -132,7 +132,12 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">7.4. Features of the file-naming scheme for searching or filtering</a></li>
-<li><a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">7.5. Define a completely custom identifier scheme</a></li>
+<li><a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">7.5. Define a completely custom identifier scheme</a>
+<ul>
+<li><a href="#h:8b8a4fa9-09fe-4d5c-a003-8808fe292e8b">7.5.1. A custom identifier that is a simple incrementing number scheme</a></li>
+<li><a href="#h:f92cd454-51f4-4403-9061-3b2efaef2851">7.5.2. A custom identifier to encode publisher data</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">8. Front matter</a>
@@ -1783,7 +1788,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orge4a3f18">
+<pre class="example" id="org1a34db7">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2357,7 +2362,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org117ca69">
+<pre class="example" id="orgbb7501f">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2377,7 +2382,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgabe21f2">
+<pre class="example" id="orgbb967ca">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3090,7 +3095,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgafc85b6">
+<pre class="example" id="org6dd2b32">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3340,6 +3345,75 @@ the publisher. For users who maintain a library of academic works, for
 example, this kind of identifier is more useful than the default
 date+time scheme.
 </p>
+</div>
+<div id="outline-container-h:8b8a4fa9-09fe-4d5c-a003-8808fe292e8b" class="outline-4">
+<h4 id="h:8b8a4fa9-09fe-4d5c-a003-8808fe292e8b"><span class="section-number-4">7.5.1.</span> A custom identifier that is a simple incrementing number scheme</h4>
+<div class="outline-text-4" id="text-h:8b8a4fa9-09fe-4d5c-a003-8808fe292e8b">
+<p>
+This is a sample implementation of custom Denote identifiers (<a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">Define a completely custom identifier scheme</a>).
+</p>
+
+<p>
+In its simplest form, a custom Denote identifier can be an integer
+that is incremented each time a new file name is produced. In the
+following code block, <code>my~denote-get-identifier</code> is the function we
+bind to the variable <code>denote-get-identifier-function</code>, which then
+makes Denote use the custom identifier scheme.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq denote-get-identifier-function #'my-denote-get-identifier)
+
+(defun my-denote--get-all-used-ids ()
+  (when-let* ((ids (make-hash-table :test 'equal))
+              (files (denote-directory-files nil nil nil nil :has-identifier))
+              (file-names (mapcar #'file-name-nondirectory files))
+              (names (append file-names (denote--buffer-file-names))))
+    (dolist (name names)
+      (when-let* ((id (denote-retrieve-filename-identifier name)))
+        (puthash id t ids)))
+    ids))
+
+(defun my-denote-get-identifier (initial-identifier _date)
+  (let ((identifiers (or denote-used-identifiers (my-denote--get-all-used-ids))))
+    (cond
+     ((and initial-identifier (not (gethash initial-identifier identifiers)))
+      initial-identifier)
+     (t
+      (number-to-string
+       (let ((keys nil))
+         ;; NOTE 2025-09-19: The `string-to-number' is done with the
+         ;; assumption that this is always an integer.  It will break
+         ;; with the default Denote identifier scheme or, indeed,
+         ;; anything that is not strictly numeric.
+         (when identifiers (maphash (lambda (key value) (push (string-to-number key) keys)) identifiers))
+         (if keys
+             (+ (apply #'max keys) 1)
+           1)))))))
+
+
+
+;; And this is for testing purposes
+
+;; (let ((denote-directory "/tmp/"))
+;;   (my-denote-get-identifier nil nil))
+;;
+;; (let* ((denote-used-identifiers (make-hash-table :test #'equal))
+;;        (_ (progn
+;;             (puthash "1" 1 denote-used-identifiers)
+;;             (puthash "2" 2 denote-used-identifiers)
+;;             (puthash "3" 3 denote-used-identifiers))))
+;;   (my-denote-get-identifier "1" nil))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:f92cd454-51f4-4403-9061-3b2efaef2851" class="outline-4">
+<h4 id="h:f92cd454-51f4-4403-9061-3b2efaef2851"><span class="section-number-4">7.5.2.</span> A custom identifier to encode publisher data</h4>
+<div class="outline-text-4" id="text-h:f92cd454-51f4-4403-9061-3b2efaef2851">
+<p>
+This is a sample implementation of custom Denote identifiers (<a href="#h:3048f558-7d84-45d6-9ef2-53055483e801">Define a completely custom identifier scheme</a>).
+</p>
 
 <p>
 This custom identifier cannot be derived programmatically though, so
@@ -3442,6 +3516,7 @@ Multiple authors are separated by a space or comma."
 </div>
 </div>
 </div>
+</div>
 <div id="outline-container-h:13218826-56a5-482a-9b91-5b6de4f14261" class="outline-2">
 <h2 id="h:13218826-56a5-482a-9b91-5b6de4f14261"><span class="section-number-2">8.</span> Front matter</h2>
 <div class="outline-text-2" id="text-h:13218826-56a5-482a-9b91-5b6de4f14261">
@@ -3459,7 +3534,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orge8e8ced">
+<pre class="example" id="org108420e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3471,7 +3546,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org12f25ad">
+<pre class="example" id="org3d6fde4">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3485,7 +3560,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgd37a64f">
+<pre class="example" id="orgdcd5760">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3499,7 +3574,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org46a17bd">
+<pre class="example" id="orge727cdf">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3836,7 +3911,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org12486b0">
+<pre class="example" id="org440619e">
 - link1
 - link2
 - link3
@@ -3854,7 +3929,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0490f99">
+<pre class="example" id="org789ad7c">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4205,7 +4280,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org45889eb">
+<pre class="example" id="org020e217">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5796,7 +5871,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org3209e70">
+<pre class="example" id="org0761a4e">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7424,7 +7499,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org70cc240">
+<pre class="example" id="org058e83e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7434,7 +7509,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org0e54068">
+<pre class="example" id="orgdd4d2f6">
 emacs -Q
 </pre>
 
@@ -7446,7 +7521,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org8a50d33">
+<pre class="example" id="orgd712e29">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7507,7 +7582,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgb420699">
+<pre class="example" id="org5d11e2d">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
