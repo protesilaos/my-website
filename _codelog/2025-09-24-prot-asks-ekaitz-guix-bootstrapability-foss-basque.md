@@ -3,6 +3,7 @@ title: "Prot Asks: Ekaitz about Guix, bootstrapability, FOSS advocacy, and the B
 excerpt: "I talk to Ekaitz about being a Guix developer, bootstrapping software, advocating for FOSS, and life in the Basque country."
 layout: vlog
 mediaid: "h3WaPyDc3ik"
+redirect_from: /codelog/2025-09-24=prot-asks-ekaitz-guix-bootstrapability-foss-basque/
 ---
 
 In this video I talk to Ekaitz Zárraga, a free software engineer and
