@@ -72,7 +72,7 @@ Current development target is 5.0.0-dev.
 <li><a href="#h:3f3c3728-1b34-437d-9d0c-b110f5b161a9">4. Enable and load</a>
 <ul>
 <li><a href="#h:b66b128d-54a4-4265-b59f-4d1ea2feb073">4.1. The <code>require-theme</code> for built-in Emacs themes</a></li>
-<li><a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">4.2. Sample configuration with and without use-package</a></li>
+<li><a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">4.2. Sample configuration</a></li>
 <li><a href="#h:e68560b3-7fb0-42bc-a151-e015948f8a35">4.3. Differences between loading and enabling</a></li>
 </ul>
 </li>
@@ -617,7 +617,8 @@ customizations (<a href="#h:f4651d55-8c07-46aa-b52b-bed1e53463bb">Advanced custo
 </p>
 
 <p>
-The commands <code>modus-themes-toggle</code> and <code>modus-themes-select</code> use
+The commands <code>modus-themes-toggle</code>, <code>modus-themes-rotate</code>,
+<code>modus-themes-load-random</code>, and <code>modus-themes-select</code> use
 <code>modus-themes-load-theme</code> internally (<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>).
 The aforementioned hold true for them as well.
 </p>
@@ -639,10 +640,6 @@ function must be used in this case as a replacement.  For example:
 (setq modus-themes-bold-constructs t
       modus-themes-italic-constructs t)
 
-;; Maybe define some palette overrides, such as by using our presets
-(setq modus-themes-common-palette-overrides
-      modus-themes-preset-overrides-intense)
-
 ;; Load the theme of choice (built-in themes are always "safe" so they
 ;; do not need the `no-require' argument of `load-theme').
 (load-theme 'modus-operandi)
@@ -653,7 +650,7 @@ function must be used in this case as a replacement.  For example:
 </div>
 </div>
 <div id="outline-container-h:e979734c-a9e1-4373-9365-0f2cd36107b8" class="outline-3">
-<h3 id="h:e979734c-a9e1-4373-9365-0f2cd36107b8"><span class="section-number-3">4.2.</span> Sample configuration with and without use-package</h3>
+<h3 id="h:e979734c-a9e1-4373-9365-0f2cd36107b8"><span class="section-number-3">4.2.</span> Sample configuration</h3>
 <div class="outline-text-3" id="text-h:e979734c-a9e1-4373-9365-0f2cd36107b8">
 <p>
 What follows is a variant of what we demonstrate in the previous
@@ -668,19 +665,15 @@ package configurations in their setup.  We use this as an example:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; For the built-in themes which cannot use `require'.
 (use-package emacs
-  :config
+  :init
   (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in Modus themes
-
+  :config
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil)
 
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        modus-themes-preset-overrides-intense)
-
   ;; Load the theme of your choice.
-  (load-theme 'modus-operandi)
+  (modus-themes-load-theme 'modus-operandi)
 
   (define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle))
 
@@ -694,12 +687,8 @@ package configurations in their setup.  We use this as an example:
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil)
 
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        modus-themes-preset-overrides-intense)
-
   ;; Load the theme of your choice.
-  (load-theme 'modus-operandi)
+  (modus-themes-load-theme 'modus-operandi)
 
   (define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle))
 </pre>
@@ -716,12 +705,8 @@ The same without <code>use-package</code>:
 (setq modus-themes-italic-constructs t
       modus-themes-bold-constructs nil)
 
-;; Maybe define some palette overrides, such as by using our presets
-(setq modus-themes-common-palette-overrides
-      modus-themes-preset-overrides-intense)
-
 ;; Load the theme of your choice:
-(load-theme 'modus-operandi :no-confirm)
+(modus-themes-load-theme 'modus-operandi :no-confirm)
 
 (define-key global-map (kbd "&lt;f5&gt;") #'modus-themes-toggle)
 </pre>
@@ -789,7 +774,7 @@ session, are better off using something like this:
 </p>
 
 <p>
-<a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">Sample configuration with and without use-package</a>.
+<a href="#h:e979734c-a9e1-4373-9365-0f2cd36107b8">Sample configuration</a>.
 </p>
 
 <p>
@@ -927,10 +912,11 @@ Possible values:
 </ol>
 
 <p>
-When the value is non-<code>nil</code>, the commands <code>modus-themes-toggle</code> and
+When the value is non-<code>nil</code>, the commands <code>modus-themes-toggle</code>,
+<code>modus-themes-rotate</code>, <code>modus-themes-load-random</code>, and
 <code>modus-themes-select</code>, as well as the <code>modus-themes-load-theme</code>
 function, will disable all other themes while loading the specified
-Modus theme (<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>).  This is done to
+Modus theme (<a href="#h:4fbfed66-5a89-447a-a07d-a03f6819c5bd">Option for which themes to toggle</a>). This is done to
 ensure that Emacs does not blend two or more themes: such blends lead
 to awkward results that undermine the work of the designer.
 </p>
@@ -3193,7 +3179,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org6c11544">
+<pre class="example" id="org369e851">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4535,7 +4521,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orga17bba2">
+<pre class="example" id="orgfaadcfd">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -6697,7 +6683,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orge3c5d5d">
+<pre class="example" id="orgd72e5e8">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6742,7 +6728,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org3b4ba32">
+<pre class="example" id="orge00278e">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7108,7 +7094,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org8c440c7">
+<pre class="example" id="org4ea6db3">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
