@@ -1,6 +1,6 @@
 ---
 title: "Emacs: 'modus-themes' as a basis for other themes; 'ef-themes' is first"
- excerpt: "Update on changes I making to allow the modus-themes to be used as a basis for other other projects. My ef-themes is the first of that kind."
+excerpt: "Update on changes I making to allow the modus-themes to be used as a basis for other other projects. My ef-themes is the first of that kind."
 ---
 
 [ This is a development note. Things might change before the release
