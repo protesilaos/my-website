@@ -6,7 +6,7 @@ excerpt: "Update on changes I making to allow the modus-themes to be used as a b
 [ This is a development note. Things might change before the release
   of `modus-themes` version `5.0.0` and `ef-themes` version `2.0.0`. ]
 
-in previous entries, i outlined how my `ef-themes` will be built on
+In previous entries, I outlined how my `ef-themes` will be built on
 top of my `modus-themes` and then how the `modus-themes` are partly
 redesigned to enable such an arrangement:
 
@@ -29,21 +29,24 @@ users must change their configuration to at least this minimal setup:
 
 ```elisp
 (use-package ef-themes
-  :config
+  :init
   ;; This is essential to let the Ef themes take over the Modus themes commands.
   (ef-themes-take-over-modus-themes-mode 1))
 ```
 
-Or this sort, if they want some key bindings:
+Or this sort, if they want some key bindings and customisations:
 
 ```elisp
 (use-package ef-themes
+  :init
+  (ef-themes-take-over-modus-themes-mode 1)
   :bind
   (("<f5>" . modus-themes-rotate)
    ("C-<f5>" . modus-themes-select)
    ("M-<f5>" . modus-themes-load-random))
   :config
-  (ef-themes-take-over-modus-themes-mode 1))
+  ;; All customisations here.
+  (setq modus-themes-mixed-fonts t))
 ```
 
 ## Load a theme
