@@ -73,6 +73,12 @@ major versions are not backward-compatible due to the limited
 resources at my disposal to support multiple versions of Emacs and of
 the themes across the years.
 
+Starting with version `5.0.0` of the `modus-themes`, other packages
+can be built on top to provide their own "Modus" derivative themes.
+The manual has a section about building on top of Modus. My
+`ef-themes` and `standard-themes` are done in this way (versions
+`2.0.0` and `3.0.0`, respectively).
+
 + Package name (GNU ELPA): `modus-themes`
 + Official manual: <https://protesilaos.com/emacs/modus-themes>
 + Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
@@ -379,6 +385,13 @@ font-lock and Org faces, complement it with a wider and harmonious
 colour palette, address many inconsistencies, and apply established
 semantic patterns across all interfaces by supporting a large number
 of packages.
+
+Starting with version `3.0.0`, the `standard-themes` are built on top of the
+`modus-themes`. This means that all customisation options of the Modus
+themes apply to the Standard themes. Same for all Modus commands that load a
+theme. Enable `standard-themes-take-over-modus-themes-mode` to set up this
+arrangement (or enable `modus-themes-include-derivatives-mode` instead
+to blend Standard and Modus into one collection).
 
 + Package name (GNU ELPA): `standard-themes`
 + Official manual: <https://protesilaos.com/emacs/standard-themes>
