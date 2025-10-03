@@ -386,6 +386,13 @@ colour palette, address many inconsistencies, and apply established
 semantic patterns across all interfaces by supporting a large number
 of packages.
 
+Starting with version `3.0.0`, the `standard-themes` are built on top of the
+`modus-themes`. This means that all customisation options of the Modus
+themes apply to the Standard themes. Same for all Modus commands that load a
+theme. Enable `standard-themes-take-over-modus-themes-mode` to set up this
+arrangement (or enable `modus-themes-include-derivatives-mode` instead
+to blend Standard and Modus into one collection).
+
 + Package name (GNU ELPA): `standard-themes`
 + Official manual: <https://protesilaos.com/emacs/standard-themes>
 + Change log: <https://protesilaos.com/emacs/standard-themes-changelog>
