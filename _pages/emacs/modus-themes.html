@@ -3179,7 +3179,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org369e851">
+<pre class="example" id="orgcc6b520">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4521,7 +4521,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orgfaadcfd">
+<pre class="example" id="org355a86f">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5179,9 +5179,10 @@ This section concerns package developers or advanced users.
 
 <p>
 The Modus themes can be used as the basis for another theme. The
-<code>ef-themes</code> package (also by Protesilaos), is one such case.
-Developers may do so to benefit from the extensive customization of
-the Modus themes and the fact that they are part of core Emacs.
+<code>ef-themes</code> and <code>standard-themes</code> packages (also by Protesilaos), are
+two such case. Developers may do so to benefit from the extensive
+customization of the Modus themes and the fact that they are part of
+core Emacs.
 </p>
 
 <p>
@@ -5193,7 +5194,7 @@ in this manual, and (v) <code>provide-theme</code> the theme.
 </p>
 
 <p>
-Concretely, <code>modus-themes-theme</code> expects the following arguments:
+Concretely, <code>modus-themes-theme</code> expects the following mandatory arguments:
 </p>
 
 <dl class="org-dl">
@@ -5215,9 +5216,22 @@ above two palettes. It is functionally equivalent to the
 <code>USER-PALETTE</code>, except it is meant to be customized by the end user.
 Its value can also be nil.</dd>
 </dl>
+<dl class="org-dl">
+<dt>Optional <code>CUSTOM-FACES</code></dt><dd>A list of face definitions like those in
+<code>modus-themes-faces</code>, to extend or modify what core Modus defines.
+If provided, they override whatever definition is present in
+<code>modus-themes-faces</code> in case of a conflict. Derivative themes can
+thus deviate from the style of core Modus, wherever necessary.</dd>
+</dl>
+<dl class="org-dl">
+<dt>Optional <code>CUSTOM-VARIABLES</code></dt><dd>A list of custom variables like those
+defined in <code>modus-themes-custom-variables</code>. They also override the
+core Modus definitions in case of a conflict.</dd>
+</dl>
 
 <p>
-This is an example of a theme that builds on top of <code>modus-operandi</code>:
+This is an example of a theme that builds on top of <code>modus-operandi</code>,
+passing all the mandatory arguments, but not the optional ones:
 </p>
 
 <div class="org-src-container">
@@ -5245,6 +5259,47 @@ arguments it is given. It will thus not make any attempt to test if
 the variables are bound, nor will it declare any customization
 options. In the above example, the <code>ef-summer-palette-overrides</code> is a
 user option that is declared in that theme&rsquo;s file.
+</p>
+
+<p>
+In addition to defining their own colors, themes can provide an
+entirely custom list of face definitions and customization options.
+This mirrors the style of <code>modus-themes-faces</code> and
+<code>modus-themes-custom-variables</code>, as already noted. For example, the
+<code>standard-themes</code> have a pseudo-3D style for their active mode line.
+They are declared in this way:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-theme
+  standard-dark
+  standard-themes
+  "Like the unthemed dark Emacs, but more consistent."
+  dark
+  modus-vivendi-palette
+  standard-dark-palette
+  standard-dard-palette-overrides
+  standard-themes-custom-faces) ; NOTE the additional optional argument
+</pre>
+</div>
+
+<p>
+The <code>standard-themes-custom-faces</code> in this example specifies a list of
+face definitions like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Simplified example for illustration purposes
+(defconst standard-themes-custom-faces
+  '(
+    `(mode-line ((,c :box (:style released-button :color ,border-mode-line-active))))))
+</pre>
+</div>
+
+<p>
+Custom faces passed in this way can still define their semantic
+palette mappings, as illustrated herein where <code>border-mode-line-active</code>
+corresponds to some named color in the palette of the active theme.
 </p>
 
 <p>
@@ -6683,7 +6738,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgd72e5e8">
+<pre class="example" id="orgbd7c8b6">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6728,7 +6783,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orge00278e">
+<pre class="example" id="orgfe332e1">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7094,7 +7149,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org4ea6db3">
+<pre class="example" id="org5c309aa">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
