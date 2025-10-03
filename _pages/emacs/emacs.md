@@ -73,6 +73,12 @@ major versions are not backward-compatible due to the limited
 resources at my disposal to support multiple versions of Emacs and of
 the themes across the years.
 
+Starting with version `5.0.0` of the `modus-themes`, other packages
+can be built on top to provide their own "Modus" derivative themes.
+The manual has a section about building on top of Modus. My
+`ef-themes` and `standard-themes` are done in this way (versions
+`2.0.0` and `3.0.0`, respectively).
+
 + Package name (GNU ELPA): `modus-themes`
 + Official manual: <https://protesilaos.com/emacs/modus-themes>
 + Change log: <https://protesilaos.com/emacs/modus-themes-changelog>
