@@ -33,7 +33,7 @@ notes contribute to a continuous process of discovery. We comment on
 how the interplay between the person and their notes can give rise to
 new thoughts.
 
-## Links from Christian
+## Links from Christian Tietze
 
 Some references I mentioned:
 
