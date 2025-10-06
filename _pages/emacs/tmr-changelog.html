@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:87d321d7-e88e-4303-a7fc-fa4264e62a92">Version 1.2.0 on 2025-10-06</a></li>
 <li><a href="#h:41248cbf-d399-411d-91ff-5359a00a1577">Version 1.1.0 on 2025-04-18</a></li>
 <li><a href="#h:88595352-0263-425c-baab-6042f63ae28a">Version 1.0.0 on 2024-08-30</a></li>
 <li><a href="#h:52e3b3ac-70ef-47c5-895c-92adbd5c92b0">Version 0.4.0 on 2022-07-07</a></li>
@@ -26,6 +27,112 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <li><a href="#h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</a></li>
 <li><a href="#h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:87d321d7-e88e-4303-a7fc-fa4264e62a92" class="outline-2">
+<h2 id="h:87d321d7-e88e-4303-a7fc-fa4264e62a92">Version 1.2.0 on 2025-10-06</h2>
+<div class="outline-text-2" id="text-h:87d321d7-e88e-4303-a7fc-fa4264e62a92">
+<p>
+This release introduces several quality-of-life refinements to an
+already stable and featureful package.
+</p>
+</div>
+<div id="outline-container-h:4a695649-c356-4410-ab3e-27edcf5852e7" class="outline-3">
+<h3 id="h:4a695649-c356-4410-ab3e-27edcf5852e7">Timers can now appear on the modeline</h3>
+<div class="outline-text-3" id="text-h:4a695649-c356-4410-ab3e-27edcf5852e7">
+<p>
+The new minor mode <code>tmr-mode-line-mode</code> controls whether running
+timers are displayed on the mode line. More specifically, they are
+displayed in the <code>global-mode-string</code>, which can also be set in the
+<code>tab-bar-mode</code> (this way the information appears in one place instead
+of all the mode lines, assuming default settings).
+</p>
+
+<p>
+The exact format of a timer on display is controlled by the user
+option <code>tmr-mode-line-format</code>. The number of timers is set with the
+option <code>tmr-mode-line-max-timers</code>. The separator between multiple
+timers is <code>tmr-mode-line-separator</code>. The length of each timer's
+optional description is subject to <code>tmr-mode-line-max-desc-length</code>.
+While the entire indicator can have a prefix, per <code>tmr-mode-line-prefix</code>.
+</p>
+
+<p>
+Thanks to Steven Allen for contributing the original version of this
+feature in pull request 2: <a href="https://github.com/protesilaos/tmr/pull/2">https://github.com/protesilaos/tmr/pull/2</a>.
+Steven has assigned copyright to the Free Software Foundation. Further
+changes by me, such as to make the timers on the mode line clickable
+(which produces a tabulated view, per <code>tmr-tabulated-view</code>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:5bc7646d-b785-461a-9d85-331afb958002" class="outline-3">
+<h3 id="h:5bc7646d-b785-461a-9d85-331afb958002">Notifications for more operating systems</h3>
+<div class="outline-text-3" id="text-h:5bc7646d-b785-461a-9d85-331afb958002">
+<p>
+Timers can optionally trigger a system notification, via the abnormal
+hook <code>tmr-timer-finished-functions</code>. The relevant function is
+<code>tmr-notification-notify</code>. It used to only support Linux. Now it is
+extended to handle Android, Windows, and Haiku.
+</p>
+
+<p>
+Thanks to Lucas Quintana for the contribution in pull request 10:
+<a href="https://github.com/protesilaos/tmr/pull/10">https://github.com/protesilaos/tmr/pull/10</a>. Lucas has assigned
+copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-h:78bf9f7d-549c-46e5-bde2-efab21f1fba4" class="outline-3">
+<h3 id="h:78bf9f7d-549c-46e5-bde2-efab21f1fba4">The tabulated timers have a "duration" column</h3>
+<div class="outline-text-3" id="text-h:78bf9f7d-549c-46e5-bde2-efab21f1fba4">
+<p>
+The <code>tmr-tabulated-view</code> command (alias <code>tmr-list-timers</code>) now
+includes a "duration" column, in addition to all the other informative
+data on display.
+</p>
+
+<p>
+[ Remember that the tabulated view can be used to create, duplicate,
+  edit, etc. the timers. ]
+</p>
+
+<p>
+Thanks to jpg for suggesting this in issue 11:
+<a href="https://github.com/protesilaos/tmr/issues/11">https://github.com/protesilaos/tmr/issues/11</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:5309ee0b-edd0-4d75-849c-df008b4014ae" class="outline-3">
+<h3 id="h:5309ee0b-edd0-4d75-849c-df008b4014ae">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:5309ee0b-edd0-4d75-849c-df008b4014ae">
+<ul class="org-ul">
+<li>System notifications specify the <code>:app-icon</code> of Emacs. It will be
+displayed, if the underlying software supports it (I see it on
+Linux, anyway).</li>
+
+<li>The option to play the <code>tmr-sound-file</code> via the abnormal hook
+<code>tmr-timer-finished-functions</code> is redone to not rely on the system
+shell (implicitly <code>bash</code>). This way, users who use exotic shell
+alternatives will not run into any trouble. This is done in response
+to a relevant problem that g-gundam was facing with the <code>nushell</code>:
+<a href="https://github.com/protesilaos/tmr/pull/7">https://github.com/protesilaos/tmr/pull/7</a>.</li>
+
+<li>The function <code>tmr-notification-notify</code> is better at informing the
+user that it has produced the warning about the lack of DBUS
+support. Before, the notification did not identity itself as
+belonging to the <code>tmr</code> package.</li>
+
+<li>The function <code>tmr-running-timers-p</code> is now available as a standalone
+function to do what was done before inside other functions. This is
+useful for anyone writing custom code on top of <code>tmr</code>. Thanks to
+Eugene Mikhaylov for suggesting the idea in issue 9:
+<a href="https://github.com/protesilaos/tmr/issues/9">https://github.com/protesilaos/tmr/issues/9</a>.</li>
+
+<li>The manual is updated to include whatever necessary from the
+aforementioned.</li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-h:41248cbf-d399-411d-91ff-5359a00a1577" class="outline-2">
@@ -319,7 +426,7 @@ The tabulated view now shows the remaining time for all timer objects.
 This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
 </p>
 
-<pre class="example" id="org89d8ac1">
+<pre class="example" id="org2949999">
   Start      End        Remaining  Description
   10:11:49   10:11:54   ✔
   10:11:36   10:31:36   19m 35s
@@ -448,7 +555,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="orgb49b0e3">
+<pre class="example" id="org76a4c79">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
