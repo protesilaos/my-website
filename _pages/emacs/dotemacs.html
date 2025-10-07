@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-10-03 09:31:04 +0300 with a word
-count of 109924.</b>
+<b>Last revised and exported on 2025-10-07 13:03:51 +0300 with a word
+count of 110417.</b>
 </p>
 
 <p>
@@ -420,7 +420,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-10-03 09:31:04 +0300):
+(2025-10-07 13:03:51 +0300):
 </p>
 
 <div class="org-src-container">
@@ -515,7 +515,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org5570647">
+<pre class="example" id="orgbcd74f6">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -595,7 +595,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgb7964a4">
+<pre class="example" id="orgbc440f2">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -603,7 +603,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org5c93afe">
+<pre class="example" id="orgc9df0c1">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1545,7 +1545,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgf14f801">
+<pre class="example" id="org543fed2">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -2101,6 +2101,46 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
+(prot-emacs-comment
+  (:eval nil)
+  (add-to-list 'load-path "/home/prot/Git/Projects/modus-themes/")
+  (add-to-list 'load-path "/home/prot/Git/Projects/ef-themes/")
+
+  (require 'modus-themes)
+  (require 'ef-themes)
+
+  (ef-themes-take-over-modus-themes-mode 1)
+
+  (prot-emacs-keybind global-map
+    "&lt;f5&gt;" #'modus-themes-rotate
+    "C-&lt;f5&gt;" #'modus-themes-select
+    "M-&lt;f5&gt;" #'modus-themes-load-random)
+
+  (setq modus-themes-variable-pitch-ui t
+        modus-themes-mixed-fonts t
+        modus-themes-to-rotate nil ; defaults to the return value of `modus-themes-get-themes'
+        modus-themes-headings ; read the manual's entry of the doc string
+        '((0 . (variable-pitch light 1.9))
+          (1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.7))
+          (3 . (variable-pitch regular 1.6))
+          (4 . (variable-pitch regular 1.5))
+          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+          (6 . (variable-pitch 1.3))
+          (7 . (variable-pitch 1.2))
+          (agenda-date . (semilight 1.5))
+          (agenda-structure . (variable-pitch light 1.9))
+          (t . (variable-pitch 1.1))))
+
+  ;; The `ef-themes' provide lots of themes.  I want to pick one at
+  ;; random when I start Emacs: the `modus-themes-load-random' does just
+  ;; that (it can be called interactively as well).  I just check with
+  ;; my desktop environment to determine if the choice should be about
+  ;; a light or a dark theme.  Those functions are in my init.el.
+  (if (prot-emacs-theme-environment-dark-p)
+      (modus-themes-load-random 'dark)
+    (modus-themes-load-random 'light)))
+
 (provide 'prot-emacs-ef-themes)
 </pre>
 </div>
@@ -2222,6 +2262,47 @@ Affectionately Reimagined Default &#x2026; themes.</li>
    ("C-&lt;f5&gt;" . modus-themes-select)
    ("M-&lt;f5&gt;" . modus-themes-load-random))
   :config
+  (setq modus-themes-variable-pitch-ui t
+        modus-themes-mixed-fonts t
+        modus-themes-to-rotate nil ; defaults to the return value of `modus-themes-get-themes'
+        modus-themes-headings ; read the manual's entry of the doc string
+        '((0 . (variable-pitch light 1.9))
+          (1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.7))
+          (3 . (variable-pitch regular 1.6))
+          (4 . (variable-pitch regular 1.5))
+          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+          (6 . (variable-pitch 1.3))
+          (7 . (variable-pitch 1.2))
+          (agenda-date . (semilight 1.5))
+          (agenda-structure . (variable-pitch light 1.9))
+          (t . (variable-pitch 1.1))))
+
+  ;; The `standard-themes' provide lots of themes.  I want to pick one at
+  ;; random when I start Emacs: the `modus-themes-load-random' does just
+  ;; that (it can be called interactively as well).  I just check with
+  ;; my desktop environment to determine if the choice should be about
+  ;; a light or a dark theme.  Those functions are in my init.el.
+  (if (prot-emacs-theme-environment-dark-p)
+      (modus-themes-load-random 'dark)
+    (modus-themes-load-random 'light)))
+
+;; For testing purposes...
+(prot-emacs-comment
+  (:eval nil)
+  (add-to-list 'load-path "/home/prot/Git/Projects/modus-themes/")
+  (add-to-list 'load-path "/home/prot/Git/Projects/standard-themes/")
+
+  (require 'modus-themes)
+  (require 'standard-themes)
+
+  (standard-themes-take-over-modus-themes-mode 1)
+
+  (prot-emacs-keybind global-map
+    "&lt;f5&gt;" #'modus-themes-rotate
+    "C-&lt;f5&gt;" #'modus-themes-select
+    "M-&lt;f5&gt;" #'modus-themes-load-random)
+
   (setq modus-themes-variable-pitch-ui t
         modus-themes-mixed-fonts t
         modus-themes-to-rotate nil ; defaults to the return value of `modus-themes-get-themes'
@@ -4228,7 +4309,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org5484c89">
+<pre class="example" id="org5f359a6">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4279,7 +4360,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org9610c67">
+<pre class="example" id="orgadcdadf">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7232,7 +7313,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org2e4ea35">
+<pre class="example" id="orgbafd28b">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7260,7 +7341,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgf9d8f6e">
+<pre class="example" id="orgd5c5d05">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7338,7 +7419,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org1c6c031">
+<pre class="example" id="orgd48813f">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7496,7 +7577,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orge551f6a">
+<pre class="example" id="org8991fe2">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9241,7 +9322,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org61ffef8">
+<pre class="example" id="org26d7446">
 (info "(org) Search Options")
 </pre>
 
@@ -9334,7 +9415,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org293a0ef">
+<pre class="example" id="orgd56cb8c">
 (require 'ob-python)
 
 ;; OR
@@ -10198,7 +10279,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgd6d61c8">
+<pre class="example" id="orge4f8fd8">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11120,7 +11201,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgc63e533">
+<pre class="example" id="orgf3635c5">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11132,7 +11213,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgfc32aca">
+<pre class="example" id="org8df6282">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11198,7 +11279,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgbc6248f">
+<pre class="example" id="org6236a35">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11210,7 +11291,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org15b196e">
+<pre class="example" id="org4d12bad">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11232,7 +11313,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org26c2d08">
+<pre class="example" id="orgc2ea797">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11361,7 +11442,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org4a0e5b1">
+<pre class="example" id="orgda63ee4">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11497,7 +11578,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org545328a">
+<pre class="example" id="org6fa7856">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11509,7 +11590,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org504769b">
+<pre class="example" id="orgd5bab91">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12648,7 +12729,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org74e4fbd">
+<pre class="example" id="orga877939">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12745,7 +12826,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgee08148">
+<pre class="example" id="org5f30ba2">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -19846,7 +19927,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org7e6b2f3">
+<pre class="example" id="orgc4cc99a">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19878,7 +19959,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org3843032">
+<pre class="example" id="org131e0fd">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
