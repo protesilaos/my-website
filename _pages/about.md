@@ -100,30 +100,19 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 ## Interviews and other media
 
-- My ['Brown University Interviews' on Emacs and
-life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/)
-(2021-10-29).
+- My ['Brown University Interviews' on Emacs and life](https://protesilaos.com/codelog/2021-10-29-interview-brown-uni-mag-emacs-life/) (2021-10-29).
 
-- A comprehensive [interview with InfoQ China on Emacs and
-life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-life/)
-may also prove useful (2022-04-10).
+- A comprehensive [interview with InfoQ China on Emacs and life](https://protesilaos.com/codelog/2022-04-10-interview-infoq-china-emacs-life/) (2022-04-10).
 
-- Interview with _Syntopikon_ on [Emacs, politics,
-philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emacs-life/)
-(2023-04-15).
+- Interview with _Syntopikon_ on [Emacs, politics, philosophy](https://protesilaos.com/codelog/2023-04-15-interview-syntopikon-emacs-life/) (2023-04-15).
 
 - Satirical publication by Summer Emacs [Zeus and Prot](https://summeremacs.github.io/posts/zeus-and-prot/) (2023-08-29).
 
-- Free Software Foundation entry in the "working together" series that
-  features a brief comment of mine on GNU Emacs.  Links to all
-  relevant sources here:
-  <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
+- Free Software Foundation entry in the "working together" series that features a brief comment of mine on GNU Emacs.  Links to all relevant sources here: <https://protesilaos.com/codelog/2023-07-26-my-working-together-page-fsf/>.
 
-- An hour-long video exchange [with Gavin Freeborn about Emacs,
-  philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
+- An hour-long video exchange [with Gavin Freeborn about Emacs, philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
 
-- A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs,
-  NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/) (2025-08-01).
+- A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs, NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/) (2025-08-01).
 
 ## Awards
 
