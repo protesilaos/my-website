@@ -114,6 +114,8 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs, NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/) (2025-08-01).
 
+- A [sketch of me by Ekaitz Zarraga](https://protesilaos.com/selfies/2025-10-09-prot-portrait-by-ekaitz-zarraga/) (2025-10-09).
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
