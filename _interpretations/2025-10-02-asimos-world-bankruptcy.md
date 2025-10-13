@@ -50,7 +50,7 @@ other interpretation related to Nikolas Asimos:
 ```
 At this world's bankruptcy
 
-Singers:  Nikolas Asimos
+Singer:   Nikolas Asimos
 Lyrics:   Nikolas Asimos
 Music:    Nikolas Asimos
 
