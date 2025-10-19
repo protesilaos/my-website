@@ -112,6 +112,8 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - An hour-long video exchange [with Gavin Freeborn about Emacs, philosophy, politics, and life in general](https://protesilaos.com/codelog/2024-09-07-interview-gavin-freeborn-politics-philosophy-emacs/) (2024-09-07).
 
+- A cute little story about [a shiny Pokemon named 'Prot'](https://protesilaos.com/commentary/2025-05-30-shiny-pokemon-named-prot/) (2025-05-30).
+
 - A ~2.5-hour video deep dive [with Christian Arzu (@linkarzu) about Emacs, NeoVim, integrated computing, free software, philosophy and more](https://protesilaos.com/codelog/2025-08-01-linkarzu-chat-emacs-neovim-philosophy/) (2025-08-01).
 
 - A [sketch of me by Ekaitz Zarraga](https://protesilaos.com/selfies/2025-10-09-prot-portrait-by-ekaitz-zarraga/) (2025-10-09).
