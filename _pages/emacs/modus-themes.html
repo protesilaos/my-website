@@ -3144,7 +3144,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org702e169">
+<pre class="example" id="org86b1472">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4486,7 +4486,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="orga1d131d">
+<pre class="example" id="org22cc627">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5151,7 +5151,7 @@ core Emacs.
 </p>
 
 <p>
-A new theme can be instantiated with the macro <code>modus-themes-theme</code>.
+A new theme can be instantiated with the function <code>modus-themes-theme</code>.
 It takes care to (i) declare the theme, (ii) add to it relevant
 <code>theme-properties</code>, (iii) register it in the <code>modus-themes-registered-items</code>,
 (iv) make it work with all the faces and customizations documented
@@ -5163,35 +5163,42 @@ Concretely, <code>modus-themes-theme</code> expects the following mandatory argu
 </p>
 
 <dl class="org-dl">
-<dt><code>NAME</code></dt><dd>The name of the new theme, like <code>modus-operandi</code>.</dd>
-<dt><code>FAMILY</code></dt><dd>The collection this theme is a member of, like <code>modus-themes</code>.</dd>
+<dt><code>NAME</code></dt><dd>The name of the new theme as a symbol, like <code>modus-operandi</code>.</dd>
+<dt><code>FAMILY</code></dt><dd>The collection this theme is a member of as a symbol,
+like <code>modus-themes</code>.</dd>
 <dt><code>DESCRIPTION</code></dt><dd>A string describing the theme.</dd>
 <dt><code>BACKGROUND-MODE</code></dt><dd>The symbol <code>dark</code> or <code>light</code>, in reference to
 the theme&rsquo;s background color.</dd>
-<dt><code>CORE-PALETTE</code></dt><dd>A palette with named colors and semantic mappings,
-like <code>modus-operandi-palette</code>. A palette that does not have at least
-all the entries of a default Modus palette will eventually not work
-properly because some face definition will expect a given color.
-Though the macro does not impose any check in this regard.</dd>
-<dt><code>USER-PALETTE</code></dt><dd>A user-defined extension to the <code>CORE-PALETTE</code>,
-commensurate with it, though with arbitrary entries. This can be
-nil, a fully fledged palette, or a short list of entries.</dd>
-<dt><code>OVERRIDES-PALETTE</code></dt><dd>A palette that contains overrides for the
-above two palettes. It is functionally equivalent to the
-<code>USER-PALETTE</code>, except it is meant to be customized by the end user.
-Its value can also be nil.</dd>
+<dt><code>CORE-PALETTE</code></dt><dd>The symbol of a variable containing a palette with
+named colors and semantic mappings, like <code>modus-operandi-palette</code>. A
+palette that does not have at least all the entries of a default
+Modus palette will eventually not work properly because some face
+definition will expect a given color. Though the macro does not
+impose any check in this regard.</dd>
+<dt><code>USER-PALETTE</code></dt><dd>The symbol of a user-defined extension to the
+<code>CORE-PALETTE</code>, commensurate with it, though with arbitrary entries.
+This can be nil, a fully fledged palette, or a short list of
+entries. Any colors defined therein are treated the same as the
+<code>CORE-PALETTE</code> and can, in practice, be used to apply distinct
+styles to the <code>CUSTOM-FACES</code> and <code>CUSTOM-VARIABLES</code> (more below).</dd>
+<dt><code>OVERRIDES-PALETTE</code></dt><dd>The symbol of a palette that contains
+overrides for the above two palettes. It is functionally equivalent
+to the <code>USER-PALETTE</code>, except it is meant to be customized by the
+end user. Its value can also be nil.</dd>
 </dl>
 <dl class="org-dl">
-<dt>Optional <code>CUSTOM-FACES</code></dt><dd>A list of face definitions like those in
-<code>modus-themes-faces</code>, to extend or modify what core Modus defines.
-If provided, they override whatever definition is present in
-<code>modus-themes-faces</code> in case of a conflict. Derivative themes can
-thus deviate from the style of core Modus, wherever necessary.</dd>
+<dt>Optional <code>CUSTOM-FACES</code></dt><dd>The symbol of a variable with list of
+face definitions like those in <code>modus-themes-faces</code>, to extend or
+modify what core Modus defines. If provided, they override whatever
+definition is present in <code>modus-themes-faces</code> in case of a conflict.
+Derivative themes can thus deviate from the style of core Modus,
+wherever necessary.</dd>
 </dl>
 <dl class="org-dl">
-<dt>Optional <code>CUSTOM-VARIABLES</code></dt><dd>A list of custom variables like those
-defined in <code>modus-themes-custom-variables</code>. They also override the
-core Modus definitions in case of a conflict.</dd>
+<dt>Optional <code>CUSTOM-VARIABLES</code></dt><dd>The symbol of a variable with a list
+of custom variables (typically user options) like those defined in
+<code>modus-themes-custom-variables</code>. They also override the core Modus
+definitions in case of a conflict.</dd>
 </dl>
 
 <p>
@@ -5201,13 +5208,13 @@ passing all the mandatory arguments, but not the optional ones:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(modus-themes-theme
-  ef-summer
-  ef-themes
+  'ef-summer
+  'ef-themes
   "Legible light warm pink theme with magenta, purple, gold, cyan colors."
-  light
-  modus-operandi-palette
-  ef-summer-palette
-  ef-summer-palette-overrides)
+  'light
+  'modus-operandi-palette
+  'ef-summer-palette
+  'ef-summer-palette-overrides)
 </pre>
 </div>
 
@@ -5237,14 +5244,14 @@ They are declared in this way:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(modus-themes-theme
-  standard-dark
-  standard-themes
+  'standard-dark
+  'standard-themes
   "Like the unthemed dark Emacs, but more consistent."
-  dark
-  modus-vivendi-palette
-  standard-dark-palette
-  standard-dard-palette-overrides
-  standard-themes-custom-faces) ; NOTE the additional optional argument
+  'dark
+  'modus-vivendi-palette
+  'standard-dark-palette
+  'standard-dard-palette-overrides
+  'standard-themes-custom-faces) ; NOTE the additional optional argument
 </pre>
 </div>
 
@@ -6772,7 +6779,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="orgfebd8a9">
+<pre class="example" id="org970270f">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6817,7 +6824,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org6b62f08">
+<pre class="example" id="org80d4caf">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7183,7 +7190,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org5edd983">
+<pre class="example" id="org4df2ad5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
