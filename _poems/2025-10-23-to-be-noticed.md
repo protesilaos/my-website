@@ -13,7 +13,7 @@ at an open vista
 
 Such is
 the unlikely outcome
-that insprites a man
+that inspires a man
 to work the land
 on a quiet evening
 ```
