@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-<b>Last revised and exported on 2025-10-25 13:04:49 +0300 with a word
-count of 112521.</b>
+<b>Last revised and exported on 2025-10-26 07:38:09 +0200 with a word
+count of 113077.</b>
 </p>
 
 <p>
@@ -188,8 +188,9 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 </li>
 <li><a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">5.3. The <code>prot-emacs-modeline.el</code> module</a>
 <ul>
-<li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.1. The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
-<li><a href="#h:be07591f-6130-4641-9f06-a634f21bb2f6">5.3.2. The <code>prot-emacs-modeline.el</code> call to <code>provide</code></a></li>
+<li><a href="#h:03696edd-8637-4eb6-bfeb-23e828569523">5.3.1. Show the name of the current function or heading (<code>which-function-mode</code>)</a></li>
+<li><a href="#h:ba833ed8-f9d4-4693-bfd5-30452167137e">5.3.2. The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></a></li>
+<li><a href="#h:be07591f-6130-4641-9f06-a634f21bb2f6">5.3.3. The <code>prot-emacs-modeline.el</code> call to <code>provide</code></a></li>
 </ul>
 </li>
 <li><a href="#h:15edf2c3-4419-4101-928a-6e224958a741">5.4. The <code>prot-emacs-completion.el</code> module</a>
@@ -265,8 +266,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:77e4f174-0c86-460d-8a54-47545f922ae9">5.7.11. The <code>prot-emacs-window.el</code> section about <code>beframe</code></a></li>
 <li><a href="#h:2df15080-77f9-45f8-a3b5-1adddc70a512">5.7.12. The <code>prot-emacs-window.el</code> configuration of <code>undelete-frame-mode</code> and <code>winner-mode</code></a></li>
 <li><a href="#h:84a0d366-d4d7-42f4-a8b7-2ec1af08cee4">5.7.13. The <code>prot-emacs-window.el</code> keys for window motions (<code>windmove</code>)</a></li>
-<li><a href="#h:03696edd-8637-4eb6-bfeb-23e828569523">5.7.14. Show the name of the current function or heading (<code>which-function-mode</code>)</a></li>
-<li><a href="#h:2124c200-734d-49c4-aeb1-513caaf957ae">5.7.15. The <code>prot-emacs-window.el</code> <code>provide</code> form</a></li>
+<li><a href="#h:2124c200-734d-49c4-aeb1-513caaf957ae">5.7.14. The <code>prot-emacs-window.el</code> <code>provide</code> form</a></li>
 </ul>
 </li>
 <li><a href="#h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232">5.8. The <code>prot-emacs-git.el</code> module</a>
@@ -423,7 +423,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-10-25 13:04:49 +0300):
+(2025-10-26 07:38:09 +0200):
 </p>
 
 <div class="org-src-container">
@@ -518,7 +518,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org213e590">
+<pre class="example" id="orgdb0c6e8">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -598,7 +598,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgb394469">
+<pre class="example" id="org2dee60d">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -606,7 +606,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org4296b89">
+<pre class="example" id="org9d3b8f0">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -738,6 +738,17 @@ not show them: I do that on demand by enabling <code>scroll-bar-mode</code>
 (useful when I am sharing my screen). At any rate, when I am enabling
 scroll bars, I want them to not show up in the minibuffer, hence the
 function <code>prot-emacs-no-minibuffer-scroll-bar</code>.
+</p>
+
+<p>
+Because the laptop has limited screen real estate, I take care to hide
+the title bar of maximised frames by setting up the built-in function
+<code>frame-hide-title-bar-when-maximized</code>. This is the bar at the top of
+the frame which is drawn by the operating system&rsquo;s window manager: it
+is where the familiar buttons are to close, minimise, or maximise the
+application window. Hiding the title bar declutters the view at the
+cost of hiding the frame title. To compensate, I have my active mode
+line display the frame name (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">The <code>prot-emacs-modeline.el</code> module</a>).
 </p>
 
 <div class="org-src-container">
@@ -1590,7 +1601,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org3080a0e">
+<pre class="example" id="orgd5d8c99">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -4357,7 +4368,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orga6a9209">
+<pre class="example" id="org44d346a">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4408,7 +4419,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org183b358">
+<pre class="example" id="org70a538c">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -4652,7 +4663,9 @@ or the <code>notmuch-indicator</code> (<a href="#h:0f12f144-ca9f-4d07-8563-c33b3
 
 <p>
 Most items that go into the <code>mode-line-format</code> are defined in
-<a href="#h:935adc09-abaa-4413-a5ab-a7a562081c20">the <code>prot-modeline.el</code> library</a>.
+<a href="#h:935adc09-abaa-4413-a5ab-a7a562081c20">the <code>prot-modeline.el</code> library</a>. The frame name, in particular, is
+useful to me only when I am on the laptop, hence the option to display
+it conditionally: <code>prot-modeline-show-frame-name</code> (<a href="#h:0403b581-142b-4613-bc81-51c5dccd831d">The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</a>).
 </p>
 
 <p>
@@ -4678,6 +4691,7 @@ as soon as the given package/feature is loaded.
   :config
   (setq mode-line-compact nil) ; Emacs 28
   (setq mode-line-right-align-edge 'right-margin) ; Emacs 30
+  (setq prot-modeline-show-frame-name (if prot-laptop-p t nil))
   (setq-default mode-line-format
                 '("%e"
                   prot-modeline-kbd-macro
@@ -4691,6 +4705,7 @@ as soon as the given package/feature is loaded.
                   prot-modeline-major-mode
                   prot-modeline-process
                   "  "
+                  prot-modeline-frame-name
                   prot-modeline-vc-branch
                   "  "
                   prot-modeline-eglot
@@ -4698,6 +4713,7 @@ as soon as the given package/feature is loaded.
                   prot-modeline-flymake
                   "  "
                   mode-line-format-right-align ; Emacs 30
+                  prot-modeline-which-function-indicator
                   prot-modeline-notmuch-indicator
                   "  "
                   prot-modeline-misc-info))
@@ -4717,8 +4733,116 @@ as soon as the given package/feature is loaded.
 </pre>
 </div>
 </div>
+<div id="outline-container-h:03696edd-8637-4eb6-bfeb-23e828569523" class="outline-4">
+<h4 id="h:03696edd-8637-4eb6-bfeb-23e828569523"><span class="section-number-4">5.3.1.</span> Show the name of the current function or heading (<code>which-function-mode</code>)</h4>
+<div class="outline-text-4" id="text-h:03696edd-8637-4eb6-bfeb-23e828569523">
+<p>
+The built-in <code>which-key-mode</code> displays the name of the current
+function/variable defition or heading. It makes it easier to figure
+out where you are in the file you are editing. This is especially
+useful when combined with search-driven navigation: you just land on a
+certain line and need to have a sense of the context.
+</p>
+
+<p>
+By the default, the information is displayed on the mode line, though
+this can be controlled by the user option <code>which-func-display</code>. I
+prefer to keep it to the mode line, though it is possible to place it
+on the header line or both it and the mode line.
+</p>
+
+<p>
+The <code>which-func-format</code> controls what the indicator looks like. This
+is a bit more advanced in terms of the data structure it uses. All I
+did what to take the original value and make some minor tweaks to it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; Show the name of the current definition or heading for context (`which-function-mode')
+(use-package which-func
+  :ensure nil
+  :hook (after-init . which-function-mode)
+  :config
+  (setq which-func-modes '(prog-mode org-mode))
+  ;; NOTE 2025-10-26: I handle the indicator on my own via `prot-modeline-which-function-indicator'.
+  (setq which-func-display 'mode) ; Emacs 30
+  (setq which-func-unknown "")
+
+  ;; NOTE 2025-10-24: This is an experiment.  It seems to work, but there may be downsides.
+  (with-eval-after-load 'prot-modeline
+    (defun prot/which-function ()
+      "A more opinionated `which-function'."
+      (let ((name nil))
+        (cond
+         ((derived-mode-p 'lisp-data-mode)
+          (let ((text (save-excursion
+                        (beginning-of-defun)
+                        (buffer-substring-no-properties (line-beginning-position) (line-end-position)))))
+            (setq name (if (string-prefix-p ";" text)
+                           ""
+                         (prot-modeline-string-abbreviate-but-last text 1)))))
+         (t
+          (when (null name)
+            (setq name (add-log-current-defun)))
+          ;; If Imenu is loaded, try to make an index alist with it.
+          ;; If `add-log-current-defun' ran and gave nil, accept that.
+          (when (and (null name)
+                     (null add-log-current-defun-function))
+            (when (and (null name)
+                       (boundp 'imenu--index-alist)
+                       (or (null imenu--index-alist)
+                           ;; Update if outdated
+                           (/= (buffer-chars-modified-tick) imenu-menubar-modified-tick))
+                       (null which-function-imenu-failed))
+              (ignore-errors (imenu--make-index-alist t))
+              (unless imenu--index-alist
+                (setq-local which-function-imenu-failed t)))
+            ;; If we have an index alist, use it.
+            (when (and (null name)
+                       (boundp 'imenu--index-alist) imenu--index-alist)
+              (let ((alist imenu--index-alist)
+                    (minoffset (point-max))
+                    offset pair mark imstack namestack)
+                ;; Elements of alist are either ("name" . marker), or
+                ;; ("submenu" ("name" . marker) ... ). The list can be
+                ;; arbitrarily nested.
+                (while (or alist imstack)
+                  (if (null alist)
+                      (setq alist     (car imstack)
+                            namestack (cdr namestack)
+                            imstack   (cdr imstack))
+
+                    (setq pair (car-safe alist)
+                          alist (cdr-safe alist))
+
+                    (cond
+                     ((atom pair))            ; Skip anything not a cons.
+
+                     ((imenu--subalist-p pair)
+                      (setq imstack   (cons alist imstack)
+                            namestack (cons (car pair) namestack)
+                            alist     (cdr pair)))
+
+                     ((or (number-or-marker-p (setq mark (cdr pair)))
+                          (and (overlayp mark)
+                               (setq mark (overlay-start mark))))
+                      (when (and (&gt;= (setq offset (- (point) mark)) 0)
+                                 (&lt; offset minoffset)) ; Find the closest item.
+                        (setq minoffset offset
+                              name (if (null which-func-imenu-joiner-function)
+                                       (car pair)
+                                     (funcall
+                                      which-func-imenu-joiner-function
+                                      (reverse (cons (car pair) namestack)))))))))))))
+          (prot-modeline-string-cut-end name)))))
+
+    (advice-add #'which-function :override #'prot/which-function)))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:ba833ed8-f9d4-4693-bfd5-30452167137e" class="outline-4">
-<h4 id="h:ba833ed8-f9d4-4693-bfd5-30452167137e"><span class="section-number-4">5.3.1.</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></h4>
+<h4 id="h:ba833ed8-f9d4-4693-bfd5-30452167137e"><span class="section-number-4">5.3.2.</span> The <code>prot-emacs-modeline.el</code> section about <code>keycast</code></h4>
 <div class="outline-text-4" id="text-h:ba833ed8-f9d4-4693-bfd5-30452167137e">
 <p>
 This is a helpful package by Jonas Bernoulli that echoes the key
@@ -4758,7 +4882,7 @@ with my customised mode line (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">
 </div>
 </div>
 <div id="outline-container-h:be07591f-6130-4641-9f06-a634f21bb2f6" class="outline-4">
-<h4 id="h:be07591f-6130-4641-9f06-a634f21bb2f6"><span class="section-number-4">5.3.2.</span> The <code>prot-emacs-modeline.el</code> call to <code>provide</code></h4>
+<h4 id="h:be07591f-6130-4641-9f06-a634f21bb2f6"><span class="section-number-4">5.3.3.</span> The <code>prot-emacs-modeline.el</code> call to <code>provide</code></h4>
 <div class="outline-text-4" id="text-h:be07591f-6130-4641-9f06-a634f21bb2f6">
 <p>
 Finally, we <code>provide</code> the module. This is the mirror function of
@@ -7342,7 +7466,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org704cb2d">
+<pre class="example" id="orga9b9aa9">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7370,7 +7494,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org064a853">
+<pre class="example" id="org374d147">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7448,7 +7572,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org453a65d">
+<pre class="example" id="org87bedca">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7606,7 +7730,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org0a884ba">
+<pre class="example" id="org9119e51">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8014,71 +8138,8 @@ the placement of a window in the given direction.
 </div>
 </div>
 </div>
-<div id="outline-container-h:03696edd-8637-4eb6-bfeb-23e828569523" class="outline-4">
-<h4 id="h:03696edd-8637-4eb6-bfeb-23e828569523"><span class="section-number-4">5.7.14.</span> Show the name of the current function or heading (<code>which-function-mode</code>)</h4>
-<div class="outline-text-4" id="text-h:03696edd-8637-4eb6-bfeb-23e828569523">
-<p>
-The built-in <code>which-key-mode</code> displays the name of the current
-function/variable defition or heading. It makes it easier to figure
-out where you are in the file you are editing. This is especially
-useful when combined with search-driven navigation: you just land on a
-certain line and need to have a sense of the context.
-</p>
-
-<p>
-By the default, the information is displayed on the mode line, though
-this can be controlled by the user option <code>which-func-display</code>. I
-prefer to keep it to the mode line, though it is possible to place it
-on the header line or both it and the mode line.
-</p>
-
-<p>
-The <code>which-func-format</code> controls what the indicator looks like. This
-is a bit more advanced in terms of the data structure it uses. All I
-did what to take the original value and make some minor tweaks to it.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;; Show the name of the current definition or heading for context (which-function-mode)
-(use-package which-func
-  :ensure nil
-  :hook (after-init . which-function-mode)
-  :config
-  (setq which-func-modes '(prog-mode org-mode))
-  (setq which-func-display 'mode) ; Emacs 30
-  (setq which-func-unknown "")
-
-  (defface prot/which-function-small
-    '((t :inherit mode-line-emphasis :height 0.9))
-    "Face for the `which-function-mode' indicator.")
-
-  (setq which-func-format
-        `(( :propertize
-            which-func-current
-		    face prot/which-function-small
-		    mouse-face mode-line-highlight
-            help-echo (format "Current definition: `%s'"
-                              (or (gethash (selected-window) which-func-table)
-                                  which-func-unknown)))))
-
-  ;; NOTE 2025-10-24: This is an experiment.  It seems to work, but there may be downsides.
-  (defun prot/which-function-lisp ()
-    "Show the complete definition of a top-level Lisp form."
-    (when (derived-mode-p 'lisp-data-mode)
-      (save-excursion
-        (beginning-of-defun)
-        (when-let* ((text (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
-                    (_ (and (not (string-blank-p text))
-                            (not (string-prefix-p ";" text)))))
-          text))))
-
-  (setq which-func-functions '(prot/which-function-lisp)))
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-h:2124c200-734d-49c4-aeb1-513caaf957ae" class="outline-4">
-<h4 id="h:2124c200-734d-49c4-aeb1-513caaf957ae"><span class="section-number-4">5.7.15.</span> The <code>prot-emacs-window.el</code> <code>provide</code> form</h4>
+<h4 id="h:2124c200-734d-49c4-aeb1-513caaf957ae"><span class="section-number-4">5.7.14.</span> The <code>prot-emacs-window.el</code> <code>provide</code> form</h4>
 <div class="outline-text-4" id="text-h:2124c200-734d-49c4-aeb1-513caaf957ae">
 <p>
 As always, we <code>provide</code> the module. This is the mirror function of
@@ -8778,9 +8839,7 @@ changes I make here are not necessary.
   :ensure t
   :bind ; also see `magit-define-global-key-bindings'
   ( :map global-map
-    ("C-c g g" . magit-status)
-    ("C-c g d" . magit-dispatch)
-    ("C-c g f" . magit-file-dispatch)
+    ("C-c g" . magit-status)
     :map magit-mode-map
     ("C-w" . nil)
     ("M-w" . nil))
@@ -9469,7 +9528,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgf78a39b">
+<pre class="example" id="org20a0557">
 (info "(org) Search Options")
 </pre>
 
@@ -9562,7 +9621,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orge9b3d24">
+<pre class="example" id="org00f94fc">
 (require 'ob-python)
 
 ;; OR
@@ -10491,7 +10550,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8d3d884">
+<pre class="example" id="orgb583a88">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11413,7 +11472,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org0bf6ae9">
+<pre class="example" id="org6c82b4b">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11425,7 +11484,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org0f6c7fc">
+<pre class="example" id="org2a4b092">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11491,7 +11550,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org8db260d">
+<pre class="example" id="org99ff731">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11503,7 +11562,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org198dc88">
+<pre class="example" id="org9ffb1d8">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11525,7 +11584,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgb0d1954">
+<pre class="example" id="orgcc2e5ed">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11654,7 +11713,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org816fc35">
+<pre class="example" id="org43bb759">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11790,7 +11849,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgd1d4a56">
+<pre class="example" id="org705ded5">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11802,7 +11861,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org634bbd5">
+<pre class="example" id="org1d3b089">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12941,7 +13000,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org3470936">
+<pre class="example" id="org7e5db8d">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13038,7 +13097,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org729279e">
+<pre class="example" id="orgf7f6ae3">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -15205,6 +15264,11 @@ Modify this face to, for example, add a :box attribute to all
 relevant indicators (combines nicely with my `spacious-padding'
 package).")
 
+(defface prot-modeline-indicator-small
+  '((t :inherit bold :height 0.8))
+  "Face for modeline indicators (e.g. see my `notmuch-indicator')."
+  :group 'prot-modeline-faces)
+
 (defface prot-modeline-indicator-red
   '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
@@ -15717,6 +15781,39 @@ Specific to the current window's mode line.")
   "Mode line construct displaying Eglot information.
 Specific to the current window's mode line.")
 
+;;;; Frame name
+
+(defcustom prot-modeline-show-frame-name nil
+  "When non-nil, display the current frame name."
+  :type 'boolean)
+
+(defvar-local prot-modeline-frame-name
+  '(prot-modeline-show-frame-name
+    (" "
+     (:eval (when-let* ((_ (mode-line-window-selected-p))
+                        (current-frame (selected-frame))
+                        (_ (frame-live-p current-frame))
+                        (parameters (frame-parameters))
+                        (name (alist-get 'name parameters))
+                        (indicator "√"))
+              (format "%s %s " (propertize indicator 'face 'shadow) name)))))
+  "Mode line construct to display the current frame name.")
+
+;;;; `which-function-mode' indicator
+
+(defvar-local prot-modeline-which-function-indicator
+  `(( :propertize
+      which-func-current
+      face prot-modeline-indicator-small
+      mouse-face mode-line-highlight
+      help-echo (format "Current definition: `%s'"
+                        (or (gethash (selected-window) which-func-table)
+                            which-func-unknown))))
+  "The equivalent of `which-func-format'.")
+
+(with-eval-after-load 'which-func
+  (setq mode-line-misc-info (delete (assq 'which-function-mode mode-line-misc-info) mode-line-misc-info)))
+
 ;;;; Miscellaneous
 
 (defvar-local prot-modeline-notmuch-indicator
@@ -15749,6 +15846,8 @@ Specific to the current window's mode line.")
                      prot-modeline-vc-branch
                      prot-modeline-flymake
                      prot-modeline-eglot
+                     prot-modeline-frame-name
+                     prot-modeline-which-function-indicator
                      ;; prot-modeline-align-right
                      prot-modeline-notmuch-indicator
                      prot-modeline-misc-info))
@@ -20279,7 +20378,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org9389097">
+<pre class="example" id="orgdb71b51">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20311,7 +20410,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org202bb02">
+<pre class="example" id="org7138485">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
