@@ -22,13 +22,13 @@ piece of information pertinent to them.
 
 <p>
 The documentation furnished herein corresponds to stable version
-4.8.0, released on 2025-06-11.  Any reference
+5.0.0, released on 2025-11-01.  Any reference
 to a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 5.0.0-dev.
+Current development target is 5.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -93,7 +93,11 @@ Current development target is 5.0.0-dev.
 <li><a href="#h:287fb971-a866-4d88-9993-56e902dd63c4">5.13. Palette extension</a></li>
 </ul>
 </li>
-<li><a href="#h:f4d4b71b-2ca5-4c3d-b0b4-9bfd7aa7fb4d">6. Preview theme colors</a></li>
+<li><a href="#h:f4d4b71b-2ca5-4c3d-b0b4-9bfd7aa7fb4d">6. Preview theme colors</a>
+<ul>
+<li><a href="#h:4952cd81-8a9a-4a4e-9867-3e63b9ef2f7e">6.1. Commands for the preview palette buffer</a></li>
+</ul>
+</li>
 <li><a href="#h:33460ae8-984b-40fd-8baa-383cc5fc2698">7. Use colors from the Modus themes palette</a>
 <ul>
 <li><a href="#h:1cc552c1-5f5f-4a56-ae78-7b69e8512c4e">7.1. Get a single color from the palette with <code>modus-themes-get-color-value</code></a></li>
@@ -1017,10 +1021,6 @@ Possible values:
 <h3 id="h:a10c0202-3683-4fad-9897-433c25e255f6"><span class="section-number-3">5.5.</span> Option for which themes to rotate</h3>
 <div class="outline-text-3" id="text-h:a10c0202-3683-4fad-9897-433c25e255f6">
 <p>
-[ Default value and behaviour changed as part of 5.0.0-dev. ]
-</p>
-
-<p>
 Brief: Specify which themes to rotate through when using the command
 <code>modus-themes-rotate</code>.
 </p>
@@ -1754,7 +1754,7 @@ Examples demonstrating how to use the aforementioned:
 <p>
 The command <code>modus-themes-list-colors</code> uses minibuffer completion to
 select an item from the Modus themes and then produces a buffer with
-previews of all of its color palette entries.
+previews of all of its color palette entries (<a href="#h:4952cd81-8a9a-4a4e-9867-3e63b9ef2f7e">Commands for the preview palette buffer</a>).
 </p>
 
 <p>
@@ -1788,6 +1788,88 @@ contents are, such as <code>*modus-operandi-list-all*</code> for the entirety of
 the palette (named colors as well as semantic color mappings) and
 <code>=*modus-operandi-list-mappings*</code> for the mappings only.
 </p>
+</div>
+<div id="outline-container-h:4952cd81-8a9a-4a4e-9867-3e63b9ef2f7e" class="outline-3">
+<h3 id="h:4952cd81-8a9a-4a4e-9867-3e63b9ef2f7e"><span class="section-number-3">6.1.</span> Commands for the preview palette buffer</h3>
+<div class="outline-text-3" id="text-h:4952cd81-8a9a-4a4e-9867-3e63b9ef2f7e">
+<p>
+The palette preview buffer uses the major mode <code>modus-themes-preview-mode</code>,
+which provides the <code>modus-themes-preview-mode-map</code> (<a href="#h:f4d4b71b-2ca5-4c3d-b0b4-9bfd7aa7fb4d">Preview theme colors</a>).
+The following key bindings are available by default:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Default key binding</th>
+<th scope="col" class="org-left">Name of the command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>w</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-copy-color</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>W</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-copy-entry</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>m</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-mark</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-mark-all</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>u</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-unmark</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>U</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-unmark-all</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The command <code>modus-themes-preview-mode-copy-color</code> copies the resolved
+color value of the entry at point or of all the marked entries. This
+means that it always returns a string with the value of the color, not
+a symbolic representation of it. For example, if <code>cursor</code> is mapped to
+<code>red-warmer</code>, this command will return <code>"#972500"</code> while previewing
+the palette of the <code>modus-operandi</code> theme.
+</p>
+
+<p>
+The command <code>modus-themes-preview-mode-copy-entry</code> copies the palette
+entry as such. This is how the entry is in the underlying palette
+definition. For example, it will return <code>(magenta-cooler "#531ab6")</code>
+or <code>(keybind blue-warmer)</code>. Copying those is useful as a starting
+point for writing palette overrides (<a href="#h:34c7a691-19bb-4037-8d2f-67a07edab150">Option for palette overrides</a>).
+</p>
+
+<p>
+The commands <code>modus-themes-preview-mode-mark</code>, <code>modus-themes-preview-mode-mark-all</code>,
+<code>modus-themes-preview-mode-unmark</code>, and <code>modus-themes-preview-mode-unmark-all</code>,
+will add or remove a marker from the current or affected lines. These
+marks influence the result of the aforementioned commands for copying
+colors and palette entries.
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:33460ae8-984b-40fd-8baa-383cc5fc2698" class="outline-2">
@@ -3144,7 +3226,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="orgd4c26ea">
+<pre class="example" id="org8d4f983">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4486,7 +4568,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org858b9fc">
+<pre class="example" id="org1f0f56d">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5135,10 +5217,6 @@ need to (provided they understand the implications).
 <h2 id="h:86eb375b-9be4-43ce-879a-0686a524a63b"><span class="section-number-2">9.</span> Build on top of the Modus themes</h2>
 <div class="outline-text-2" id="text-h:86eb375b-9be4-43ce-879a-0686a524a63b">
 <p>
-[ Building on top of the Modus themes is made possible as part of 5.0.0-dev. ]
-</p>
-
-<p>
 This section concerns package developers or advanced users.
 </p>
 
@@ -5542,7 +5620,7 @@ have lots of extensions, so the &ldquo;full support&rdquo; may not be 100% trueâ
 <li>golden-ratio-scroll-screen</li>
 <li>helpful</li>
 <li>hexl-mode</li>
-<li>hideshow [ Part of 5.0.0-dev. ]</li>
+<li>hideshow</li>
 <li>highlight-numbers</li>
 <li>highlight-parentheses (<a href="#h:24bab397-dcb2-421d-aa6e-ec5bd622b913">Note on highlight-parentheses.el</a>)</li>
 <li>highlight-thing</li>
@@ -6777,7 +6855,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org5afc0dc">
+<pre class="example" id="org3419918">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -6822,7 +6900,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org7495c73">
+<pre class="example" id="orgc21ca61">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7188,7 +7266,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgd65e877">
+<pre class="example" id="org736c8ba">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
