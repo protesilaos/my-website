@@ -26,6 +26,510 @@ For further details, please consult these additional resources:
 <dt>Manual</dt><dd><a href="https://protesilaos.com/emacs/modus-themes">https://protesilaos.com/emacs/modus-themes</a></dd>
 <dt>Screenshots</dt><dd><a href="https://protesilaos.com/emacs/modus-themes-pictures">https://protesilaos.com/emacs/modus-themes-pictures</a></dd>
 </dl>
+<div id="outline-container-h:9232615a-02d7-4376-90a6-7e7570ac1c1e" class="outline-2">
+<h2 id="h:9232615a-02d7-4376-90a6-7e7570ac1c1e">5.0.0 on 2025-11-01</h2>
+<div class="outline-text-2" id="text-h:9232615a-02d7-4376-90a6-7e7570ac1c1e">
+<p>
+This is a major release. There are some small breaking changes. The
+big new feature is that Modus can be used as the basis for other theme
+projects. Two of my other theme packages, the <code>ef-themes</code> and the
+<code>standard-themes</code> are already done in this way: their next major
+versions will formalise what I have been developing for a while now
+(though the <code>doric-themes</code> will remain their own thing for the time
+being).
+</p>
+</div>
+<div id="outline-container-h:269cd2f9-604d-4e9b-87c8-d9d91fb6d355" class="outline-3">
+<h3 id="h:269cd2f9-604d-4e9b-87c8-d9d91fb6d355">Build on top of Modus</h3>
+<div class="outline-text-3" id="text-h:269cd2f9-604d-4e9b-87c8-d9d91fb6d355">
+<p>
+This is of immediate interest to package developers or advanced users.
+It changes nothing for existing users of the Modus themes. Please
+refer to the manual on the matter and feel welcome to contact me if
+you have any questions&#x2014;I am happy to help.
+</p>
+
+<p>
+Evaluate:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(info "(modus-themes) Build on top of the Modus themes")
+</pre>
+</div>
+
+<p>
+Or visit: <a href="https://protesilaos.com/emacs/modus-themes#h:86eb375b-9be4-43ce-879a-0686a524a63b">https://protesilaos.com/emacs/modus-themes#h:86eb375b-9be4-43ce-879a-0686a524a63b</a>.
+</p>
+
+<p>
+Why build on top of Modus? To benefit from (i) the wide face coverage
+and extensive detail-oriented testing, (ii) the use of palette
+mappings, (iii) the palette preview done with
+<code>modus-themes-list-colors</code> or related, (iv) the inclusion of the
+derivative theme in the workings of all Modus commands that load a
+theme, like <code>modus-themes-rotate</code> and <code>modus-themes-select</code> (see the
+new minor mode <code>modus-themes-include-derivatives-mode</code>).
+</p>
+
+<p>
+Derivative themes can be as simple as a few extra colours on top of,
+say, <code>modus-operandi</code>. They can also be more involved, with new
+palette mappings and custom faces that use them. Such themes can
+define commands which load only their own themes (see
+<code>modus-themes-define-derivative-command</code>) and they can even take over
+the Modus themes completely, in terms of becoming the only ones that
+are exposed to the commands that load a theme, like
+<code>modus-themes-rotate</code> and <code>modus-themes-select</code>.
+</p>
+
+<p>
+Thanks to Suleyman Boyar for fixing an intermediate omission with an
+earlier version of the code that derives a theme. I did eventually
+change the whole approach to use a function instead of a macro, but
+Suleyman's contribution was still useful at the time. This was done in
+pull request 156: <a href="https://github.com/protesilaos/modus-themes/pull/156">https://github.com/protesilaos/modus-themes/pull/156</a>.
+The change is small, meaning that Suleyman does not need to assign
+copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-h:27ae691a-50bc-4339-af36-7e09e6060f8e" class="outline-3">
+<h3 id="h:27ae691a-50bc-4339-af36-7e09e6060f8e">Colours can be copied from the palette preview buffer</h3>
+<div class="outline-text-3" id="text-h:27ae691a-50bc-4339-af36-7e09e6060f8e">
+<p>
+The commands <code>modus-themes-list-colors</code> and <code>modus-themes-list-colors-current</code>
+display the given theme's palette in a tabulated listing. Each line
+visualises the colour it references. From that buffer it is now
+possible to call the following commands (bound to the <code>modus-themes-preview-mode-map</code>):
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Default key binding</th>
+<th scope="col" class="org-left">Name of the command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>w</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-copy-color</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>W</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-copy-entry</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>m</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-mark</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-mark-all</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>u</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-unmark</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>U</code></td>
+<td class="org-left"><code>modus-themes-preview-mode-unmark-all</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The <code>modus-themes-preview-mode-copy-color</code> and its
+<code>modus-themes-preview-mode-copy-entry</code> counterpart work on the line at
+point or those that are marked. The first copies the resolved colour
+value, as a string ("resolved" here means that it will find what a
+palette mapping actually stands for). The second gets the complete
+palette entry, as it appears in the underlying definition. This is a
+starting point for writing palette overrides.
+</p>
+
+<p>
+Thanks to shimeike for reporting a problem with a regression I
+introduced by mistake in one of the development versions of the
+function that handles the creation of the tabulated list. This was
+done in issue 163: <a href="https://github.com/protesilaos/modus-themes/issues/163">https://github.com/protesilaos/modus-themes/issues/163</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:66f43975-2e97-41e6-85ec-c29e0505bd80" class="outline-3">
+<h3 id="h:66f43975-2e97-41e6-85ec-c29e0505bd80">New semantic palette mappings for programming contexts</h3>
+<div class="outline-text-3" id="text-h:66f43975-2e97-41e6-85ec-c29e0505bd80">
+<p>
+The <code>fnname-call</code> and <code>variable-use</code> are now available. They are
+applied to faces that are used by major modes which build on top of
+<code>tree-sitter</code> program as well as the Emacs Lisp semantic highlighting
+feature of Emacs 31.
+</p>
+
+<p>
+By default, these colours are more subtle than their <code>fnname</code> and
+<code>variable</code> counterparts. The reason is that I want to avoid
+exaggerations with the wanton application of colour ("avoiding
+exaggerations" is one of the design principles of the Modus themes).
+</p>
+
+<p>
+Because of the commitment to the highest legibility standard for
+colour contrast, we are using colours that stand out in their context,
+yet are still harmonious with each other. This is due to (i) careful
+consideration of colour harmonies, (ii) enforced uniformity of styles
+where necessary to avoid emphasising the emphasis or stating the
+obvious, and (ii) the fact that not too many intense colours appear in
+close proximity to each other in most Emacs major modes. If a major
+mode or other feature adds colours virtually everywhere, then the
+Modus themes are no longer true to their character and become
+borderline unusable.
+</p>
+
+<p>
+The more subtle colours for <code>fnname-call</code> and <code>variable-use</code> do not
+prevent exaggerations, though they do make them less egregious.
+</p>
+
+<p>
+[ Note that themes do not control which face is applied where. That is
+  the job of a major mode or specialised minor modes. When in doubt,
+  work with the rule that fewer colours are better than many. ]
+</p>
+</div>
+</div>
+<div id="outline-container-h:a14057b4-f7e9-4ff7-b40c-7640559f04dc" class="outline-3">
+<h3 id="h:a14057b4-f7e9-4ff7-b40c-7640559f04dc">Support for Emacs Lisp semantic highlighting</h3>
+<div class="outline-text-3" id="text-h:a14057b4-f7e9-4ff7-b40c-7640559f04dc">
+<p>
+This is built into Emacs version 31. What it does is make different
+parts of the Elisp syntax stand out visually. It also augments them
+with a mouse tooltip (technically a <code>help-echo</code>) that provides
+valuable insights about what the thing is.
+</p>
+
+<p>
+Thanks to Eshel Yaron, the author of this feature, for (i) asking me
+to review the relevant faces, (ii) helping me understand what
+"semantic highlighting" is intended for, and (iii) explaining to me
+how some faces are meant to be used. This was done in the context of
+Emacs bug 79677 and in an aside about a change to my minimalist
+<code>doric-themes</code> package:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-10/msg01156.html">https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-10/msg01156.html</a>.</li>
+<li><a href="https://lists.gnu.org/archive/html/emacs-devel/2025-10/msg00728.html">https://lists.gnu.org/archive/html/emacs-devel/2025-10/msg00728.html</a>.</li>
+</ul>
+
+<p>
+I wrote to Eshel that I do not want many colours clustered together.
+This design is more suitable to themes with low intensity. All my
+themes exacerbate the effect of dense colouration due to their primary
+design goal: legibility.
+</p>
+
+<p>
+Currently the added colouration of semantic highlighting is noticeable
+far more than I like. This is a compromise on my end. Future versions
+of the themes might set more semantic faces to <code>nil</code> (or anyhow make
+them subtle), subject to further review and user feedback.
+</p>
+
+<p>
+This is not a position against semantic highlighting, but a comment on
+inconsiderate themes.
+</p>
+</div>
+</div>
+<div id="outline-container-h:d351403d-97d7-4c7d-b431-f9153201fc1c" class="outline-3">
+<h3 id="h:d351403d-97d7-4c7d-b431-f9153201fc1c">More elements are optionally bold or italic</h3>
+<div class="outline-text-3" id="text-h:d351403d-97d7-4c7d-b431-f9153201fc1c">
+<p>
+I have revised all supported faces to make them more conservative
+about when they apply typographic qualities that deviate from the
+default font. Many faces that were unconditionally rendered with a
+bold weight or an italic slant are now subject to the user options
+<code>modus-themes-bold-constructs</code> and <code>modus-themes-italic-constructs</code>.
+</p>
+
+<p>
+This means that they are like the default font family by default and
+will become bold/italic if the relevant user option is set to a
+non-<code>nil</code> value.
+</p>
+
+<p>
+Faces that are semantically bold or italic and/or which genuinely
+benefit from such typographic attributes out-of-the-box are exempt
+from this.
+</p>
+
+<p>
+Headings are also exempt because they are anyway subject to the user
+option <code>modus-themes-headings</code> which covers the height and weight of
+each heading level's text.
+</p>
+
+<p>
+Thanks to chainedghost for reporting a regression in one of the
+commits I made. This was done in issue 167:
+<a href="https://github.com/protesilaos/modus-themes/issues/167">https://github.com/protesilaos/modus-themes/issues/167</a>
+</p>
+</div>
+</div>
+<div id="outline-container-h:4e9b6d96-d760-40b9-b293-609bf76ba569" class="outline-3">
+<h3 id="h:4e9b6d96-d760-40b9-b293-609bf76ba569">Support for <code>lsp-mode</code> and <code>lsp-ui</code> packages</h3>
+<div class="outline-text-3" id="text-h:4e9b6d96-d760-40b9-b293-609bf76ba569">
+<p>
+Thanks to Jimmy Yuen Ho Wong for the initial contribution in pull
+request 142: <a href="https://github.com/protesilaos/modus-themes/pull/142">https://github.com/protesilaos/modus-themes/pull/142</a>.
+I made some changes on top to use semantic palette mappings, where
+applicable, and other such tweaks.
+</p>
+</div>
+</div>
+<div id="outline-container-h:8f2422e7-66cc-42d4-8d9f-8a4ad255b3eb" class="outline-3">
+<h3 id="h:8f2422e7-66cc-42d4-8d9f-8a4ad255b3eb">The <code>minibuffer-nonselected</code> face is supported</h3>
+<div class="outline-text-3" id="text-h:8f2422e7-66cc-42d4-8d9f-8a4ad255b3eb">
+<p>
+This is coming in Emacs version 31: it highlights the active
+minibuffer when the cursor is in another window. The face is designed
+to be as noticeable as possible because this kind of scenario usually
+leads to mistakes or confusion.
+</p>
+</div>
+</div>
+<div id="outline-container-h:81607d59-176a-4fad-aacd-0f946e228682" class="outline-3">
+<h3 id="h:81607d59-176a-4fad-aacd-0f946e228682">Refinements to supported packages or face groups</h3>
+<div class="outline-text-3" id="text-h:81607d59-176a-4fad-aacd-0f946e228682">
+<ul class="org-ul">
+<li>The <code>markdown-code-face</code> uses the same semantic palette mapping as
+<code>org-block</code>. This was always the intent. Thanks to Frédéric Giquel
+for the fix in pull request 160: <a href="https://github.com/protesilaos/modus-themes/pull/160">https://github.com/protesilaos/modus-themes/pull/160</a>.
+The change is small and thus does not require copyright assignment
+to the Free Software Foundation.</li>
+
+<li>Fixed a word in the symbol of the <code>flymake-warning-echo-at-eol</code>. Thanks to
+Eric Ottosson for the patch in pull request 145: <a href="https://github.com/protesilaos/modus-themes/pull/145">https://github.com/protesilaos/modus-themes/pull/145</a>.
+No copyright assignment is required.</li>
+
+<li>The two new Emacs 31 faces for packages that are marked for
+installation or deletion in the <code>M-x list-packages</code> buffer are now
+included. Thanks to Gautier Ponsinet for sending me the patch.
+Gautier has assigned copyright to the Free Software Foundation.</li>
+
+<li>The <code>hs-ellipsis</code> in Emacs 31 from the built-in <code>hideshow</code> package
+is also covered. It is made to conform with established patterns
+across conceptually equivalent faces (e.g. Org folded headings)
+rather than do its own thing.</li>
+
+<li>The <code>widget-field</code> uses an underline to be easier to spot. On
+supported Emacs displays (generally graphical Emacs) the underline
+is at the descent line, meaning that it does not cross through
+characters with descenders like <code>g</code>.</li>
+
+<li>The <code>git-commit</code> and <code>log-edit</code> faces for writing commit messages in
+Magit and VC are tweaked to avoid exaggerations.</li>
+
+<li>The Magit section headings have a slightly modified foreground
+value.</li>
+
+<li>The <code>org-list-dt</code> face for list definition terms has a slightly
+modified foreground value to (i) be easier to spot while (ii) being
+less intense overall.</li>
+
+<li>The <code>calendar-today</code> in the <code>M-x calendar</code> interface now has a box
+around it on supported displays (graphical Emacs) to better stand
+out from its context. On unsupported displays, the face still gets
+an appropriate background value.</li>
+
+<li>The <code>org-date-selected</code> and <code>calendar-today</code> should look the same,
+contrary to how they did before. This is done in the interest of
+theme-wide consistency (i.e. the kind of detail you appreciate once
+it is no longer there).</li>
+
+<li>The mode lines use an underline on displays that cannot render a
+box. This way, the faces remain distinct from their context.</li>
+
+<li>All interface buttons, like those that appear in the Custom buffers,
+will be rendered with an underline on displays that cannot handle
+boxes.</li>
+
+<li>The <code>notmuch-message-summary-face</code>, which is used in threaded
+message views, now has an overline on supported displays (graphical
+Emacs). Individual messages in the thread should thus be more
+discernible.</li>
+
+<li>The <code>tab-bar-tab-highlight</code> is directly covered to make sure all
+mouse hover effects are consistent across similar interfaces.</li>
+
+<li>Some faces that had specific colour values (e.g. <code>cyan-cooler</code>) are
+revised to use semantic palette mappings instead. This ensures
+thematic consistency. The most obvious beneficiaries are users of
+the deuteranopia- and tritanopia- optimised themes
+(deuteranopia-friendly themes cannot work with red and green while
+tritanopia-friendly themes must not rely on yellow and blue).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:a82d2ccb-dd26-410e-8fc8-6f45813b4e00" class="outline-3">
+<h3 id="h:a82d2ccb-dd26-410e-8fc8-6f45813b4e00">The <code>modus-themes-custom-auto-reload</code> is obsolete</h3>
+<div class="outline-text-3" id="text-h:a82d2ccb-dd26-410e-8fc8-6f45813b4e00">
+<p>
+Plus all our user options no longer specify a <code>:set</code> function. This
+means that the theme will never be reloaded automatically when using
+the Custom interface or <code>setopt</code> to configure one of the theme's user
+options. Reloading the theme is what applies the new styles. The idea
+of this feature is good, but the implementation was problematic. Maybe
+I will reinstate it in the future, though I cannot let it block this
+major release.
+</p>
+</div>
+</div>
+<div id="outline-container-h:d5de3be7-5fdc-407b-81fc-aeb99ad528f7" class="outline-3">
+<h3 id="h:d5de3be7-5fdc-407b-81fc-aeb99ad528f7">Several <code>modus-themes-*</code> faces are obsolete</h3>
+<div class="outline-text-3" id="text-h:d5de3be7-5fdc-407b-81fc-aeb99ad528f7">
+<p>
+In previous versions I was defining faces that were used to apply
+uniform styles across many packages. This was the old way of doing
+things before version <code>4.0.0</code> of the themes that introduced palettes
+with semantic mappings and, optionally, user-defined overrides to
+them.
+</p>
+
+<p>
+I have deprecated all of the following and made all the necessary
+changes (i.e. several thousands of them), to make palette mappings the
+norm everywhere. In general, I encourage you not to rely on any faces
+defined by Modus: they are really intended for internal use.
+</p>
+
+<ul class="org-ul">
+<li><code>modus-themes-fg-blue</code></li>
+<li><code>modus-themes-fg-blue-cooler</code></li>
+<li><code>modus-themes-fg-blue-faint</code></li>
+<li><code>modus-themes-fg-blue-intense</code></li>
+<li><code>modus-themes-fg-blue-warmer</code></li>
+<li><code>modus-themes-fg-cyan</code></li>
+<li><code>modus-themes-fg-cyan-cooler</code></li>
+<li><code>modus-themes-fg-cyan-faint</code></li>
+<li><code>modus-themes-fg-cyan-intense</code></li>
+<li><code>modus-themes-fg-cyan-warmer</code></li>
+<li><code>modus-themes-fg-green</code></li>
+<li><code>modus-themes-fg-green-cooler</code></li>
+<li><code>modus-themes-fg-green-faint</code></li>
+<li><code>modus-themes-fg-green-intense</code></li>
+<li><code>modus-themes-fg-green-warmer</code></li>
+<li><code>modus-themes-fg-magenta</code></li>
+<li><code>modus-themes-fg-magenta-cooler</code></li>
+<li><code>modus-themes-fg-magenta-faint</code></li>
+<li><code>modus-themes-fg-magenta-intense</code></li>
+<li><code>modus-themes-fg-magenta-warmer</code></li>
+<li><code>modus-themes-fg-red</code></li>
+<li><code>modus-themes-fg-red-cooler</code></li>
+<li><code>modus-themes-fg-red-faint</code></li>
+<li><code>modus-themes-fg-red-intense</code></li>
+<li><code>modus-themes-fg-red-warmer</code></li>
+<li><code>modus-themes-fg-yellow</code></li>
+<li><code>modus-themes-fg-yellow-cooler</code></li>
+<li><code>modus-themes-fg-yellow-faint</code></li>
+<li><code>modus-themes-fg-yellow-intense</code></li>
+<li><code>modus-themes-fg-yellow-warmer</code></li>
+<li><code>modus-themes-intense-blue</code></li>
+<li><code>modus-themes-intense-cyan</code></li>
+<li><code>modus-themes-intense-green</code></li>
+<li><code>modus-themes-intense-magenta</code></li>
+<li><code>modus-themes-intense-red</code></li>
+<li><code>modus-themes-intense-yellow</code></li>
+<li><code>modus-themes-key-binding</code></li>
+<li><code>modus-themes-lang-error</code></li>
+<li><code>modus-themes-lang-note</code></li>
+<li><code>modus-themes-lang-warning</code></li>
+<li><code>modus-themes-mark-alt</code></li>
+<li><code>modus-themes-mark-del</code></li>
+<li><code>modus-themes-mark-sel</code></li>
+<li><code>modus-themes-nuanced-blue</code></li>
+<li><code>modus-themes-nuanced-cyan</code></li>
+<li><code>modus-themes-nuanced-green</code></li>
+<li><code>modus-themes-nuanced-magenta</code></li>
+<li><code>modus-themes-nuanced-red</code></li>
+<li><code>modus-themes-nuanced-yellow</code></li>
+<li><code>modus-themes-prominent-error</code></li>
+<li><code>modus-themes-prominent-note</code></li>
+<li><code>modus-themes-prominent-warning</code></li>
+<li><code>modus-themes-prose-code</code></li>
+<li><code>modus-themes-prose-macro</code></li>
+<li><code>modus-themes-prose-verbatim</code></li>
+<li><code>modus-themes-search-current</code></li>
+<li><code>modus-themes-search-lazy</code></li>
+<li><code>modus-themes-search-replace</code></li>
+<li><code>modus-themes-search-rx-group-0</code></li>
+<li><code>modus-themes-search-rx-group-1</code></li>
+<li><code>modus-themes-search-rx-group-2</code></li>
+<li><code>modus-themes-search-rx-group-3</code></li>
+<li><code>modus-themes-search-static</code></li>
+<li><code>modus-themes-subtle-blue</code></li>
+<li><code>modus-themes-subtle-cyan</code></li>
+<li><code>modus-themes-subtle-green</code></li>
+<li><code>modus-themes-subtle-magenta</code></li>
+<li><code>modus-themes-subtle-red</code></li>
+<li><code>modus-themes-subtle-yellow</code></li>
+</ul>
+
+<p>
+Thanks to Kevin Fleming and Jimmy Yuen Ho Wong for fixing two cases of
+unbalanced/faulty parentheses caused by the aforementioned. These were
+done as pull requests 166 and 168, respectively:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/protesilaos/modus-themes/pull/166">https://github.com/protesilaos/modus-themes/pull/166</a>.</li>
+<li><a href="https://github.com/protesilaos/modus-themes/pull/168">https://github.com/protesilaos/modus-themes/pull/168</a>.</li>
+</ul>
+
+<p>
+Both changes are small: no copyright assignment to the Free Software
+Foundation is needed (and I think both authors are covered, anyway).
+</p>
+</div>
+</div>
+<div id="outline-container-h:45ecd8f2-509b-4519-bd62-087031b0c1b8" class="outline-3">
+<h3 id="h:45ecd8f2-509b-4519-bd62-087031b0c1b8">All <code>:inherit</code> face attributes are reviewed and kept to a minimum</h3>
+<div class="outline-text-3" id="text-h:45ecd8f2-509b-4519-bd62-087031b0c1b8">
+<p>
+The themes now use the <code>:inherit</code> attribute much more cautiously than
+before. This is because of the reliance on semantic palette mappings:
+those give us more control and usually are explicit about the desired
+result.
+</p>
+
+<p>
+Face inheritance can become circular in some cases. Newer Emacs
+versions throw an error accordingly. This was discussed in Emacs bug
+79672, with participation from Eli Zaretskii, JD Smith, Manuel Giraud,
+Stephane Marks, and Steven Allen: <a href="https://debbugs.gnu.org/cgi/bugreport.cgi?bug=79672">https://debbugs.gnu.org/cgi/bugreport.cgi?bug=79672</a>.
+</p>
+
+<p>
+Thanks to everybody involved!
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-h:a8d31a81-5283-494a-bfb0-982206bcb2bd" class="outline-2">
 <h2 id="h:a8d31a81-5283-494a-bfb0-982206bcb2bd">4.8.0 on 2025-06-11</h2>
 <div class="outline-text-2" id="text-h:a8d31a81-5283-494a-bfb0-982206bcb2bd">
@@ -2282,8 +2786,8 @@ to something like:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-deuteranopia))
-</code></pre>
+<pre class="src src-emacs-lisp">(setq modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-deuteranopia))
+</pre>
 </div>
 
 <p>
@@ -2706,7 +3210,7 @@ agenda date and structure constructs.  Here is a complete example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq modus-themes-headings ; read the manual's entry of the doc string
+<pre class="src src-emacs-lisp">(setq modus-themes-headings ; read the manual's entry of the doc string
       '((0 . (variable-pitch light 1.9))
         (1 . (variable-pitch light 1.8))
         (2 . (variable-pitch regular 1.7))
@@ -2718,7 +3222,7 @@ agenda date and structure constructs.  Here is a complete example:
         (agenda-date . (semilight 1.5))
         (agenda-structure . (variable-pitch light 1.9))
         (t . (variable-pitch 1.1))))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -3009,7 +3513,7 @@ users, while also catering to their aesthetic preferences.
 <h2 id="h:6829db8d-52c5-43a8-a026-f213dcfaced9">3.0.0</h2>
 <div class="outline-text-2" id="text-h:6829db8d-52c5-43a8-a026-f213dcfaced9">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 3.0.0
+<pre class="src src-text">Modus themes version 3.0.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-10-28
 
@@ -3177,7 +3681,7 @@ Miscellaneous
   output as 'non-@code{nil}'.
 
 * Made other minor tweaks and refinements.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -3185,7 +3689,7 @@ Miscellaneous
 <h2 id="h:4d86106c-1df5-4f5f-bc6c-f14f5d13403b">2.7.0</h2>
 <div class="outline-text-2" id="text-h:4d86106c-1df5-4f5f-bc6c-f14f5d13403b">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.7.0
+<pre class="src src-text">Modus themes version 2.7.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-10-01
 
@@ -3354,7 +3858,7 @@ Changes to the manual
 * Added the missing ':config' keywords from the example configuration
   of the 'circadian' package.  Thanks to Koen van Greevenbroek for the
   patch: &lt;https://lists.sr.ht/~protesilaos/modus-themes/%3C8735cb6zm3.fsf%40posteo.net%3E&gt;.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -3362,7 +3866,7 @@ Changes to the manual
 <h2 id="h:fc108f65-3e0b-4e28-8030-86c797cb2b25">2.6.0</h2>
 <div class="outline-text-2" id="text-h:fc108f65-3e0b-4e28-8030-86c797cb2b25">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.6.0
+<pre class="src src-text">Modus themes version 2.6.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-08-19
 
@@ -3467,7 +3971,7 @@ Changes to the manual
 
 * Clarified the wording of individual statements pertaining to the need
   of reloading a theme for changes to user options to become effective.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -3475,7 +3979,7 @@ Changes to the manual
 <h2 id="h:32438044-6eee-4909-8e5a-860ce1457049">2.5.0</h2>
 <div class="outline-text-2" id="text-h:32438044-6eee-4909-8e5a-860ce1457049">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.5.0
+<pre class="src src-text">Modus themes version 2.5.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-08-03
 
@@ -3894,7 +4398,7 @@ Miscellaneous
   the manual.  The former helps set fonts and switch between font
   presents.  The latter is a stylistic variant of hl-line (its
   documentation explains its raison d'être).
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -3902,7 +4406,7 @@ Miscellaneous
 <h2 id="h:ee0dcce9-3481-4533-8ded-a9a1f5269a41">2.4.0</h2>
 <div class="outline-text-2" id="text-h:ee0dcce9-3481-4533-8ded-a9a1f5269a41">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.4.0
+<pre class="src src-text">Modus themes version 2.4.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-06-01
 
@@ -4233,7 +4737,7 @@ Miscellaneous
   in-development version like '2.5.0-dev'.  As we use semantic
   versioning, tags of the '2.4.1' sort are not considered: those would
   count as part of '2.5.0-dev'.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -4241,7 +4745,7 @@ Miscellaneous
 <h2 id="h:f95fb7e2-fcc8-43f6-bde5-27fe51b1bdd5">2.3.0</h2>
 <div class="outline-text-2" id="text-h:f95fb7e2-fcc8-43f6-bde5-27fe51b1bdd5">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.3.0
+<pre class="src src-text">Modus themes version 2.3.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-04-01
 
@@ -4533,7 +5037,7 @@ Miscellaneous
 * Wrote the correct symbols for some obsoletion forms.
 
 Thanks once again to everyone involved!
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -4541,7 +5045,7 @@ Thanks once again to everyone involved!
 <h2 id="h:251849ee-3328-48c7-af5f-d1d6daca3a97">2.2.0</h2>
 <div class="outline-text-2" id="text-h:251849ee-3328-48c7-af5f-d1d6daca3a97">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.2.0
+<pre class="src src-text">Modus themes version 2.2.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-02-23
 
@@ -4643,7 +5147,7 @@ Miscellaneous changes
 + Fixed typo in the 'modus-themes-box-buttons' variable.  Thanks to
   Illia Ostapyshyn for the patch in merge request 58:
   &lt;https://gitlab.com/protesilaos/modus-themes/-/merge_requests/58&gt;.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -4651,7 +5155,7 @@ Miscellaneous changes
 <h2 id="h:15098250-7b41-404b-86e1-9a99984976b9">2.1.0</h2>
 <div class="outline-text-2" id="text-h:15098250-7b41-404b-86e1-9a99984976b9">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.1.0
+<pre class="src src-text">Modus themes version 2.1.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2022-02-17
 
@@ -5352,7 +5856,7 @@ Miscellaneous
 
 Thanks again to everyone involved!  This has been yet another cycle of
 intense work which further iterated on an already solid base.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -5360,7 +5864,7 @@ intense work which further iterated on an already solid base.
 <h2 id="h:46d92baa-eff3-4973-bac0-cf762b457e2d">2.0.0</h2>
 <div class="outline-text-2" id="text-h:46d92baa-eff3-4973-bac0-cf762b457e2d">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 2.0.0
+<pre class="src src-text">Modus themes version 2.0.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-12-24
 
@@ -5734,7 +6238,7 @@ Miscellaneous
 * Rewrote all sections of the manual to document the current state of
   the project as pertains to valid user options, explicitly supported
   face groups, and so on.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -5742,7 +6246,7 @@ Miscellaneous
 <h2 id="h:22de7065-f54c-4944-b47f-3cc8a30551c8">1.7.0</h2>
 <div class="outline-text-2" id="text-h:22de7065-f54c-4944-b47f-3cc8a30551c8">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.7.0
+<pre class="src src-text">Modus themes version 1.7.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-11-18
 
@@ -5967,7 +6471,7 @@ Miscellaneous
   aforementioned.
 
 Thanks once again to everyone involved!
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -5975,7 +6479,7 @@ Thanks once again to everyone involved!
 <h2 id="h:e4b9945c-1db8-4626-abc9-372469b19253">1.6.0</h2>
 <div class="outline-text-2" id="text-h:e4b9945c-1db8-4626-abc9-372469b19253">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.6.0
+<pre class="src src-text">Modus themes version 1.6.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-09-29
 
@@ -6320,7 +6824,7 @@ Documentation
 
 Thanks again to everyone involved.  Looking forward to see the Modus
 themes, version 1.6.0, as part of the next stable release of Emacs.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -6328,7 +6832,7 @@ themes, version 1.6.0, as part of the next stable release of Emacs.
 <h2 id="h:05fc633d-69d6-4b5e-aade-1f9e4ba30ed3">1.5.0</h2>
 <div class="outline-text-2" id="text-h:05fc633d-69d6-4b5e-aade-1f9e4ba30ed3">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.5.0
+<pre class="src src-text">Modus themes version 1.5.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-07-15
 
@@ -6761,7 +7265,7 @@ Miscellaneous
 Thanks again to everyone involved!
 
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -6769,7 +7273,7 @@ Thanks again to everyone involved!
 <h2 id="h:4c643e3c-5284-4fab-97e8-217bc1c02f5d">1.4.0</h2>
 <div class="outline-text-2" id="text-h:4c643e3c-5284-4fab-97e8-217bc1c02f5d">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.4.0
+<pre class="src src-text">Modus themes version 1.4.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-05-25
 
@@ -7080,7 +7584,7 @@ Miscellaneous
 + Took the feedback of John Haman in issue 199 as a reminder to complete
   the set of possible values for the 'modus-themes-mode-line' variable:
   &lt;https://gitlab.com/protesilaos/modus-themes/-/issues/199&gt;.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -7088,7 +7592,7 @@ Miscellaneous
 <h2 id="h:5063c0c5-832e-4577-936e-d602b07d6d79">1.3.0</h2>
 <div class="outline-text-2" id="text-h:5063c0c5-832e-4577-936e-d602b07d6d79">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.3.0
+<pre class="src src-text">Modus themes version 1.3.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-04-17
 
@@ -7449,7 +7953,7 @@ Miscellaneous
 + Tweaked the hueness of the 'yellow-active' colour of 'modus-operandi'.
 
 Thanks once again to everyone involved!
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -7457,7 +7961,7 @@ Thanks once again to everyone involved!
 <h2 id="h:751083a7-3514-40f5-9928-17a11de5b439">1.2.0</h2>
 <div class="outline-text-2" id="text-h:751083a7-3514-40f5-9928-17a11de5b439">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.2.0
+<pre class="src src-text">Modus themes version 1.2.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-03-04
 
@@ -7801,7 +8305,7 @@ Miscellaneous
   declarations.
 
 + Wrote doc strings for every custom face that the themes define.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -7809,7 +8313,7 @@ Miscellaneous
 <h2 id="h:bb0e16a9-8a8b-4b1b-9d62-b1715295247b">1.1.0</h2>
 <div class="outline-text-2" id="text-h:bb0e16a9-8a8b-4b1b-9d62-b1715295247b">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.1.0
+<pre class="src src-text">Modus themes version 1.1.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2021-01-24
 
@@ -8262,7 +8766,7 @@ helps solidify the Modus themes as (i) uncompromisingly accessible in
 accordance with the highest legibility standard, (ii) highly
 customisable in true Emacs fashion, (iii) thoroughly comprehensive in
 terms of face coverage, and (iv) meticulously designed throughout.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -8270,7 +8774,7 @@ terms of face coverage, and (iv) meticulously designed throughout.
 <h2 id="h:94b5915e-1085-4859-ac9f-daf91e007741">1.0.0</h2>
 <div class="outline-text-2" id="text-h:94b5915e-1085-4859-ac9f-daf91e007741">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus themes version 1.0.0
+<pre class="src src-text">Modus themes version 1.0.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-12-05
 
@@ -8669,7 +9173,7 @@ concomitant issue) that introduced the new 'modus-themes' package.
 Thank you, the reader, for your attention and for understanding the
 longer term benefits of the refactoring, despite the short term friction
 it may have introduced.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -8677,7 +9181,7 @@ it may have introduced.
 <h2 id="h:b529ec46-2a9f-4844-9760-4708d2ca575b">0.13.0</h2>
 <div class="outline-text-2" id="text-h:b529ec46-2a9f-4844-9760-4708d2ca575b">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.13.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.13.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-10-08
 
@@ -9200,7 +9704,7 @@ always tricky, and documenting everything takes a lot of time (unless
 you do all of those on a whimsy, which hopefully is not the case here).
 
 Thanks again to everyone who helped improve the themes!
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -9208,7 +9712,7 @@ Thanks again to everyone who helped improve the themes!
 <h2 id="h:9d9394c1-84b6-4c23-8936-fe4f2f43301d">0.12.0</h2>
 <div class="outline-text-2" id="text-h:9d9394c1-84b6-4c23-8936-fe4f2f43301d">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.12.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.12.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-08-26
 
@@ -9504,7 +10008,7 @@ their thoughts.  The people already mentioned herein:
 - Manuel Uberti (https://gitlab.com/muberti)
 - Shreyas Ragavan (https://gitlab.com/shrysr)
 - tycho garen (https://gitlab.com/tychoish)
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -9512,7 +10016,7 @@ their thoughts.  The people already mentioned herein:
 <h2 id="h:7a453154-3486-45a8-9249-9183ad49ff42">0.11.0</h2>
 <div class="outline-text-2" id="text-h:7a453154-3486-45a8-9249-9183ad49ff42">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.11.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.11.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-07-31
 
@@ -9768,7 +10272,7 @@ Thanks to, in no particular order:
 
 Refer to the issue tracker (or commit log) for further details:
 https://gitlab.com/protesilaos/modus-themes/-/issues
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -9776,7 +10280,7 @@ https://gitlab.com/protesilaos/modus-themes/-/issues
 <h2 id="h:de114a53-7cbd-49aa-bf24-d1f1f0bf342e">0.10.0</h2>
 <div class="outline-text-2" id="text-h:de114a53-7cbd-49aa-bf24-d1f1f0bf342e">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.10.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.10.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-06-24
 
@@ -9890,7 +10394,7 @@ Other internal refinements
   support of the faces used in the built-in Emacs info pages.
 
 My thanks to Basil and André for their contributions!
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -9898,7 +10402,7 @@ My thanks to Basil and André for their contributions!
 <h2 id="h:96ccc8b9-2d5e-4857-bf25-4e094e17bfed">0.9.0</h2>
 <div class="outline-text-2" id="text-h:96ccc8b9-2d5e-4857-bf25-4e094e17bfed">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.9.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.9.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-06-03
 
@@ -10048,7 +10552,7 @@ Added support for
 + nxml-mode
 + vdiff
 + yasnippet
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10056,7 +10560,7 @@ Added support for
 <h2 id="h:afa34aec-7079-4c45-8e16-ab4e7cc8cd6a">0.8.0</h2>
 <div class="outline-text-2" id="text-h:afa34aec-7079-4c45-8e16-ab4e7cc8cd6a">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.8.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.8.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-04-28
 
@@ -10222,7 +10726,7 @@ Miscellaneous changes and concluding remarks
 
 + Updated the screen shots and their description in the relevant Wiki
   page: https://gitlab.com/protesilaos/modus-themes/-/wikis/Screenshots
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10230,7 +10734,7 @@ Miscellaneous changes and concluding remarks
 <h2 id="h:353114b7-6980-4622-8057-b8cbb8361a8a">0.7.0</h2>
 <div class="outline-text-2" id="text-h:353114b7-6980-4622-8057-b8cbb8361a8a">
 <div class="org-src-container">
-<pre class="src src-text"><code>Modus Operandi and Modus Vivendi version 0.7.0
+<pre class="src src-text">Modus Operandi and Modus Vivendi version 0.7.0
 
 By Protesilaos Stavrou &lt;info@protesilaos.com&gt; on 2020-03-30
 
@@ -10455,7 +10959,7 @@ Note: both patches were small, requiring no copyright assignment.
 Larger contributions are always welcome, though make sure you read the
 section in the README with regard to assigning copyright to the Free
 Software Foundation.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10463,7 +10967,7 @@ Software Foundation.
 <h2 id="h:c8c33ff2-6f75-4642-a27e-ee6e8abc493e">0.6.0</h2>
 <div class="outline-text-2" id="text-h:c8c33ff2-6f75-4642-a27e-ee6e8abc493e">
 <div class="org-src-container">
-<pre class="src src-text"><code>This release contains lots of refinements and additions.
+<pre class="src src-text">This release contains lots of refinements and additions.
 
 Let me start with an administrative point: I have completed the process
 of assigning my copy rights to the Free Software Foundation.  This
@@ -10556,7 +11060,7 @@ There were also a few minor refinements for:
 Finally, the Commentary section of each theme has been greatly expanded.
 It now includes the user-facing customisation options and the complete
 list of supported packages.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10564,7 +11068,7 @@ list of supported packages.
 <h2 id="h:dffc2bd4-6597-4be4-88f6-b349be7ebc6e">0.5.0</h2>
 <div class="outline-text-2" id="text-h:dffc2bd4-6597-4be4-88f6-b349be7ebc6e">
 <div class="org-src-container">
-<pre class="src src-text"><code>This release contains support for several new packages and lots of
+<pre class="src src-text">This release contains support for several new packages and lots of
 refinements for existing ones.  A lot of work went into making the
 themes more robust by reviewing the inheritance of styles from one
 face group to another (in general, the ':inherit' property should not
@@ -10641,7 +11145,7 @@ Refinements:
   with other search metaphors.
 + Emacs 27's new ':extend' property is only implemented where
   necessary (note that the latest release is version 26.3).
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10649,7 +11153,7 @@ Refinements:
 <h2 id="h:1597e301-f9df-4aac-8ec5-b8ecf34f2930">0.4.0</h2>
 <div class="outline-text-2" id="text-h:1597e301-f9df-4aac-8ec5-b8ecf34f2930">
 <div class="org-src-container">
-<pre class="src src-text"><code>This is an overview of the changes since version 0.3.0 (2019-12-25).
+<pre class="src src-text">This is an overview of the changes since version 0.3.0 (2019-12-25).
 
 Add support for:
 
@@ -10694,7 +11198,7 @@ Miscellaneous:
       the need to provide greater contrast between accent values that
       can be used there.
 	+ Minor documentation refinements.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10702,7 +11206,7 @@ Miscellaneous:
 <h2 id="h:cb0ca8dc-3960-4490-b3c4-27d10cf6ed44">0.3.0</h2>
 <div class="outline-text-2" id="text-h:cb0ca8dc-3960-4490-b3c4-27d10cf6ed44">
 <div class="org-src-container">
-<pre class="src src-text"><code>Overview of changes since 0.2.0 (2019-12-18):
+<pre class="src src-text">Overview of changes since 0.2.0 (2019-12-18):
 
 + Add support for the following packages:
 
@@ -10757,7 +11261,7 @@ Miscellaneous:
   + Same for org and org-recur.
 
 + Minor documentation updates.
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10765,7 +11269,7 @@ Miscellaneous:
 <h2 id="h:c9746d04-adf4-41b1-9b7c-6caaf17f8816">0.2.0</h2>
 <div class="outline-text-2" id="text-h:c9746d04-adf4-41b1-9b7c-6caaf17f8816">
 <div class="org-src-container">
-<pre class="src src-text"><code>Overview of changes since 0.1.0 (2019-12-09):
+<pre class="src src-text">Overview of changes since 0.1.0 (2019-12-09):
 
 + Comprehensive review of `org-mode' faces.  The use of colour should
 now be more consistent with the semantics of each element.  These should
@@ -10791,7 +11295,7 @@ contrast between the elements.
   + `evil-mode'
   + `evil-goggles'
   + `ruler-mode'
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
@@ -10799,8 +11303,8 @@ contrast between the elements.
 <h2 id="h:e14e612e-6951-4812-bc88-62c498bd5644">0.1.0</h2>
 <div class="outline-text-2" id="text-h:e14e612e-6951-4812-bc88-62c498bd5644">
 <div class="org-src-container">
-<pre class="src src-text"><code>First stable release of Modus Operandi and Modus Vivendi.
-</code></pre>
+<pre class="src src-text">First stable release of Modus Operandi and Modus Vivendi.
+</pre>
 </div>
 </div>
 </div>
