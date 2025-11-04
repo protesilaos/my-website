@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-11-02 09:23:07 +0200</b> with a word
-  count of <b>111246</b>. ]
+[ Last revised and exported on <b>2025-11-04 12:24:18 +0200</b> with a word
+  count of <b>110536</b>. ]
 </p>
 
 <p>
@@ -88,14 +88,11 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">2. Anatomy of my Emacs configuration</a></li>
 <li><a href="#h:7b7b5898-09f7-4128-8af0-4041f67cb729">3. The early initialisation of Emacs (<code>early-init.el</code>)</a>
 <ul>
-<li><a href="#h:1e1b1503-0952-43f9-8bfe-4252fe874cd1">3.1. The <code>early-init.el</code> macro to run code only in a Desktop Environment</a></li>
-<li><a href="#h:a1288a07-93f6-4e14-894e-707d5ad8b6dc">3.2. The <code>early-init.el</code> basic frame settings</a></li>
-<li><a href="#h:0403b581-142b-4613-bc81-51c5dccd831d">3.3. The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</a></li>
-<li><a href="#h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e">3.4. The <code>early-init.el</code> tweaks to startup time and garbage collection</a></li>
-<li><a href="#h:7a037504-8a2f-4df0-8482-ce6476354440">3.5. The <code>early-init.el</code> initialises the package cache</a></li>
-<li><a href="#h:7d3a283e-1595-4692-8124-e0d683cb15b2">3.6. The <code>early-init.el</code> defines general theme-related functions</a></li>
-<li><a href="#h:a18a059d-4e62-4fd7-8c0b-1135a771a7aa">3.7. The <code>early-init.el</code> takes care to avoid the initial flash of light</a></li>
-<li><a href="#h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">3.8. The <code>early-init.el</code> gives a name to the default frame</a></li>
+<li><a href="#h:a1288a07-93f6-4e14-894e-707d5ad8b6dc">3.1. The <code>early-init.el</code> basic frame settings</a></li>
+<li><a href="#h:0403b581-142b-4613-bc81-51c5dccd831d">3.2. The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</a></li>
+<li><a href="#h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e">3.3. The <code>early-init.el</code> tweaks to startup time and garbage collection</a></li>
+<li><a href="#h:7a037504-8a2f-4df0-8482-ce6476354440">3.4. The <code>early-init.el</code> initialises the package cache</a></li>
+<li><a href="#h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">3.5. The <code>early-init.el</code> gives a name to the default frame</a></li>
 </ul>
 </li>
 <li><a href="#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974">4. The main initialisation of Emacs (<code>init.el</code>)</a>
@@ -425,7 +422,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-11-02 09:23:07 +0200):
+(2025-11-04 12:24:18 +0200):
 </p>
 
 <div class="org-src-container">
@@ -520,7 +517,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org7624e83">
+<pre class="example" id="org71dd537">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -600,7 +597,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org3094952">
+<pre class="example" id="org8c906e1">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -608,7 +605,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org1989040">
+<pre class="example" id="orge9bca3b">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -636,37 +633,8 @@ to set up a few basic things before Emacs produces the initial frame
 by delegating to the <code>init.el</code> (<a href="#h:103d6f5a-bdb1-4b49-946a-708a83c79a7d">Anatomy of my Emacs configuration</a>).
 </p>
 </div>
-<div id="outline-container-h:1e1b1503-0952-43f9-8bfe-4252fe874cd1" class="outline-3">
-<h3 id="h:1e1b1503-0952-43f9-8bfe-4252fe874cd1"><span class="section-number-3">3.1.</span> The <code>early-init.el</code> macro to run code only in a Desktop Environment</h3>
-<div class="outline-text-3" id="text-h:1e1b1503-0952-43f9-8bfe-4252fe874cd1">
-<p>
-There are a few parts of my setup where I need to run code based on
-whether I am using a regular desktop environment. This is not the
-norm, as I default to a tiling window manager (check my dotfiles for
-their specifics). What I have here is a macro which I can then use to
-wrap any code that should only be evaluated when I am not in one of my
-tiling window managers.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar prot-emacs-tiling-window-manager-regexp "bspwm\\|herbstluftwm\\|i3"
-  "Regular expression to  tiling window managers.
-See definition of `prot-emacs-with-desktop-session'.")
-
-(defmacro prot-emacs-with-desktop-session (&amp;rest body)
-  "Expand BODY if desktop session is not a tiling window manager.
-See `prot-emacs-tiling-window-manager-regexp' for what
-constitutes a matching tiling window manager."
-  (declare (indent 0))
-  `(when-let* ((session (getenv "DESKTOP_SESSION"))
-               ((not (string-match-p session prot-emacs-tiling-window-manager-regexp))))
-     ,@body))
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-h:a1288a07-93f6-4e14-894e-707d5ad8b6dc" class="outline-3">
-<h3 id="h:a1288a07-93f6-4e14-894e-707d5ad8b6dc"><span class="section-number-3">3.2.</span> The <code>early-init.el</code> basic frame settings</h3>
+<h3 id="h:a1288a07-93f6-4e14-894e-707d5ad8b6dc"><span class="section-number-3">3.1.</span> The <code>early-init.el</code> basic frame settings</h3>
 <div class="outline-text-3" id="text-h:a1288a07-93f6-4e14-894e-707d5ad8b6dc">
 <p>
 These are some general settings for frames and the basics of the
@@ -694,7 +662,7 @@ I never want.
 </div>
 </div>
 <div id="outline-container-h:0403b581-142b-4613-bc81-51c5dccd831d" class="outline-3">
-<h3 id="h:0403b581-142b-4613-bc81-51c5dccd831d"><span class="section-number-3">3.3.</span> The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</h3>
+<h3 id="h:0403b581-142b-4613-bc81-51c5dccd831d"><span class="section-number-3">3.2.</span> The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</h3>
 <div class="outline-text-3" id="text-h:0403b581-142b-4613-bc81-51c5dccd831d">
 <p>
 Here I am setting parameters for the size of the Emacs frame: the
@@ -799,7 +767,7 @@ line display the frame name (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">T
 </div>
 </div>
 <div id="outline-container-h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e" class="outline-3">
-<h3 id="h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e"><span class="section-number-3">3.4.</span> The <code>early-init.el</code> tweaks to startup time and garbage collection</h3>
+<h3 id="h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e"><span class="section-number-3">3.3.</span> The <code>early-init.el</code> tweaks to startup time and garbage collection</h3>
 <div class="outline-text-3" id="text-h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e">
 <p>
 I do not have a deep understanding of &ldquo;garbage collection&rdquo;, though I
@@ -839,7 +807,7 @@ once Emacs is done loading.
 </div>
 </div>
 <div id="outline-container-h:7a037504-8a2f-4df0-8482-ce6476354440" class="outline-3">
-<h3 id="h:7a037504-8a2f-4df0-8482-ce6476354440"><span class="section-number-3">3.5.</span> The <code>early-init.el</code> initialises the package cache</h3>
+<h3 id="h:7a037504-8a2f-4df0-8482-ce6476354440"><span class="section-number-3">3.4.</span> The <code>early-init.el</code> initialises the package cache</h3>
 <div class="outline-text-3" id="text-h:7a037504-8a2f-4df0-8482-ce6476354440">
 <p>
 I use the standard <code>package.el</code> to manage my Emacs packages. It works
@@ -860,106 +828,8 @@ tool.
 </div>
 </div>
 </div>
-<div id="outline-container-h:7d3a283e-1595-4692-8124-e0d683cb15b2" class="outline-3">
-<h3 id="h:7d3a283e-1595-4692-8124-e0d683cb15b2"><span class="section-number-3">3.6.</span> The <code>early-init.el</code> defines general theme-related functions</h3>
-<div class="outline-text-3" id="text-h:7d3a283e-1595-4692-8124-e0d683cb15b2">
-<p>
-Here I am defining helper functions that check what theme I should be
-using. I then rely on these functions to load a light or dark theme
-accordingly. This is done in the sections about themes:
-</p>
-
-<ul class="org-ul">
-<li><a href="#h:36af519a-67e1-42b6-a38a-2052638108f9">The <code>prot-emacs-modus-themes.el</code> module</a></li>
-<li><a href="#h:2b2a27a1-6d2e-4b59-bf60-94682e173f2f">The <code>prot-emacs-ef-themes.el</code> module</a></li>
-<li><a href="#h:334ecb7f-91e0-40db-bd47-418ea0e580e9">The <code>prot-emacs-doric-themes.el</code> module</a></li>
-<li><a href="#h:0c7a240c-211f-4571-a5ba-433e510f487f">The <code>prot-emacs-standard-themes.el</code> module</a></li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;;;; General theme code
-
-(defun prot-emacs-theme-gsettings-dark-p ()
-  "Return non-nil if gsettings (GNOME) has a dark theme.
-Return nil if the DESKTOP_SESSION is either bspwm or
-herbstluftwm, per the configuration of my dotfiles.  Also check
-the `delight.sh' shell script."
-  (prot-emacs-with-desktop-session
-    (string-match-p
-     "dark"
-     (shell-command-to-string "gsettings get org.gnome.desktop.interface color-scheme"))))
-
-(defun prot-emacs-theme-twm-dark-p ()
-  "Return non-nil if my custom setup has a dark theme.
-I place a file in ~/.config/prot-xtwm-active-theme which contains
-a single word describing my system-wide theme.  This is part of
-my dotfiles.  Check my `delight.sh' shell script for more."
-  (when-let* ((file "~/.config/prot-xtwm-active-theme")
-              ((file-exists-p file)))
-    (string-match-p
-     "dark"
-     (with-temp-buffer
-       (insert-file-contents file)
-       (buffer-string)))))
-
-(defun prot-emacs-theme-environment-dark-p ()
-  "Return non-nil if environment theme is dark."
-  (or (prot-emacs-theme-twm-dark-p)
-      (prot-emacs-theme-gsettings-dark-p)))
-
-(defun prot-emacs-re-enable-frame-theme (_frame)
-  "Re-enable active theme, if any, upon FRAME creation.
-Add this to `after-make-frame-functions' so that new frames do
-not retain the generic background set by the function
-`prot-emacs-avoid-initial-flash-of-light'."
-  (when-let* ((theme (car custom-enabled-themes)))
-    (enable-theme theme)))
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-h:a18a059d-4e62-4fd7-8c0b-1135a771a7aa" class="outline-3">
-<h3 id="h:a18a059d-4e62-4fd7-8c0b-1135a771a7aa"><span class="section-number-3">3.7.</span> The <code>early-init.el</code> takes care to avoid the initial flash of light</h3>
-<div class="outline-text-3" id="text-h:a18a059d-4e62-4fd7-8c0b-1135a771a7aa">
-<p>
-Since I put in the effort to define the above theme-related functions,
-I can now benefit by having Emacs set an appropriate set of basic
-colour values at startup to eliminate the flash of light it normally
-displays (<a href="#h:7d3a283e-1595-4692-8124-e0d683cb15b2">The early-init.el defines general theme-related functions</a>).
-By default, Emacs loads a light theme, but this is terrible if I am in
-a fairly dark environment. Whereas my arrangement here makes sure that
-Emacs uses a black background if the environment is dark.
-</p>
-
-<p>
-Note that in the snippet below I hardcode the black colour (<code>#000000</code>)
-to avoid any extra calculations at this early stage. Otherwise, I
-would have to check which theme will be loaded and then set its
-background here. That would be too slow for what we need in the early
-initialisation file, thus defeating the purpose of not having a flash
-of light at startup.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; NOTE 2023-02-05: The reason the following works is because (i) the
-;; `mode-line-format' is specified again and (ii) the
-;; `prot-emacs-theme-gsettings-dark-p' will load a dark theme.
-(defun prot-emacs-avoid-initial-flash-of-light ()
-  "Avoid flash of light when starting Emacs, if needed.
-New frames are instructed to call `prot-emacs-re-enable-frame-theme'."
-  (when (prot-emacs-theme-environment-dark-p)
-    (setq mode-line-format nil)
-    (set-face-attribute 'default nil :background "#000000" :foreground "#ffffff")
-    (set-face-attribute 'mode-line nil :background "#000000" :foreground "#ffffff" :box 'unspecified)
-    (add-hook 'after-make-frame-functions #'prot-emacs-re-enable-frame-theme)))
-
-(prot-emacs-avoid-initial-flash-of-light)
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad" class="outline-3">
-<h3 id="h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad"><span class="section-number-3">3.8.</span> The <code>early-init.el</code> gives a name to the default frame</h3>
+<h3 id="h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad"><span class="section-number-3">3.5.</span> The <code>early-init.el</code> gives a name to the default frame</h3>
 <div class="outline-text-3" id="text-h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">
 <p>
 Finally, I like to call my default frame <code>home</code>. This is because I use
@@ -1576,7 +1446,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org18d4f1a">
+<pre class="example" id="orge290dc8">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1648,7 +1518,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org5dac1d4">
+<pre class="example" id="org85c8915">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1757,7 +1627,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org941d5db">
+<pre class="example" id="orga9c40df">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1923,7 +1793,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orgb108c08">
+<pre class="example" id="orgfa564e8">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2048,6 +1918,12 @@ The individual modules are documented in a section of their own under
 
 (defvar prot-display-graphic-p (display-graphic-p)
   "When non-nil, the display is graphical.")
+
+(defun prot-emacs-gnome-prefers-dark-p ()
+  "Return non-nil if GNOME color-scheme is set to dark."
+  (string-match-p
+   "dark"
+   (shell-command-to-string "gsettings get org.gnome.desktop.interface color-scheme")))
 
 (require 'prot-emacs-theme)
 (require 'prot-emacs-essentials)
@@ -2230,7 +2106,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
 
   (setq modus-themes-common-palette-overrides nil)
 
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2249,7 +2125,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
     "C-&lt;f5&gt;" #'modus-themes-select
     "M-&lt;f5&gt;" #'modus-themes-load-random)
 
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2332,7 +2208,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
           (agenda-structure . (variable-pitch light 1.9))
           (t . (variable-pitch 1.1))))
 
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2352,7 +2228,7 @@ Note that the <code>prot-emacs-comment</code> is there for my testing purposes
     "C-&lt;f5&gt;" #'modus-themes-select
     "M-&lt;f5&gt;" #'modus-themes-load-random)
 
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2403,7 +2279,7 @@ editor, opt for my <code>modus-themes</code> (<a href="#h:36af519a-67e1-42b6-a38
     "M-&lt;f5&gt;" #'doric-themes-rotate)
 
   (doric-themes-load-random
-   (if (prot-emacs-theme-environment-dark-p)
+   (if (prot-emacs-gnome-prefers-dark-p)
        'dark
      'light)))
 
@@ -2421,7 +2297,7 @@ editor, opt for my <code>modus-themes</code> (<a href="#h:36af519a-67e1-42b6-a38
     "M-&lt;f5&gt;" #'doric-themes-rotate)
 
   (doric-themes-load-random
-   (if (prot-emacs-theme-environment-dark-p)
+   (if (prot-emacs-gnome-prefers-dark-p)
        'dark
      'light)))
 
@@ -2513,7 +2389,7 @@ Affectionately Reimagined Default &#x2026; themes.</li>
   ;; that (it can be called interactively as well).  I just check with
   ;; my desktop environment to determine if the choice should be about
   ;; a light or a dark theme.  Those functions are in my init.el.
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2534,7 +2410,7 @@ Affectionately Reimagined Default &#x2026; themes.</li>
     "C-&lt;f5&gt;" #'modus-themes-select
     "M-&lt;f5&gt;" #'modus-themes-load-random)
 
-  (if (prot-emacs-theme-environment-dark-p)
+  (if (prot-emacs-gnome-prefers-dark-p)
       (modus-themes-load-random 'dark)
     (modus-themes-load-random 'light)))
 
@@ -2791,7 +2667,7 @@ such as in the difference between writing and reading.
   (prot-emacs-configure
     (prot-emacs-install cursory)
 
-    (cursory-set-last-or-fallback)
+    (require 'cursory)
 
     (setq cursory-presets
           '((box
@@ -2829,6 +2705,8 @@ such as in the difference between writing and reading.
              :blink-cursor-blinks 10
              :blink-cursor-interval 0.2
              :blink-cursor-delay 0.2)))
+
+    (cursory-set-last-or-fallback)
 
     ;; Persist configurations between Emacs sessions.  Also apply the
     ;; :cursor-color again when swithcing to another theme.
@@ -3583,7 +3461,7 @@ this via some hook.
     "M-S-r" #'rotate-windows-back ; Emacs 31
     ;; Commands for buffers
     "&lt;C-f2&gt;" #'prot-simple-rename-file-and-buffer
-    "C-x k" #'prot-simple-kill-buffer-current
+    "C-x k" #'prot-simple-kill-buffer-dwim
     "C-x K" #'kill-buffer ; leaving this here to contrast with the above
     "M-s b" #'prot-simple-buffers-major-mode
     "M-s v" #'prot-simple-buffers-vc-root))
@@ -4394,7 +4272,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgac565d2">
+<pre class="example" id="org7fd7620">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4443,7 +4321,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org67dacca">
+<pre class="example" id="org6220bd3">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7351,7 +7229,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org196ecdc">
+<pre class="example" id="orgbad43d6">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7379,7 +7257,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgfeb23bf">
+<pre class="example" id="org1ddcee3">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7455,7 +7333,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orga01530a">
+<pre class="example" id="org3664bbe">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7603,7 +7481,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org3a19776">
+<pre class="example" id="org2aefc00">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9271,7 +9149,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgec0aaa6">
+<pre class="example" id="org24d7a6c">
 (info "(org) Search Options")
 </pre>
 
@@ -9361,7 +9239,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgdf25414">
+<pre class="example" id="orgcddc556">
 (require 'ob-python)
 
 ;; OR
@@ -10271,7 +10149,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgca473b9">
+<pre class="example" id="orgb9e0691">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11099,7 +10977,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org8c7d2e2">
+<pre class="example" id="orgcd881c1">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11111,7 +10989,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org5ce1701">
+<pre class="example" id="org6e086d1">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11174,7 +11052,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org9a878bc">
+<pre class="example" id="org2e8d1c2">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11186,7 +11064,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5819740">
+<pre class="example" id="org84479e7">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11208,7 +11086,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgaa51f16">
+<pre class="example" id="orga6438cb">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11322,7 +11200,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org620780e">
+<pre class="example" id="orgd801c54">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11454,7 +11332,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org568a31d">
+<pre class="example" id="orge2d9abe">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11466,7 +11344,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgdabb455">
+<pre class="example" id="org9a6dc55">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -11479,19 +11357,16 @@ Now the actual code I use:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Account settings
 (prot-emacs-configure
-  (let ((prv (prot-common-auth-get-field "prv-gandi" :user))
-        (pub (prot-common-auth-get-field "pub-gandi" :user))
-        (inf (prot-common-auth-get-field "inf-gandi" :user))
-        (box (prot-common-auth-get-field "prot-gandi" :user)))
-    (setq notmuch-identities
-          (mapcar (lambda (str)
-                    (format "%s &lt;%s&gt;" user-full-name str))
-                  (list prv pub inf box))
-          notmuch-fcc-dirs
-          `((,prv . "gandi/Sent")
-            (,inf . "gandi/Sent")
-            (,pub . "gandi/Sent")
-            (,box . "gandi/Sent")))))
+  (with-eval-after-load 'prot-common
+    (let ((prv (prot-common-auth-get-field "prv-gandi" :user))
+          (pub (prot-common-auth-get-field "pub-gandi" :user))
+          (inf (prot-common-auth-get-field "inf-gandi" :user))
+          (box (prot-common-auth-get-field "prot-gandi" :user)))
+      (setq notmuch-identities
+            (mapcar (lambda (str)
+                      (format "%s &lt;%s&gt;" user-full-name str))
+                    (list prv pub inf box))
+            notmuch-fcc-dirs `((".*" . "gandi/Sent"))))))
 </pre>
 </div>
 </div>
@@ -12596,7 +12471,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org75c8265">
+<pre class="example" id="orgaf34988">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12693,7 +12568,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgbe4815e">
+<pre class="example" id="orgd555433">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13011,7 +12886,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org8d42d92">
+<pre class="example" id="orga567f83">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -14455,11 +14330,18 @@ return value."
         (string-insert-rectangle (+ (mark) 1) (- (point) 1) ";; =&gt; "))
     (user-error "No expression at point")))
 
+(defvar-keymap prot-elisp-macroexpand-mode-map
+  :doc "Key map for `prot-elisp-macroexpand-mode'."
+  :parent special-mode-map)
+
 (define-derived-mode prot-elisp-macroexpand-mode emacs-lisp-mode "MacroExpand"
   "Like `emacs-lisp-mode' but for macroexpanded forms."
   :interactive nil
   (read-only-mode 1)
-  (display-line-numbers-mode 1))
+  (display-line-numbers-mode 1)
+  (setq-local elisp-fontify-semantically t
+              elisp-add-help-echo t)
+  (cursor-sensor-mode 1))
 
 ;;;###autoload
 (defun prot-elisp-pp-macroexpand-last-sexp ()
@@ -19084,8 +18966,13 @@ When called interactively, prompt for BUFFER."
   (let ((kill-buffer-query-functions nil))
     (kill-buffer (or buffer (current-buffer)))))
 
+(make-obsolete
+ 'prot-simple-kill-buffer-current
+ 'prot-simple-kill-buffer-dwim
+ "2025-11-04")
+
 ;;;###autoload
-(defun prot-simple-kill-buffer-current (&amp;optional arg)
+(defun prot-simple-kill-buffer-dwim (&amp;optional arg)
   "Kill current buffer.
 With optional prefix ARG (\\[universal-argument]) delete the
 buffer's window as well.  Kill the window regardless of ARG if it
@@ -19093,11 +18980,20 @@ satisfies `prot-common-window-small-p' and it has no previous
 buffers in its history."
   (interactive "P")
   (let ((kill-buffer-query-functions nil))
-    (if (or (and (prot-common-window-small-p)
-                 (null (window-prev-buffers)))
-            (and arg (not (one-window-p))))
-        (kill-buffer-and-window)
-      (kill-buffer))))
+    (cond
+     ;; Is a tab whose last window's buffer is to be deleted.
+     ((and (one-window-p)
+           (length&gt; (tab-bar-tabs) 1))
+      (let ((buffer (current-buffer)))
+        (tab-close)
+        (kill-buffer buffer)))
+     ;; Is an ancillary window that appeared for this buffer but is
+     ;; otherwise not supposed to be there.
+     ((and (prot-common-window-small-p)
+           (null (window-prev-buffers)))
+      (kill-buffer-and-window))
+     (t
+      (kill-buffer)))))
 
 ;;;###autoload
 (defun prot-simple-rename-file-and-buffer (name)
@@ -19911,7 +19807,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org95baf18">
+<pre class="example" id="org875d931">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19943,7 +19839,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgcf7bc9d">
+<pre class="example" id="orgc1b9233">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
