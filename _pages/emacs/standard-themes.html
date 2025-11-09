@@ -14,13 +14,13 @@ pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-2.2.0, released on 2024-12-29.  Any reference to
+3.0.0, released on 2025-11-09.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 3.0.0-dev.
+Current development target is 3.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -55,7 +55,14 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:7141f66d-f1b3-4c9a-b07a-f8e78068dcdc">4. Sample configuration</a></li>
-<li><a href="#h:c3975e07-8bbb-42b2-a160-27e3afeb3258">5. Customization options</a></li>
+<li><a href="#h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd">5. Working with other Modus themes or taking over Modus</a>
+<ul>
+<li><a href="#h:b5e7977b-817f-4519-afaf-ea46d51ef32c">5.1. Loading only Standard themes with the convenience wrappers we provide</a></li>
+<li><a href="#h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224">5.2. Combining core Modus themes with all their derivatives</a></li>
+<li><a href="#h:bf30baf6-b6d6-46e8-b9b2-ce829a27c6da">5.3. Taking over the Modus commands altogether</a></li>
+<li><a href="#h:c3975e07-8bbb-42b2-a160-27e3afeb3258">5.4. Customisation options for compatibility with Modus</a></li>
+</ul>
+</li>
 <li><a href="#h:20e79476-6975-4643-838f-a77dfa92627a">6. Acknowledgements</a></li>
 <li><a href="#h:255fa624-6e3c-4118-9618-17cc25a801bd">7. GNU Free Documentation License</a></li>
 <li><a href="#h:3e760365-f83c-4631-b9ee-13b22de8a6d7">8. Indices</a>
@@ -190,26 +197,24 @@ Everything is in place to set up the package.
 <h2 id="h:7141f66d-f1b3-4c9a-b07a-f8e78068dcdc"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:7141f66d-f1b3-4c9a-b07a-f8e78068dcdc">
 <p>
-[ Updated as part of 3.0.0-dev, to build on top of the <code>modus-themes</code>. ]
-</p>
-
-<p>
-Starting with version <code>3.0.0</code>, the <code>standard-themes</code> are built on top of the
-<code>modus-themes</code>. This means that all customisation options of the Modus
-themes apply to the Standard themes. Same for all Modus commands that load a
-theme. Enable <code>standard-themes-take-over-modus-themes-mode</code> to set up this
-arrangement (or enable <code>modus-themes-include-derivatives-mode</code> instead
-to blend Standard and Modus into one collection).
+Starting with version <code>3.0.0</code>, the <code>standard-themes</code> are built on top
+of the <code>modus-themes</code>. This means that all customisation is done via
+the Modus user options (<a href="#h:c3975e07-8bbb-42b2-a160-27e3afeb3258">Customisation options</a>). Furthermore, all
+theme-loading commands are those of Modus (<a href="#h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd">Working with other Modus themes or taking over Modus</a>).
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(use-package standard-themes
   :ensure t
   :init
-  ;; This makes the Modus commands listed below consider only the
-  ;; Standard themes.  For an alternative that includes Modus and all
-  ;; derivative themes (like Standard), enable the
-  ;; `modus-themes-include-derivatives-mode' instead.
+  ;; This makes the Modus commands listed below consider only the Ef
+  ;; themes.  For an alternative that includes Modus and all
+  ;; derivative themes (like Ef), enable the
+  ;; `modus-themes-include-derivatives-mode' instead.  The manual of
+  ;; the Ef themes has a section that explains all the possibilities:
+  ;;
+  ;; - Evaluate `(info "(standard-themes) Working with other Modus themes or taking over Modus")'
+  ;; - Visit &lt;https://protesilaos.com/emacs/standard-themes#h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd&gt;
   (standard-themes-take-over-modus-themes-mode 1)
   :bind
   (("&lt;f5&gt;" . modus-themes-rotate)
@@ -228,18 +233,240 @@ to blend Standard and Modus into one collection).
 </div>
 </div>
 </div>
-<div id="outline-container-h:c3975e07-8bbb-42b2-a160-27e3afeb3258" class="outline-2">
-<h2 id="h:c3975e07-8bbb-42b2-a160-27e3afeb3258"><span class="section-number-2">5.</span> Customization options</h2>
-<div class="outline-text-2" id="text-h:c3975e07-8bbb-42b2-a160-27e3afeb3258">
+<div id="outline-container-h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd" class="outline-2">
+<h2 id="h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd"><span class="section-number-2">5.</span> Working with other Modus themes or taking over Modus</h2>
+<div class="outline-text-2" id="text-h:d8ebe175-cd61-4e0b-9b84-7a4f5c7e09cd">
 <p>
-[ Redone as part of 3.0.0-dev. ]
+Starting version <code>3.0.0</code>, the Standard themes are built on top of the
+Modus themes. This means that they inherit the comprehensive
+infrastructure of Modus and all of its wide face/package coverage. To
+make the change easier for existing users, we provide aliases for user
+options and commands.
+</p>
+</div>
+<div id="outline-container-h:b5e7977b-817f-4519-afaf-ea46d51ef32c" class="outline-3">
+<h3 id="h:b5e7977b-817f-4519-afaf-ea46d51ef32c"><span class="section-number-3">5.1.</span> Loading only Standard themes with the convenience wrappers we provide</h3>
+<div class="outline-text-3" id="text-h:b5e7977b-817f-4519-afaf-ea46d51ef32c">
+<p>
+All the old commands Standard provided for loading one of its themes will
+still work as before, meaning that they will only ever show and load a
+theme that belongs to the Standard collection (<a href="#h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224">Combining core Modus themes with all their derivatives</a>).
 </p>
 
 <p>
-Starting with version <code>3.0.0</code> of the <code>standard-themes</code>, all
-customisation is done via the <code>modus-themes</code>. Consult the latter&rsquo;s
-manual for all the technicalities (<a href="#h:7141f66d-f1b3-4c9a-b07a-f8e78068dcdc">Sample configuration</a>).
+Internally, these commands are now using the Modus infrastructure and
+are then limiting the set of themes to the Standard collection. They are
+thus convenience wrappers around the equivalent Modus commands.
 </p>
+
+<ul class="org-ul">
+<li><code>standard-themes-toggle</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>standard-themes-rotate</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>standard-themes-select</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>standard-themes-load-random</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>standard-themes-load-random-dark</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>standard-themes-load-random-light</code></li>
+</ul>
+
+<p>
+Additionally, the commands <code>standard-themes-list-colors</code> and
+<code>standard-themes-list-colors-current</code> use the relevant Modus functionality
+under the hood while working only with Standard themes.
+</p>
+
+<p>
+Depending on their needs, users may prefer to take over Modus
+completely, instead of relying on these convenience wrapper commands
+(<a href="#h:bf30baf6-b6d6-46e8-b9b2-ce829a27c6da">Taking over the Modus commands altogether</a>).
+</p>
+</div>
+</div>
+<div id="outline-container-h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224" class="outline-3">
+<h3 id="h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224"><span class="section-number-3">5.2.</span> Combining core Modus themes with all their derivatives</h3>
+<div class="outline-text-3" id="text-h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224">
+<p>
+The minor mode <code>modus-themes-include-derivatives-mode</code> makes all the
+theme-loading commands that Modus defines consider all core and
+derivative themes. This means that something like <code>modus-themes-select</code>
+will offer <code>modus-operandi</code> and <code>ef-summer</code> as two of the many
+possible candidates.
+</p>
+
+<p>
+In this scenario, the Modus and Standard collections become part of a larger
+family of themes as opposed to only considering one or the other
+(<a href="#h:b5e7977b-817f-4519-afaf-ea46d51ef32c">Loading only Standard themes with the convenience wrappers we provide</a>).
+Enable <code>modus-themes-include-derivatives-mode</code> and then access them
+all with the following commands:
+</p>
+
+<ul class="org-ul">
+<li><code>modus-themes-toggle</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-rotate</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-select</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random-dark</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random-light</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-list-colors</code> (alias <code>modus-themes-preview-colors</code>)</li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-list-colors-current</code> (alias <code>modus-themes-preview-colors-current</code>)</li>
+</ul>
+
+<p>
+Consult the manual of the Modus themes for further details and/or read
+the documentation string of each command.
+</p>
+</div>
+</div>
+<div id="outline-container-h:bf30baf6-b6d6-46e8-b9b2-ce829a27c6da" class="outline-3">
+<h3 id="h:bf30baf6-b6d6-46e8-b9b2-ce829a27c6da"><span class="section-number-3">5.3.</span> Taking over the Modus commands altogether</h3>
+<div class="outline-text-3" id="text-h:bf30baf6-b6d6-46e8-b9b2-ce829a27c6da">
+<p>
+The minor mode <code>standard-themes-take-over-modus-themes-mode</code> makes all Modus
+commands that load a theme consider only Standard themes. This is the
+opposite of allowing different theme collections to be blended
+together (<a href="#h:22bf7a88-aa4d-4f46-a7bb-b4f9a0cd7224">Combining core Modus themes with all their derivatives</a>).
+It effectively is the same as using one of the convenience wrapper
+commands we already provide (<a href="#h:b5e7977b-817f-4519-afaf-ea46d51ef32c">Loading only Standard themes with the convenience wrappers we provide</a>).
+</p>
+
+<p>
+This minor mode exists to accommodate the needs of users who install
+both the Modus and Standard theme packages (and possibly other Modus
+derivatives). They can maintain a single/shared configuration and then
+decide when to enable <code>standard-themes-take-over-modus-themes-mode</code> to
+switch to using just the Standard themes. In this scenario, a key binding
+to, say, <code>modus-themes-rotate</code> does not need to be updated: it
+internally reads only Standard themes. When <code>standard-themes-take-over-modus-themes-mode</code>
+is disabled, that same key binding will revert to doing what it did
+before (load only a core Modus theme or Modus plus derivatives if
+<code>modus-themes-include-derivatives-mode</code> is enabled).
+</p>
+</div>
+</div>
+<div id="outline-container-h:c3975e07-8bbb-42b2-a160-27e3afeb3258" class="outline-3">
+<h3 id="h:c3975e07-8bbb-42b2-a160-27e3afeb3258"><span class="section-number-3">5.4.</span> Customisation options for compatibility with Modus</h3>
+<div class="outline-text-3" id="text-h:c3975e07-8bbb-42b2-a160-27e3afeb3258">
+<p>
+Consult the Modus themes manual for all customisation options. All the
+user options defined by the Standard themes prior to their version <code>3.0.0</code>
+(i.e. before building on top of the Modus themes) are now aliases for
+the equivalent Modus options. We do this for backward compatibility.
+Concretely:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Old name</th>
+<th scope="col" class="org-left">Is alias for CURRENT NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">standard-themes-disable-other-themes</td>
+<td class="org-left">modus-themes-disable-other-themes</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-to-toggle</td>
+<td class="org-left">modus-themes-to-toggle</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-to-rotate</td>
+<td class="org-left">modus-themes-to-rotate</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-after-load-theme-hook</td>
+<td class="org-left">modus-themes-after-load-theme-hook</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-italic-constructs</td>
+<td class="org-left">modus-themes-italic-constructs</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-bold-constructs</td>
+<td class="org-left">modus-themes-bold-constructs</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-variable-pitch-ui</td>
+<td class="org-left">modus-themes-variable-pitch-ui</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-mixed-fonts</td>
+<td class="org-left">modus-themes-mixed-fonts</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-headings</td>
+<td class="org-left">modus-themes-headings</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-completions</td>
+<td class="org-left">modus-themes-completions</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-prompts</td>
+<td class="org-left">modus-themes-prompts</td>
+</tr>
+
+<tr>
+<td class="org-left">standard-themes-common-palette-overrides</td>
+<td class="org-left">modus-themes-common-palette-overrides</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="outline-container-h:20e79476-6975-4643-838f-a77dfa92627a" class="outline-2">
