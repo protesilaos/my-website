@@ -18,13 +18,13 @@ pertinent to it.
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.11.0, released on 2025-09-25.  Any reference to
+2.0.0, released on 2025-11-09.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 2.0.0-dev.
+Current development target is 2.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -58,16 +58,22 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </li>
 <li><a href="#h:ac76ded0-af9b-4566-aff9-75142ef2d4ef">3. Sample configuration</a></li>
-<li><a href="#h:c8c3f312-692f-45d0-b490-78b501c99d41">4. Themes for red-green or blue-yellow color deficiency</a></li>
-<li><a href="#h:db8ba158-22f6-49f7-b2f2-1c8162e690dd">5. Customisation options</a></li>
-<li><a href="#h:75d74aea-d17f-497f-a3b8-f0bf4c372de0">6. Loading a theme</a></li>
-<li><a href="#h:5d8753d2-cc10-44a7-9467-dcd62157718b">7. Acknowledgements</a></li>
-<li><a href="#h:a349a898-0068-4529-ab3b-167c1b7b8534">8. GNU Free Documentation License</a></li>
-<li><a href="#h:3dbfeab5-bf86-4dfe-bf90-74061205b570">9. Indices</a>
+<li><a href="#h:6585235a-5219-4f78-9dd5-6a64d87d1b6e">4. Working with other Modus themes or taking over Modus</a>
 <ul>
-<li><a href="#h:c3fa52c2-988f-40f2-84a8-07699a61867c">9.1. Function index</a></li>
-<li><a href="#h:02b12c7b-22e5-457b-8086-5bf7866db0de">9.2. Variable index</a></li>
-<li><a href="#h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd">9.3. Concept index</a></li>
+<li><a href="#h:95df9646-b8dc-4c44-a582-9ba01e561b59">4.1. Loading only Ef themes with the convenience wrappers we provide</a></li>
+<li><a href="#h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73">4.2. Combining core Modus themes with all their derivatives</a></li>
+<li><a href="#h:86bbfef9-2a34-44fb-abdc-f384882f6a42">4.3. Taking over the Modus commands altogether</a></li>
+<li><a href="#h:db8ba158-22f6-49f7-b2f2-1c8162e690dd">4.4. Customisation options for compatibility with Modus</a></li>
+</ul>
+</li>
+<li><a href="#h:75d74aea-d17f-497f-a3b8-f0bf4c372de0">5. Loading a theme</a></li>
+<li><a href="#h:5d8753d2-cc10-44a7-9467-dcd62157718b">6. Acknowledgements</a></li>
+<li><a href="#h:a349a898-0068-4529-ab3b-167c1b7b8534">7. GNU Free Documentation License</a></li>
+<li><a href="#h:3dbfeab5-bf86-4dfe-bf90-74061205b570">8. Indices</a>
+<ul>
+<li><a href="#h:c3fa52c2-988f-40f2-84a8-07699a61867c">8.1. Function index</a></li>
+<li><a href="#h:02b12c7b-22e5-457b-8086-5bf7866db0de">8.2. Variable index</a></li>
+<li><a href="#h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd">8.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -168,12 +174,10 @@ Everything is in place to set up the package.
 <h2 id="h:ac76ded0-af9b-4566-aff9-75142ef2d4ef"><span class="section-number-2">3.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:ac76ded0-af9b-4566-aff9-75142ef2d4ef">
 <p>
-As part of 2.0.0-dev, the <code>ef-themes</code> are built on top
-of the <code>modus-themes</code>. This means that all customisation is done via
-the Modus user options. Furthermore, all theme-loading commands are
-those of Modus, provided the <code>ef-themes-take-over-modus-themes-mode</code>
-is enabled (or enable <code>modus-themes-include-derivatives-mode</code> instead
-to blend Ef and Modus into one collection).
+Starting with version <code>2.0.0</code>, the <code>ef-themes</code> are built on top of the
+<code>modus-themes</code>. This means that all customisation is done via the
+Modus user options (<a href="#h:db8ba158-22f6-49f7-b2f2-1c8162e690dd">Customisation options</a>). Furthermore, all
+theme-loading commands are those of Modus (<a href="#h:6585235a-5219-4f78-9dd5-6a64d87d1b6e">Working with other Modus themes or taking over Modus</a>).
 </p>
 
 <div class="org-src-container">
@@ -183,7 +187,11 @@ to blend Ef and Modus into one collection).
   ;; This makes the Modus commands listed below consider only the Ef
   ;; themes.  For an alternative that includes Modus and all
   ;; derivative themes (like Ef), enable the
-  ;; `modus-themes-include-derivatives-mode' instead.
+  ;; `modus-themes-include-derivatives-mode' instead.  The manual of
+  ;; the Ef themes has a section that explains all the possibilities:
+  ;;
+  ;; - Evaluate `(info "(ef-themes) Working with other Modus themes or taking over Modus")'
+  ;; - Visit &lt;https://protesilaos.com/emacs/ef-themes#h:6585235a-5219-4f78-9dd5-6a64d87d1b6e&gt;
   (ef-themes-take-over-modus-themes-mode 1)
   :bind
   (("&lt;f5&gt;" . modus-themes-rotate)
@@ -202,49 +210,255 @@ to blend Ef and Modus into one collection).
 </div>
 </div>
 </div>
-<div id="outline-container-h:c8c3f312-692f-45d0-b490-78b501c99d41" class="outline-2">
-<h2 id="h:c8c3f312-692f-45d0-b490-78b501c99d41"><span class="section-number-2">4.</span> Themes for red-green or blue-yellow color deficiency</h2>
-<div class="outline-text-2" id="text-h:c8c3f312-692f-45d0-b490-78b501c99d41">
+<div id="outline-container-h:6585235a-5219-4f78-9dd5-6a64d87d1b6e" class="outline-2">
+<h2 id="h:6585235a-5219-4f78-9dd5-6a64d87d1b6e"><span class="section-number-2">4.</span> Working with other Modus themes or taking over Modus</h2>
+<div class="outline-text-2" id="text-h:6585235a-5219-4f78-9dd5-6a64d87d1b6e">
 <p>
-Most items in the <code>ef-themes</code> collection are designed to use colors
-from many parts of the spectrum.  Those items generally are
-inappropriate for users with red-green or blue-yellow color deficiency
-(deuteranopia and tritanopia, respectively).  We do, nonetheless,
-provide light and dark themes that are optimized for such cases.  The
-names of the themes are:
+Starting version <code>2.0.0</code>, the Ef themes are built on top of the Modus
+themes. This means that they inherit the comprehensive infrastructure
+of Modus and all of its wide face/package coverage. To make the change
+easier for existing users, we provide aliases for user options and
+commands.
+</p>
+</div>
+<div id="outline-container-h:95df9646-b8dc-4c44-a582-9ba01e561b59" class="outline-3">
+<h3 id="h:95df9646-b8dc-4c44-a582-9ba01e561b59"><span class="section-number-3">4.1.</span> Loading only Ef themes with the convenience wrappers we provide</h3>
+<div class="outline-text-3" id="text-h:95df9646-b8dc-4c44-a582-9ba01e561b59">
+<p>
+All the old commands Ef provided for loading one of its themes will
+still work as before, meaning that they will only ever show and load a
+theme that belongs to the Ef collection (<a href="#h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73">Combining core Modus themes with all their derivatives</a>).
+</p>
+
+<p>
+Internally, these commands are now using the Modus infrastructure and
+are then limiting the set of themes to the Ef collection. They are
+thus convenience wrappers around the equivalent Modus commands.
 </p>
 
 <ul class="org-ul">
-<li><code>ef-deuteranopia-dark</code> and <code>ef-deuteranopia-light</code> for red-green
-color deficiency;</li>
-<li><code>ef-tritanopia-dark</code> and <code>ef-tritanopia-light</code> for blue-yellow color
-deficiency;</li>
+<li><code>ef-themes-toggle</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>ef-themes-rotate</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>ef-themes-select</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>ef-themes-load-random</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>ef-themes-load-random-dark</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>ef-themes-load-random-light</code></li>
 </ul>
 
 <p>
-<a href="#h:75d74aea-d17f-497f-a3b8-f0bf4c372de0">Loading a theme</a>.
+Additionally, the commands <code>ef-themes-list-colors</code> and
+<code>ef-themes-list-colors-current</code> use the relevant Modus functionality
+under the hood while working only with Ef themes.
 </p>
-</div>
-</div>
-<div id="outline-container-h:db8ba158-22f6-49f7-b2f2-1c8162e690dd" class="outline-2">
-<h2 id="h:db8ba158-22f6-49f7-b2f2-1c8162e690dd"><span class="section-number-2">5.</span> Customisation options</h2>
-<div class="outline-text-2" id="text-h:db8ba158-22f6-49f7-b2f2-1c8162e690dd">
+
 <p>
-Consult the Modus themes manual for all customisation options.
+Depending on their needs, users may prefer to take over Modus
+completely, instead of relying on these convenience wrapper commands
+(<a href="#h:86bbfef9-2a34-44fb-abdc-f384882f6a42">Taking over the Modus commands altogether</a>).
 </p>
+</div>
+</div>
+<div id="outline-container-h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73" class="outline-3">
+<h3 id="h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73"><span class="section-number-3">4.2.</span> Combining core Modus themes with all their derivatives</h3>
+<div class="outline-text-3" id="text-h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73">
+<p>
+The minor mode <code>modus-themes-include-derivatives-mode</code> makes all the
+theme-loading commands that Modus defines consider all core and
+derivative themes. This means that something like <code>modus-themes-select</code>
+will offer <code>modus-operandi</code> and <code>ef-summer</code> as two of the many
+possible candidates.
+</p>
+
+<p>
+In this scenario, the Modus and Ef collections become part of a larger
+family of themes as opposed to only considering one or the other
+(<a href="#h:95df9646-b8dc-4c44-a582-9ba01e561b59">Loading only Ef themes with the convenience wrappers we provide</a>).
+Enable <code>modus-themes-include-derivatives-mode</code> and then access them
+all with the following commands:
+</p>
+
+<ul class="org-ul">
+<li><code>modus-themes-toggle</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-rotate</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-select</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random-dark</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-load-random-light</code></li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-list-colors</code> (alias <code>modus-themes-preview-colors</code>)</li>
+</ul>
+
+<ul class="org-ul">
+<li><code>modus-themes-list-colors-current</code> (alias <code>modus-themes-preview-colors-current</code>)</li>
+</ul>
+
+<p>
+Consult the manual of the Modus themes for further details and/or read
+the documentation string of each command. Evaluate <code>(info "(modus-themes) Top")</code>
+or visit <a href="https://protesilaos.com/emacs/modus-themes">https://protesilaos.com/emacs/modus-themes</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:86bbfef9-2a34-44fb-abdc-f384882f6a42" class="outline-3">
+<h3 id="h:86bbfef9-2a34-44fb-abdc-f384882f6a42"><span class="section-number-3">4.3.</span> Taking over the Modus commands altogether</h3>
+<div class="outline-text-3" id="text-h:86bbfef9-2a34-44fb-abdc-f384882f6a42">
+<p>
+The minor mode <code>ef-themes-take-over-modus-themes-mode</code> makes all Modus
+commands that load a theme consider only Ef themes. This is the
+opposite of allowing different theme collections to be blended
+together (<a href="#h:6c8abcaf-c0fa-4fb1-a9c0-f1dcf71c7d73">Combining core Modus themes with all their derivatives</a>).
+It effectively is the same as using one of the convenience wrapper
+commands we already provide (<a href="#h:95df9646-b8dc-4c44-a582-9ba01e561b59">Loading only Ef themes with the convenience wrappers we provide</a>).
+</p>
+
+<p>
+This minor mode exists to accommodate the needs of users who install
+both the Modus and Ef theme packages (and possibly other Modus
+derivatives). They can maintain a single/shared configuration and then
+decide when to enable <code>ef-themes-take-over-modus-themes-mode</code> to
+switch to using just the Ef themes. In this scenario, a key binding
+to, say, <code>modus-themes-rotate</code> does not need to be updated: it
+internally reads only Ef themes. When <code>ef-themes-take-over-modus-themes-mode</code>
+is disabled, that same key binding will revert to doing what it did
+before (load only a core Modus theme or Modus plus derivatives if
+<code>modus-themes-include-derivatives-mode</code> is enabled).
+</p>
+</div>
+</div>
+<div id="outline-container-h:db8ba158-22f6-49f7-b2f2-1c8162e690dd" class="outline-3">
+<h3 id="h:db8ba158-22f6-49f7-b2f2-1c8162e690dd"><span class="section-number-3">4.4.</span> Customisation options for compatibility with Modus</h3>
+<div class="outline-text-3" id="text-h:db8ba158-22f6-49f7-b2f2-1c8162e690dd">
+<p>
+Consult the Modus themes manual for all customisation options. All the
+user options defined by the Ef themes prior to their version <code>2.0.0</code>
+(i.e. before building on top of the Modus themes) are now aliases for
+the equivalent Modus options. We do this for backward compatibility.
+Concretely:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Old name</th>
+<th scope="col" class="org-left">Is alias for CURRENT NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ef-themes-disable-other-themes</td>
+<td class="org-left">modus-themes-disable-other-themes</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-to-toggle</td>
+<td class="org-left">modus-themes-to-toggle</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-to-rotate</td>
+<td class="org-left">modus-themes-to-rotate</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-after-load-theme-hook</td>
+<td class="org-left">modus-themes-after-load-theme-hook</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-italic-constructs</td>
+<td class="org-left">modus-themes-italic-constructs</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-bold-constructs</td>
+<td class="org-left">modus-themes-bold-constructs</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-variable-pitch-ui</td>
+<td class="org-left">modus-themes-variable-pitch-ui</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-mixed-fonts</td>
+<td class="org-left">modus-themes-mixed-fonts</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-headings</td>
+<td class="org-left">modus-themes-headings</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-completions</td>
+<td class="org-left">modus-themes-completions</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-prompts</td>
+<td class="org-left">modus-themes-prompts</td>
+</tr>
+
+<tr>
+<td class="org-left">ef-themes-common-palette-overrides</td>
+<td class="org-left">modus-themes-common-palette-overrides</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="outline-container-h:75d74aea-d17f-497f-a3b8-f0bf4c372de0" class="outline-2">
-<h2 id="h:75d74aea-d17f-497f-a3b8-f0bf4c372de0"><span class="section-number-2">6.</span> Loading a theme</h2>
+<h2 id="h:75d74aea-d17f-497f-a3b8-f0bf4c372de0"><span class="section-number-2">5.</span> Loading a theme</h2>
 <div class="outline-text-2" id="text-h:75d74aea-d17f-497f-a3b8-f0bf4c372de0">
 <p>
-Consult the Modus themes manual for all commands that load a theme. Or
+Consult the Modus themes manual for all commands that load a theme. We
+also explain the relevant commands and user options (<a href="#h:6585235a-5219-4f78-9dd5-6a64d87d1b6e">Working with other Modus themes or taking over Modus</a>). Or
 check the sample configuration to quickly get started (<a href="#h:ac76ded0-af9b-4566-aff9-75142ef2d4ef">Sample configuration</a>).
 </p>
 </div>
 </div>
 <div id="outline-container-h:5d8753d2-cc10-44a7-9467-dcd62157718b" class="outline-2">
-<h2 id="h:5d8753d2-cc10-44a7-9467-dcd62157718b"><span class="section-number-2">7.</span> Acknowledgements</h2>
+<h2 id="h:5d8753d2-cc10-44a7-9467-dcd62157718b"><span class="section-number-2">6.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:5d8753d2-cc10-44a7-9467-dcd62157718b">
 <p>
 This project is meant to be a collective effort.  Every bit of help
@@ -269,7 +483,7 @@ Apollo, Zoltán Király, goldfita, marasenna, newhallroad.</dd>
 </div>
 </div>
 <div id="outline-container-h:a349a898-0068-4529-ab3b-167c1b7b8534" class="outline-2">
-<h2 id="h:a349a898-0068-4529-ab3b-167c1b7b8534"><span class="section-number-2">8.</span> GNU Free Documentation License</h2>
+<h2 id="h:a349a898-0068-4529-ab3b-167c1b7b8534"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:a349a898-0068-4529-ab3b-167c1b7b8534">
 <pre>
 
@@ -729,21 +943,21 @@ to permit their use in free software.
 </div>
 </div>
 <div id="outline-container-h:3dbfeab5-bf86-4dfe-bf90-74061205b570" class="outline-2">
-<h2 id="h:3dbfeab5-bf86-4dfe-bf90-74061205b570"><span class="section-number-2">9.</span> Indices</h2>
+<h2 id="h:3dbfeab5-bf86-4dfe-bf90-74061205b570"><span class="section-number-2">8.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:3dbfeab5-bf86-4dfe-bf90-74061205b570">
 </div>
 <div id="outline-container-h:c3fa52c2-988f-40f2-84a8-07699a61867c" class="outline-3">
-<h3 id="h:c3fa52c2-988f-40f2-84a8-07699a61867c"><span class="section-number-3">9.1.</span> Function index</h3>
+<h3 id="h:c3fa52c2-988f-40f2-84a8-07699a61867c"><span class="section-number-3">8.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:c3fa52c2-988f-40f2-84a8-07699a61867c">
 </div>
 </div>
 <div id="outline-container-h:02b12c7b-22e5-457b-8086-5bf7866db0de" class="outline-3">
-<h3 id="h:02b12c7b-22e5-457b-8086-5bf7866db0de"><span class="section-number-3">9.2.</span> Variable index</h3>
+<h3 id="h:02b12c7b-22e5-457b-8086-5bf7866db0de"><span class="section-number-3">8.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:02b12c7b-22e5-457b-8086-5bf7866db0de">
 </div>
 </div>
 <div id="outline-container-h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd" class="outline-3">
-<h3 id="h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd"><span class="section-number-3">9.3.</span> Concept index</h3>
+<h3 id="h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd"><span class="section-number-3">8.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:c68456c8-ec2b-4d16-93d2-f9fcb18b2fdd">
 -->
 </div>
