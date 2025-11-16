@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-11-06 17:57:16 +0200</b> with a word
-  count of <b>110655</b>. ]
+[ Last revised and exported on <b>2025-11-16 07:37:19 +0200</b> with a word
+  count of <b>110666</b>. ]
 </p>
 
 <p>
@@ -285,7 +285,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:94d48381-1711-4d6b-8449-918bc1e3836c">5.9.1. The <code>prot-emacs-org.el</code> section on the <code>calendar</code></a></li>
 <li><a href="#h:bd4b0dcb-a925-4bd7-90db-6379a7ca6f5e">5.9.2. The <code>prot-emacs-org.el</code> section about appointment reminders (<code>appt.el</code>)</a></li>
 <li><a href="#h:e03df1e0-b43e-49b5-978e-6a511165617c">5.9.3. The <code>prot-emacs-org.el</code> section with basic Org settings</a></li>
-<li><a href="#h:0c758fca-0a51-4095-9483-b9b0a594333a">5.9.4. The <code>prot-emacs-org.el</code> Org indent mode settings</a></li>
+<li><a href="#h:0c758fca-0a51-4095-9483-b9b0a594333a">5.9.4. The <code>prot-emacs-org.el</code> indent and default folding settings for Org</a></li>
 <li><a href="#h:024dd541-0061-4a10-b10b-b17dcd4794b9">5.9.5. The <code>prot-emacs-org.el</code> Org to-do and refile settings</a></li>
 <li><a href="#h:81de4e32-a1af-4e1f-9e10-90eb0c90afa2">5.9.6. The <code>prot-emacs-org.el</code> Org heading tags</a></li>
 <li><a href="#h:0884658e-9eb5-47e3-9338-66e09004a1a0">5.9.7. The <code>prot-emacs-org.el</code> Org time/state logging</a></li>
@@ -422,7 +422,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-11-06 17:57:16 +0200):
+(2025-11-16 07:37:19 +0200):
 </p>
 
 <div class="org-src-container">
@@ -517,7 +517,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgd5220fe">
+<pre class="example" id="org61c52b5">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -597,7 +597,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orga466c06">
+<pre class="example" id="org9d9e5c0">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -605,7 +605,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org0a91e39">
+<pre class="example" id="orgba82e55">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1446,7 +1446,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgd3fec68">
+<pre class="example" id="orgae04c94">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1518,7 +1518,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org62411f6">
+<pre class="example" id="orgb81fec2">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1627,7 +1627,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org1a1b40f">
+<pre class="example" id="org5e041fb">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1793,7 +1793,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orge5ecb6b">
+<pre class="example" id="org0d05ae5">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2274,9 +2274,8 @@ editor, opt for my <code>modus-themes</code> (<a href="#h:36af519a-67e1-42b6-a38
   (prot-emacs-install doric-themes)
 
   (prot-emacs-keybind global-map
-    "&lt;f5&gt;" #'doric-themes-toggle
-    "C-&lt;f5&gt;" #'doric-themes-select
-    "M-&lt;f5&gt;" #'doric-themes-rotate)
+    "&lt;f5&gt;" #'doric-themes-rotate
+    "C-&lt;f5&gt;" #'doric-themes-select)
 
   (doric-themes-load-random
    (if (prot-emacs-gnome-prefers-dark-p)
@@ -2292,9 +2291,8 @@ editor, opt for my <code>modus-themes</code> (<a href="#h:36af519a-67e1-42b6-a38
   (require 'doric-themes)
 
   (prot-emacs-keybind global-map
-    "&lt;f5&gt;" #'doric-themes-toggle
-    "C-&lt;f5&gt;" #'doric-themes-select
-    "M-&lt;f5&gt;" #'doric-themes-rotate)
+    "&lt;f5&gt;" #'doric-themes-rotate
+    "C-&lt;f5&gt;" #'doric-themes-select)
 
   (doric-themes-load-random
    (if (prot-emacs-gnome-prefers-dark-p)
@@ -2448,24 +2446,22 @@ are called. The pulse effect is added there (<code>pulsar-after-function-hook</c
 ;; Read the pulsar manual: &lt;https://protesilaos.com/emacs/pulsar&gt;.
 (prot-emacs-configure
   (prot-emacs-install pulsar)
+
   (pulsar-global-mode 1)
 
   (prot-emacs-hook
     (next-error-hook minibuffer-setup-hook)
     (pulsar-pulse-line-red pulsar-recenter-top pulsar-reveal-entry))
 
-  (setq pulsar-pulse t
-        pulsar-delay 0.055
-        pulsar-iterations 5
-        pulsar-face 'pulsar-green
-        pulsar-region-face 'pulsar-cyan
-        pulsar-highlight-face 'pulsar-magenta)
-
-  (setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
+  (setq pulsar-delay 0.055)
+  (setq pulsar-iterations 5)
+  (setq pulsar-face 'pulsar-green)
+  (setq pulsar-region-face 'pulsar-yellow)
+  (setq pulsar-highlight-face 'pulsar-magenta)
 
   (prot-emacs-keybind global-map
     "C-x l" #'pulsar-pulse-line ; override `count-lines-page'
-    "C-x L" #'pulsar-highlight-dwim)) ; or use `pulsar-highlight-line'
+    "C-x L" #'pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
 </pre>
 </div>
 </div>
@@ -4273,7 +4269,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgdec9c53">
+<pre class="example" id="orgbad7d6c">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4322,7 +4318,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgf78b2c0">
+<pre class="example" id="orgbd24d2d">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7230,7 +7226,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org777370a">
+<pre class="example" id="org91d65a2">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7258,7 +7254,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgfa48310">
+<pre class="example" id="org402699d">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7336,7 +7332,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgbac40a0">
+<pre class="example" id="orgaadab92">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7484,7 +7480,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org7077c35">
+<pre class="example" id="org61a9d6c">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8500,7 +8496,9 @@ changes I make here are not necessary.
       "M-w" #'nil))
 
   (setq magit-define-global-key-bindings nil)
-  (setq magit-section-visibility-indicator '(magit-fringe-bitmap&gt; . magit-fringe-bitmapv))
+  (setq magit-section-visibility-indicators
+        `(;; (magit-fringe-bitmap&gt; . magit-fringe-bitmapv)
+          ("⮧" . t))) ; same as `org-ellpisis'
 
   ;; Show icons for files in the Magit status and other buffers.
   (with-eval-after-load 'nerd-icons
@@ -8514,8 +8512,7 @@ changes I make here are not necessary.
   (setq magit-repository-directories
         '(("~/Git/Projects" . 1)))
   (setq magit-repolist-columns
-        `(("Name" 25 ,#'magit-repolist-column-ident
-           ())
+        `(("Name" 25 ,#'magit-repolist-column-ident)
           ("Version" 15 ,#'magit-repolist-column-version
            ((:sort magit-repolist-version&lt;)))
           ("Unpulled" 10 ,#'magit-repolist-column-unpulled-from-upstream
@@ -8526,8 +8523,7 @@ changes I make here are not necessary.
            ((:help-echo "Local changes not in upstream")
             (:right-align t)
             (:sort &lt;)))
-          ("Path" 99 ,#'magit-repolist-column-path
-           ())))
+          ("Path" 99 ,#'magit-repolist-column-path)))
 
   (setq git-commit-summary-max-length 50)
   ;; NOTE 2023-01-24: I used to also include `overlong-summary-line'
@@ -8856,7 +8852,7 @@ on how I use Org.
 </div>
 </div>
 <div id="outline-container-h:0c758fca-0a51-4095-9483-b9b0a594333a" class="outline-4">
-<h4 id="h:0c758fca-0a51-4095-9483-b9b0a594333a"><span class="section-number-4">5.9.4.</span> The <code>prot-emacs-org.el</code> Org indent mode settings</h4>
+<h4 id="h:0c758fca-0a51-4095-9483-b9b0a594333a"><span class="section-number-4">5.9.4.</span> The <code>prot-emacs-org.el</code> indent and default folding settings for Org</h4>
 <div class="outline-text-4" id="text-h:0c758fca-0a51-4095-9483-b9b0a594333a">
 <p>
 Perhaps the most obvious feature of the Org syntax is the heading
@@ -8889,9 +8885,10 @@ file.
 </p>
 
 <p>
-I do not set up this minor mode via a hook, as I do not really need it
-for small Org files. Instead, I set up the files I am interested in to
-have the following somewhere close to the top:
+We can set up this minor mode via a hook, so it takes effect in all
+Org buffers. An alternative is to enable on a per-file basis, by add
+the <code>indent</code> word to the <code>#+startup</code> keyword somewhere close to the
+top of the file. For example:
 </p>
 
 <pre class="example">
@@ -8903,7 +8900,9 @@ have the following somewhere close to the top:
 What this <code>#+startup</code> directive does is to (i) show all the headings
 while folding their contents and (ii) activate <code>org-indent-mode</code>. If
 you add the <code>#+startup</code> to an already open file, then you need to do
-<code>M-x org-mode-restart</code> for changes to take effect.
+<code>M-x org-mode-restart</code> for changes to take effect, or move the cursor
+to that line and type <code>C-c C-c</code>. Below I configure <code>org-startup-folded</code>
+which is underlying variable for the <code>content</code> part shown in this example.
 </p>
 
 <p>
@@ -8923,12 +8922,13 @@ instead of <code>2</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;;;; `org-indent-mode' and related
+<pre class="src src-emacs-lisp">;;;; `org-indent-mode' and initial folding
 (prot-emacs-configure
-  (with-eval-after-load 'org
-    (setq org-adapt-indentation nil) ; No, non, nein, όχι to literal indentation!
-    (setq org-indent-mode-turns-on-hiding-stars nil)
-    (setq org-indent-indentation-per-level 4)))
+  (add-hook 'org-mode-hook #'org-indent-mode)
+  (setq org-indent-mode-turns-on-hiding-stars nil)
+  (setq org-adapt-indentation nil) ; No, non, nein, όχι to literal indentation!
+  (setq org-indent-indentation-per-level 4)
+  (setq org-startup-folded 'content))
 </pre>
 </div>
 </div>
@@ -9159,7 +9159,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgd454cae">
+<pre class="example" id="org577768f">
 (info "(org) Search Options")
 </pre>
 
@@ -9249,7 +9249,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org871121f">
+<pre class="example" id="org2cb18cb">
 (require 'ob-python)
 
 ;; OR
@@ -9916,9 +9916,10 @@ will not mess up with my work.
       "C-c C-b" nil
       "C-c C-f" nil)
 
-    ;; Both of these are from Emacs 31.
+    ;; All of these are from Emacs 31.
     (setq elisp-eldoc-funcall-with-docstring-length 'short)
     (setq elisp-eldoc-docstring-length-limit 1000)
+    (set-default-toplevel-value 'lexical-binding t) ; Emacs 31
 
     (require 'prot-elisp)
 
@@ -10159,7 +10160,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgcd5bf73">
+<pre class="example" id="org09aea11">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10408,7 +10409,7 @@ of packaging. I use it whenever I work on my numerous Emacs packages.
           '("" flymake-mode-line-error-counter
             flymake-mode-line-warning-counter
             flymake-mode-line-note-counter ""))
-    (setq flymake-show-diagnostics-at-end-of-line nil)) ; Emacs 30
+    (setq flymake-show-diagnostics-at-end-of-line nil)) ; Emacs 31
 
 ;;; Elisp packaging requirements
   (prot-emacs-install package-lint-flymake)
@@ -10987,7 +10988,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgaed8e83">
+<pre class="example" id="org3eb5681">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -10999,7 +11000,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org0f69cfa">
+<pre class="example" id="org3daed2d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11062,7 +11063,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgd7fcff5">
+<pre class="example" id="orgfad309c">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11074,7 +11075,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org29a621a">
+<pre class="example" id="org0ce2e70">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11096,7 +11097,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgff6a758">
+<pre class="example" id="org8b02ec2">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11210,7 +11211,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgfe5582a">
+<pre class="example" id="org7b2710f">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11342,7 +11343,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgae3d2d4">
+<pre class="example" id="orgdf658ae">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11354,7 +11355,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orga68f23f">
+<pre class="example" id="org78055ef">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12481,7 +12482,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org35ec946">
+<pre class="example" id="orgee10899">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12578,7 +12579,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org948e832">
+<pre class="example" id="org6201d9e">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12813,7 +12814,8 @@ like Firefox (<a href="#h:edb70963-d590-4959-bc59-1e5435c8e78a">The <code>prot-e
 
     (define-key eww-link-keymap (kbd "v")  nil) ; stop overriding `eww-view-source'
 
-    (define-key dired-mode-map (kbd "E") #'eww-open-file) ; to render local HTML files
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map (kbd "E") #'eww-open-file)) ; to render local HTML files
 
     (setq eww-auto-rename-buffer 'title)
     (setq eww-header-line-format nil)
@@ -12896,7 +12898,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgba37422">
+<pre class="example" id="org33e2754">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -15109,7 +15111,7 @@ Specific to the current window's mode line.")
 (defvar-local prot-modeline-which-function-indicator
   `(( :propertize
       which-func-current
-      face (prot-modeline-indicator-small prot-modeline-indicator-magenta)
+      face (prot-modeline-indicator-small which-func)
       mouse-face mode-line-highlight
       help-echo (format "Current definition: `%s'"
                         (or (gethash (selected-window) which-func-table)
@@ -18757,17 +18759,14 @@ line."
 ;;;; Commands for paragraphs
 
 ;;;###autoload
-(defun prot-simple-unfill-region-or-paragraph (&amp;optional beg end)
-  "Unfill paragraph or, when active, the region.
-Join all lines in region delimited by BEG and END, if active,
-while respecting any empty lines (so multiple paragraphs are not
-joined, just unfilled).  If no region is active, operate on the
-paragraph.  The idea is to produce the opposite effect of both
-`fill-paragraph' and `fill-region'."
-  (interactive "r")
+(defun prot-simple-unfill-region-or-paragraph ()
+  "Unfill current paragraph or the active region."
+  (interactive)
+  (unless mark-ring ; needed when entering a new buffer
+    (push-mark (point) t nil))
   (let ((fill-column most-positive-fixnum))
-    (if (use-region-p)
-        (fill-region beg end)
+    (if (region-active-p)
+        (fill-region (region-beginning) (region-end))
       (fill-paragraph))))
 
 ;;;; Commands for windows and pages
@@ -19821,7 +19820,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org1d0c8c8">
+<pre class="example" id="orgc1c2b8e">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19853,7 +19852,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgb802e6a">
+<pre class="example" id="org67b4bc6">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
