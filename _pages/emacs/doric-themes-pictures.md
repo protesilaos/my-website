@@ -4,7 +4,7 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `0.4.0`. The
+The following screen shots correspond to version `0.5.0`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
@@ -72,6 +72,16 @@ subtle differences in colour.
 
 <a href="{{'/assets/images/doric/doric-oak-magit.png' | absolute_url }}"><img alt="doric-oak theme sample" src="{{'/assets/images/doric/doric-oak-magit.png' | absolute_url }}"/></a>
 
+## doric-siren
+
+<a href="{{'/assets/images/doric/doric-siren.png' | absolute_url }}"><img alt="doric-siren theme sample" src="{{'/assets/images/doric/doric-siren.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-siren-org.png' | absolute_url }}"><img alt="doric-siren theme sample" src="{{'/assets/images/doric/doric-siren-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-siren-message.png' | absolute_url }}"><img alt="doric-siren theme sample" src="{{'/assets/images/doric/doric-siren-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-siren-magit.png' | absolute_url }}"><img alt="doric-siren theme sample" src="{{'/assets/images/doric/doric-siren-magit.png' | absolute_url }}"/></a>
+
 ## doric-wind
 
 <a href="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"/></a>
@@ -101,6 +111,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-fire-message.png' | absolute_url }}"><img alt="doric-fire theme sample" src="{{'/assets/images/doric/doric-fire-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"><img alt="doric-fire theme sample" src="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"/></a>
+
+## doric-mermaid
+
+<a href="{{'/assets/images/doric/doric-mermaid.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mermaid-org.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mermaid-message.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mermaid-magit.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid-magit.png' | absolute_url }}"/></a>
 
 ## doric-obsidian
 
