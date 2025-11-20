@@ -44,7 +44,7 @@ arrangements. Further documentation and code samples are available in
 the manual of the Modus themes:
 
 -   **Info page:** Evaluate  `(info "(modus-themes) Top")`.
--   **Weg page:** Visit <https://protesilaos.com/emacs/modus-themes>.
+-   **Web page:** Visit <https://protesilaos.com/emacs/modus-themes>.
 
 
 ### Old user options and hooks are mere aliases for Modus options
