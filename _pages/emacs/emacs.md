@@ -483,25 +483,6 @@ contents of one logically follow or complement those of another.
 + Backronym: Denote... Sequences Efficiently Queue Unsorted Entries
   Notwithstanding Curation Efforts.
 
-## Denote Silo
-
-The `denote-silo` package makes it easier to work with multiple
-"silos", as explained in the Denote manual. In short, a "silo" is a
-localised `denote-directory` that is not connected to the
-default/global `denote-directory` and other silos.
-
-The code of `denote-silo` used to be bundled up with the `denote`
-package before version `4.0.0` of the latter and was available in the
-file `denote-silo-extras.el`. Users of the old code will need to adapt
-their setup to use the `denote-silo` package. This can be done by
-replacing all instances of `denote-silo-extras` with `denote-silo`
-across their configuration.
-
-+ Package name (GNU ELPA): `denote-silo`
-+ Official manual: <https://protesilaos.com/emacs/denote-silo>
-+ Git repository: <https://github.com/protesilaos/denote-silo>
-+ Backronym: Denote... Silos Insulate Localised Objects.
-
 ## Denote Journal (extras for dailies)
 
 The `denote-journal` package makes it easier to use Denote for
@@ -521,6 +502,37 @@ done by replacing all instances of `denote-journal-extras` with
 + Git repository: <https://github.com/protesilaos/denote-journal>
 + Backronym: Denote... Journaling Obviously Utilises Reasonableness
   Notwithstanding Affectionate Longing.
+  
+## Denote Merge
+
+The `denote-merge` package provides commands and relevant user options
+to streamline the work of merging contents from one Denote file to
+another. This is for users who periodically review their notes to add,
+remove, or otherwise consolidate their accumulated knowledge.
+
++ Package name (GNU ELPA): `denote-merge` (⚠️ Not available yet)
++ Official manual: <https://protesilaos.com/emacs/denote-merge>
++ Git repository: <https://github.com/protesilaos/denote-merge>
++ Backronym: Denote... Merging Eventually Reformats the Given Entries
+
+## Denote Silo
+
+The `denote-silo` package makes it easier to work with multiple
+"silos", as explained in the Denote manual. In short, a "silo" is a
+localised `denote-directory` that is not connected to the
+default/global `denote-directory` and other silos.
+
+The code of `denote-silo` used to be bundled up with the `denote`
+package before version `4.0.0` of the latter and was available in the
+file `denote-silo-extras.el`. Users of the old code will need to adapt
+their setup to use the `denote-silo` package. This can be done by
+replacing all instances of `denote-silo-extras` with `denote-silo`
+across their configuration.
+
++ Package name (GNU ELPA): `denote-silo`
++ Official manual: <https://protesilaos.com/emacs/denote-silo>
++ Git repository: <https://github.com/protesilaos/denote-silo>
++ Backronym: Denote... Silos Insulate Localised Objects.
 
 ## Denote Markdown
 
