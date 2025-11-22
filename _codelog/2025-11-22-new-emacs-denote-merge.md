@@ -3,11 +3,11 @@ title: "Emacs: new 'denote-merge' package"
 excerpt: "Information about my new optional extension to Denote that streamlines the work of merging contents from one file to another."
 ---
 
-The `denote-merge` package is an optional extension to Denote. I am
-providing in response to requests for functionality that streamlines
-the work of merging contents from one file into another. Thanks to Sia
-Piperea for reminding me about it, making a suggestion for
-region-related functionality, and testing my prototype:
+The `denote-merge` package is an optional extension to `denote`. I am
+providing it in response to requests for functionality that
+streamlines the work of merging contents from one file into another.
+Thanks to Sia Piperea for reminding me about it, making a suggestion
+for region-related functions, and for testing my prototype:
 
 - <https://github.com/protesilaos/denote-org/issues/16>.
 - <https://github.com/protesilaos/denote/issues/649>.
@@ -21,7 +21,7 @@ broad kinds of "merging":
 - Merge a region into a file.
 
 For merging a region, in particular, there are options and concomitant
-convenience commands to format the region a certain way, such as an
+convenience commands to format the region in a certain way, such as an
 Org source block, a Markdown blockquote, a plain indented region, and
 the like.
 
