@@ -513,7 +513,7 @@ remove, or otherwise consolidate their accumulated knowledge.
 + Package name (GNU ELPA): `denote-merge` (⚠️ Not available yet)
 + Official manual: <https://protesilaos.com/emacs/denote-merge>
 + Git repository: <https://github.com/protesilaos/denote-merge>
-+ Backronym: Denote... Merging Eventually Reformats the Given Entries
++ Backronym: Denote... Merging Eventually Reformats the Given Entries.
 
 ## Denote Silo
 
