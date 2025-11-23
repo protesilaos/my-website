@@ -9,7 +9,7 @@ layout: page
 ---
 
 * Name: Protesilaos (Protésilaos, Πρωτεσίλαος)
-* Nicknames: Prot (Πρωτ), Prote (Πρώτε), Protos (Πρώτος), the dog (το σκυλί), the Cypriot (ο Κύπριος)
+* Nicknames: Prot (Πρωτ), Prote (Πρώτε), Protos (Πρώτος), the dog (το σκυλί), the Cypriot (ο Κύπριος), the Greek-mainlander (ο καλαμαράς)
 * Birth place: Greece
 * Birth year: 1988
 * Residence: Cyprus (Troodos mountain range)
