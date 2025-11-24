@@ -170,6 +170,7 @@ Current development target is 5.2.0-dev.
 <li><a href="#h:f2757848-ea41-4cd7-a04d-7e650555a59b">9.1.1. Complete example of a package that is derived from Modus</a></li>
 <li><a href="#h:48e391a6-831b-48ec-b92d-4e7e6871b043">9.1.2. Complete example of a private theme derived from Modus</a></li>
 <li><a href="#h:ca3031b5-5f7a-46d4-bc83-e84e8bed038c">9.1.3. Complete example of a custom theme with its own palette</a></li>
+<li><a href="#h:3a7ede17-f0d4-4322-8e69-1804ed69012b">9.1.4. Complete example that also uses <code>modus-themes-generate-palette</code></a></li>
 </ul>
 </li>
 <li><a href="#h:412e3017-81fe-4a95-97a6-225de1867757">9.2. Determine what counts as a Modus theme</a></li>
@@ -3255,7 +3256,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="orgb8fb6b5">
+<pre class="example" id="org549cdf2">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4597,7 +4598,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org6c942e0">
+<pre class="example" id="org7612230">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5699,6 +5700,408 @@ this example, <code>bg-ochre</code> comes from the <code>modus-operandi-palette<
 though it would work the same way if, say, <code>prot-light-palette</code>
 defined <code>bg-soil</code> and then referenced it in <code>prot-light-custom-faces</code>.
 </p>
+</div>
+</div>
+<div id="outline-container-h:3a7ede17-f0d4-4322-8e69-1804ed69012b" class="outline-4">
+<h4 id="h:3a7ede17-f0d4-4322-8e69-1804ed69012b"><span class="section-number-4">9.1.4.</span> Complete example that also uses <code>modus-themes-generate-palette</code></h4>
+<div class="outline-text-4" id="text-h:3a7ede17-f0d4-4322-8e69-1804ed69012b">
+<p>
+The guide herein is of use to those who plan to create their own
+derivative themes (<a href="#h:48e391a6-831b-48ec-b92d-4e7e6871b043">Complete example of a private theme derived from Modus</a>).
+</p>
+
+<p>
+The <code>modus-themes-generate-palette</code> defines a fully flegded Modus
+palette that can be passed to <code>modus-themes-theme</code> without necessarily
+depending on any of the core Modus palettes. I will walk you through
+the steps of working with something like the following code block.
+</p>
+
+<p>
+[ We use color values from Solarized as an example for the rest of
+  this entry, naming them according to our conventions. ]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defvar modus-solarized-dark-palette
+  (modus-themes-generate-palette
+   '((bg-main "#073642")
+     (fg-main "#EEE8D5")
+     (red "#DC322F")
+     (red-warmer "#CB4B16")
+     (green "#859900")
+     (yellow "#B58900")
+     (blue "#268BD2")
+     (magenta "#D33682")
+     (magenta-cooler "#6C71C4")
+     (cyan "#2AA198"))))
+
+(modus-themes-theme
+ 'modus-solarized-dark
+ 'modus-solarized-themes
+ "Sample of a basic Solarized port."
+ 'dark
+ 'modus-solarized-dark-palette
+ nil
+ nil)
+</pre>
+</div>
+
+<p>
+The Modus themes define hundreds of entries in their palette. Some are
+named colors while others are semantic mappings (<a href="#h:34c7a691-19bb-4037-8d2f-67a07edab150">Option for palette overrides</a>).
+</p>
+
+<p>
+This gives users maximum control via overrides, though comes at the
+considerable cost of making it harder to derive a custom palette from
+a small set of colors. Color schemes, which are not themes in the
+sense of ensuring consistency across all elements and interfaces, will
+typically provide 8 or 16 colors. This is the case with terminal
+emulators. For example, the widely known Solarized theme, originally
+designed by Ethan Schoonover, defines 16 colors for terminal
+emulators. Nothing else. Thus a hypothetical Modus+Solarized cannot
+work without knowing how to complement the base with all the extra
+color definitions.
+</p>
+
+<p>
+This is where the function <code>modus-themes-generate-palette</code> comes in.
+In broad terms, it is meant to be used as a starting point. The user
+may then decide which results need further tweaking. But at least they
+will have something to create a fully fledged Modus palette right
+away.
+</p>
+
+<p>
+The minimum <code>modus-themes-generate-palette</code> needs is a list of
+<code>BASE-COLORS</code>. Each element is of the form <code>(NAME VALUE)</code> where <code>NAME</code>
+is a symbol and <code>VALUE</code> is a string with a hexadecimal RGB color value
+or a string with a name of a color among those listed in the output of
+the command <code>list-colors-display</code>.
+</p>
+
+<p>
+The <code>BASE-COLORS</code> can be as short as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; All missing palette entries will be derived automatically.  This
+;; will return a COMPLETE Modus themes palette.
+(modus-themes-generate-palette
+ '((bg-main "#073642")
+   (fg-main "#EEE8D5")))
+</pre>
+</div>
+
+<p>
+The only two mandatory entries in <code>BASE-COLORS</code> are <code>bg-main</code> and
+<code>fg-main</code> as shown above. In this scenario, the derived palette will
+get the job done, but will be very close to what Modus defines. The
+more we add to the <code>BASE-COLORS</code>, the more well defined the character
+of the new palette will be. For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-generate-palette
+ ;; The two base colors of Solarized, plus all its accents.
+ '((bg-main "#073642")
+   (fg-main "#EEE8D5")
+   (red "#DC322F")
+   (red-warmer "#CB4B16")
+   (green "#859900")
+   (yellow "#B58900")
+   (blue "#268BD2")
+   (magenta "#D33682")
+   (magenta-cooler "#6C71C4")
+   (cyan "#2AA198")))
+</pre>
+</div>
+
+<p>
+This is already going to be a tolerable port of Solarized. Though we
+can go further and greatly improve the results.
+</p>
+
+<p>
+The <code>modus-themes-generate-palette</code> will internally calculate colors
+based on what it receives. Anything missing will be taken from a core
+Modus palette, depending on the value of <code>bg-main</code>: if it is light,
+then the <code>modus-themes-operandi-palette</code> is used, otherwise it is
+<code>modus-themes-vivendi-palette</code>. What also plays a role in the interal
+calculations is whether <code>bg-main</code> is a <code>cool</code> or <code>warm</code> color, meaning
+whether it is closer to blue or red, respectively. If it is <code>cool</code>,
+then the aforementioned palettes are used. Else the
+<code>modus-themes-operandi-tinted-palette</code> and
+<code>modus-themes-vivendi-tinted-palette</code> are picked. Internally, <code>cool</code>
+or <code>warm</code> also influences the kind of color values and semantic
+mappings that will go into the new palette.
+</p>
+
+<p>
+The <code>modus-themes-generate-palette</code> accepts an optional parameter
+called <code>COOL-OR-WARM-PREFERENCE</code>. This is a preference for the symbol
+<code>cool</code> or <code>warm</code>: it make the decision explicit.
+</p>
+
+<p>
+For example, Solarized can swap the values of <code>bg-main</code> and <code>fg-main</code>
+to switch between its light and dark implementations (I understand
+this is a smart trick for terminal emulators, but is otherwise not
+good enough for thematic consistency as some accent values look
+out-of-place and the contrasts vary considerably). The light color
+Solarized uses is inherently <code>warm</code> (yellowish color means it is
+closer to red than blue) while the dark color is <code>cool</code>, due to it
+being closer to pure blue. Users may wish to experiment with a
+deviation from what would have been the default output, such that the
+dark blue when used as a background actually combines with warmer
+foreground hues, while the light cream background goes together with
+cooler foreground values. Thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-generate-palette
+ '((bg-main "#073642") ; normally this is a `cool' theme
+   (fg-main "#EEE8D5")
+   (red "#DC322F")
+   (red-warmer "#CB4B16")
+   (green "#859900")
+   (yellow "#B58900")
+   (blue "#268BD2")
+   (magenta "#D33682")
+   (magenta-cooler "#6C71C4")
+   (cyan "#2AA198"))
+ 'warm) ; but we want to use it with `warm' foregrounds
+
+;; And here is the inverse of the above, now with the light version of
+;; Solarized.
+(modus-themes-generate-palette
+ '((bg-main "#EEE8D5") ; normally this is a `warm' theme
+   (fg-main "#073642")
+   (red "#DC322F")
+   (red-warmer "#CB4B16")
+   (green "#859900")
+   (yellow "#B58900")
+   (blue "#268BD2")
+   (magenta "#D33682")
+   (magenta-cooler "#6C71C4")
+   (cyan "#2AA198"))
+ 'cool) ; but we want to use it with `cool' foregrounds
+</pre>
+</div>
+
+<p>
+This is now getting better, but we can go further. At this point users
+should be able to do the common work of taking a color scheme that was
+originally designed for terminal emulators and quickly turning it into
+a fully fledged Modus palette. All they need is to follow the naming
+convention for <code>bg-main</code>, <code>fg-main</code>, and then
+<code>{red,green,yellow,blue,magenta,cyan}{,-warmer,-cooler}</code>. Preview a
+palette to get the complete list (<a href="#h:f4d4b71b-2ca5-4c3d-b0b4-9bfd7aa7fb4d">Preview theme colors</a>). And, again,
+remember that not all colors need to be defined in <code>BASE-COLORS</code> (e.g.
+we could leave out <code>magenta-cooler</code> if we do not care about it).
+</p>
+
+<p>
+The next optional parameter of <code>modus-themes-generate-palette</code> is the
+<code>CORE-PALETTE</code> it should use. This is to make explicit the decision
+that is otherwise handled internally on whether to fill in any missing
+palette entries from Modus Operandi or Modus Vivendi (or their tinted
+variants), as explained above.
+</p>
+
+<p>
+The <code>CORE-PALETTE</code> is the symbol of a variable whose value is a
+palette, like <code>modus-themes-operandi-palette</code>. Normally, users do not
+need to ever set <code>CORE-PALETTE</code>. The only two scenaria where this is
+likely helpful is (i) the theme is optimized for red-green or
+blue-yellow color deficiency, in which case one of the Modus palettes
+for deuteranopia and tritanopia is needed, or (ii) the user wants to
+use a palette from a Modus derivative theme, such as my <code>ef-themes</code>
+and <code>standard-themes</code>. In the latter scenario, users need to take care
+to either copy the palette they want to use or, anyhow, <code>load</code> the
+relevant files.
+</p>
+
+<p>
+In the interest of clarity, here is how the <code>CORE-PALETTE</code> is passed,
+but, again, users probably should leave this to <code>nil</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-generate-palette
+ ;; The two base colors of Solarized, plus all its accents.
+ '((bg-main "#073642")
+   (fg-main "#EEE8D5")
+   (red "#DC322F")
+   (red-warmer "#CB4B16")
+   (green "#859900")
+   (yellow "#B58900")
+   (blue "#268BD2")
+   (magenta "#D33682")
+   (magenta-cooler "#6C71C4")
+   (cyan "#2AA198"))
+ nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
+ 'modus-themes-vivendi-tritanopia-palette) ; we specifically want this as our CORE-PALETTE
+</pre>
+</div>
+
+<p>
+With core Modus palettes, the <code>CORE-PALETTE</code> should not make much of a
+difference. Though a completely custom Modus derivative, like one of
+the <code>ef-themes</code>, will be defining colors values that differ
+substantially from those of core Modus, as well as completely
+different semantic mappings.
+</p>
+
+<p>
+Finally, <code>modus-themes-generate-palette</code> has an optional <code>MAPPINGS</code>
+parameter. This is a list of semantic mappings where each entry is of
+the form <code>(NAME OTHER-NAME)</code> (<a href="#h:34c7a691-19bb-4037-8d2f-67a07edab150">Option for palette overrides</a>). The
+<code>NAME</code> has the same meaning as for the <code>BASE-COLORS</code> we have been
+examining all along, while <code>OTHER-NAME</code> is the symbol of another
+<code>NAME</code> that exists in the palette, hence the mapping. This manual
+contains lots of examples along those lines (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">DIY Stylistic variants using palette overrides</a>).
+For our purposes, we will modify some of the obvious elements of the
+theme, namely, the cursor, mode lines, current line highlight, and
+active region.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-generate-palette
+ ;; The two base colors of Solarized, plus all its accents.
+ '((bg-main "#073642")
+   (fg-main "#EEE8D5")
+   (red "#DC322F")
+   (red-warmer "#CB4B16")
+   (green "#859900")
+   (yellow "#B58900")
+   (blue "#268BD2")
+   (magenta "#D33682")
+   (magenta-cooler "#6C71C4")
+   (cyan "#2AA198"))
+ nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
+ nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
+ '((cursor magenta-warmer) ; all the colors here are derived from the BASE-COLORS above
+   (bg-hl-line bg-cyan-nuanced)
+   (bg-region bg-green-intense)
+   (fg-region fg-dim)
+   (bg-mode-line-active bg-blue-subtle)
+   (fg-mode-line-active blue-cooler)
+   (border-mode-line-active fg-dim)))
+</pre>
+</div>
+
+<p>
+The <code>MAPPINGS</code> can be as long as the user needs. Whatever is defined
+here will take precedence of what the <code>CORE-PALETTE</code> (or its
+internally derived equivalent) provides. At most, users can have a
+completely custom palette. Though I expect that this will not be done
+at the outset, but only after a long process of experimentation (if
+you already knew how to do this, <code>modus-themes-generate-palette</code> would
+not be of real value). The point is to start with something that works
+and then refine it one small step at a time.
+</p>
+
+<p>
+We are now ready to try our Solarized themes, using the example of
+doing this in our private configuration (<a href="#h:f2757848-ea41-4cd7-a04d-7e650555a59b">Complete example of a package that is derived from Modus</a>).
+</p>
+
+<ul class="org-ul">
+<li>Create two files, one is called <code>modus-solarized-dark-theme.el</code> (or
+however you want to identify it, but always keep <code>-theme.el</code> at the
+end) and the other is <code>modus-solarized-light-theme</code>.</li>
+
+<li>Add their directory to the <code>custom-theme-load-path</code>, like
+<code>(add-to-list 'custom-theme-load-path "~/.emacs.d/custom-themes/")</code>.</li>
+
+<li>Use the minimal code from the following two blocks to create your
+new themes.</li>
+
+<li>Optionally activate <code>modus-themes-include-derivatives-mode</code> to have
+all Modus commands recognize your themes.</li>
+
+<li>Load your themes with <code>load-theme</code>.</li>
+
+<li>Enjoy!</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Modus+Solarized dark
+(defvar modus-solarized-dark-palette
+  (modus-themes-generate-palette
+   ;; The two base colors of Solarized, plus all its accents.
+   '((bg-main "#073642")
+     (fg-main "#EEE8D5")
+     (red "#DC322F")
+     (red-warmer "#CB4B16")
+     (green "#859900")
+     (yellow "#B58900")
+     (blue "#268BD2")
+     (magenta "#D33682")
+     (magenta-cooler "#6C71C4")
+     (cyan "#2AA198"))
+   nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
+   nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
+   '((cursor magenta-warmer) ; all the colors here are derived from the BASE-COLORS above
+     (bg-hl-line bg-cyan-nuanced)
+     (bg-region bg-green-intense)
+     (fg-region fg-dim)
+     (bg-mode-line-active bg-blue-subtle)
+     (fg-mode-line-active blue-cooler)
+     (border-mode-line-active fg-dim))))
+
+(modus-themes-theme
+ 'modus-solarized-dark
+ 'modus-solarized-themes
+ "Sample of a basic Solarized dark port."
+ 'dark
+ 'modus-solarized-dark-palette
+ nil
+ nil)
+</pre>
+</div>
+
+<p>
+And the light variant:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Modus+Solarized light
+(defvar modus-solarized-light-palette
+  (modus-themes-generate-palette
+   ;; The two base colors of Solarized, plus all its accents.
+   '((bg-main "#EEE8D5")
+     (fg-main "#073642")
+     (red "#DC322F")
+     (red-warmer "#CB4B16")
+     (green "#859900")
+     (yellow "#B58900")
+     (blue "#268BD2")
+     (magenta "#D33682")
+     (magenta-cooler "#6C71C4")
+     (cyan "#2AA198"))
+   nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
+   nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
+   '((cursor yellow-warmer) ; all the colors here are derived from the BASE-COLORS above
+     (bg-hl-line bg-red-nuanced)
+     (bg-region bg-blue-intense)
+     (fg-region fg-dim)
+     (bg-mode-line-active bg-cyan-subtle)
+     (fg-mode-line-active cyan-cooler)
+     (border-mode-line-active fg-dim))))
+
+(modus-themes-theme
+ 'modus-solarized-light
+ 'modus-solarized-themes
+ "Sample of a basic Solarized light port."
+ 'light
+ 'modus-solarized-light-palette
+ nil
+ nil)
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -7216,7 +7619,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org10091c0">
+<pre class="example" id="org4a349bd">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7261,7 +7664,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="org8315d1b">
+<pre class="example" id="orgbf32129">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -7627,7 +8030,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org984deb5">
+<pre class="example" id="org0d12211">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -7713,20 +8116,20 @@ Yaron, Farasha Euker, Feng Shu, Filippo Argiolas, Gaston Cabotin,
 Gautier Ponsinet, Gerry Agbobada, Gianluca Recchia, Gonçalo Marrafa,
 Guilherme Semente, Gustavo Barros, Hörmetjan Yiltiz, Ilja Kocken,
 Imran Khan, Iris Garcia, Ivan Popovych, Jabir Ali Ouassou, James
-Ferguson, Jeremy Friesen, Jerry Zhang, Johannes Grødem, John Haman,
-John Sullivan, John Wick, Jonas Collberg, Jorge Morais, Joshua
-O&rsquo;Connor, Julio C. Villasante, Kenta Usami, Kevin Fleming, Kévin Le
-Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Lasse
-Lindner, Len Trigg, Lennart C. Karssen, Luis Miguel
-Castañeda, Magne Hov, Manuel Giraud, Manuel Uberti, Mark Bestley,
-Mark Burton, Mark Simpson, Marko Kocic, Markus Beppler, Matt
-Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro Aranda, Maxime
-Tréca, Michael Goldenberg, Morgan Smith, Morgan Willcock, Murilo
-Pereira, Nicky van Foreest, Nicolas De Jaeghere, Nicolas Semrau,
-Olaf Meeuwissen, Oliver Epper, Pablo Stafforini, Paul Poloskov,
-Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic, Pierre
-Téchoueyres, Przemysław Kryger, Robert Hepple, Roman Rudakov, Roshan
-Shariff, Russell Sim, Ryan Phillips, Rytis Paškauskas, Rudolf
+Ferguson, JD Smith, Jeremy Friesen, Jerry Zhang, Johannes Grødem,
+John Haman, John Sullivan, John Wick, Jonas Collberg, Jorge Morais,
+Joshua O&rsquo;Connor, Julio C. Villasante, Kenta Usami, Kevin Fleming,
+Kévin Le Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi,
+Lasse Lindner, Len Trigg, Lennart C. Karssen, Luis
+Miguel Castañeda, Magne Hov, Manuel Giraud, Manuel Uberti, Mark
+Bestley, Mark Burton, Mark Simpson, Marko Kocic, Markus Beppler,
+Matt Armstrong, Matthias Fuchs, Mattias Engdegård, Mauro Aranda,
+Maxime Tréca, Michael Goldenberg, Morgan Smith, Morgan Willcock,
+Murilo Pereira, Nicky van Foreest, Nicolas De Jaeghere, Nicolas
+Semrau, Olaf Meeuwissen, Oliver Epper, Pablo Stafforini, Paul
+Poloskov, Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic,
+Pierre Téchoueyres, Przemysław Kryger, Robert Hepple, Roman Rudakov,
+Roshan Shariff, Russell Sim, Ryan Phillips, Rytis Paškauskas, Rudolf
 Adamkovič, Sam Kleinman, Samuel Culpepper, Saša Janiška, Shreyas
 Ragavan, Simon Pugnet, Stéphane Marks, Steve Downey, Tassilo Horn,
 Thanos Apollo, Thibaut Verron, Thomas Heartman, Togan Muftuoglu,
