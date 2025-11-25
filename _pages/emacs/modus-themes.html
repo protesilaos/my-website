@@ -3256,7 +3256,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org549cdf2">
+<pre class="example" id="org53fde0c">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4598,7 +4598,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org7612230">
+<pre class="example" id="org65fc319">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5728,12 +5728,10 @@ the steps of working with something like the following code block.
    '((bg-main "#073642")
      (fg-main "#EEE8D5")
      (red "#DC322F")
-     (red-warmer "#CB4B16")
      (green "#859900")
      (yellow "#B58900")
      (blue "#268BD2")
      (magenta "#D33682")
-     (magenta-cooler "#6C71C4")
      (cyan "#2AA198"))))
 
 (modus-themes-theme
@@ -5804,23 +5802,24 @@ of the new palette will be. For example:
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(modus-themes-generate-palette
- ;; The two base colors of Solarized, plus all its accents.
+ ;; The two base colors of Solarized, plus most of its accents.
  '((bg-main "#073642")
    (fg-main "#EEE8D5")
    (red "#DC322F")
-   (red-warmer "#CB4B16")
    (green "#859900")
    (yellow "#B58900")
    (blue "#268BD2")
    (magenta "#D33682")
-   (magenta-cooler "#6C71C4")
    (cyan "#2AA198")))
 </pre>
 </div>
 
 <p>
-This is already going to be a tolerable port of Solarized. Though we
-can go further and greatly improve the results.
+This is already going to be a tolerable port of Solarized. If the
+<code>BASE-COLORS</code> provides <code>bg-main</code>, <code>fg-main</code>, and the six hues of
+<code>red</code>, <code>green</code>, <code>yellow</code>, <code>blue</code>, <code>magenta</code>, <code>cyan</code>, we will get a new
+palette that has no trace of the color values implemented by core
+Modus. Though we can go further and greatly improve the results.
 </p>
 
 <p>
@@ -5828,20 +5827,21 @@ The <code>modus-themes-generate-palette</code> will internally calculate colors
 based on what it receives. Anything missing will be taken from a core
 Modus palette, depending on the value of <code>bg-main</code>: if it is light,
 then the <code>modus-themes-operandi-palette</code> is used, otherwise it is
-<code>modus-themes-vivendi-palette</code>. What also plays a role in the interal
-calculations is whether <code>bg-main</code> is a <code>cool</code> or <code>warm</code> color, meaning
-whether it is closer to blue or red, respectively. If it is <code>cool</code>,
-then the aforementioned palettes are used. Else the
-<code>modus-themes-operandi-tinted-palette</code> and
-<code>modus-themes-vivendi-tinted-palette</code> are picked. Internally, <code>cool</code>
-or <code>warm</code> also influences the kind of color values and semantic
-mappings that will go into the new palette.
+<code>modus-themes-vivendi-palette</code>. If all six of the aforementioned hues
+are present, the <code>modus-themes-generate-palette</code> will not calculate
+any more color values. It will use those to derive the relevant
+permutations (e.g. blue backgrounds from the <code>blue</code> we give it).
 </p>
 
 <p>
-The <code>modus-themes-generate-palette</code> accepts an optional parameter
-called <code>COOL-OR-WARM-PREFERENCE</code>. This is a preference for the symbol
-<code>cool</code> or <code>warm</code>: it make the decision explicit.
+What also plays a role in the interal calculations is whether
+<code>bg-main</code> is a <code>cool</code> or <code>warm</code> color, meaning whether it is closer to
+blue or red, respectively. Internally, <code>cool</code> and <code>warm</code> influence the
+kind of color values and semantic mappings that will go into the new
+palette. To this end, the <code>modus-themes-generate-palette</code> accepts an
+optional parameter called <code>COOL-OR-WARM-PREFERENCE</code>. This is a
+preference for the symbol <code>cool</code> or <code>warm</code>: it make the decision
+explicit.
 </p>
 
 <p>
@@ -5864,12 +5864,10 @@ cooler foreground values. Thus:
  '((bg-main "#073642") ; normally this is a `cool' theme
    (fg-main "#EEE8D5")
    (red "#DC322F")
-   (red-warmer "#CB4B16")
    (green "#859900")
    (yellow "#B58900")
    (blue "#268BD2")
    (magenta "#D33682")
-   (magenta-cooler "#6C71C4")
    (cyan "#2AA198"))
  'warm) ; but we want to use it with `warm' foregrounds
 
@@ -5879,12 +5877,10 @@ cooler foreground values. Thus:
  '((bg-main "#EEE8D5") ; normally this is a `warm' theme
    (fg-main "#073642")
    (red "#DC322F")
-   (red-warmer "#CB4B16")
    (green "#859900")
    (yellow "#B58900")
    (blue "#268BD2")
    (magenta "#D33682")
-   (magenta-cooler "#6C71C4")
    (cyan "#2AA198"))
  'cool) ; but we want to use it with `cool' foregrounds
 </pre>
@@ -5907,7 +5903,7 @@ The next optional parameter of <code>modus-themes-generate-palette</code> is the
 <code>CORE-PALETTE</code> it should use. This is to make explicit the decision
 that is otherwise handled internally on whether to fill in any missing
 palette entries from Modus Operandi or Modus Vivendi (or their tinted
-variants), as explained above.
+variants if <code>warm</code> is the preference).
 </p>
 
 <p>
@@ -5934,12 +5930,10 @@ but, again, users probably should leave this to <code>nil</code>:
  '((bg-main "#073642")
    (fg-main "#EEE8D5")
    (red "#DC322F")
-   (red-warmer "#CB4B16")
    (green "#859900")
    (yellow "#B58900")
    (blue "#268BD2")
    (magenta "#D33682")
-   (magenta-cooler "#6C71C4")
    (cyan "#2AA198"))
  nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
  'modus-themes-vivendi-tritanopia-palette) ; we specifically want this as our CORE-PALETTE
@@ -5963,32 +5957,38 @@ examining all along, while <code>OTHER-NAME</code> is the symbol of another
 <code>NAME</code> that exists in the palette, hence the mapping. This manual
 contains lots of examples along those lines (<a href="#h:df1199d8-eaba-47db-805d-6b568a577bf3">DIY Stylistic variants using palette overrides</a>).
 For our purposes, we will modify some of the obvious elements of the
-theme, namely, the cursor, mode lines, current line highlight, and
-active region.
+theme, namely, the cursor, mode lines, current line highlight,
+matching parentheses, and active region.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(modus-themes-generate-palette
- ;; The two base colors of Solarized, plus all its accents.
- '((bg-main "#073642")
-   (fg-main "#EEE8D5")
-   (red "#DC322F")
-   (red-warmer "#CB4B16")
-   (green "#859900")
-   (yellow "#B58900")
-   (blue "#268BD2")
-   (magenta "#D33682")
-   (magenta-cooler "#6C71C4")
-   (cyan "#2AA198"))
- nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
- nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
- '((cursor magenta-warmer) ; all the colors here are derived from the BASE-COLORS above
-   (bg-hl-line bg-cyan-nuanced)
-   (bg-region bg-green-intense)
-   (fg-region fg-dim)
-   (bg-mode-line-active bg-blue-subtle)
-   (fg-mode-line-active blue-cooler)
-   (border-mode-line-active fg-dim)))
+   '((bg-main "#073642")
+     (fg-main "#EEE8D5")
+     (red "#DC322F")
+     (green "#859900")
+     (yellow "#B58900")
+     (blue "#268BD2")
+     (magenta "#D33682")
+     (cyan "#2AA198"))
+   nil
+   nil
+   ;; And here are our MAPPINGS where we can specify what values apply
+   ;; to which semantic color.  The `modus-themes-list-colors' shows
+   ;; them all.
+   ;;
+   ;; Note that in our BASE-COLORS above we never wrote what, say,
+   ;; `magenta-warmer' is: it is derived programmatically from the
+   ;; `magenta' we have there.  Absent that, it would be taken from
+   ;; the CORE-PALETTE.
+   '((cursor magenta-warmer)
+     (bg-hl-line bg-blue-nuanced)
+     (bg-paren-match bg-magenta-subtle)
+     (bg-region bg-blue-intense)
+     (fg-region fg-dim)
+     (bg-mode-line-active bg-blue-nuanced)
+     (fg-mode-line-active blue-warmer)
+     (border-mode-line-active blue-cooler)))
 </pre>
 </div>
 
@@ -6031,26 +6031,43 @@ all Modus commands recognize your themes.</li>
 <pre class="src src-emacs-lisp">;; Modus+Solarized dark
 (defvar modus-solarized-dark-palette
   (modus-themes-generate-palette
-   ;; The two base colors of Solarized, plus all its accents.
+   ;; We provide the two base colors of Solarized, plus most of its
+   ;; accents.  These form the BASE-COLORS we pass as an argument.
+   ;; All other color values come from those.  The BASE-COLORS here
+   ;; are enough to generate a new palatte that has no traces of, say,
+   ;; the `modus-vivendi' color values.
    '((bg-main "#073642")
      (fg-main "#EEE8D5")
      (red "#DC322F")
-     (red-warmer "#CB4B16")
      (green "#859900")
      (yellow "#B58900")
      (blue "#268BD2")
      (magenta "#D33682")
-     (magenta-cooler "#6C71C4")
      (cyan "#2AA198"))
-   nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
-   nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
-   '((cursor magenta-warmer) ; all the colors here are derived from the BASE-COLORS above
-     (bg-hl-line bg-cyan-nuanced)
-     (bg-region bg-green-intense)
+   ;; The COOL-OR-WARM-PREFERENCE is derived internally based on
+   ;; `bg-main'.  We can pass it here if we feel strongly about it.
+   nil
+   ;; If we need to specify the CORE-PALETTE from where to inherit any
+   ;; missing colors and/or semantic mappings, we can give it here.
+   ;; Though nil is the appropriate starting point, as the code will
+   ;; handle things internally.
+   nil
+   ;; And here are our MAPPINGS where we can specify what values apply
+   ;; to which semantic color.  The `modus-themes-list-colors' shows
+   ;; them all.
+   ;;
+   ;; Note that in our BASE-COLORS above we never wrote what, say,
+   ;; `magenta-warmer' is: it is derived programmatically from the
+   ;; `magenta' we have there.  Absent that, it would be taken from
+   ;; the CORE-PALETTE.
+   '((cursor magenta-warmer)
+     (bg-hl-line bg-blue-nuanced)
+     (bg-paren-match bg-magenta-subtle)
+     (bg-region bg-blue-intense)
      (fg-region fg-dim)
-     (bg-mode-line-active bg-blue-subtle)
-     (fg-mode-line-active blue-cooler)
-     (border-mode-line-active fg-dim))))
+     (bg-mode-line-active bg-blue-nuanced)
+     (fg-mode-line-active blue-warmer)
+     (border-mode-line-active blue-cooler))))
 
 (modus-themes-theme
  'modus-solarized-dark
@@ -6071,26 +6088,43 @@ And the light variant:
 <pre class="src src-emacs-lisp">;; Modus+Solarized light
 (defvar modus-solarized-light-palette
   (modus-themes-generate-palette
-   ;; The two base colors of Solarized, plus all its accents.
+   ;; We provide the two base colors of Solarized, plus most of its
+   ;; accents.  These form the BASE-COLORS we pass as an argument.
+   ;; All other color values come from those.  The BASE-COLORS here
+   ;; are enough to generate a new palatte that has no traces of, say,
+   ;; the `modus-operandi' color values.
    '((bg-main "#EEE8D5")
      (fg-main "#073642")
      (red "#DC322F")
-     (red-warmer "#CB4B16")
      (green "#859900")
      (yellow "#B58900")
      (blue "#268BD2")
      (magenta "#D33682")
-     (magenta-cooler "#6C71C4")
      (cyan "#2AA198"))
-   nil ; COOL-OR-WARM-PREFERENCE is derived internally based on `bg-main'
-   nil ; as I explained at length, we normally do not want to specify CORE-PALETTE
-   '((cursor yellow-warmer) ; all the colors here are derived from the BASE-COLORS above
+   ;; The COOL-OR-WARM-PREFERENCE is derived internally based on
+   ;; `bg-main'.  We can pass it here if we feel strongly about it.
+   nil
+   ;; If we need to specify the CORE-PALETTE from where to inherit any
+   ;; missing colors and/or semantic mappings, we can give it here.
+   ;; Though nil is the appropriate starting point, as the code will
+   ;; handle things internally.
+   nil
+   ;; And here are our MAPPINGS where we can specify what values apply
+   ;; to which semantic color.  The `modus-themes-list-colors' shows
+   ;; them all.
+   ;;
+   ;; Note that in our BASE-COLORS above we never wrote what, say,
+   ;; `magenta-warmer' is: it is derived programmatically from the
+   ;; `magenta' we have there.  Absent that, it would be taken from
+   ;; the CORE-PALETTE.
+   '((cursor yellow-warmer)
      (bg-hl-line bg-red-nuanced)
+     (bg-paren-match bg-green-subtle)
      (bg-region bg-blue-intense)
      (fg-region fg-dim)
-     (bg-mode-line-active bg-cyan-subtle)
-     (fg-mode-line-active cyan-cooler)
-     (border-mode-line-active fg-dim))))
+     (bg-mode-line-active bg-yellow-subtle)
+     (fg-mode-line-active yellow-cooler)
+     (border-mode-line-active yellow-warmer))))
 
 (modus-themes-theme
  'modus-solarized-light
@@ -7619,7 +7653,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org4a349bd">
+<pre class="example" id="org004cb48">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7664,7 +7698,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgbf32129">
+<pre class="example" id="orgd1f8b7e">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -8030,7 +8064,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="org0d12211">
+<pre class="example" id="orgadd5d04">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
