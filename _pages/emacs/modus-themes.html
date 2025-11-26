@@ -175,6 +175,7 @@ Current development target is 5.2.0-dev.
 </li>
 <li><a href="#h:412e3017-81fe-4a95-97a6-225de1867757">9.2. Determine what counts as a Modus theme</a></li>
 <li><a href="#h:6bfbb4d6-2f23-4d06-827a-8b9a91507a02">9.3. Create convenience commands to load a derivative theme</a></li>
+<li><a href="#h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">9.4. Arrange to activate your derivative themes</a></li>
 </ul>
 </li>
 <li><a href="#h:a9c8f29d-7f72-4b54-b74b-ddefe15d6a19">10. Face coverage</a>
@@ -3256,7 +3257,7 @@ headers and citations.  Before we show the code, this is the anatomy
 of a message:
 </p>
 
-<pre class="example" id="org53fde0c">
+<pre class="example" id="orgfd8535e">
 From: Protesilaos &lt;info@protesilaos.com&gt;
 To: Modus-Themes Development &lt;~protesilaos/modus-themes@lists.sr.ht&gt;
 Subject: Test subject
@@ -4598,7 +4599,7 @@ relative to the color specified in the first row of the second column
 (pure white) and rounds the results:
 </p>
 
-<pre class="example" id="org65fc319">
+<pre class="example" id="org3d73f52">
 |         | #ffffff |
 |---------+---------|
 | #ff0000 |    4.00 |
@@ -5518,6 +5519,10 @@ Packages such as the <code>ef-themes</code> and <code>standard-themes</code> are
 because they existed for years before they were based on Modus and
 must remain backward compatible.
 </p>
+
+<p>
+<a href="#h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">Arrange to activate your derivative themes</a>.
+</p>
 </div>
 </div>
 <div id="outline-container-h:48e391a6-831b-48ec-b92d-4e7e6871b043" class="outline-4">
@@ -5564,6 +5569,10 @@ At minimum, the contents of a theme file are these (<a href="#h:ca3031b5-5f7a-46
  nil)
 </pre>
 </div>
+
+<p>
+<a href="#h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">Arrange to activate your derivative themes</a>.
+</p>
 </div>
 </div>
 <div id="outline-container-h:ca3031b5-5f7a-46d4-bc83-e84e8bed038c" class="outline-4">
@@ -5699,6 +5708,10 @@ The custom faces can name a color from the given theme&rsquo;s palette. In
 this example, <code>bg-ochre</code> comes from the <code>modus-operandi-palette</code>
 though it would work the same way if, say, <code>prot-light-palette</code>
 defined <code>bg-soil</code> and then referenced it in <code>prot-light-custom-faces</code>.
+</p>
+
+<p>
+<a href="#h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">Arrange to activate your derivative themes</a>.
 </p>
 </div>
 </div>
@@ -6136,6 +6149,10 @@ And the light variant:
  nil)
 </pre>
 </div>
+
+<p>
+<a href="#h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">Arrange to activate your derivative themes</a>.
+</p>
 </div>
 </div>
 </div>
@@ -6293,6 +6310,71 @@ because the developer wants to introduce a user option to affect what
 the command is doing), though this approach with the <code>cl-letf</code> can
 still prove useful.
 </p>
+</div>
+</div>
+<div id="outline-container-h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa" class="outline-3">
+<h3 id="h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa"><span class="section-number-3">9.4.</span> Arrange to activate your derivative themes</h3>
+<div class="outline-text-3" id="text-h:6eb0dba7-89cb-4b21-bc5d-97f6b5eb3caa">
+<p>
+The <code>modus-themes-theme</code> function is responsible for instantiating a
+theme and registering it for use by the various Modus commands that
+act on a theme (<a href="#h:86eb375b-9be4-43ce-879a-0686a524a63b">Build on top of the Modus themes</a>). Due to how Emacs
+themes are designed to be bound to files, <code>modus-themes-theme</code> can
+only work if the given theme file is already loaded. Otherwise our
+function is never called and the theme is never created.
+</p>
+
+<p>
+To this end, users need to call the function <code>modus-themes-activate</code>
+with each theme they want as an argument. Remember that themes are
+files with a <code>-theme.el</code> suffix inside one of the directories listed
+in the value of the variable <code>custom-theme-load-path</code>. In its simplest
+form, the activation looks as follows, assuming the theme&rsquo;s file
+<code>modus-solarized-dark-theme.el</code> exists:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(modus-themes-activate 'modus-solarized-dark)
+</pre>
+</div>
+
+<p>
+To load multiple themes at once we can define a function like the
+following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun my-modus-derivatives-activate-themes (directory)
+  "Activate all themes in DIRECTORY.
+This makes all Modus derivatives available to commands such as
+`modus-themes-select' if `modus-themes-include-derivatives-mode' is
+enabled."
+  (let* ((files (directory-files directory :full-path "-theme\\.el"))
+         (names (mapcar
+                 (lambda (file)
+                   (intern (replace-regexp-in-string "-theme\\.el" "" file)))
+                 files)))
+    (mapc #'modus-themes-activate names)))
+</pre>
+</div>
+
+<p>
+Then call it thus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my-modus-derivatives-activate-themes "/path/to/my/custom/theme/directory/")
+</pre>
+</div>
+
+<p>
+Again, remember that the directory is in the <code>custom-theme-load-path</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-to-list 'custom-theme-load-path "/path/to/my/custom/theme/directory/")
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -7653,7 +7735,7 @@ luminated, while black is <code>#000000</code> meaning that no light is present
 (notwithstanding display technology)).
 </p>
 
-<pre class="example" id="org004cb48">
+<pre class="example" id="org45af10d">
 | Name    |         | #ffffff | #000000 |
 |---------+---------+---------+---------|
 | red     | #ff0000 |    4.00 |    5.25 |
@@ -7698,7 +7780,7 @@ This phenomenon is best illustrated by the following table that measures
 the relative luminance of shades of red, yellow, magenta against white:
 </p>
 
-<pre class="example" id="orgd1f8b7e">
+<pre class="example" id="orgcf834b4">
 |         | #ffffff |
 |---------+---------|
 | #990000 |    8.92 |
@@ -8064,7 +8146,7 @@ through this process.  You only need to do it once.  It will allow you
 to make contributions to Emacs in general.
 </p>
 
-<pre class="example" id="orgadd5d04">
+<pre class="example" id="org16b08e5">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
