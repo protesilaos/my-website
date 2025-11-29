@@ -46,14 +46,19 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h:beae1a59-81ae-41ad-803b-f08caa03732b">1. Overview</a></li>
-<li><a href="#h:4943ebc8-45e5-4352-8d51-9a09efa16b74">2. Installation</a>
+<li><a href="#h:4943ebc8-45e5-4352-8d51-9a09efa16b74">1. Installation</a>
 <ul>
-<li><a href="#h:ab97c462-01cc-408a-adf2-aadd87a22e90">2.1. GNU ELPA package</a></li>
-<li><a href="#h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e">2.2. Manual installation</a></li>
+<li><a href="#h:ab97c462-01cc-408a-adf2-aadd87a22e90">1.1. GNU ELPA package</a></li>
+<li><a href="#h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e">1.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">3. Sample configuration</a></li>
+<li><a href="#h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">2. Sample configuration</a></li>
+<li><a href="#h:beae1a59-81ae-41ad-803b-f08caa03732b">3. Overview</a>
+<ul>
+<li><a href="#h:577fa565-b43a-4e8a-939a-5b08837c1cb1">3.1. Substitutions by their scope of application</a></li>
+<li><a href="#h:563f265f-c904-47f5-93c7-3d0e315fca33">3.2. User options for the substitution commands</a></li>
+</ul>
+</li>
 <li><a href="#h:532c5398-9510-47d4-a718-a5dfa8f86a3f">4. Acknowledgements</a></li>
 <li><a href="#h:055d634a-cd8a-49e8-86f6-0027325e752c">5. COPYING</a></li>
 <li><a href="#h:11e2447a-6f5d-42c3-b444-746a478a14a0">6. GNU Free Documentation License</a></li>
@@ -67,45 +72,136 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 </ul>
 </div>
 </div>
+<div id="outline-container-h:4943ebc8-45e5-4352-8d51-9a09efa16b74" class="outline-2">
+<h2 id="h:4943ebc8-45e5-4352-8d51-9a09efa16b74"><span class="section-number-2">1.</span> Installation</h2>
+<div class="outline-text-2" id="text-h:4943ebc8-45e5-4352-8d51-9a09efa16b74">
+</div>
+<div id="outline-container-h:ab97c462-01cc-408a-adf2-aadd87a22e90" class="outline-3">
+<h3 id="h:ab97c462-01cc-408a-adf2-aadd87a22e90"><span class="section-number-3">1.1.</span> GNU ELPA package</h3>
+<div class="outline-text-3" id="text-h:ab97c462-01cc-408a-adf2-aadd87a22e90">
+<p>
+The package is available as <code>substitute</code>.  Simply do:
+</p>
+
+<pre class="example">
+M-x package-refresh-contents
+M-x package-install
+</pre>
+
+
+<p>
+And search for it.
+</p>
+
+<p>
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the GNU-devel ELPA archive.  Read:
+<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e" class="outline-3">
+<h3 id="h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e"><span class="section-number-3">1.2.</span> Manual installation</h3>
+<div class="outline-text-3" id="text-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e">
+<p>
+Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
+following commands in a shell prompt:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">cd ~/.emacs.d
+
+# Create a directory for manually-installed packages
+mkdir manual-packages
+
+# Go to the new directory
+cd manual-packages
+
+# Clone this repo, naming it "substitute"
+git clone https://github.com/protesilaos/substitute substitute
+</pre>
+</div>
+
+<p>
+Finally, in your <code>init.el</code> (or equivalent) evaluate this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+(add-to-list 'load-path "~/.emacs.d/manual-packages/substitute")
+</pre>
+</div>
+
+<p>
+Everything is in place to set up the package.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f" class="outline-2">
+<h2 id="h:e8691728-79b2-4b37-b6ce-e29a4cd9114f"><span class="section-number-2">2.</span> Sample configuration</h2>
+<div class="outline-text-2" id="text-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package substitute
+  :ensure t
+  :config
+  ;; Set this to nil if you do not like visual feedback on the matching
+  ;; target.  Default is t.
+  (setq substitute-highlight nil)
+
+  ;; Set this to t if you want to always treat the letter casing
+  ;; literally.  Otherwise each command accepts a `C-u' prefix
+  ;; argument to do this on-demand.
+  (setq substitute-fixed-letter-case t)
+
+  ;; If you want a message reporting the matches that changed in the
+  ;; given context.  We don't do it by default.
+  (add-hook 'substitute-post-replace-functions #'substitute-report-operation)
+
+  ;; Use C-c s as a prefix for all Substitute commands.
+  (define-key global-map (kbd "C-c s") #'substitute-prefix-map))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:beae1a59-81ae-41ad-803b-f08caa03732b" class="outline-2">
-<h2 id="h:beae1a59-81ae-41ad-803b-f08caa03732b"><span class="section-number-2">1.</span> Overview</h2>
+<h2 id="h:beae1a59-81ae-41ad-803b-f08caa03732b"><span class="section-number-2">3.</span> Overview</h2>
 <div class="outline-text-2" id="text-h:beae1a59-81ae-41ad-803b-f08caa03732b">
 <p>
-Substitute is a set of commands that perform text replacement (i)
-throughout the buffer, (ii) limited to the current definition (per
-<code>narrow-to-defun</code>), (iii) from point to the end of the buffer, and
-(iv) from point to the beginning of the buffer.
+Substitute is a set of commands that perform text replacement for the
+symbol at point (i) throughout the buffer, (ii) limited to the current
+definition or outline, (iii) from point to the end of the buffer, and
+(iv) from point to the beginning of the buffer. Variations of these
+are also available (<a href="#h:577fa565-b43a-4e8a-939a-5b08837c1cb1">Substitutions by their scope of application</a>).
+[ Variations are available as part of 0.4.0-dev. ]
 </p>
 
 <p>
 These substitutions are meant to be as quick as possible and, as such,
-differ from the standard <code>query-replace</code> (which I still use).  The
+differ from the standard <code>query-replace</code> (which I still use). The
 provided commands prompt for substitute text and perform the
-substitution outright.
+substitution outright against the symbol at point.
 </p>
 
 <p>
-The substitution prompt mentions the target-to-be-substituted.  It is
+The substitution prompt mentions the thing-to-be-substituted. It is
 possible to use the &ldquo;future history&rdquo; at this prompt (by typing <code>M-n</code>
 with the default key bindings for the <code>next-history-element</code> command).
-This populates the prompt with the text of the target.  As such, if we
+This populates the prompt with the text of the target. As such, if we
 want to operate on <code>FOO</code> to make it <code>FOO-BAR</code>, we use <code>M-n</code> and then
 append <code>-BAR</code>.
 </p>
-
-<p>
-By default, the substitution prompt informs the user about the target
-and highlights matches in the given scope (what the current command
-will substitute).  Highlights can be disabled by setting the user
-option <code>substitute-highlight</code> to nil.
-</p>
-
+</div>
+<div id="outline-container-h:577fa565-b43a-4e8a-939a-5b08837c1cb1" class="outline-3">
+<h3 id="h:577fa565-b43a-4e8a-939a-5b08837c1cb1"><span class="section-number-3">3.1.</span> Substitutions by their scope of application</h3>
+<div class="outline-text-3" id="text-h:577fa565-b43a-4e8a-939a-5b08837c1cb1">
 <p>
 The substitution commands behave the same way except for their scope
-of application.  What they have in common is how they identify the
-target of the substitution: it is either the symbol at point or the
-text within the boundaries of the active region.  The differences in
-scope are as follows:
+of application (<a href="#h:563f265f-c904-47f5-93c7-3d0e315fca33">User options for the substitution commands</a>). What they
+have in common is how they identify the target of the substitution: it
+is either the symbol at point or the text within the boundaries of the
+active region. The differences in scope are as follows:
 </p>
 
 <ol class="org-ol">
@@ -127,6 +223,45 @@ to the end of the buffer (alias <code>substitute-target-to-end-of-buffer</code>)
 <li><code>substitute-target-above-point</code>: Substitute the target from point
 to the beginning of the buffer (alias <code>substitute-target-to-beginning-of-buffer</code>).</li>
 </ol>
+
+<ol class="org-ol">
+<li><code>substitute-target-in-outline</code>: Substitute the target within the
+boundaries of the current outline level. In Org mode, for example,
+the current outline is the heading plus its paragraph text but not
+the subheadings and their text. In programming modes the outline
+might be the same as the current definition, or could be a longer
+stretch of text. It depends on the buffer-local value of the
+variable <code>outline-regexp</code>. [ The <code>substitute-target-in-outline</code> is
+part of 0.4.0-dev. ]</li>
+</ol>
+
+<ol class="org-ol">
+<li><code>substitute-target-in-page</code>: Substitute the target within the
+boundaries of the current page. A page is demarcated by the
+buffer-local value of the variable  <code>page-delimiter</code>. [ The command
+<code>substitute-target-in-page</code> is part of 0.4.0-dev. ]</li>
+</ol>
+
+<ol class="org-ol">
+<li><code>substitute-target-in-defun-and-below</code>: Substitute the target
+within the boundaries of the current definition only from point
+onwards. [ This is part of 0.4.0-dev. ]</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-h:563f265f-c904-47f5-93c7-3d0e315fca33" class="outline-3">
+<h3 id="h:563f265f-c904-47f5-93c7-3d0e315fca33"><span class="section-number-3">3.2.</span> User options for the substitution commands</h3>
+<div class="outline-text-3" id="text-h:563f265f-c904-47f5-93c7-3d0e315fca33">
+<p>
+These are applicable to all our commands (<a href="#h:577fa565-b43a-4e8a-939a-5b08837c1cb1">Substitutions by their scope of application</a>).
+</p>
+
+<p>
+By default, the substitution prompt informs the user about the target
+and highlights matches in the given scope (what the current command
+will substitute).  Highlights can be disabled by setting the user
+option <code>substitute-highlight</code> to nil.
+</p>
 
 <p>
 All of the aforementioned commands accept an optional prefix argument
@@ -179,97 +314,6 @@ bindings. To change those, use something like this:
 </div>
 </div>
 </div>
-<div id="outline-container-h:4943ebc8-45e5-4352-8d51-9a09efa16b74" class="outline-2">
-<h2 id="h:4943ebc8-45e5-4352-8d51-9a09efa16b74"><span class="section-number-2">2.</span> Installation</h2>
-<div class="outline-text-2" id="text-h:4943ebc8-45e5-4352-8d51-9a09efa16b74">
-</div>
-<div id="outline-container-h:ab97c462-01cc-408a-adf2-aadd87a22e90" class="outline-3">
-<h3 id="h:ab97c462-01cc-408a-adf2-aadd87a22e90"><span class="section-number-3">2.1.</span> GNU ELPA package</h3>
-<div class="outline-text-3" id="text-h:ab97c462-01cc-408a-adf2-aadd87a22e90">
-<p>
-The package is available as <code>substitute</code>.  Simply do:
-</p>
-
-<pre class="example">
-M-x package-refresh-contents
-M-x package-install
-</pre>
-
-
-<p>
-And search for it.
-</p>
-
-<p>
-GNU ELPA provides the latest stable release.  Those who prefer to follow
-the development process in order to report bugs or suggest changes, can
-use the version of the package from the GNU-devel ELPA archive.  Read:
-<a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
-</p>
-</div>
-</div>
-<div id="outline-container-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e" class="outline-3">
-<h3 id="h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e"><span class="section-number-3">2.2.</span> Manual installation</h3>
-<div class="outline-text-3" id="text-h:7fbd9efd-284a-41fb-bbfa-8e28f102e78e">
-<p>
-Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
-following commands in a shell prompt:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
-
-# Create a directory for manually-installed packages
-mkdir manual-packages
-
-# Go to the new directory
-cd manual-packages
-
-# Clone this repo, naming it "substitute"
-git clone https://github.com/protesilaos/substitute substitute
-</pre>
-</div>
-
-<p>
-Finally, in your <code>init.el</code> (or equivalent) evaluate this:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
-(add-to-list 'load-path "~/.emacs.d/manual-packages/substitute")
-</pre>
-</div>
-
-<p>
-Everything is in place to set up the package.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f" class="outline-2">
-<h2 id="h:e8691728-79b2-4b37-b6ce-e29a4cd9114f"><span class="section-number-2">3.</span> Sample configuration</h2>
-<div class="outline-text-2" id="text-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'substitute)
-
-;; Set this to nil if you do not like visual feedback on the matching
-;; target.  Default is t.
-(setq substitute-highlight nil)
-
-;; Set this to t if you want to always treat the letter casing
-;; literally.  Otherwise each command accepts a `C-u' prefix
-;; argument to do this on-demand.
-(setq substitute-fixed-letter-case t)
-
-;; If you want a message reporting the matches that changed in the
-;; given context.  We don't do it by default.
-(add-hook 'substitute-post-replace-functions #'substitute-report-operation)
-
-;; Use C-c s as a prefix for all Substitute commands.
-(define-key global-map (kbd "C-c s") #'substitute-prefix-map)
-</pre>
-</div>
-</div>
 </div>
 <div id="outline-container-h:532c5398-9510-47d4-a718-a5dfa8f86a3f" class="outline-2">
 <h2 id="h:532c5398-9510-47d4-a718-a5dfa8f86a3f"><span class="section-number-2">4.</span> Acknowledgements</h2>
@@ -293,7 +337,7 @@ Wang Chunye.</dd>
 <h2 id="h:055d634a-cd8a-49e8-86f6-0027325e752c"><span class="section-number-2">5.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:055d634a-cd8a-49e8-86f6-0027325e752c">
 <p>
-Copyright (C) 2023  Free Software Foundation, Inc.
+Copyright (C) 2023-2025  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
