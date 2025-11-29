@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-11-23 12:45:37 +0200</b> with a word
-  count of <b>110692</b>. ]
+[ Last revised and exported on <b>2025-11-29 12:19:40 +0200</b> with a word
+  count of <b>110795</b>. ]
 </p>
 
 <p>
@@ -422,7 +422,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-11-23 12:45:37 +0200):
+(2025-11-29 12:19:41 +0200):
 </p>
 
 <div class="org-src-container">
@@ -517,7 +517,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org7a23860">
+<pre class="example" id="orgd953219">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -597,7 +597,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org59fac87">
+<pre class="example" id="org9b10c5b">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -605,7 +605,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org19777cf">
+<pre class="example" id="orgff06de5">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -724,19 +724,37 @@ frame title. To compensate, I have my active mode line display the
 frame name (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">The <code>prot-emacs-modeline.el</code> module</a>).
 </p>
 
+<p>
+Those granted, I do need to experiment with the Wayland-specific build
+of Emacs. It is also known as &ldquo;Pure GTK&rdquo; or &ldquo;PGTK&rdquo;. To this end, I
+apply some parameters subject to PGTK being present.
+</p>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar prot-laptop-p (null (directory-empty-p "/sys/class/power_supply/"))
+<pre class="src src-emacs-lisp">(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(defvar prot-laptop-p (null (directory-empty-p "/sys/class/power_supply/"))
   "When non-nil, we assume to be working on a laptop.")
 
+(when prot-laptop-p
+  (add-hook 'window-size-change-functions #'frame-hide-title-bar-when-maximized))
+
+(defvar prot-pgtk-p (string-match-p "PGTK" system-configuration-features)
+  "When non-nil, this is a build --with-pgtk.
+PGTK is the Wayland-specific build of Emacs.")
+
 (setq initial-frame-alist `((horizontal-scroll-bars . nil)
-                            (menu-bar-lines . 0) ; alternative to disabling `menu-bar-mode'
-                            (tool-bar-lines . 0) ; alternative to disabling `tool-bar-mode'
+                            (menu-bar-lines . 0)
+                            (tool-bar-lines . 0)
                             (vertical-scroll-bars . nil)
-                            (scroll-bar-width . 6)
+                            (scroll-bar-width . ,(if prot-pgtk-p 12 6))
                             (width . (text-pixels . 800))
                             (height . (text-pixels . 900))
-                            (undecorated . t)
-                            (border-width . 5)
+                            ,@(unless prot-pgtk-p
+                                (list '(undecorated . t)))
+                            (border-width . 0)
                             ,@(when prot-laptop-p
                                 (list '(fullscreen . maximized)))))
 
@@ -749,14 +767,15 @@ frame name (<a href="#h:41ee38d0-9099-4444-85e4-cc8dce00fb9a">The <code>prot-ema
 ;; settings.
 (add-hook 'after-init-hook (lambda ()
                              (setq default-frame-alist `((horizontal-scroll-bars . nil)
-                                                         (menu-bar-lines . 0) ; alternative to disabling `menu-bar-mode'
-                                                         (tool-bar-lines . 0) ; alternative to disabling `tool-bar-mode'
+                                                         (menu-bar-lines . 0)
+                                                         (tool-bar-lines . 0)
                                                          (vertical-scroll-bars . nil)
-                                                         (scroll-bar-width . 6)
+                                                         (scroll-bar-width . (if prot-pgtk-p 12 6))
                                                          (width . (text-pixels . 800))
                                                          (height . (text-pixels . 900))
-                                                         (undecorated . t)
-                                                         (border-width . 5)
+                                                         ,@(unless prot-pgtk-p
+                                                             (list '(undecorated . t)))
+                                                         (border-width . 0)
                                                          ,@(when prot-laptop-p
                                                              (list '(fullscreen . maximized)))))))
 
@@ -1451,7 +1470,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgeb92e3d">
+<pre class="example" id="org42cc433">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1523,7 +1542,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org3cf5f52">
+<pre class="example" id="orgba1214e">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1632,7 +1651,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org62dd570">
+<pre class="example" id="org247fda7">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1798,7 +1817,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org66bad6f">
+<pre class="example" id="org7d0e921">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2572,22 +2591,23 @@ I also take care to make it work with my customised mode line
           `( :internal-border-width 15
              :header-line-width 4
              :mode-line-width 6
+             :custom-buttom-width 3
              :tab-width 4
              :right-divider-width 15
-             :scroll-bar-width ,(if x-toolkit-scroll-bars 8 6)
+             :scroll-bar-width ,(if prot-pgtk-p 12 6)
              :left-fringe-width 20
              :right-fringe-width 20))
 
-    ;; (setq spacious-padding-subtle-mode-line nil)
+    (setq spacious-padding-subtle-mode-line nil)
 
     ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
     ;; is very flexible.  Here we make the mode lines be a single
     ;; overline.
-    (setq spacious-padding-subtle-frame-lines
-          '( :mode-line-active spacious-padding-line-active
-             :mode-line-inactive spacious-padding-line-inactive
-             :header-line-active spacious-padding-line-active
-             :header-line-inactive spacious-padding-line-inactive))
+    ;; (setq spacious-padding-subtle-frame-lines
+    ;;       '( :mode-line-active spacious-padding-line-active
+    ;;          :mode-line-inactive spacious-padding-line-inactive
+    ;;          :header-line-active spacious-padding-line-active
+    ;;          :header-line-inactive spacious-padding-line-inactive))
 
     (when (&lt; emacs-major-version 29)
       (setq x-underline-at-descent-line (when spacious-padding-subtle-frame-lines t)))))
@@ -4274,7 +4294,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org388fa5e">
+<pre class="example" id="orgcc354f4">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4323,7 +4343,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org3c1f85d">
+<pre class="example" id="orge4a0183">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7232,7 +7252,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orge9e5184">
+<pre class="example" id="org866b662">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7260,7 +7280,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org0bc95e7">
+<pre class="example" id="org5c480dd">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7338,7 +7358,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org91b35ca">
+<pre class="example" id="org10b24a8">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7486,7 +7506,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org3267695">
+<pre class="example" id="org5193642">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7800,19 +7820,27 @@ screen real estate (<a href="#h:080aa291-95b4-4d54-8783-d156b13190e9">The <code>
 
   (beframe-mode 1)
 
-  ;; Integration with the `consult-buffer' command.  It will show only
-  ;; buffers from the current frame.  To view all buffers, first input
-  ;; a space at the empty minibuffer prompt.  This enables the "hidden
-  ;; buffers" view.
   (with-eval-after-load 'consult
-    (defun consult-beframe-buffer-list (&amp;optional frame)
+    (defface beframe-buffer
+      '((t :inherit font-lock-string-face))
+      "Face for `consult' framed buffers.")
+
+    (defun prot/beframe-buffer-names-sorted (&amp;optional frame)
       "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
-With optional argument FRAME, return the list of buffers of FRAME.
+With optional argument FRAME, return the list of buffers of FRAME."
+      (beframe-buffer-names frame :sort #'beframe-buffer-sort-visibility))
 
-For use in `consult-buffer-list'."
-      (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
+    (defvar beframe-consult-source
+      `( :name     "Frame-specific buffers (current frame)"
+         :narrow   ?F
+         :category buffer
+         :face     beframe-buffer
+         :history  beframe-history
+         :items    ,#'prot/beframe-buffer-names-sorted
+         :action   ,#'switch-to-buffer
+         :state    ,#'consult--buffer-state))
 
-    (setq consult-buffer-list #'consult-beframe-buffer-list)))
+    (add-to-list 'consult-buffer-sources 'beframe-consult-source)))
 </pre>
 </div>
 </div>
@@ -9165,7 +9193,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org30c4c8e">
+<pre class="example" id="orgd795315">
 (info "(org) Search Options")
 </pre>
 
@@ -9255,7 +9283,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org4e91932">
+<pre class="example" id="org2f0a3cf">
 (require 'ob-python)
 
 ;; OR
@@ -10166,7 +10194,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgbdf4994">
+<pre class="example" id="org7e01040">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10994,7 +11022,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgdd9f081">
+<pre class="example" id="orgdeda1de">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11006,7 +11034,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgc118d62">
+<pre class="example" id="orgd141976">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11069,7 +11097,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org32e9f7a">
+<pre class="example" id="orgac01aff">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11081,7 +11109,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org7db1502">
+<pre class="example" id="orgb26b168">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11103,7 +11131,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org390daf2">
+<pre class="example" id="org2c22624">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11217,7 +11245,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgb2c6bf2">
+<pre class="example" id="orgfd0f948">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11349,7 +11377,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgee5f154">
+<pre class="example" id="org2161d29">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11361,7 +11389,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org46aa9eb">
+<pre class="example" id="orgfcf78c1">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12488,7 +12516,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org039f148">
+<pre class="example" id="org30d8328">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12585,7 +12613,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org18af348">
+<pre class="example" id="org5572908">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12904,7 +12932,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgbdf32d5">
+<pre class="example" id="orgaa559ee">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -19826,7 +19854,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org1ae52ad">
+<pre class="example" id="org62dcf00">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19858,7 +19886,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org4dde34b">
+<pre class="example" id="org70228a2">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
