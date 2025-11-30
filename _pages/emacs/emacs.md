@@ -285,9 +285,11 @@ shows how to extend the code to achieve the desired result.
 
 ## Pulsar
 
-This is a small package that temporarily highlights the current line
-or region after a given function is invoked. Several user options
-control the exact behaviour. [Watch the original demo](https://protesilaos.com/codelog/2022-03-14-emacs-pulsar-demo/).
+This is a small Emacs package that automatically highlights the current
+line after certain functions are invoked. It can also highlight a line
+or region on demand. The idea is to make it easier to find where the
+point is, what was affected, and also to bring attention to something
+in a buffer. [Watch the original demo](https://protesilaos.com/codelog/2022-03-14-emacs-pulsar-demo/) (2022-03-14).
 
 + Package name (GNU ELPA): `pulsar`
 + Official manual: <https://protesilaos.com/emacs/pulsar>
