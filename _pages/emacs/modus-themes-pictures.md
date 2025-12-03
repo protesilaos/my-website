@@ -14,10 +14,10 @@ simply cannot produce screenshots for the zillions of stylistic
 variations.
 
 What you see here corresponds to version `4.2.0-dev`, done on
-2023-05-18.  The typeface is [my modified version of
-Iosevka](https://github.com/protesilaos/iosevka-comfy).  **Enlarge the
-image**, because the smaller size can affect your perception of what
-is on display.
+2023-05-18 and remains current as of 2025-12-03 09:59 +0200. The
+typeface is one of [my Aporetic fonts](https://github.com/protesilaos/aporetic).
+**Enlarge the image**, because the smaller size can affect your
+perception of what is on display.
 
 In each heading, the themes appear in this order:
 
