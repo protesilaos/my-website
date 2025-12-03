@@ -6,12 +6,11 @@ redirect_from:
   - /modus-themes-pictures
 ---
 
-Refer to the [official
-manual](https://protesilaos.com/emacs/modus-themes) for the specifics
-of the Modus themes.  The following screen shots show only the
-defaults, but note that **the themes are highly customisable**: we
-simply cannot produce screenshots for the zillions of stylistic
-variations.
+Refer to the [official manual](https://protesilaos.com/emacs/modus-themes)
+for the specifics of the Modus themes. The following screen shots show
+only the defaults, but note that **the themes are highly
+customisable**: we simply cannot produce screenshots for the zillions
+of stylistic variations.
 
 What you see here corresponds to version `4.2.0-dev`, done on
 2023-05-18 and remains current as of 2025-12-03 09:59 +0200. The
