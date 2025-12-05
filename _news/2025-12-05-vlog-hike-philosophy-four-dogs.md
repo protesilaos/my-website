@@ -6,7 +6,7 @@ mediaid: "vFnuxSgHThQ"
 ---
 
 [ Also read the poem I wrote based on the closing words of this video:
-  [When you are in the wilds](https://protesilaos.com/poems/2025-12-04-when-in-the-wilds/). ]
+  [When you are in the wilds](https://protesilaos.com/poems/2025-12-05-when-in-the-wilds/). ]
 
 In this 1-hour video I show one of my usual hikes with my four dogs. I
 first talk about the surgery Atlas had and then start commenting on my
