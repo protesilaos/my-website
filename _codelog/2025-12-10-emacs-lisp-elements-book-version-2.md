@@ -17,7 +17,7 @@ This is a major rewrite of the book. It has almost doubled in word
 count. I explain more concepts and do it from the ground up. Every
 single one of the original chapters is redone. They now contain
 insights into functionality they would previously hint at, such as how
-'apply' works in practice, what a non-local exit is, and how recursive
+`apply` works in practice, what a non-local exit is, and how recursive
 editing is done.
 
 I have also added several new chapters. As before, chapters have
@@ -26,8 +26,8 @@ cross references, so you will benefit from revisiting relevant topics.
 If you read the Info version of the book, note that all functions,
 variables, and concepts have their own indices. Use those as another
 means of navigating the book's contents. To read the Info version,
-clone the Git repository, use 'M-x dired' to open its directory,
-move the cursor over the file 'elispelem.info' and do 'M-x dired-info'.
+clone the Git repository, use `M-x dired` to open its directory,
+move the cursor over the file `elispelem.info` and do `M-x dired-info`.
 
 What follows is a brief description of the new chapters.
 
