@@ -20,17 +20,143 @@ the manual: <a href="https://protesilaos.com/emacs/spacious-padding">https://pro
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h:adc3093a-e4ae-4ce9-842b-16667a910cdd">1. Version 0.7.0 on 2025-06-01</a></li>
-<li><a href="#h:454cc27d-fcef-4dab-a3d0-40ca60aba502">2. Version 0.6.0 on 2025-01-06</a></li>
-<li><a href="#h:898a32fb-3156-4468-831c-898cca0004fc">3. Version 0.5.0 on 2024-04-29</a></li>
-<li><a href="#h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7">4. Version 0.4.0 on 2024-03-04</a></li>
-<li><a href="#h:466dd7e0-c314-42a9-b1bc-a499acc5d415">5. Version 0.3.0 on 2023-12-21</a></li>
-<li><a href="#h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb">6. Version 0.2.0 on 2023-11-24</a></li>
+<li><a href="#h:4a3250fa-b905-4bc4-bd22-7cb5690aef1b">1. Version 0.8.0 on 2025-12-13</a></li>
+<li><a href="#h:adc3093a-e4ae-4ce9-842b-16667a910cdd">2. Version 0.7.0 on 2025-06-01</a></li>
+<li><a href="#h:454cc27d-fcef-4dab-a3d0-40ca60aba502">3. Version 0.6.0 on 2025-01-06</a></li>
+<li><a href="#h:898a32fb-3156-4468-831c-898cca0004fc">4. Version 0.5.0 on 2024-04-29</a></li>
+<li><a href="#h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7">5. Version 0.4.0 on 2024-03-04</a></li>
+<li><a href="#h:466dd7e0-c314-42a9-b1bc-a499acc5d415">6. Version 0.3.0 on 2023-12-21</a></li>
+<li><a href="#h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb">7. Version 0.2.0 on 2023-11-24</a></li>
 </ul>
 </div>
 </div>
+<div id="outline-container-h:4a3250fa-b905-4bc4-bd22-7cb5690aef1b" class="outline-2">
+<h2 id="h:4a3250fa-b905-4bc4-bd22-7cb5690aef1b"><span class="section-number-2">1.</span> Version 0.8.0 on 2025-12-13</h2>
+<div class="outline-text-2" id="text-h:4a3250fa-b905-4bc4-bd22-7cb5690aef1b">
+<p>
+This release introduces some nice refinements and fixes a couple of
+subtle bugs.
+</p>
+</div>
+<div id="outline-container-h:76f3c771-e0a4-46c4-9002-c88e73aa8b84" class="outline-3">
+<h3 id="h:76f3c771-e0a4-46c4-9002-c88e73aa8b84"><span class="section-number-3">1.1.</span> Subtle mode and header line</h3>
+<div class="outline-text-3" id="text-h:76f3c771-e0a4-46c4-9002-c88e73aa8b84">
+<p>
+The new user option <code>spacious-padding-subtle-frame-lines</code> supersedes
+the <code>~spacious-padding-subtle-mode-line</code>. It does the same thing,
+namely, of making the mode lines use only a thin line instead of a
+background. Though it extends this feature to header lines as well.
+</p>
+
+<p>
+The documentation string of <code>spacious-padding-subtle-frame-lines</code>
+describes the technicalities and includes examples. In short, we can
+associate a keyword with either a face that has a foreground color or
+a color value directly. For the convenience of the user, the package
+also defines the faces <code>spacious-padding-line-active</code> and
+<code>spacious-padding-line-inactive</code>. Here is a sample configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Read the doc string of `spacious-padding-subtle-mode-line' as it
+;; is very flexible.  Here we make the mode lines be a single
+;; overline, while header lines have an underline.
+(setq spacious-padding-subtle-frame-lines
+      '( :mode-line-active spacious-padding-line-active
+         :mode-line-inactive spacious-padding-line-inactive
+         :header-line-active spacious-padding-line-active
+         :header-line-inactive spacious-padding-line-inactive))
+</pre>
+</div>
+
+<p>
+In the future, we might decide that other elements can benefit from
+this style.
+</p>
+</div>
+</div>
+<div id="outline-container-h:fe3649fe-6c47-4d14-ae51-6583971fdb4c" class="outline-3">
+<h3 id="h:fe3649fe-6c47-4d14-ae51-6583971fdb4c"><span class="section-number-3">1.2.</span> The header line underline is spaced further away from the text</h3>
+<div class="outline-text-3" id="text-h:fe3649fe-6c47-4d14-ae51-6583971fdb4c">
+<p>
+As noted above, when <code>spacious-padding-subtle-frame-lines</code> is
+configured to cover header lines, those will be drawn with an
+underline. This will not intersect with the text of the header line.
+</p>
+
+<p>
+Normally, underlines cut through letters that descend below the
+baseline, such as the letters <code>g</code> and <code>y</code>. We choose to avoid that
+because it makes for a cleaner interface (though I personally think it
+is not a good style for paragraph text, because of the rivers of
+negative space it introduces).
+</p>
+
+<p>
+This specific design is available for Emacs version 29 or higher.
+Users of Emacs 28 must set <code>x-underline-at-descent-line</code> to a
+non-<code>nil</code> value. Though note that this has a global effect: we cannot
+limit it to a single face.
+</p>
+
+<p>
+Thanks to Steven Allen for covering this in pull request 37:
+<a href="https://github.com/protesilaos/spacious-padding/pull/37">https://github.com/protesilaos/spacious-padding/pull/37</a>. Steven has
+assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-h:240e1874-fc68-4e3d-890c-9fa27912edf9" class="outline-3">
+<h3 id="h:240e1874-fc68-4e3d-890c-9fa27912edf9"><span class="section-number-3">1.3.</span> The <code>spacious-padding-widths</code> can affect Custom buttons</h3>
+<div class="outline-text-3" id="text-h:240e1874-fc68-4e3d-890c-9fa27912edf9">
+<p>
+This is about the buttons we find in buffers of the Custom system. For
+example, we get such a buffer after we do <code>M-x customize</code>.
+</p>
+
+<p>
+The relevant keyword is <code>:custom-button-width</code>. It is set to a number
+of spaces for padding. Here is the default value and, as always, the
+documentation cover the details:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
+      '( :internal-border-width 15
+         :header-line-width 4
+         :mode-line-width 6
+         :custom-button-width 3 ; the new one
+         :tab-width 4
+         :right-divider-width 30
+         :scroll-bar-width 8
+         :fringe-width 8))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:902951ad-dd49-4716-ad67-dc7526f20ade" class="outline-3">
+<h3 id="h:902951ad-dd49-4716-ad67-dc7526f20ade"><span class="section-number-3">1.4.</span> Fixes for the Emacs daemon</h3>
+<div class="outline-text-3" id="text-h:902951ad-dd49-4716-ad67-dc7526f20ade">
+<p>
+There were reports about incorrect face specifications that could
+happen when Emacs was started as a daemon process. I made the relevant
+changes. Also thanks to kaibagley for covering a line I had missed.
+This was done in pull request 43: <a href="https://github.com/protesilaos/spacious-padding/pull/43">https://github.com/protesilaos/spacious-padding/pull/43</a>.
+</p>
+
+<p>
+Related threads:
+</p>
+
+<ul class="org-ul">
+<li>Issue 35, as reported by Chinmay Dalal: <a href="https://github.com/protesilaos/spacious-padding/issues/35">https://github.com/protesilaos/spacious-padding/issues/35</a>.</li>
+<li>Issue 41, as reported by zealotrush: <a href="https://github.com/protesilaos/spacious-padding/issues/41">https://github.com/protesilaos/spacious-padding/issues/41</a>.</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-h:adc3093a-e4ae-4ce9-842b-16667a910cdd" class="outline-2">
-<h2 id="h:adc3093a-e4ae-4ce9-842b-16667a910cdd"><span class="section-number-2">1.</span> Version 0.7.0 on 2025-06-01</h2>
+<h2 id="h:adc3093a-e4ae-4ce9-842b-16667a910cdd"><span class="section-number-2">2.</span> Version 0.7.0 on 2025-06-01</h2>
 <div class="outline-text-2" id="text-h:adc3093a-e4ae-4ce9-842b-16667a910cdd">
 <p>
 This is a small release that makes <code>spacious-padding-mode</code> work as
@@ -52,10 +178,10 @@ Here is how they can be set (default value is <code>nil</code>):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-subtle-mode-line
+<pre class="src src-emacs-lisp">(setq spacious-padding-subtle-mode-line
       '( :mode-line-active spacious-padding-subtle-mode-line-active
          :mode-line-inactive spacious-padding-subtle-mode-line-inactive))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -72,7 +198,7 @@ those faces as they see fit).
 </div>
 </div>
 <div id="outline-container-h:454cc27d-fcef-4dab-a3d0-40ca60aba502" class="outline-2">
-<h2 id="h:454cc27d-fcef-4dab-a3d0-40ca60aba502"><span class="section-number-2">2.</span> Version 0.6.0 on 2025-01-06</h2>
+<h2 id="h:454cc27d-fcef-4dab-a3d0-40ca60aba502"><span class="section-number-2">3.</span> Version 0.6.0 on 2025-01-06</h2>
 <div class="outline-text-2" id="text-h:454cc27d-fcef-4dab-a3d0-40ca60aba502">
 <p>
 This is a small release that makes some minor refinements. The package
@@ -80,7 +206,7 @@ is otherwise stable and works as expected.
 </p>
 </div>
 <div id="outline-container-h:20150bc6-38f0-4a25-b342-95e81f8b77c6" class="outline-3">
-<h3 id="h:20150bc6-38f0-4a25-b342-95e81f8b77c6"><span class="section-number-3">2.1.</span> We use the <code>spacious-padding</code> theme instead of <code>user</code></h3>
+<h3 id="h:20150bc6-38f0-4a25-b342-95e81f8b77c6"><span class="section-number-3">3.1.</span> We use the <code>spacious-padding</code> theme instead of <code>user</code></h3>
 <div class="outline-text-3" id="text-h:20150bc6-38f0-4a25-b342-95e81f8b77c6">
 <p>
 This is an internal detail with how we implement the &ldquo;spacious&rdquo;
@@ -114,7 +240,7 @@ followed it up with the creation of the ~spacious-padding</code> theme.
 </div>
 </div>
 <div id="outline-container-h:68817fdf-a8b5-43be-8dc5-a91dfbb705ca" class="outline-3">
-<h3 id="h:68817fdf-a8b5-43be-8dc5-a91dfbb705ca"><span class="section-number-3">2.2.</span> The <code>tab-line-tab-current</code> face is supported</h3>
+<h3 id="h:68817fdf-a8b5-43be-8dc5-a91dfbb705ca"><span class="section-number-3">3.2.</span> The <code>tab-line-tab-current</code> face is supported</h3>
 <div class="outline-text-3" id="text-h:68817fdf-a8b5-43be-8dc5-a91dfbb705ca">
 <p>
 This means that <code>tab-line-mode</code> will look consistent when
@@ -124,7 +250,7 @@ smaller/different.
 </div>
 </div>
 <div id="outline-container-h:c8366b1f-aa82-4052-b5e7-2be83930c84e" class="outline-3">
-<h3 id="h:c8366b1f-aa82-4052-b5e7-2be83930c84e"><span class="section-number-3">2.3.</span> <code>spacious-padding-mode</code> works with <code>window-divider-mode</code></h3>
+<h3 id="h:c8366b1f-aa82-4052-b5e7-2be83930c84e"><span class="section-number-3">3.3.</span> <code>spacious-padding-mode</code> works with <code>window-divider-mode</code></h3>
 <div class="outline-text-3" id="text-h:c8366b1f-aa82-4052-b5e7-2be83930c84e">
 <p>
 Thanks to Pierre Baille and Tobias Tschinkowitz for bringing up the
@@ -134,14 +260,14 @@ problem in issue 17: <a href="https://github.com/protesilaos/spacious-padding/is
 </div>
 </div>
 <div id="outline-container-h:898a32fb-3156-4468-831c-898cca0004fc" class="outline-2">
-<h2 id="h:898a32fb-3156-4468-831c-898cca0004fc"><span class="section-number-2">3.</span> Version 0.5.0 on 2024-04-29</h2>
+<h2 id="h:898a32fb-3156-4468-831c-898cca0004fc"><span class="section-number-2">4.</span> Version 0.5.0 on 2024-04-29</h2>
 <div class="outline-text-2" id="text-h:898a32fb-3156-4468-831c-898cca0004fc">
 <p>
 This is a bug fix release.
 </p>
 </div>
 <div id="outline-container-h:4bd92ecd-f149-4373-890a-0981eb3109a2" class="outline-3">
-<h3 id="h:4bd92ecd-f149-4373-890a-0981eb3109a2"><span class="section-number-3">3.1.</span> Starting a frame from the daemon/server works as well</h3>
+<h3 id="h:4bd92ecd-f149-4373-890a-0981eb3109a2"><span class="section-number-3">4.1.</span> Starting a frame from the daemon/server works as well</h3>
 <div class="outline-text-3" id="text-h:4bd92ecd-f149-4373-890a-0981eb3109a2">
 <p>
 Before, if Emacs would start as a new server process via a client, it
@@ -161,7 +287,7 @@ the updated code. It was done in issue 13:
 </div>
 </div>
 <div id="outline-container-h:c93428b9-54cb-4590-a977-d555533f3339" class="outline-3">
-<h3 id="h:c93428b9-54cb-4590-a977-d555533f3339"><span class="section-number-3">3.2.</span> The padding of relevant elements can be set to 0</h3>
+<h3 id="h:c93428b9-54cb-4590-a977-d555533f3339"><span class="section-number-3">4.2.</span> The padding of relevant elements can be set to 0</h3>
 <div class="outline-text-3" id="text-h:c93428b9-54cb-4590-a977-d555533f3339">
 <p>
 This concerns anything that has a box with padding around it. From the
@@ -189,7 +315,7 @@ assign copyright to the Free Software foundation.
 </div>
 </div>
 <div id="outline-container-h:f4ddf392-c8db-42f4-8d9e-19d991da47a5" class="outline-3">
-<h3 id="h:f4ddf392-c8db-42f4-8d9e-19d991da47a5"><span class="section-number-3">3.3.</span> The right-divider-width has a fallback value at all times</h3>
+<h3 id="h:f4ddf392-c8db-42f4-8d9e-19d991da47a5"><span class="section-number-3">4.3.</span> The right-divider-width has a fallback value at all times</h3>
 <div class="outline-text-3" id="text-h:f4ddf392-c8db-42f4-8d9e-19d991da47a5">
 <p>
 This means that even if the <code>:right-divider-width</code> is not included in
@@ -202,7 +328,7 @@ matter to my attention in issue 11:
 </div>
 </div>
 <div id="outline-container-h:afc3170b-b575-4776-ab17-09763e99a655" class="outline-3">
-<h3 id="h:afc3170b-b575-4776-ab17-09763e99a655"><span class="section-number-3">3.4.</span> Reasonable defaults even if <code>spacious-padding-widths</code> is set to nil</h3>
+<h3 id="h:afc3170b-b575-4776-ab17-09763e99a655"><span class="section-number-3">4.4.</span> Reasonable defaults even if <code>spacious-padding-widths</code> is set to nil</h3>
 <div class="outline-text-3" id="text-h:afc3170b-b575-4776-ab17-09763e99a655">
 <p>
 All the attributes of the <code>spacious-padding-widths</code> should be optional
@@ -215,7 +341,7 @@ padding&rdquo; and not something that does nothing.
 </div>
 </div>
 <div id="outline-container-h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7" class="outline-2">
-<h2 id="h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7"><span class="section-number-2">4.</span> Version 0.4.0 on 2024-03-04</h2>
+<h2 id="h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7"><span class="section-number-2">5.</span> Version 0.4.0 on 2024-03-04</h2>
 <div class="outline-text-2" id="text-h:c55b9d00-cd72-4c65-ab4f-49c828e0f7d7">
 <p>
 This version add some quality-of-life improvements to an already solid
@@ -223,7 +349,7 @@ package.
 </p>
 </div>
 <div id="outline-container-h:8e90009d-0052-4b28-a91e-9b081ca51ab5" class="outline-3">
-<h3 id="h:8e90009d-0052-4b28-a91e-9b081ca51ab5"><span class="section-number-3">4.1.</span> The vertical border can now remain visible</h3>
+<h3 id="h:8e90009d-0052-4b28-a91e-9b081ca51ab5"><span class="section-number-3">5.1.</span> The vertical border can now remain visible</h3>
 <div class="outline-text-3" id="text-h:8e90009d-0052-4b28-a91e-9b081ca51ab5">
 <p>
 The user option <code>spacious-padding-widths</code> is the single point of entry
@@ -246,7 +372,7 @@ shared with permission.
 </div>
 </div>
 <div id="outline-container-h:f82ed21a-0b10-4548-a53e-3b33edfd6c9c" class="outline-3">
-<h3 id="h:f82ed21a-0b10-4548-a53e-3b33edfd6c9c"><span class="section-number-3">4.2.</span> Add padding to the window fringes</h3>
+<h3 id="h:f82ed21a-0b10-4548-a53e-3b33edfd6c9c"><span class="section-number-3">5.2.</span> Add padding to the window fringes</h3>
 <div class="outline-text-3" id="text-h:f82ed21a-0b10-4548-a53e-3b33edfd6c9c">
 <p>
 The fringe area is the space to the left and right side of every
@@ -268,7 +394,7 @@ Sample using the default:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
@@ -276,7 +402,7 @@ Sample using the default:
          :right-divider-width 30
          :fringe-width 20 ; Make both fringes 20 pixels wide
          :scroll-bar-width 8))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -284,7 +410,7 @@ Or this for individuated values:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
@@ -293,7 +419,7 @@ Or this for individuated values:
          :right-fringe-width 20 ; Make the right fringe 20 pixels wide
          :left-fringe-width 8 ; Make the left fringe 8 pixels wide
          :scroll-bar-width 8))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -302,7 +428,7 @@ divider visible, we can have something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
@@ -310,12 +436,12 @@ divider visible, we can have something like this:
          :right-divider-width 1 ; Keep a visible vertical line between windows
          :fringe-width 20 ; Make both fringes 20 pixels wide
          :scroll-bar-width 8))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 <div id="outline-container-h:55946767-3dd4-440e-9746-a519bb50d166" class="outline-3">
-<h3 id="h:55946767-3dd4-440e-9746-a519bb50d166"><span class="section-number-3">4.3.</span> The built-in <code>tab-line-mode</code> is also covered</h3>
+<h3 id="h:55946767-3dd4-440e-9746-a519bb50d166"><span class="section-number-3">5.3.</span> The built-in <code>tab-line-mode</code> is also covered</h3>
 <div class="outline-text-3" id="text-h:55946767-3dd4-440e-9746-a519bb50d166">
 <p>
 Previous versions of the package provided stylistic support for
@@ -344,7 +470,7 @@ point, we can thus have the following:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
@@ -352,7 +478,7 @@ point, we can thus have the following:
          :right-divider-width 30
          :scroll-bar-width 8
          :fringe-width 8))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -360,7 +486,7 @@ Or this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
@@ -369,12 +495,12 @@ Or this:
          :right-divider-width 30
          :scroll-bar-width 8
          :fringe-width 8))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 <div id="outline-container-h:46668ba5-5ee2-4667-9342-4f501f853f13" class="outline-3">
-<h3 id="h:46668ba5-5ee2-4667-9342-4f501f853f13"><span class="section-number-3">4.4.</span> No more SourceHut</h3>
+<h3 id="h:46668ba5-5ee2-4667-9342-4f501f853f13"><span class="section-number-3">5.4.</span> No more SourceHut</h3>
 <div class="outline-text-3" id="text-h:46668ba5-5ee2-4667-9342-4f501f853f13">
 <p>
 Development continues on GitHub with GitLab as a mirror.
@@ -390,7 +516,7 @@ This is a change that affects all my Emacs packages.
 </div>
 </div>
 <div id="outline-container-h:acdb0b3c-fcf4-455e-97f0-d377e106f8a7" class="outline-3">
-<h3 id="h:acdb0b3c-fcf4-455e-97f0-d377e106f8a7"><span class="section-number-3">4.5.</span> Miscellaneous</h3>
+<h3 id="h:acdb0b3c-fcf4-455e-97f0-d377e106f8a7"><span class="section-number-3">5.5.</span> Miscellaneous</h3>
 <div class="outline-text-3" id="text-h:acdb0b3c-fcf4-455e-97f0-d377e106f8a7">
 <ul class="org-ul">
 <li>The properties of the user option <code>spacious-padding-widths</code> accept a
@@ -406,11 +532,11 @@ that colours are the way we need them to be.</li>
 </div>
 </div>
 <div id="outline-container-h:466dd7e0-c314-42a9-b1bc-a499acc5d415" class="outline-2">
-<h2 id="h:466dd7e0-c314-42a9-b1bc-a499acc5d415"><span class="section-number-2">5.</span> Version 0.3.0 on 2023-12-21</h2>
+<h2 id="h:466dd7e0-c314-42a9-b1bc-a499acc5d415"><span class="section-number-2">6.</span> Version 0.3.0 on 2023-12-21</h2>
 <div class="outline-text-2" id="text-h:466dd7e0-c314-42a9-b1bc-a499acc5d415">
 </div>
 <div id="outline-container-h:57b2702a-3891-4cfc-aa37-e08f1f63290e" class="outline-3">
-<h3 id="h:57b2702a-3891-4cfc-aa37-e08f1f63290e"><span class="section-number-3">5.1.</span> Enjoy the optional subtle mode lines</h3>
+<h3 id="h:57b2702a-3891-4cfc-aa37-e08f1f63290e"><span class="section-number-3">6.1.</span> Enjoy the optional subtle mode lines</h3>
 <div class="outline-text-3" id="text-h:57b2702a-3891-4cfc-aa37-e08f1f63290e">
 <p>
 The new user option <code>~spacious-padding-subtle-mode-line</code> makes mode
@@ -467,7 +593,7 @@ Examples of valid configurations:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>;; Use the foreground of the underlying mode line face to determine
+<pre class="src src-emacs-lisp">;; Use the foreground of the underlying mode line face to determine
 ;; the color of the overline (e.g. the inactive mode line has gray
 ;; text, so render the overline in the same gray).
 (setq spacious-padding-subtle-mode-line t)
@@ -487,12 +613,12 @@ Examples of valid configurations:
 ;; Use color values directly.
 (setq spacious-padding-subtle-mode-line
       '(:mode-line-active "#0000ff" :mode-line-inactive "gray50"))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 <div id="outline-container-h:f205e230-f980-44ac-9ceb-6807f4380480" class="outline-3">
-<h3 id="h:f205e230-f980-44ac-9ceb-6807f4380480"><span class="section-number-3">5.2.</span> Expanded the documentation</h3>
+<h3 id="h:f205e230-f980-44ac-9ceb-6807f4380480"><span class="section-number-3">6.2.</span> Expanded the documentation</h3>
 <div class="outline-text-3" id="text-h:f205e230-f980-44ac-9ceb-6807f4380480">
 <p>
 The <code>spacious-padding</code> package now comes with an Info manual. When
@@ -513,7 +639,7 @@ Their respective web links are these:
 </div>
 </div>
 <div id="outline-container-h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb" class="outline-2">
-<h2 id="h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb"><span class="section-number-2">6.</span> Version 0.2.0 on 2023-11-24</h2>
+<h2 id="h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb"><span class="section-number-2">7.</span> Version 0.2.0 on 2023-11-24</h2>
 <div class="outline-text-2" id="text-h:375d5280-9ee8-4a5d-9eca-e5b3967a3bdb">
 <p>
 [ I provide screenshots in a recent publication:
@@ -538,14 +664,14 @@ the aforementioned elements. Concretely, here are the defaults:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(setq spacious-padding-widths
+<pre class="src src-emacs-lisp">(setq spacious-padding-widths
       '( :internal-border-width 15
          :header-line-width 4
          :mode-line-width 6
          :tab-width 4
          :right-divider-width 30
          :scroll-bar-width 8))
-</code></pre>
+</pre>
 </div>
 
 <p>
