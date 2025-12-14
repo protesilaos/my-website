@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-12-02 09:49:37 +0200</b> with a word
-  count of <b>111077</b>. ]
+[ Last revised and exported on <b>2025-12-14 06:48:43 +0200</b> with a word
+  count of <b>110922</b>. ]
 </p>
 
 <p>
@@ -92,7 +92,8 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:0403b581-142b-4613-bc81-51c5dccd831d">3.2. The <code>early-init.el</code> code to set frame parameters for the desktop or laptop</a></li>
 <li><a href="#h:50d28f3c-3ada-4db5-b830-bbbbee7fec4e">3.3. The <code>early-init.el</code> tweaks to startup time and garbage collection</a></li>
 <li><a href="#h:7a037504-8a2f-4df0-8482-ce6476354440">3.4. The <code>early-init.el</code> initialises the package cache</a></li>
-<li><a href="#h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">3.5. The <code>early-init.el</code> gives a name to the default frame</a></li>
+<li><a href="#h:d4e2145a-0aae-4c8e-9518-4cf2ec1a329a">3.5. The <code>early-init.el</code> sets the <code>user-lisp-directory</code></a></li>
+<li><a href="#h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">3.6. The <code>early-init.el</code> gives a name to the default frame</a></li>
 </ul>
 </li>
 <li><a href="#h:dae63bd9-93a8-41c4-af1b-d0f39ba50974">4. The main initialisation of Emacs (<code>init.el</code>)</a>
@@ -208,14 +209,13 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:567bb00f-1d82-4746-93e5-e0f60721728a">5.4.10. The <code>prot-emacs-completion.el</code> settings for dynamic text expansion (<code>dabbrev</code>)</a></li>
 <li><a href="#h:fd84b79a-351e-40f0-b383-bf520d77834b">5.4.11. The <code>prot-emacs-completion.el</code> settings for static text expansion (<code>abbrev</code>)</a></li>
 <li><a href="#h:804b858f-7913-47ef-aaf4-8eef5b59ecb4">5.4.12. The <code>prot-emacs-completion.el</code> for in-buffer completion popup (<code>corfu</code>)</a></li>
-<li><a href="#h:bb7959b3-d8e6-4163-8e32-bec2b96b7dde">5.4.13. The <code>prot-emacs-completion.el</code> for in-buffer completion hints (<code>completion-preview-mode</code>)</a></li>
-<li><a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">5.4.14. The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a></li>
-<li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">5.4.15. The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
-<li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.16. The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
-<li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.17. The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>
+<li><a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">5.4.13. The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a></li>
+<li><a href="#h:61863da4-8739-42ae-a30f-6e9d686e1995">5.4.14. The <code>prot-emacs-completion.el</code> section about <code>embark</code></a></li>
+<li><a href="#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">5.4.15. The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</a></li>
+<li><a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">5.4.16. The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>
 <ul>
-<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.17.1. The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
-<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.17.2. The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
+<li><a href="#h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">5.4.16.1. The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</a></li>
+<li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">5.4.16.2. The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
 </ul>
 </li>
 </ul>
@@ -423,18 +423,13 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-12-02 09:49:37 +0200):
+(2025-12-14 06:48:43 +0200):
 </p>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">system-configuration-options
 </pre>
 </div>
-
-<pre class="example">
---prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-selinux --with-native-compilation=aot --with-sound=no --without-gif --without-tiff --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf --with-x-toolkit=no --without-toolkit-scroll-bars --without-xft --without-xaw3d
-</pre>
-
 
 <p>
 Debian users can read this article, which remains relevant unless
@@ -518,7 +513,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgcc1910a">
+<pre class="example" id="org02dd50b">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -598,7 +593,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org5de4880">
+<pre class="example" id="orgf2079e9">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -606,7 +601,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org58d6251">
+<pre class="example" id="org32ff102">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -855,8 +850,24 @@ tool.
 </div>
 </div>
 </div>
+<div id="outline-container-h:d4e2145a-0aae-4c8e-9518-4cf2ec1a329a" class="outline-3">
+<h3 id="h:d4e2145a-0aae-4c8e-9518-4cf2ec1a329a"><span class="section-number-3">3.5.</span> The <code>early-init.el</code> sets the <code>user-lisp-directory</code></h3>
+<div class="outline-text-3" id="text-h:d4e2145a-0aae-4c8e-9518-4cf2ec1a329a">
+<p>
+The <code>user-lisp-directory</code> is a user option introduced in Emacs 31. It
+makes Emacs byte compile Emacs Lisp files therein and scan them for
+autoloads. This is great news because now my custom code is treated
+the same way as packages I install (<a href="#h:e289a614-4f17-4d6c-a028-42fe45aebe66">The <code>init.el</code> arrangements for my own modules and custom libraries</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq user-lisp-directory (locate-user-emacs-file "prot-lisp/"))
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad" class="outline-3">
-<h3 id="h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad"><span class="section-number-3">3.5.</span> The <code>early-init.el</code> gives a name to the default frame</h3>
+<h3 id="h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad"><span class="section-number-3">3.6.</span> The <code>early-init.el</code> gives a name to the default frame</h3>
 <div class="outline-text-3" id="text-h:ad227f7e-b0a7-43f8-91d6-b50db82da9ad">
 <p>
 Finally, I like to call my default frame <code>home</code>. This is because I use
@@ -1028,8 +1039,8 @@ Remember to read how these options come into effect (<a href="#h:5a41861f-4c38-4
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(defcustom prot-emacs-completion-extras t
   "When non-nil load extras for minibuffer completion.
-These include the packages `marginalia', `orderless', `consult',
-`corfu', and `embark'."
+These include the packages `marginalia', `consult', `corfu', and
+`embark'."
   :group 'prot-emacs
   :type 'boolean)
 </pre>
@@ -1337,6 +1348,14 @@ I can simply stop editing it and perfom the edits directly in the
 files that are already placed where I need them to be.
 </p>
 
+<p>
+As of Emacs 31, the user option <code>user-lisp-directory</code> can read a
+directory and treat it as if it contains actual packages. This means
+that it byte compiles it and scans it for autoloads. This is great
+news! The <code>user-lisp-directory</code> is set in the early init, so that it
+takes effect before loading the rest of the configuration (<a href="#h:d4e2145a-0aae-4c8e-9518-4cf2ec1a329a">The <code>early-init.el</code> sets the <code>user-lisp-directory</code></a>).
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(mapc
  (lambda (string)
@@ -1478,7 +1497,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org3c2fcfe">
+<pre class="example" id="org59115d8">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1550,7 +1569,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org2712eb0">
+<pre class="example" id="orgf1477f5">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1659,7 +1678,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org768981e">
+<pre class="example" id="org8b496f0">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1825,7 +1844,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orgabb3cb3">
+<pre class="example" id="org71779bc">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2609,7 +2628,7 @@ I also take care to make it work with my customised mode line
 
     ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
     ;; is very flexible.  Here we make the mode lines be a single
-    ;; overline.
+    ;; overline, while header lines have an underline.
     (setq spacious-padding-subtle-frame-lines
           '( :mode-line-active spacious-padding-line-active
              :mode-line-inactive spacious-padding-line-inactive
@@ -3295,6 +3314,7 @@ key bindings.
   (setq eval-expression-print-length nil)
   (setq find-library-include-other-files nil) ; Emacs 29
   (setq help-window-select t)
+  (setq help-window-keep-selected t) ; Emacs 29
   (setq kill-do-not-save-duplicates t)
   (setq mode-require-final-newline 'visit-save)
   (setq next-error-recenter '(4)) ; center of the window
@@ -4301,7 +4321,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgbed602a">
+<pre class="example" id="org50f92d9">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4350,7 +4370,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgd6e548a">
+<pre class="example" id="org8e668b1">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -4917,10 +4937,10 @@ set of completion styles on a per-category basis using overrides
 <pre class="src src-emacs-lisp">;;; General minibuffer settings
 (prot-emacs-configure
 ;;;; Completion styles
-  (setq completion-styles '(basic substring initials flex)) ; also see `completion-category-overrides'
-  (setq completion-pcm-leading-wildcard t) ; Emacs 31: make `partial-completion' behave like `substring'
+  (setq completion-styles '(basic substring partial-completion flex)) ; also see `completion-category-overrides'
+  (setq completion-pcm-leading-wildcard nil) ; Emacs 31
   (with-eval-after-load 'orderless
-    (setq completion-styles '(basic substring initials flex orderless))))
+    (setq completion-styles (append completion-styles '(orderless)))))
 </pre>
 </div>
 </div>
@@ -4974,66 +4994,40 @@ first as <code>basic</code> will never match something like <code>~/.l/s/fo</cod
   ;; explicitly override everything.
   (setq completion-category-defaults nil)
 
-  ;; A non-exhaustve list of known completion categories:
-  ;;
-  ;; - `bookmark'
-  ;; - `buffer'
-  ;; - `charset'
-  ;; - `coding-system'
-  ;; - `color'
-  ;; - `command' (e.g. `M-x')
-  ;; - `customize-group'
-  ;; - `environment-variable'
-  ;; - `expression'
-  ;; - `face'
-  ;; - `file'
-  ;; - `function' (the `describe-function' command bound to `C-h f')
-  ;; - `info-menu'
-  ;; - `imenu'
-  ;; - `input-method'
-  ;; - `kill-ring'
-  ;; - `library'
-  ;; - `minor-mode'
-  ;; - `multi-category'
-  ;; - `package'
-  ;; - `project-buffer'
-  ;; - `project-file'
-  ;; - `symbol' (the `describe-symbol' command bound to `C-h o')
-  ;; - `theme'
-  ;; - `unicode-name' (the `insert-char' command bound to `C-x 8 RET')
-  ;; - `variable' (the `describe-variable' command bound to `C-h v')
-  ;; - `consult-grep'
-  ;; - `consult-isearch'
-  ;; - `consult-kmacro'
-  ;; - `consult-location'
-  ;; - `embark-keybinding'
-  ;;
+  ;; Add some missing completion categories to let me configure the
+  ;; relevant prompts via the `completion-category-overrides'.
+  (define-advice read-from-kill-ring (:around (&amp;rest args) prot)
+    (let ((completion-extra-properties (list :category 'kill-ring)))
+      (apply args)))
+
+  (define-advice read-library-name (:around (&amp;rest args) prot)
+    (let ((completion-extra-properties (list :category 'library)))
+      (apply args)))
+
+  (define-advice emoji--read-emoji (:around (&amp;rest args) prot)
+    (let ((completion-extra-properties (list :category 'emoji)))
+      (apply args)))
+
   ;; NOTE 2025-12-02: The `eager-display' and `eager-update' are part of Emacs 31.
   (setq completion-category-overrides
-        '((file . ((styles . (basic partial-completion))
-                   (eager-display . nil)
-                   (eager-update . t)))
-          (bookmark . ((styles . (basic substring))
-                       (eager-display . nil)
-                       (eager-update . t)))
-          (library . ((styles . (basic substring))
-                      (eager-display . t)
-                      (eager-update . t)))
-          (embark-keybinding . ((styles . (basic substring))
-                                (eager-display . t)
-                                (eager-update . t)))
-          (imenu . ((styles . (basic substring))
-                    (eager-display . t)
-                    (eager-update . t)))
-          (consult-location . ((styles . (basic substring))
-                               (eager-display . t)
-                               (eager-update . t)))
-          (kill-ring . ((styles . (emacs22))
-                        (eager-display . nil)
-                        (eager-update . nil)))
-          (eglot . ((styles . (emacs22 substring))
-                    (eager-display . t)
-                    (eager-update . t))))))
+        `(,@(mapcar
+             (lambda (category)
+               (cons category
+                     '((eager-display . nil)
+                       (eager-update . t))))
+             '(file bookmark symbol-help))
+          (emoji . ((styles . (orderless))
+                           (eager-display . t)
+                           (eager-update . t)))
+          (unicode-name . ((styles . (orderless))
+                           (eager-display . nil)
+                           (eager-update . t)))
+          ,@(mapcar
+             (lambda (category)
+               (cons category
+                     '((eager-display . t)
+                       (eager-update . t))))
+             '(buffer project-file eglot kill-ring theme consult-location imenu embark-keybinding library)))))
 </pre>
 </div>
 </div>
@@ -5074,20 +5068,19 @@ literal string, initialism, et cetera, which is not as useful to me.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Orderless completion style (and prot-orderless.el)
-(when prot-emacs-completion-extras
-  (prot-emacs-configure
-    (prot-emacs-install orderless)
-    (require 'orderless)
-    ;; Remember to check my `completion-styles' and the
-    ;; `completion-category-overrides'.
-    (setq orderless-matching-styles '(orderless-prefixes orderless-regexp))
-    (setq orderless-smart-case nil)
+(prot-emacs-configure
+  (prot-emacs-install orderless)
+  (require 'orderless)
+  ;; Remember to check my `completion-styles' and the
+  ;; `completion-category-overrides'.
+  (setq orderless-matching-styles '(orderless-prefixes orderless-regexp))
+  (setq orderless-smart-case nil)
 
-    ;; SPC should never complete: use it for `orderless' groups.
-    ;; The `?' is a regexp construct.
-    (prot-emacs-keybind minibuffer-local-completion-map
-      "SPC" nil
-      "?" nil)))
+  ;; SPC should never complete: use it for `orderless' groups.
+  ;; The `?' is a regexp construct.
+  (prot-emacs-keybind minibuffer-local-completion-map
+    "SPC" nil
+    "?" nil))
 </pre>
 </div>
 </div>
@@ -5275,6 +5268,52 @@ to a <code>nil</code> value or when we are not using any package for in-buffer
 completion (such as the <code>corfu</code> package).
 </p>
 
+<p>
+For a few days around early December 2025 I tried to use the following
+setup exclusively on the Emacs 31 development target. It mostly works
+and is better than it used to be, though there are several important
+limitations:
+</p>
+
+<ul class="org-ul">
+<li>The eager update (recalculate the results as you type) is noticeably
+choppy. I could improve it by making the function
+<code>completions--background-update</code> do a <code>sit-for</code> a few miliseconds,
+but was not happy with this.</li>
+
+<li>The built-in <code>minibuffer.el</code> package lacks focus. There are options
+that support conflicting workflows. One is a <code>TAB</code>-intensive
+approach, where <code>TAB</code> triggers the display of completions, switches
+to that buffer, and cycles through the results. Another way is to
+set the user option <code>minibuffer-visible-completions</code> to a non-<code>nil</code>
+value, which makes the cursor stay in the minibuffer and you select
+a completion from there without switching to the <code>*Completions*</code>
+buffer. Compounding the problem are confusingly named variables like
+<code>completion-show-help</code> and <code>completion-auto-help</code>, which mean
+completely different things. Even after setting all this up and
+trying it full-time for several days (plus me maintaining <code>mct</code> for
+years), I still do not know exactly what I need to configure to get
+a consistent experience.</li>
+
+<li>The <code>find-file</code> navigation makes it harder to select a directory.
+Whether with the <code>TAB</code>-centric workflow of its alternative, when I
+do something like <code>~/G/P/</code> followed by <code>TAB</code> and then <code>RET</code> I expect
+to navigate to a <code>dired</code> buffer that shows <code>~/Git/Projects/</code> (this
+is possible thanks to the <code>partial-completion</code> style (<a href="#h:14b09958-279e-4069-81e3-5a16c9b69892">The <code>prot-emacs-completion.el</code> settings for completion styles</a>)).
+Instead it takes me to <code>~/Git/</code> or, more precisely, to whatever the
+top candidate is in the completions buffer. That candidate is not
+even highlighted when I do all this!</li>
+</ul>
+
+<p>
+Of course, I can keep adding functions to make things work the way I
+want, but it ultimately is not worth it. Vertico is robust, super
+fast, focused, and still highly configurable. My <code>mct</code> package is
+there just because I started it all those years ago, before <code>vertico</code>
+was a thing and before the generic completions got most of what <code>mct</code>
+offers.
+</p>
+
 <ul class="org-ul">
 <li><a href="#h:f012a254-2716-4c29-a64b-c2b3df34f57f">The <code>init.el</code> option to load a minibuffer user interface</a></li>
 <li><a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5">The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</a></li>
@@ -5296,7 +5335,8 @@ completion (such as the <code>corfu</code> package).
     (setq completions-max-height 10)
     (setq completions-sort 'historical)
     (setq completion-auto-help 'always)
-    (setq completion-auto-select t)
+    (setq completion-auto-select 'second-tab)
+    ;; (setq minibuffer-visible-completions t) ; Emacs 30
 
     ;; These two are for Emacs 31.  The value they have now means that
     ;; each completion category will have its own behaviour based on
@@ -5315,7 +5355,84 @@ completion (such as the <code>corfu</code> package).
 
     (prot-emacs-hook
       completion-list-mode-hook
-      (prot/completions-tweak-style prot-common-truncate-lines-silently))))
+      (prot/completions-tweak-style prot-common-truncate-lines-silently))
+
+    (defun prot/quit-completions ()
+      "Always quit the Completions window."
+      (when-let* ((window (get-buffer-window "*Completions*")))
+        (quit-window nil window)))
+
+    (add-hook 'minibuffer-exit-hook #'prot/quit-completions)
+
+    (defun prot/choose-completion-no-exit ()
+      "Call `choose-completion' without exiting the minibuffer.
+Also see `prot/choose-completion-exit' and `prot/choose-completion-dwim'."
+      (interactive)
+      (choose-completion nil :no-exit :no-quit)
+      (switch-to-minibuffer))
+
+    (defun prot/choose-completion-exit ()
+      "Call `choose-completion' and exit the minibuffer.
+Also see `prot/choose-completion-no-exit' and `prot/choose-completion-dwim'."
+      (interactive)
+      (choose-completion nil :no-exit)
+      (exit-minibuffer))
+
+    (defun prot/choose-completion-dwim ()
+      "Call `choose-completion' that exits only on a unique match.
+If the match is not unique, then complete up to the largest common
+prefix or, anyhow, continue with the completion (e.g. in `find-file'
+switch into the directory and then show the files therein).
+
+Also see `prot/choose-completion-no-exit' and `prot/choose-completion-exit'."
+      (interactive)
+      (choose-completion nil :no-exit :no-quit)
+      (switch-to-minibuffer)
+      (minibuffer-completion-help)
+      (unless (get-buffer-window "*Completions*")
+        (exit-minibuffer)))
+
+    (define-advice minibuffer-completion-help (:around (&amp;rest args) prot)
+      "Make `minibuffer-completion-help' display *Completions* in a side window.
+Make the window be at slot 0, such that the *Help* buffer produced by
+`prot/completions-describe-at-point' is to its right."
+      (let ((display-buffer-overriding-action
+             '((display-buffer-reuse-mode-window display-buffer-in-side-window)
+               (side . bottom)
+               (slot . 0))))
+        (apply args)))
+
+    (defun prot/completions-describe-at-point (symbol)
+      "Describe SYMBOL at point inside the *Completions* buffer.
+Place the *Help* buffer in a side window, situated to the right of the
+*Completions* buffer.  Make the window have the `prot-minibuffer-help'
+property, such that it can be found by `prot/completions-close-help'."
+      (interactive (list (intern-soft (thing-at-point 'symbol))))
+      (unless (derived-mode-p 'completion-list-mode)
+        (user-error "Can only do this from the *Completions* buffer"))
+      (when symbol
+        (let ((help-window-select nil)
+              (display-buffer-overriding-action
+               '((display-buffer-reuse-mode-window display-buffer-in-side-window)
+                 (slot . 1) ;  next to `prot/minibuffer-completion-help'
+                 (window-parameters . ((prot-minibuffer-help . t))))))
+          (describe-symbol symbol))))
+
+    (defun prot/completions-close-help ()
+      "Close the window that has a `'prot-minibuffer-help' parameter."
+      (when-let* ((help (seq-find
+                         (lambda (window)
+                           (window-parameter window 'prot-minibuffer-help))
+                         (window-list))))
+        (delete-window help)))
+
+    (add-hook 'minibuffer-exit-hook #'prot/completions-close-help)
+
+    (prot-emacs-keybind completion-list-mode-map
+      "h" #'prot/completions-describe-at-point ; "Help" mnemonic
+      "c" #'prot/choose-completion-no-exit ; "Choose" mnemonic
+      "TAB" #'prot/choose-completion-dwim
+      "RET" #'prot/choose-completion-exit)))
 </pre>
 </div>
 </div>
@@ -5645,71 +5762,8 @@ Also see <a href="#h:567bb00f-1d82-4746-93e5-e0f60721728a">the <code>prot-emacs-
 </div>
 </div>
 </div>
-<div id="outline-container-h:bb7959b3-d8e6-4163-8e32-bec2b96b7dde" class="outline-4">
-<h4 id="h:bb7959b3-d8e6-4163-8e32-bec2b96b7dde"><span class="section-number-4">5.4.13.</span> The <code>prot-emacs-completion.el</code> for in-buffer completion hints (<code>completion-preview-mode</code>)</h4>
-<div class="outline-text-4" id="text-h:bb7959b3-d8e6-4163-8e32-bec2b96b7dde">
-<p>
-The built-in <code>completion-preview</code> by Eshel Yaron provides a minimalist
-interface for in-buffer completion. Instead of popping up a list with
-completion candidates, it shows the first match as an extension of the
-text you are typing.
-</p>
-
-<p>
-All we need to get started is to enable <code>completion-preview-mode</code> via
-a relevant hook or <code>global-completion-preview-mode</code> to have it
-available wherever possible.
-</p>
-
-<p>
-The rest of the settings I have here are mostly stylistic, though I
-find them to be the best combination for my preferences. The
-overarching theme of my choices is to reduce noise. More specifically:
-</p>
-
-<ul class="org-ul">
-<li>I set <code>completion-preview-commands</code> to a shorter list of triggers
-than its default value because, for example, I do not want to see a
-preview if I am deleting some text I provided: the completion is
-irrelevant, anyway, so I do not wish to be made aware of it.</li>
-
-<li>The <code>completion-preview-idle-delay</code> is fairly high for my typing
-speed, which means that I will only see the preview if I am typing
-more slowly. The assumption is that in such a scenario I am
-uncertain what I should write next, at which point a hint may be
-helpful. For this reason, the <code>completion-preview-exact-match-only</code>
-is <code>nil</code>, as I want to see the hints at all times, and the
-<code>completion-preview-minimum-symbol-length</code> is fairly high as I only
-need a hint for longer words/symbols.</li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(prot-emacs-configure
-  (setq completion-preview-exact-match-only nil)
-  (setq completion-preview-commands '(self-insert-command
-                                      insert-char
-                                      analyze-text-conversion
-                                      completion-preview-insert-word))
-  (setq completion-preview-minimum-symbol-length 4)
-  (setq completion-preview-idle-delay 0.3)
-  (setq completion-preview-ignore-case t)
-  (setq completion-preview-sort-function #'identity)
-
-  (prot-emacs-hook
-    (text-mode-hook prog-mode-hook)
-    completion-preview-mode)
-
-  (with-eval-after-load 'completion-preview
-    (prot-emacs-keybind completion-preview-active-mode-map
-      "M-n" #'completion-preview-next-candidate
-      "M-p" #'completion-preview-prev-candidate
-      "&lt;tab&gt;" #'completion-preview-complete)))
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d" class="outline-4">
-<h4 id="h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d"><span class="section-number-4">5.4.14.</span> The <code>prot-emacs-completion.el</code> settings for <code>consult</code></h4>
+<h4 id="h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d"><span class="section-number-4">5.4.13.</span> The <code>prot-emacs-completion.el</code> settings for <code>consult</code></h4>
 <div class="outline-text-4" id="text-h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">
 <p>
 [ This feature is subject to <a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">The <code>init.el</code> user option to load extras for minibuffer completion</a>. ]
@@ -5805,7 +5859,7 @@ Also check: <a href="#h:e0f9c30e-3a98-4479-b709-7008277749e4">The <code>prot-ema
 </div>
 </div>
 <div id="outline-container-h:61863da4-8739-42ae-a30f-6e9d686e1995" class="outline-4">
-<h4 id="h:61863da4-8739-42ae-a30f-6e9d686e1995"><span class="section-number-4">5.4.15.</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></h4>
+<h4 id="h:61863da4-8739-42ae-a30f-6e9d686e1995"><span class="section-number-4">5.4.14.</span> The <code>prot-emacs-completion.el</code> section about <code>embark</code></h4>
 <div class="outline-text-4" id="text-h:61863da4-8739-42ae-a30f-6e9d686e1995">
 <p>
 [ This feature is subject to <a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">The <code>init.el</code> user option to load extras for minibuffer completion</a>. ]
@@ -5951,7 +6005,7 @@ Embark the way it is intended, so I decided to only focus on
 </div>
 </div>
 <div id="outline-container-h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e" class="outline-4">
-<h4 id="h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e"><span class="section-number-4">5.4.16.</span> The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</h4>
+<h4 id="h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e"><span class="section-number-4">5.4.15.</span> The <code>prot-emacs-completion.el</code> section to configure completion annotations (<code>marginalia</code>)</h4>
 <div class="outline-text-4" id="text-h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e">
 <p>
 The <code>marginalia</code> package, co-authored by Daniel Mendler and Omar
@@ -5989,7 +6043,7 @@ changes.
 </div>
 </div>
 <div id="outline-container-h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c" class="outline-4">
-<h4 id="h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c"><span class="section-number-4">5.4.17.</span> The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</h4>
+<h4 id="h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c"><span class="section-number-4">5.4.16.</span> The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</h4>
 <div class="outline-text-4" id="text-h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">
 <p>
 In my <code>init.el</code> I define a user option to select a user interface for
@@ -6033,7 +6087,7 @@ function as close to <code>mct</code> as possible.
 </div>
 </div>
 <div id="outline-container-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a" class="outline-5">
-<h5 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-5">5.4.17.1.</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h5>
+<h5 id="h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a"><span class="section-number-5">5.4.16.1.</span> The <code>prot-emacs-completion.el</code> submodule for <code>mct</code> (<code>prot-emacs-mct.el</code>)</h5>
 <div class="outline-text-5" id="text-h:e9fb09f0-f2e6-4943-83bf-e5fadcfa530a">
 <p>
 [ This is subject to a user option: <a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>. ]
@@ -6134,7 +6188,7 @@ pop up the minibuffer eagerly (<a href="#h:cff33514-d3ac-4c16-a889-ea39d7346dc5"
 </div>
 </div>
 <div id="outline-container-h:cff33514-d3ac-4c16-a889-ea39d7346dc5" class="outline-5">
-<h5 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-5">5.4.17.2.</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h5>
+<h5 id="h:cff33514-d3ac-4c16-a889-ea39d7346dc5"><span class="section-number-5">5.4.16.2.</span> The <code>prot-emacs-completion.el</code> submodule for <code>vertico</code> (<code>prot-emacs-vertico.el</code>)</h5>
 <div class="outline-text-5" id="text-h:cff33514-d3ac-4c16-a889-ea39d7346dc5">
 <p>
 [ This is subject to a user option: <a href="#h:db620e44-fc8f-45b8-a7fd-ae1d0b7ce86c">The <code>prot-emacs-completion.el</code> setting to load a minibuffer UI submodule</a>. ]
@@ -6200,10 +6254,11 @@ The extras I provide for <code>vertico</code> are in <a href="#h:3796a4c9-8659-4
           (multi-category ,@prot-vertico-multiform-maximal)
           (consult-location ,@prot-vertico-multiform-maximal)
           (imenu ,@prot-vertico-multiform-maximal)
+          (theme ,@prot-vertico-multiform-maximal)
           (unicode-name ,@prot-vertico-multiform-maximal)
           ;; Minimal
           (file ,@prot-vertico-multiform-minimal
-                (vertico-sort-function . prot-vertico-sort-directories-first))
+                (vertico-sort-function . vertico-sort-directories-first))
           (t ,@prot-vertico-multiform-minimal)))
 
   (vertico-multiform-mode 1)
@@ -7305,7 +7360,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org1e44eb1">
+<pre class="example" id="org1f78f7f">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7333,7 +7388,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org41501c8">
+<pre class="example" id="orgd9c42ca">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7411,7 +7466,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org3beac41">
+<pre class="example" id="orga2bda1d">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7559,7 +7614,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org63b5ff8">
+<pre class="example" id="org06eac11">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9246,7 +9301,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org4002462">
+<pre class="example" id="org03c3135">
 (info "(org) Search Options")
 </pre>
 
@@ -9336,7 +9391,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orge0aaa44">
+<pre class="example" id="org30c4112">
 (require 'ob-python)
 
 ;; OR
@@ -9440,7 +9495,7 @@ I showed for Org Babel (<a href="#h:1f5a0d46-5202-48dd-8048-b48ce17f3df8">The <c
 <p>
 The <code>org-capture</code> command allows us to quickly store data in some
 structured way. This is done with the help of a templating system
-where we can, for example, record the date the entry was recorded,
+where we can, for example, note the date the entry was recorded,
 prompt for user input, automatically use the email&rsquo;s subject as the
 title of the task, and the like. The documentation string of
 <code>org-capture-templates</code> covers the technicalities.
@@ -9454,7 +9509,7 @@ specific to my coaching work: <a href="https://protesilaos.com/coach">https://pr
 
 <p>
 The <code>tasks.org</code> consists of several top-level headings. Each contains
-subheadings I need to review. You will notice how most of my
+subheadings with the relevant tasks. You will notice how most of my
 entries in <code>org-capture-templates</code> involve this file. With Org, it is
 perfectly fine to work in a single file because we can fold headings
 or narrow to them with <code>org-narrow-to-subtree</code>. Furthermore, we can
@@ -9482,137 +9537,85 @@ As for my workflow, here is an overview:
 </p>
 
 <ul class="org-ul">
-<li>When I want to capture data that I am not yet sure about, I add it
-to the <code>tasks.org</code> &ldquo;Unprocessed&rdquo; heading. I periodically review
-those to decide if I want to do something with them or not. If I do
-not want them, I delete them. Otherwise, I file them under another
-heading in the same file using the <code>org-refile</code> command (<a href="#h:024dd541-0061-4a10-b10b-b17dcd4794b9">The <code>prot-emacs-org.el</code> Org to-do and refile settings</a>).
-Not everything goes into the &ldquo;Unprocessed&rdquo; headings, as I often
-known in advance what an item is about. This is just a fallback for
-those cases when I need more information to decide on the
-appropriate action.</li>
+<li>A task is either time-sensitive or not. What is not time-sensitive
+goes into the &ldquo;Wishlist&rdquo;. Whenever I have time, I will check the
+wishlist to see if there is something I feel is worth trying.</li>
 
-<li>Tasks that have an inherent time component are given a <code>SCHEDULED</code>
-or <code>DEADLINE</code> timestamp (set those on demand with the commands
-<code>org-schedule</code> and <code>org-deadline</code>, respectively). These are the only
-tasks I want to see on my daily agenda (<a href="#h:7fe87b83-2815-4617-a5f9-d3417dd9d248">The <code>prot-emacs-org.el</code> Org agenda settings</a>).
-The difference between <code>SCHEDULED</code> and <code>DEADLINE</code> is that the former
-has no strict start or end time and so is flexible, while the latter
-is more rigid. For example, &ldquo;visit the vet today&rdquo; does not have a
-strict time associated with it because the doctor often deals with
-emergency situations and thus their agenda is fluid. While a
-coaching session of mine like &ldquo;work on Emacs with PERSON&rdquo; has to
-start at the agreed upon time.</li>
+<li>Time-sensitive tasks are those which must be done in a timely
+fashion: they have inherent timeliness. I do not set aspirational
+deadlines, such as &ldquo;I hope to do this tomorrow morning, but actually
+I could wait another month&rdquo;. If something has a timestamp, it must
+be done then.</li>
 
-<li>I do not arbitrarily assign timestamps to tasks. If something does
-not have a scheduled date or a deadline, then it does not belong on
-the agenda. Otherwise, those arbitrarily defined &ldquo;events&rdquo; accumulate
-in the agenda and crowd out the actual time-sensitive tasks. As a
-result, the cognitive load is heavier and things will not be done.
-So when I want to do something at some point, but have no specific
-plan for it, I add is to the <code>tasks.org</code> &ldquo;Wishlist&rdquo;. When I have
-free time, I review my wishlist and pick something to work on from
-there depending on my available time and mood. This keeps my
-workflow both focused and stress-free.</li>
+<li>I use <code>DEADLINE</code> to signify the highest time-sensitivity, such as a
+video call with someone: it must start exactly when the timestamp
+says. I use <code>SCHEDULED</code> if something is expected to happen at some
+point during the day, but there is no fixed hour, such as the
+delivery of a package. Granted, we can think of the semantics of
+<code>DEADLINE</code> and <code>SCHEDULED</code> differently, though what ultimately
+matters is to stick to something and be consistent.</li>
 
-<li>Finally, my <code>coach.org</code> only has time-sensitive appointments with a
-<code>DEADLINE</code> associated with them. I organise the rest of my
-activities in the given day based on those.</li>
+<li>To help me find my tasks more easily, I rely on tags. Those are
+typically inherited from a parent heading or, in the case of
+coaching, the file&rsquo;s <code>#+filetags</code>. For example, all meetings are
+nested under a <code>Meetings</code> heading with a tag of the same name and
+then in-person appointments are under a different heading than video
+calls, again with their distinct tags. The agenda views help me find
+everything (<a href="#h:7fe87b83-2815-4617-a5f9-d3417dd9d248">The <code>prot-emacs-org.el</code> Org agenda settings</a>).</li>
 </ul>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; capture
 (prot-emacs-configure
   (define-key global-map (kbd "C-c c") #'org-capture)
+
   (with-eval-after-load 'org-capture
+
     (require 'prot-org)
 
     (setq org-capture-templates
-          `(("u" "Unprocessed" entry
-             (file+headline "tasks.org" "Unprocessed")
-             ,(concat "* %^{Title}\n"
-                      ":PROPERTIES:\n"
-                      ":CAPTURED: %U\n"
-                      ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-                      ":END:\n\n"
-                      "%a\n%i%?")
-             :empty-lines-after 1)
-            ("w" "Wishlist" entry
-             (file+olp "tasks.org" "All tasks" "Wishlist")
-             ,(concat "* %^{Title} %^g\n"
-                      ":PROPERTIES:\n"
-                      ":CAPTURED: %U\n"
-                      ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-                      ":END:\n\n"
-                      "%a\n%?")
-             :empty-lines-after 1)
-            ;; About "Prot Asks": &lt;https://protesilaos.com/codelog/2025-07-10-prot-asks-chats-videos-proposal/&gt;.
-            ("a" "Prot Asks" entry
-             (file+headline "tasks.org" "Prot Asks")
-             ,(concat "* TODO %^{Title}\n"
-                      "DEADLINE: %^T\n"
-                      ":PROPERTIES:\n"
-                      ":CAPTURED: %U\n"
-                      ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-                      ":APPT_WARNTIME: 20\n"
-                      ":END:\n\n"
-                      "%a\n%?")
-             :empty-lines-after 1)
-            ("t" "Task to do" entry
-             (file+headline "tasks.org" "All tasks")
-             ,(concat "* TODO %^{Title} %^g\n"
-                      ":PROPERTIES:\n"
-                      ":CAPTURED: %U\n"
-                      ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-                      ":END:\n\n"
-                      "%a\n%?")
-             :empty-lines-after 1)
-            ("s" "Select file and heading to add to" entry
-             (function prot-org-select-heading-in-file)
-             ,(concat "* TODO %^{Title}%?\n"
-                      ":PROPERTIES:\n"
-                      ":CAPTURED: %U\n"
-                      ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-                      ":END:\n\n")
-             :empty-lines-after 1)
-
-            ;; NOTE 2024-11-24: I am not using this, but am keeping it
-            ;; here because the approach is good.
-
-            ;; ("c" "Clock in and do immediately" entry
-            ;;  (file+headline "tasks.org" "Clocked tasks")
-            ;;  ,(concat "* TODO %^{Title}\n"
-            ;;           ":PROPERTIES:\n"
-            ;;           ":EFFORT: %^{Effort estimate in minutes|5|10|15|30|45|60|90|120}\n"
-            ;;           ":END:\n\n"
-            ;;           "%a\n")
-            ;;  :prepend t
-            ;;  :clock-in t
-            ;;  :clock-keep t
-            ;;  :immediate-finish t
-            ;;  :empty-lines-after 1)
-            ("p" "Private lesson or service" entry
-             (file "coach.org")
-             #'prot-org-capture-coach
-             :prepend t
-             :empty-lines 1)
-            ("P" "Private service clocked" entry
-             (file+headline "coach.org" "Clocked services")
-             #'prot-org-capture-coach-clock
-             :prepend t
-             :clock-in t
-             :clock-keep t
-             :immediate-finish t
-             :empty-lines 1)))))
-
-;; NOTE 2024-11-10: I realised that I was not using this enough, so
-;; I decided to simplify my setup.  Keeping it here, in case I need
-;; it again.
-
-;; (setq org-capture-templates-contexts
-;;       '(("e" ((in-mode . "notmuch-search-mode")
-;;               (in-mode . "notmuch-show-mode")
-;;               (in-mode . "notmuch-tree-mode")))))
+          (let* ((without-time (concat ":PROPERTIES:\n"
+                                       ":CAPTURED: %U\n"
+                                       ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
+                                       ":END:\n\n"
+                                       "%a\n%?"))
+                 (with-time (concat "DEADLINE: %^T\n"
+                                    ":PROPERTIES:\n"
+                                    ":CAPTURED: %U\n"
+                                    ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
+                                    ":APPT_WARNTIME: 20\n"
+                                    ":END:\n\n"
+                                    "%a%?")))
+            `(("s" "Select file and heading to add to" entry
+               (function prot-org-select-heading-in-file)
+               ,(concat "* TODO %^{Title}%?\n" without-time)
+               :empty-lines-after 1)
+              ("t" "Task to do" entry
+               (file+headline "tasks.org" "All tasks")
+               ,(concat "* TODO %^{Title} %^g\n" without-time)
+               :empty-lines-after 1)
+              ("w" "Wishlist" entry
+               (file+olp "tasks.org" "All tasks" "Wishlist")
+               ,(concat "* %^{Title} %^g\n" without-time)
+               :empty-lines-after 1)
+              ("·" "") ; HACK to get a divider
+              ("a" "Appointment" entry
+               (file+headline "tasks.org" "Appointments")
+               ,(concat "* TODO %^{Title}\n" with-time)
+               :empty-lines-after 1)
+              ("c" "Coaching appointment" entry
+               (file "coach.org")
+               ,(concat "* TODO %^{Person and description}\n" with-time)
+               :prepend t
+               :empty-lines 1)
+              ("p" "Prot Asks" entry
+               (file+headline "tasks.org" "Prot Asks")
+               ,(concat "* TODO %^{Title}\n" with-time)
+               :empty-lines-after 1)
+              ("v" "Video call" entry
+               (file+headline "tasks.org" "Video calls")
+               ,(concat "* TODO %^{Title}\n" with-time)
+               :empty-lines-after 1))))))
 </pre>
 </div>
 </div>
@@ -10250,7 +10253,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8031792">
+<pre class="example" id="org4fd22fd">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10690,7 +10693,8 @@ Note Only The Epiphenomenal.</li>
   (prot-emacs-keybind global-map
     "C-c n n" #'denote
     "C-c n N" #'denote-type
-    "C-c n d" #'denote-sort-dired
+    "C-c n d" #'denote-dired
+    "C-c n g" #'denote-grep
     "C-c n r" #'denote-rename-file)
 
   (with-eval-after-load 'text-mode
@@ -11078,7 +11082,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org3d0548b">
+<pre class="example" id="org9dd81d4">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11090,7 +11094,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org483b9d1">
+<pre class="example" id="org94d031c">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11153,7 +11157,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org259f730">
+<pre class="example" id="org91f2c95">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11165,7 +11169,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org2001a64">
+<pre class="example" id="orgc80de62">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11187,7 +11191,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgcd45ddd">
+<pre class="example" id="org3a49e51">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11301,7 +11305,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org053c4ec">
+<pre class="example" id="org2c01e6e">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11433,7 +11437,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgc7474fe">
+<pre class="example" id="orgd2126f1">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11445,7 +11449,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org7b728ee">
+<pre class="example" id="org9ff5f77">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12572,7 +12576,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgd21d102">
+<pre class="example" id="orgc9c4ccf">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12669,7 +12673,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgb04445b">
+<pre class="example" id="org7b2b077">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12988,7 +12992,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgb87c71d">
+<pre class="example" id="orga64fa65">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -13084,7 +13088,8 @@ want in this case.
     ;; that code.  Internally, the file has just the following:
     ;;
     ;;     (setq elfeed-feeds FEEDS)
-    (load (expand-file-name "~/feeds.el.gpg"))
+    (unless (bound-and-true-p elfeed-feeds)
+      (load (expand-file-name "~/feeds.el.gpg") :no-error :no-message))
     ;; Make entries tagged as "personal" use the `bold-italic' face.
     ;; This way I can quickly notice my own entries in the listing.
     (add-to-list 'elfeed-search-face-alist '(personal bold-italic))))
@@ -13233,14 +13238,13 @@ files. The user must handle this step by invoking the command
 
     (prot-emacs-install nerd-icons-completion)
 
-    (with-eval-after-load 'marginalia
-      (nerd-icons-completion-marginalia-setup)
+    (nerd-icons-completion-mode 1)
 
-      ;; By default, icons are shown in all sorts of completion prompts.
-      ;; When those have different kinds of candidates, like files and
-      ;; folders, the icons are helpful.  If all the candidates have the
-      ;; same icon though, I prefer not to see any icon.
-      (setq nerd-icons-completion-category-icons nil))
+    ;; By default, icons are shown in all sorts of completion prompts.
+    ;; When those have different kinds of candidates, like files and
+    ;; folders, the icons are helpful.  If all the candidates have the
+    ;; same icon though, I prefer not to see any icon.
+    (setq nerd-icons-completion-category-icons nil)
 
     (prot-emacs-install nerd-icons-corfu)
 
@@ -15586,89 +15590,6 @@ Add this to `notmuch-mua-send-hook'."
   :group 'org)
 
 ;;;; org-capture
-
-(defvar prot-org--capture-coach-person-history nil)
-
-(declare-function message-fetch-field "message" (header &amp;optional first))
-(declare-function notmuch-show-get-header "notmuch-show")
-
-(defun prot-org--capture-coach-person-message-from ()
-  "Return default value for `prot-org--capture-coach-person-prompt'."
-  (when-let* ((from (cond
-                     ((derived-mode-p 'message-mode)
-                      (message-fetch-field "To"))
-                     ((derived-mode-p 'notmuch-show-mode)
-                      (notmuch-show-get-header :From)))))
-    (string-clean-whitespace (car (split-string from "&lt;")))))
-
-(defun prot-org--capture-coach-person-message-from-and-subject ()
-  "Return default value for `prot-org--capture-coach-person-prompt'."
-  (cond
-   ((derived-mode-p 'message-mode)
-    (message-fetch-field "Subject"))
-   ((derived-mode-p 'notmuch-show-mode)
-    (notmuch-show-get-header :Subject))))
-
-(defun prot-org--capture-coach-person-prompt ()
-  "Prompt for person for use in `prot-org-capture-coach'."
-  (completing-read "Person to coach: "
-                   prot-org--capture-coach-person-history
-                   nil nil nil
-                   'prot-org--capture-coach-person-history
-                   (prot-org--capture-coach-person-message-from)))
-
-(defvar prot-org--capture-coach-description-history nil)
-
-(defun prot-org--capture-coach-description-prompt ()
-  "Prompt for description in `prot-org-capture-coach'."
-  (read-string "Description: "
-               nil
-               'prot-org--capture-coach-description-history
-               (prot-org--capture-coach-person-message-from-and-subject)))
-
-(defun prot-org--capture-coach-date-prompt-range ()
-  "Prompt for Org date and return it as a +1h range.
-For use in `prot-org-capture-coach'."
-  (let ((date (org-read-date :with-time)))
-    ;; We cannot use this here, unfortunately, as the Org agenda
-    ;; interprets it both as a deadline and an event with the date
-    ;; range.
-    ;;
-    ;; (format "DEADLINE: &lt;%s&gt;--&lt;%s&gt;\n" date
-    (format "&lt;%s&gt;--&lt;%s&gt;\n" date
-            (org-read-date
-             :with-time nil "++1h" nil
-             (org-encode-time (org-parse-time-string date))))))
-
-(defun prot-org-capture-coach ()
-  "Contents of an Org capture template for my coaching lessons."
-  (let ((identifier (format-time-string "%Y%m%dT%H%M%S")))
-    (format "* TODO %s %s :coaching:
-DEADLINE: %%^T
-:PROPERTIES:
-:CAPTURED: %%U
-:CUSTOM_ID: h:%s
-:APPT_WARNTIME: 20
-:END:
-
-%%a%%?"
-            (prot-org--capture-coach-person-prompt)
-            (prot-org--capture-coach-description-prompt)
-            identifier
-            identifier)))
-
-(defun prot-org-capture-coach-clock ()
-  "Contents of an Org capture for my clocked coaching services."
-  (format "* TODO %s %s :service:
-:PROPERTIES:
-:CAPTURED: %%U
-:CUSTOM_ID: h:%s
-:END:
-
-%%a%%?"
-          (prot-org--capture-coach-person-prompt)
-          (prot-org--capture-coach-description-prompt)
-          (format-time-string "%Y%m%dT%H%M%S")))
 
 (declare-function cl-letf "cl-lib")
 
@@ -18262,31 +18183,36 @@ minibuffer, even without explicitly focusing it.
 The DWIM behaviour of this command is as follows:
 
 - When the region is active, disable it.
-- When a minibuffer is open, but not focused, close the minibuffer.
-- When the Completions buffer is selected, close it.
+
+- When a minibuffer is open, but not focused, close the minibuffer.  For
+  recursive minibuffers, make sure to only close one level of depth.
+
+- When in a *Completions* or `special-mode' buffer (e.g. *Help* or
+  *Messages*), close it.
+
+- When the *Completions* or a `special-mode' buffer is on display but
+  not selected, close it.  If there are more than one, close them all.
+
 - In every other case use the regular `keyboard-quit'."
   (interactive)
   (cond
    ((region-active-p)
     (keyboard-quit))
-   ((derived-mode-p 'completion-list-mode)
-    (delete-completion-window))
+   ((and (derived-mode-p 'completion-list-mode 'special-mode)
+         (not (one-window-p)))
+    (quit-window))
+   ((when-let* ((_ (not (one-window-p)))
+                (windows (seq-filter
+                          (lambda (window)
+                            (with-selected-window window
+                              (derived-mode-p 'completion-list-mode 'special-mode)))
+                          (window-list))))
+      (dolist (window windows)
+        (quit-window nil window))))
    ((&gt; (minibuffer-depth) 0)
     (abort-recursive-edit))
    (t
     (keyboard-quit))))
-
-;; DEPRECATED 2023-12-26: I have not used `prot-simple-describe-symbol'
-;; since a very long time.  The idea is fine, but having a key binding
-;; to provide a shortcut for C-h o RET is wasteful.
-
-;; (autoload 'symbol-at-point "thingatpt")
-;;
-;; ;;;###autoload
-;; (defun prot-simple-describe-symbol ()
-;;   "Run `describe-symbol' for the `symbol-at-point'."
-;;   (interactive)
-;;   (describe-symbol (symbol-at-point)))
 
 ;; DEPRECATED 2023-12-26: The `prot-simple-goto-definition' is a good
 ;; idea but it needs more work.  Ultimately though, it is easier to
@@ -19447,17 +19373,6 @@ automatically.")
     (vertico-resize . t))
   "List of configurations for maximal Vertico multiform.")
 
-(defun prot-vertico--match-directory (str)
-  "Match directory delimiter in STR."
-  (string-suffix-p "/" str))
-
-;; From the Vertico documentation.
-(defun prot-vertico-sort-directories-first (files)
-  "Sort directories before FILES."
-  (setq files (vertico-sort-alpha files))
-  (nconc (seq-filter #'prot-vertico--match-directory files)
-         (seq-remove #'prot-vertico--match-directory files)))
-
 (defun prot-vertico-private-next ()
   "Like `vertico-next' but toggle vertical view if needed.
 This is done to accommodate `prot-vertico-multiform-minimal'."
@@ -19910,7 +19825,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org6dfb177">
+<pre class="example" id="org1f9f64d">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19942,7 +19857,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org462290d">
+<pre class="example" id="org835d1f2">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
