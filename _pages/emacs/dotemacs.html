@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-12-14 06:55:51 +0200</b> with a word
-  count of <b>110926</b>. ]
+[ Last revised and exported on <b>2025-12-16 07:31:08 +0200</b> with a word
+  count of <b>111162</b>. ]
 </p>
 
 <p>
@@ -423,7 +423,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-12-14 06:55:51 +0200):
+(2025-12-16 07:31:08 +0200):
 </p>
 
 <div class="org-src-container">
@@ -513,7 +513,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org0c54276">
+<pre class="example" id="org3c44261">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -593,7 +593,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgc30f8f7">
+<pre class="example" id="org44e17be">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -601,7 +601,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgbe46bad">
+<pre class="example" id="orgbd36376">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1497,7 +1497,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orga2d370d">
+<pre class="example" id="org9247db2">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1569,7 +1569,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org9a0c608">
+<pre class="example" id="org29a2f60">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1678,7 +1678,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org5bf6c8d">
+<pre class="example" id="org6c24f80">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1844,7 +1844,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org51182d4">
+<pre class="example" id="orge2861e1">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4321,7 +4321,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgd3e6ec0">
+<pre class="example" id="org62186c7">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4370,7 +4370,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgfe67237">
+<pre class="example" id="org6cdc856">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -5008,15 +5008,50 @@ first as <code>basic</code> will never match something like <code>~/.l/s/fo</cod
     (let ((completion-extra-properties (list :category 'emoji)))
       (apply args)))
 
+  (defun prot/file-sort-directories-first (files)
+    "Sort FILES to have directories first and then `completions-sort' sorting."
+    (setq files (delete "../" files))
+    (setq files
+          (pcase completions-sort
+            ('nil files)
+            ('alphabetical (minibuffer-sort-alphabetically files))
+            ('historical (minibuffer-sort-by-history files))
+            (_ (funcall completions-sort files))))
+    (let ((directory-p (lambda (file) (string-suffix-p "/" file))))
+      (nconc (seq-filter directory-p files)
+             (seq-remove directory-p files))))
+
+  (defun prot/file-group (file transform)
+    "Return FILE group name unless TRANSFORM is non-nil."
+    (cond
+     (transform file)
+     ((string-suffix-p "/" file) "Directories")
+     ((string-match-p "\\.\\(tar\\|rar\\|zip\\)\\'" file) "Archives")
+     ((string-match-p "\\.\\(txt\\|md\\|org\\)\\'" file) "Text")
+     ((string-match-p "\\.\\(jpg\\|jpeg\\|png\\)\\'" file) "Images")
+     ((string-match-p "\\.\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|flac\\|wav\\)\\'" file) "Media")
+     ((string-match-p "\\.\\(pdf\\|epub\\|texi\\|info\\)\\'" file) "Documents")
+     (t "Other")))
+
+  (defun prot/symbol-group (symbol transform)
+    "Return SYMBOL group name unless TRANSFORM is non-nil."
+    (cond
+     (transform symbol)
+     ((string-match-p "--" symbol) "Private")
+     (t "Public")))
+
   ;; NOTE 2025-12-02: The `eager-display' and `eager-update' are part of Emacs 31.
   (setq completion-category-overrides
-        `(,@(mapcar
-             (lambda (category)
-               (cons category
-                     '((styles . (partial-completion))
-                       (eager-display . nil)
-                       (eager-update . t))))
-             '(file bookmark symbol-help))
+        `((file . ((styles . (partial-completion))
+                   (eager-display . nil)
+                   (eager-update . t)
+                   (group-function . ,#'prot/file-group)
+                   (display-sort-function . ,#'prot/file-sort-directories-first)))
+          (bookmark . ((eager-display . nil)
+                       (eager-update . nil)))
+          (symbol-help . ((eager-display . nil)
+                          (eager-update . t)
+                          (group-function . ,#'prot/symbol-group)))
           (emoji . ((styles . (orderless))
                     (eager-display . t)
                     (eager-update . t)))
@@ -5106,6 +5141,7 @@ minibuffer. Let&rsquo;s have everything ignore casing by default.
 (setq read-buffer-completion-ignore-case t)
 (setq-default case-fold-search t)   ; For general regexp
 (setq read-file-name-completion-ignore-case t)
+(setq minibuffer-history-case-insensitive-variables t)
 </pre>
 </div>
 </div>
@@ -5334,7 +5370,7 @@ offers.
     ;; (setq completions-header-format (propertize "%s candidates:\n" 'face 'bold-italic))
     (setq completions-header-format "")
     (setq completions-highlight-face 'completions-highlight)
-    (setq completions-max-height 10)
+    (setq completions-max-height 12)
     (setq completions-sort 'historical)
     (setq completion-auto-help 'always)
     (setq completion-auto-select 'second-tab)
@@ -5380,6 +5416,12 @@ Also see `prot/choose-completion-no-exit' and `prot/choose-completion-dwim'."
       (choose-completion nil :no-exit)
       (exit-minibuffer))
 
+    (defun prot/crm-p ()
+      "Return non-nil if `completing-read-multiple' is in use."
+      (when-let* ((window (active-minibuffer-window))
+                  (buffer (window-buffer window)))
+        (buffer-local-value 'crm-completion-table buffer)))
+
     (defun prot/choose-completion-dwim ()
       "Call `choose-completion' that exits only on a unique match.
 If the match is not unique, then complete up to the largest common
@@ -5388,18 +5430,21 @@ switch into the directory and then show the files therein).
 
 Also see `prot/choose-completion-no-exit' and `prot/choose-completion-exit'."
       (interactive)
-      (choose-completion nil :no-exit :no-quit)
-      (switch-to-minibuffer)
-      (minibuffer-completion-help)
-      (unless (get-buffer-window "*Completions*")
-        (exit-minibuffer)))
+      (if (prot/crm-p)
+          (prot/choose-completion-no-exit)
+        (choose-completion nil :no-exit :no-quit)
+        (switch-to-minibuffer)
+        (minibuffer-completion-help)
+        (unless (get-buffer-window "*Completions*")
+          (exit-minibuffer))))
 
     (define-advice minibuffer-completion-help (:around (&amp;rest args) prot)
       "Make `minibuffer-completion-help' display *Completions* in a side window.
 Make the window be at slot 0, such that the *Help* buffer produced by
 `prot/completions-describe-at-point' is to its right."
       (let ((display-buffer-overriding-action
-             '((display-buffer-reuse-mode-window display-buffer-in-side-window)
+             `((display-buffer-reuse-mode-window display-buffer-in-side-window)
+               (mode . completion-list-mode)
                (side . bottom)
                (slot . 0))))
         (apply args)))
@@ -5415,8 +5460,11 @@ property, such that it can be found by `prot/completions-close-help'."
       (when symbol
         (let ((help-window-select nil)
               (display-buffer-overriding-action
-               '((display-buffer-reuse-mode-window display-buffer-in-side-window)
-                 (slot . 1) ;  next to `prot/minibuffer-completion-help'
+               `((display-buffer-reuse-mode-window display-buffer-in-side-window)
+                 (mode . help-mode)
+                 (side . bottom)
+                 (slot . 1)
+                 (window-height . fit-window-to-buffer)
                  (window-parameters . ((prot-minibuffer-help . t))))))
           (describe-symbol symbol))))
 
@@ -7362,7 +7410,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org043e5b4">
+<pre class="example" id="org6d9cd2a">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7390,7 +7438,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgd24f098">
+<pre class="example" id="orgeb526cb">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7468,7 +7516,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org020a104">
+<pre class="example" id="org6a5dc69">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7616,7 +7664,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgb2a6785">
+<pre class="example" id="orgd450ea0">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9303,7 +9351,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org8ad2518">
+<pre class="example" id="orgf51b251">
 (info "(org) Search Options")
 </pre>
 
@@ -9393,7 +9441,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgcc088a0">
+<pre class="example" id="org448734d">
 (require 'ob-python)
 
 ;; OR
@@ -10255,7 +10303,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8cbe405">
+<pre class="example" id="org426be57">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -10780,8 +10828,7 @@ Unambiguous Targets&#x2026;denote.</li>
     (prot-emacs-keybind global-map
       "C-c n f" #'consult-denote-find
       "C-c n g" #'consult-denote-grep)
-    (with-eval-after-load 'denote
-      (consult-denote-mode 1))))
+    (consult-denote-mode 1)))
 </pre>
 </div>
 </div>
@@ -11084,7 +11131,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org2582db7">
+<pre class="example" id="org6ce5613">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11096,7 +11143,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org6ff6ae9">
+<pre class="example" id="org2e85077">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11159,7 +11206,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org5b02c81">
+<pre class="example" id="org26001f0">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11171,7 +11218,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5d84478">
+<pre class="example" id="orgf3f385e">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11193,7 +11240,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org682b568">
+<pre class="example" id="org1109485">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11307,7 +11354,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgf48de85">
+<pre class="example" id="orgf7ac0d5">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11439,7 +11486,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgfd1b9c3">
+<pre class="example" id="orgcb588db">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11451,7 +11498,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgd8fe7a1">
+<pre class="example" id="orge2ea1e4">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12578,7 +12625,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org3c8ae93">
+<pre class="example" id="org4b0f54f">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12675,7 +12722,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgf173fa6">
+<pre class="example" id="orgf4e2eed">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12994,7 +13041,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgca2d448">
+<pre class="example" id="orgd44bc44">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -19827,7 +19874,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org9eb5e72">
+<pre class="example" id="org5faf066">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -19859,7 +19906,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org660f974">
+<pre class="example" id="orgb2ec2ea">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
