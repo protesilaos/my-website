@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2025-12-22 07:25:25 +0200</b> with a word
-  count of <b>113045</b>. ]
+[ Last revised and exported on <b>2025-12-25 08:24:26 +0200</b> with a word
+  count of <b>113111</b>. ]
 </p>
 
 <p>
@@ -103,7 +103,6 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:5612b5b8-45a5-4a79-a25b-6fa3d9146c39">4.1.1. The <code>init.el</code> user option to load a theme family</a></li>
 <li><a href="#h:f012a254-2716-4c29-a64b-c2b3df34f57f">4.1.2. The <code>init.el</code> user option to load a minibuffer user interface</a></li>
 <li><a href="#h:91477890-49d5-48c3-9627-62295d2ab35d">4.1.3. The <code>init.el</code> user option to load extras for minibuffer completion</a></li>
-<li><a href="#h:24324854-1f8c-4d8b-aa7c-291de968cbf4">4.1.4. The <code>init.el</code> user option to enable <code>which-key</code></a></li>
 </ul>
 </li>
 <li><a href="#h:63d74507-0318-4c02-ad30-484abcb8f78e">4.2. The <code>init.el</code> basic configurations to disable backups and lockfiles</a></li>
@@ -386,7 +385,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:92cfefcf-8c20-43cd-b47c-ffe0c5fe1887">6.4. The <code>prot-dired.el</code> library</a></li>
 <li><a href="#h:3937b784-af0f-47c0-8c89-c74d90b00b8c">6.5. The <code>prot-ediff.el</code> library</a></li>
 <li><a href="#h:9d63bbb2-1ee4-44aa-8601-8728f9f857ec">6.6. The <code>prot-elisp.el</code> library</a></li>
-<li><a href="#org2b9be69">6.7. The <code>prot-icons.el</code> library</a></li>
+<li><a href="#h:99294d20-ffe5-4d0b-ac62-04fb39d1ba82">6.7. The <code>prot-icons.el</code> library</a></li>
 <li><a href="#h:abc20037-7a4f-4555-809a-dc4165c5db6a">6.8. The <code>prot-eww.el</code> library</a></li>
 <li><a href="#h:761861c9-9a0e-4c97-b98d-20f13a6b3b79">6.9. The <code>prot-minibuffer</code> library</a></li>
 <li><a href="#h:935adc09-abaa-4413-a5ab-a7a562081c20">6.10. The <code>prot-modeline.el</code> library</a></li>
@@ -425,7 +424,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2025-12-22 07:25:25 +0200):
+(2025-12-25 08:24:26 +0200):
 </p>
 
 <div class="org-src-container">
@@ -515,7 +514,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org47ffe48">
+<pre class="example" id="orgdc7b1b0">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -595,7 +594,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org47de11d">
+<pre class="example" id="org6ea891e">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -603,7 +602,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org5775327">
+<pre class="example" id="org24cf5da">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1049,39 +1048,6 @@ These include the packages `marginalia', `consult', `corfu',
 </div>
 </div>
 </div>
-<div id="outline-container-h:24324854-1f8c-4d8b-aa7c-291de968cbf4" class="outline-4">
-<h4 id="h:24324854-1f8c-4d8b-aa7c-291de968cbf4"><span class="section-number-4">4.1.4.</span> The <code>init.el</code> user option to enable <code>which-key</code></h4>
-<div class="outline-text-4" id="text-h:24324854-1f8c-4d8b-aa7c-291de968cbf4">
-<p>
-The <code>which-key</code> package provides hints for keys that complete the
-currently incomplete sequence. Here we determine whether to load the
-module or not. I personally never rely on <code>which-key</code> even if I enable
-its mode. If I ever need to review which key bindings are available I
-will either type <code>C-h</code> to complete a key sequence (produces a Help
-buffer with relevant keys) or I will do <code>C-h m</code> (<code>M-x describe-mode</code>
-to get information about the current major mode).
-</p>
-
-<p>
-Remember to read how these options come into effect (<a href="#h:5a41861f-4c38-45ac-8da2-51d77c0b4a73">The init.el user options</a>).
-</p>
-
-<p>
-Also check <a href="#h:ddb1070d-2f91-4224-ad43-ef03f038f787">the <code>prot-emacs-which-key.el</code> module</a>.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defcustom prot-emacs-load-which-key nil
-  "When non-nil, display key binding hints after a short delay.
-This user option must be set in the `prot-emacs-pre-custom.el'
-file.  If that file exists in the Emacs directory, it is loaded
-before all other modules of my setup."
-  :group 'prot-emacs
-  :type 'boolean)
-</pre>
-</div>
-</div>
-</div>
 </div>
 <div id="outline-container-h:63d74507-0318-4c02-ad30-484abcb8f78e" class="outline-3">
 <h3 id="h:63d74507-0318-4c02-ad30-484abcb8f78e"><span class="section-number-3">4.2.</span> The <code>init.el</code> basic configurations to disable backups and lockfiles</h3>
@@ -1465,7 +1431,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org473c306">
+<pre class="example" id="org6762cb6">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1537,7 +1503,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="orgf22b8c3">
+<pre class="example" id="orgd9428b6">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1646,7 +1612,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="orgb348b69">
+<pre class="example" id="org12bdc10">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1812,7 +1778,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orga28b0fb">
+<pre class="example" id="orgc51ca52">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -1956,8 +1922,7 @@ The individual modules are documented in a section of their own under
 (require 'prot-emacs-langs)
 (require 'prot-emacs-email)
 (require 'prot-emacs-web)
-(when prot-emacs-load-which-key
-  (require 'prot-emacs-which-key))
+(require 'prot-emacs-which-key)
 (require 'prot-emacs-icons)
 
 ;; For those who use my dotfiles and need an easy way to write their
@@ -4289,7 +4254,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org9abfcc5">
+<pre class="example" id="org6180188">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4338,7 +4303,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgf31649d">
+<pre class="example" id="orgd44bf47">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -6598,10 +6563,16 @@ The <code>xref.el</code> provides the infrastructure to jump to and from a
 definition. For example, with point over a function call,
 <code>xref-find-definitions</code> will jump to the file and location where the
 function is defined or provide an option to pick one among multiple
-definitions, where applicable. The <code>grep.el</code> is a wrapper for the Unix
-program of the same name. Not much to add there. While <code>re-builder.el</code>
-defines a command that lets us write a regexp that matches against the
-current buffer, allowing us to test it live.
+definitions, where applicable.  When Xref finds matches across files,
+it groups them per file (and each file gets a decorative icon on the
+side (<a href="#h:4efde779-3ef0-40b7-82e4-70f71b321428">The <code>prot-emacs-icons.el</code> module (<code>prot-icons</code>)</a>)).
+</p>
+
+<p>
+The <code>grep.el</code> is a wrapper for the Unix program of the same name. Not
+much to add there. While <code>re-builder.el</code> defines a command that lets
+us write a regexp that matches against the current buffer, allowing us
+to test it live.
 </p>
 
 <p>
@@ -6890,6 +6861,11 @@ We can toggle this effect at any time with the <code>(</code> key, by default.
 <p>
 I disable the repetition of the <code>j</code> key as I do use <code>repeat-mode</code>
 (<a href="#h:fbe6f9da-25ee-46a3-bb03-8fa7c1d48dab">The <code>prot-emacs-essentials.el</code> settings for <code>repeat-mode</code></a>).
+</p>
+
+<p>
+Note that my Dired buffers not only hide details by default: they also
+have decorative &ldquo;icons&rdquo; next to each file in the listing (<a href="#h:4efde779-3ef0-40b7-82e4-70f71b321428">The <code>prot-emacs-icons.el</code> module (<code>prot-icons</code>)</a>).
 </p>
 
 <div class="org-src-container">
@@ -7282,7 +7258,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org64867c7">
+<pre class="example" id="org9162586">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7310,7 +7286,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org63f73ae">
+<pre class="example" id="org8a4ff65">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7388,7 +7364,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgd0d2d24">
+<pre class="example" id="org674ae10">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7536,7 +7512,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgf835c89">
+<pre class="example" id="org3814393">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8539,7 +8515,8 @@ functionality, such as with Ediff and Smerge:
 
 <p>
 Magit is highly configurable though comes with good defaults. The
-changes I make here are not necessary.
+changes I make here are not necessary. One of them is the inclusion of
+decorative icons next to file names (<a href="#h:4efde779-3ef0-40b7-82e4-70f71b321428">The <code>prot-emacs-icons.el</code> module (<code>prot-icons</code>)</a>).
 </p>
 
 <div class="org-src-container">
@@ -8564,7 +8541,8 @@ changes I make here are not necessary.
         `(;; (magit-fringe-bitmap&gt; . magit-fringe-bitmapv)
           (" ▼" . t))) ; same as `org-ellipsis'
 
-  ;; Show icons for files in the Magit status and other buffers.
+  ;; Show icons for files in the Magit status and other buffers.  This
+  ;; is from my prot-icons.el.
   (with-eval-after-load 'prot-icons
     (setq magit-format-file-function
           (lambda (_kind file face &amp;rest _)
@@ -9226,7 +9204,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org72c1aea">
+<pre class="example" id="orgd97654c">
 (info "(org) Search Options")
 </pre>
 
@@ -9316,7 +9294,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org5dc8b39">
+<pre class="example" id="org638930a">
 (require 'ob-python)
 
 ;; OR
@@ -10178,7 +10156,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org8661ef9">
+<pre class="example" id="org337bd64">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11006,7 +10984,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgc4373bf">
+<pre class="example" id="orge3602a8">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11018,7 +10996,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org650276d">
+<pre class="example" id="org0f58a76">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11081,7 +11059,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org9efa20f">
+<pre class="example" id="orgf4608b4">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11093,7 +11071,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5970c1f">
+<pre class="example" id="org4bd2bdc">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11115,7 +11093,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org0f8da7b">
+<pre class="example" id="org12d9d46">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11229,7 +11207,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgb4d6787">
+<pre class="example" id="org6c7db3d">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11361,7 +11339,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org6430d12">
+<pre class="example" id="orgcfad8b9">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11373,7 +11351,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgb3b8b68">
+<pre class="example" id="orgcb60e98">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12500,7 +12478,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org5f9381c">
+<pre class="example" id="orgfc8b04c">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12597,7 +12575,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgcfc7b6c">
+<pre class="example" id="org2b21091">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12916,7 +12894,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgd614c9a">
+<pre class="example" id="org6546d5d">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -13099,25 +13077,14 @@ only channel I join automatically whenever I do <code>M-x rcirc</code> is that o
 <h3 id="h:ddb1070d-2f91-4224-ad43-ef03f038f787"><span class="section-number-3">5.13.</span> The <code>prot-emacs-which-key.el</code> module</h3>
 <div class="outline-text-3" id="text-h:ddb1070d-2f91-4224-ad43-ef03f038f787">
 <p>
-There is a user option in my setup to load this module
-(<a href="#h:24324854-1f8c-4d8b-aa7c-291de968cbf4">The <code>init.el</code> option to enable <code>which-key</code></a>).
-</p>
-
-<p>
-When the <code>which-key-mode</code> is enabled, any incomplete key sequence will
-produce a popup at the lower part of the Emacs frame showing keys that
-complete the current sequence together with the name of the command
-they are invoking.
-</p>
-
-<p>
-I personally do not use this, except when I need to do a
-demonstration.
-</p>
-
-<p>
-Note that <code>which-key</code> is built into Emacs 30. If you are on a previous
-version, use <code>:ensure t</code> to install it from a package archive.
+Starting with Emacs 30, <code>which-key</code> is built into Emacs. This is a
+minor mode that automatically displays a listing of all the keys that
+complete the current incomplete key sequence. For example, if we type
+<code>C-x</code> and wait for <code>which-key-idle-delay</code>, we will get a popup window
+with all the key bindings that start with <code>C-x</code>, such as <code>C-x C-f</code>.
+The listing includes the names of the commands bound to each key. This
+is useful as a learning tool, as we can then call that command by name
+via <code>M-x</code> or even bind it to another key.
 </p>
 
 <div class="org-src-container">
@@ -13140,6 +13107,28 @@ version, use <code>:ensure t</code> to install it from a package archive.
 <div id="outline-container-h:4efde779-3ef0-40b7-82e4-70f71b321428" class="outline-3">
 <h3 id="h:4efde779-3ef0-40b7-82e4-70f71b321428"><span class="section-number-3">5.14.</span> The <code>prot-emacs-icons.el</code> module (<code>prot-icons</code>)</h3>
 <div class="outline-text-3" id="text-h:4efde779-3ef0-40b7-82e4-70f71b321428">
+<p>
+I used to have a setup for Nerd Fonts that would add iconography to
+various interfaces. I never really like it, but understood the benefit
+of it for screen sharing: the observer can better understand what is
+on display.
+</p>
+
+<p>
+The <code>prot-icons.el</code> defines &ldquo;icons&rdquo;, which are just plain text
+characters with some associated colours, and adds them to various
+places (<a href="#h:99294d20-ffe5-4d0b-ac62-04fb39d1ba82">The <code>prot-icons.el</code> library</a>). Though anything related to the
+minibuffer and completions is done by <code>prot-minibuffer.el</code> and the
+<code>completion-category-overrides</code>, while the relevant mode line parts
+are handled by <code>prot-modeline.el</code>:
+</p>
+
+<ul class="org-ul">
+<li><a href="#h:0d49218d-4199-4847-9765-60a3f94e515d">The <code>prot-emacs-completion.el</code> settings for completion category overrides</a>.</li>
+<li><a href="#h:761861c9-9a0e-4c97-b98d-20f13a6b3b79">The <code>prot-minibuffer</code> library</a>.</li>
+<li><a href="#h:935adc09-abaa-4413-a5ab-a7a562081c20">The <code>prot-modeline.el</code> library</a>.</li>
+</ul>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; Icons
 ;; NOTE 2025-12-21: Also see the `prot-minibuffer.el' and my
@@ -13164,14 +13153,14 @@ Each of the following subsections is dedicated to an individual custom
 library. These are &ldquo;packages&rdquo; of mine that are only relevant to my
 Emacs configuration, even though they are designed in accordance with
 best practices for packaging Emacs Lisp code. Many of my public-facing
-packages for Emacs started out as custom libraries like these
+packages for Emacs started out as custom libraries like those
 (<a href="#h:e289a614-4f17-4d6c-a028-42fe45aebe66">The init.el arrangements for my own modules and custom libraries</a>).
 </p>
 
 <p>
 Please bear in mind that the code I write here is not necessarily as
 high quality as what I put in my public packages, meaning that I do
-not test it as much and do not try to make it perfect.
+not test it as much and do not try to make it work for all cases.
 </p>
 </div>
 <div id="outline-container-h:ddb9c32c-2114-4347-9f76-5160e590b5dc" class="outline-3">
@@ -13498,7 +13487,7 @@ an alternative date format, as specified by
     (video "mkv" "webm" "mp4")
     (text "org" "txt" "md")
     (document "pdf" "epub" "info" "texi")
-    (program "sh" "el" "c" "py" "yaml" "toml" "conf" "js" "html"))
+    (program "sh" "el" "c" "py" "yaml" "yml" "toml" "conf" "js" "html" "xml"))
   "Some common file extensions grouped by type.")
 
 (defun prot-common--get-file-type-regexp (type)
@@ -14346,9 +14335,9 @@ Now use `display-buffer-alist' like the Lisp gods intended."
 </div>
 </div>
 </div>
-<div id="outline-container-org2b9be69" class="outline-3">
-<h3 id="org2b9be69"><span class="section-number-3">6.7.</span> The <code>prot-icons.el</code> library</h3>
-<div class="outline-text-3" id="text-6-7">
+<div id="outline-container-h:99294d20-ffe5-4d0b-ac62-04fb39d1ba82" class="outline-3">
+<h3 id="h:99294d20-ffe5-4d0b-ac62-04fb39d1ba82"><span class="section-number-3">6.7.</span> The <code>prot-icons.el</code> library</h3>
+<div class="outline-text-3" id="text-h:99294d20-ffe5-4d0b-ac62-04fb39d1ba82">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;; prot-icons.el --- Get characters, icons, and symbols for things -*- lexical-binding: t -*-
 
@@ -14428,7 +14417,7 @@ Now use `display-buffer-alist' like the Lisp gods intended."
     (((class color) (min-colors 88) (background light))
      :foreground "#223399")
     (((class color) (min-colors 88) (background dark))
-     :foreground "#77aaff")
+     :foreground "#5599ff")
     (t :foreground "blue"))
   "Face for icons."
   :group 'prot-icons)
@@ -14439,16 +14428,6 @@ Now use `display-buffer-alist' like the Lisp gods intended."
      :foreground "#8f2270")
     (((class color) (min-colors 88) (background dark))
      :foreground "#ee70aa")
-    (t :foreground "magenta"))
-  "Face for icons."
-  :group 'prot-icons)
-
-(defface prot-icons-purple
-  '((default :inherit prot-icons-icon)
-    (((class color) (min-colors 88) (background light))
-     :foreground "#7744aa")
-    (((class color) (min-colors 88) (background dark))
-     :foreground "#7060ff")
     (t :foreground "magenta"))
   "Face for icons."
   :group 'prot-icons)
@@ -14466,25 +14445,35 @@ Now use `display-buffer-alist' like the Lisp gods intended."
 (defface prot-icons-gray
   '((default :inherit prot-icons-icon)
     (((class color) (min-colors 88) (background light))
-     :foreground "gray60")
+     :foreground "gray30")
     (((class color) (min-colors 88) (background dark))
-     :foreground "gray40")
+     :foreground "gray70")
+    (t :foreground "gray"))
+  "Face for icons."
+  :group 'prot-icons)
+
+(defface prot-icons-faint
+  '((default :inherit prot-icons-icon)
+    (((class color) (min-colors 88) (background light))
+     :foreground "gray70")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "gray30")
     (t :foreground "gray"))
   "Face for icons."
   :group 'prot-icons)
 
 (defvar prot-icons
-  '((dired-mode "|_" dired-directory)
-    (archive-mode "|@" prot-icons-yellow)
-    (prog-mode "&gt;λ" prot-icons-purple)
-    (text-mode "&gt;t" prot-icons-cyan)
+  '((dired-mode "|_" prot-icons-gray)
+    (archive-mode "|@" prot-icons-gray)
+    (prog-mode "&gt;Π" prot-icons-magenta) ; πρόγραμμα
+    (text-mode "&gt;Α" prot-icons-green) ; αλφάβητο
     (comint-mode "&gt;_" prot-icons-gray)
-    (document "&gt;$" prot-icons-red)
-    (audio "&gt;a" prot-icons-red)
-    (image "&gt;i" prot-icons-green)
-    (video "&gt;v" prot-icons-magenta)
-    (t "&gt;." prot-icons-gray))
-  "Major mode or concepts and their corresponding icons.
+    (document "&gt;Σ" prot-icons-red) ; σύγγραμμα
+    (audio "&gt;Η" prot-icons-cyan) ; ήχος
+    (image "&gt;Ε" prot-icons-yellow) ; εικόνα
+    (video "&gt;Κ" prot-icons-blue) ; κίνηση (κινηματογράφος)
+    (t "&gt;." prot-icons-faint))
+  "Major modes or concepts and their corresponding icons.
 Each element is a cons cell of the form (THING STRING FACE), where THING
 is a symbol STRING is one or more characters that represent THING, and
 FACE is the face to use for it, where applicable.")
@@ -14536,7 +14525,8 @@ FACE is the face to use for it, where applicable.")
   (let ((overlay (make-overlay (1- pos) pos)))
     (overlay-put overlay 'prot-icons-overlay t)
     (overlay-put overlay 'evaporate t)
-    (overlay-put overlay 'after-string (propertize string 'display string))))
+    (overlay-put overlay 'before-string (propertize string 'display string))
+    (overlay-put overlay 'after-string (propertize " " 'display '(space :align-to 1)))))
 
 (defun prot-icons-dired--remove-all-overlays ()
   "Remove all `prot-icons' overlays."
@@ -14555,9 +14545,7 @@ FACE is the face to use for it, where applicable.")
                   (icon (if (file-directory-p file)
                             (prot-icons-get-file-icon (concat file "/"))
                           (prot-icons-get-file-icon file))))
-        (if (member file '("." ".."))
-            (prot-icons-dired--add-overlay (dired-move-to-filename) "  \t")
-          (prot-icons-dired--add-overlay (dired-move-to-filename) (concat icon "\t")))))))
+        (prot-icons-dired--add-overlay (dired-move-to-filename) icon)))))
 
 (defun prot-icons-dired--refresh ()
   "Update the display of icons of files in a Dired buffer."
@@ -14594,7 +14582,8 @@ FACE is the face to use for it, where applicable.")
   (let ((overlay (make-overlay position (+ position 1))))
     (overlay-put overlay 'prot-icons-overlay t)
     (overlay-put overlay 'evaporate t)
-    (overlay-put overlay 'before-string (propertize string 'display string))))
+    (overlay-put overlay 'before-string (propertize string 'display string))
+    (overlay-put overlay 'after-string (propertize " " 'display '(space :align-to 1)))))
 
 (defun prot-icons-xref--add-icons ()
   "Add icons to Xref headings."
@@ -14606,7 +14595,7 @@ FACE is the face to use for it, where applicable.")
                     (end (prop-match-end prop))
                     (file (string-chop-newline (buffer-substring-no-properties start end)))
                     (icon (prot-icons-get-file-icon file)))
-          (prot-icons-xref--add-overlay start (concat icon " ")))))))
+          (prot-icons-xref--add-overlay start icon))))))
 
 ;;;###autoload
 (define-minor-mode prot-icons-xref-mode
@@ -15083,7 +15072,7 @@ property, such that it can be found by `prot-minibuffer-completions-close-help'.
         (setq completions-detailed t)
         (setq completions-format 'one-column)
         (setq completions-header-format "")
-        (setq completions-highlight-face 'success)
+        (setq completions-highlight-face 'button)
         (setq completions-max-height 12)
         (setq completions-sort 'historical)
         (setq completion-auto-help t)
@@ -20298,7 +20287,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgb2886f9">
+<pre class="example" id="org9c60330">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20330,7 +20319,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org303ee76">
+<pre class="example" id="org0f5ef9f">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
