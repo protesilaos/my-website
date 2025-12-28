@@ -1467,8 +1467,8 @@ consist of only the identifier plus the Org file name extension (<a href="#h:4e9
 <p>
 Otherwise, it produces a minibuffer prompt for every non-nil value
 that corresponds to the <code>TITLE</code>, <code>KEYWORDS</code>, <code>SUBDIRECTORY</code>, <code>DATE</code>,
-and <code>TEMPLATE</code> arguments.  The prompts are those used by the standard
-<code>denote</code> command and all of its utility commands (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
+<code>TEMPLATE</code>, and <code>SIGNATURE</code> arguments. The prompts are those used by
+the standard <code>denote</code> command and all of its utility commands (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).
 </p>
 
 <p>
@@ -1827,7 +1827,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgd624fac">
+<pre class="example" id="org34e428d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2413,7 +2413,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org404cde6">
+<pre class="example" id="org1203062">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2433,7 +2433,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgd14c05d">
+<pre class="example" id="org7a36e97">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3162,7 +3162,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org57a2a06">
+<pre class="example" id="org8bf7f2a">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3785,7 +3785,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org2277176">
+<pre class="example" id="orge58a62f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3797,7 +3797,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org7fa3475">
+<pre class="example" id="org292fafd">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3811,7 +3811,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgbd76b76">
+<pre class="example" id="org0846a55">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3825,7 +3825,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orge956abd">
+<pre class="example" id="org7308b62">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4162,7 +4162,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org62f8e91">
+<pre class="example" id="org387de4c">
 - link1
 - link2
 - link3
@@ -4180,7 +4180,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org91c439d">
+<pre class="example" id="orgc6890bf">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4531,7 +4531,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orgc694ec2">
+<pre class="example" id="orgb91b090">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -6104,7 +6104,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org90879d2">
+<pre class="example" id="orgb14b663">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -6973,9 +6973,11 @@ optional <code>TEXT-ONLY</code> as a non-nil value, limit the results to text
 files that satisfy <code>denote-file-is-note-p</code>. With optional
 <code>EXCLUDE-REGEXP</code> exclude the files that match the given regular
 expression. This is done after <code>FILES-MATCHING-REGEXP</code> and
-<code>OMIT-CURRENT</code> have been applied. Optional <code>DIRECTORIES</code> is a list
-of directories to search through instead of looking into the
-variable <code>denote-directory</code>. [ The <code>DIRECTORIES</code> is part of
+<code>OMIT-CURRENT</code> have been applied. With optional <code>HAS-IDENTIFIER</code> as
+a non-<code>nil</code> value, limit the results to files that have an
+identifier. With Optional <code>DIRECTORIES</code> as a list of directories,
+search through instead of looking into the variable
+<code>denote-directory</code>. [ The optional <code>DIRECTORIES</code> is part of
 4.2.0-dev. ]</dd>
 </dl>
 
@@ -7730,7 +7732,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org70734aa">
+<pre class="example" id="orgee0a679">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7740,7 +7742,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgda3d39a">
+<pre class="example" id="org8b18460">
 emacs -Q
 </pre>
 
@@ -7752,7 +7754,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org76973c4">
+<pre class="example" id="org5a70410">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7813,7 +7815,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org8d1b8eb">
+<pre class="example" id="org2b08003">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8518,11 +8520,11 @@ Kristoffer Balintona, Kyle Meyer, Laurent Gatto, Lucas Quintana,
 Maikol Solis, Marc Fargas, Matthew Lemon, Noboru Ota (nobiot),
 Norwid Behrnd, Octavian, Peter Prevos, Philip Kaludercic, Ryota,
 Quiliro Ordóñez, Stephen R. Kifer, Stefan Monnier, Stefan Thesing,
-Thibaut Benjamin, Tomasz Hołubowicz, TomoeMami , Vedang Manerikar,
-Wesley Harvey, Yann Dutrieux, Zhenxu Xu, arsaber101, bryanrinders,
-eum3l, experimental-code-86, ezchi, jarofromel, leinfink (Henrik),
-l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
-pmenair, relict007, skissue.</dd>
+Thibaut Benjamin, Tobias Lidman-Strauss, Tomasz Hołubowicz,
+TomoeMami , Vedang Manerikar, Wesley Harvey, Yann Dutrieux, Zhenxu
+Xu, arsaber101, bryanrinders, eum3l, experimental-code-86, ezchi,
+jarofromel, leinfink (Henrik), l-o-l-h (Lincoln), mattyonweb,
+maxbrieiev, mentalisttraceur, pmenair, relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Griffin, Alex Hirschfeld, Alexis
