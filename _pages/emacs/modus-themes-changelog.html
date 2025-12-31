@@ -26,6 +26,253 @@ For further details, please consult these additional resources:
 <dt>Manual</dt><dd><a href="https://protesilaos.com/emacs/modus-themes">https://protesilaos.com/emacs/modus-themes</a></dd>
 <dt>Screenshots</dt><dd><a href="https://protesilaos.com/emacs/modus-themes-pictures">https://protesilaos.com/emacs/modus-themes-pictures</a></dd>
 </dl>
+<div id="outline-container-org2d30082" class="outline-2">
+<h2 id="org2d30082">5.2.0 on 2025-12-31</h2>
+<div class="outline-text-2" id="text-org2d30082">
+<p>
+This version fixes some bugs, adds a new feature for those who want to
+derive a theme from Modus, and makes other small quality-of-life
+refinements.
+</p>
+</div>
+<div id="outline-container-orgc5cfc72" class="outline-3">
+<h3 id="orgc5cfc72">The <code>modus-themes-with-colors</code> should work at all times</h3>
+<div class="outline-text-3" id="text-orgc5cfc72">
+<p>
+In the transition to version <code>5.0.0</code>, I inadvertently introduced
+regressions to the behaviour of the <code>modus-themes-with-colors</code> macro.
+This macro <code>let</code> binds the current theme's palette around arbitrary
+Elisp expressions, which allows users to access the named colours
+therein. In versions <code>5.0.0</code> and <code>5.1.0</code> the macro could not read
+variables defined outside its scope. Users needed to write an <code>eval</code>
+around it, which I did not like. Now the macro should not require such
+workarounds: it basically is a <code>let</code> that should work as expected
+everywhere.
+</p>
+
+<p>
+This was fixed over a series of Git commits related to issue 170:
+<a href="https://github.com/protesilaos/modus-themes/issues/170">https://github.com/protesilaos/modus-themes/issues/170</a>. Thanks to
+Alexandr Semenov and realazy for reporting the problems and testing my
+revisions.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb9eca9c" class="outline-3">
+<h3 id="orgb9eca9c">The <code>modus-themes-generate-palette</code> function to quickly get a palette</h3>
+<div class="outline-text-3" id="text-orgb9eca9c">
+<p>
+Users or package developers who want to create a theme on top of Modus
+can now get a kickstart by defining their palette with the help of the
+new <code>modus-themes-generate-palette</code> function. This function is meant
+to return a complete palette, given a list of basic colours. Users can
+thus experiment with their new theme while knowing that what they got
+contains all the definitions; definitions that they may then modify
+further (e.g. to define different semantic mappings than the defaults
+such as, for example, to have <code>(fg-heading-1 red-warmer)</code> instead of
+what originally is <code>(fg-heading-1 fg-main)</code>).
+</p>
+
+<p>
+I have written extensive documentation in the manual, which includes a
+complete example of a Solarized theme that is built on top of Modus.
+If you have any questions, you are welcome to contact me.
+</p>
+</div>
+</div>
+<div id="outline-container-orge4448b8" class="outline-3">
+<h3 id="orge4448b8">Convenience commands to select only dark or light themes</h3>
+<div class="outline-text-3" id="text-orge4448b8">
+<p>
+The commands <code>modus-themes-select-dark</code> and <code>modus-themes-select-light</code>
+use minibuffer completion to load a theme. The completion candidates
+are filtered to only dark or light themes, respectively.
+</p>
+
+<p>
+This is effectively the same as calling the command <code>modus-themes-select</code>
+with a prefix argument (<code>C-u</code> by default).
+</p>
+
+<p>
+Remember that we also have the commands <code>modus-themes-load-random</code>,
+<code>modus-themes-load-random-dark</code>, and <code>modus-themes-load-random-light</code>.
+Otherwise use the command <code>modus-themes-rotate</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org2a39822" class="outline-3">
+<h3 id="org2a39822">Improved prompt for theme selection</h3>
+<div class="outline-text-3" id="text-org2a39822">
+<p>
+The minibuffer prompt used by the various Modus commands to select a
+theme now has a grouping function in place: it shows the current theme
+at the top and then all other themes grouped by their dark or light
+background. This makes it easier to find a relevant theme, especially
+if lots of them are present, such as when <code>modus-themes-include-derivatives-mode</code>
+is enabled and relevant packages/themes are available (e.g. my
+<code>ef-themes</code> and <code>standard-themes</code>).
+</p>
+</div>
+</div>
+<div id="outline-container-org9039e31" class="outline-3">
+<h3 id="org9039e31">Semantic colours for <code>transient.el</code> (e.g. in Magit)</h3>
+<div class="outline-text-3" id="text-org9039e31">
+<p>
+The <code>transient.el</code> concept of "semantic colours" is now supported.
+This is used by default in Magit to denote the different types of
+keys, such as those that exit the transient, keep it active, move to
+another transient, and the like. Users who prefer the old style where
+all key bindings looked the same must customise the user option
+<code>transient-semantic-coloring</code>.
+</p>
+
+<p>
+Note that the deuteranopia- and tritanopia- optimised themes adapt
+gracefully to such "semantics", owning to relevant internal
+refinements I made. Those themes cannot rely on the full colour
+spectrum to communicate such nuances.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf228332" class="outline-3">
+<h3 id="orgf228332">All <code>hl-todo-mode</code> faces use a bold weight if appropriate</h3>
+<div class="outline-text-3" id="text-orgf228332">
+<p>
+When the user option <code>modus-themes-bold-constructs</code> is set to a
+non-<code>nil</code> value, then all keywords that <code>hl-todo-mode</code> highlights will
+be rendered in a bold weight (technically, they inherit the <code>bold</code>
+face). This is how we were doing it before until I undid it by
+mistake. Thanks to Dominik Schrempf for reporting the bug in issue
+177: <a href="https://github.com/protesilaos/modus-themes/issues/177">https://github.com/protesilaos/modus-themes/issues/177</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf79997a" class="outline-3">
+<h3 id="orgf79997a">Theme-sensitive colours for Gnus mail groups</h3>
+<div class="outline-text-3" id="text-orgf79997a">
+<p>
+The Gnus mail groups no longer have hardcoded colour values. They will
+look different depending on the current Modus theme.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb61726c" class="outline-3">
+<h3 id="orgb61726c">Faces that set a <code>:box</code> attribute handle unspecified colours</h3>
+<div class="outline-text-3" id="text-orgb61726c">
+<p>
+I updated all faces that use a <code>:box</code> attribute to account for the
+scenario of a user writing palette overrides that unset the relevant
+colour. Thanks to JD Smith for reporting a bug along those lines in
+issue 9 of my <code>standard-themes</code> repository (they are derived from the
+<code>modus-themes</code>, hence the changes here):
+<a href="https://github.com/protesilaos/standard-themes/issues/9">https://github.com/protesilaos/standard-themes/issues/9</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd3cc3f7" class="outline-3">
+<h3 id="orgd3cc3f7">The <code>calendar-today</code> and <code>org-date-selected</code> faces are disambiguated</h3>
+<div class="outline-text-3" id="text-orgd3cc3f7">
+<p>
+These two faces are no longer using the same styles. This is because
+they can appear in the same buffer. Thanks to Rudolf Adamkovič for
+discussing this with me in the context of the same change for my
+<code>doric-themes</code> (issue 20 in doric-themes.git):
+<a href="https://github.com/protesilaos/doric-themes/issues/20">https://github.com/protesilaos/doric-themes/issues/20</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbe6dad2" class="outline-3">
+<h3 id="orgbe6dad2">The Modus "current theme" respects multiple enabled themes</h3>
+<div class="outline-text-3" id="text-orgbe6dad2">
+<p>
+The Modus concept of "current theme" respects the user's choice for
+multiple themes loaded at once. It will return the first Modus theme
+even if it is not at the front of the list.
+</p>
+
+<p>
+[ Emacs will load multiple themes by default, which leads to awkward
+  colour combinations, unless you know what you are doing&#x2014;as such all
+  the Modus commands that load a theme will disable all others, subject
+  to the user option <code>modus-themes-disable-other-themes</code>. ]
+</p>
+
+<p>
+Thanks to Pierre Téchoueyres for reporting the scenario where multiple
+other themes are loaded on top of a Modus theme. This was done in
+issue 182: <a href="https://github.com/protesilaos/modus-themes/issues/182">https://github.com/protesilaos/modus-themes/issues/182</a>.
+</p>
+
+<p>
+Also thanks to Pierre for covering another snippet that I had missed.
+This was done in pull request 184:
+<a href="https://github.com/protesilaos/modus-themes/pull/184">https://github.com/protesilaos/modus-themes/pull/184</a>.
+</p>
+
+<p>
+Pierre has assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-orgeb35c60" class="outline-3">
+<h3 id="orgeb35c60">Fixed symbol of inherited AUCTeX face</h3>
+<div class="outline-text-3" id="text-orgeb35c60">
+<p>
+There was a typo which caused an error. Thanks to Rudolf Adamkovič for
+the patch and also for providing a relevant unit test. This was done
+in pull request 188: <a href="https://github.com/protesilaos/modus-themes/pull/188">https://github.com/protesilaos/modus-themes/pull/188</a>.
+</p>
+
+<p>
+Rudolf has assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-org5ef70f8" class="outline-3">
+<h3 id="org5ef70f8">Miscellaneous</h3>
+<div class="outline-text-3" id="text-org5ef70f8">
+<ul class="org-ul">
+<li>Thanks to Basil L. Contovounesios for simplifying a couple of
+expressions. This was done in pull request 190:
+<a href="https://github.com/protesilaos/modus-themes/pull/190">https://github.com/protesilaos/modus-themes/pull/190</a>. Basil has
+assigned copyright to the Free Software Foundation.</li>
+
+<li>The faces of the built-in <code>completion-preview-mode</code> are now
+supported. Thanks to Kevin Fleming for asking me about this in issue
+178: <a href="https://github.com/protesilaos/modus-themes/issues/178">https://github.com/protesilaos/modus-themes/issues/178</a>.</li>
+
+<li>Several faces that had a strike-through effect when they did not
+really need it are revised to use a wavy underline instead. The idea
+is to let the text be readable at all times, regardless of the
+effective font family. With the strike-through effect, some fonts
+completely obscure the underlying text.Thanks to Morgan Willcock for
+discussing with me the use of the strike-through style in issue 169:
+<a href="https://github.com/protesilaos/modus-themes/issues/169">https://github.com/protesilaos/modus-themes/issues/169</a>.</li>
+
+<li>All <code>symbol-overlay</code> faces are unique, fixing a mistake I had done
+before.</li>
+
+<li>The <code>org-dispatcher-highlight</code>, which is used to highlight the keys
+of the Org export interface, now uses the appropriate foreground
+colour and is always rendered in a bold weight.</li>
+
+<li>The <code>org-habit</code> faces no longer call the function
+<code>readable-foreground-color</code>. This is because that function does not
+work if the theme is loaded via the <code>early-init.el</code>. Thanks to
+Gaston Cabotin for reporting the problem in issue 174:
+<a href="https://github.com/protesilaos/modus-themes/issues/174">https://github.com/protesilaos/modus-themes/issues/174</a>.</li>
+
+<li>The <code>gnus-button</code>, which Gnus uses in all sorts of places to mark
+some text as clickable, is styled with a less intense underline and
+will no longer follow the style of links, including possible palette
+overrides. This way, Gnus article buffers will not have visual
+noise. Thanks to Morgan Willcock for discussing this with me in
+issue 140: <a href="https://github.com/protesilaos/modus-themes/issues/140">https://github.com/protesilaos/modus-themes/issues/140</a>.</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-h:86a4b45a-14e0-45f1-9625-969ad966b9ff" class="outline-2">
 <h2 id="h:86a4b45a-14e0-45f1-9625-969ad966b9ff">5.1.0 on 2025-11-07</h2>
 <div class="outline-text-2" id="text-h:86a4b45a-14e0-45f1-9625-969ad966b9ff">
