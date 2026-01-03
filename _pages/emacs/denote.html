@@ -451,10 +451,10 @@ Here we include more of what you can configure with Denote (<a href="#h:998ae528
 (use-package denote
   :ensure t
   :hook
-  ( ;; If you use Markdown or plain text files, then you want to make
-   ;; the Denote links clickable (Org renders links as buttons right
-   ;; away)
-   (text-mode . denote-fontify-links-mode-maybe)
+  (;; If you use plain text files (.txt), then you want to make the
+   ;; Denote links clickable (Org mode and Markdown mode render links
+   ;; as buttons right away and provide commands to open them)
+   (text-mode . denote-fontify-links-mode)
    ;; Apply colours to Denote names in Dired.  This applies to all
    ;; directories.  Check `denote-dired-directories' for the specific
    ;; directories you may prefer instead.  Then, instead of
@@ -524,7 +524,10 @@ view on how to get started with Denote:
 <li>Create new text files with <code>M-x denote</code> (<a href="#h:17896c8c-d97a-4faa-abf6-31df99746ca6">Points of entry</a>).</li>
 <li>Rename any file anywhere with <code>M-x denote-rename-file</code>. There are
 many variations of this command, such as <code>denote-dired-rename-marked-files</code> (<a href="#h:532e8e2a-9b7d-41c0-8f4b-3c5cbb7d4dca">Renaming files</a>).</li>
-<li>Link to another Denote file with <code>M-x denote-link</code> (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Add a single direct link using a file name prompt</a>).</li>
+<li>Link to another Denote file with a given file name using the
+command <code>M-x denote-link</code> (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Add a single direct link using a file name prompt</a>).
+Or link to a file whose contents match a query with the command
+<code>denote-link-to-file-with-contents</code> (<a href="#h:25a983ca-049e-43d4-8f6e-06a2325e2c3c">Add a direct link to a file whose contents include the given query</a>).</li>
 <li>From any file with a Denote file name, view backlinks with <code>M-x
    denote-backlinks</code> (<a href="#h:c73f1f68-e214-49d5-b369-e694f6a5d708">The backlinks&rsquo; buffer</a>).</li>
 <li>Instead of linking to a file, create a &ldquo;link&rdquo; to a search through
@@ -1828,7 +1831,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgde74c03">
+<pre class="example" id="org6b8024a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2414,7 +2417,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org29264c8">
+<pre class="example" id="org504e22b">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2434,7 +2437,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org460835e">
+<pre class="example" id="org07ced4f">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3163,7 +3166,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgee97d37">
+<pre class="example" id="orgef445ab">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3786,7 +3789,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="org75b7510">
+<pre class="example" id="orgadcfda8">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3798,7 +3801,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgfb6a526">
+<pre class="example" id="org37751c5">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3812,7 +3815,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org93e559f">
+<pre class="example" id="org1ff1deb">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3826,7 +3829,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgc0bb078">
+<pre class="example" id="org88cde0b">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4163,11 +4166,16 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org87086a1">
+<pre class="example" id="org638a4bf">
 - link1
 - link2
 - link3
 </pre>
+
+<p>
+[ The <code>denote-link-to-all-files-with-regexp</code> is an alias for
+  <code>denote-add-links</code> as part of 4.2.0-dev. ]
+</p>
 
 <p>
 Each link is formatted according to the file type of the current note,
@@ -4181,7 +4189,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org905cd83">
+<pre class="example" id="org510c333">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4532,7 +4540,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orgd9cc295">
+<pre class="example" id="orge7fd99d">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -4668,46 +4676,32 @@ appropriate than the other.
 <h3 id="h:156c5ea3-147b-4f9d-a404-86a00558c60a"><span class="section-number-3">10.14.</span> Fontify links in non-Org buffers</h3>
 <div class="outline-text-3" id="text-h:156c5ea3-147b-4f9d-a404-86a00558c60a">
 <p>
-Denote links are automatically fontified in Org buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>).
-This means that Org recognises the link and applies the relevant
-properties to it to make it clickable/actionable. Other major modes,
-such as <code>markdown-mode</code> (for <code>.md</code> files) or <code>text-mode</code> (for <code>.txt</code>
-files) do not have this feature built into them. Users can still get
-the same behaviour as with Org by activating the <code>denote-fontify-links-mode</code>.
+[ Revised as part of 4.2.0-dev to only target the
+  generic <code>text-mode</code>. Org mode and Markdown mode are both excluded
+  because they work with Denote links by default. This revision also
+  inlcudes the <code>RET</code> and <code>C-c C-o</code> key bindings for fontified links. ]
 </p>
 
 <p>
-The <code>denote-fontify-links-mode</code> is a buffer-local minor mode. Users can enable
-it automatically in plain text files that correspond to denote notes with
-something like this:
+Denote links are automatically fontified in Org mode and Markdown mode
+buffers (<a href="#h:5e5e3370-12ab-454f-ba09-88ff44214324">Adding a single link</a>). This means that the given major mode
+recognises the link and applies to it the relevant properties that
+make it clickable/actionable. The generic <code>text-mode</code> (for <code>.txt</code>
+files) does not have this capability, hence the <code>denote-fontify-links-mode</code>:
+it makes all Denote links actionable with the mouse, <code>RET</code>, or <code>C-c C-o</code>.
+The <code>denote-fontify-links-mode</code> is a buffer-local minor mode. Users
+can enable it automatically in plain text files that correspond to
+denote notes with something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'text-mode-hook #'denote-fontify-links-mode-maybe)
+<pre class="src src-emacs-lisp">(add-hook 'text-mode-hook #'denote-fontify-links-mode)
 </pre>
 </div>
 
 <p>
-The <code>text-mode-hook</code> applies to all modes derived from <code>text-mode</code>, including
-<code>markdown-mode</code>. Though a more explicit setup does no harm:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'markdown-mode-hook #'denote-fontify-links-mode-maybe)
-</pre>
-</div>
-
-<p>
-Because Org already recognises <code>denote:</code> links, the function
-<code>denote-fontify-links-mode-maybe</code> will not enable the mode
-<code>denote-fontify-links-mode</code> in Org buffers.
-</p>
-
-<p>
-In files whose major mode is <code>markdown-mode</code>, the default key binding
-<code>C-c C-o</code> (which calls the command <code>markdown-follow-thing-at-point</code>)
-correctly resolves <code>denote:</code> links. Interested users can refer to the
-function <code>denote-link-markdown-follow</code> for the implementation details.
+Fontified links can be opened with <code>RET</code>, <code>C-c C-o</code>, or a mouse click
+(<code>C-c C-o</code> is also the default for Org and Markdown).
 </p>
 </div>
 </div>
@@ -6105,7 +6099,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orge7f7f11">
+<pre class="example" id="org356028c">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7733,7 +7727,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org3cb5a30">
+<pre class="example" id="org01e08b5">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7743,7 +7737,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgc1a6693">
+<pre class="example" id="orgf787714">
 emacs -Q
 </pre>
 
@@ -7755,7 +7749,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgbf5b253">
+<pre class="example" id="org706f7d1">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7816,7 +7810,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org14cc662">
+<pre class="example" id="orgc3fbd7e">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
