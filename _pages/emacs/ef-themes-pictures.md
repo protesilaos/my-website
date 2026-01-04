@@ -33,6 +33,7 @@ This section contains:
 - `ef-light`
 - `ef-maris-light`
 - `ef-melissa-light`
+- `ef-orange`
 - `ef-reverie`
 - `ef-spring`
 - `ef-summer`
@@ -160,6 +161,16 @@ This section contains:
 
 <a href="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"><img alt="ef-melissa-light theme org sample" src="{{'/assets/images/ef/ef-melissa-light-org.png' | absolute_url }}"/></a>
 
+### ef-orange
+
+<a href="{{'/assets/images/ef/ef-orange.png' | absolute_url }}"><img alt="ef-orange theme sample" src="{{'/assets/images/ef/ef-orange.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-orange-git.png' | absolute_url }}"><img alt="ef-orange theme git sample" src="{{'/assets/images/ef/ef-orange-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-orange-mail.png' | absolute_url }}"><img alt="ef-orange theme mail sample" src="{{'/assets/images/ef/ef-orange-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-orange-org.png' | absolute_url }}"><img alt="ef-orange theme org sample" src="{{'/assets/images/ef/ef-orange-org.png' | absolute_url }}"/></a>
+
 ### ef-reverie
 
 <a href="{{'/assets/images/ef/ef-reverie.png' | absolute_url }}"><img alt="ef-reverie theme sample" src="{{'/assets/images/ef/ef-reverie.png' | absolute_url }}"/></a>
@@ -222,6 +233,7 @@ This section contains:
 - `ef-dream`
 - `ef-duo-dark`
 - `ef-elea-dark`
+- `ef-fig`
 - `ef-maris-dark`
 - `ef-melissa-dark`
 - `ef-night`
@@ -311,6 +323,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-elea-dark-mail.png' | absolute_url }}"><img alt="ef-elea-dark theme mail sample" src="{{'/assets/images/ef/ef-elea-dark-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-elea-dark-org.png' | absolute_url }}"><img alt="ef-elea-dark theme org sample" src="{{'/assets/images/ef/ef-elea-dark-org.png' | absolute_url }}"/></a>
+
+### ef-fig
+
+<a href="{{'/assets/images/ef/ef-fig.png' | absolute_url }}"><img alt="ef-fig theme sample" src="{{'/assets/images/ef/ef-fig.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-fig-git.png' | absolute_url }}"><img alt="ef-fig theme git sample" src="{{'/assets/images/ef/ef-fig-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-fig-mail.png' | absolute_url }}"><img alt="ef-fig theme mail sample" src="{{'/assets/images/ef/ef-fig-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-fig-org.png' | absolute_url }}"><img alt="ef-fig theme org sample" src="{{'/assets/images/ef/ef-fig-org.png' | absolute_url }}"/></a>
 
 ### ef-maris-dark
 
