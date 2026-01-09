@@ -3,6 +3,11 @@ title: "Emacs: custom Oxford University calendar weeks"
 excerpt: "Sample code to show the Oxford University teaching terms in the Emacs calendar."
 ---
 
+**UPDATE 2026-01-09 18:06 +0200:** I have turned this into a package:
+<https://protesilaos.com/codelog/2026-01-09-emacs-oxford-calendar-package/>.
+
+* * *
+
 Over at Oxford University they use their own calendaring scheme to
 label the terms and weeks of their school year. Why? Because they can!
 And why would some guy in the mountains of Cyprus care? Because it's
