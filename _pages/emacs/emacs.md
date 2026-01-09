@@ -239,7 +239,6 @@ To show the indicators, enable the `oxford-calendar-mode`. There are
 user options to control exactly what is on display.
 
 + Package name (GNU ELPA): `oxford-calendar` (!!! COMING SOON)
-+ Official manual: <https://protesilaos.com/emacs/oxford-calendar>
 + Git repository: <https://github.com/protesilaos/oxford-calendar>
 + Backronym: Overtly Xenial Feature Orders Relevant Dates ... Calendar.
 

@@ -24,6 +24,5 @@ I will now do the work to include the package on the GNU ELPA archive.
 ## Sources
 
 + Package name (GNU ELPA): `oxford-calendar` (!!! COMING SOON)
-+ Official manual: <https://protesilaos.com/emacs/oxford-calendar>
 + Git repository: <https://github.com/protesilaos/denote>
 + Backronym: Overtly Xenial Feature Orders Relevant Dates ... Calendar.
