@@ -228,6 +228,21 @@ timers in a nice grid.
   + GitLab: <https://gitlab.com/protesilaos/tmr>
 + Backronym: TMR May Ring; Timer Must Run.
 
+## Oxford calendar terms for Emacs
+
+The `oxford-calendar` package augments the `M-x calendar` buffer to
+include the week number of the current Oxford University academic
+calendar term. Weeks are numbered 1 through 8 for each of the
+Michaelmas, Hilary, and Trinity terms.
+
+To show the indicators, enable the `oxford-calendar-mode`. There are
+user options to control exactly what is on display.
+
++ Package name (GNU ELPA): `oxford-calendar` (!!! COMING SOON)
++ Official manual: <https://protesilaos.com/emacs/oxford-calendar>
++ Git repository: <https://github.com/protesilaos/oxford-calendar>
++ Backronym: Overtly Xenial Feature Orders Relevant Dates ... Calendar.
+
 ## aLtCaPs
 
 The `altcaps` package is a small, focused-in-scope tool that helps
