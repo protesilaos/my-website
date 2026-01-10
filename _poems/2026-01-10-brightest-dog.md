@@ -6,7 +6,7 @@ excerpt: "Just read the poem. No further comment."
 ```
 To the brightest dog
 my attention turns
-In this imagining
+In this reimagining
 of myth everlasting
 mystic is I
 and custodian
