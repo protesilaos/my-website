@@ -240,6 +240,7 @@ user options to control exactly what is on display.
 
 + Package name (GNU ELPA): `oxford-calendar` (!!! COMING SOON)
 + Git repository: <https://github.com/protesilaos/oxford-calendar>
++ Screenshot: <https://protesilaos.com/codelog/2026-01-09-emacs-oxford-calendar-package/>
 + Backronym: Overtly Xenial Feature Orders Relevant Dates ... Calendar.
 
 ## aLtCaPs
