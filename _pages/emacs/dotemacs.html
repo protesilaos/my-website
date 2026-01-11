@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-01-10 10:17:20 +0200</b> with a word
-  count of <b>113670</b>. ]
+[ Last revised and exported on <b>2026-01-11 11:26:17 +0200</b> with a word
+  count of <b>113873</b>. ]
 </p>
 
 <p>
@@ -423,7 +423,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-01-10 10:17:20 +0200):
+(2026-01-11 11:26:17 +0200):
 </p>
 
 <div class="org-src-container">
@@ -513,7 +513,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org0670172">
+<pre class="example" id="orgd826618">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -593,7 +593,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org254d0bc">
+<pre class="example" id="orga678e15">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -601,7 +601,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgb99796e">
+<pre class="example" id="orgae90fdf">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1314,6 +1314,25 @@ package archives, pinning packages, and setting priorities:
 <a href="https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/">https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/</a>.
 </p>
 
+<p>
+I want to use my own packages from the GNU-devel ELPA. I am thus
+pinning them to that archive by setting the value of
+<code>package-pinned-packages</code>. This way, I get to run the latest version
+while also making sure the actual package works properly. All other
+packages will rely on <code>package-archive-priorities</code>.
+</p>
+
+<p>
+The <code>package-review-policy</code>, which is available starting with Emacs
+version 31, is a useful security enhancement. Whenever we upgrade a
+package, we get the chance to produce a diff that shows the changes we
+are about to pull in. The idea is that there are enough users who (i)
+have the technical skills to assess the code and (ii) have the time
+and willingness to do such an inspection. If that happens, then the
+Emacs community as a whole becomes more robust to supply-chain
+attacks, which are really common these days.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">;;;; Packages
 
@@ -1338,19 +1357,8 @@ package archives, pinning packages, and setting priorities:
 ;; latest version of built-in packages.  However, this is a good
 ;; solution to set to non-nil if I ever switch to a stable release.
 (setq package-install-upgrade-built-in nil)
-</pre>
-</div>
 
-<p>
-I want to use my own packages from the GNU-devel ELPA. I am thus
-pinning them to that archive by setting the value of
-<code>package-pinned-packages</code>. This way, I get to run the latest version
-while also making sure the actual package works properly. All other
-packages will rely on <code>package-archive-priorities</code>.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defvar prot-emacs-my-packages
+(defvar prot-emacs-my-packages
   '(agitate
     altcaps
     beframe
@@ -1389,6 +1397,20 @@ packages will rely on <code>package-archive-priorities</code>.
            (lambda (package)
              (cons package "gnu-elpa-devel"))
            prot-emacs-my-packages)))
+
+;; These are for Emacs 31.
+(setq package-review-policy `(not ,prot-emacs-my-packages))
+(setq package-review-diff-command
+      (cons diff-command
+            '("-u"
+              "-x" "'*.elc'"
+              "-x" "'*-autoloads.el'"
+              "-x" "'*-pkg.el'"
+              "-x" "'*.info'"
+              "-x" "'*.texi'"
+              "-x" "'*.txt'"
+              "-x" "'*.md'"
+              "-x" "'*.org'")))
 </pre>
 </div>
 </div>
@@ -1431,7 +1453,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgc42bba7">
+<pre class="example" id="org0eaeacb">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1503,7 +1525,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org3779004">
+<pre class="example" id="org1bb5a19">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1612,7 +1634,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org7df5766">
+<pre class="example" id="orgc699e9a">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1778,7 +1800,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orgaeca125">
+<pre class="example" id="orgca94b4c">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4225,7 +4247,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org057a582">
+<pre class="example" id="org03332ba">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4274,7 +4296,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgfb398c2">
+<pre class="example" id="org9c20511">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7250,7 +7272,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orgfdc281c">
+<pre class="example" id="org402f419">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7278,7 +7300,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org19eb52b">
+<pre class="example" id="orgcaa9f08">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7356,7 +7378,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org8d020da">
+<pre class="example" id="orgfadac9e">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7504,7 +7526,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org9738d9a">
+<pre class="example" id="org4293251">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9260,7 +9282,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org98e7235">
+<pre class="example" id="org7e24801">
 (info "(org) Search Options")
 </pre>
 
@@ -9350,7 +9372,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgeb22c2e">
+<pre class="example" id="org3ce1249">
 (require 'ob-python)
 
 ;; OR
@@ -10212,7 +10234,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgc9c4444">
+<pre class="example" id="org08b7a65">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11040,7 +11062,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="orgfc1f563">
+<pre class="example" id="orgacdbadc">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11052,7 +11074,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org35111dc">
+<pre class="example" id="org550472d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11115,7 +11137,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgb78e3f2">
+<pre class="example" id="org39eb704">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11127,7 +11149,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org5fa0a3f">
+<pre class="example" id="orgc5e2b87">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11149,7 +11171,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgd24e95a">
+<pre class="example" id="orge503b0d">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11263,7 +11285,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org78fda00">
+<pre class="example" id="org7024785">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11395,7 +11417,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgcfc83a9">
+<pre class="example" id="org7736772">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11407,7 +11429,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org225f183">
+<pre class="example" id="org2b0010f">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12534,7 +12556,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org9402cee">
+<pre class="example" id="org540c989">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12631,7 +12653,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org9a9e82f">
+<pre class="example" id="org816bc94">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -12950,7 +12972,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org46833c3">
+<pre class="example" id="org6f53b37">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -19746,8 +19768,20 @@ major mode.")
               (beg (match-beginning 1))
               (end (match-end 1))
               (face (list :background color :foreground color :inverse-video t)))
-    (add-text-properties beg end (list 'face face 'font-lock-face face))
+    (add-text-properties beg end (list 'face face 'font-lock-face face 'display "######"))
     found))
+
+(defun prot-simple-hex-unfontify ()
+  "Fontify the # of a hexadecimal RGB colour up to LIMIT."
+  (save-excursion
+    (goto-char (point-min))
+    (while-let ((found (re-search-forward "\\(#\\)\\([a-fA-F0-9]\\{6\\}\\)" nil t))
+                (color (match-string-no-properties 0))
+                (beg (match-beginning 1))
+                (end (match-end 1))
+                (face (list :background color :foreground color :inverse-video t)))
+      (put-text-property beg end 'display "#")
+      found)))
 
 (defvar prot-simple-hex-color-keywords
   '((prot-simple-hex-fontify))
@@ -19759,6 +19793,7 @@ major mode.")
   :init-value nil
   (if prot-simple-hex-color-mode
       (font-lock-add-keywords nil prot-simple-hex-color-keywords)
+    (prot-simple-hex-unfontify)
     (font-lock-remove-keywords nil prot-simple-hex-color-keywords))
   (font-lock-flush (point-min) (point-max)))
 
@@ -20383,7 +20418,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgea4d107">
+<pre class="example" id="org8045021">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20415,7 +20450,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org9d09fac">
+<pre class="example" id="org58e8a16">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
