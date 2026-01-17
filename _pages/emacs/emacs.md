@@ -358,13 +358,13 @@ that is more noticeable and thus easier to spot.
 
 ## Notmuch Indicator
 
-This is a simple package that renders an indicator with an email count
-of the `notmuch` index on the Emacs mode line.  The underlying mechanism
-is that of `notmuch-count(1)`, which is used to find the number of items
-that match the given search terms.  In practice, the user can define one
-or more searches and display their counters.  These form a listing which
-realistically is like: `@50 😱1000 💕0` for unread messages, bills, and
-love letters, respectively.
+This package renders an indicator with an email count of the `notmuch`
+index on the Emacs mode line. The underlying mechanism is that of
+`notmuch-count(1)`, which is used to find the number of items that
+match the given search terms. In practice, the user can define one or
+more searches and display their counters. These form a string which
+realistically is like: `@50 😱1000 ♥️0` for unread messages, bills, and
+fan letters, respectively.
 
 + Package name (GNU ELPA): `notmuch-indicator`
 + Official manual: <https://protesilaos.com/emacs/notmuch-indicator>
@@ -372,8 +372,8 @@ love letters, respectively.
 + Git repositories:
   + GitHub: <https://github.com/protesilaos/notmuch-indicator>
   + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
-+ Backronym: notmuch-... Interested in Notmuch Data Indicators that
-  Count Any Terms Ordinarily Requested.
++ Backronym: notmuch-... Interested in Neatly Displayed Indicators
+  that Count Any Terms Ordinarily Requested.
 
 ## Dired Preview
 
