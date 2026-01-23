@@ -209,6 +209,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:472db709-27de-4a1f-a171-c3fe0a7a9be8">20.10. Use the <code>denote-menu</code> package</a></li>
 <li><a href="#h:46294e0c-4155-425f-abd8-b6f83bc29f53">20.11. Use the <code>denote-review</code> package</a></li>
 <li><a href="#h:b57f73fc-ac4d-4df2-bd7a-8d47cb202647">20.12. Use the <code>denote-zettel-interface</code> package</a></li>
+<li><a href="#h:0560dbf3-25a1-4eae-aa9e-5900d7e37a2e">20.13. Use the <code>mir</code> package for incremental reading</a></li>
 </ul>
 </li>
 <li><a href="#h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece">21. Extending Denote</a>
@@ -1832,7 +1833,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org90d34d5">
+<pre class="example" id="orge2ec934">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2418,7 +2419,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org41d0b9d">
+<pre class="example" id="org2531912">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2438,7 +2439,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org7b9d1a4">
+<pre class="example" id="org61cdbd6">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3167,7 +3168,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="orgfc3c260">
+<pre class="example" id="orgb6bde6a">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3790,7 +3791,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is nil or 
 <code>org</code> symbol):
 </p>
 
-<pre class="example" id="orgfed580d">
+<pre class="example" id="orga02507f">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3802,7 +3803,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orga1cace0">
+<pre class="example" id="orgf331da7">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3816,7 +3817,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgf464b91">
+<pre class="example" id="org881882d">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3830,7 +3831,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgde1d1d0">
+<pre class="example" id="org69f3660">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4167,7 +4168,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org56f33aa">
+<pre class="example" id="orga6925ed">
 - link1
 - link2
 - link3
@@ -4190,7 +4191,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orge2e0fac">
+<pre class="example" id="orgbe85583">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4541,7 +4542,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org93f9da2">
+<pre class="example" id="orga8d0be8">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5812,6 +5813,32 @@ Note that the package is in early development as of this writing
 </p>
 </div>
 </div>
+<div id="outline-container-h:0560dbf3-25a1-4eae-aa9e-5900d7e37a2e" class="outline-3">
+<h3 id="h:0560dbf3-25a1-4eae-aa9e-5900d7e37a2e"><span class="section-number-3">20.13.</span> Use the <code>mir</code> package for incremental reading</h3>
+<div class="outline-text-3" id="text-h:0560dbf3-25a1-4eae-aa9e-5900d7e37a2e">
+<p>
+The <a href="https://github.com/gvalson/mir.el">mir package</a> builds on top of <code>denote</code>, <code>denote-sequence</code> and
+Emacs&rsquo; SQLite support to provide a workflow for prioritizing,
+scheduling and reading a massive amount of text and extracting the
+most useful parts out of it. This is accomplished using a process
+called incremental reading (for more information, see the package&rsquo;s
+README). <code>denote</code> is used as a backbone for storing imported
+documents such that they are easily modifiable, uniquely identifiable
+and easy to genealogically query. In particular, the file&rsquo;s ID is
+used to store scheduling information in the database and the keyword
+component is used to build a tree-like hierarchy (i.e. a sequence of
+notes) that makes it easy to see where the source of a given
+extracted note is.
+</p>
+
+<p>
+As of writing this (January 2026), <code>mir</code> is still in heavy development
+and does not feature all the functionality that would make it a valid
+replacement of other incremental reading tools. However, work is
+underway to make it feature-complete.
+</p>
+</div>
+</div>
 </div>
 <div id="outline-container-h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece" class="outline-2">
 <h2 id="h:8ed2bb6f-b5be-4711-82e9-8bee5bb06ece"><span class="section-number-2">21.</span> Extending Denote</h2>
@@ -6120,7 +6147,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org50af5c4">
+<pre class="example" id="orgb0d0d9a">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7745,7 +7772,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org24823e6">
+<pre class="example" id="org3cc5d9a">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7755,7 +7782,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org4b746f3">
+<pre class="example" id="org9d0b845">
 emacs -Q
 </pre>
 
@@ -7767,7 +7794,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org765b262">
+<pre class="example" id="org00f13d5">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7828,7 +7855,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgd35b271">
+<pre class="example" id="org9fc8e7d">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8536,9 +8563,9 @@ Philip Kaludercic, Ryota, Quiliro Ordóñez, Stephen R. Kifer, Stefan
 Monnier, Stefan Thesing, Thibaut Benjamin, Tobias Lidman-Strauss,
 Tomasz Hołubowicz, TomoeMami , Vedang Manerikar, Wesley Harvey, Yann
 Dutrieux, Zhenxu Xu, alvmts, arsaber101, bryanrinders, dulikiles,
-eum3l, experimental-code-86, ezchi, jarofromel, leinfink (Henrik),
-l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
-pmenair, relict007, skissue.</dd>
+eum3l, experimental-code-86, ezchi, gvalson, jarofromel, leinfink
+(Henrik), l-o-l-h (Lincoln), mattyonweb, maxbrieiev,
+mentalisttraceur, pmenair, relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Griffin, Alex Hirschfeld, Alexis
