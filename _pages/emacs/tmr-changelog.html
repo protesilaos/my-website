@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:705987e4-60e9-4d06-bdc0-4f08347348a0">Version 1.3.0 on 2026-01-25</a></li>
 <li><a href="#h:87d321d7-e88e-4303-a7fc-fa4264e62a92">Version 1.2.0 on 2025-10-06</a></li>
 <li><a href="#h:41248cbf-d399-411d-91ff-5359a00a1577">Version 1.1.0 on 2025-04-18</a></li>
 <li><a href="#h:88595352-0263-425c-baab-6042f63ae28a">Version 1.0.0 on 2024-08-30</a></li>
@@ -27,6 +28,88 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <li><a href="#h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</a></li>
 <li><a href="#h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:705987e4-60e9-4d06-bdc0-4f08347348a0" class="outline-2">
+<h2 id="h:705987e4-60e9-4d06-bdc0-4f08347348a0">Version 1.3.0 on 2026-01-25</h2>
+<div class="outline-text-2" id="text-h:705987e4-60e9-4d06-bdc0-4f08347348a0">
+<p>
+This version adds some user options and new features to an already
+stable package.
+</p>
+</div>
+<div id="outline-container-h:4e740a08-0e29-4d5e-84ec-e5507df3845c" class="outline-3">
+<h3 id="h:4e740a08-0e29-4d5e-84ec-e5507df3845c">Timers can be paused</h3>
+<div class="outline-text-3" id="text-h:4e740a08-0e29-4d5e-84ec-e5507df3845c">
+<p>
+The command <code>tmr-toggle-pause</code> will prompt for a running timer and
+pause it.
+</p>
+
+<p>
+Users who have something like the following in their configuration,
+have access to <code>tmr-toggle-pause</code> under the <code>P</code> key:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; All TMR commands are behind this prefix key.  So `tmr-toggle-pause' is C-c t P.
+(define-key global-map (kbd "C-c t") #'tmr-prefix-map)
+</pre>
+</div>
+
+<p>
+In the buffer produced by the command <code>tmr-tabulated-view</code> the pause
+functionality applies to the timer at point. The <code>tmr-toggle-pause</code> is
+invoked with the <code>P</code> key.
+</p>
+
+<p>
+An extra column in the tabulated view shows whether a timer is paused
+or not. Here is an example:
+</p>
+
+<pre class="example" id="org9028ba4">
+Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
+
+08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
+08:49:31   08:54:31   5m         3m 53s                             Prepare tea
+08:49:21   08:59:21   10m        8m 42s              Yes            Edit the description with this one instead
+</pre>
+</div>
+</div>
+<div id="outline-container-h:b08bda30-2991-4d36-83d8-39d619abb20f" class="outline-3">
+<h3 id="h:b08bda30-2991-4d36-83d8-39d619abb20f">Configure the confirmation text for acknowledgements</h3>
+<div class="outline-text-3" id="text-h:b08bda30-2991-4d36-83d8-39d619abb20f">
+<p>
+When a timer is set to be acknowledged (i.e. the user must confirm
+that they saw it elapse) it prompts for confirmation. The default
+input text that confirms the acknowledgement is <code>ack</code>. This is now
+subject to configuration via the user option <code>tmr-acknowledge-timer-text</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:758d2691-14c5-4f3e-9044-a394101f9cff" class="outline-3">
+<h3 id="h:758d2691-14c5-4f3e-9044-a394101f9cff">Change how frequently the tabulated list is refreshed</h3>
+<div class="outline-text-3" id="text-h:758d2691-14c5-4f3e-9044-a394101f9cff">
+<p>
+The buffer produced by <code>tmr-tabulated-view</code> is set to automatically
+refresh every 5 seconds by default. In previous versions this was every
+1 second. The new user option <code>tmr-tabulated-refresh-interval</code> can be
+set to a number of seconds or <code>nil</code>. In the latter case, the automatic
+refresh is disabled.
+</p>
+</div>
+</div>
+<div id="outline-container-h:5bd873e9-15fa-4660-947f-b4f104d4e577" class="outline-3">
+<h3 id="h:5bd873e9-15fa-4660-947f-b4f104d4e577">Removed the long-obsolete <code>tmr-tabulated.el</code></h3>
+<div class="outline-text-3" id="text-h:5bd873e9-15fa-4660-947f-b4f104d4e577">
+<p>
+Its code was merged into <code>tmr.el</code> on 2024-10-30 and all it was doing
+thenceforth is issue a warning to those who would <code>require</code> the
+<code>tmr-tabulated</code> feature. Now <code>(require 'tmr-tabulated)</code> produces an
+error.
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:87d321d7-e88e-4303-a7fc-fa4264e62a92" class="outline-2">
@@ -426,7 +509,7 @@ The tabulated view now shows the remaining time for all timer objects.
 This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
 </p>
 
-<pre class="example" id="org2949999">
+<pre class="example" id="orgaffa7ed">
   Start      End        Remaining  Description
   10:11:49   10:11:54   ✔
   10:11:36   10:31:36   19m 35s
@@ -555,7 +638,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="org76a4c79">
+<pre class="example" id="org778f653">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
