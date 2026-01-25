@@ -33,6 +33,7 @@ Current development target is 1.3.0-dev.
 <li>GitHub: <a href="https://github.com/protesilaos/tmr">https://github.com/protesilaos/tmr</a></li>
 <li>GitLab: <a href="https://gitlab.com/protesilaos/tmr">https://gitlab.com/protesilaos/tmr</a></li>
 </ul></li>
+<li>Video demonstration: <a href="https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/">https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/</a></li>
 <li>Backronym: TMR May Ring; Timer Must Run.</li>
 </ul>
 
@@ -203,16 +204,14 @@ confirmation after it elapses. The user can either confirm and thus
 dismiss the timer, or set a new duration for the next reminder, using
 the familiar TMR input. The confirmation text to be provided at the
 minibuffer prompt (<code>ack</code> by default) can be configured via the user
-option <code>tmr-acknoledge-timer-text</code> [ The confirmation text is
-configurable as part of 1.3.0-dev. ]
+option <code>tmr-acknowledge-timer-text</code>.
 </p>
 
 <p>
 The command <code>tmr-toggle-pause</code> pauses the given timer. The tabulated
 view has a column to show when a timer is paused (<a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">Grid or tabulated view</a>).
 Similarly, the mode line indicator adapts the text of the timer to
-tell that it is paused (<a href="#h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc">Display timers on the mode line</a>). [ The
-<code>tmr-toggle-pause</code> and related functionality is part of 1.3.0-dev. ]
+tell that it is paused (<a href="#h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc">Display timers on the mode line</a>).
 </p>
 
 <p>
@@ -298,11 +297,7 @@ Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 buffer and looks like this:
 </p>
 
-<p>
-[ The pause functionality is part of 1.3.0-dev. ]
-</p>
-
-<pre class="example" id="org8e2ae81">
+<pre class="example" id="orgcf80d95">
 Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
 
 08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
@@ -343,9 +338,7 @@ every 5 seconds. Users can change the number of seconds by modifying
 the user option <code>tmr-tabulated-refresh-interval</code>. A <code>nil</code> value means
 to never refresh that buffer automatically: users can update it
 manually by invoking the command <code>revert-buffer</code>, which is bound to
-<code>g</code> by default. [ This is part of 1.3.0-dev, instead
-of the old arrangement of updating the buffer every second without an
-option to change it. ]
+<code>g</code> by default.
 </p>
 
 <p>
@@ -612,20 +605,13 @@ Everything is in place to set up the package.
 <h2 id="h:69eeb3fb-f11d-431e-ae16-2d9b322871cc"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  ;; Set to nil to disable the sound
-  (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
-
-  ;; Desktop notification urgency level
-  (setq tmr-notification-urgency 'normal)
-
-  ;; Read the `tmr-descriptions-list' doc string
-  (setq tmr-descriptions-list 'tmr-description-history)
-
-  ;; Set global prefix bindings (autoloaded):
-  (define-key global-map "\C-ct" 'tmr-prefix-map)
-
-  ;; Alternatively bind tmr command (autoloaded):
-  (define-key global-map "\C-ct" 'tmr)
+<pre class="src src-emacs-lisp">(use-package tmr
+  :ensure t
+  :config
+  (define-key global-map (kbd "C-c t") #'tmr-prefix-map)
+  (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
+        tmr-notification-urgency 'normal
+        tmr-description-list 'tmr-description-history))
 </pre>
 </div>
 </div>
