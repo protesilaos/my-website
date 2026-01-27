@@ -36,6 +36,6 @@ is `ef-themes-select`.
 All screen shots of the themes are updated to reflect their current
 status: <https://protesilaos.com/emacs/ef-themes-pictures>.
 
-Remember that since version `2.0.0`, the `ef-themes` are built on top
+Remember that since version `2.0.0` the `ef-themes` are built on top
 of my `modus-themes`. This means that most of the changes happen to
 Modus and are inherited by Ef.
