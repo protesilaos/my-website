@@ -64,7 +64,7 @@ the young girl you once loved by chance
 I feel no grief but I do miss
 your lustful lie that made everything nice
 
-It is hard for a woman to be alone
+It is harsh for a woman to be alone
 I tell you now that the truth does not cause anger
 No matter how much is my strength I want someone with me
 Loneliness sets up traps and hurts
