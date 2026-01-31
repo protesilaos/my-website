@@ -1,5 +1,5 @@
 ---
-title: "To the brightest dog"
+title: "Poem: To the brightest dog"
 excerpt: "Just read the poem. No further comment."
 ---
 
