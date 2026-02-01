@@ -4,7 +4,7 @@ excerpt: "Translation of---and philosophical commentary on---a Greek song whose 
 ---
 
 For this interpretation I have picked an emotional song from the
-legendary Haris Alexiou: <https://wwwyoutubecom/watch?v=MZQfbcWDP2g>.
+legendary Haris Alexiou: <https://www.youtube.com/watch?v=MZQfbcWDP2g>.
 _Full moon_, like many of Haris' own writings provides insight into
 the emotional world of a woman.
 
