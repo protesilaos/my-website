@@ -36,7 +36,7 @@ Below are their samples.
 
 <a href="{{'/assets/images/doric/doric-copper-magit.png' | absolute_url }}"><img alt="doric-copper theme sample" src="{{'/assets/images/doric/doric-copper-magit.png' | absolute_url }}"/></a>
 
-## Coming in `doric-themes` version 0.6.0
+## Coming in `doric-themes` version 0.7.0
 
 Both `doric-jade` and `doric-copper` are in-development. I have
 already worked on their finer point, but may still make some tweaks
