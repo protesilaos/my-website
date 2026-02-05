@@ -1,5 +1,5 @@
 ---
-title: 'Screen shots of the Doric themes for GNU Emacs'
+title: 'Screenshots of the Doric themes for GNU Emacs'
 excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
@@ -41,6 +41,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-earth-message.png' | absolute_url }}"><img alt="doric-earth theme sample" src="{{'/assets/images/doric/doric-earth-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-earth-magit.png' | absolute_url }}"><img alt="doric-earth theme sample" src="{{'/assets/images/doric/doric-earth-magit.png' | absolute_url }}"/></a>
+
+## doric-jade
+
+<a href="{{'/assets/images/doric/doric-jade.png' | absolute_url }}"><img alt="doric-jade theme sample" src="{{'/assets/images/doric/doric-jade.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-jade-org.png' | absolute_url }}"><img alt="doric-jade theme sample" src="{{'/assets/images/doric/doric-jade-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-jade-message.png' | absolute_url }}"><img alt="doric-jade theme sample" src="{{'/assets/images/doric/doric-jade-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-jade-magit.png' | absolute_url }}"><img alt="doric-jade theme sample" src="{{'/assets/images/doric/doric-jade-magit.png' | absolute_url }}"/></a>
 
 ## doric-light
 
@@ -91,6 +101,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-wind-message.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-wind-magit.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind-magit.png' | absolute_url }}"/></a>
+
+## doric-copper
+
+<a href="{{'/assets/images/doric/doric-copper.png' | absolute_url }}"><img alt="doric-copper theme sample" src="{{'/assets/images/doric/doric-copper.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-copper-org.png' | absolute_url }}"><img alt="doric-copper theme sample" src="{{'/assets/images/doric/doric-copper-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-copper-message.png' | absolute_url }}"><img alt="doric-copper theme sample" src="{{'/assets/images/doric/doric-copper-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-copper-magit.png' | absolute_url }}"><img alt="doric-copper theme sample" src="{{'/assets/images/doric/doric-copper-magit.png' | absolute_url }}"/></a>
 
 ## doric-dark
 
