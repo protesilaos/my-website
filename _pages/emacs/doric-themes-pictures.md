@@ -4,7 +4,7 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `0.5.0`. The
+The following screen shots correspond to version `1.0.0`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
