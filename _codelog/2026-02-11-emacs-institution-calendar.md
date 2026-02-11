@@ -1,6 +1,6 @@
 ---
 title: "Emacs: institution-calendar package (University of Oxford/Cambridge, etc.)"
-excerpt: ""
+excerpt: "The institution-calendar package for GNU Emacs augments the calendar buffer with indicators about term weeks (e.g. for university semesters)."
 ---
 
 <a href="{{'/assets/images/attachments/2026-01-09-oxford-calendar.png' | absolute_url }}"><img alt="Oxford calendar for Emacs" src="{{'/assets/images/attachments/2026-01-09-oxford-calendar.png' | absolute_url }}"/></a>
