@@ -229,20 +229,19 @@ timers in a nice grid.
 + Video demonstration: <https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/>
 + Backronym: TMR May Ring; Timer Must Run.
 
-## Oxford calendar terms for Emacs
+## Institution calendar (e.g. University of Oxford/Cambridge)
 
-The `oxford-calendar` package augments the `M-x calendar` buffer to
-include the week number of the current Oxford University academic
-calendar term. Weeks are numbered 1 through 8 for each of the
-Michaelmas, Hilary, and Trinity terms.
+The `institution-calendar` package augments the `M-x calendar` buffer
+to include the week number of the current institution's calendar term
+(e.g. the University of Oxford counts the week of 2026-02-11 as week 2
+of the Hilary term).
 
-To show the indicators, enable the `oxford-calendar-mode`. There are
-user options to control exactly what is on display.
-
-+ Package name (GNU ELPA): `oxford-calendar` (!!! COMING SOON)
-+ Git repository: <https://github.com/protesilaos/oxford-calendar>
++ Git repository: <https://github.com/protesilaos/institution-calendar>
 + Screenshot: <https://protesilaos.com/codelog/2026-01-09-emacs-oxford-calendar-package/>
-+ Backronym: Overtly Xenial Feature Orders Relevant Dates ... Calendar.
++ Backronyms: Interestingly Nothing Serving Teachers Implement Term
+  Utilities Took Inspiration from Oxford Novices... calendar;
+  Institution ... Cambridge Added Lent Entry Notwithstanding Dates
+  Already Recorded.
 
 ## aLtCaPs
 
