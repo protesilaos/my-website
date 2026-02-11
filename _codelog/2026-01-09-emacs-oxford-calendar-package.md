@@ -3,6 +3,12 @@ title: "Emacs: my 'oxford-calendar' package"
 excerpt: "My new package for Emacs to display Oxford University academic terms in the 'M-x calendar'."
 ---
 
+**UPDATE 2026-02-11 23:08 +0200:** This package is discontinued and
+superseded by my `institution-calendar`:
+<https://protesilaos.com/codelog/2026-02-11-emacs-institution-calendar/>.
+
+* * *
+
 The `oxford-calendar` is a small package that is of interest to
 students, academics, and staff of the University of Oxford. It
 augments the `M-x calendar` buffer with indicators that show the
