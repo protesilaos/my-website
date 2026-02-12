@@ -13,13 +13,13 @@ This manual, written by Protesilaos Stavrou, describes the specifics of
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.0.0, released on 2024-08-05.  Any reference to
+2.0.0, released on 2026-02-12.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.2.0-dev.
+Current development target is 2.1.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -39,21 +39,22 @@ Current development target is 1.2.0-dev.
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:33b423a6-1b89-40a3-bbbc-1524138be3a4">1. COPYING</a></li>
-<li><a href="#h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">2. Overview</a></li>
-<li><a href="#h:7b68abd3-a854-4b72-b704-05ca013dfa7f">3. Installation</a>
+<li><a href="#h:7b68abd3-a854-4b72-b704-05ca013dfa7f">2. Installation</a>
 <ul>
-<li><a href="#h:9379f7d7-9f78-40b8-8d30-cceb462cd41f">3.1. GNU ELPA package</a></li>
-<li><a href="#h:494b6abd-e3d4-4622-b428-272eae0c7779">3.2. Manual installation</a></li>
+<li><a href="#h:9379f7d7-9f78-40b8-8d30-cceb462cd41f">2.1. GNU ELPA package</a></li>
+<li><a href="#h:494b6abd-e3d4-4622-b428-272eae0c7779">2.2. Manual installation</a></li>
 </ul>
 </li>
-<li><a href="#h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">4. Sample configuration</a></li>
-<li><a href="#h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">5. Acknowledgements</a></li>
-<li><a href="#h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">6. GNU Free Documentation License</a></li>
-<li><a href="#h:129e593a-a85a-4616-bc18-c58a83d05b88">7. Indices</a>
+<li><a href="#h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">3. Sample configuration</a></li>
+<li><a href="#h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">4. Overview</a></li>
+<li><a href="#h:2e28af52-8302-4071-a53e-f282f54a862e">5. Integration with the GNOME accent color picker</a></li>
+<li><a href="#h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">6. Acknowledgements</a></li>
+<li><a href="#h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">7. GNU Free Documentation License</a></li>
+<li><a href="#h:129e593a-a85a-4616-bc18-c58a83d05b88">8. Indices</a>
 <ul>
-<li><a href="#h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">7.1. Function index</a></li>
-<li><a href="#h:7be6fb0d-438b-4b05-affa-0726c0cc0359">7.2. Variable index</a></li>
-<li><a href="#h:efd61349-a45a-4d27-a000-6227374fb65d">7.3. Concept index</a></li>
+<li><a href="#h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">8.1. Function index</a></li>
+<li><a href="#h:7be6fb0d-438b-4b05-affa-0726c0cc0359">8.2. Variable index</a></li>
+<li><a href="#h:efd61349-a45a-4d27-a000-6227374fb65d">8.3. Concept index</a></li>
 </ul>
 </li>
 </ul>
@@ -63,7 +64,7 @@ Current development target is 1.2.0-dev.
 <h2 id="h:33b423a6-1b89-40a3-bbbc-1524138be3a4"><span class="section-number-2">1.</span> COPYING</h2>
 <div class="outline-text-2" id="text-h:33b423a6-1b89-40a3-bbbc-1524138be3a4">
 <p>
-Copyright (C) 2021-2023  Free Software Foundation, Inc.
+Copyright (C) 2021-2026  Free Software Foundation, Inc.
 </p>
 
 <blockquote>
@@ -83,61 +84,12 @@ modify this GNU manual.”
 </blockquote>
 </div>
 </div>
-<div id="outline-container-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87" class="outline-2">
-<h2 id="h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87"><span class="section-number-2">2.</span> Overview</h2>
-<div class="outline-text-2" id="text-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">
-<p>
-Lin is a stylistic enhancement for Emacs&rsquo; built-in <code>hl-line-mode</code>.  It
-remaps the <code>hl-line</code> face (or equivalent) buffer-locally to a style that
-is optimal for major modes where line selection is the primary mode of
-interaction.
-</p>
-
-<p>
-The idea is that <code>hl-line-mode</code> cannot work equally well for contexts
-with competing priorities: (i) line selection, or (ii) simple line
-highlight.  In the former case, the current line needs to be made
-prominent because it carries a specific meaning of some significance in
-the given context: the user has to select a line.  Whereas in the latter
-case, the primary mode of interaction does not revolve around the line
-highlight itself: it may be because the focus is on editing text or
-reading through the buffer&rsquo;s contents, so the current line highlight is
-more of a reminder of the point&rsquo;s location on the vertical axis.
-</p>
-
-<p>
-<code>lin-mode</code> enables <code>hl-line-mode</code> in the current buffer and remaps the
-appropriate face to the <code>lin-face</code>.  The <code>lin-global-mode</code> follows the
-same principle, though it applies to all hooks specified in the user
-option <code>lin-mode-hooks</code>.
-</p>
-
-<p>
-Users can select their preferred style by customizing the user option
-<code>lin-face</code>.  Options include the faces <code>lin-red</code>, <code>lin-green</code>,
-<code>lin-yellow</code>, <code>lin-blue</code> (default), <code>lin-magenta</code>, <code>lin-cyan</code>,
-<code>lin-mac</code>, <code>lin-red-override-fg</code>, <code>lin-green-override-fg</code>,
-<code>lin-yellow-override-fg</code>, <code>lin-blue-override-fg</code>,
-<code>lin-magenta-override-fg</code>, <code>lin-cyan-override-fg</code>,
-<code>lin-mac-override-fg</code>, or any other face that preferably has a
-background attribute.  The Lin faces with the <code>-override-fg</code> suffix set
-a foreground value which replaces that of the underlying text.  Whereas
-the others only specify a background attribute.
-</p>
-
-<p>
-The user option <code>lin-remap-current-line-number</code> controls whether to
-apply the Lin style also to the currently highlighted line number.
-Line numbers come from the built-in <code>display-line-numbers-mode</code>.
-</p>
-</div>
-</div>
 <div id="outline-container-h:7b68abd3-a854-4b72-b704-05ca013dfa7f" class="outline-2">
-<h2 id="h:7b68abd3-a854-4b72-b704-05ca013dfa7f"><span class="section-number-2">3.</span> Installation</h2>
+<h2 id="h:7b68abd3-a854-4b72-b704-05ca013dfa7f"><span class="section-number-2">2.</span> Installation</h2>
 <div class="outline-text-2" id="text-h:7b68abd3-a854-4b72-b704-05ca013dfa7f">
 </div>
 <div id="outline-container-h:9379f7d7-9f78-40b8-8d30-cceb462cd41f" class="outline-3">
-<h3 id="h:9379f7d7-9f78-40b8-8d30-cceb462cd41f"><span class="section-number-3">3.1.</span> GNU ELPA package</h3>
+<h3 id="h:9379f7d7-9f78-40b8-8d30-cceb462cd41f"><span class="section-number-3">2.1.</span> GNU ELPA package</h3>
 <div class="outline-text-3" id="text-h:9379f7d7-9f78-40b8-8d30-cceb462cd41f">
 <p>
 The package is available as <code>lin</code>.  Simply do:
@@ -162,7 +114,7 @@ use the version of the package from the GNU-devel ELPA archive.  Read:
 </div>
 </div>
 <div id="outline-container-h:494b6abd-e3d4-4622-b428-272eae0c7779" class="outline-3">
-<h3 id="h:494b6abd-e3d4-4622-b428-272eae0c7779"><span class="section-number-3">3.2.</span> Manual installation</h3>
+<h3 id="h:494b6abd-e3d4-4622-b428-272eae0c7779"><span class="section-number-3">2.2.</span> Manual installation</h3>
 <div class="outline-text-3" id="text-h:494b6abd-e3d4-4622-b428-272eae0c7779">
 <p>
 Assuming your Emacs files are found in <code>~/.emacs.d/</code>, execute the
@@ -200,38 +152,19 @@ Everything is in place to set up the package.
 </div>
 </div>
 <div id="outline-container-h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d" class="outline-2">
-<h2 id="h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d"><span class="section-number-2">4.</span> Sample configuration</h2>
+<h2 id="h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d"><span class="section-number-2">3.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:7d63e6a9-5a49-4106-970c-ae8bdb06ae9d">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'lin)
+<pre class="src src-emacs-lisp">(use-package lin
+  :ensure t
+  :config
+  (setopt lin-face 'lin-blue) ; check doc string for alternative styles
+  
+  (lin-global-mode 1)
 
-(setq lin-face 'lin-blue) ; check doc string for alternative styles
-
-;; You can use this to live update the face:
-;;
-;; (customize-set-variable 'lin-face 'lin-green)
-
-(setq lin-mode-hooks
-      '(bongo-mode-hook
-        dired-mode-hook
-        elfeed-search-mode-hook
-        git-rebase-mode-hook
-        grep-mode-hook
-        ibuffer-mode-hook
-        ilist-mode-hook
-        ledger-report-mode-hook
-        log-view-mode-hook
-        magit-log-mode-hook
-        mu4e-headers-mode-hook
-        notmuch-search-mode-hook
-        notmuch-tree-mode-hook
-        occur-mode-hook
-        org-agenda-mode-hook
-        pdf-outline-buffer-mode-hook
-        proced-mode-hook
-        tabulated-list-mode-hook))
-
-(lin-global-mode 1)
+  ;; If you are using the GNOME desktop and want to synchronise the
+  ;; `lin-face' with GNOME's accent colour:
+  (lin-gnome-accent-color-mode 1))
 </pre>
 </div>
 
@@ -241,8 +174,87 @@ Check out Christian Tietze&rsquo;s blog post on integrating Lin with Neotree:
 </p>
 </div>
 </div>
+<div id="outline-container-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87" class="outline-2">
+<h2 id="h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87"><span class="section-number-2">4.</span> Overview</h2>
+<div class="outline-text-2" id="text-h:aa71c6b7-4801-4aba-9bcb-f3309f9e4d87">
+<p>
+Lin is a stylistic enhancement for Emacs&rsquo; built-in <code>hl-line-mode</code>.  It
+remaps the <code>hl-line</code> face (or equivalent) buffer-locally to a style that
+is optimal for major modes where line selection is the primary mode of
+interaction.
+</p>
+
+<p>
+The idea is that <code>hl-line-mode</code> cannot work equally well for contexts
+with competing priorities: (i) line selection, or (ii) simple line
+highlight.  In the former case, the current line needs to be made
+prominent because it carries a specific meaning of some significance in
+the given context: the user has to select a line.  Whereas in the latter
+case, the primary mode of interaction does not revolve around the line
+highlight itself: it may be because the focus is on editing text or
+reading through the buffer&rsquo;s contents, so the current line highlight is
+more of a reminder of the point&rsquo;s location on the vertical axis.
+</p>
+
+<p>
+<code>lin-mode</code> enables <code>hl-line-mode</code> in the current buffer and remaps the
+appropriate face to the <code>lin-face</code> (<a href="#h:2e28af52-8302-4071-a53e-f282f54a862e">Integration with the GNOME accent color picker</a>).
+The <code>lin-global-mode</code> follows the same principle, though it applies to
+all hooks specified in the user option <code>lin-mode-hooks</code>.
+</p>
+
+<p>
+Users can select their preferred style by customizing the user option
+<code>lin-face</code>. Options include the faces <code>lin-red</code>, <code>lin-green</code>,
+<code>lin-yellow</code>, <code>lin-blue</code> (default), <code>lin-magenta</code>, <code>lin-cyan</code>,
+<code>lin-purple</code>, <code>lin-orange</code>, <code>lin-slate</code>, <code>lin-mac</code>,
+<code>lin-red-override-fg</code>, <code>lin-green-override-fg</code>,
+<code>lin-yellow-override-fg</code>, <code>lin-blue-override-fg</code>,
+<code>lin-magenta-override-fg</code>, <code>lin-cyan-override-fg</code>,
+<code>lin-purple-override-fg</code>, <code>lin-orange-override-fg</code>,
+<code>lin-slate-override-fg</code> <code>lin-mac-override-fg</code>, or any other face that
+preferably has a background attribute. The Lin faces with the
+<code>-override-fg</code> suffix set a foreground value which replaces that of
+the underlying text. Whereas the others only specify a background
+attribute.
+</p>
+
+<p>
+The user option <code>lin-remap-current-line-number</code> controls whether to
+apply the Lin style also to the currently highlighted line number.
+Line numbers come from the built-in <code>display-line-numbers-mode</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:2e28af52-8302-4071-a53e-f282f54a862e" class="outline-2">
+<h2 id="h:2e28af52-8302-4071-a53e-f282f54a862e"><span class="section-number-2">5.</span> Integration with the GNOME accent color picker</h2>
+<div class="outline-text-2" id="text-h:2e28af52-8302-4071-a53e-f282f54a862e">
+<p>
+The GNOME desktop environment provides a setting to pick an accent
+color. This is then applied by applications to add a personal touch to
+the user&rsquo;s experience. Lin can now read this color and automatically
+update all the buffers it is enabled in via the minor mode <code>lin-gnome-accent-color-mode</code>.
+</p>
+
+<p>
+When <code>lin-gnome-accent-color-mode</code> is enabled, Lin reads the accent
+color of GNOME and sets the corresponding Lin face. For example, if
+the user picks red in the GNOME settings, the <code>lin-face</code> will be set
+to <code>lin-red</code>.
+</p>
+
+<p>
+The user option <code>lin-gnome-accent-color-override-foreground</code> controls
+whether the faces that correspond to GNOME accent colors should
+override the underlying text color or not. This is useful for improved
+color contrast. The default is to not override the foreground. Setting
+<code>lin-gnome-accent-color-override-foreground</code> to non-<code>nil</code> changes that
+so, for example, the <code>lin-face</code> will be set to <code>lin-red-override-fg</code>.
+</p>
+</div>
+</div>
 <div id="outline-container-h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96" class="outline-2">
-<h2 id="h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96"><span class="section-number-2">5.</span> Acknowledgements</h2>
+<h2 id="h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96"><span class="section-number-2">6.</span> Acknowledgements</h2>
 <div class="outline-text-2" id="text-h:0f80e78f-d6b3-42cd-8e49-7ac47fd2fa96">
 <p>
 Lin is meant to be a collective effort.  Every bit of help matters.
@@ -258,7 +270,7 @@ Jaeghere, Simon Pugnet.</dd>
 </div>
 </div>
 <div id="outline-container-h:3cc810c3-a585-49c6-b937-f6a2ec8098d3" class="outline-2">
-<h2 id="h:3cc810c3-a585-49c6-b937-f6a2ec8098d3"><span class="section-number-2">6.</span> GNU Free Documentation License</h2>
+<h2 id="h:3cc810c3-a585-49c6-b937-f6a2ec8098d3"><span class="section-number-2">7.</span> GNU Free Documentation License</h2>
 <div class="outline-text-2" id="text-h:3cc810c3-a585-49c6-b937-f6a2ec8098d3">
 <pre>
 
@@ -718,21 +730,21 @@ to permit their use in free software.
 </div>
 </div>
 <div id="outline-container-h:129e593a-a85a-4616-bc18-c58a83d05b88" class="outline-2">
-<h2 id="h:129e593a-a85a-4616-bc18-c58a83d05b88"><span class="section-number-2">7.</span> Indices</h2>
+<h2 id="h:129e593a-a85a-4616-bc18-c58a83d05b88"><span class="section-number-2">8.</span> Indices</h2>
 <div class="outline-text-2" id="text-h:129e593a-a85a-4616-bc18-c58a83d05b88">
 </div>
 <div id="outline-container-h:fd9a7533-9df0-4eb9-b793-bb2ddf455605" class="outline-3">
-<h3 id="h:fd9a7533-9df0-4eb9-b793-bb2ddf455605"><span class="section-number-3">7.1.</span> Function index</h3>
+<h3 id="h:fd9a7533-9df0-4eb9-b793-bb2ddf455605"><span class="section-number-3">8.1.</span> Function index</h3>
 <div class="outline-text-3" id="text-h:fd9a7533-9df0-4eb9-b793-bb2ddf455605">
 </div>
 </div>
 <div id="outline-container-h:7be6fb0d-438b-4b05-affa-0726c0cc0359" class="outline-3">
-<h3 id="h:7be6fb0d-438b-4b05-affa-0726c0cc0359"><span class="section-number-3">7.2.</span> Variable index</h3>
+<h3 id="h:7be6fb0d-438b-4b05-affa-0726c0cc0359"><span class="section-number-3">8.2.</span> Variable index</h3>
 <div class="outline-text-3" id="text-h:7be6fb0d-438b-4b05-affa-0726c0cc0359">
 </div>
 </div>
 <div id="outline-container-h:efd61349-a45a-4d27-a000-6227374fb65d" class="outline-3">
-<h3 id="h:efd61349-a45a-4d27-a000-6227374fb65d"><span class="section-number-3">7.3.</span> Concept index</h3>
+<h3 id="h:efd61349-a45a-4d27-a000-6227374fb65d"><span class="section-number-3">8.3.</span> Concept index</h3>
 <div class="outline-text-3" id="text-h:efd61349-a45a-4d27-a000-6227374fb65d">
 -->
 </div>
