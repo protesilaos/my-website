@@ -243,6 +243,11 @@ light and dark mode. By default, almost all of my themes are included,
 spanning the packages `modus-themes`, `ef-themes`, `doric-themes`, and
 `standard-themes`.
 
+The command `gnome-accent-theme-switcher-toggle-mode` toggles the
+GNOME light/dark preference from inside Emacs. While the command
+`gnome-accent-theme-switcher-change-accent` prompts for an accent
+color and changes it accordingly.
+
 + Git repository: <https://github.com/protesilaos/gnome-accent-theme-switcher>
 + Video demonstration: <https://protesilaos.com/codelog/2026-02-13-emacs-gnome-accent-theme-switcher/>
 
