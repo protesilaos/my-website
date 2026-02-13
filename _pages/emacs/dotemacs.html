@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-02-13 15:14:38 +0200</b> with a word
-  count of <b>115206</b>. ]
+[ Last revised and exported on <b>2026-02-13 18:51:57 +0200</b> with a word
+  count of <b>115315</b>. ]
 </p>
 
 <p>
@@ -140,7 +140,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:bf5b4d08-8f33-4a8c-8ecd-fca19bf2497a">5.1.3. The <code>prot-emacs-theme.el</code> section for <code>lin</code></a></li>
 <li><a href="#h:6c118185-fcb1-4c9a-93af-71814cb84279">5.1.4. The <code>prot-emacs-theme.el</code> section for <code>spacious-padding</code></a></li>
 <li><a href="#h:34ce98fe-0b57-44d9-b5f3-0224632114a5">5.1.5. The <code>prot-emacs-theme.el</code> section for <code>cursory</code></a></li>
-<li><a href="#h:79bcb083-0700-45d4-98cb-6e52f40b72ee">5.1.6. GNOME accent theme switcher for GNU Emacs</a></li>
+<li><a href="#h:79bcb083-0700-45d4-98cb-6e52f40b72ee">5.1.6. GNOME accent theme switcher (<code>gnome-accent-theme-switcher</code>)</a></li>
 <li><a href="#h:2af10314-c8c2-4946-bf9c-a5b0f5fe881b">5.1.7. The <code>prot-emacs-theme.el</code> section for <code>theme-buffet</code></a></li>
 <li><a href="#h:cb41fef0-41a5-4a85-9552-496d96290258">5.1.8. The <code>prot-emacs-theme.el</code> section about <code>fontaine</code></a></li>
 <li><a href="#h:60a005be-77bd-49f1-a865-78d7cf75bd2a">5.1.9. The <code>prot-emacs-theme.el</code> section about <code>show-font</code></a></li>
@@ -427,7 +427,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-02-13 15:14:39 +0200):
+(2026-02-13 18:51:57 +0200):
 </p>
 
 <div class="org-src-container">
@@ -517,7 +517,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgcdf0e08">
+<pre class="example" id="org892d067">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -597,7 +597,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgb2730e4">
+<pre class="example" id="org96781dc">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -605,7 +605,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgf4dc897">
+<pre class="example" id="orgb4125f3">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1470,7 +1470,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orge185e54">
+<pre class="example" id="orgb606803">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1542,7 +1542,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="orgb010f48">
+<pre class="example" id="org9118dc0">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1651,7 +1651,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org3aab4e7">
+<pre class="example" id="org4863fb4">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1817,7 +1817,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org1d8d479">
+<pre class="example" id="org0bc0e3d">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2513,6 +2513,12 @@ highlight is more of a reminder of the point&rsquo;s location on the
 vertical axis.
 </p>
 
+<p>
+Lin can also integrate with the GNOME desktop environment to update
+its <code>lin-face</code> when the user changes an accent colour. This is what
+the minor mode <code>lin-gnome-accent-color-mode</code> is for.
+</p>
+
 <ul class="org-ul">
 <li>Package name (GNU ELPA): <code>lin</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/lin">https://protesilaos.com/emacs/lin</a></li>
@@ -2531,7 +2537,10 @@ vertical axis.
 (prot-emacs-configure
   (prot-emacs-install lin)
   (setq lin-face 'lin-cyan)
-  (lin-global-mode 1))
+  (lin-global-mode 1)
+  (when (and (null prot-emacs-load-theme-family)
+             (string= (getenv "DESKTOP_SESSION") "gnome"))
+    (lin-gnome-accent-color-mode 1)))
 </pre>
 </div>
 </div>
@@ -2699,7 +2708,7 @@ such as in the difference between writing and reading.
 </div>
 </div>
 <div id="outline-container-h:79bcb083-0700-45d4-98cb-6e52f40b72ee" class="outline-4">
-<h4 id="h:79bcb083-0700-45d4-98cb-6e52f40b72ee"><span class="section-number-4">5.1.6.</span> GNOME accent theme switcher for GNU Emacs</h4>
+<h4 id="h:79bcb083-0700-45d4-98cb-6e52f40b72ee"><span class="section-number-4">5.1.6.</span> GNOME accent theme switcher (<code>gnome-accent-theme-switcher</code>)</h4>
 <div class="outline-text-4" id="text-h:79bcb083-0700-45d4-98cb-6e52f40b72ee">
 <p>
 This is a small package of mine that provides the minor mode
@@ -2715,6 +2724,13 @@ the list of themes that are used for each accent color, grouped by
 light and dark mode. By default, almost all of my themes are included,
 spanning the packages <code>modus-themes</code>, <code>ef-themes</code>, <code>doric-themes</code>, and
 <code>standard-themes</code>.
+</p>
+
+<p>
+The command <code>gnome-accent-theme-switcher-toggle-mode</code> toggles the
+GNOME light/dark preference from inside Emacs. While the command
+<code>gnome-accent-theme-switcher-change-accent</code> prompts for an accent
+color and changes it accordingly.
 </p>
 
 <p>
@@ -2735,6 +2751,9 @@ the GNOME desktop environment (<a href="#h:3f1a33e4-762e-4cf3-a0ae-4c2954d9cbb8"
     "https://github.com/protesilaos/gnome-accent-theme-switcher.git")
   (when (and (null prot-emacs-load-theme-family)
              (string= (getenv "DESKTOP_SESSION") "gnome"))
+    (prot-emacs-keybind global-map
+      "&lt;f5&gt;" #'gnome-accent-theme-switcher-toggle-mode
+      "C-&lt;f5&gt;" #'gnome-accent-theme-switcher-change-accent)
     (gnome-accent-theme-switcher-mode 1)))
 </pre>
 </div>
@@ -4306,7 +4325,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org7619511">
+<pre class="example" id="org64a287d">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4355,7 +4374,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgcc2b1cc">
+<pre class="example" id="org1cf1b3c">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7367,7 +7386,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org4c546e2">
+<pre class="example" id="org70c00ab">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7395,7 +7414,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgc8614a4">
+<pre class="example" id="org7335004">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7473,7 +7492,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgca1e498">
+<pre class="example" id="org0f69f34">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7621,7 +7640,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgfcffb78">
+<pre class="example" id="org3c3e902">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9380,7 +9399,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org4844ddc">
+<pre class="example" id="orgba52594">
 (info "(org) Search Options")
 </pre>
 
@@ -9470,7 +9489,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgbab29fe">
+<pre class="example" id="org59b3a84">
 (require 'ob-python)
 
 ;; OR
@@ -10332,7 +10351,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org96c366f">
+<pre class="example" id="org79ed6b2">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11160,7 +11179,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org5a54d52">
+<pre class="example" id="org2fee42e">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11172,7 +11191,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org2a007a3">
+<pre class="example" id="org6d1b78e">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11235,7 +11254,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org2ed235e">
+<pre class="example" id="org5847008">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11247,7 +11266,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org9d11f9e">
+<pre class="example" id="orgba5269c">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11269,7 +11288,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org30c8ed9">
+<pre class="example" id="org83812e0">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11384,7 +11403,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org3eed9ec">
+<pre class="example" id="org5ee7b15">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11515,7 +11534,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org52aa61f">
+<pre class="example" id="org1220d7f">
 (setq notmuch-identities '("Protesilaos Stavrou &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11527,7 +11546,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgbd6cf61">
+<pre class="example" id="org07ba0f8">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12655,7 +12674,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgbae949d">
+<pre class="example" id="orge3ab02d">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12752,7 +12771,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgc3d10d3">
+<pre class="example" id="org47d146c">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13071,7 +13090,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org588ec9b">
+<pre class="example" id="org0b769d9">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -20639,7 +20658,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org9e1d10e">
+<pre class="example" id="org0c98540">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20671,7 +20690,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgd04102e">
+<pre class="example" id="org200b5c0">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
