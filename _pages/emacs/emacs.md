@@ -229,7 +229,7 @@ timers in a nice grid.
 + Video demonstration: <https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/>
 + Backronym: TMR May Ring; Timer Must Run.
 
-## GNOME accent color theme switcher
+## GNOME accent theme switcher
 
 This is a small package that provides the minor mode
 `gnome-accent-theme-switcher-mode`. Once enabled, this mode receives
