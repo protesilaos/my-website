@@ -242,7 +242,9 @@ the list of themes that are used for each accent color, grouped by
 light and dark mode. By default, almost all of my themes are included,
 spanning the packages `modus-themes`, `ef-themes`, `doric-themes`, and
 `standard-themes`.
+
 + Git repository: <https://github.com/protesilaos/gnome-accent-theme-switcher>
++ Video demonstration: <https://protesilaos.com/codelog/2026-02-13-emacs-gnome-accent-theme-switcher/>
 
 ## Institution calendar (e.g. University of Oxford/Cambridge)
 
