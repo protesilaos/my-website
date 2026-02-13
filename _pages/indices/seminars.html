@@ -19,8 +19,14 @@ permalink: /seminars/
     {% for i in seminar_theme %}
     <h4>{{ i.theme }}</h4>
     <ul>
+        {% assign current_year = "" %}
         {% for seminar in seminars %}
         {% if i.theme == seminar.lecturetheme %}
+        {% assign year = seminar.date | date: "%Y" %}
+        {% if year != current_year %}
+          {% assign current_year = year %}
+          <h2 class="index-item-year-heading">{{ year }}</h2>
+        {% endif %}
         <li class="index-blog-post-container">
           <time class="index-blog-post-timestamp">
             {{ seminar.date | date: site.date_format }}
