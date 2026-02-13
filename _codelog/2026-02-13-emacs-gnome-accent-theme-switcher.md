@@ -8,4 +8,4 @@ mediaid: "atKuEh3_ArA"
 In this short video I demonstate a new package for GNU Emacs that
 synchronises the Emacs theme with the GNOME settings for accent color
 and light/dark mode. Git repository here:
-<https://github.com/protesilaos/gnome-accent-color-theme-switcher>.
+<https://github.com/protesilaos/gnome-accent-theme-switcher>.

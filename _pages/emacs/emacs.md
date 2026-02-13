@@ -232,18 +232,17 @@ timers in a nice grid.
 ## GNOME accent color theme switcher
 
 This is a small package that provides the minor mode
-`gnome-accent-color-switcher-mode`. Once enabled, this mode receives
+`gnome-accent-theme-switcher-mode`. Once enabled, this mode receives
 input from the GNOME desktop environment to update the Emacs theme
 based on the user's choice of accent color and light/dark mode. Those
 are settings provided by the GNOME desktop environment.
 
-The user option `gnome-accent-theme-switcher-collection` defines the
-list of themes that are used for each accent color, grouped by light
-and dark mode. By default, almost all of my themes are included,
+The user option `gnome-accent-theme-switcher-collection` defines
+the list of themes that are used for each accent color, grouped by
+light and dark mode. By default, almost all of my themes are included,
 spanning the packages `modus-themes`, `ef-themes`, `doric-themes`, and
 `standard-themes`.
-
-+ Git repository: <https://github.com/protesilaos/gnome-accent-color-theme-switcher>
++ Git repository: <https://github.com/protesilaos/gnome-accent-theme-switcher>
 
 ## Institution calendar (e.g. University of Oxford/Cambridge)
 
