@@ -353,6 +353,10 @@ highlight itself: it may be because the focus is on editing text or
 reading through the buffer's contents, so the current line highlight is
 more of a reminder of the point's location on the vertical axis.
 
+Lin can also integrate with the GNOME desktop environment to update
+its `lin-face` when the user changes an accent colour. This is what
+the minor mode `lin-gnome-accent-color-mode` is for.
+
 + Package name (GNU ELPA): `lin`
 + Official manual: <https://protesilaos.com/emacs/lin>
 + Change log: <https://protesilaos.com/emacs/lin-changelog>
