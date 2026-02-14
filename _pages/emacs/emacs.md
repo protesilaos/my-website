@@ -6,7 +6,7 @@ permalink: /emacs/
 
 ## Emacs Lisp Elements
 
-A book that provides big picture view of the Emacs Lisp programming
+A book that provides a big picture view of the Emacs Lisp programming
 language by combining prose with code. The goal is to give readers an
 idea of how Elisp works by showing some of the main concepts or
 patterns discernible in everyday code.
