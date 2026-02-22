@@ -1,6 +1,6 @@
 ---
 title: "Prot Asks: Eric about free software, art, religion, and cosmic consistency"
-excerpt: "I talk with ."
+excerpt: "I talk with Eric Frederickson about a range of issues that can be summed up under the theme of 'cosmic consistency'."
 layout: vlog
 mediaid: "3u6u6MVNydI"
 ---
