@@ -70,6 +70,10 @@ without fearing that we lose who we are. I say that we ultimately do
 not need to take ourselves too seriously, in the sense that if we make
 a mistake it will not be the end of the world.
 
+## Add Ro on Instagram
+
+Here: <https://www.instagram.com/aldebaran.alpha.tauri/>
+
 ## About "Prot Asks"
 
 In this video series, I talk to anybody who is interested to have a
