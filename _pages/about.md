@@ -119,6 +119,8 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - A [sketch of me by Ekaitz Zarraga](https://protesilaos.com/selfies/2025-10-09-prot-portrait-by-ekaitz-zarraga/) (2025-10-09).
 
+- A [portrait of me by Ro](https://protesilaos.com/selfies/2026-02-23-prot-portrait-by-ro/) (2026-02-23).
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
