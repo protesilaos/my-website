@@ -5,6 +5,11 @@ layout: vlog
 mediaid: "JEiru0u6gD4"
 ---
 
+**UPDATE 2026-02-23 08:34 +0200:** The portrait is available here:
+<https://protesilaos.com/selfies/2026-02-23-prot-portrait-by-ro/>.
+
+* * *
+
 In this ~3-hour video I talk with Ro about a wide variety of topics
 that cover programming, politics, lifestyle, and art. We start by
 learning about Ro's work as a software engineer for military projects.
