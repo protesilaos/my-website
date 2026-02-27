@@ -3,6 +3,7 @@ title: "Prot Asks: James about biology teaching, Emacs, and free software politi
 excerpt: "A video call where I learn from James about teaching biology at a top university, as well as topics of Emacs and free software politics."
 layout: vlog
 mediaid: "YzVToImIm1Y"
+redirect_from: /codelog/2025-08-06-prot-asks-james-biology-teaching-emacs-free-software-politics/
 ---
 
 In this new video series, I talk to anybody who is interested to have

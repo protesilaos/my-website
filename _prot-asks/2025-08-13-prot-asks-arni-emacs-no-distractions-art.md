@@ -3,6 +3,7 @@ title: "Prot Asks: Arni about Emacs, no distractions, socialising, and self-expr
 excerpt: "In this video, I learn from Arni about using Emacs to minimise distractions. We also talk about adopting a persona and expressing oneself through art, among others."
 layout: vlog
 mediaid: "TkodLFMrO6s"
+redirect_from: /codelog/2025-08-13-prot-asks-arni-emacs-no-distractions-art/
 ---
 
 In this new video series, I talk to anybody who is interested to have

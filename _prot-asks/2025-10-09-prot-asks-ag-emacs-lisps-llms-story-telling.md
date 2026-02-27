@@ -3,6 +3,7 @@ title: "Prot Asks: Ag about Emacs, Lisps, LLMs, and story-telling"
 excerpt: "I talk with Ag Ibragimov about Emacs, Lisp programming, LLMs, social interactions, and the importance of story-telling."
 layout: vlog
 mediaid: "CoivIaNBbrE"
+redirect_from: /codelog/2025-10-09-prot-asks-ag-emacs-lisps-llms-story-telling/
 ---
 
 In this ~2.5-hour video, I talk with Ag Ibragimov about Emacs, Lisp

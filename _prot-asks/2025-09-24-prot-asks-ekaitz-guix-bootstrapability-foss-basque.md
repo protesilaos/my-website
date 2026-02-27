@@ -4,6 +4,7 @@ excerpt: "I talk to Ekaitz about being a Guix developer, bootstrapping software,
 layout: vlog
 mediaid: "h3WaPyDc3ik"
 redirect_from: /codelog/2025-09-24=prot-asks-ekaitz-guix-bootstrapability-foss-basque/
+redirect_from: /codelog/2025-09-24-prot-asks-ekaitz-guix-bootstrapability-foss-basque/
 ---
 
 In this video I talk to Ekaitz Zárraga, a free software engineer and

@@ -3,6 +3,7 @@ title: "Prot Asks: PizzaTorque about Emacs for programming, linguistics, art and
 excerpt: "In this video, I learn from PizzaTorque about using Emacs for programming, some themes in linguistics, artistic topics and the importance of community."
 layout: vlog
 mediaid: "-g8o0M9CRkA"
+redirect_from: /codelog/2025-08-10-prot-asks-pizzatorque-emacs-programming-linguistics-community-life/
 ---
 
 In this new video series, I talk to anybody who is interested to have

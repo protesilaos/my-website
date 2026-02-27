@@ -3,6 +3,7 @@ title: "Prot Asks: port19 about RSI, keyboard ergonomics, dictation tools, and g
 excerpt: "I talk to port19 about custom keyboards to improve ergonomics and to ease the pain of repetitive strain injury."
 layout: vlog
 mediaid: "ZRC7cIGCC7A"
+redirect_from: /codelog/2025-09-11-prot-asks-port19-rsi-keyboard-ergonomics-dictation-geriatric-care/
 ---
 
 In this video I talk to port19 about repetitive strain injury related

@@ -3,6 +3,7 @@ title: "Prot Asks: Ronnie about free software, privacy, parenting, and life in I
 excerpt: "I talk with Ronnie Nissan about the intersection of technology and society. We discuss free software, individual and collective values, and life in Iraqi Kurdistan."
 layout: vlog
 mediaid: "qvWSGzfR1wA"
+redirect_from: /codelog/2025-08-25-prot-asks-ronnie-free-software-privacy-parenting-iraqi-kurdistan/
 ---
 
 In this new video series, I talk to anybody who is interested to have

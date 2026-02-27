@@ -3,6 +3,7 @@ title: "Prot Asks: Diego about Emacs use, head of engineering, industry's state,
 excerpt: "A video call where I learn from Diego about using Emacs for development, heading an engineering team, how the industry is now, and combat sports."
 layout: vlog
 mediaid: "QDVatF4Fk8o"
+redirect_from: /codelog/2025-08-02-prot-asks-diego-emacs-use-head-engineering-industry-combat-sports/
 ---
 
 In this new video series, I talk to anybody who is interested to have

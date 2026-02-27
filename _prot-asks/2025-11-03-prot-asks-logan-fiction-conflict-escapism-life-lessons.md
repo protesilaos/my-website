@@ -3,6 +3,7 @@ title: "Prot Asks: Logan about fiction, conflict, escapism, and life lessons"
 excerpt: "I talk with Logan about telling stories, finding conflict and escapism in fiction, and related life lessons."
 layout: vlog
 mediaid: "xyE0IsLE29A"
+redirect_from: /codelog/2025-11-03-prot-asks-logan-fiction-conflict-escapism-life-lessons/
 ---
 
 In this +2-hour video, I talk to Logan about story-telling, finding

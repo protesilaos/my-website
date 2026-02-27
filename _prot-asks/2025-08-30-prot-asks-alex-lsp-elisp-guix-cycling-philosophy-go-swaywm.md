@@ -3,6 +3,7 @@ title: "Prot Asks: Alex about LSP, Elisp programming, Guix, cycling, Go game, ph
 excerpt: "I talk with Alex about interests related to programming, cycling, the Go game, and philosophy."
 layout: vlog
 mediaid: "qxV_Uja4oYE"
+redirect_from: /codelog/2025-08-30-prot-asks-alex-lsp-elisp-guix-cycling-philosophy-go-swaywm/
 ---
 
 In this new video series, I talk to anybody who is interested to have

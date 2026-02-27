@@ -3,6 +3,7 @@ title: "Prot Asks: Dimos about Emacs interconnectedness, collective work, and Th
 excerpt: "I talk with Dimos about Emacs as an integrated computing environment, the specifics of collective work, and The Conspiracy Club podcast which Dimos co-hosts."
 layout: vlog
 mediaid: "c5KV_P7K73Y"
+redirect_from: /codelog/2025-08-20-prot-asks-dimos-emacs-interconenctedness-collective-work-conspiracies/
 ---
 
 In this new video series, I talk to anybody who is interested to have

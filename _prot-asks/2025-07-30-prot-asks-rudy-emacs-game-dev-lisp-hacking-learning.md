@@ -3,6 +3,7 @@ title: "Prot Asks: Rudy about Emacs for game development, Lisp hacking, and lear
 excerpt: "A video call where I learn from Rudy about a lot of geeky and fun topics, such as living in Emacs, developing games with Scheme and Fennel, making pizza, and more!"
 layout: vlog
 mediaid: "9eC1kgq4mzA"
+redirect_from: /codelog/2025-07-30-prot-asks-rudy-emacs-game-dev-lisp-hacking-learning/
 ---
 
 In this new video series, I talk to anybody who is interested to have

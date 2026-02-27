@@ -3,6 +3,7 @@ title: "Prot Asks: Eric about Emacs, Lisp, music, aesthetics, and Minnesota"
 excerpt: "A video call where I learn from Eric about Emacs, aesthetics in code, music production and musicality, as well as the nature of Minnesota."
 layout: vlog
 mediaid: "NQfzh0npNfQ"
+redirect_from: /codelog/2025-07-23-prot-asks-eric-emacs-lisp-music-aesthetics-minnesota/
 ---
 
 In this new video series, I talk to anybody who is interested to have

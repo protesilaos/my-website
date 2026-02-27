@@ -3,6 +3,7 @@ title: "Prot Asks: Eric about free software, art, religion, and cosmic consisten
 excerpt: "I talk with Eric Frederickson about a range of issues that can be summed up under the theme of 'cosmic consistency'."
 layout: vlog
 mediaid: "3u6u6MVNydI"
+redirect_from: /codelog/2026-02-08-prot-asks-eric-free-software-art-religion-cosmic-consistency/
 ---
 
 In this near-3-hour video I talk to Eric Frederickson about a broad

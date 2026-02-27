@@ -1,0 +1,44 @@
+---
+layout: index
+title: "'Prot Asks' video series"
+subtitle: "Friendly and casual disucssions about life in general"
+excerpt: "I talk to anybody who wants to have a public discussion with me. Topics cover Emacs and practically everything else."
+index-feed:
+  text: Prot Asks series
+  url: "/prot-asks.xml"
+permalink: /prot-asks/
+---
+
+{% assign prot-asks = site.prot-asks | sort: 'date' | reverse %}
+
+<div class="index index-blog">
+
+  <p>
+    These are not formal interviews! Everybody is welcome to
+    participate. The requirements are that (i) you are willing to show
+    your face on camera, and (ii) the video is posted on my YouTube
+    channel. Just contact me to tell me a few things about what you
+    wish to talk about. Then we will set up a meeting time.
+  </p>
+
+  <ul>
+    {% assign current_year = "" %}
+    {% for i in prot-asks %}
+    {% assign year = i.date | date: "%Y" %}
+    {% if year != current_year %}
+      {% assign current_year = year %}
+      <h2 class="index-item-year-heading">{{ year }}</h2>
+    {% endif %}
+    <li class="index-blog-post-container">
+      <time class="index-blog-post-timestamp">
+        {{ i.date | date: site.date_format }}
+      </time>
+      <a class="index-blog-post-link" href="{{ i.url | relative_url }}"><span class="index-blog-post-heading">{{- i.title -}}</span>
+        {%- if i.mediaid or i.layout == 'vlog' -%}
+        <span class="index-blog-post-meta-label"> [video]</span>
+        {%- endif -%}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

@@ -3,6 +3,7 @@ title: "Prot Asks: Julien about Emacs, functional package managers, Nix, Guix, a
 excerpt: "I talk to Julien Malka about using Emacs for everything and then the topic of functional package managers, especially Nix and Guix."
 layout: vlog
 mediaid: "Yv8BC8ISAPQ"
+redirect_from: /codelog/2025-09-18-prot-asks-julien-emacs-nix-guix-reproducibility/
 ---
 
 In this video I talk with Julien Malka who is a PhD student on supply

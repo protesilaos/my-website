@@ -3,6 +3,7 @@ title: "Prot Asks: Erik about Emacs since the 1990s, Oregon and Portland, and po
 excerpt: "In this video, I talk with Erik Arneson about Emacs over the years, all sort of Linux-related technical issues, and life in Oregon."
 layout: vlog
 mediaid: "6wkfFdiwpyU"
+redirect_from: /codelog/2025-08-17-prot-asks-erik-emacs-1990s-portland-oregon-podcasting/
 ---
 
 In this new video series, I talk to anybody who is interested to have

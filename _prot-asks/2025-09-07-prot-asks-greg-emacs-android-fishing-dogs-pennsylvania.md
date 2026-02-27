@@ -3,6 +3,7 @@ title: "Prot Asks: Greg about Emacs, Android, dogs, fishing, cycling, and Pennsy
 excerpt: "I talk to Greg about a number of topics ranging from the technical work one does in Emacs to outdoors activities in Pennsylvania."
 layout: vlog
 mediaid: "8iovwdREt1o"
+redirect_from: /codelog/2025-09-07-prot-asks-greg-emacs-android-fishing-dogs-pennsylvania/
 ---
 
 In this video, I talk to Greg about a number of topics ranging from

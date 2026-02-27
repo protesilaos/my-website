@@ -3,6 +3,7 @@ title: "Prot Asks: Maxim about writing, thinking, criticism, narratives, and pro
 excerpt: "I talk with Maxim about a range of issues from writing and thinking, to narratives and productivity."
 layout: vlog
 mediaid: "7No-ueqLmkw"
+redirect_from: /codelog/2025-10-26-prot-asks-maxim-writing-thinking-narratives-productivity/
 ---
 
 In this 2-hour video, I talk with Maxim about the themes of writing

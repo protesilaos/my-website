@@ -47,6 +47,7 @@ its own feed, as it caters to a potentially different audience.
 * [My poems](https://protesilaos.com/poems.xml)
 * [My selfies](https://protesilaos.com/selfies.xml)
 * [News and announcements](https://protesilaos.com/news.xml)
+* [Prot Asks](https://protesilaos.com/prot-asks.xml)
 * [Political writings](https://protesilaos.com/politics.xml)
 * [Master feed](https://protesilaos.com/master.xml) (captures every new publication)
 

@@ -1,6 +1,7 @@
 ---
 title: "Join me for 'Prot Asks' public video calls about Emacs and life in general"
 excerpt: "Let's do video chats in a casual way and things we have in common."
+redirect_from: /codelog/2025-07-10-prot-asks-chats-videos-proposal/
 ---
 
 I want to start a video series where I talk one-on-one with a person about Emacs, technology in general, and whatever life issues. The idea is to connect via Jitsi, Jami, Signal, or something similar, and I will take care to record the conversation. I will then host the video on my YouTube channel and publicise it on my website. The video will not be edited unless you think it is necessary.

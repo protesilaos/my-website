@@ -3,6 +3,7 @@ title: "Prot Asks: Thomas about Emacs writing, Brazilian Jiu Jitsu, sport cultur
 excerpt: "A video call where I learn from Thomas about blogging with Emacs, being involved with martial arts, sport culture, and manga."
 layout: vlog
 mediaid: "nvD0G4qawyA"
+redirect_from: /codelog/2025-07-16-prot-asks-thomas-emacs-bjj-sport-cult-manga/
 ---
 
 In this new video series, I talk to anybody who is interested to have

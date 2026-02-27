@@ -3,6 +3,7 @@ title: "Prot Asks: Amin about EmacsConf, Debian, GNU, Internet Archive, and Cana
 excerpt: "I talk to Amin Bandali about free software, free knowledge, the importance of community and the commons, and life in Canada."
 layout: vlog
 mediaid: "kbJ3i3QMozs"
+redirect_from: /codelog/2025-09-03-prot-asks-amin-emacsconf-gnu-debian-internet-archive-canada/
 ---
 
 In this video, I talk with Amin Bandali about free software, free

@@ -1,6 +1,7 @@
 ---
 title: "Common questions about the 'Prot Asks' videos on Emacs and Life"
 excerpt: "I want to clarify some points about my new video series where I talk to anybody about Emacs and life in general."
+redirect_from: /codelog/2025-07-14-common-questions-about-prot-asks-videos-emacs-life/
 ---
 
 A few days ago, I took the initiative to start a new "Prot Asks" video

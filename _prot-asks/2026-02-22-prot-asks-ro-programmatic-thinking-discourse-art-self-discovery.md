@@ -3,6 +3,7 @@ title: "Prot Asks: Ro about programmatic thinking, political discourse, and self
 excerpt: "In this 3-hour video I talk with Ro about a wide variety of issues that cover programming, politics, and art."
 layout: vlog
 mediaid: "JEiru0u6gD4"
+redirect_from: /commentary/2026-02-22-prot-asks-ro-programmatic-thinking-discourse-art-self-discovery/
 ---
 
 **UPDATE 2026-02-23 08:34 +0200:** The portrait is available here:

@@ -3,6 +3,7 @@ title: "Prot Asks: Carlos about Emacs for engineering, free software, and Spain"
 excerpt: "A video call where I learn from Carlos how Emacs is used for engineering. We also discuss scientific publishing and general life issues related to Spain."
 layout: vlog
 mediaid: "ENJdpDMYHKk"
+redirect_from: /codelog/2025-07-12-prot-asks-carlos-emacs-engineering-life-spain/
 ---
 
 In this new video series, I talk to anybody who is interested to have

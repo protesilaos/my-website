@@ -3,6 +3,7 @@ title: "Prot Asks: Ovi about Clojure development and business, Emacs, and AI"
 excerpt: "I talk with Ovidiu 'Ovi' Stoica about Clojure programming and business, Emacs, and various topics related to AI."
 layout: vlog
 mediaid: "6iM9ftHZ_ZE"
+redirect_from: /codelog/2025-10-15-prot-asks-ovi-clojure-emacs-ai/
 ---
 
 In this ~2-hour video, I talk with Ovidiu "Ovi" Stoica about
