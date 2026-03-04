@@ -1,5 +1,5 @@
 ---
-title: "Not for an eternity"
+title: "Poem: Not for an eternity"
 excerpt: "Just read the poem. No further comment."
 ---
 
