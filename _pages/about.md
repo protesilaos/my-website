@@ -121,6 +121,8 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - A [portrait of me by Ro](https://protesilaos.com/selfies/2026-02-23-prot-portrait-by-ro/) (2026-02-23).
 
+- A ~2-hour [talk with Joshua Blais about Emacs and life issues](https://protesilaos.com/codelog/2026-03-05-emacs-and-philosophy-chat-with-joshua-blais/) (2026-03-05).
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
