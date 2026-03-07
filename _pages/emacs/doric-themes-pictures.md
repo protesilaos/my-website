@@ -4,13 +4,23 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `1.0.0`. The
+The following screen shots correspond to version `1.1.0-dev`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
 perception of what is on display.  Also note that dark themes are best
 reviewed against a dark backdrop, otherwise it is very hard to discern
 subtle differences in colour.
+
+## doric-almond
+
+<a href="{{'/assets/images/doric/doric-almond.png' | absolute_url }}"><img alt="doric-almond theme sample" src="{{'/assets/images/doric/doric-almond.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-almond-org.png' | absolute_url }}"><img alt="doric-almond theme sample" src="{{'/assets/images/doric/doric-almond-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-almond-message.png' | absolute_url }}"><img alt="doric-almond theme sample" src="{{'/assets/images/doric/doric-almond-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-almond-magit.png' | absolute_url }}"><img alt="doric-almond theme sample" src="{{'/assets/images/doric/doric-almond-magit.png' | absolute_url }}"/></a>
 
 ## doric-beach
 
@@ -31,6 +41,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-cherry-message.png' | absolute_url }}"><img alt="doric-cherry theme sample" src="{{'/assets/images/doric/doric-cherry-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-cherry-magit.png' | absolute_url }}"><img alt="doric-cherry theme sample" src="{{'/assets/images/doric/doric-cherry-magit.png' | absolute_url }}"/></a>
+
+## doric-coral
+
+<a href="{{'/assets/images/doric/doric-coral.png' | absolute_url }}"><img alt="doric-coral theme sample" src="{{'/assets/images/doric/doric-coral.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-coral-org.png' | absolute_url }}"><img alt="doric-coral theme sample" src="{{'/assets/images/doric/doric-coral-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-coral-message.png' | absolute_url }}"><img alt="doric-coral theme sample" src="{{'/assets/images/doric/doric-coral-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-coral-magit.png' | absolute_url }}"><img alt="doric-coral theme sample" src="{{'/assets/images/doric/doric-coral-magit.png' | absolute_url }}"/></a>
 
 ## doric-earth
 
@@ -132,6 +152,16 @@ subtle differences in colour.
 
 <a href="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"><img alt="doric-fire theme sample" src="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"/></a>
 
+## doric-magma
+
+<a href="{{'/assets/images/doric/doric-magma.png' | absolute_url }}"><img alt="doric-magma theme sample" src="{{'/assets/images/doric/doric-magma.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-magma-org.png' | absolute_url }}"><img alt="doric-magma theme sample" src="{{'/assets/images/doric/doric-magma-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-magma-message.png' | absolute_url }}"><img alt="doric-magma theme sample" src="{{'/assets/images/doric/doric-magma-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-magma-magit.png' | absolute_url }}"><img alt="doric-magma theme sample" src="{{'/assets/images/doric/doric-magma-magit.png' | absolute_url }}"/></a>
+
 ## doric-mermaid
 
 <a href="{{'/assets/images/doric/doric-mermaid.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid.png' | absolute_url }}"/></a>
@@ -181,6 +211,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-valley-message.png' | absolute_url }}"><img alt="doric-valley theme sample" src="{{'/assets/images/doric/doric-valley-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-valley-magit.png' | absolute_url }}"><img alt="doric-valley theme sample" src="{{'/assets/images/doric/doric-valley-magit.png' | absolute_url }}"/></a>
+
+## doric-walnut
+
+<a href="{{'/assets/images/doric/doric-walnut.png' | absolute_url }}"><img alt="doric-walnut theme sample" src="{{'/assets/images/doric/doric-walnut.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-walnut-org.png' | absolute_url }}"><img alt="doric-walnut theme sample" src="{{'/assets/images/doric/doric-walnut-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-walnut-message.png' | absolute_url }}"><img alt="doric-walnut theme sample" src="{{'/assets/images/doric/doric-walnut-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-walnut-magit.png' | absolute_url }}"><img alt="doric-walnut theme sample" src="{{'/assets/images/doric/doric-walnut-magit.png' | absolute_url }}"/></a>
 
 ## doric-water
 
