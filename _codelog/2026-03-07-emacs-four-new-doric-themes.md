@@ -1,5 +1,5 @@
 ---
-title: "Emacs: four new themes coming to the 'doric-themes'"
+title: "Emacs: four new themes are coming to the 'doric-themes'"
 excerpt: "I am developing four new themes for my minimalist 'doric-themes' package."
 ---
 
