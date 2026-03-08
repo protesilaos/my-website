@@ -61,11 +61,8 @@ schedule a meeting that suits both parties.
 
 ## Pricing
 
-Lessons cost 20 EUR per hour.
-
-Students are entitled to the discounted price of 15 EUR per hour. I
-will not ask for proof if you are a student or not: I trust you to be
-honest.
+Lessons cost 10 EUR per hour. If we spend a little bit more than one
+hour, I will still count it as one hour.
 
 ## Payments
 
