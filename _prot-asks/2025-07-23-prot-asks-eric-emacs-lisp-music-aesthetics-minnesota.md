@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Eric about Emacs, aesthetics in code, 
 layout: vlog
 mediaid: "NQfzh0npNfQ"
 redirect_from: /codelog/2025-07-23-prot-asks-eric-emacs-lisp-music-aesthetics-minnesota/
+archive_link: https://archive.org/details/prot-codelog-2025-07-23-prot-asks-eric-emacs-lisp-music-aesthetics-minnesota
 ---
 
 In this new video series, I talk to anybody who is interested to have

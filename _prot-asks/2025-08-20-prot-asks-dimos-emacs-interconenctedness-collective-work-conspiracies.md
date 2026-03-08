@@ -4,6 +4,7 @@ excerpt: "I talk with Dimos about Emacs as an integrated computing environment, 
 layout: vlog
 mediaid: "c5KV_P7K73Y"
 redirect_from: /codelog/2025-08-20-prot-asks-dimos-emacs-interconenctedness-collective-work-conspiracies/
+archive_link: https://archive.org/details/prot-codelog-2025-08-20-prot-asks-dimos-emacs-interconenctedness-collective-work-conspiracies
 ---
 
 In this new video series, I talk to anybody who is interested to have

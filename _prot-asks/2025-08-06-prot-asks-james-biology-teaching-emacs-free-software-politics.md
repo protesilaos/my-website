@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from James about teaching biology at a top 
 layout: vlog
 mediaid: "YzVToImIm1Y"
 redirect_from: /codelog/2025-08-06-prot-asks-james-biology-teaching-emacs-free-software-politics/
+archive_link: https://archive.org/details/prot-codelog-2025-08-06-prot-asks-james-biology-teaching-emacs-free-software-politics
 ---
 
 In this new video series, I talk to anybody who is interested to have

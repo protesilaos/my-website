@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Rudy about a lot of geeky and fun topi
 layout: vlog
 mediaid: "9eC1kgq4mzA"
 redirect_from: /codelog/2025-07-30-prot-asks-rudy-emacs-game-dev-lisp-hacking-learning/
+archive_link: https://archive.org/details/prot-codelog-2025-07-30-prot-asks-rudy-emacs-game-dev-lisp-hacking-learning
 ---
 
 In this new video series, I talk to anybody who is interested to have

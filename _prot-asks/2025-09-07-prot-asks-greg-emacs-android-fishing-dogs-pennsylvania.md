@@ -4,6 +4,7 @@ excerpt: "I talk to Greg about a number of topics ranging from the technical wor
 layout: vlog
 mediaid: "8iovwdREt1o"
 redirect_from: /codelog/2025-09-07-prot-asks-greg-emacs-android-fishing-dogs-pennsylvania/
+archive_link: https://archive.org/details/prot-codelog-2025-09-07-prot-asks-greg-emacs-android-fishing-dogs-pennsylvania
 ---
 
 In this video, I talk to Greg about a number of topics ranging from

@@ -4,6 +4,7 @@ excerpt: "In this 3-hour video I talk with Ro about a wide variety of issues tha
 layout: vlog
 mediaid: "JEiru0u6gD4"
 redirect_from: /commentary/2026-02-22-prot-asks-ro-programmatic-thinking-discourse-art-self-discovery/
+archive_link: https://archive.org/details/prot-commentary-2026-02-22-prot-asks-ro-programmatic-thinking-discourse-art-self-discovery
 ---
 
 **UPDATE 2026-02-23 08:34 +0200:** The portrait is available here:

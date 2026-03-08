@@ -4,6 +4,7 @@ excerpt: "I talk to Christian Tietze about his indie and freelancing programming
 layout: vlog
 mediaid: "fQryiKaNmzE"
 redirect_from: /codelog/2025-10-05-prot-asks-christian-indie-dev-philosophy-experiences-zettelkasten/
+archive_link: https://archive.org/details/prot-codelog-2025-10-05-prot-asks-christian-indie-dev-philosophy-experiences-zettelkasten
 ---
 
 In this ~2.5-hour video, I talk to Christian Tietze about a wide range

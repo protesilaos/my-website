@@ -4,6 +4,7 @@ excerpt: "I talk with Alex about interests related to programming, cycling, the 
 layout: vlog
 mediaid: "qxV_Uja4oYE"
 redirect_from: /codelog/2025-08-30-prot-asks-alex-lsp-elisp-guix-cycling-philosophy-go-swaywm/
+archive_link: https://archive.org/details/prot-codelog-2025-08-30-prot-asks-alex-lsp-elisp-guix-cycling-philosophy-go-swaywm
 ---
 
 In this new video series, I talk to anybody who is interested to have

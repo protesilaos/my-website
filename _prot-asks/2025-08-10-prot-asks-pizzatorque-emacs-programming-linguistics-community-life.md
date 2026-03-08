@@ -4,6 +4,7 @@ excerpt: "In this video, I learn from PizzaTorque about using Emacs for programm
 layout: vlog
 mediaid: "-g8o0M9CRkA"
 redirect_from: /codelog/2025-08-10-prot-asks-pizzatorque-emacs-programming-linguistics-community-life/
+archive_link: https://archive.org/details/prot-codelog-2025-08-10-prot-asks-pizzatorque-emacs-programming-linguistics-community-life
 ---
 
 In this new video series, I talk to anybody who is interested to have

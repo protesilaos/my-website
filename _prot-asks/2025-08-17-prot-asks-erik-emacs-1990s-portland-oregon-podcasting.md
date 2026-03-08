@@ -4,6 +4,7 @@ excerpt: "In this video, I talk with Erik Arneson about Emacs over the years, al
 layout: vlog
 mediaid: "6wkfFdiwpyU"
 redirect_from: /codelog/2025-08-17-prot-asks-erik-emacs-1990s-portland-oregon-podcasting/
+archive_link: https://archive.org/details/prot-codelog-2025-08-17-prot-asks-erik-emacs-1990s-portland-oregon-podcasting
 ---
 
 In this new video series, I talk to anybody who is interested to have

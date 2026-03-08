@@ -4,6 +4,7 @@ excerpt: "In this video, I learn from Arni about using Emacs to minimise distrac
 layout: vlog
 mediaid: "TkodLFMrO6s"
 redirect_from: /codelog/2025-08-13-prot-asks-arni-emacs-no-distractions-art/
+archive_link: https://archive.org/details/prot-codelog-2025-08-13-prot-asks-arni-emacs-no-distractions-art
 ---
 
 In this new video series, I talk to anybody who is interested to have

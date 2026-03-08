@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Carlos how Emacs is used for engineeri
 layout: vlog
 mediaid: "ENJdpDMYHKk"
 redirect_from: /codelog/2025-07-12-prot-asks-carlos-emacs-engineering-life-spain/
+archive_link: https://archive.org/details/prot-codelog-2025-07-12-prot-asks-carlos-emacs-engineering-life-spain
 ---
 
 In this new video series, I talk to anybody who is interested to have

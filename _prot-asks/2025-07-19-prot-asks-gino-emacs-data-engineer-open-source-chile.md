@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Gino about how Emacs can be used for d
 layout: vlog
 mediaid: "PTKkxhMP6LY"
 redirect_from: /codelog/2025-07-19-prot-asks-gino-emacs-data-engineer-open-source-chile/
+archive_link: https://archive.org/details/prot-codelog-2025-07-19-prot-asks-gino-emacs-data-engineer-open-source-chile
 ---
 
 In this new video series, I talk to anybody who is interested to have

@@ -4,6 +4,7 @@ excerpt: "I talk with Ovidiu 'Ovi' Stoica about Clojure programming and business
 layout: vlog
 mediaid: "6iM9ftHZ_ZE"
 redirect_from: /codelog/2025-10-15-prot-asks-ovi-clojure-emacs-ai/
+archive_link: https://archive.org/details/prot-codelog-2025-10-15-prot-asks-ovi-clojure-emacs-ai
 ---
 
 In this ~2-hour video, I talk with Ovidiu "Ovi" Stoica about

@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Diego about using Emacs for developmen
 layout: vlog
 mediaid: "QDVatF4Fk8o"
 redirect_from: /codelog/2025-08-02-prot-asks-diego-emacs-use-head-engineering-industry-combat-sports/
+archive_link: https://archive.org/details/prot-codelog-2025-08-02-prot-asks-diego-emacs-use-head-engineering-industry-combat-sports
 ---
 
 In this new video series, I talk to anybody who is interested to have

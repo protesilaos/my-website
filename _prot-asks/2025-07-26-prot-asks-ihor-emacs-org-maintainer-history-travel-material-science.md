@@ -4,6 +4,7 @@ excerpt: "A video call where I learn from Ihor Radchenko about how Emacs Org mod
 layout: vlog
 mediaid: "ZrPtIGln5ps"
 redirect_from: /codelog/2025-07-26-prot-asks-ihor-emacs-org-maintainer-history-travel-material-science/
+archive_link: https://archive.org/details/prot-codelog-2025-07-26-prot-asks-ihor-emacs-org-maintainer-history-travel-material-science
 ---
 
 In this new video series, I talk to anybody who is interested to have a video call with me (so do contact me if you want!). The topics cover anything related to Emacs, technology, and life in general. More information in the announcement I posted: <https://protesilaos.com/codelog/2025-07-10-prot-asks-chats-videos-proposal/>.
