@@ -13,6 +13,8 @@ questions from participants, which I answered. A recording of the
 event will be available before the end of this week. I will update
 this article to include a link to the video.
 
+**UPDATE 2026-03-16 07:49 +0200:** The video is here: <https://ogeer.org/ox/rec/emacs/>.
+
 Below is the text of my talk. It is titled "Computing in freedom with
 GNU Emacs". Note that some parts of my presentation only make sense in
 the video format, though I tried to describe in the transcript what I
