@@ -93,5 +93,5 @@ every corner of it to develop profound insights. A small portion will
 suffice. I have not seen all of the flowers, for instance. The ones
 that do grow in my vicinity are beautiful. Appreciating their beauty
 does not require knowledge of the totality of flowers. I do not have
-to fathom every possible flower. What I get is enough and am thankful
-for it.
+to fathom every possible flower. What I get is enough and I am
+thankful for it.
