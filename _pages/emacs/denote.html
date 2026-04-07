@@ -181,10 +181,11 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:8b542c50-dcc9-4bca-8037-a36599b22779">15. Use Org dynamic blocks</a></li>
 <li><a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">16. Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></a>
 <ul>
-<li><a href="#h:a34228cb-484f-48fe-9cbc-8e41f313127b">16.1. Configure what extra prompts <code>denote-sort-dired</code> issues</a></li>
-<li><a href="#h:c958e087-1d23-4a25-afdd-db7bf5606b4c">16.2. Define a sorting function per component</a>
+<li><a href="#h:738b4895-00e3-47a5-a1de-bb0eeef93998">16.1. Focus the <code>denote-dired</code> buffer with <code>denote-dired-focus</code></a></li>
+<li><a href="#h:a34228cb-484f-48fe-9cbc-8e41f313127b">16.2. Configure what extra prompts <code>denote-sort-dired</code> issues</a></li>
+<li><a href="#h:c958e087-1d23-4a25-afdd-db7bf5606b4c">16.3. Define a sorting function per component</a>
 <ul>
-<li><a href="#h:95345870-4ccd-484f-9adf-de4747ad5760">16.2.1. Sort signatures that include Luhmann-style sequences</a></li>
+<li><a href="#h:95345870-4ccd-484f-9adf-de4747ad5760">16.3.1. Sort signatures that include Luhmann-style sequences</a></li>
 </ul>
 </li>
 </ul>
@@ -1834,7 +1835,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org59da4c9">
+<pre class="example" id="orgf3d4135">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2420,7 +2421,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orge8d1642">
+<pre class="example" id="org3b34354">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2440,7 +2441,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org6f5869a">
+<pre class="example" id="org2825c2b">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3169,7 +3170,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org86feb4d">
+<pre class="example" id="org2891870">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3838,7 +3839,7 @@ the <code>org</code> symbol, which is the default):
   results in certain cases. ]
 </p>
 
-<pre class="example" id="org4d264fe">
+<pre class="example" id="org10220fb">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3850,7 +3851,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org3467de1">
+<pre class="example" id="org12f7dd2">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3864,7 +3865,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgafb23c8">
+<pre class="example" id="org2430f14">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3878,7 +3879,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org607d682">
+<pre class="example" id="orgb88414d">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4215,7 +4216,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orge0d6da0">
+<pre class="example" id="orgcb38a2c">
 - link1
 - link2
 - link3
@@ -4238,7 +4239,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org0e36d33">
+<pre class="example" id="org12fe4c6">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4596,7 +4597,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org59e07a7">
+<pre class="example" id="orgc4670c3">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5165,8 +5166,35 @@ package (by Protesilaos) defines also use this feature internally by
 means of the non-interactive function <code>denote-sort-files</code>.
 </p>
 </div>
+<div id="outline-container-h:738b4895-00e3-47a5-a1de-bb0eeef93998" class="outline-3">
+<h3 id="h:738b4895-00e3-47a5-a1de-bb0eeef93998"><span class="section-number-3">16.1.</span> Focus the <code>denote-dired</code> buffer with <code>denote-dired-focus</code></h3>
+<div class="outline-text-3" id="text-h:738b4895-00e3-47a5-a1de-bb0eeef93998">
+<p>
+[ This is part of 4.2.0-dev. The specifics may change. ]
+</p>
+
+<p>
+The command <code>denote-dired-focus</code> (alias <code>denote-sort-dired-focus</code>)
+gives users the option to further filter an existing Dired buffer that
+was produced by the <code>denote-dired</code> command (<a href="#h:9fe01e63-f34f-4479-8713-f162a5ca865e">Display filtered and sorted files with <code>denote-sort-dired</code> or <code>denote-dired</code></a>).
+</p>
+
+<p>
+Call <code>denote-dired-focus</code> from inside such a Dired buffer to further
+limit its contents to files matching the given regular expression or
+plain string. This is not a new query. It builds on top of the current
+Dired buffer&rsquo;s file list to operate only on those files.
+</p>
+
+<p>
+Call <code>denote-dired-focus</code> with a prefix argument (<code>C-u</code> by default) to
+invert the logic: all the files that match the given regular
+expression are removed from the Dired buffer.
+</p>
+</div>
+</div>
 <div id="outline-container-h:a34228cb-484f-48fe-9cbc-8e41f313127b" class="outline-3">
-<h3 id="h:a34228cb-484f-48fe-9cbc-8e41f313127b"><span class="section-number-3">16.1.</span> Configure what extra prompts <code>denote-sort-dired</code> issues</h3>
+<h3 id="h:a34228cb-484f-48fe-9cbc-8e41f313127b"><span class="section-number-3">16.2.</span> Configure what extra prompts <code>denote-sort-dired</code> issues</h3>
 <div class="outline-text-3" id="text-h:a34228cb-484f-48fe-9cbc-8e41f313127b">
 <p>
 By default, the <code>denote-sort-dired</code> command prompts for (i) a query to
@@ -5228,7 +5256,7 @@ Here are some examples:
 </div>
 </div>
 <div id="outline-container-h:c958e087-1d23-4a25-afdd-db7bf5606b4c" class="outline-3">
-<h3 id="h:c958e087-1d23-4a25-afdd-db7bf5606b4c"><span class="section-number-3">16.2.</span> Define a sorting function per component</h3>
+<h3 id="h:c958e087-1d23-4a25-afdd-db7bf5606b4c"><span class="section-number-3">16.3.</span> Define a sorting function per component</h3>
 <div class="outline-text-3" id="text-h:c958e087-1d23-4a25-afdd-db7bf5606b4c">
 <p>
 When sorting by <code>title</code>, <code>keywords</code>, <code>signature</code>, <code>identifier</code>,
@@ -5270,7 +5298,7 @@ of those file name components can write their own sorting algorithms
 </p>
 </div>
 <div id="outline-container-h:95345870-4ccd-484f-9adf-de4747ad5760" class="outline-4">
-<h4 id="h:95345870-4ccd-484f-9adf-de4747ad5760"><span class="section-number-4">16.2.1.</span> Sort signatures that include Luhmann-style sequences</h4>
+<h4 id="h:95345870-4ccd-484f-9adf-de4747ad5760"><span class="section-number-4">16.3.1.</span> Sort signatures that include Luhmann-style sequences</h4>
 <div class="outline-text-4" id="text-h:95345870-4ccd-484f-9adf-de4747ad5760">
 <p>
 [ The <code>denote-sequence</code> package (by Protesilaos) covers this use-case
@@ -6253,7 +6281,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org9a30c32">
+<pre class="example" id="orgd008dd4">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7878,7 +7906,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orge439623">
+<pre class="example" id="org6f6e9ca">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7888,7 +7916,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org8502c88">
+<pre class="example" id="org2f366b6">
 emacs -Q
 </pre>
 
@@ -7900,7 +7928,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org7c9ffec">
+<pre class="example" id="orgde3c86b">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7961,7 +7989,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgc5dc460">
+<pre class="example" id="orga5148ae">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8691,9 +8719,9 @@ Peter Prevos, Peter Smith, Riccardo Giannitrapani, Rory Molinari,
 Samuel W. Flint, Sergio Rey, Suhail Singh, Shreyas Ragavan, Stefan
 Thesing, Summer Emacs, Sven Seebeck, Taoufik, TJ Stankus, Vick
 (VicZz), Viktor Haag, Vineet C. Kulkarni, Wade Mealing, Wilf, Yi
-Liu, Ypot, atanasj, azegas, babusri, bdillahu, coherentstate,
-doolio, duli, drcxd, elge70, elliottw, fingerknight, hpgisler,
-hyperfocus1337,johkneisl, jtpavlock, juh, leafarbelm,
+Liu, Ypot, 82Kang, atanasj, azegas, babusri, bdillahu,
+coherentstate, doolio, duli, drcxd, elge70, elliottw, fingerknight,
+hpgisler, hyperfocus1337,johkneisl, jtpavlock, juh, leafarbelm,
 mentalisttraceur, mjkalyan, oatmealm, Pratik-Mishra-4979, pRot0ta1p,
 rbenit68, relict007, sarcom-sar, sienic, skissue, sundar bp,
 wuzhihao, yetanotherfossman, zadca123</dd>
