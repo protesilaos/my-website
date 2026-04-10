@@ -1,6 +1,6 @@
 ---
 title: "Emacs live stream for writing Denote tests and more on Monday 6 April @ 20:00 Europe/Athens"
-excerpt: "I am doing a live stream related to Emacs, where I will try to implement a new feature for the denote-sequence package."
+excerpt: "I am doing a live stream related to Emacs, where I will write tests for Denote."
 layout: vlog
 mediaid: "Vunpn7ovEOc"
 ---
