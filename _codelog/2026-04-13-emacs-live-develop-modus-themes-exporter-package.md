@@ -5,6 +5,11 @@ layout: vlog
 mediaid: "IVTqn9IgBN4"
 ---
 
+**UPDATE 2026-04-13 18:00 +0300:** I wrote the package during the
+stream: <https://github.com/protesilaos/modus-themes-exporter>.
+
+* * *
+
 [ The stream will be recorded. You can watch it later. ]
 
 Today, the 13th of April 2026, at 15:00 Europe/Athens I will do a live
