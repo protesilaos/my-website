@@ -268,6 +268,17 @@ default.
   Institution ... Cambridge Added Lent Entry Notwithstanding Dates
   Already Recorded.
 
+## Modus themes exporter
+
+Export a `modus-themes` (or derivative like the `ef-themes` and the
+`standard-themes`) to other applications. The idea is to have the
+colours that Emacs uses be applied to your terminal emulator or other
+text editor.
+
++ Git repository: <https://github.com/protesilaos/modus-themes-exporter>
++ Backronym: modus-themes... Export Xenotropically Preconfigured
+  Orderly Rendered Terminal Emulator Reifications.
+
 ## aLtCaPs
 
 The `altcaps` package is a small, focused-in-scope tool that helps
