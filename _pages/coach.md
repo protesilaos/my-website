@@ -82,7 +82,7 @@ The payment methods are as follows:
 3. Use a **direct bank transfer** via the [International Bank Account
    Number (IBAN)](https://en.wikipedia.org/wiki/International_Bank_Account_Number).
    My IBAN is `CY23 0090 0520 0005 2010 0144 6252`. Make sure you are
-   specifying my full name, namely, `Protesilaos Stavrou`, and are
+   specifying my legal name, namely, `Protesilaos Stavrou`, and are
    using the Euro (EUR) currency. Though you most likely do not need
    this, the BIC SWIFT code of my bank's branch is `ABKLCY2N`.
    Depending on your country, bank transfers may either be the

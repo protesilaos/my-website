@@ -1,6 +1,6 @@
 ---
 title: "About me"
-excerpt: "About Protesilaos Stavrou."
+excerpt: "About Protesilaos, also known as Prot."
 permalink: /about/
 redirect_from:
   - /author

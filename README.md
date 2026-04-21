@@ -1,4 +1,4 @@
-# Source code for the personal website of Protesilaos Stavrou
+# Source code for the personal website of Protesilaos
 
 For the license structure and resources used in this website, refer to
 the [license and resources page](https://protesilaos.com/license).
