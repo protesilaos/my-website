@@ -1831,7 +1831,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org3a8a7a4">
+<pre class="example" id="org7add67b">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2417,7 +2417,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org1339084">
+<pre class="example" id="org57cc28d">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2436,7 +2436,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgf3cef85">
+<pre class="example" id="org8ebc4d0">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3161,7 +3161,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org743c785">
+<pre class="example" id="orgca991c5">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3827,7 +3827,7 @@ the <code>org</code> symbol, which is the default):
   results in certain cases. ]
 </p>
 
-<pre class="example" id="orgfc84cb7">
+<pre class="example" id="org7b83614">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3839,7 +3839,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgf90e407">
+<pre class="example" id="org6ebb8dd">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3853,7 +3853,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orge5489b1">
+<pre class="example" id="org34da404">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3867,7 +3867,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="orgaf66fbd">
+<pre class="example" id="orgb9208bd">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4204,7 +4204,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="orgc246ff4">
+<pre class="example" id="org67930e9">
 - link1
 - link2
 - link3
@@ -4227,7 +4227,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgd12f7aa">
+<pre class="example" id="orgdd11c51">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4582,7 +4582,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org70d2a4e">
+<pre class="example" id="orged29459">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -6264,7 +6264,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="org7ea9356">
+<pre class="example" id="org0e8d8b4">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7311,6 +7311,16 @@ case it is not added to the base file name.
 <h3 id="h:9b32bf7d-1569-4495-801c-8835f022d72e"><span class="section-number-3">22.4.</span> Data retrieval interface for developers or advanced users</h3>
 <div class="outline-text-3" id="text-h:9b32bf7d-1569-4495-801c-8835f022d72e">
 <dl class="org-dl">
+<dt>Function <code>denote-file-type</code></dt><dd>Use the file extension to detect the
+file type of FILE. Do so in accordance with <code>denote-file-types</code>. If
+more than one file type correspond to this file extension, return
+the first file type whose <code>:get-file-type-function</code> returns non-nil.
+If <code>:get-file-type-function</code> is nil rely on the <code>:title-key-regexp</code>
+and return the first matching file type. Return nil if FILE is not
+recognized. [ Revised as part of 4.2.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Variable <code>denote-get-identifier-function</code></dt><dd>The function to
 generate an identifier as a non-empty string. The function takes two
 arguments: an initial identifier and a date. The initial identifier
@@ -7628,6 +7638,20 @@ strings.  Consult the <code>denote-file-types</code> for how this is used.</dd>
 </dl>
 
 <dl class="org-dl">
+<dt>Function <code>denote-get-file-type-markdown-yaml</code></dt><dd>Return
+<code>markdown-yaml</code> if FILE has YAML front matter. YAML front matter
+starts with <code>---</code> on the first line. Consult the <code>denote-file-types</code>
+for how this is used. [ Part of 4.2.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-get-file-type-markdown-toml</code></dt><dd>Return
+<code>markdown-toml</code> if FILE has TOML front matter. Consult the
+<code>denote-file-types</code> for how this is used. TOML front matter starts
+with <code>+++</code> on the first line. [ Part of 4.2.0-dev. ]</dd>
+</dl>
+
+<dl class="org-dl">
 <dt>Variable <code>denote-file-types</code></dt><dd><p>
 Alist of <code>denote-file-type</code> and
 their format properties.
@@ -7646,6 +7670,12 @@ that defines a new file type.
 <ol class="org-ol">
 <li><code>:extension</code> is a string with the file extension including the
 period.</li>
+
+<li><code>:get-file-type-function</code> a function with one parameter, a given
+file, that reads the file contents and returns the file type as a
+symbol or nil. If there is no function, Denote will fall back to
+a search for a title in the front matter (per <code>:title-key-regexp</code>,
+which is described below). [ Part of 4.2.0-dev. ]</li>
 
 <li><code>:date-function</code> is a function that can format a date.  See the
 functions <code>denote--date-iso-8601</code>, <code>denote--date-rfc3339</code>, and
@@ -7888,7 +7918,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgf54e717">
+<pre class="example" id="org99c6a1e">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -7898,7 +7928,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org915a4f2">
+<pre class="example" id="orga74754b">
 emacs -Q
 </pre>
 
@@ -7910,7 +7940,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgc8ee7e8">
+<pre class="example" id="orgf70bdb9">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -7971,7 +8001,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org76ac468">
+<pre class="example" id="orgca4f983">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
