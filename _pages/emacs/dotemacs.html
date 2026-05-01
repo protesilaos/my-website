@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-04-24 22:27:32 +0300</b> with a word
-  count of <b>116122</b>. ]
+[ Last revised and exported on <b>2026-05-01 19:25:50 +0300</b> with a word
+  count of <b>116285</b>. ]
 </p>
 
 <p>
@@ -429,7 +429,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-04-24 22:27:32 +0300):
+(2026-05-01 19:25:50 +0300):
 </p>
 
 <div class="org-src-container">
@@ -523,7 +523,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgcd9959c">
+<pre class="example" id="org30cbb15">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -603,7 +603,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org3bbcb27">
+<pre class="example" id="org0f29773">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -611,7 +611,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org072fef2">
+<pre class="example" id="org912db4f">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1476,7 +1476,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgcf3f0a0">
+<pre class="example" id="orgb6b627b">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1548,7 +1548,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org6c6f422">
+<pre class="example" id="orgccf1189">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1657,7 +1657,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org44cb5d5">
+<pre class="example" id="org9ac80a9">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1823,7 +1823,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orgaddadfb">
+<pre class="example" id="org15c5335">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4348,7 +4348,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgdda3cb1">
+<pre class="example" id="orgc9f9886">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4397,7 +4397,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orge64b44b">
+<pre class="example" id="orgc9b313f">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -6563,6 +6563,13 @@ have a more static interface). Though there are times I am slowing
 down the search and need the preview, at which point I call the
 Consult command on <code>M-s M-s</code> (<a href="#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d">The <code>prot-emacs-completion.el</code> settings for <code>consult</code></a>).</li>
 
+<li>Type <code>M-s O</code> (not to be conflated with <code>M-s o</code> which calls <code>occur</code>)
+to invoke the command <code>prot-search-collect</code>. It prompts for a
+regular expression and then collects all its matches in a separate
+buffer. The regular expression is matches as a substring, which then
+captures the entire word. For a search for <code>act</code> will collect <code>act</code>,
+<code>enact</code>, <code>interact</code>&hellip;</li>
+
 <li>Type <code>M-s M-o</code> (<code>prot-search-occur-outline</code>) to produce an outline
 of the given buffer. What constitutes an outline is defined in the
 user option <code>prot-search-outline-regexp-alist</code>. I only configure it
@@ -6608,6 +6615,7 @@ by visiting individual files or by using a grep buffer as an index.
    "M-s M-t" #'prot-search-grep-todo-keywords ; With C-u it runs `prot-search-git-grep-todo-keywords'
    "M-s M-T" #'prot-search-git-grep-todo-keywords
    "M-s s" #'prot-search-outline
+   "M-s O" #'prot-search-collect
    "M-s M-o" #'prot-search-occur-outline
    "M-s M-u" #'prot-search-occur-browse-url)
  (prot-emacs-keybind isearch-mode-map
@@ -7338,7 +7346,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org68152de">
+<pre class="example" id="orga0645a4">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7366,7 +7374,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="orgd50b168">
+<pre class="example" id="org1ea932b">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7444,7 +7452,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgf3bbcc9">
+<pre class="example" id="orgdb9b290">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7592,7 +7600,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgd0320da">
+<pre class="example" id="org0978794">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -7701,7 +7709,8 @@ to a certain height.
            (mode . (shell-mode eshell-mode comint-mode))
            (inhibit-switch-frame . t)
            (body-function . prot-window-select-fit-size))
-          ("\\*\\(Calendar\\|Bookmark Annotation\\|ert\\).*"
+          ((or . ((derived-mode . calendar-mode)
+                  (derived-mode . ert-results-mode)))
            (display-buffer-reuse-mode-window display-buffer-below-selected)
            (mode . (calendar-mode bookmark-edit-annotation-mode ert-results-mode))
            (inhibit-switch-frame . t)
@@ -9433,7 +9442,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org0c53bb4">
+<pre class="example" id="org2d8a138">
 (info "(org) Search Options")
 </pre>
 
@@ -9523,7 +9532,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgf86ee9a">
+<pre class="example" id="org67e9e6e">
 (require 'ob-python)
 
 ;; OR
@@ -10387,7 +10396,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org9fa0412">
+<pre class="example" id="orgaa74c51">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11217,7 +11226,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org3eada45">
+<pre class="example" id="org771f6ba">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11229,7 +11238,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgf1d9945">
+<pre class="example" id="orgfd9e9ce">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11292,7 +11301,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org47f7db0">
+<pre class="example" id="org4eec7b0">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11304,7 +11313,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org3d89474">
+<pre class="example" id="org81b3315">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11326,7 +11335,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org5c290d8">
+<pre class="example" id="org0cbb468">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11441,7 +11450,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgba988d9">
+<pre class="example" id="orgdcb9cf5">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11572,7 +11581,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org90eaf58">
+<pre class="example" id="orgec55c37">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11584,7 +11593,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgdae5c82">
+<pre class="example" id="orgee84eee">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12712,7 +12721,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org75c2424">
+<pre class="example" id="org08b0c10">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12809,7 +12818,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgf346d02">
+<pre class="example" id="orgbb93c99">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13128,7 +13137,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org842cc43">
+<pre class="example" id="orga1382fe">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -14602,10 +14611,7 @@ return value."
   "Like `emacs-lisp-mode' but for macroexpanded forms."
   :interactive nil
   (read-only-mode 1)
-  (display-line-numbers-mode 1)
-  (setq-local elisp-fontify-semantically t
-              elisp-add-help-echo t)
-  (cursor-sensor-mode 1))
+  (display-line-numbers-mode 1))
 
 ;;;###autoload
 (defun prot-elisp-pp-macroexpand-last-sexp ()
@@ -18292,6 +18298,31 @@ boundaries, else start from point to the end of the buffer."
 ;;   (isearch-forward-symbol-at-point)
 ;;   (isearch-query-replace-regexp))
 
+(defvar prot-search-collect-history nil
+  "Minibuffer history for `prot-search-collect'.")
+
+;;;###autoload
+(defun prot-search-collect (regexp)
+  "Return matches for REGEXP as a substring in the current buffer.
+Put the results in a *prot-search-collect* buffer."
+  (interactive
+   (list
+    (format "\\&lt;\\w*%s\\w*\\&gt;" (read-string "Collect REGEXP: " nil 'prot-search-collect-history))))
+  (save-excursion
+    (goto-char (point-min))
+    (let ((matches nil))
+      (while (re-search-forward regexp nil t)
+        (push (match-string 0) matches))
+      (when matches
+        (setq matches (nreverse matches))
+        (let ((buffer (get-buffer-create "*prot-search-collect*")))
+          (with-current-buffer buffer
+            (erase-buffer)
+            (dolist (match matches)
+              (insert match)
+              (insert "\n")))
+          (display-buffer buffer))))))
+
 (autoload 'goto-address-mode "goto-addr")
 
 ;;;###autoload
@@ -20815,7 +20846,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgca467b5">
+<pre class="example" id="org3ab5eb9">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20847,7 +20878,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgd460b21">
+<pre class="example" id="org500d71d">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
