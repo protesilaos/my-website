@@ -6,6 +6,9 @@ excerpt: "Some basic settings for Emacs that I consider useful for most users."
 These are the basic settings for Emacs that I shared with Sacha Chua
 during our livestreamed meeting on 2026-04-30: <https://www.youtube.com/watch?v=z7pcLdwuyxE>.
 
+**UPDATE 2026-05-01 08:24 +0300:** Added a missing `:config` to the
+`bookmark` block.
+
 ```elisp
 ;;; Sensible defaults that are not too intrusive and focus on common use-cases.  By Protesilaos on 2026-04-30.
 
@@ -121,6 +124,7 @@ The DWIM behaviour of this command is as follows:
 ;;;; Bookmarks
 (use-package bookmark
   :ensure nil
+  :config
   ;; Emacs 29 displays a bookmark icon on the fringe.  Many people
   ;; have asked me what that thing is.  I also think it is confusing.
   (setq bookmark-fringe-mark nil)
