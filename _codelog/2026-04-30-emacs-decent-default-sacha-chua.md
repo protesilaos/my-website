@@ -9,6 +9,9 @@ during our livestreamed meeting on 2026-04-30: <https://www.youtube.com/watch?v=
 **UPDATE 2026-05-01 08:24 +0300:** Added a missing `:config` to the
 `bookmark` block.
 
+**UPDATE 2026-05-02 22:33 +0300:** Replaced duplicate `variable-pitch`
+with the intended `fixed-pitch`.
+
 ```elisp
 ;;; Sensible defaults that are not too intrusive and focus on common use-cases.  By Protesilaos on 2026-04-30.
 
@@ -80,7 +83,7 @@ The DWIM behaviour of this command is as follows:
   ;; Set your favourite font for elements that are designed to always
   ;; be monospaced.  The height SHOULD BE a floating point, which is
   ;; interpreted as relative to the `default'.
-  (set-face-attribute 'variable-pitch nil :family "Aporetic Serif Mono" :height 1.0)
+  (set-face-attribute 'fixed-pitch nil :family "Aporetic Serif Mono" :height 1.0)
   ;; Same as above for proportionately spaced elements.  Make any
   ;; buffer proportionately spaced by enabling the `variable-pitch-mode'.
   ;;
