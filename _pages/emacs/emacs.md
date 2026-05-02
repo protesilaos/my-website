@@ -314,6 +314,17 @@ Check out its sources:
 + Sample pictures: <https://protesilaos.com/codelog/2024-09-10-emacs-show-font-0-1-0/>
 + Backronym: Should Highlight Only With the Family Of the Named Typeface.
 
+## buffer-to-pdf
+
+Create a PDF out of your current buffer, exactly as you see it. To
+produce a document, go to a buffer and invoke the command
+`buffer-to-pdf`. It will prompt you for an orientation and then to
+what it must. There are options to configure the result.
+
+- Git repository: <https://github.com/protesilaos/buffer-to-pdf>.
+- Video demonstration: <https://protesilaos.com/codelog/2026-05-02-emacs-buffer-to-pdf-new-package/>.
+- Backronym: Bewitched Users Find Files Effortlessly Rendered To PDF.
+
 ## Logos
 
 This package provides a simple approach to setting up a "focus mode".
