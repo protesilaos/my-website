@@ -24,7 +24,7 @@ battlefield in what starts to look like theatrics for saving face
 rather than responsible statesmanship. America has not only failed in
 toppling the Iranian regime and in acquiring the enriched uranium, it
 has also managed to create an intractable situation with the closing
-of the Strait of Hormuz: a vital artery of the global energy markets
+of the Strait of Hormuz---a vital artery of the global energy markets
 which was, by the by, open prior to this unnecessary war. In the
 process, Trump appears beholden to his paymaster lobbyists and thus
 cannot be trusted to pursue policies that are in the well-meaning
@@ -51,9 +51,9 @@ side of the conflict, but of negative value to affected countries
 at-large. Effective leadership in such circumstances would be
 concerned with creating the conditions for the economic resilience of
 Europe through what used to work well, namely, sincere trade. Diverse
-alliances and strong business ties with the rest of the world, couched
-in terms of mutual respect, are essential. Once greed becomes doctrine
-and guile turns into policy, war is inevitable.
+alliances and strong commercial ties with the rest of the world,
+couched in terms of mutual respect, are essential. Once greed becomes
+doctrine and guile turns into policy, war is inevitable.
 
 Part of such a realignment involves closer ties with China, a
 recognition that the Middle East belongs to all of its peoples and
