@@ -26,11 +26,11 @@ Even a superpower has to think in terms of the economy of choices
 within fixed time frames and even a superpower can be a loser
 long-term after winning a war in the short run. Every war is costly in
 tangible and intangible ways. It is not enough to calculate how one
-can win on one front. They must rather consider whether they can
-retain their position in international affairs. 20th century history
-is enough to teach us that mighty empires, like the British and the
-French, can still be swept into the dustbin of history shortly after
-prevailing in a major war.
+can win on a single front. They must rather consider whether they can
+retain their position in international affairs altogether. 20th
+century history is enough to teach us that mighty empires, like the
+British and the French, can still be swept into the dustbin of history
+shortly after prevailing in a major war.
 
 For America to muster the forces necessary for a ground invasion in
 Iran, it not only needs months of preparation, but also to shift its
