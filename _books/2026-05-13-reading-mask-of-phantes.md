@@ -1,5 +1,5 @@
 ---
-title: "Philosophy: reading my 'The mask of Phantes' story"
+title: "Reading my 'The mask of Phantes' story"
 excerpt: "In this video I read out loud the story I wrote titled 'The mask of Phantes'."
 layout: vlog
 mediaid: "HKugnWiwHSQ"
