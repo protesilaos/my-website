@@ -91,7 +91,7 @@ begin with. But because Richard and friends share their work in the
 form of code and documentation, anyone can in principle learn and then
 give something back as well.
 
-I got into free software without any technical background and put it
+I got into free software without any technical background and put in
 the effort to learn. Me and everyone involved are sharing knowledge
 and programs, which improve parts of our life.
 
