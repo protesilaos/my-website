@@ -7,27 +7,27 @@ permalink: /emacs/denote-journal
 ---
 
 <p>
-This manual, written by Protesilaos Stavrou, describes the customization
+This manual, written by Protesilaos, describes the customization
 options for the Emacs package called <code>denote</code> (or <code>denote.el</code>), and
 provides every other piece of information pertinent to it.
 </p>
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.2.0, released on 2025-10-17.  Any reference to
+0.3.0, released on 2026-05-20.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.3.0-dev.
+Current development target is 0.4.0-dev.
 </p>
 
 <ul class="org-ul">
 <li>Package name (GNU ELPA): <code>denote-journal</code></li>
 <li>Official manual: <a href="https://protesilaos.com/emacs/denote-journal">https://protesilaos.com/emacs/denote-journal</a></li>
 <li>Git repository: <a href="https://github.com/protesilaos/denote-journal">https://github.com/protesilaos/denote-journal</a></li>
-<li>Backronym: Denote&#x2026; Journaling Obviously Utilises Reasonableness
+<li>Backronym: Denote&hellip; Journaling Obviously Utilises Reasonableness
 Notwithstanding Affectionate Longing.</li>
 </ul>
 
@@ -114,7 +114,6 @@ M-x package-refresh-contents
 M-x package-install
 </pre>
 
-
 <p>
 And search for it.
 </p>
@@ -136,7 +135,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -146,7 +145,7 @@ cd manual-packages
 
 # Clone this repo, naming it "denote-journal"
 git clone https://github.com/protesilaos/denote-journal denote-journal
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -154,9 +153,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/denote-journal")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -169,7 +168,7 @@ Everything is in place to set up the package.
 <h2 id="h:sample-configuration"><span class="section-number-2">3.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:sample-configuration">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package denote-journal
+<pre class="src src-emacs-lisp"><code>(use-package denote-journal
   :ensure t
   ;; Bind those to some key for your convenience.
   :commands ( denote-journal-new-entry
@@ -186,7 +185,7 @@ Everything is in place to set up the package.
   (setq denote-journal-keyword "journal")
   ;; Read the doc string of `denote-journal-title-format'.
   (setq denote-journal-title-format 'day-date-month-year))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -324,8 +323,8 @@ via the <code>calendar-mode-hook</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'calendar-mode-hook #'denote-journal-calendar-mode)
-</pre>
+<pre class="src src-emacs-lisp"><code>(add-hook 'calendar-mode-hook #'denote-journal-calendar-mode)
+</code></pre>
 </div>
 
 <p>
@@ -380,10 +379,10 @@ journal entry should be defined as a new parent sequence. Thus:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq denote-journal-signature
+<pre class="src src-emacs-lisp"><code>(setq denote-journal-signature
       (lambda ()
         (denote-sequence-get-new 'parent)))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -432,14 +431,14 @@ commands in the <code>org-capture</code> interface will want to use a variant of
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(with-eval-after-load 'org-capture
+<pre class="src src-emacs-lisp"><code>(with-eval-after-load 'org-capture
   (add-to-list 'org-capture-templates
                '("j" "Journal" entry
                  (file denote-journal-path-to-new-or-existing-entry)
                  "* %U %?\n%i\n%a"
                  :kill-buffer t
                  :empty-lines 1)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -469,7 +468,7 @@ package from GNU ELPA (<a href="#h:journaling-with-a-timer">Journaling with a ti
 Sometimes journaling is done with the intent to hone one&rsquo;s writing
 skills. Perhaps you are learning a new language or wish to communicate
 your ideas with greater clarity and precision. As with everything that
-requires a degree of sophistication, you have to work for it&#x2014;write,
+requires a degree of sophistication, you have to work for it&mdash;write,
 write, write!
 </p>
 
@@ -481,9 +480,9 @@ new timer can be set with something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Set 10 minute timer with the given description
+<pre class="src src-emacs-lisp"><code>;; Set 10 minute timer with the given description
 (tmr "10" "Practice writing in my journal")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -493,7 +492,7 @@ For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Add an anonymous function, which is more difficult to modify after
+<pre class="src src-emacs-lisp"><code>;; Add an anonymous function, which is more difficult to modify after
 ;; the fact:
 (add-hook 'denote-journal-hook (lambda () (tmr "10" "Practice writing in my journal")))
 
@@ -516,7 +515,7 @@ For example:
   (tmr my-denote-tmr-duration my-denote-tmr-description))
 
 (add-hook 'denote-journal-hook #'my-denote-tmr)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -550,7 +549,7 @@ Denote Journal is meant to be a collective effort.  Every bit of help matters.
 </p>
 
 <dl class="org-dl">
-<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+<dt>Author/maintainer</dt><dd>Protesilaos.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Abdelhak Bougouffa, Alan
 Schmitt, Ettore Berardi, Honza Pokorny, Josh Kingsley, Stefan
