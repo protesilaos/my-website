@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-05-21 10:01:46 +0300</b> with a word
-  count of <b>116808</b>. ]
+[ Last revised and exported on <b>2026-05-27 10:17:58 +0300</b> with a word
+  count of <b>116524</b>. ]
 </p>
 
 <p>
@@ -431,7 +431,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-05-21 10:01:46 +0300):
+(2026-05-27 10:17:58 +0300):
 </p>
 
 <div class="org-src-container">
@@ -525,7 +525,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org446e01e">
+<pre class="example" id="org90c6640">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -605,7 +605,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgad719fb">
+<pre class="example" id="org24bde15">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -613,7 +613,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="orgaeff8b2">
+<pre class="example" id="orgfab26b3">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1374,6 +1374,7 @@ attacks, which are really common these days.
   '(agitate
     altcaps
     beframe
+    buffer-to-pdf
     consult-denote
     cursory
     denote
@@ -1381,12 +1382,14 @@ attacks, which are really common these days.
     denote-markdown
     denote-merge
     denote-org
-    denote-silo
     denote-sequence
+    denote-silo
     dired-preview
     doric-themes
     ef-themes
     fontaine
+    gnome-accent-theme-switcher
+    institution-calendar
     lin
     logos
     mct
@@ -1478,7 +1481,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org3a2fd58">
+<pre class="example" id="org173534d">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1550,7 +1553,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org54ae383">
+<pre class="example" id="orgc103e35">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1659,7 +1662,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="orgab55679">
+<pre class="example" id="org10706f3">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1825,7 +1828,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org73644c2">
+<pre class="example" id="org47bae0e">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4380,7 +4383,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgd12b849">
+<pre class="example" id="org47b35de">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4429,7 +4432,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org3cc60c6">
+<pre class="example" id="orgb1b36c0">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -6566,10 +6569,6 @@ it with <code>C-RET</code> while in isearch (<a href="#h:e6fd4ff0-86c7-423b-9cf3
 
 <li>Delete the non-matching portion of a query in isearch with a single
 backspace instead of doing it character-by-character.</li>
-
-<li>Type <code>M-s M-&lt;</code> (<code>prot-search-isearch-beginning-of-buffer</code>) or <code>M-s
-  M-&gt;</code> (<code>prot-search-isearch-end-of-buffer</code>) to search for the symbol
-at point starting from the beginning/end of the buffer.</li>
 </ul>
 
 <p>
@@ -6639,8 +6638,6 @@ by visiting individual files or by using a grep buffer as an index.
  (require 'prot-search)
  (prot-emacs-keybind global-map
    "M-s M-%" #'prot-search-replace-markup ; see `prot-search-markup-replacements'
-   "M-s M-&lt;" #'prot-search-isearch-beginning-of-buffer
-   "M-s M-&gt;" #'prot-search-isearch-end-of-buffer
    "M-s g" #'prot-search-grep
    "M-s u" #'prot-search-occur-urls
    "M-s t" #'prot-search-occur-todo-keywords
@@ -6651,8 +6648,10 @@ by visiting individual files or by using a grep buffer as an index.
    "M-s M-o" #'prot-search-occur-outline
    "M-s M-u" #'prot-search-occur-browse-url)
  (prot-emacs-keybind isearch-mode-map
-   "&lt;up&gt;" #'prot-search-isearch-repeat-backward
-   "&lt;down&gt;" #'prot-search-isearch-repeat-forward
+   "&lt;home&gt;" #'isearch-beginning-of-buffer
+   "&lt;end&gt;" #'isearch-end-of-buffer
+   "&lt;up&gt;" #'isearch-repeat-backward
+   "&lt;down&gt;" #'isearch-repeat-forward
    "&lt;backspace&gt;" #'prot-search-isearch-abort-dwim
    "&lt;C-return&gt;" #'prot-search-isearch-other-end)
  (setq prot-search-outline-regexp-alist
@@ -7379,7 +7378,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org5695130">
+<pre class="example" id="orgb08261d">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7407,7 +7406,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org98547f0">
+<pre class="example" id="orgc71dcaa">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7485,7 +7484,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org2d965c3">
+<pre class="example" id="org7023414">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7633,7 +7632,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgac44c77">
+<pre class="example" id="org9aec280">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8205,7 +8204,6 @@ functionality I rely on, so do take a look at what it has to offer.
             (keyboard-quit "Quit")))
   (setq project-vc-extra-root-markers '(".project")) ; Emacs 29
   (setq project-key-prompt-style t) ; Emacs 30
-  (setq project-compilation-buffer-name-function #'project-prefixed-buffer-name)
 
   (advice-add #'project-switch-project :after #'prot-common-clear-minibuffer-message)
 
@@ -9514,7 +9512,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgecc0c0a">
+<pre class="example" id="org5badaff">
 (info "(org) Search Options")
 </pre>
 
@@ -9604,7 +9602,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org8ea321c">
+<pre class="example" id="org1cc1c14">
 (require 'ob-python)
 
 ;; OR
@@ -10468,7 +10466,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org1416892">
+<pre class="example" id="org62535c3">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11298,7 +11296,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org7ed2315">
+<pre class="example" id="org5e2255b">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11310,7 +11308,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org58a2777">
+<pre class="example" id="org7e49e78">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11373,7 +11371,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org1ce67c6">
+<pre class="example" id="org9de984b">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11385,7 +11383,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org2618666">
+<pre class="example" id="org30db276">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11407,7 +11405,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org081a7c0">
+<pre class="example" id="org2168326">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11522,7 +11520,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgd6b652a">
+<pre class="example" id="orgdd5c2c3">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11653,7 +11651,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org6ab9b60">
+<pre class="example" id="orgae53101">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11665,7 +11663,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgc064110">
+<pre class="example" id="orga0d420a">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -12793,7 +12791,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgdb6a5f4">
+<pre class="example" id="org1c6ce9f">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -12890,7 +12888,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orgc872f20">
+<pre class="example" id="org3c8b2b6">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13209,7 +13207,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org135caa2">
+<pre class="example" id="org1e2b70f">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -18279,51 +18277,6 @@ search started."
       (isearch-pop-state)))
   (isearch-update))
 
-;;;###autoload
-(defun prot-search-isearch-repeat-forward (&amp;optional arg)
-  "Move forward, keeping point at the beginning of the match.
-Optionally move to ARGth match in the given direction."
-  (interactive "p")
-  (when (and isearch-forward isearch-other-end)
-    (goto-char isearch-other-end))
-  (isearch-repeat-forward (or arg 1)))
-
-;;;###autoload
-(defun prot-search-isearch-repeat-backward (&amp;optional arg)
-  "Move backward, keeping point at the beginning of the match.
-Optionally move to ARGth match in the given direction."
-  (interactive "p")
-  (when (and (not isearch-forward) isearch-other-end)
-    (goto-char isearch-other-end))
-  (isearch-repeat-backward (or arg 1)))
-
-(defmacro prot-search-isearch-occurrence (name edge &amp;optional doc)
-  "Construct function for moving to `isearch' occurrence.
-NAME is the name of the function.  EDGE is either the beginning
-or the end of the buffer.  Optional DOC is the resulting
-function's docstring."
-  `(defun ,name (&amp;optional arg)
-     ,doc
-     (interactive "p")
-     (let ((x (or arg 1))
-           (command (intern (format "isearch-%s-of-buffer" ,edge))))
-       (isearch-forward-symbol-at-point)
-       (funcall command x))))
-
-(prot-search-isearch-occurrence
- prot-search-isearch-beginning-of-buffer
- "beginning"
- "Run `isearch-beginning-of-buffer' for the symbol at point.
-With numeric ARG, move to ARGth occurrence counting from the
-beginning of the buffer.")
-
-(prot-search-isearch-occurrence
- prot-search-isearch-end-of-buffer
- "end"
- "Run `isearch-end-of-buffer' for the symbol at point.
-With numeric ARG, move to ARGth occurrence counting from the
-end of the buffer.")
-
 ;;;; Replace/Occur
 
 (defvar prot-search-markup-replacements
@@ -20935,7 +20888,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orge3590ca">
+<pre class="example" id="orgf3acb80">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -20967,7 +20920,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org6b1748f">
+<pre class="example" id="org454f9fa">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
