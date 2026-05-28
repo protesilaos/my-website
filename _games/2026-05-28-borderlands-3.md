@@ -71,7 +71,7 @@ everything to the altars of profit. The villains in _Borderlands_ are
 social media personalities with a massive cult following who end up
 being as shallow as our world's celebrities.
 
-If anything, the fantasy land of the game pales in comparison to the
+If anything, the fantasy horrors of the game pale in comparison to the
 brutality that we can now bear witness to in 4K definition. And that
 we do with indifference, using it as yet more fodder for our
 doomscrolling mindlessness. Our politics and social norms are
