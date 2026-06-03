@@ -4,7 +4,7 @@ excerpt: "I explain why the lack of Greek actors from a Hollywood production is 
 ---
 
 In [a column for _The Guardian_](https://www.theguardian.com/film/2026/jun/03/christopher-nolan-no-greek-actors-the-odyssey-matt-damon-zendaya-charlize-theron),
-Chris Cotonou comments on the omission of Greek characters from the
+Chris Cotonou comments on the omission of Greek actors from the
 otherwise multicultural cast of Christopher Nolan's _The Odyssey_.
 Chris notes:
 
