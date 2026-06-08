@@ -1,6 +1,7 @@
 ---
-title: "Interpretation of “My expatriated birds” by Alcyone (traditional)"
+title: "Interpretation of “My expatriated birds” by Alkyone (traditional)"
 excerpt: "Translation of---and philosophical commentary on---a Greek song whose translated title is 'My expatriated birds'."
+redirect_from: /interpretations/2026-06-08-alcyone-emigrated-birds/
 ---
 
 For this entry in the series, I have picked a traditional song from
@@ -11,21 +12,21 @@ also of honour and commitment to ancient values.
 
 One such lament is _My expatriated birds_ (Ξενιτεμένα μου πουλιά). I
 could not find a high quality video of the old-school style, so I am
-including these otherwise remarkable covers by Alcyone and Konstantis
+including these otherwise remarkable covers by Alkyone and Konstantis
 Pistiolis (Κωνσταντής Πιστιόλης), respectively:
 
 - <https://www.youtube.com/watch?v=tzzue8TT0OQ>
 - <https://www.youtube.com/watch?v=jMsAXJrRGXk>
 
 As is common with traditional art, there are slight variations in
-circulation. I am picking the one sung by Alcyone. Its lyrics are
+circulation. I am picking the one sung by Alkyone. Its lyrics are
 right below, followed by my faithful translation of them, and further
 comments.
 
 ```
 Ξενιτεμένα μου πουλιά
 
-Ερμηνεία:  Alcyone
+Ερμηνεία:  Alkyone
 Στίχοι:    Παραδοσιακό
 Μουσική:   Παραδοσιακό
 
@@ -56,7 +57,7 @@ Tι να σου στείλω ξένε μου
 ```
 My expatriated birds
 
-Singer:  Alcyone
+Singer:  Alkyone
 Lyrics:  Traditional
 Music:   Traditional
 
