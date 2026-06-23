@@ -1,0 +1,31 @@
+---
+layout: index
+title: "Mes articles en Français"
+excerpt: "Pour pratiquer la langue Française."
+index-feed:
+  text: Mes articles on Français
+  url: "/french.xml"
+permalink: /french/
+---
+{% assign french = site.french | sort: 'date' | reverse %}
+
+<div class="index index-blog">
+
+  <ul>
+    {% assign current_year = "" %}
+    {% for new in french %}
+    {% assign year = new.date | date: "%Y" %}
+    {% if year != current_year %}
+      {% assign current_year = year %}
+      <h2 class="index-item-year-heading">{{ year }}</h2>
+    {% endif %}
+    <li class="index-blog-post-container">
+      <time class="index-blog-post-timestamp">
+        {{ new.date | date: site.date_format }}
+      </time>
+      <a class="index-blog-post-link" href="{{ new.url | relative_url }}"><span class="index-blog-post-heading">{{- new.title -}}</span></a>
+    </li>
+    {% endfor %}
+  </ul>
+
+</div>
