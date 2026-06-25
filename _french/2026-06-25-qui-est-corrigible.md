@@ -1,5 +1,5 @@
 ---
-title: "Ça qui est corrigible"
+title: "Français: Ça qui est corrigible"
 excerpt: "Un note en sujet de la condition humaine, qui est notre corrigibilité."
 ---
 
