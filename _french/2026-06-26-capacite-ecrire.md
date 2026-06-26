@@ -1,5 +1,5 @@
 ---
-title: "La capacité d'écrire"
+title: "Français: La capacité d'écrire"
 excerpt: "Je peux m'exprimer parce que je la capacité d'écrire."
 ---
 
