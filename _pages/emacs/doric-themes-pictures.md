@@ -4,7 +4,7 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `1.1.0-dev`. The
+The following screen shots correspond to version `1.2.0-dev`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
@@ -112,6 +112,16 @@ subtle differences in colour.
 
 <a href="{{'/assets/images/doric/doric-siren-magit.png' | absolute_url }}"><img alt="doric-siren theme sample" src="{{'/assets/images/doric/doric-siren-magit.png' | absolute_url }}"/></a>
 
+## doric-tiger
+
+<a href="{{'/assets/images/doric/doric-tiger.png' | absolute_url }}"><img alt="doric-tiger theme sample" src="{{'/assets/images/doric/doric-tiger.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-tiger-org.png' | absolute_url }}"><img alt="doric-tiger theme sample" src="{{'/assets/images/doric/doric-tiger-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-tiger-message.png' | absolute_url }}"><img alt="doric-tiger theme sample" src="{{'/assets/images/doric/doric-tiger-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-tiger-magit.png' | absolute_url }}"><img alt="doric-tiger theme sample" src="{{'/assets/images/doric/doric-tiger-magit.png' | absolute_url }}"/></a>
+
 ## doric-wind
 
 <a href="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind.png' | absolute_url }}"/></a>
@@ -151,6 +161,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-fire-message.png' | absolute_url }}"><img alt="doric-fire theme sample" src="{{'/assets/images/doric/doric-fire-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"><img alt="doric-fire theme sample" src="{{'/assets/images/doric/doric-fire-magit.png' | absolute_url }}"/></a>
+
+## doric-lion
+
+<a href="{{'/assets/images/doric/doric-lion.png' | absolute_url }}"><img alt="doric-lion theme sample" src="{{'/assets/images/doric/doric-lion.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lion-org.png' | absolute_url }}"><img alt="doric-lion theme sample" src="{{'/assets/images/doric/doric-lion-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lion-message.png' | absolute_url }}"><img alt="doric-lion theme sample" src="{{'/assets/images/doric/doric-lion-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lion-magit.png' | absolute_url }}"><img alt="doric-lion theme sample" src="{{'/assets/images/doric/doric-lion-magit.png' | absolute_url }}"/></a>
 
 ## doric-magma
 
