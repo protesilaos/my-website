@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:aeb70e62-ffe6-41c7-9c50-82176ac9e6a8">Version 3.1.0 on 2026-06-29</a></li>
 <li><a href="#h:a8cd979f-851f-4e97-ae90-96022b4cfe7a">Version 3.0.0 on 2025-02-20</a></li>
 <li><a href="#h:684117cb-76c6-4a74-97ef-a37852bd3612">Version 2.1.0 on 2024-09-02</a></li>
 <li><a href="#h:1aad7179-f7cd-4817-ad23-0f9256b6df5d">Version 2.0.0 on 2024-04-16</a></li>
@@ -28,6 +29,28 @@ the manual: <a href="https://protesilaos.com/emacs/fontaine">https://protesilaos
 <li><a href="#h:f9399542-29b7-4d26-af82-090fed802cc8">Version 0.2.0 on 2022-05-09</a></li>
 <li><a href="#h:80e56ed6-cf2b-49a2-9184-b149c9ecfa38">Version 0.1.0 on 2022-04-28</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:aeb70e62-ffe6-41c7-9c50-82176ac9e6a8" class="outline-2">
+<h2 id="h:aeb70e62-ffe6-41c7-9c50-82176ac9e6a8">Version 3.1.0 on 2026-06-29</h2>
+<div class="outline-text-2" id="text-h:aeb70e62-ffe6-41c7-9c50-82176ac9e6a8">
+<p>
+This is a small release that includes internal refinements as well as
+two user-facing changes:
+</p>
+
+<ol class="org-ol">
+<li>The user option <code>fontaine-presets</code> accepts an optional
+<code>:line-spacing</code> entry, which corresponds to the <code>line-spacing</code>
+variable. As of Emacs version 31, <code>line-spacing</code> can be bound to a
+cons cell to set the space above and below. Fontaine now handles
+this as intended.</li>
+
+<li>By default, changing the font size has the effect of resizing the
+frame. This is because of the original value of the variable
+<code>frame-inhibit-implied-resize</code>. Fontaine is now designed to always
+inhibit frame resizing, regardless of <code>frame-inhibit-implied-resize</code>.</li>
+</ol>
 </div>
 </div>
 <div id="outline-container-h:a8cd979f-851f-4e97-ae90-96022b4cfe7a" class="outline-2">
@@ -189,7 +212,7 @@ highly usable. For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq fontaine-presets
+<pre class="src src-emacs-lisp"><code>(setq fontaine-presets
       '((coding ; get the fallback values and override the `:default-height'
          :default-height 120)
         (reading  ; change more stuff from the fallback values
@@ -205,7 +228,7 @@ highly usable. For example:
          :default-height 100
          :fixed-pitch-family "Iosevka Comfy Motion"
          :variable-pitch-family "Iosevka Comfy Duo")))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -341,10 +364,10 @@ configuration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Set the last preset or fall back to desired style from `fontaine-presets'
+<pre class="src src-emacs-lisp"><code>;; Set the last preset or fall back to desired style from `fontaine-presets'
 ;; (the `regular' in this case).
 (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -387,8 +410,8 @@ line to not lose track of the cursor:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'fontaine-set-preset-hook #'pulsar-pulse-line)
-</pre>
+<pre class="src src-emacs-lisp"><code>(add-hook 'fontaine-set-preset-hook #'pulsar-pulse-line)
+</code></pre>
 </div>
 
 <p>
@@ -453,7 +476,7 @@ property with a value that references the name of another preset
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq fontaine-presets
+<pre class="src src-emacs-lisp"><code>(setq fontaine-presets
       '((regular
          :default-height 100)
         (code-demo
@@ -471,7 +494,7 @@ property with a value that references the name of another preset
          :default-family "Monospace"
          ;; more generic fallback properties here...
          )))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -521,12 +544,12 @@ Made it possible for the user option <code>fontaine-presets</code> to cover the
 <code>fixed-pitch-serif</code> face.  This face is used by the default Emacs
 faces in Info buffers to render inline code elements.  A list of
 properties within <code>fontaine-presets</code> can thus look like this (the
-manual explains everything in detail&#x2014;else check my current setup at
+manual explains everything in detail&mdash;else check my current setup at
 the end of this entry):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (regular
+<pre class="src src-emacs-lisp"><code>  (regular
    ;; I keep all properties for didactic purposes, but most can be
    ;; omitted.
    :default-family "Monospace"
@@ -546,7 +569,7 @@ the end of this entry):
    :italic-family nil
    :italic-slant italic
    :line-spacing nil)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -585,7 +608,7 @@ at the post <code>load-theme</code> phase.
 
 <p>
 Some themes that provide a hook are the <code>modus-themes</code> and <code>ef-themes</code>
-(both by Protesilaos), so we can use something like: [&#x2026;]
+(both by Protesilaos), so we can use something like: [&hellip;]
 </p>
 </blockquote></li>
 
@@ -602,7 +625,7 @@ you some ideas:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'fontaine)
+<pre class="src src-emacs-lisp"><code>(require 'fontaine)
 
 ;; Iosevka Comfy is my highly customised build of Iosevka with
 ;; monospaced and duospaced (quasi-proportional) variants as well as
@@ -674,7 +697,7 @@ you some ideas:
 
 (define-key global-map (kbd "C-c f") #'fontaine-set-preset)
 (define-key global-map (kbd "C-c F") #'fontaine-set-face-font)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
