@@ -1,6 +1,7 @@
 ---
 title: "Reading some of my poems"
 excerpt: "Just watch and listen. No further comment."
+layout: vlog
 mediaid: "p2vV9kXY6hQ"
 ---
 
