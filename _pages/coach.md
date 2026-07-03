@@ -61,8 +61,8 @@ schedule a meeting that suits both parties.
 
 ## Pricing
 
-Lessons cost 10 EUR per hour. If we spend a little bit more than one
-hour, I will still count it as one hour.
+Lessons cost 10 EUR per hour. If we need a little bit more than one
+hour, I will still count it as one hour---no problem!
 
 ## Payments
 
