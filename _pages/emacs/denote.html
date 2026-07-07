@@ -1839,7 +1839,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="orgf9df777">
+<pre class="example" id="org45d158d">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2420,7 +2420,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="orga9160f3">
+<pre class="example" id="org15fc077">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2439,7 +2439,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org03ddb5a">
+<pre class="example" id="orgc5c7f21">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3164,7 +3164,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org941c632">
+<pre class="example" id="org23b7aab">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3823,7 +3823,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is set to
 the <code>org</code> symbol, which is the default):
 </p>
 
-<pre class="example" id="orgd19775f">
+<pre class="example" id="org5910688">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3835,7 +3835,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="orgc8ef2b9">
+<pre class="example" id="org48bf46c">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3849,7 +3849,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="orgebc3625">
+<pre class="example" id="org4c9c3b5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3863,7 +3863,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org36fd253">
+<pre class="example" id="org5b0ee2e">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -3932,8 +3932,9 @@ The variables which hold the front matter format are:
 
 <p>
 These variables have a string value with specifiers that are used by the
-<code>format</code> function.  The formatting operation passes four arguments which
-include the values of the given entries.  If you are an advanced user
+<code>format</code> function.  The formatting operation passes five arguments which
+include the values of the given entries: <code>TITLE</code>, <code>DATE</code>, <code>KEYWORDS</code>,
+<code>IDENTIFIER</code>, and <code>SIGNATURE</code>.  If you are an advanced user
 who wants to edit this variable to affect how front matter is produced,
 consider using something like <code>%2$s</code> to control where the Nth argument
 is placed.
@@ -3967,6 +3968,7 @@ for all variables.
 #+DATE:       %s
 #+FILETAGS:   %s
 #+IDENTIFIER: %s
+#+SIGNATURE:  %s
 \n")
 
 ;; Change the order (notice the %N$s notation)
@@ -3975,6 +3977,7 @@ for all variables.
 #+filetags:   %3$s
 #+date:       %2$s
 #+identifier: %4$s
+#+signature:  %5$s
 \n")
 
 ;; Remove the date
@@ -3982,12 +3985,14 @@ for all variables.
   "#+title:      %1$s
 #+filetags:   %3$s
 #+identifier: %4$s
+#+signature:  %5$s
 \n")
 
 ;; Remove the date and the identifier
 (setq denote-org-front-matter
   "#+title:      %1$s
 #+filetags:   %3$s
+#+signature:  %5$s
 \n")
 </code></pre>
 </div>
@@ -4200,7 +4205,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org456ad4d">
+<pre class="example" id="org532e7ab">
 - link1
 - link2
 - link3
@@ -4218,7 +4223,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="orgc8ca701">
+<pre class="example" id="org21271dd">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4572,7 +4577,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="org5a8dc0e">
+<pre class="example" id="orgdaf9dc4">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5973,7 +5978,7 @@ in light of the user option <code>denote-file-name-components-order</code>
 easier to perform complex queries like:
 </p>
 
-<pre class="example" id="orgf73d625">
+<pre class="example" id="orgcbc9af9">
 (denote-regexp :keywords '(or "agenda" (and "project" "inprogress")))
 </pre>
 
@@ -6424,7 +6429,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgf25baa5">
+<pre class="example" id="orgaa3b902">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7709,25 +7714,25 @@ Return nil if the file type is not recognized.
 <dl class="org-dl">
 <dt>Variable <code>denote-org-front-matter</code></dt><dd>Specifies the Org front
 matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>, <code>DATE</code>,
-<code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
+<code>KEYWORDS</code>, <code>IDENTIFIER</code>, <code>SIGNATURE</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-yaml-front-matter</code></dt><dd>Specifies the YAML (Markdown)
 front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
+<code>DATE</code>, <code>KEYWORDS</code>, <code>IDENTIFIER</code>, <code>SIGNATURE</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-toml-front-matter</code></dt><dd>Specifies the TOML (Markdown)
 front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
+<code>DATE</code>, <code>KEYWORDS</code>, <code>IDENTIFIER</code>, <code>SIGNATURE</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
 <dt>Variable <code>denote-text-front-matter</code></dt><dd>Specifies the plain text
 front matter.  It is passed to <code>format</code> with arguments <code>TITLE</code>,
-<code>DATE</code>, <code>KEYWORDS</code>, <code>ID</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
+<code>DATE</code>, <code>KEYWORDS</code>, <code>IDENTIFIER</code>, <code>SIGNATURE</code> (<a href="#h:7f918854-5ed4-4139-821f-8ee9ba06ad15">Change the front matter format</a>)</dd>
 </dl>
 
 <dl class="org-dl">
@@ -8075,7 +8080,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgbc65ae0">
+<pre class="example" id="orgb787549">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8085,7 +8090,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org543fefa">
+<pre class="example" id="orgb426e71">
 emacs -Q
 </pre>
 
@@ -8097,7 +8102,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orge51ee4a">
+<pre class="example" id="orgdf5b655">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8158,7 +8163,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="orgf8cacd8">
+<pre class="example" id="org4c54dd6">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
