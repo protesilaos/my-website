@@ -2,10 +2,8 @@
 title: "Emacs beginner live stream with @linkarzu on 2026-07-05 20:00 Europe/Athens"
 excerpt: "I will do a live stream together with Christian Arzu, a NeoVim user, who is now trying out Emacs."
 layout: vlog
-mediaid: "ozszlnEU_3I"
+mediaid: "btAOBkcLEkg"
 ---
-
-[ The video will be recorded. ]
 
 I will do a live stream together with Christian Arzu, a NeoVim user,
 who is now trying out Emacs. In this meeting we will go over the
