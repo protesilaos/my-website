@@ -59,10 +59,13 @@ I am available every day of the week.  I currently live in Cyprus.
 The time zone is that of Europe/Athens.  Contact me and we will
 schedule a meeting that suits both parties.
 
-## Pricing
+## Pricing is 10 EUR per hour
 
-Lessons cost 10 EUR per hour. If we need a little bit more than one
-hour, I will still count it as one hour---no problem!
+If we need a little bit more than one hour, I will still count it as
+one hour---no problem!
+
+Also, if you strongly believe that you should pay more that 10 EUR,
+then you are free to set your price.
 
 ## Payments
 
