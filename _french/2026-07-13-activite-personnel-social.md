@@ -26,5 +26,5 @@ parles je fais des erreurs que je ne les fais pas en écrivaient.
 J'ai ce problème avec tout les langues que je connais. C'est le
 résultat de l'introversion: j'écris beaucoup plus que je parle.
 
-Donc l'effort d'apprendre une langue étrangère est une activité qui
-est également personnel et social.
+Donc l'effort d'apprendre une langue étrangère est également personnel
+et social.
