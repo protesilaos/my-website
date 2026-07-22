@@ -14,6 +14,8 @@ the manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.c
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:bd426323-4bbc-4b60-9597-c69e6924ae04">Version 1.4.0 on 2026-07-22</a></li>
+<li><a href="#h:169c5a1c-0158-4033-889d-48c909479eb9">Version 1.3.0 on 2025-11-30</a></li>
 <li><a href="#h:3060295b-f66d-4eb9-9606-440c5fb5e408">Version 1.2.0 on 2024-12-12</a></li>
 <li><a href="#h:93705ad7-b2ff-491f-a108-69f4949d715b">Version 1.1.0 on 2024-08-29</a></li>
 <li><a href="#h:0d09da86-29be-461e-8ef6-1e93a07b756b">Version 1.0.0 on 2023-08-12</a></li>
@@ -23,6 +25,283 @@ the manual: <a href="https://protesilaos.com/emacs/pulsar">https://protesilaos.c
 <li><a href="#h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c">Version 0.2.0 on 2022-03-16</a></li>
 <li><a href="#h:92a23377-d4d9-43ea-a2d4-00a23ec37f57">Version 0.1.0 on 2022-03-14</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:bd426323-4bbc-4b60-9597-c69e6924ae04" class="outline-2">
+<h2 id="h:bd426323-4bbc-4b60-9597-c69e6924ae04">Version 1.4.0 on 2026-07-22</h2>
+<div class="outline-text-2" id="text-h:bd426323-4bbc-4b60-9597-c69e6924ae04">
+<p>
+This version fixes a few bugs and brings quality-of-life improvements
+to an already stable package.
+</p>
+</div>
+<div id="outline-container-h:536da6dc-066e-4e6b-a0af-4806b4488b66" class="outline-3">
+<h3 id="h:536da6dc-066e-4e6b-a0af-4806b4488b66">Correctly pulse the full line even in <code>M-x shell</code> and related</h3>
+<div class="outline-text-3" id="text-h:536da6dc-066e-4e6b-a0af-4806b4488b66">
+<p>
+In certain buffers, we cannot use regular motions to reach a portion
+of text. This is done by text properties that make the propertized
+text inaccessible. One use-case is to prevent the user from deleting
+the shell prompt in <code>M-x shell</code>.
+</p>
+
+<p>
+Pulsar is now designed to handle <code>inhibit-field-text-motion</code> correctly
+so that it works as intended in all relevant cases.
+</p>
+
+<p>
+Thanks to Jake Miles for telling me that the shell buffer was not
+pulsing, which made me investigate the underlying problem. This was
+done in issue 40: <a href="https://github.com/protesilaos/pulsar/issues/40">https://github.com/protesilaos/pulsar/issues/40</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:81a08370-b0e5-47a0-bd58-56518165acc9" class="outline-3">
+<h3 id="h:81a08370-b0e5-47a0-bd58-56518165acc9">The pulsing behaviour of Evil commands is more refined</h3>
+<div class="outline-text-3" id="text-h:81a08370-b0e5-47a0-bd58-56518165acc9">
+<p>
+In short:
+</p>
+
+<ul class="org-ul">
+<li>editing commands should pulse the region, not the entire line;</li>
+<li><code>evil-delete-char</code> should not produce a pulse;</li>
+<li><code>evil-delete-marks</code> is not an editing command, as it removes invisible marks
+from the buffer.</li>
+</ul>
+
+<p>
+Thanks to Steven Allen from modifying the relevant variables in pull
+request 39: <a href="https://github.com/protesilaos/pulsar/pull/39">https://github.com/protesilaos/pulsar/pull/39</a>. Steven
+has assigned copyright to the Free Software Foundation.
+</p>
+
+<p>
+Also thanks to Javier Pacheco for adding more Evil-related commands to
+the list, in pull requests 37 and 38:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/protesilaos/pulsar/pull/37">https://github.com/protesilaos/pulsar/pull/37</a></li>
+<li><a href="https://github.com/protesilaos/pulsar/pull/38">https://github.com/protesilaos/pulsar/pull/38</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-h:b1592772-8ffc-4f3b-ba12-f1db4bb34685" class="outline-3">
+<h3 id="h:b1592772-8ffc-4f3b-ba12-f1db4bb34685">The <code>pulsar-face</code> is no longer hardcoded in one case</h3>
+<div class="outline-text-3" id="text-h:b1592772-8ffc-4f3b-ba12-f1db4bb34685">
+<p>
+It is always meant to be a variable, specifically a user option,
+meaning that we want to use its value as defined by the user.
+</p>
+
+<p>
+Thanks to irisjae for reporting the bug in issue 36:
+<a href="https://github.com/protesilaos/pulsar/issues/36">https://github.com/protesilaos/pulsar/issues/36</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:432944df-6b89-40a1-8ff0-af8417e98669" class="outline-3">
+<h3 id="h:432944df-6b89-40a1-8ff0-af8417e98669">Pulsing is done correctly on the TTY and other frames</h3>
+<div class="outline-text-3" id="text-h:432944df-6b89-40a1-8ff0-af8417e98669">
+<p>
+The technicalities are covered in issue 33:
+<a href="https://github.com/protesilaos/pulsar/issues/33">https://github.com/protesilaos/pulsar/issues/33</a>. Thanks to the
+participation of Sébastien Delafond who provided feedback about their
+Emacs environment and helped me test the snippets I had provided.
+</p>
+
+<p>
+In a TTY we cannot use what we normally do, so I arrange for a
+standard colour to be used instead. My rationale for the choice of
+colour is this:
+</p>
+
+<ul class="org-ul">
+<li>we are in an environment which does not guarantee accurate colour reproduction;</li>
+<li>it is almost a given that the frame supports at least 8 colours;</li>
+<li>of those 8 colours we have black, red, green, yellow, blue, magenta, cyan, white;</li>
+<li>excluding black and white, the colour that contrasts best against both black and white is red;</li>
+<li>picking red means we do not need to know the background-mode of the frame, which saves us the extra computations.</li>
+</ul>
+
+<p>
+The contrast table for the six colours, using Org, where <code>Λ</code> is an alias for <code>modus-themes-contrast</code>:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&nbsp;</th>
+<th scope="col" class="org-right">#000000</th>
+<th scope="col" class="org-right">#ffffff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">#ff0000</td>
+<td class="org-right">5.25</td>
+<td class="org-right">4.00</td>
+</tr>
+
+<tr>
+<td class="org-left">#00ff00</td>
+<td class="org-right">15.30</td>
+<td class="org-right">1.37</td>
+</tr>
+
+<tr>
+<td class="org-left">#0000ff</td>
+<td class="org-right">2.44</td>
+<td class="org-right">8.59</td>
+</tr>
+
+<tr>
+<td class="org-left">#ffff00</td>
+<td class="org-right">19.56</td>
+<td class="org-right">1.07</td>
+</tr>
+
+<tr>
+<td class="org-left">#ff00ff</td>
+<td class="org-right">6.70</td>
+<td class="org-right">3.14</td>
+</tr>
+
+<tr>
+<td class="org-left">#00ffff</td>
+<td class="org-right">16.75</td>
+<td class="org-right">1.25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-h:d5fd2cc5-3714-4e44-ae75-45ba6fea15b6" class="outline-3">
+<h3 id="h:d5fd2cc5-3714-4e44-ae75-45ba6fea15b6">Pulsing is consistent even when the Emacs daemon is involved</h3>
+<div class="outline-text-3" id="text-h:d5fd2cc5-3714-4e44-ae75-45ba6fea15b6">
+<p>
+In short, things should work as intended in all sorts of
+configurations.
+</p>
+
+<p>
+Thanks to Koloszár Gergely, Mehrad Mahmoudian, and Nikolaos
+Bezirgiannis for reporting that the Emacs daemon would produce static
+highlights instead of pulsing them in and out of effect. This was done
+in issue 32: <a href="https://github.com/protesilaos/pulsar/issues/32">https://github.com/protesilaos/pulsar/issues/32</a>.
+</p>
+
+<p>
+In this context, also thanks to Gautier Ponsinet for removing an
+unnecessary <code>let</code> binding. This was sent to me as a patch via email.
+</p>
+</div>
+</div>
+<div id="outline-container-h:0be2be6a-9c34-4dbb-9497-39df09039615" class="outline-3">
+<h3 id="h:0be2be6a-9c34-4dbb-9497-39df09039615">The <code>ace-window</code> command is added to the default value of <code>pulsar-pulse-functions</code></h3>
+<div class="outline-text-3" id="text-h:0be2be6a-9c34-4dbb-9497-39df09039615">
+<p>
+This means that it will produce a pulse effect after it is invoked.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:169c5a1c-0158-4033-889d-48c909479eb9" class="outline-2">
+<h2 id="h:169c5a1c-0158-4033-889d-48c909479eb9">Version 1.3.0 on 2025-11-30</h2>
+<div class="outline-text-2" id="text-h:169c5a1c-0158-4033-889d-48c909479eb9">
+<p>
+This version introduces a new feature and makes small refinements to
+an already reliable base.
+</p>
+</div>
+<div id="outline-container-h:14422569-c872-4691-9e26-11d0f5bd9429" class="outline-3">
+<h3 id="h:14422569-c872-4691-9e26-11d0f5bd9429">Permanent static highlight for a line or region</h3>
+<div class="outline-text-3" id="text-h:14422569-c872-4691-9e26-11d0f5bd9429">
+<p>
+In the most common use-case, Pulsar produces a highlight that fades in
+and out of view after a certain amount of time. The idea with such a
+"pulse effect" is to quickly get a sense of where the cursor is when
+some change occurs (e.g. switching to another window).
+</p>
+
+<p>
+The permanent static highlights differ from pulse effects in two ways:
+(i) they do not have a fade-in and fade-out phase and (ii) are not
+removed automatically. These highlights stick around either until the
+user removes them or their underlying text is deleted. They are meant
+to be used as intentional highlights, such as to draw attention to a
+certain statement while doing a presentation.
+</p>
+
+<p>
+The command <code>pulsar-highlight-permanently</code> adds a permanent static
+highlight to the current line. When the region is active, the
+highlight is applied from the beginning to the end of the region.
+</p>
+
+<p>
+The command <code>pulsar-highlight-permanently-remove</code> removes permanent
+static highlights from the active region or current line. This command
+operates on the entire buffer when it is called with a universal
+prefix argument (<code>C-u</code> by default).
+</p>
+
+<p>
+The command <code>pulsar-highlight-permanently-dwim</code> adds a permanent
+static highlight if there is none or removes it if there is one. It
+operates on the currently active region or line at point.
+</p>
+
+<p>
+Permanent static highlights are rendered with the face specified in
+the user option <code>pulsar-highlight-face</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:338546f4-1ff2-48b2-ae96-45ae82dfada1" class="outline-3">
+<h3 id="h:338546f4-1ff2-48b2-ae96-45ae82dfada1">New name for temporary static highlights</h3>
+<div class="outline-text-3" id="text-h:338546f4-1ff2-48b2-ae96-45ae82dfada1">
+<p>
+The commands <code>pulsar-highlight-dwim</code> and <code>pulsar-highlight-line</code> are
+obsolete aliases for <code>pulsar-highlight-temporarily</code>.
+</p>
+
+<p>
+Temporary static highlights do not have a fade-in and fade-out phase.
+They are automatically removed as soon as an action occurs. They are
+an alternative to the aforementioned permanent static highlights.
+</p>
+
+<p>
+The command <code>pulsar-highlight-temporarily</code> will operate on the active
+region or the current line.
+</p>
+</div>
+</div>
+<div id="outline-container-h:e8e12980-6432-47a5-8afd-9a24f04de076" class="outline-3">
+<h3 id="h:e8e12980-6432-47a5-8afd-9a24f04de076">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:e8e12980-6432-47a5-8afd-9a24f04de076">
+<ul class="org-ul">
+<li>Thanks to Koloszár Gergely for reporting an intermediate bug where
+the pulse effect actually did not pulse under certain conditions.
+This was done in issue 31: <a href="https://github.com/protesilaos/pulsar/issues/31">https://github.com/protesilaos/pulsar/issues/31</a>.</li>
+
+<li>Parts of the code are rewritten in the interest of clarity.</li>
+
+<li>The entire manual is redone to better organise the documentation.</li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-h:3060295b-f66d-4eb9-9606-440c5fb5e408" class="outline-2">
@@ -56,8 +335,8 @@ it is a list of functions. A typical use-case is the following:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
-</pre>
+<pre class="src src-emacs-lisp"><code>(setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
+</code></pre>
 </div>
 
 <p>
@@ -116,9 +395,9 @@ Pulsar defines several faces to get a nice style. Here is an example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq pulsar-region-face 'pulsar-green) ; unchanged regions are green
+<pre class="src src-emacs-lisp"><code>(setq pulsar-region-face 'pulsar-green) ; unchanged regions are green
 (setq pulsar-region-change-face 'pulsar-red) ; changed regions are red
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -306,12 +585,12 @@ In short:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+<pre class="src src-emacs-lisp"><code>  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
 
   ;; OR something like this, replacing "blue" with one among red,
   ;; green, yellow, magenta, cyan:
   (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line-blue)
-</pre>
+</code></pre>
 </div></li>
 </ul>
 </div>
@@ -378,8 +657,8 @@ the user must add this to their configuration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (add-hook 'next-error-hook #'pulsar-pulse-line)
-</pre>
+<pre class="src src-emacs-lisp"><code>  (add-hook 'next-error-hook #'pulsar-pulse-line)
+</code></pre>
 </div></li>
 
 <li>Made other miscellaneous changes to tweak the code base and the
