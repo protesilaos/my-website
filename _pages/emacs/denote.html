@@ -131,6 +131,7 @@ the GNU ELPA machinery automatically generates an Info manual out of it.
 <li><a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">8.3. User-defined sluggification of file name components</a>
 <ul>
 <li><a href="#h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">8.3.1. Custom sluggification to remove non-ASCII characters</a></li>
+<li><a href="#h:65a6a2ec-02b9-4c9e-995f-19dfe0611e20">8.3.2. Custom sluggification to remove diacterics or accented characters</a></li>
 </ul>
 </li>
 <li><a href="#h:1a953736-86c2-420b-b566-fb22c97df197">8.4. Features of the file-naming scheme for searching or filtering</a></li>
@@ -1839,7 +1840,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org45d158d">
+<pre class="example" id="orgf71f6a5">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2420,7 +2421,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org15fc077">
+<pre class="example" id="org30dcb26">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2439,7 +2440,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="orgc5c7f21">
+<pre class="example" id="orge93dd10">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3164,7 +3165,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org23b7aab">
+<pre class="example" id="orgc923734">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3265,6 +3266,10 @@ You have been warned.
 <h4 id="h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a"><span class="section-number-4">8.3.1.</span> Custom sluggification to remove non-ASCII characters</h4>
 <div class="outline-text-4" id="text-h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">
 <p>
+[ Also see: <a href="#h:65a6a2ec-02b9-4c9e-995f-19dfe0611e20">Custom sluggification to remove diacterics or accented characters</a>. ]
+</p>
+
+<p>
 A common use-case for Denote is to rename files such as videos
 downloaded from the Internet. Sometimes, those files have Unicode
 characters that (i) not all fonts support and (ii) create all sorts of
@@ -3300,7 +3305,58 @@ use the following in their Emacs configuration (<a href="#h:d375c6d2-92c7-425f-9
                              (denote-slug-keep-only-ascii str))))
 
 (defcustom denote-file-name-slug-functions
-  '((title . my-denote-sluggify-title)
+  '((identifier . identity) ; keep the original
+    (title . my-denote-sluggify-title)
+    (signature . my-denote-sluggify-signature)
+    (keyword . my-denote-sluggify-keyword)))
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:65a6a2ec-02b9-4c9e-995f-19dfe0611e20" class="outline-4">
+<h4 id="h:65a6a2ec-02b9-4c9e-995f-19dfe0611e20"><span class="section-number-4">8.3.2.</span> Custom sluggification to remove diacterics or accented characters</h4>
+<div class="outline-text-4" id="text-h:65a6a2ec-02b9-4c9e-995f-19dfe0611e20">
+<p>
+[ Also see: <a href="#h:d1e4eb5b-e7f2-4a3b-9243-e1c653817a4a">Custom sluggification to remove non-ASCII characters</a>. ]
+</p>
+
+<p>
+For languages with diacretics, like <code>ê</code> and <code>ñ</code>, users may want to
+instruct Denote to remove the diacretical marks from the underlying
+characters. This way, the file names will be uniform and easier to
+search through, instead of checking if, say, <code>être</code> is written thus or
+as <code>etre</code>.
+</p>
+
+<p>
+This is only for the sluggification of file name components (<a href="#h:d375c6d2-92c7-425f-9d9d-219ff47ed2a3">User-defined sluggification of file name components</a>).
+Any front matter will retain the diacretics.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;; These are the same as the default Denote sluggification functions,
+;; except they remove all diacretics from the underlying characters
+;; (e.g.  ê becomes e while ñ becomes n).
+(defun my-denote-sluggify-title (str)
+  (downcase
+   (denote-slug-hyphenate
+    (replace-regexp-in-string "[][{}!@#$%^&amp;*()+'\"?,.\|;:~`‘’“”/=]*" ""
+                              (denote-slug-remove-accents str)))))
+
+(defun my-denote-sluggify-signature (str)
+  (downcase
+   (denote-slug-put-equals
+    (replace-regexp-in-string "[][{}!@#$%^&amp;*()+'\"?,.\|;:~`‘’“”/-]*" ""
+                              (denote-slug-remove-accents str)))))
+
+(defun my-denote-sluggify-keyword (str)
+  (downcase
+   (replace-regexp-in-string "[][{}!@#$%^&amp;*()+'\"?,.\|;:~`‘’“”/_ =-]*" ""
+                             (denote-slug-remove-accents str))))
+
+(defcustom denote-file-name-slug-functions
+  '((identifier . identity) ; keep the original
+    (title . my-denote-sluggify-title)
     (signature . my-denote-sluggify-signature)
     (keyword . my-denote-sluggify-keyword)))
 </code></pre>
@@ -3823,7 +3879,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is set to
 the <code>org</code> symbol, which is the default):
 </p>
 
-<pre class="example" id="org5910688">
+<pre class="example" id="orgae8759e">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3835,7 +3891,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org48bf46c">
+<pre class="example" id="org68c632d">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3849,7 +3905,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org4c9c3b5">
+<pre class="example" id="org8923a90">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3863,7 +3919,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org5b0ee2e">
+<pre class="example" id="orged2b937">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4205,7 +4261,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org532e7ab">
+<pre class="example" id="org64c036d">
 - link1
 - link2
 - link3
@@ -4223,7 +4279,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org21271dd">
+<pre class="example" id="org8373bd2">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4577,7 +4633,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orgdaf9dc4">
+<pre class="example" id="orgfbadc04">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -5978,7 +6034,7 @@ in light of the user option <code>denote-file-name-components-order</code>
 easier to perform complex queries like:
 </p>
 
-<pre class="example" id="orgcbc9af9">
+<pre class="example" id="orga812984">
 (denote-regexp :keywords '(or "agenda" (and "project" "inprogress")))
 </pre>
 
@@ -6429,7 +6485,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgaa3b902">
+<pre class="example" id="org1fbffae">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -8080,7 +8136,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="orgb787549">
+<pre class="example" id="orge435cf3">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8090,7 +8146,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="orgb426e71">
+<pre class="example" id="org01b3e63">
 emacs -Q
 </pre>
 
@@ -8102,7 +8158,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="orgdf5b655">
+<pre class="example" id="org5a901f0">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8163,7 +8219,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org4c54dd6">
+<pre class="example" id="org7bc8527">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8881,8 +8937,8 @@ Schmitt, Aleksandr Vityazev, Alex Griffin, Alex Hirschfeld, Alexis
 Purslane, Alfredo Borrás, Alp Eren Kose, André Bering, Ashton
 Wiersdorf, Bhargav Kulkarni, Benjamin Kästner, Claudio Migliorelli,
 Claudiu Tănăselia, Colin McLear, Cosmin-Octavian C, Damien Cassou,
-Elias Storms, Federico Stilman, Florian, Frédéric Willem Frank
-Ehmsen, Glenna D., Guo Yong, Hanspeter Gisler Harold Ollivier,
+Davi Ramos, Elias Storms, Federico Stilman, Florian, Frédéric Willem
+Frank Ehmsen, Glenna D., Guo Yong, Hanspeter Gisler Harold Ollivier,
 IceAsteroid, Jack Baty, Jay Rajput, Jean-Charles Bagneris, Jeff
 Valk, Jens Östlund, Jeremy Friesen, Jonathan Sahar, Johan Bolmsjö,
 Jonas Großekathöfer, Jousimies, Juanjo Presa, Julian Hoch, Kai von
@@ -8896,10 +8952,10 @@ Stankus, Vick (VicZz), Viktor Haag, Vineet C. Kulkarni, Wade
 Mealing, Wilf, Yi Liu, Ypot, 82Kang, atanasj, azegas, babusri,
 bdillahu, coherentstate, doolio, duli, drcxd, elge70, elliottw,
 fingerknight, GuutBoy, hpgisler, hyperfocus1337,johkneisl,
-jtpavlock, juh, leafarbelm, mentalisttraceur, mjkalyan, oatmealm,
-potchie-maker, Pratik-Mishra-4979, pRot0ta1p, rbenit68, relict007,
-sarcom-sar, sienic, skissue, sundar bp, wuzhihao, yetanotherfossman,
-zadca123</dd>
+jtpavlock, juh, leafarbelm, mentalisttraceur, mjkalyan, o-rxw,
+oatmealm, potchie-maker, Pratik-Mishra-4979, pRot0ta1p, rbenit68,
+relict007, sarcom-sar, sienic, skissue, sundar bp, wuzhihao,
+yetanotherfossman, zadca123</dd>
 </dl>
 
 <p>
