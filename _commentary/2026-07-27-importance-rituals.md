@@ -1,6 +1,7 @@
 ---
 title: "On the importance of rituals"
 excerpt: "Rituals help us experience the slow-paced life that is necessary for understanding the world all around us."
+redirect_from: /commentary/absence-temples/
 ---
 
 I am not a genius. If you compare me to Leonardo Da Vinci, who was
