@@ -7,21 +7,21 @@ permalink: /emacs/substitute
 ---
 
 <p>
-This manual, written by Protesilaos Stavrou, describes the
-customization options for the Emacs package called <code>substitute</code> (or
+This manual, written by Protesilaos, describes the customization
+options for the Emacs package called <code>substitute</code> (or
 <code>substitute.el</code>), and provides every other piece of information
 pertinent to it.
 </p>
 
 <p>
 The documentation furnished herein corresponds to stable version
-0.5.0, released on 2026-01-05.  Any reference to
+0.6.0, released on 2026-07-24.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 0.6.0-dev.
+Current development target is 0.7.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -87,7 +87,6 @@ M-x package-refresh-contents
 M-x package-install
 </pre>
 
-
 <p>
 And search for it.
 </p>
@@ -109,7 +108,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -119,7 +118,7 @@ cd manual-packages
 
 # Clone this repo, naming it "substitute"
 git clone https://github.com/protesilaos/substitute substitute
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -127,9 +126,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/substitute")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -142,7 +141,7 @@ Everything is in place to set up the package.
 <h2 id="h:e8691728-79b2-4b37-b6ce-e29a4cd9114f"><span class="section-number-2">2.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:e8691728-79b2-4b37-b6ce-e29a4cd9114f">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package substitute
+<pre class="src src-emacs-lisp"><code>(use-package substitute
   :ensure t
   :config
   ;; Set this to nil if you do not like visual feedback on the matching
@@ -160,7 +159,7 @@ Everything is in place to set up the package.
 
   ;; Use C-c s as a prefix for all Substitute commands.
   (define-key global-map (kbd "C-c s") #'substitute-prefix-map))
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -203,55 +202,47 @@ active region. The differences in scope are as follows:
 </p>
 
 <ol class="org-ol">
-<li><code>substitute-target-in-buffer</code>: Substitute the target across the
-entire buffer.</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-in-defun</code>: Substitute the target only in the
-current definition (per <code>narrow-to-defun</code>).</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-below-point</code>: Substitute the target from point
-to the end of the buffer (alias <code>substitute-target-to-end-of-buffer</code>).</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-above-point</code>: Substitute the target from point
-to the beginning of the buffer (alias <code>substitute-target-to-beginning-of-buffer</code>).</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-in-outline</code>: Substitute the target within the
+<li><p>
+<code>substitute-target-in-buffer</code>: Substitute the target across the
+entire buffer.
+</p></li>
+<li><p>
+<code>substitute-target-in-defun</code>: Substitute the target only in the
+current definition (per <code>narrow-to-defun</code>).
+</p></li>
+<li><p>
+<code>substitute-target-below-point</code>: Substitute the target from point
+to the end of the buffer (alias <code>substitute-target-to-end-of-buffer</code>).
+</p></li>
+<li><p>
+<code>substitute-target-above-point</code>: Substitute the target from point
+to the beginning of the buffer (alias <code>substitute-target-to-beginning-of-buffer</code>).
+</p></li>
+<li><p>
+<code>substitute-target-in-outline</code>: Substitute the target within the
 boundaries of the current outline level. In Org mode, for example,
 the current outline is the heading plus its paragraph text but not
 the subheadings and their text. In programming modes the outline
 might be the same as the current definition, or could be a longer
 stretch of text. It depends on the buffer-local value of the
-variable <code>outline-regexp</code>.</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-in-page</code>: Substitute the target within the
+variable <code>outline-regexp</code>.
+</p></li>
+<li><p>
+<code>substitute-target-in-page</code>: Substitute the target within the
 boundaries of the current page. A page is demarcated by the
-buffer-local value of the variable  <code>page-delimiter</code>.</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-in-defun-and-below</code>: Substitute the target
+buffer-local value of the variable  <code>page-delimiter</code>.
+</p></li>
+<li><p>
+<code>substitute-target-in-defun-and-below</code>: Substitute the target
 within the boundaries of the current definition only from point
-onwards.</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-in-paragraph</code>: Substitute the target within the
-boundaries of the current paragraph.</li>
-</ol>
-
-<ol class="org-ol">
-<li><code>substitute-target-on-line</code>: Substitute the target only on the
-current line. [ Part of 0.6.0-dev. ]</li>
+onwards.
+</p></li>
+<li><p>
+<code>substitute-target-in-paragraph</code>: Substitute the target within the
+boundaries of the current paragraph.
+</p></li>
+<li><code>substitute-target-in-line</code>: Substitute the target only on the
+current line.</li>
 </ol>
 </div>
 </div>
@@ -311,8 +302,8 @@ available. For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c s") #'substitute-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c s") #'substitute-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -321,11 +312,11 @@ bindings. To change those, use something like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key substitute-prefix-map (kbd "b") #'substitute-target-in-buffer)
+<pre class="src src-emacs-lisp"><code>(define-key substitute-prefix-map (kbd "b") #'substitute-target-in-buffer)
 (define-key substitute-prefix-map (kbd "d") #'substitute-target-in-defun)
 (define-key substitute-prefix-map (kbd "r") #'substitute-target-above-point)
 (define-key substitute-prefix-map (kbd "s") #'substitute-target-below-point)
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -339,13 +330,13 @@ matters.
 </p>
 
 <dl class="org-dl">
-<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+<dt>Author/maintainer</dt><dd>Protesilaos.</dd>
 
 <dt>Contributions to code or the manual</dt><dd>Ed Tavinor, Kostas Andreadis,
 Morgan Willcock, Wang Chunye.</dd>
 
-<dt>Ideas and/or user feedback</dt><dd>Tomasz Hołubowicz, ersi-dnd, revrari,
-zauberen.</dd>
+<dt>Ideas and/or user feedback</dt><dd>Spike-Leung, Tomasz Hołubowicz,
+ersi-dnd, revrari, zauberen.</dd>
 </dl>
 </div>
 </div>
