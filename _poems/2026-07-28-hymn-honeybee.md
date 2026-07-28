@@ -13,6 +13,8 @@ with whatever way I can
 to the common good that unites us
 ```
 
+* * *
+
 ```
 Από εσένα την ακούραστη μέλισσα
 παίρνω παράδειγμα για την ζωή μου
