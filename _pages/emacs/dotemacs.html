@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-07-23 07:50:04 +0300</b> with a word
-  count of <b>118761</b>. ]
+[ Last revised and exported on <b>2026-07-29 15:51:17 +0300</b> with a word
+  count of <b>118920</b>. ]
 </p>
 
 <p>
@@ -439,7 +439,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-07-23 07:50:04 +0300):
+(2026-07-29 15:51:17 +0300):
 </p>
 
 <div class="org-src-container">
@@ -533,7 +533,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgb149a1b">
+<pre class="example" id="org5f25fb9">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -613,7 +613,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org52fc228">
+<pre class="example" id="org79d4e84">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -621,7 +621,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org9dae2a0">
+<pre class="example" id="org99cd876">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1524,7 +1524,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org13bcc82">
+<pre class="example" id="org994e23e">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1596,7 +1596,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org508f44c">
+<pre class="example" id="orgad3e40c">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1705,7 +1705,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org7bddb18">
+<pre class="example" id="org1c414b3">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1871,7 +1871,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org395ba77">
+<pre class="example" id="org389ce9f">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4405,7 +4405,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgf941c7c">
+<pre class="example" id="org41b5de7">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4454,7 +4454,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org735e4d5">
+<pre class="example" id="orgf1624ae">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -5064,38 +5064,33 @@ for this.
                                     (eager-update . t)))
          (eager-update-properties-no-sort (append eager-update-properties (list (cons 'display-sort-function #'identity)))))
     (setq completion-category-overrides
-          `((file . ((styles . (partial-completion))
-                     (eager-display . nil)
-                     (eager-update . t)
+          `((file . (,@eager-update-properties
+                     (styles . (partial-completion))
                      (group-function . ,#'prot-minibuffer-file-group)
                      (affixation-function . ,#'prot-minibuffer-file-affixate)
                      (display-sort-function . ,#'prot-minibuffer-file-sort)))
-            (bookmark . (,@eager-update-properties
-                         (affixation-function . ,#'prot-minibuffer-bookmark-affixate)))
+            (buffer . (,@eager-update-properties
+                       (affixation-function . ,#'prot-minibuffer-buffer-affixate)))
             (project-file . (,@eager-update-properties
                              (group-function . ,#'prot-minibuffer-file-group)
                              (affixation-function . ,#'prot-minibuffer-file-affixate)))
             (prot-minibuffer-library . (,@eager-update-properties
                                         (annotation-function . ,#'prot-minibuffer-library-annotate)
                                         (display-sort-function . ,#'prot-minibuffer-library-sort)))
-            (symbol-help . (,@eager-update-properties
-                            (group-function . ,#'prot-minibuffer-symbol-group)
-                            (display-sort-function . ,#'prot-minibuffer-symbol-sort)))
-            (buffer . (,@eager-update-properties
-                       (group-function . ,#'prot-minibuffer-buffer-group)
-                       (affixation-function . ,#'prot-minibuffer-buffer-affixate)
-                       (display-sort-function . ,#'prot-minibuffer-buffer-sort)))
-            (command . ((affixation-function . nil)
+            (bookmark . (,@eager-update-properties
+                         (affixation-function . ,#'prot-minibuffer-bookmark-affixate)))
+            (command . (,@eager-update-properties
+                        (affixation-function . nil) ; so that the `annotation-function' can take effect
                         (annotation-function . ,#'prot-minibuffer-command-annotate)))
+            (symbol-help . ,eager-update-properties)
             (denote-file . ,eager-update-properties)
             (prot-minibuffer-emoji . ,eager-update-properties)
             (theme . ,eager-update-properties)
             (unicode-name . ,eager-update-properties)
             (imenu . ,eager-update-properties-no-sort)
             (consult-location . ,eager-update-properties-no-sort)
-            (prot-minibuffer-kill-ring . ((eager-display . t)
-                                          (eager-update . t)
-                                          (display-sort-function . identity)))))))
+            (prot-minibuffer-pass . ,eager-update-properties-no-sort)
+            (prot-minibuffer-kill-ring . ,eager-update-properties-no-sort)))))
 </code></pre>
 </div>
 </div>
@@ -5366,11 +5361,15 @@ completion are collectively enabled through the minor mode <code>prot-minibuffer
   (unless prot-emacs-completion-ui
     (prot-minibuffer-completions-mode 1)
 
+    (prot-emacs-keybind minibuffer-local-completion-map
+      "C-h C-h" #'prot-minibuffer-completions-describe-at-point ; overrides `help-for-help'
+      "C-&lt;tab&gt;" #'prot-minibuffer-choose-completion-no-exit
+      "RET" #'prot-minibuffer-choose-completion-exit)
+
     (prot-emacs-keybind completion-list-mode-map
-      "h" #'prot-minibuffer-completions-describe-at-point ; "Help" mnemonic
-      "c" #'prot-minibuffer-choose-completion-no-exit ; "Choose" mnemonic
-      "TAB" #'prot-minibuffer-choose-completion-dwim
-      "RET" #'prot-minibuffer-choose-completion-exit)))
+      "C-h C-h" #'prot-minibuffer-completions-describe-at-point ; overrides `help-for-help'
+      "C-&lt;tab&gt;" #'prot-minibuffer-choose-completion-no-exit
+      "RET" #'prot-minibuffer-choose-completion-dwim)))
 </code></pre>
 </div>
 </div>
@@ -7589,7 +7588,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org8671da4">
+<pre class="example" id="orgad080ae">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7617,7 +7616,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org3603edf">
+<pre class="example" id="orga29a4c7">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7695,7 +7694,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org483935b">
+<pre class="example" id="orgba75bb7">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7871,7 +7870,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgc862fc4">
+<pre class="example" id="org00755ae">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9755,7 +9754,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org8a303f7">
+<pre class="example" id="org08cd72a">
 (info "(org) Search Options")
 </pre>
 
@@ -9845,7 +9844,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org5a84cea">
+<pre class="example" id="org6439bab">
 (require 'ob-python)
 
 ;; OR
@@ -10709,7 +10708,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org45d5f6c">
+<pre class="example" id="orge81b87c">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11592,7 +11591,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org93bb579">
+<pre class="example" id="org7cd9397">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11604,7 +11603,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org5dc333b">
+<pre class="example" id="org6089f6d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11667,7 +11666,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org673496d">
+<pre class="example" id="org9510545">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11679,7 +11678,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orge61c605">
+<pre class="example" id="orgdebb4be">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11701,7 +11700,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org155d0c7">
+<pre class="example" id="orgd69d61b">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11833,7 +11832,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgea95d65">
+<pre class="example" id="org28f5cb9">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11964,7 +11963,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org91fe947">
+<pre class="example" id="orge62e94a">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11976,7 +11975,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org8f89e21">
+<pre class="example" id="org9af7f1b">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -13104,7 +13103,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org41cae35">
+<pre class="example" id="org5f8dbf7">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13201,7 +13200,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org87a7988">
+<pre class="example" id="org434c8ad">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13309,7 +13308,12 @@ have, which are strictly stylistic.
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><code>;;;; `goto-addr'
 (prot-emacs-configure
-  (add-hook 'text-mode-hook #'goto-address-mode)
+  (defun prot/goto-address-mode ()
+    "Enable `goto-address-mode' only in `text-mode' and no derivatives."
+    (when (eq major-mode 'text-mode)
+      (goto-address-mode 1)))
+
+  (add-hook 'text-mode-hook #'prot/goto-address-mode)
   (add-hook 'prog-mode-hook #'goto-address-prog-mode)
   (setq goto-address-url-face 'link)
   (setq goto-address-url-mouse-face 'highlight)
@@ -13520,7 +13524,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org6570a9c">
+<pre class="example" id="org0f7840a">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -15665,7 +15669,6 @@ buffer instead of the current one."
 
 ;;; Code:
 
-(require 'prot-common)
 (require 'prot-icons)
 
 (defgroup prot-minibuffer nil
@@ -15688,19 +15691,29 @@ buffer instead of the current one."
   (let ((completion-extra-properties (list :category 'prot-minibuffer-emoji)))
     (apply args)))
 
+(defun prot-minibuffer@password-store--completing-read (&amp;rest args)
+  (let ((completion-extra-properties (list :category 'prot-minibuffer-pass)))
+    (apply args)))
+
+(defun prot-minibuffer--do-advice (advice functions place)
+  "Handle the advice installed by the function `prot-minibuffer-missing-categories-mode'.
+For each function in FUNCTIONS apply ARGS."
+  (dolist (original functions)
+    (when-let* ((my-function-name (format "prot-minibuffer@%s" original))
+                (my-function-symbol (intern-soft my-function-name))
+                (args (if place
+                          (list advice original place my-function-symbol)
+                        (list advice original my-function-symbol))))
+      (apply args))))
+
 ;;;###autoload
 (define-minor-mode prot-minibuffer-missing-categories-mode
   "When enabled, add missing compleiton categories to relevant prompts."
   :global t
-  (if prot-minibuffer-missing-categories-mode
-      (dolist (original (list #'read-from-kill-ring #'read-library-name #'emoji--read-emoji))
-        (when-let* ((my-function-name (format "prot-minibuffer@%s" original))
-                    (my-function-symbol (intern-soft my-function-name)))
-          (advice-add original :around my-function-symbol)))
-    (dolist (original (list #'read-from-kill-ring #'read-library-name #'emoji--read-emoji))
-      (when-let* ((my-function-name (format "prot-minibuffer@%s" original))
-                  (my-function-symbol (intern-soft my-function-name)))
-        (advice-remove original my-function-symbol)))))
+  (let ((functions '(read-from-kill-ring read-library-name emoji--read-emoji password-store--completing-read)))
+    (if prot-minibuffer-missing-categories-mode
+        (prot-minibuffer--do-advice #'advice-add functions :around)
+      (prot-minibuffer--do-advice #'advice-remove functions nil))))
 
 (defun prot-minibuffer-file-sort (files)
   "Sort FILES to have directories first and the rest alphabetically.
@@ -15769,35 +15782,38 @@ Omit the .. directory from FILES."
   "Sort BUFFERS by visibility.
 This is a copy of `beframe-buffer-sort-visibility', from my `beframe'
 package."
-  (let ((bufs (seq-group-by
-               (lambda (buf)
-                 (cond
-                  ((eq buf (current-buffer)) :current)
-                  ((get-buffer-window buf 'visible) :visible)
-                  (t :hidden)))
-               buffers)))
-    (nconc (alist-get :hidden  bufs)
-           (alist-get :visible bufs)
-           (alist-get :current bufs))))
+  (let* ((bufs (seq-group-by
+                (lambda (buf)
+                  (cond
+                   ((eq buf (current-buffer)) :current)
+                   ((get-buffer-window buf 'visible) :visible)
+                   (t :hidden)))
+                buffers))
+         (hidden (alist-get :hidden  bufs))
+         (visible (alist-get :visible bufs))
+         (current (alist-get :current bufs)))
+    (nconc hidden visible current)))
 
-(defun prot-minibuffer-buffer-group (buffer-name transform)
-  "Return BUFFER-NAME group name unless TRANSFORM is non-nil."
-  (cond
-   (transform buffer-name)
-   ((string-prefix-p "*" buffer-name) "Special")
-   ((string-match-p "\\`magit.*?:" buffer-name) "Git")
-   ((if-let* ((buffer (get-buffer buffer-name)))
-      (with-current-buffer buffer
-        (cond
-         ((derived-mode-p 'dired-mode)
-          "Directory")
-         ((derived-mode-p 'prog-mode)
-          "Program")
-         ((derived-mode-p 'text-mode)
-          "Prose")
-         (t
-          (format "%s" major-mode))))
-      ""))))
+;; NOTE 2026-07-25: I am disabling this because it messes up with the sorting.
+
+;; (defun prot-minibuffer-buffer-group (buffer-name transform)
+;;   "Return BUFFER-NAME group name unless TRANSFORM is non-nil."
+;;   (cond
+;;    (transform buffer-name)
+;;    ((string-prefix-p "*" buffer-name) "Special")
+;;    ((string-match-p "\\`magit.*?:" buffer-name) "Git")
+;;    ((if-let* ((buffer (get-buffer buffer-name)))
+;;       (with-current-buffer buffer
+;;         (cond
+;;          ((derived-mode-p 'dired-mode)
+;;           "Directory")
+;;          ((derived-mode-p 'prog-mode)
+;;           "Program")
+;;          ((derived-mode-p 'text-mode)
+;;           "Prose")
+;;          (t
+;;           (format "%s" major-mode))))
+;;       ""))))
 
 (defun prot-minibuffer-buffer-affixate (buffers)
   "Return BUFFERS with prefix and suffix."
@@ -15869,17 +15885,23 @@ package."
 
 (defun prot-minibuffer-choose-completion-no-exit ()
   "Call `choose-completion' without exiting the minibuffer.
-Also see `prot-minibuffer-choose-completion-exit' and `prot-minibuffer-choose-completion-dwim'."
+Also see `prot-minibuffer-choose-completion-exit' and
+`prot-minibuffer-choose-completion-dwim'."
   (interactive)
-  (choose-completion nil :no-exit :no-quit)
-  (switch-to-minibuffer))
+  (if minibuffer-visible-completions
+      (minibuffer-choose-completion :no-exit :no-quit)
+    (choose-completion nil :no-exit :no-quit)
+    (switch-to-minibuffer)))
 
 (defun prot-minibuffer-choose-completion-exit ()
   "Call `choose-completion' and exit the minibuffer.
-Also see `prot-minibuffer-choose-completion-no-exit' and `prot-minibuffer-choose-completion-dwim'."
+Also see `prot-minibuffer-choose-completion-no-exit' and
+`prot-minibuffer-choose-completion-dwim'."
   (interactive)
-  (choose-completion nil :no-exit)
-  (exit-minibuffer))
+  (if minibuffer-visible-completions
+      (or (minibuffer-choose-completion-or-exit) (exit-minibuffer))
+    (choose-completion nil :no-exit)
+    (exit-minibuffer)))
 
 (defun prot-minibuffer-crm-p ()
   "Return non-nil if `completing-read-multiple' is in use."
@@ -15888,16 +15910,23 @@ Also see `prot-minibuffer-choose-completion-no-exit' and `prot-minibuffer-choose
               (buffer (window-buffer window)))
     (buffer-local-value 'crm-completion-table buffer)))
 
+(defun prot-minibuffer-empty-p ()
+  "Return non-nil if the minibuffer is empty."
+  (eq (minibuffer-prompt-end) (point-max)))
+
 (defun prot-minibuffer-choose-completion-dwim ()
   "Call `choose-completion' that exits only on a unique match.
 If the match is not unique, then complete up to the largest common
 prefix or, anyhow, continue with the completion (e.g. in `find-file'
 switch into the directory and then show the files therein).
 
-Also see `prot-minibuffer-choose-completion-no-exit' and `prot-minibuffer-choose-completion-exit'."
+Also see `prot-minibuffer-choose-completion-no-exit' and
+`prot-minibuffer-choose-completion-exit'."
   (interactive)
   (if (prot-minibuffer-crm-p)
-      (prot-minibuffer-choose-completion-no-exit)
+      (if (prot-minibuffer-empty-p)
+          (prot-minibuffer-choose-completion-no-exit)
+        (prot-minibuffer-choose-completion-exit))
     (choose-completion nil :no-exit :no-quit)
     (switch-to-minibuffer)
     (minibuffer-completion-help)
@@ -15920,9 +15949,12 @@ Make the window be at slot 0, such that the *Help* buffer produced by
 Place the *Help* buffer in a side window, situated to the right of the
 *Completions* buffer.  Make the window have the `prot-minibuffer-help'
 property, such that it can be found by `prot-minibuffer-completions-close-help'."
-  (interactive (list (intern-soft (thing-at-point 'symbol))))
-  (unless (derived-mode-p 'completion-list-mode)
-    (user-error "Can only do this from the *Completions* buffer"))
+  (interactive
+   (list
+    (intern-soft
+     (if minibuffer-visible-completions
+         (completion--selected-candidate)
+       (thing-at-point 'symbol)))))
   (when symbol
     (let ((help-window-select nil)
           (display-buffer-overriding-action
@@ -15956,7 +15988,8 @@ property, such that it can be found by `prot-minibuffer-completions-close-help'.
         (setq completions-max-height 12)
         (setq completions-sort 'historical)
         (setq completion-auto-help t)
-        (setq completion-auto-select t)
+        (setq completion-auto-select nil)
+        (setq minibuffer-visible-completions t)
         (setq completion-eager-display 'auto)
         (setq completion-eager-update 'auto)
         (add-hook 'completion-list-mode-hook #'prot-minibuffer-completions-tweak-style)
@@ -15971,6 +16004,7 @@ property, such that it can be found by `prot-minibuffer-completions-close-help'.
     (setq completions-sort 'alphabetical)
     (setq completion-auto-help t)
     (setq completion-auto-select nil)
+    (setq minibuffer-visible-completions nil)
     (setq completion-eager-display 'auto)
     (setq completion-eager-update 'auto)
     (remove-hook 'completion-list-mode-hook #'prot-minibuffer-completions-tweak-style)
@@ -21241,7 +21275,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org58fff49">
+<pre class="example" id="org73c94ff">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -21273,7 +21307,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="orgde0ce4d">
+<pre class="example" id="org0e5d6cf">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
