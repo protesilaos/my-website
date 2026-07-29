@@ -4,7 +4,7 @@ excerpt: "Just read the poem. No further comment."
 ---
 
 ```
-Oh majestic oak tree
+Oh magnificent oak tree
 you who saw my ancestors
 working in this place
 you who shade the birds
