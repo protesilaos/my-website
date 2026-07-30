@@ -15,13 +15,13 @@ pronounced as &ldquo;timer&rdquo; or &ldquo;T-M-R&rdquo;.
 
 <p>
 The documentation furnished herein corresponds to stable version
-1.2.0, released on 2025-10-06.  Any reference to
+1.3.0, released on 2026-01-25.  Any reference to
 a newer feature which does not yet form part of the latest tagged
 commit, is explicitly marked as such.
 </p>
 
 <p>
-Current development target is 1.3.0-dev.
+Current development target is 1.4.0-dev.
 </p>
 
 <ul class="org-ul">
@@ -44,7 +44,14 @@ Current development target is 1.3.0-dev.
 <li><a href="#h:c002f811-ea06-4123-988b-a73183581fb9">1. COPYING</a></li>
 <li><a href="#h:7b3966d3-43c6-47f1-816a-8104f634bbd1">2. Overview</a>
 <ul>
-<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid or tabulated view</a></li>
+<li><a href="#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a">2.1. Grid or tabulated view</a>
+<ul>
+<li><a href="#h:0711f3d0-323b-4d54-b856-158e73c4dc23">2.1.1. Control how frequently the tabulated view is refreshed for the remaining time</a></li>
+<li><a href="#h:504b8479-d4f2-49f4-aded-b109dca031e5">2.1.2. Specify how the tabulated view is displayed in a window</a></li>
+<li><a href="#h:814702d3-2bda-439c-b176-d78bd96fd6b6">2.1.3. Control the visible columns of the tabulated view</a></li>
+<li><a href="#h:31e2c539-b3af-48a6-b835-b7b5204f3805">2.1.4. Faces specifically used in the tabulated view</a></li>
+</ul>
+</li>
 <li><a href="#h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc">2.2. Display timers on the mode line</a></li>
 <li><a href="#h:c908f440-da08-462e-be4e-a61fb274ecbc">2.3. Hooks</a></li>
 <li><a href="#h:56bbbd6f-5b63-4375-9c86-e1eb231be356">2.4. Sound and desktop notifications</a></li>
@@ -195,7 +202,7 @@ description and if the timer should be acknowledged.
 <p>
 Similarly, the <code>tmr-repeat</code> is a wrapper for <code>tmr</code> that always prompts
 for a timer with a repeat count. This means that the timer will ring
-that many times. [ Part of 1.3.0-dev. ]
+that many times. [ Part of 1.4.0-dev. ]
 </p>
 
 <p>
@@ -301,10 +308,10 @@ desired keys (<a href="#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc">Sample configura
 <p>
 Timers can be viewed in a grid with <code>tmr-tabulated-view</code> (alias
 <code>tmr-list-timers</code>). The data is placed in the <code>*tmr-tabulated-view*</code>
-buffer and looks like this:
+buffer and looks like this (<a href="#h:814702d3-2bda-439c-b176-d78bd96fd6b6">Control the visible columns of the tabulated view</a>):
 </p>
 
-<pre class="example" id="org3f0e370">
+<pre class="example" id="org3877abf">
 Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
 
 08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
@@ -314,15 +321,16 @@ Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
 
 <p>
 If a timer has elapsed, it has a check mark associated with it,
-otherwise the <code>Remaining</code> column shows the time left. A <code>Description</code>
-is shown only if it is provided while setting the timer, otherwise the
-field is left blank.
+otherwise the <code>Remaining</code> column shows the time left (<a href="#h:0711f3d0-323b-4d54-b856-158e73c4dc23">Control how frequently the tabulated view is refreshed for the remaining time</a>).
+A <code>Description</code> is shown only if it is provided while setting the
+timer, otherwise the field is left blank.
 </p>
 
 <p>
-Inside this grid view, all TMR commands that operate on timer objects
-automatically target the one at point.  Whereas the global behaviour is
-to use minibuffer completion to pick a timer to operate on.
+Inside this grid view, all TMR commands that operate on timer objects,
+such as for pausing or rescheduling, automatically target the one at
+point. Whereas the global behaviour is to use minibuffer completion to
+pick a timer to operate on.
 </p>
 
 <p>
@@ -334,11 +342,14 @@ toggle sorting.
 </p>
 
 <p>
-While in this grid view, one can perform all the operations on timers we
-have already covered herein (the <code>C-h m</code> will show you their key
-bindings in this mode).
+While in this grid view, one can perform all the operations on timers
+we have already covered herein (the <code>describe-mode</code> (<code>C-h m</code>) will
+show you their key bindings in this mode).
 </p>
-
+</div>
+<div id="outline-container-h:0711f3d0-323b-4d54-b856-158e73c4dc23" class="outline-4">
+<h4 id="h:0711f3d0-323b-4d54-b856-158e73c4dc23"><span class="section-number-4">2.1.1.</span> Control how frequently the tabulated view is refreshed for the remaining time</h4>
+<div class="outline-text-4" id="text-h:0711f3d0-323b-4d54-b856-158e73c4dc23">
 <p>
 By default, the <code>tmr-tabulated-view</code> buffer is updated automatically
 every 5 seconds. Users can change the number of seconds by modifying
@@ -347,7 +358,11 @@ to never refresh that buffer automatically: users can update it
 manually by invoking the command <code>revert-buffer</code>, which is bound to
 <code>g</code> by default.
 </p>
-
+</div>
+</div>
+<div id="outline-container-h:504b8479-d4f2-49f4-aded-b109dca031e5" class="outline-4">
+<h4 id="h:504b8479-d4f2-49f4-aded-b109dca031e5"><span class="section-number-4">2.1.2.</span> Specify how the tabulated view is displayed in a window</h4>
+<div class="outline-text-4" id="text-h:504b8479-d4f2-49f4-aded-b109dca031e5">
 <p>
 The user option <code>tmr-list-timers-action-alist</code> controls how the
 command <code>tmr-tabulated-view</code> displays its buffer. Its default
@@ -368,35 +383,64 @@ The <code>tmr-list-timers-action-alist</code> is relevant only when the command
 <code>tmr-tabulated-view</code> is called interactively. In Lisp, the <code>tmr-tabulated-view</code>
 requires the buffer it should use and the concomitant action alist.
 </p>
+</div>
+</div>
+<div id="outline-container-h:814702d3-2bda-439c-b176-d78bd96fd6b6" class="outline-4">
+<h4 id="h:814702d3-2bda-439c-b176-d78bd96fd6b6"><span class="section-number-4">2.1.3.</span> Control the visible columns of the tabulated view</h4>
+<div class="outline-text-4" id="text-h:814702d3-2bda-439c-b176-d78bd96fd6b6">
+<p>
+[ The <code>tmr-tabulated-columns</code> is part of 1.4.0-dev. ]
+</p>
 
 <p>
-Faces used in the tabulated view:
+The user option <code>tmr-tabulated-columns</code> controls which columns are
+displayed by <code>tmr-tabulated-view</code>. The default value shows all the
+available columns. The columns are specified as a list of the
+following symbols:
 </p>
 
 <dl class="org-dl">
-<dt><code>tmr-tabulated-start-time</code></dt><dd>The time the timer started.</dd>
+<dt><code>start</code></dt><dd>the start time;</dd>
+<dt><code>end</code></dt><dd>the end time;</dd>
+<dt><code>duration</code></dt><dd>the duration of the timer;</dd>
+<dt><code>remaining</code></dt><dd>how much time is left in the timer;</dd>
+<dt><code>paused</code></dt><dd>whether the timer is paused or not;</dd>
+<dt><code>repeatable</code></dt><dd>whether the timer is set to repeat or not;</dd>
+<dt><code>remaining-repeats</code></dt><dd>the number of repeats left;</dd>
+<dt><code>total-repeats</code></dt><dd>the total repeats specified originally;</dd>
+<dt><code>ackonwledge</code></dt><dd>whether the timer should stop only after being acknowledged;</dd>
+<dt><code>description</code></dt><dd>the description of the timer.</dd>
 </dl>
 
+<p>
+The order of symbols in the list is exactly how they will be displayed
+by <code>tmr-tabulated-view</code>. Duplicates are removed.
+</p>
+</div>
+</div>
+<div id="outline-container-h:31e2c539-b3af-48a6-b835-b7b5204f3805" class="outline-4">
+<h4 id="h:31e2c539-b3af-48a6-b835-b7b5204f3805"><span class="section-number-4">2.1.4.</span> Faces specifically used in the tabulated view</h4>
+<div class="outline-text-4" id="text-h:31e2c539-b3af-48a6-b835-b7b5204f3805">
 <dl class="org-dl">
-<dt><code>tmr-tabulated-end-time</code></dt><dd>The time the timer will end.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt><code>tmr-tabulated-remaining-time</code></dt><dd>The timer&rsquo;s remaining time.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt><code>tmr-tabulated-paused</code></dt><dd>Whether the timer is paused or not.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt><code>tmr-tabulated-acknowledgement</code></dt><dd>Whether the timer needs to be
-acknowledged.</dd>
-</dl>
-
-<dl class="org-dl">
+<dt><code>tmr-tabulated-start-time</code></dt><dd><p>
+The time the timer started.
+</p></dd>
+<dt><code>tmr-tabulated-end-time</code></dt><dd><p>
+The time the timer will end.
+</p></dd>
+<dt><code>tmr-tabulated-remaining-time</code></dt><dd><p>
+The timer&rsquo;s remaining time.
+</p></dd>
+<dt><code>tmr-tabulated-paused</code></dt><dd><p>
+Whether the timer is paused or not.
+</p></dd>
+<dt><code>tmr-tabulated-acknowledgement</code></dt><dd><p>
+Whether the timer needs to be
+acknowledged.
+</p></dd>
 <dt><code>tmr-tabulated-description</code></dt><dd>The description of the timer.</dd>
 </dl>
+</div>
 </div>
 </div>
 <div id="outline-container-h:a1938fd5-64ef-4f4f-ade1-c7058d4062fc" class="outline-3">
@@ -443,14 +487,12 @@ Applicable faces for this case are:
 </p>
 
 <dl class="org-dl">
-<dt><code>tmr-mode-line-active</code></dt><dd>Any active timer.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt><code>tmr-mode-line-soon</code></dt><dd>A timer that expires within 2 minutes.</dd>
-</dl>
-
-<dl class="org-dl">
+<dt><code>tmr-mode-line-active</code></dt><dd><p>
+Any active timer.
+</p></dd>
+<dt><code>tmr-mode-line-soon</code></dt><dd><p>
+A timer that expires within 2 minutes.
+</p></dd>
 <dt><code>tmr-mode-line-urgent</code></dt><dd>A timer that expires within 30 seconds.</dd>
 </dl>
 </div>
