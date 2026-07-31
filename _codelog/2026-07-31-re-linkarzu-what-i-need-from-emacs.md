@@ -106,7 +106,7 @@ configure things to your liking. Then you can search for packages that
 augment the experience, based on your specific requirements and
 expectations.
 
-## Remember that Kitty sessions build on a lot of experience
+## Remember that Kitty sessions build on top of existing experience
 
 Taking a step back, consider that what Kitty provides is not something
 you get up-and-running with as a new user of terminal emulators.
