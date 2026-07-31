@@ -19,6 +19,7 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
+<li><a href="#h:66b13018-8365-4a7d-877e-bd7768265fe9">Version 1.4.0 on 2026-07-31</a></li>
 <li><a href="#h:705987e4-60e9-4d06-bdc0-4f08347348a0">Version 1.3.0 on 2026-01-25</a></li>
 <li><a href="#h:87d321d7-e88e-4303-a7fc-fa4264e62a92">Version 1.2.0 on 2025-10-06</a></li>
 <li><a href="#h:41248cbf-d399-411d-91ff-5359a00a1577">Version 1.1.0 on 2025-04-18</a></li>
@@ -28,6 +29,147 @@ the manual: <a href="https://protesilaos.com/emacs/tmr">https://protesilaos.com/
 <li><a href="#h:054285c2-3d90-4adc-ada4-61222b31fb85">Version 0.2.0 on 2022-04-21</a></li>
 <li><a href="#h:1fce2c20-a16c-4ea9-9006-cf565f78f812">Version 0.1.0 on 2021-10-02</a></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-h:66b13018-8365-4a7d-877e-bd7768265fe9" class="outline-2">
+<h2 id="h:66b13018-8365-4a7d-877e-bd7768265fe9">Version 1.4.0 on 2026-07-31</h2>
+<div class="outline-text-2" id="text-h:66b13018-8365-4a7d-877e-bd7768265fe9">
+<p>
+TMR is an efficient package that has been stable for years. This new
+version introduces some nice new features as well as several smaller
+internal refinements.
+</p>
+</div>
+<div id="outline-container-h:3b3d827a-eb83-4a84-a448-d4e46f884dff" class="outline-3">
+<h3 id="h:3b3d827a-eb83-4a84-a448-d4e46f884dff">Create a timer that repeats</h3>
+<div class="outline-text-3" id="text-h:3b3d827a-eb83-4a84-a448-d4e46f884dff">
+<p>
+The command <code>tmr-repeat</code> prompts for a duration, like the standard
+<code>tmr</code> command but also asks for a number of times to repeat the given
+timer. When called with a prefix argument (<code>C-u</code> with default
+keybindings), <code>tmr-repeat</code> will also ask for a description for the new
+timer and whether it should be acknowledged or not after all
+repetitions have elapsed.
+</p>
+
+<p>
+Thanks to Óscar Fuentes for contributing the original implementation
+of <code>tmr-repeat</code> (with many extra changes/features by me). This was
+done in pull request 16: <a href="https://github.com/protesilaos/tmr/pull/16">https://github.com/protesilaos/tmr/pull/16</a>.
+Óscar has assigned copyright to the Free Software Foundation.
+</p>
+</div>
+</div>
+<div id="outline-container-h:c866acef-4fd9-49da-893e-c3489d264b52" class="outline-3">
+<h3 id="h:c866acef-4fd9-49da-893e-c3489d264b52">Modify the repeat count of an existing timer</h3>
+<div class="outline-text-3" id="text-h:c866acef-4fd9-49da-893e-c3489d264b52">
+<p>
+The command <code>tmr-edit-repeat-count</code> prompts for an existing timer and
+updates its repeat count. If the repeat count is set to <code>0</code>, then the
+timer is no longer considered repeatable.
+</p>
+
+<p>
+As with all commands that operate on existing timers, <code>tmr-edit-repeat-count</code>
+automatically applies to the timer at point when called from inside
+the tabulated list of timers (per <code>tmr-tabulated-view</code>).
+</p>
+
+<p>
+Modifying a timer's repeat count does not start a new timer. It simply
+updates the relevant data. Use the command <code>tmr-clone</code> to start a new
+timer using the data of an existing timer.
+</p>
+</div>
+</div>
+<div id="outline-container-h:0cdf33c6-2669-4b35-a8c3-89a7bf9f979c" class="outline-3">
+<h3 id="h:0cdf33c6-2669-4b35-a8c3-89a7bf9f979c">The tabulated view has more columns and all of them can be adjusted</h3>
+<div class="outline-text-3" id="text-h:0cdf33c6-2669-4b35-a8c3-89a7bf9f979c">
+<p>
+The tabulated list of timers, which is typically produced by the
+command <code>tmr-tabulated-view</code>, now has extra columns for the data that
+pertains to repeatable timers.
+</p>
+
+<p>
+Users who want to control which columns are displayed, and in what
+order, can modify the user option <code>tmr-tabulated-columns</code>. Its
+documentation covers the technicalities. The default value is to
+display all columns.
+</p>
+</div>
+</div>
+<div id="outline-container-h:0d465855-5f3c-4828-b4a9-9b55a174f143" class="outline-3">
+<h3 id="h:0d465855-5f3c-4828-b4a9-9b55a174f143">Completion metadata for the prompt that selects a timer</h3>
+<div class="outline-text-3" id="text-h:0d465855-5f3c-4828-b4a9-9b55a174f143">
+<p>
+Advanced users can now modify all the <code>completion-metadata</code> associated
+with the prompt that reads/selects one among the existing timer
+objects (the function is <code>tmr-read-timer</code>). The relevant variable is
+<code>tmr-completion-metadata</code>. I am not providing this as a user option,
+because regular users will anyway not be able to do much with it as it
+involves custom functions.
+</p>
+</div>
+</div>
+<div id="outline-container-h:6002d40b-c6b8-47f7-89cd-ad5724a41a0f" class="outline-3">
+<h3 id="h:6002d40b-c6b8-47f7-89cd-ad5724a41a0f">Timers in the completion prompt are sorted by end time</h3>
+<div class="outline-text-3" id="text-h:6002d40b-c6b8-47f7-89cd-ad5724a41a0f">
+<p>
+The prompt for selecting a timer now sorts candidates by their end
+time. The closest end time appears at the top.
+</p>
+
+<p>
+This affects all commands that operate on a timer, such as
+<code>tmr-edit-repeat-count</code>, <code>tmr-cancel</code>, and more.
+</p>
+
+<p>
+In the past, there was no sorting whatsoever. Users who prefer that
+style can add the following to their configuration:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>(setq tmr-completion-metadata
+      (list
+       (cons 'category 'tmr-timer)
+       (cons 'display-sort-function #'identity) ; THIS IS THE RELEVANT PART
+       (cons 'annotation-function #'tmr-completion-annotate)))
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-h:14a7d873-3069-478f-9136-f603eefb75ee" class="outline-3">
+<h3 id="h:14a7d873-3069-478f-9136-f603eefb75ee">Miscellaneous</h3>
+<div class="outline-text-3" id="text-h:14a7d873-3069-478f-9136-f603eefb75ee">
+<ul class="org-ul">
+<li>The manual is easier to read. I have rewritten it to group commands
+and user options under appropriate headings.</li>
+
+<li>Lots of internal refinements to the code. I tweaks things to make
+the code easier to maintain and contribute to.</li>
+
+<li>Thanks to Pavlo Lysov for adding a small example to the manual about
+using TMR hooks to send a custom notification on the macOS. This was
+done in pull request 25: <a href="https://github.com/protesilaos/tmr/pull/25">https://github.com/protesilaos/tmr/pull/25</a>.
+Pavlo does not need to assign copyright to the Free Software
+Foundation.</li>
+
+<li>Thanks to Carlos Pajuelo Rojo for refining an earlier version of the
+function that produces a message about the repeat count of a given
+timer (I have since made lots of changes on this and other fronts).
+Carlos' contribution is in pull request 20: <a href="https://github.com/protesilaos/tmr/pull/20">https://github.com/protesilaos/tmr/pull/20</a>.
+The change is small, meaning that Carlos does not need to assign
+copyright to the Free Software Foundation.</li>
+
+<li>Thanks to f6p for use the appropriate face for the paused indicator
+in the tabulated view. This was done in pull request 17:
+<a href="https://github.com/protesilaos/tmr/pull/17">https://github.com/protesilaos/tmr/pull/17</a>. The change is small,
+meaning that the author does not need to assign copyright to the
+Free Software Foundation.</li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-h:705987e4-60e9-4d06-bdc0-4f08347348a0" class="outline-2">
@@ -52,9 +194,9 @@ have access to <code>tmr-toggle-pause</code> under the <code>P</code> key:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; All TMR commands are behind this prefix key.  So `tmr-toggle-pause' is C-c t P.
+<pre class="src src-emacs-lisp"><code>;; All TMR commands are behind this prefix key.  So `tmr-toggle-pause' is C-c t P.
 (define-key global-map (kbd "C-c t") #'tmr-prefix-map)
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -68,7 +210,7 @@ An extra column in the tabulated view shows whether a timer is paused
 or not. Here is an example:
 </p>
 
-<pre class="example" id="org9028ba4">
+<pre class="example" id="org4cc9a18">
 Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
 
 08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
@@ -386,8 +528,8 @@ commands behind the <code>C-c t</code> prefix:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key global-map (kbd "C-c t") 'tmr-prefix-map)
-</pre>
+<pre class="src src-emacs-lisp"><code>(define-key global-map (kbd "C-c t") 'tmr-prefix-map)
+</code></pre>
 </div>
 
 <p>
@@ -468,7 +610,7 @@ The <code>tmr-tabulated-mode-map</code> is updated thus:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (defvar tmr-tabulated-mode-map
+<pre class="src src-emacs-lisp"><code>  (defvar tmr-tabulated-mode-map
     (let ((map (make-sparse-keymap)))
       (define-key map "k" #'tmr-remove)
       (define-key map "r" #'tmr-remove)
@@ -482,7 +624,7 @@ The <code>tmr-tabulated-mode-map</code> is updated thus:
       (define-key map "s" #'tmr-reschedule)
       map)
     "Keybindings for `tmr-tabulated-mode-map'.")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -490,7 +632,7 @@ Similarly, our sample key bindings are these:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  ;; OPTIONALLY set your own global key bindings:
+<pre class="src src-emacs-lisp"><code>  ;; OPTIONALLY set your own global key bindings:
   (let ((map global-map))
     (define-key map (kbd "C-c t t") #'tmr)
     (define-key map (kbd "C-c t T") #'tmr-with-description)
@@ -501,7 +643,7 @@ Similarly, our sample key bindings are these:
     (define-key map (kbd "C-c t e") #'tmr-edit-description)
     (define-key map (kbd "C-c t r") #'tmr-remove)
     (define-key map (kbd "C-c t R") #'tmr-remove-finished))
-</pre>
+</code></pre>
 </div></li>
 
 <li><p>
@@ -509,7 +651,7 @@ The tabulated view now shows the remaining time for all timer objects.
 This is how the <code>*tmr-tabulated-view*</code> buffer is formatted:
 </p>
 
-<pre class="example" id="orgaffa7ed">
+<pre class="example" id="org116fbc4">
   Start      End        Remaining  Description
   10:11:49   10:11:54   ✔
   10:11:36   10:31:36   19m 35s
@@ -525,7 +667,7 @@ operate on them.  The manual provides sample glue code for Embark:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (defvar tmr-action-map
+<pre class="src src-emacs-lisp"><code>  (defvar tmr-action-map
     (let ((map (make-sparse-keymap)))
       (define-key map "k" #'tmr-remove)
       (define-key map "r" #'tmr-remove)
@@ -541,7 +683,7 @@ operate on them.  The manual provides sample glue code for Embark:
      for cmd the key-bindings of tmr-action-map
      if (commandp cmd) do
      (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -568,13 +710,13 @@ the built-in <code>savehist</code> library.  Sample configuration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (require 'savehist)
+<pre class="src src-emacs-lisp"><code>  (require 'savehist)
   (setq savehist-file (locate-user-emacs-file "savehist"))
   (setq history-length 10000)
   (setq history-delete-duplicates t)
   (setq savehist-save-minibuffer-history t)
   (add-hook 'after-init-hook #'savehist-mode)
-</pre>
+</code></pre>
 </div></li>
 
 <li>Fixed an edge case where a <code>when-let*</code> form did not return the
@@ -597,7 +739,7 @@ was informed about it here:
 <h2 id="h:0a2d4909-0079-47e9-97f4-220e85a811f9">Version 0.3.0 on 2022-05-17</h2>
 <div class="outline-text-2" id="text-h:0a2d4909-0079-47e9-97f4-220e85a811f9">
 <p>
-The gist of TMR's May Release is that TMR is Maintained Rigorously&#x2014;but
+The gist of TMR's May Release is that TMR is Maintained Rigorously&mdash;but
 enough with The Mostly Recursive acronyms!
 </p>
 
@@ -638,7 +780,7 @@ Elapsed and running timers are displayed in a grid view with the
 command <code>tmr-tabulated-view</code>.  The buffer looks like this:
 </p>
 
-<pre class="example" id="org778f653">
+<pre class="example" id="org91da28b">
   Start      End        Finished?  Description
   09:22:43   09:32:43   ✔         Prepare tea
   09:17:14   09:37:14              Boil water
