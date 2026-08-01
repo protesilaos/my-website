@@ -1,5 +1,5 @@
 ---
-title: "Emacs live with @linkarzu on his workflow, Org capture, and projects (2026-08-01 22:00 Europe/Athens)"
+title: "Emacs live with @linkarzu on his workflow, Org capture, and projects (2026-08-01 22:20 Europe/Athens)"
 excerpt: "A live stream with Christian Arzu about the basics of Org capture, Emacs projects, and his NeoVim+Kitty workflow for session management."
 layout: vlog
 mediaid: "WQbXKvBT8HY"
