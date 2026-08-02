@@ -19,7 +19,7 @@ A comment on the cosmic continuum.
 
 2.1 The absolute other is that which differs from the self in quality.
 
-3 Where there is an overlap in quality, the dissimilar is not absolute.
+3 Where there is a sharing of quality, the dissimilar is not absolute.
 
 3.1 The absolute other is that which has no quality in common with the self.
 
