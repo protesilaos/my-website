@@ -66,12 +66,12 @@ And so when the wizard "casts the spell", which is a metaphor for
 saying that the wizard has made you aware of something, your world is
 no longer the same it was before.
 
-When Confucius, a sage in his own right, talked about Lao Zi, such was
-his impression of the man that he thought he had witnessed a dragon,
-i.e. a mythical creature. Lao Zi was a human like everybody else, yet
-his capacity to think things through was so extraordinary that he was,
-in a manner of speaking, superhuman: he was nothing like what you see
-every day.
+When Kong Zi (Confucius), a sage in his own right, talked about Lao
+Zi, such was his impression of the man that he thought he had
+witnessed a dragon, i.e. a mythical creature. Lao Zi was a human like
+everybody else, yet his capacity to think things through was so
+extraordinary that he was, in a manner of speaking, superhuman: he was
+nothing like what you see every day.
 
 So we take both the exaggeration as well as the underlying fact it is
 trying to highlight.
