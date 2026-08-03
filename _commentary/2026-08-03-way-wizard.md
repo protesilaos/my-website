@@ -307,3 +307,49 @@ it).
 
 Perhaps, then, the safest option is become a wizard yourself.
 
+* * *
+
+**UPDATE 2026-08-03 21:46 +0300:** "Gyro" has a follow-up [On the
+nature of magick](https://vnderthejunipertree.blogspot.com/2026/08/on-nature-of-magick.html),
+which correctly points out that you cannot be a wizard as an
+individual and that there has to be a community in place.
+
+> How are we going to become mages if there is no magick, if the
+> spirits of the land are dead, our God silent and our traditions and
+> heritage forgotten? What is a mage going to do in an age empty of
+> saints?
+>
+> Is it a way for us to rebuild our communities? To get back our
+> traditions? To be part of something unfathomably bigger than
+> ourselves?
+
+Indeed the wizard cannot exist on their own. As with the ancient
+priests, they are all members of a society that embeds in its culture
+certain values which then create the hierarchs and among those a
+wizard emerges of the sort I outlined above. Without the community,
+which is ethnic in its constitution as it exists across generations,
+there are no wizards.
+
+To become a wizard, then, as I concluded with my original article, one
+needs to turn their attention to the immediate task of finding the
+community. Not all hope is lost. There are people out there who still
+care. There also are those who are somewhat interested but would not
+do the first step.
+
+Courage is contagious. Once a few people make the initiative, others
+become more curious and want to check out what is going on. Many will
+come and go, but a few will stay. Eventually this can create the
+momentum that enkindles the community. It will be a lot of work
+though, because it has to be done as a counter-cultural movement that
+resists all sorts of forces from the dominant culture.
+
+I am only now beginning to commit to this enkindling and I generally
+do not want to talk big before I do anything. I shall do it and then I
+can comment on it. My goal is to find the others, message them, meet
+with them, keep them active, and continue doing my part. My hope is
+that long-term this brings back the magic, even if it is one tiny bit
+at a time.
+
+Is there a specific plan of action that will guarantee results? I do
+not have the answers. I am experimenting and will know more once I
+have enough experience.
