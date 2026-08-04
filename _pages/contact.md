@@ -11,13 +11,11 @@ layout: page
 
 Feel free to send me your message regarding the content of this
 website (blog posts, coding stuff, books, etc.). I normally reply
-within 48 hours (usually much sooner). If you think you have not
-received a message from me after a reasonable amount of time, check
-your "spam" folder or email me again.
+within a few days.
 
-I provide coaching services on Emacs, Linux, and Life in general.
-Check the details and email me about it, if it interests you (though
-you can send me a message regardless): <https://protesilaos.com/coach>
+Note that I provide coaching services on Emacs, Linux, and Life in
+general. Check the details and email me about it, if it interests you
+(though you can send me a message regardless): <https://protesilaos.com/coach>
 
 I do not use social media.
 
