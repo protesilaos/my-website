@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-08-02 08:34:45 +0300</b> with a word
-  count of <b>118941</b>. ]
+[ Last revised and exported on <b>2026-08-05 16:14:54 +0300</b> with a word
+  count of <b>119332</b>. ]
 </p>
 
 <p>
@@ -275,7 +275,8 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:2df15080-77f9-45f8-a3b5-1adddc70a512">5.7.13. The <code>prot-emacs-window.el</code> configuration of <code>undelete-frame-mode</code> and <code>winner-mode</code></a></li>
 <li><a href="#h:84a0d366-d4d7-42f4-a8b7-2ec1af08cee4">5.7.14. The <code>prot-emacs-window.el</code> keys for window motions (<code>windmove</code>)</a></li>
 <li><a href="#h:4bdb59e9-1c3c-4e60-9c11-0a6372b838db">5.7.15. The <code>prot-emacs-window.el</code> section for <code>buffer-to-pdf</code></a></li>
-<li><a href="#h:2124c200-734d-49c4-aeb1-513caaf957ae">5.7.16. The <code>prot-emacs-window.el</code> <code>provide</code> form</a></li>
+<li><a href="#h:baf38b4b-1f0c-491f-b669-986df6af37ca">5.7.16. The <code>prot-emacs-window.el</code> settings for the file explorer sidebar (<code>speedbar</code>)</a></li>
+<li><a href="#h:2124c200-734d-49c4-aeb1-513caaf957ae">5.7.17. The <code>prot-emacs-window.el</code> <code>provide</code> form</a></li>
 </ul>
 </li>
 <li><a href="#h:65e3eff5-0bff-4e1f-b6c5-0d3aa1a0d232">5.8. The <code>prot-emacs-git.el</code> module</a>
@@ -439,7 +440,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-08-02 08:34:46 +0300):
+(2026-08-05 16:14:54 +0300):
 </p>
 
 <div class="org-src-container">
@@ -448,7 +449,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-libsystemd --without-selinux --with-native-compilation=no --with-dbus --with-sound=no --without-gif --without-tiff --without-rsvg --without-webp --without-libotf --without-xft --with-cairo --with-harfbuzz --with-tree-sitter --without-gsettings --without-gconf --without-lcms2 --without-xaw3d --with-x-toolkit=no --with-pgtk
+--prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-libsystemd --without-selinux --with-native-compilation=aot --with-dbus --with-sound=no --without-gif --without-tiff --without-rsvg --without-webp --without-libotf --without-xft --with-cairo --with-harfbuzz --with-tree-sitter --without-gsettings --without-gconf --without-lcms2 --without-toolkit-scroll-bars --without-xaw3d --with-x-toolkit=no
 </pre>
 
 <p>
@@ -533,7 +534,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orgbc96af3">
+<pre class="example" id="org110be33">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -613,7 +614,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org32b753c">
+<pre class="example" id="org971e21a">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -621,7 +622,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org7937d76">
+<pre class="example" id="orgc8f8b11">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1524,7 +1525,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org30d41c3">
+<pre class="example" id="orgae6b86d">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1596,7 +1597,7 @@ use the function <code>package-install</code>, <code>package-vc-install</code>, 
 respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
 </p>
 
-<pre class="example" id="org890cc46">
+<pre class="example" id="org0c020e8">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1705,7 +1706,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org948b4ae">
+<pre class="example" id="org0022904">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1871,7 +1872,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org11052d5">
+<pre class="example" id="org1fb4239">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4405,7 +4406,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org62c7154">
+<pre class="example" id="org207c8e3">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4454,7 +4455,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org6b1e68f">
+<pre class="example" id="org9a8d652">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -5375,6 +5376,8 @@ completion are collectively enabled through the minor mode <code>prot-minibuffer
     (prot-minibuffer-completions-mode 1)
 
     (prot-emacs-keybind minibuffer-local-completion-map
+      "&lt;down&gt;" #'minibuffer-next-line-completion
+      "&lt;up&gt;" #'minibuffer-previous-line-completion
       "C-h C-h" #'prot-minibuffer-completions-describe-at-point ; overrides `help-for-help'
       "C-&lt;tab&gt;" #'prot-minibuffer-choose-completion-no-exit
       "RET" #'prot-minibuffer-choose-completion-exit)
@@ -7601,7 +7604,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orgd092ba0">
+<pre class="example" id="orgfe3e379">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7629,7 +7632,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org7b02125">
+<pre class="example" id="orgfd445b3">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7707,7 +7710,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org4aa0cea">
+<pre class="example" id="org8b126c4">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7883,7 +7886,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orgeb273c5">
+<pre class="example" id="orga0634f4">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8333,8 +8336,88 @@ call the command <code>buffer-to-pdf</code>. For printer-friendly output the
 </div>
 </div>
 </div>
+<div id="outline-container-h:baf38b4b-1f0c-491f-b669-986df6af37ca" class="outline-4">
+<h4 id="h:baf38b4b-1f0c-491f-b669-986df6af37ca"><span class="section-number-4">5.7.16.</span> The <code>prot-emacs-window.el</code> settings for the file explorer sidebar (<code>speedbar</code>)</h4>
+<div class="outline-text-4" id="text-h:baf38b4b-1f0c-491f-b669-986df6af37ca">
+<p>
+The built-in <code>speedbar</code> package defines infrastructure to persistently
+display information related to the current buffer.
+</p>
+
+<p>
+Without any configuration, this is the file structure related to the
+current buffer plus the <code>imenu</code> outline.
+</p>
+
+<p>
+Users can also list the buffers, though I have no use for that feature
+given that the same can be achieved, if needed, with <code>list-buffers</code> or
+<code>ibuffer</code>. To me, the <code>speedbar</code> interface is useful for its capacity
+to show the relevant subtree of the filesystem.
+</p>
+
+<p>
+Call the command <code>speedbar</code> to get started.
+</p>
+
+<p>
+By default, <code>speedbar</code> appears in a separate frame, which I consider
+impractical. Starting with Emacs version 31, however, there is a user
+option to move it to a side window (<code>speedbar-prefer-window</code>). I
+expect this alone to make <code>speedbar</code> useful for more users.
+</p>
+
+<p>
+The manual documents how we can extend <code>speedbar</code> to show arbitrary
+data, though I have no such need at the moment.
+</p>
+
+<p>
+The following tweaks make <code>speedbar</code> work in a manner that I consider
+intuitive. I remove the bitmap images it shows on graphical displays
+because I find them distracting. For the Imenu index, I choose to
+flatten it because I do not like the default grouping behaviour.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>(prot-emacs-configure
+  (setq speedbar-use-images nil) ; t here refers to the `cdr' of each `speedbar-expand-image-button-alist'
+  (setq speedbar-smart-directory-expand-flag nil)
+  (setq speedbar-prefer-window t ; both of these are for Emacs 31
+        speedbar-window-max-width 60)
+  (setq speedbar-indentation-width 4)
+  (setq speedbar-show-unknown-files t)
+  (prot-emacs-hook speedbar-visiting-tag-hook (speedbar-recenter speedbar-highlight-one-tag-line))
+
+  (defun prot/speedbar-imenu-flatten (elements)
+    "Flatten the Imenu ELEMENTS."
+    (let* ((elements (imenu--flatten-index-alist elements t))
+           (elements-no-prefix (mapcar
+                                (lambda (element)
+                                  (when-let* ((string (car element))
+                                              (position (cdr element))
+                                              (_ (or (natnump position) (markerp position))))
+                                    (cond
+                                     ((string-match-p ":.*:" string)
+                                      (cons
+                                       (string-join (cdr (split-string string "[:]")))
+                                       position))
+                                     ((string-match-p ":" string)
+                                      (cons
+                                       (cadr (split-string string "[:]"))
+                                       position))
+                                     (t
+                                      element))))
+                                elements)))
+      (delq nil elements-no-prefix)))
+
+  (setq speedbar-tag-hierarchy-method '(prot/speedbar-imenu-flatten)))
+</code></pre>
+</div>
+</div>
+</div>
 <div id="outline-container-h:2124c200-734d-49c4-aeb1-513caaf957ae" class="outline-4">
-<h4 id="h:2124c200-734d-49c4-aeb1-513caaf957ae"><span class="section-number-4">5.7.16.</span> The <code>prot-emacs-window.el</code> <code>provide</code> form</h4>
+<h4 id="h:2124c200-734d-49c4-aeb1-513caaf957ae"><span class="section-number-4">5.7.17.</span> The <code>prot-emacs-window.el</code> <code>provide</code> form</h4>
 <div class="outline-text-4" id="text-h:2124c200-734d-49c4-aeb1-513caaf957ae">
 <p>
 As always, we <code>provide</code> the module. This is the mirror function of
@@ -9768,7 +9851,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org2d0ba1f">
+<pre class="example" id="orgac198cc">
 (info "(org) Search Options")
 </pre>
 
@@ -9858,7 +9941,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org76058f2">
+<pre class="example" id="orgcb5db35">
 (require 'ob-python)
 
 ;; OR
@@ -10722,7 +10805,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org635c78e">
+<pre class="example" id="orgf82f158">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11605,7 +11688,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org4ebb9b2">
+<pre class="example" id="org27cfc83">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11617,7 +11700,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org49c44a6">
+<pre class="example" id="org83be1e3">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11680,7 +11763,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org509b319">
+<pre class="example" id="org72b8895">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11692,7 +11775,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org06c5f13">
+<pre class="example" id="org350c624">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11714,7 +11797,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgd1ed45b">
+<pre class="example" id="orge89a642">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11846,7 +11929,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgb362783">
+<pre class="example" id="org6846b77">
 (use-package sendmail
   :ensure nil
   :after message
@@ -11977,7 +12060,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org7670863">
+<pre class="example" id="org59e58ff">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -11989,7 +12072,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org0f1fa78">
+<pre class="example" id="org2285959">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -13117,7 +13200,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org2815a47">
+<pre class="example" id="orgf115ece">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13214,7 +13297,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="orga2ed24f">
+<pre class="example" id="org5f5787f">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13538,7 +13621,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgdb24954">
+<pre class="example" id="org9c81d9c">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -21272,7 +21355,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="org190b13e">
+<pre class="example" id="org1421f10">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -21304,7 +21387,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org29d8ebc">
+<pre class="example" id="org6f160a0">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
