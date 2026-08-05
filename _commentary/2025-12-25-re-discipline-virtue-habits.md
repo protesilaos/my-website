@@ -4,7 +4,7 @@ excerpt: "Excerpt from a private exchange where I elaborate on my approach to di
 ---
 
 The following is an excerpt from a private exchange. I am reproducing
-it with th permission of my correspondent without disclosing their
+it with the permission of my correspondent without disclosing their
 identity. I am sharing this because it might be useful to others as
 well.
 
