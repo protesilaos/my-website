@@ -3,7 +3,7 @@ title: "Poem: Of Protesilaos (inspired by Bertolt Brecht)"
 excerpt: "Just read the poem. No further comment."
 ---
 
-Inspired by Bertolt Brecht's "Von armen B.B." (For poor B.B.).
+Inspired by Bertolt Brecht's "Von armen B.B." (Of poor B.B.).
 
 * * *
 
