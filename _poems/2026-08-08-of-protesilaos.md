@@ -5,6 +5,8 @@ excerpt: "Just read the poem. No further comment."
 
 Inspired by Bertolt Brecht's "Von armen B.B." (For poor B.B.).
 
+* * *
+
 ```
 Of Protesilaos
 
