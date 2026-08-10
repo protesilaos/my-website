@@ -1,5 +1,5 @@
 ---
-title: "En écoutant"
+title: "Français: En écoutant"
 excerpt: "En écoutant avec patience, nous agrandissons notre capacité de compréhension."
 ---
 
