@@ -514,3 +514,67 @@ It is my style to not make promises or talk big: I do what I have
 thought through very carefully, live with the consequences of my
 actions without regrets, and then I comment at length on what I have
 learnt.
+
+* * *
+
+**UPDATE 2026-08-11 12:52 +0300:** There is a follow-up article on the
+_Under The Juniper Tree_ blog titled [Seeker of the ancient
+beauty](https://vnderthejunipertree.blogspot.com/2026/08/seeker-of-ancient-beauty.html).
+
+I do not have anything to add that is not already foreshadowed above,
+so I will only comment on the questions, which are contained in this
+quote:
+
+ > So, the question is, without the technical scaffolding, if there is
+ > something we can do about a sky that feels empty but maybe isn't,
+ > because we've forgotten how to be embraced by it.
+ >
+ > [...]
+ >
+ > I am asking you, sincerely, if you could help me understand why I
+ > feel like I do not have anymore what it takes to find that dearest
+ > beauty, so ancient yet so new, that rests within us.
+
+My point comes down to saying that our fundamental issue as
+individuals and then as groups is that we have abstracted away the
+divine into something that exists elsewhere; "elsewhere" as in far
+away but also "elsewhere" as in some distant epoch that is not current
+anymore.
+
+We find what we are always searching for when (i) we slow down to
+escape from the grindset of our times, (ii) start paying attention to
+our world around us, and (iii) join like-minded people to actively
+contribute to the culture we want.
+
+We learn to respect our neighbours and extended communities. Not in
+the common sense of "I respect your opinion", but in the deeper sense
+of valuing their innate humanity, expressing solidarity, and doing
+things in a way that is benign long-term (e.g. for the next generation
+to have a land with strong cultural ties to live on).
+
+We respect our homeland because it is the space where our ancestors
+thrived materially as well as spiritually, plus it gives us the space
+for our own institutions/values to exist. This, too, is a deeper kind
+of appreciation than what is common nowadays, where "country" is an
+alias for property for sale and/or theme park for tourists.
+
+God does not need our validation because god is complete. We are the
+ones who need spirituality and the relevant framework. By focusing on
+what we have to do, which in short is to seek/build/join the
+appropriate communities, I try to suggest that even in a situation
+that looks extra bad, there is still hope: we can change it, but we
+have to collectively try in earnest.
+
+Putting the emphasis on the small scale is also an implicit political
+comment of mine. It is like saying "the big institutions do not exist
+on their own if the people do not get involved". This applies to
+secular institutions like the government as well as spiritual ones.
+The Catholic Church, for example, is powerful on paper because it has
+billions of followers, yet capitalism shows that it is more
+influential in everyday life because, fundamentally, people have a
+nominal commitment to their faith and an actual commitment to the
+capitalist way of life.
+
+This is not to suggest that the big institutions are useless, mind
+you: only to stress the importance of people having to do their part
+in the process.
