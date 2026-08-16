@@ -3,6 +3,10 @@ title: "Hierarchy in the extended family"
 excerpt: "Comment on some of the benefits of having an extended family."
 ---
 
+This is an excerpt from my journal.
+
+* * *
+
 Some distant relatives visited me recently. I had not seen one of my
 elder cousins in roughly two decades, though I had kept in contact
 with the others. Cousin remarked that I have not changed at all. I
