@@ -26,17 +26,15 @@ issues, and doing infrastructure work around my house. My background
 is diverse and reflects my intellectual curiosity as well as
 consistently high work ethic.
 
-In my teens I was a semi-professional football (soccer) player. I had
-to quit that career path due to an untimely injury. I also worked as
-an assistant to a land surveyor and a motorcycle mechanic.
+In my teen years I was a semi-professional football (soccer) player. I
+had to quit that career path due to an untimely injury. I also worked
+as an assistant to a land surveyor and a motorcycle mechanic.
 
 I left my hometown in Greece to go to Cyprus for university studies. I
 got a degree in European Politics, Economics, and Law. My family could
 not afford any of my expenses. I covered it all by working in parallel
-to studying. In practice, I did not have a "student life" because that
-was a luxury I could not afford. If I was not studying, I was working.
-To that end, I was employed as a bartender in the tourism sector, a
-receptionist, a waiter, and a construction worker.
+to studying. At different times, I was employed as a bartender in the
+tourism sector, a receptionist, a waiter, and a construction worker.
 
 After my studies in mid-2011 and up until ~2016 I got involved in
 politics-related fields, starting with the role of an accredited
@@ -54,10 +52,12 @@ one-on-one coaching services on Emacs, Linux, and general Life issues.
 This has been my job since early 2023. More details here:
 <https://protesilaos.com/coach/>.
 
-Since the summer of 2023, I live at "the hut", which I homesteaded on
-a piece of land that used to be a vineyard. The project is ongoing, as
-I continue to expand its infrastructure and further improve the living
-conditions it makes possible.
+Since the summer of 2023, I live in my own house. It is located in a
+remote mountainous region. I affectionately call it "the hut". I built
+it on a piece of land that used to be a vineyard. The project is
+ongoing, as I continue to expand its infrastructure and further
+improve the living conditions it makes possible, all while farming and
+gardening on my own land.
 
 My diverse experiences combined with my philosophical thinking empower
 me to create connections between seemingly unrelated fields. The
