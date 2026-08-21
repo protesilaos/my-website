@@ -29,7 +29,7 @@ for some easy money, where "modelling" is just an acceptable form of
 porn. And they are all in principal agreement with the simps who
 otherwise consume the pornographic material.
 
-## From victims to perpetrarors
+## From victims to perpetrators
 
 In both of the aforementioned links there are many references to
 Andrew Tate, even though he is not involved in the criminal case at
@@ -145,7 +145,7 @@ is away from the fray of the action. To put it simply, the police
 officer is not your relative or immediate neighbour most of the time.
 The law, in this regard, can only be close to events when the
 political order is totalitarian (which then creates conditions for
-ceentralised abuse on a monumental scale).
+centralised abuse on a monumental scale).
 
 The lack of honour is the environment in which the vicious moneyman
 thrives and where the sociopath emerges as the master grifter. There
@@ -183,7 +183,7 @@ devices. Political correctness demands that we echo the notion that
 all people are equally competent at controlling themselves, but
 experience tells us that some individuals are fundamentally their own
 worst enemy: give them too much freedom and they will ruin their life
-together with that of others. The honest person who undestands their
+together with that of others. The honest person who understands their
 propensity for self-harm admits that they are empowered when framed by
 others. Structure is always---always---what people need: it either
 comes from within, with unflinching discipline, or in community with
