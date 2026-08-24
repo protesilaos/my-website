@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-08-15 21:53:54 +0300</b> with a word
-  count of <b>119947</b>. ]
+[ Last revised and exported on <b>2026-08-24 12:27:34 +0300</b> with a word
+  count of <b>119869</b>. ]
 </p>
 
 <p>
@@ -116,7 +116,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">4.9. The <code>init.el</code> settings for packages (<code>package.el</code>)</a></li>
 <li><a href="#h:00213452-3671-4de6-b4ce-ca1b65f79413">4.10. The <code>init.el</code> option to declare all themes as safe</a></li>
 <li><a href="#h:3b14faa6-83fd-4d5f-b3bc-85f72fd572d4">4.11. The <code>init.el</code> macro to do nothing with Elisp code (<code>prot-emacs-comment</code>)</a></li>
-<li><a href="#h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712">4.12. The <code>init.el</code> macro to install a package (<code>prot-emacs-install</code>)</a></li>
+<li><a href="#h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712">4.12. The <code>init.el</code> macro to install a package (<code>prot-emacs-install</code>, <code>prot-emacs-install-vc</code>)</a></li>
 <li><a href="#h:283440db-f5db-4259-9be1-5a2127675824">4.13. The <code>init.el</code> macro to add a hook (<code>prot-emacs-hook</code>)</a></li>
 <li><a href="#h:d3684ec0-a972-4033-a4d6-41ee16e891d9">4.14. The <code>init.el</code> macro to bind keys (<code>prot-emacs-keybind</code>)</a></li>
 <li><a href="#h:915cab3f-8cdc-46ab-a608-290992be2cfd">4.15. The <code>init.el</code> macro to add autoloads (<code>prot-emacs-autoload</code>)</a></li>
@@ -441,7 +441,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-08-15 21:53:54 +0300):
+(2026-08-24 12:27:34 +0300):
 </p>
 
 <div class="org-src-container">
@@ -450,7 +450,7 @@ packages and a contributor to Emacs core. Here are my current settings
 </div>
 
 <pre class="example">
---prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-libsystemd --without-selinux --with-native-compilation=no --with-dbus --with-sound=no --without-gif --without-tiff --without-rsvg --without-webp --without-libotf --without-xft --with-cairo --with-harfbuzz --with-tree-sitter --without-gsettings --without-gconf --without-lcms2 --without-xaw3d --with-x-toolkit=no --with-pgtk
+--prefix=/usr/local --without-xinput2 --without-compress-install --without-gpm --without-libsystemd --without-selinux --with-native-compilation=aot --with-dbus --with-sound=no --without-gif --without-tiff --without-libotf --without-xft --with-cairo --with-harfbuzz --with-tree-sitter --without-gsettings --without-gconf --without-lcms2 --without-toolkit-scroll-bars --without-xaw3d --with-x-toolkit=no
 </pre>
 
 <p>
@@ -535,7 +535,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org182c8cb">
+<pre class="example" id="orgdf432cd">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -615,7 +615,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org6408eaa">
+<pre class="example" id="orgc2b2293">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -623,7 +623,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org0e2691a">
+<pre class="example" id="org1c017a9">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1539,7 +1539,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org932dff0">
+<pre class="example" id="org24e3c2e">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1599,19 +1599,29 @@ then a Do-What-I-Mean wrapper to switch between the two):
 </div>
 </div>
 <div id="outline-container-h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712" class="outline-3">
-<h3 id="h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712"><span class="section-number-3">4.12.</span> The <code>init.el</code> macro to install a package (<code>prot-emacs-install</code>)</h3>
+<h3 id="h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712"><span class="section-number-3">4.12.</span> The <code>init.el</code> macro to install a package (<code>prot-emacs-install</code>, <code>prot-emacs-install-vc</code>)</h3>
 <div class="outline-text-3" id="text-h:aebcd86e-1f3e-4be5-a2c0-200df2b9e712">
 <p>
 The <code>prot-emacs-install</code> macro does what I want to install packages
-either from one of the package archives or directly from source code.
-Below are some examples of how it can be used, with the expanded code
-as a comment. In short, the macro will do the right thing to either
-use the function <code>package-install</code>, <code>package-vc-install</code>, or
-<code>package-vc-install-from-checkout</code>. In the case of the former, it will
-respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
+from the archives I set up (<a href="#h:424340cc-f3d7-4083-93c9-d852d40dfd40">The <code>init.el</code> settings for packages (<code>package.el</code>)</a>).
+It simply installs the package, if needed, else does nothing. The
+macro takes care to refresh the package contents the first time it is
+called, though it will not do so again on subsequent calls. So in a
+long-running Emacs session, it is possible for a subsequent call to
+fail to find the latest version of a package. This is fine for me, as
+I do not frequently install packages.
 </p>
 
-<pre class="example" id="org0343080">
+<p>
+The <code>prot-emacs-install-vc</code> is the same idea but for getting a package
+directly from source, per the built-in <code>package-vc-install</code> function.
+</p>
+
+<p>
+Some examples of the forms together with the macroexpanded code:
+</p>
+
+<pre class="example" id="org09a4d64">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1622,87 +1632,62 @@ respect the priorities I set for package archives (<a href="#h:424340cc-f3d7-408
 ;; =&gt;         "Cannot install `%s'; try `M-x package-refresh-contents' first"
 ;; =&gt;         'modus-themes)))))
 
-(prot-emacs-install modus-themes "https://github.com/protesilaos/modus-themes.git")
-;; =&gt; (unless (package-installed-p 'modus-themes)
-;; =&gt;   (condition-case-unless-debug err
-;; =&gt;       (apply #'package-vc-install
-;; =&gt;              '("https://github.com/protesilaos/modus-themes.git"))
-;; =&gt;     (error
-;; =&gt;      (message "Failed `%s' with `%S': `%S'" 'package-vc-install
-;; =&gt;               '("https://github.com/protesilaos/modus-themes.git")
-;; =&gt;               (cdr err)))))
+(prot-emacs-install-vc modus-themes "https://github.com/protesilaos/modus-themes")
+;; =&gt; (progn
+;; =&gt;   (unless (package-installed-p 'modus-themes)
+;; =&gt;     (condition-case-unless-debug nil
+;; =&gt;         (funcall 'package-vc-install
+;; =&gt;                  "https://github.com/protesilaos/modus-themes")
+;; =&gt;       (error
+;; =&gt;        (message "Cannot install `%s' using VC-ARGS `%S'" 'modus-themes
+;; =&gt;                 '("https://github.com/protesilaos/modus-themes"))))))
 
-(prot-emacs-install modus-themes :url "https://github.com/protesilaos/modus-themes.git" :branch "main")
-;; =&gt; (unless (package-installed-p 'modus-themes)
-;; =&gt;   (condition-case-unless-debug err
-;; =&gt;       (apply #'package-vc-install
-;; =&gt;              '(:url "https://github.com/protesilaos/modus-themes.git"
-;; =&gt;                    :branch "main"))
-;; =&gt;     (error
-;; =&gt;      (message "Failed `%s' with `%S': `%S'" 'package-vc-install
-;; =&gt;               '(:url "https://github.com/protesilaos/modus-themes.git"
-;; =&gt;                     :branch "main")
-;; =&gt;               (cdr err)))))
-
-(prot-emacs-install modus-themes "~/Git/Projects/modus-themes")
-;; =&gt; (unless (package-installed-p 'modus-themes)
-;; =&gt;   (condition-case-unless-debug err
-;; =&gt;       (apply #'package-vc-install-from-checkout
-;; =&gt;              ("~/Git/Projects/modus-themes"))
-;; =&gt;     (error
-;; =&gt;      (message "Failed `%s' with `%S': `%S'"
-;; =&gt;               'package-vc-install-from-checkout
-;; =&gt;               '("~/Git/Projects/modus-themes") (cdr err)))))
-
-(prot-emacs-install modus-themes "~/Git/Projects/modus-themes-arbitrary-name-of-dir" "modus-themes")
-;; =&gt; (unless (package-installed-p 'modus-themes)
-;; =&gt;   (condition-case-unless-debug err
-;; =&gt;       (apply #'package-vc-install
-;; =&gt;              '("~/Git/Projects/modus-themes-arbitrary-name-of-dir"
-;; =&gt;               "modus-themes"))
-;; =&gt;     (error
-;; =&gt;      (message "Failed `%s' with `%S': `%S'" 'package-vc-install
-;; =&gt;               '("~/Git/Projects/modus-themes-arbitrary-name-of-dir"
-;; =&gt;                "modus-themes")
-;; =&gt;               (cdr err)))))
+(prot-emacs-install-vc modus-themes :url "https://github.com/protesilaos/modus-themes")
+;; =&gt; (progn
+;; =&gt;   (unless (package-installed-p 'modus-themes)
+;; =&gt;     (condition-case-unless-debug nil
+;; =&gt;         (apply 'package-vc-install
+;; =&gt;                (modus-themes :url
+;; =&gt;                              "https://github.com/protesilaos/modus-themes"))
+;; =&gt;       (error
+;; =&gt;        (message "Cannot install `%s' using VC-ARGS `%S'" 'modus-themes
+;; =&gt;                 '(:url "https://github.com/protesilaos/modus-themes"))))))
 </pre>
 
 <p>
-And here is the macro:
+And here are the actual macros:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code>(defmacro prot-emacs-install (package &amp;rest vc-args)
-  "Prepare to install PACKAGE.
-PACKAGE is an unquoted symbol, referring to the name of the package.  If
-VC-ARGS are nil, then install PACKAGE using `package-install'.
-
-If VC-ARGS is non-nil, then check if their `car' is a directory.  If it
-is, apply `package-vc-install-from-checkout' on VC-ARGS, else apply
-`package-vc-install'.
-
-At all times, do nothing if PACKAGE is already installled."
+<pre class="src src-emacs-lisp"><code>(defmacro prot-emacs-install (package)
+  "Install PACKAGE, unless it is installed."
   (declare (indent 0))
   (unless (symbolp package)
     (error "The package `%s' is not a symbol" package))
-  (cond
-   ((and package vc-args)
-    (let ((fn (if-let* ((first (car vc-args))
-                        (_ (and (stringp first) (file-directory-p first))))
-                  'package-vc-install-from-checkout
-                'package-vc-install)))
-      `(unless (package-installed-p ',package)
-         (condition-case-unless-debug err
-             (apply #',fn ',vc-args)
-           (error (message "Failed `%s' with `%S': `%S'" ',fn ',vc-args (cdr err)))))))
-   (package
-    `(progn
-       (unless (package-installed-p ',package)
-         (unless package-archive-contents
-           (package-refresh-contents))
-         (condition-case-unless-debug nil
-             (package-install ',package)
-           (error (message "Cannot install `%s'; try `M-x package-refresh-contents' first" ',package))))))))
+  `(progn
+     (unless (package-installed-p ',package)
+       (unless package-archive-contents
+         (package-refresh-contents))
+       (condition-case-unless-debug nil
+           (package-install ',package)
+         (error (message "Cannot install `%s'; try `M-x package-refresh-contents' first" ',package))))))
+
+(defmacro prot-emacs-install-vc (package &amp;rest vc-args)
+  "Install PACKAGE with VC-ARGS, unless it is installed."
+  (declare (indent 0))
+  (unless (symbolp package)
+    (error "The package `%s' is not a symbol" package))
+  `(progn
+     (unless (package-installed-p ',package)
+       (condition-case-unless-debug nil
+           ,(cond
+             ((length= vc-args 0)
+              `(error "VC-ARGS must be 1 or more: `%S'" ',vc-args))
+             ((length&gt; vc-args 1)
+              `(apply 'package-vc-install ,(append (list package) vc-args)))
+             (t
+              `(funcall 'package-vc-install ,(car vc-args))))
+         (error (message "Cannot install `%s' using VC-ARGS `%S'" ',package ',vc-args))))))
 </code></pre>
 </div>
 </div>
@@ -1720,7 +1705,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="orgd3fd3a7">
+<pre class="example" id="org45e5d97">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1886,7 +1871,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org44eeddf">
+<pre class="example" id="org0f9f99b">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -2833,7 +2818,7 @@ the GNOME desktop environment (<a href="#h:3f1a33e4-762e-4cf3-a0ae-4c2954d9cbb8"
 (when (and (null prot-emacs-load-theme-family)
            (string= (getenv "DESKTOP_SESSION") "gnome"))
   (prot-emacs-configure
-    (prot-emacs-install
+    (prot-emacs-install-vc
       gnome-accent-theme-switcher
       "https://github.com/protesilaos/gnome-accent-theme-switcher.git")
     (prot-emacs-keybind global-map
@@ -2870,7 +2855,9 @@ Orderly Rendered Terminal Emulator Reifications.</li>
 <pre class="src src-emacs-lisp"><code>;;; Modus themes exporter
 (prot-emacs-configure
   ;; The use the command `modus-themes-exporter-export'.
-  (prot-emacs-install modus-themes-exporter "https://github.com/protesilaos/modus-themes-exporter.git"))
+  (prot-emacs-install-vc
+    modus-themes-exporter
+    "https://github.com/protesilaos/modus-themes-exporter.git"))
 </code></pre>
 </div>
 </div>
@@ -4438,7 +4425,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="org03a33e9">
+<pre class="example" id="org3835d4c">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4487,7 +4474,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgcd9b7c3">
+<pre class="example" id="orgb6e8e9e">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -6981,30 +6968,29 @@ Note the use of the <code>let</code> to decide whether I use the <code>grep</cod
 (prot-emacs-configure
   (setq reb-re-syntax 'read)
 
-  (let ((ripgrep (or (executable-find "rg") (executable-find "ripgrep"))))
-    ;; All those have been changed for Emacs 28
-    (setq xref-show-definitions-function #'xref-show-definitions-completing-read) ; for M-.
-    (setq xref-show-xrefs-function #'xref-show-definitions-buffer) ; for grep and the like
+  (setq xref-file-name-display 'project-relative)
 
-    (setq xref-file-name-display 'project-relative)
-    (setq xref-search-program (if ripgrep 'ripgrep 'grep))
+  ;; All those have been changed for Emacs 28
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read) ; for M-.
+  (setq xref-show-xrefs-function #'xref-show-definitions-buffer) ; for grep and the like
 
-    (setq grep-save-buffers nil)
-    (setq grep-use-headings nil) ; Emacs 30
-
-    (setq grep-program (or ripgrep (executable-find "grep")))
-    (setq grep-template
-          (if ripgrep
-              "/usr/bin/rg -nH --null -e &lt;R&gt; &lt;F&gt;"
-            "/usr/bin/grep &lt;X&gt; &lt;C&gt; -nH --null -e &lt;R&gt; &lt;F&gt;")))
-
-  (add-hook 'grep-mode #'prot-common-truncate-lines-silently)
-
+  ;; The `outline-xref' is for Emacs 32
   (with-eval-after-load 'outline
-    ;; The `outline-xref' is for Emacs 32
     (define-advice outline-xref (:around (&amp;rest args) prot)
       (let ((xref-show-xrefs-function #'xref-show-definitions-completing-read))
-        (apply args)))))
+        (apply args))))
+
+  (setq grep-save-buffers nil)
+  (setq grep-use-headings nil) ; Emacs 30
+
+  (if-let* ((ripgrep (or (executable-find "rg") (executable-find "ripgrep"))))
+      (progn
+        (setq grep-program ripgrep)
+        (setq xref-search-program 'ripgrep)
+        (setq grep-template (format "%s -nH --null -e &lt;R&gt; &lt;F&gt;" ripgrep)))
+    (error "You need to install RIPGREP"))
+
+  (add-hook 'grep-mode #'prot-common-truncate-lines-silently))
 </code></pre>
 </div>
 </div>
@@ -7600,7 +7586,9 @@ a package for Emacs 29.
 <pre class="src src-emacs-lisp"><code>;;; Play back media with Dired (mandoura.el)
 ;; This is yet another package of mine: &lt;https://protesilaos.com/emacs&gt;
 (prot-emacs-configure
-  (prot-emacs-install mandoura "https://github.com/protesilaos/mandoura")
+  (prot-emacs-install-vc
+    mandoura
+    "https://github.com/protesilaos/mandoura")
   (with-eval-after-load 'dired
     (require 'mandoura)
     (prot-emacs-keybind global-map
@@ -7664,7 +7652,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="orgdd50d81">
+<pre class="example" id="org1301852">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7692,7 +7680,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org9ed9601">
+<pre class="example" id="orgb940035">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7770,7 +7758,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="orgaea8a2e">
+<pre class="example" id="orga185100">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7946,7 +7934,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org33042a2">
+<pre class="example" id="org6cf2d8b">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8090,7 +8078,8 @@ to a certain height.
            (inhibit-switch-frame . t))
           ;; other `tab-bar-mode' tab
           ((or . ((derived-mode . magit-status-mode)
-                  (derived-mode . vc-dir-mode)))
+                  (derived-mode . vc-dir-mode)
+                  "\\*.*vc-dir.*\\*"))
            (display-buffer-reuse-mode-window display-buffer-in-tab)
            (mode . (magit-status-mode vc-dir-mode))
            (tab-name . (lambda (buffer _alist) (buffer-name buffer)))
@@ -8396,7 +8385,9 @@ call the command <code>buffer-to-pdf</code>. For printer-friendly output the
 <pre class="src src-emacs-lisp"><code>;;; Buffer to PDF
 (prot-emacs-configure
   ;; The use the command `buffer-to-pdf' or `buffer-to-pdf-black-on-white'.
-  (prot-emacs-install buffer-to-pdf "https://github.com/protesilaos/buffer-to-pdf.git"))
+  (prot-emacs-install-vc
+    buffer-to-pdf
+    "https://github.com/protesilaos/buffer-to-pdf.git"))
 </code></pre>
 </div>
 </div>
@@ -9403,7 +9394,7 @@ Already Recorded.</li>
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><code>(prot-emacs-configure
-  (prot-emacs-install
+  (prot-emacs-install-vc
     institution-calendar
     "https://github.com/protesilaos/institution-calendar.git")
 
@@ -9919,7 +9910,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org85f7d46">
+<pre class="example" id="org09d8649">
 (info "(org) Search Options")
 </pre>
 
@@ -10009,7 +10000,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="org07a2b20">
+<pre class="example" id="orgbcc0dca">
 (require 'ob-python)
 
 ;; OR
@@ -10874,7 +10865,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="org7e0323c">
+<pre class="example" id="org5e5ef3a">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11756,7 +11747,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org4ed9d6e">
+<pre class="example" id="orgfb02a96">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11768,7 +11759,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org0bcfc9c">
+<pre class="example" id="org2501936">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11831,7 +11822,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org0f4012a">
+<pre class="example" id="org72a38d0">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11843,7 +11834,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="orgc5a5254">
+<pre class="example" id="org7e09c29">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11865,7 +11856,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgfe11701">
+<pre class="example" id="org81d51a4">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11997,7 +11988,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org4c973fc">
+<pre class="example" id="org5ddb2b4">
 (use-package sendmail
   :ensure nil
   :after message
@@ -12128,7 +12119,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="orgd510b8e">
+<pre class="example" id="org1155fcb">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -12140,7 +12131,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org05f225c">
+<pre class="example" id="org0d7405e">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -13268,7 +13259,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="org3eb3b59">
+<pre class="example" id="org534b77a">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13365,7 +13356,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org252e9f7">
+<pre class="example" id="orgdf46a37">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13689,7 +13680,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="orgdc3966c">
+<pre class="example" id="orgbb2318c">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -19146,18 +19137,22 @@ and function as links to the context they reference."
  prot-search--find-file-names-args
  "dired")
 
-;; (defun prot-search-find-grep-file (regexp)
-;;   "Use find to produce list of files that include REGEXP."
-;;   (interactive
-;;    (list
-;;     (read-regexp "Find and grep for REGEXP: " nil 'prot-search--find-grep-hist)))
-;;   (let ((files (process-lines "find"
-;;                               "-type" "f"
-;;                               "-exec" "grep" "-nHE" "--color=auto" (format "'%s" regexp) " "
-;;                               "-ls" " "
-;;                               "{};")
-;;                ))
-;;     (find-file (completing-read "Find file: "files))))
+;; TODO 2026-08-15: I want to revise all of the above functions that
+;; involve find/grep.  Is `process-lines' the better option?
+
+;;;###autoload
+(defun prot-search-grep-to-dired (regexp)
+  "Produce a Dired buffer with files matching REGEXP.
+Recursively search for files from the current directory using the find
+program."
+  (interactive
+   (list
+    (read-regexp "Find and grep for REGEXP: " nil 'prot-search--find-grep-hist)))
+  (let ((files (process-lines "find"
+                              "-type" "f"
+                              "-exec" "grep" "-nHE" "--color=auto" regexp
+                              "-ls" "{}" ";")))
+    (dired (cons default-directory files))))
 
 (provide 'prot-search)
 ;;; prot-search.el ends here
@@ -21458,7 +21453,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgf134294">
+<pre class="example" id="orgc2a6930">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -21490,7 +21485,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org4c6f7b9">
+<pre class="example" id="org4e09dd1">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
