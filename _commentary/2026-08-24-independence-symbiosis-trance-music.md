@@ -7,6 +7,10 @@ This is an excerpt from my journal.
 
 * * *
 
+**UPDATE 2026-08-25 17:37 +0300:** Included reference to _Weaver_ track.
+
+* * *
+
 People who visit me make the same kind of remark: "quiet, huh?". Their
 ears are used to a different environment. Their first impression is
 informed by their prior conditioning and is true given that state of
@@ -99,8 +103,10 @@ committed to. Music effectively insulate me from the rest of the
 world. This practice started when I was around ten years old. At the
 time, I discovered trance music, which is about the most niche genre
 you could get in Greece, at least in those pre-Internet times. Here
-are a couple of examples, which I consider masterpieces:
+are three examples, which I consider masterpieces:
 
+- Weaver by Star Children <https://www.youtube.com/watch?v=mGRyt4O-J50>
+  (I first discovered it as part of the album _Transistance 3_).
 - Milky Way by Space Odyssey <https://www.youtube.com/watch?v=4yU5L3tdsRI>
   (I first listened to this in the album _Trance Wars 2_).
 - Megamix by Soundreamer <https://www.youtube.com/watch?v=eKqk6KhScI8>
