@@ -1,5 +1,5 @@
 ---
-title: "Français: Écouter de la musique pour créer des connections"
+title: "Français: Écouter de la musique pour créer des connections interpersonnel"
 excerpt: "Les arts sont importants pour créer des connections interpersonnel."
 ---
 
