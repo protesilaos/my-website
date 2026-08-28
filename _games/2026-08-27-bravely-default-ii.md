@@ -15,7 +15,7 @@ as pretty as a watercolour painting. Good guys talk with a British
 accent, while even the bad ones are masters of etiquette. I am
 surprised there was no 5 o'clock kap-à-tee at any point in the
 adventure. Or, if there was, I missed it because us Greek savages only
-understand _café frappé_ and have no sensitivity for that milky tea
+understand café frappé and have no sensitivity for that milky tea
 gimmick. And, of course, the dragons have Welsh-sounding names. This
 is the most believable part. Wales is truly inhabited by dragons. I
 know from experience. Just tell them they are English and see them
@@ -42,7 +42,7 @@ example, perform an attack three times at once and then just hang
 around doing nothing for another three turns while the rest are
 holding on to dear life on their normal one-action-per-turn basis.
 
-It is simple and super effective! In the common base, this system lets
+It is simple and super effective! In the common case, this system lets
 you blitz through random enemy encounters. Go full _Bravely_ on the
 monsters and you will most probably consign them to oblivion before
 they have a chance to fight back. A single turn is enough to win the
