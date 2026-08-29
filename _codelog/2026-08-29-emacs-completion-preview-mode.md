@@ -1,5 +1,5 @@
 ---
-title:"Emacs: completion-preview-mode and the Completions buffer (Emacs 31)"
+title: "Emacs: completion-preview-mode and the Completions buffer (Emacs 31)"
 excerpt: "The built-in completion-preview-mode combines nicely with the Completions buffer. This is excellent in Emacs 31."
 layout: vlog
 mediaid: "8V4ZyEL_i-s"
