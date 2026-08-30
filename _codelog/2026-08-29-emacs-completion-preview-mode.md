@@ -32,6 +32,8 @@ start your Emacs configuration.
     ("<tab>" . completion-preview-complete))
   :config
   (setq completion-preview-minimum-symbol-length 2)
+  (with-eval-after-load 'org
+    (add-to-list 'completion-preview-commands #'org-self-insert-command))
   (global-completion-preview-mode 1))
 
 ;; I have a more detailed configuration (and explanation) that works
