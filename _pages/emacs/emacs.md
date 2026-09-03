@@ -476,6 +476,11 @@ to blend Standard and Modus into one collection).
 
 ## Minibuffer Confines Transcended (mct.el)
 
+[ **UPDATE 2026-09-03:** Starting with Emacs 31, this package is no
+  longer needed. You can get almost the same experience by configuring
+  built-in features. I did a video on the matter:
+  <https://protesilaos.com/codelog/2026-07-29-emacs-default-minibuffer-completion-overview/>. ]
+
 Opinionated changes and enhancements to the default minibuffer
 completion UI of Emacs:
 
