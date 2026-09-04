@@ -4,7 +4,7 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `1.2.0-dev`. The
+The following screen shots correspond to version `1.3.0`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
@@ -82,6 +82,16 @@ subtle differences in colour.
 
 <a href="{{'/assets/images/doric/doric-light-magit.png' | absolute_url }}"><img alt="doric-light theme sample" src="{{'/assets/images/doric/doric-light-magit.png' | absolute_url }}"/></a>
 
+## doric-lilac
+
+<a href="{{'/assets/images/doric/doric-lilac.png' | absolute_url }}"><img alt="doric-lilac theme sample" src="{{'/assets/images/doric/doric-lilac.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lilac-org.png' | absolute_url }}"><img alt="doric-lilac theme sample" src="{{'/assets/images/doric/doric-lilac-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lilac-message.png' | absolute_url }}"><img alt="doric-lilac theme sample" src="{{'/assets/images/doric/doric-lilac-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-lilac-magit.png' | absolute_url }}"><img alt="doric-lilac theme sample" src="{{'/assets/images/doric/doric-lilac-magit.png' | absolute_url }}"/></a>
+
 ## doric-marble
 
 <a href="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble.png' | absolute_url }}"/></a>
@@ -131,6 +141,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-wind-message.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-wind-magit.png' | absolute_url }}"><img alt="doric-wind theme sample" src="{{'/assets/images/doric/doric-wind-magit.png' | absolute_url }}"/></a>
+
+## doric-borage
+
+<a href="{{'/assets/images/doric/doric-borage.png' | absolute_url }}"><img alt="doric-borage theme sample" src="{{'/assets/images/doric/doric-borage.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-borage-org.png' | absolute_url }}"><img alt="doric-borage theme sample" src="{{'/assets/images/doric/doric-borage-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-borage-message.png' | absolute_url }}"><img alt="doric-borage theme sample" src="{{'/assets/images/doric/doric-borage-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-borage-magit.png' | absolute_url }}"><img alt="doric-borage theme sample" src="{{'/assets/images/doric/doric-borage-magit.png' | absolute_url }}"/></a>
 
 ## doric-copper
 
