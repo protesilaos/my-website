@@ -3,6 +3,10 @@ title: "The lie of socialist feminism"
 excerpt: "Extended commentary on the concept of socialist feminism."
 ---
 
+**UPDATE 2026-09-06 13:32 +0300:** Also read [Follow up comments on 'The lie of socialist feminism'](https://protesilaos.com/politics/2026-09-05-lie-socialist-feminism/).
+
+* * *
+
 In light of Gloria Steinem's death, Jenny Brown writes in _Jacobin_
 how [Gloria Steinem Was the Godmother of Neoliberal Feminism](https://jacobin.com/2026/09/steinem-feminism-ms-cia-socialism):
 
