@@ -3,6 +3,11 @@ title: "Follow up comments on 'The lie of socialist feminism'"
 excerpt: "Comments at length on the article I wrote with the title 'The lie of socialist feminism'."
 ---
 
+**UPDATE 2026-09-07 11:04 +0300:** I appended a section about the
+programmatic agenda of socialist feminists.
+
+* * *
+
 This is a collection of comments to the feedback I received regarding
 my article titled [The lie of socialist feminism](https://protesilaos.com/politics/2026-09-05-lie-socialist-feminism/) (2026-09-05).
 I group them by topic.
@@ -326,3 +331,53 @@ to manhood, by the way.
 Equal rights is a laudable idea. Though if you call it "equal rights"
 but actually mean "special treatment", then you are not being honest,
 or self-aware, or consistent.
+
+## The programmatic agenda of socialist feminism is socialist
+
+I was told that I did not fully get the point of the 1972 publication I was
+quoting from [Socialist Feminism: A Strategy for the Women's Movement](http://www.historyisaweapon.org/defcon1/chisocfem.html).
+What they want is not like what other feminists want, because they
+have the socialist agenda to address problems within the household.
+They are socialist throughout.
+
+This I contest because I think through the implications of their
+position. Their argument is basically this:
+
+- There is a core problem at home.
+- The problem is not solved at the individual level.
+- We need collective solutions for it (i.e. socialism).
+
+Then they elaborate on what those may be. We can even think of many
+ourselves (of which we have plenty across the European Union, for
+instance) in one way of another, such as public healthcare, strong
+networks for childcare, longer maternity/paternity leave, and more.
+Those would be in line with the socialist programme.
+
+Now what happens if we do not have those? Absent the socialist state's
+pampers, the "socialist+feminist" construct becomes just "feminist".
+Which means that the household is a problem. And if the household is a
+problem that cannot in the meantime be solved collectively, then it is
+addressed individually. Hence the individualism I have already covered
+at length.
+
+This is exactly why I bring in the case of the Syrian refugees (they
+live close to where I am, by the way, and I see them every day).
+Materially they are in the same situation as me, namely, marginalised.
+But they have a different mindset than our society at-large, which
+allows them to endure the challenges and thrive regardless.
+
+I recognise that the individualist/atomic-family kind of childcare is
+a burden on parents. I comment more about that in the other article I
+linked to which argues against Andrew Tate, among others: [About rootlessness and broken relationships](https://protesilaos.com/politics/2026-08-21-rootlessness-broken-relationships/) (2026-08-21),
+
+What the Syrian woman has, in short, is the vaunted "socialist
+childcare" at the local level: her extended family. She does not have
+to wait for the reconstitution of society.
+
+Consequently, we as a society have a problem of expectations, which I
+also comment on in another thread: [Comments on material conditions, expectations, and community](https://protesilaos.com/politics/2026-09-06-comments-material-conditions-expectations-community/) (2026-09-06).
+
+My view about communities can be summed up as this: "I can have
+socialism at the local level together with my extended family and
+neighbours". It has solidarity, it has resilience, it works for the
+Syrian refugees, it has worked for millennia.
