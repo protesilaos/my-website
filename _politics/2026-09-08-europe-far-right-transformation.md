@@ -17,7 +17,7 @@ say something, I have considered it carefully. I do not do tricks and
 gimmicks.
 
 My argument then, as it is now, is that liberalism, expressed by this
-political centre, effectively is a luxury that society tolerates under
+political centre, effectively is a luxury that society entertains under
 conditions of abundance. It stops being appealing when the constraints
 appear to be tighter, at which point some form of intolerance takes
 centre stage.
