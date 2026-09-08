@@ -3,6 +3,9 @@ title: "Follow up comments on 'The lie of socialist feminism'"
 excerpt: "Comments at length on the article I wrote with the title 'The lie of socialist feminism'."
 ---
 
+**UPDATE 2026-09-08 08:27 +0300:** I appended a section on patterns of
+behaviour and the nature of people.
+
 **UPDATE 2026-09-08 08:19 +0300:** I appended a section about economic
 reforms and debates about groups of people.
 
@@ -438,3 +441,53 @@ towards it. We are talking about something foundational here.
 
 To distil my point: do not go far off the economic/democratic debate,
 because you will never come back to it.
+
+## Patterns of behaviour and the nature of people
+
+One of the arguments of feminists is that patriarchy teaches people to
+behave in certain ways. Men are taught to be aggressive, for example.
+I have a different reading of these phenomena altogether. Those
+patterns of behaviour have cultural features, though we observe
+commonalities across cultures. Those have to do with the very nature
+of people.
+
+Perhaps you have met someone who, for example, gets frustrated easily.
+Observe them carefully. When do they become emotionally unstable in
+everyday activities? Something does not work the way they expect and
+they feel pressured to do it while believing that time is running out.
+This pressure builds up rage or disappointment. They might explode in
+anger or implode in depression.
+
+More generally, you will notice that the impatient person is more
+likely to become emotionally charged in some way. You can think of the
+capacity of patience as a fuse, so less patience yields a shorter
+fuse. The person who has a lot of patience is also in control of their
+emotional state. This does not mean that they have the stiff upper lip
+that "patriarchy" taught them. No, they have learnt to be in control
+of the situation.
+
+I am here thinking of their association with other people, because
+emotionally charged people say or do things they later regret. They
+can be physically or verbally aggressive, else abusive. They shall
+break stuff literally and figuratively. We know of the physical
+aggression a man is capable of, but we must not forget the emotional
+tension, the death by a thousand cuts, that an quick-to-complain woman
+creates. Both "break stuff" by being emotionally charged.
+
+Be a keen observer of people and you will find that culture is not
+relevant to much of what they do. I work with Emacs, for example, and
+I know for a fact that it attracts a particular kind of person on a
+spectrum of personality traits (myself included). This is not taught,
+nor is it undone. It can be harnessed or framed, which is why I write
+about "structure" here and in other publications.
+
+Those patterns of behaviour extend to other feelings, such as
+enthusiasm and one's attention span more broadly. You will find that
+the kind of person who has a propensity for gambling, for example, is
+prone to addiction in general. Whatever they do, they do it without
+control of their impulses. Those people need others around to hold
+them accountable, such as a male friend who will call out your
+bullshit.
+
+I can keep going, but I think the direction I am pointing towards is
+clear.
