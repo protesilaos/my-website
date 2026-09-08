@@ -3,6 +3,9 @@ title: "Follow up comments on 'The lie of socialist feminism'"
 excerpt: "Comments at length on the article I wrote with the title 'The lie of socialist feminism'."
 ---
 
+**UPDATE 2026-09-08 08:19 +0300:** I appended a section about economic
+reforms and debates about groups of people.
+
 **UPDATE 2026-09-07 11:04 +0300:** I appended a section about the
 programmatic agenda of socialist feminists.
 
@@ -381,3 +384,57 @@ My view about communities can be summed up as this: "I can have
 socialism at the local level together with my extended family and
 neighbours". It has solidarity, it has resilience, it works for the
 Syrian refugees, it has worked for millennia.
+
+## Economic reform and debates about group of people
+
+My critique of "socialist feminism" essentially is that you are
+replacing a class or democratic issue with a gender issue. Pick, for
+example, the project of nationalising key industries in the economy
+and having them be controlled by worker councils.
+
+My concern with the overall project is that once you introduce
+suffixes and qualifiers to socialism which subdivide the people, you
+create the conditions for your own failure.
+
+The nationalisation of industry is straightforward if you are doing it
+along class lines or democracy, if you will. It is no longer clear
+once you introduce extra requirements as you stop talking about "the
+people" and move into the territory of "some among the people".
+
+Will women be in charge of the industry, for example? Should it be a
+50/50 split? I do not seek answers, but this is the sort of discussion
+that follows/precedes the economic reforms (and if it always precedes
+them, then my belief is that the reform never happens because
+sectarianism weakens the movement).
+
+This, in turn, sets a precedent that others will contest. Why divide
+people into male and female, masculine and feminine, and not other
+genders? Why make it sex-centric at all? So the 50/50 split will have
+to look very different---and that problématique on sex and gender is
+not a discussion with a quick resolution, so factor all this debate in
+to your original project of nationalising industry.
+
+And, then, why not factor in race or ethnic background so, for
+example, we have half Greeks and half Syrians (speaking relative to my
+immediate surroundings, but generalise accordingly). Following the
+implications will lead us to individualism.
+
+These are real-world experiences, as you know, not some thought
+experiment. I am also writing this, by the way, with intimate
+knowledge of party/power politics (I worked at the European
+Parliament, among others).
+
+Introduce one special group and now everyone wants to be special. Add
+one prerequisite to your ultimate goal and now you have a million
+prerequisites because why would this one be more special than that
+one. If you get involved with party politics or social movements which
+are not strictly tied together ideological groups you will observe
+this fracturing.
+
+Actually, you can observe this even at the smaller scale with
+individuals. I even observe it with dogs (I am an experienced dog
+handler): treat one specially and others will become aggressive
+towards it. We are talking about something foundational here.
+
+To distil my point: do not go far off the economic/democratic debate,
+because you will never come back to it.
