@@ -409,4 +409,3 @@ that deeds form you, that your choices become your destiny. This is a
 long way of saying "you cannot just be a friend of wisdom (literally
 what philosopher means) but you must become an agent of wisdom". Stop
 thinking. Start acting.
-
