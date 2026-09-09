@@ -1840,7 +1840,7 @@ In concrete terms, this is a representation of the directory structures
 (notice the <code>.dir-locals.el</code> file is needed only for the silos):
 </p>
 
-<pre class="example" id="org3f2550f">
+<pre class="example" id="org523190a">
 ;; This is the global value of 'denote-directory' (no need for a .dir-locals.el)
 ~/Documents/notes
 |-- 20210303T120534--this-is-a-test__journal_philosophy.txt
@@ -2421,7 +2421,7 @@ in place.
 Suppose you have an <code>.org</code> file with this front matter (<a href="#h:13218826-56a5-482a-9b91-5b6de4f14261">Front matter</a>):
 </p>
 
-<pre class="example" id="org370953b">
+<pre class="example" id="orgf006182">
 #+title:      My sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:
@@ -2440,7 +2440,7 @@ Its file name reflects this information:
 You want to change its title and keywords manually, so you modify it thus:
 </p>
 
-<pre class="example" id="org736a8da">
+<pre class="example" id="org82052d0">
 #+title:      My modified sample note file
 #+date:       [2022-08-05 Fri 13:10]
 #+filetags:   :testing:denote:emacs:
@@ -3165,7 +3165,7 @@ cell of the form <code>(COMPONENT . METHOD)</code>. For example, here is the
 default value:
 </p>
 
-<pre class="example" id="org1e9c2ac">
+<pre class="example" id="orgc430198">
 '((title . denote-sluggify-title)
   (signature . denote-sluggify-signature)
   (keyword . denote-sluggify-keyword))
@@ -3879,7 +3879,7 @@ This is how it looks for Org mode (when <code>denote-file-type</code> is set to
 the <code>org</code> symbol, which is the default):
 </p>
 
-<pre class="example" id="org984ba58">
+<pre class="example" id="orgc99be47">
 #+title:      This is a sample note
 #+date:       [2022-06-30 Thu 16:09]
 #+filetags:   :denote:testing:
@@ -3891,7 +3891,7 @@ For Markdown with YAML (<code>denote-file-type</code> has the <code>markdown-yam
 value), the front matter looks like this:
 </p>
 
-<pre class="example" id="org0300a59">
+<pre class="example" id="orgf8d37cf">
 ---
 title:      "This is a sample note"
 date:       2022-06-30T16:09:58+03:00
@@ -3905,7 +3905,7 @@ For Markdown with TOML (<code>denote-file-type</code> has the <code>markdown-tom
 value), it is:
 </p>
 
-<pre class="example" id="org1ab9ea0">
+<pre class="example" id="orgfec29b5">
 +++
 title      = "This is a sample note"
 date       = 2022-06-30T16:10:13+03:00
@@ -3919,7 +3919,7 @@ And for plain text (<code>denote-file-type</code> has the <code>text</code> valu
 the following:
 </p>
 
-<pre class="example" id="org9b35097">
+<pre class="example" id="org4e29229">
 title:      This is a sample note
 date:       2022-06-30
 tags:       denote  testing
@@ -4261,7 +4261,7 @@ Links to files whose names match the given search terms are inserted
 as a typographic list, such as:
 </p>
 
-<pre class="example" id="org8b8701a">
+<pre class="example" id="orgdc5d4cc">
 - link1
 - link2
 - link3
@@ -4279,7 +4279,7 @@ When called with a prefix argument (<code>C-u</code>) <code>denote-add-links</co
 format all links as <code>[[denote:IDENTIFIER]]</code>, hence a typographic list:
 </p>
 
-<pre class="example" id="org89fe7c6">
+<pre class="example" id="orgc99be98">
 - [[denote:IDENTIFIER-1]]
 - [[denote:IDENTIFIER-2]]
 - [[denote:IDENTIFIER-3]]
@@ -4646,7 +4646,7 @@ link to the current file occurs together with its context. It looks
 like this (plus the appropriate fontification):
 </p>
 
-<pre class="example" id="orgf2a5fba">
+<pre class="example" id="orgb2fe089">
 Backlinks to "On being honest" (20220614T130812)
 ------------------------------------------------
 
@@ -6047,7 +6047,7 @@ in light of the user option <code>denote-file-name-components-order</code>
 easier to perform complex queries like:
 </p>
 
-<pre class="example" id="orgeea470b">
+<pre class="example" id="orgcffd476">
 (denote-regexp :keywords '(or "agenda" (and "project" "inprogress")))
 </pre>
 
@@ -6281,9 +6281,9 @@ commands:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><code>(defun my-denote--note-has-no-contents-p (file)
   "Return non-nil if FILE is an empty note.
-This means that FILE conforms with `denote-file-is-note-p' and either
+This means that FILE conforms with `denote-file-has-denoted-filename-p' and either
 has no contents or has only the front matter."
-  (and (denote-file-is-note-p file)
+  (and (denote-file-has-denoted-filename-p file)
        (or (denote--file-with-temp-buffer file
              (re-search-forward "^$" nil t)
              (if (re-search-forward "[^\s\t\n\r]+" nil t)
@@ -6378,7 +6378,7 @@ title or keywords fields.
 Add this function to the `after-save-hook'."
   (let ((denote-rename-confirmations nil)
         (denote-save-buffers t)) ; to save again post-rename
-    (when (and buffer-file-name (denote-file-is-note-p buffer-file-name))
+    (when (and buffer-file-name (denote-file-has-denoted-filename-p buffer-file-name))
       (ignore-errors (denote-rename-file-using-front-matter buffer-file-name))
       (message "Buffer saved; Denote file renamed"))))
 
@@ -6498,7 +6498,7 @@ Consider then, how Dired will sort those files by their identifier:
 Whereas on the command line, we can get the following:
 </p>
 
-<pre class="example" id="orgfc37200">
+<pre class="example" id="org5d22378">
 $ ls | sort -t _ -k 2
 20220929T200432--testing-file-one__alpha.txt
 20220929T200632--testing-file-three__alpha.txt
@@ -7231,12 +7231,6 @@ string is a Denote date identifier.</dd>
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-file-is-note-p</code></dt><dd>Return non-nil if <code>FILE</code> is an
-actual Denote note. For our purposes, a note must satisfy
-<code>file-regular-p</code> and <code>denote-filename-is-note-p</code>.</dd>
-</dl>
-
-<dl class="org-dl">
 <dt>Function <code>denote-file-has-identifier-p</code></dt><dd>Return non-nil if <code>FILE</code>
 has a Denote identifier.</dd>
 </dl>
@@ -7568,11 +7562,6 @@ nil, the <code>current-time</code> is used.</dd>
 <dl class="org-dl">
 <dt>Function <code>denote-get-path-by-id</code></dt><dd>Return absolute path of <code>ID</code>
 string in <code>denote-directory-files</code>.</dd>
-</dl>
-
-<dl class="org-dl">
-<dt>Function <code>denote-get-identifier-at-point</code></dt><dd>Return the identifier
-at point or <code>POINT</code>.</dd>
 </dl>
 
 <dl class="org-dl">
@@ -7999,7 +7988,7 @@ an identifier-only link in its context.  The format of such links is
 </dl>
 
 <dl class="org-dl">
-<dt>Function <code>denote-select-linked-file-prompt</code></dt><dd>Prompt for linked
+<dt>Function <code>denote-select-from-files-prompt</code></dt><dd>Prompt for linked
 file among <code>FILES</code>.</dd>
 </dl>
 
@@ -8040,6 +8029,11 @@ This function is useful as the value of the user option
 <code>denote-link-description-format</code> (which can optionally be bound to a
 function).
 </p></dd>
+</dl>
+
+<dl class="org-dl">
+<dt>Function <code>denote-get-link-identifier-or-query-term-at-point</code></dt><dd>Return the
+Denote identifier or query term at point or optional <code>POSITION</code>.</dd>
 </dl>
 </div>
 </div>
@@ -8149,7 +8143,7 @@ take you to the source file.  There do <code>M-x eval-expression</code>, which
 will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 </ol>
 
-<pre class="example" id="org5cb9a85">
+<pre class="example" id="org4110690">
 (kill-new (expand-file-name (buffer-file-name)))
 </pre>
 
@@ -8159,7 +8153,7 @@ will bring up a minibuffer prompt.  At the prompt evaluate:</li>
 <li>In a terminal emulator or an <code>M-x shell</code> buffer execute:</li>
 </ol>
 
-<pre class="example" id="org8c2cfec">
+<pre class="example" id="org3ed7f37">
 emacs -Q
 </pre>
 
@@ -8171,7 +8165,7 @@ Only the default settings are loaded.</li>
 like the following and try to reproduce the issue:</li>
 </ol>
 
-<pre class="example" id="org7eabd53">
+<pre class="example" id="org1a4dc6d">
 (require 'denote "/full/path/to/what/you/got/denote.el")
 
 ;; Your configurations here
@@ -8232,7 +8226,7 @@ do it once. It will allow you to make contributions to Emacs in
 general.
 </p>
 
-<pre class="example" id="org6057c55">
+<pre class="example" id="orgeeb5f25">
 Please email the following information to assign@gnu.org, and we
 will send you the assignment form for your past and future changes.
 
@@ -8942,9 +8936,9 @@ R. Kifer, Stefan Monnier, Stefan Thesing, Thibaut Benjamin, Tobias
 Lidman-Strauss, Tomasz Hołubowicz, TomoeMami , Vedang Manerikar,
 Wesley Harvey, Yann Dutrieux, Zhenxu Xu, alvmts, arsaber101,
 bplubell, bryanrinders, dulikiles, eum3l, experimental-code-86,
-ezchi, gnuhack, gvalson, jarofromel, leinfink (Henrik), l-o-l-h
-(Lincoln), mattyonweb, maxbrieiev, mentalisttraceur, nescias,
-pmenair, relict007, skissue.</dd>
+ezchi, gnuhack, gvalson, jarofromel, kimsaram32, leinfink (Henrik),
+l-o-l-h (Lincoln), mattyonweb, maxbrieiev, mentalisttraceur,
+nescias, pmenair, relict007, skissue.</dd>
 
 <dt>Ideas and/or user feedback</dt><dd>Abin Simon, Aditya Yadav, Alan
 Schmitt, Aleksandr Vityazev, Alex Griffin, Alex Hirschfeld, Alexis
