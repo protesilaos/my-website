@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-09-04 15:57:52 +0300</b> with a word
-  count of <b>120158</b>. ]
+[ Last revised and exported on <b>2026-09-10 16:12:43 +0300</b> with a word
+  count of <b>120735</b>. ]
 </p>
 
 <p>
@@ -284,7 +284,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:8e28de42-740d-47ea-b88f-f9fd8d9b6f4f">5.8.3. The <code>prot-emacs-git.el</code> section about <code>diff-hl</code></a></li>
 <li><a href="#h:89edea05-4d94-4ea1-b2a8-5ad01422618c">5.8.4. The <code>prot-emacs-git.el</code> section about ediff</a></li>
 <li><a href="#h:2ed18433-8b38-4518-a464-77bc76e3a87d">5.8.5. The <code>prot-emacs-git.el</code> section about <code>smerge-mode</code></a></li>
-<li><a href="#h:50add1d8-f0f4-49be-9e57-ab280a4aa300">5.8.6. The <code>prot-emacs-git.el</code> section about <code>vc.el</code> and related</a></li>
+<li><a href="#h:50add1d8-f0f4-49be-9e57-ab280a4aa300">5.8.6. The <code>prot-emacs-git.el</code> section about <code>vc.el</code> and related (including <code>prot-vc.el</code>)</a></li>
 <li><a href="#h:b08af527-9ebf-4425-ac3a-24b4f371a4fd">5.8.7. The <code>prot-emacs-git.el</code> section about <code>magit</code> (great Git interface)</a></li>
 <li><a href="#h:4e7035c5-9350-4c51-be85-85f2539ed295">5.8.8. The <code>prot-emacs-git.el</code> call to <code>provide</code></a></li>
 </ul>
@@ -416,6 +416,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <li><a href="#h:bccb4b34-325e-43ba-b08f-b7da5342b522">6.21. The <code>prot-streaming.el</code> library</a></li>
 <li><a href="#h:3796a4c9-8659-4782-8aaa-3cf4e950927d">6.22. The <code>prot-vertico.el</code> library</a></li>
 <li><a href="#h:35b8a0a5-c447-4301-a404-bc274596238d">6.23. The <code>prot-window.el</code> library</a></li>
+<li><a href="#h:4405e6d5-6bd9-4fbe-8d42-c788b3dd2ee7">6.24. The <code>prot-vc.el</code> library</a></li>
 </ul>
 </li>
 <li><a href="#h:cc8b8fac-b9d4-4a61-a69b-a0c93efa254d">7. Frequently Asked Questions (FAQ)</a>
@@ -438,7 +439,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-09-04 15:57:52 +0300):
+(2026-09-10 16:12:43 +0300):
 </p>
 
 <div class="org-src-container">
@@ -532,7 +533,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="org7ab22e9">
+<pre class="example" id="org15acd9a">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -612,7 +613,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="orgc42c55a">
+<pre class="example" id="org1c186d6">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -620,7 +621,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org3f2e2b0">
+<pre class="example" id="orge4d439d">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1540,7 +1541,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="orgc4cb716">
+<pre class="example" id="orgf3bfb99">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1622,7 +1623,7 @@ directly from source, per the built-in <code>package-vc-install</code> function.
 Some examples of the forms together with the macroexpanded code:
 </p>
 
-<pre class="example" id="org0939dfe">
+<pre class="example" id="orge44e6d4">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1706,7 +1707,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org0e47f15">
+<pre class="example" id="org2687df8">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1872,7 +1873,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="orgea0ba9e">
+<pre class="example" id="org11b728b">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4429,7 +4430,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgb304673">
+<pre class="example" id="orgddc5d44">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4478,7 +4479,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="org49c6047">
+<pre class="example" id="org92e2da5">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7700,7 +7701,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org3ab976c">
+<pre class="example" id="orgf3e2e0e">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7728,7 +7729,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org39d51fa">
+<pre class="example" id="orgfb084ce">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7806,7 +7807,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org2eba119">
+<pre class="example" id="orgfc62085">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7982,7 +7983,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="org7176e88">
+<pre class="example" id="org1ae89a4">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -8861,7 +8862,7 @@ of the latter, it even works in the Magit status buffer:
 </div>
 </div>
 <div id="outline-container-h:50add1d8-f0f4-49be-9e57-ab280a4aa300" class="outline-4">
-<h4 id="h:50add1d8-f0f4-49be-9e57-ab280a4aa300"><span class="section-number-4">5.8.6.</span> The <code>prot-emacs-git.el</code> section about <code>vc.el</code> and related</h4>
+<h4 id="h:50add1d8-f0f4-49be-9e57-ab280a4aa300"><span class="section-number-4">5.8.6.</span> The <code>prot-emacs-git.el</code> section about <code>vc.el</code> and related (including <code>prot-vc.el</code>)</h4>
 <div class="outline-text-4" id="text-h:50add1d8-f0f4-49be-9e57-ab280a4aa300">
 <p>
 The concept of &ldquo;version control&rdquo; pertains to a system of versioning
@@ -8953,6 +8954,11 @@ command-line or the wonderful <code>magit</code> Emacs package
 </p>
 
 <p>
+My <code>prot-vc.el</code> adds minor refinements and a few commands on top of
+this corpus of functionality (<a href="#h:4405e6d5-6bd9-4fbe-8d42-c788b3dd2ee7">The <code>prot-vc.el</code> library</a>).
+</p>
+
+<p>
 Note that in the following code block I redefine lots of key bindings.
 They make more sense to me.
 </p>
@@ -9024,51 +9030,16 @@ They make more sense to me.
     (setq vc-git-log-edit-summary-target-len 50)
     (setq vc-git-log-edit-summary-max-len 70)
 
-    (define-advice vc-push (:around (&amp;rest args) prot)
-      (let ((current-window (selected-window)))
-        (apply args)
-        (select-window current-window)))
-
-    (define-advice vc-pull (:around (&amp;rest args) prot)
-      (let ((current-window (selected-window)))
-        (apply args)
-        (select-window current-window)))
-
-    (defun prot/vc-diff-dwim ()
-      "Show diff of buffer against file or against VC history."
-      (interactive)
-      (if-let* ((buffer (current-buffer))
-                (_ (buffer-modified-p buffer)))
-          (diff-buffer-with-file buffer)
-        (call-interactively #'vc-diff)))
-
-    (defvar prot/vc-git-grep-history nil
-      "Minibuffer history for `prot/vc-git-grep'.")
-
-    (defun prot/vc-git-grep (directory regexp)
-      "Use `vc-git-grep' with REGEXP in the current root Git DIRECTORY."
-      (interactive
-       (let ((directory (or (vc-root-dir)
-                            (locate-dominating-file "." ".git")
-                            (user-error "No VC root available"))))
-         (list
-          directory
-          (read-regexp
-           (format "vc-git-grep for REGEXP in `%s': "
-                   (propertize directory 'face 'warning))
-           nil 'prot/vc-git-grep-history))))
-      (vc-git-grep regexp "*" directory))
-
     ;; NOTE: I override lots of the defaults
     (prot-emacs-keybind global-map
       "C-x v B" #'vc-annotate ; Blame mnemonic
-      "C-x v g" #'prot/vc-git-grep ; override original `vc-annotate' key
+      "C-x v c" #'prot-vc-clone
+      "C-x v g" #'prot-vc-git-grep ; override original `vc-annotate' key
       "C-x v e" #'vc-ediff
       "C-x v k" #'vc-delete-file ; 'k' for kill==&gt;delete is more common
       "C-x v G" #'vc-log-search  ; git log --grep
       "C-x v t" #'vc-create-tag
-      "C-x v c" #'vc-clone ; Emacs 31
-      "C-x v d" #'prot/vc-diff-dwim
+      "C-x v d" #'prot-vc-diff-dwim
       "C-x v ." #'vc-dir-root ; `vc-dir-root' is from Emacs 28
       "C-x v &lt;return&gt;" #'vc-dir-root)
     (prot-emacs-keybind vc-dir-mode-map
@@ -9960,7 +9931,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="orgf4d62c7">
+<pre class="example" id="org832e507">
 (info "(org) Search Options")
 </pre>
 
@@ -10050,7 +10021,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgd3de739">
+<pre class="example" id="org4055261">
 (require 'ob-python)
 
 ;; OR
@@ -10927,7 +10898,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgf90b6e6">
+<pre class="example" id="org76301ed">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11809,7 +11780,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org8e751c1">
+<pre class="example" id="org0eb68af">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11821,7 +11792,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="org2227bff">
+<pre class="example" id="org004497d">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11884,7 +11855,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="orgc382804">
+<pre class="example" id="orgc94d8f4">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11896,7 +11867,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org2a2ee0e">
+<pre class="example" id="orga7df8c2">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11918,7 +11889,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="orgaa9be94">
+<pre class="example" id="orgdca1792">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -12050,7 +12021,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="orgccc6a84">
+<pre class="example" id="orga70651d">
 (use-package sendmail
   :ensure nil
   :after message
@@ -12181,7 +12152,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org94f7cc4">
+<pre class="example" id="orgb6adf92">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -12193,7 +12164,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="org185511c">
+<pre class="example" id="orga3db1e1">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -13321,7 +13292,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orgddada53">
+<pre class="example" id="orgfd9e619">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13418,7 +13389,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org95dd281">
+<pre class="example" id="orga4f8b98">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13742,7 +13713,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org266438d">
+<pre class="example" id="org9b57879">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -21405,6 +21376,152 @@ Also see `prot-window-delete-popup-frame'." command)
 </div>
 </div>
 </div>
+<div id="outline-container-h:4405e6d5-6bd9-4fbe-8d42-c788b3dd2ee7" class="outline-3">
+<h3 id="h:4405e6d5-6bd9-4fbe-8d42-c788b3dd2ee7"><span class="section-number-3">6.24.</span> The <code>prot-vc.el</code> library</h3>
+<div class="outline-text-3" id="text-h:4405e6d5-6bd9-4fbe-8d42-c788b3dd2ee7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;;; prot-vc.el --- Extensions for VC -*- lexical-binding: t -*-
+
+;; Copyright (C) 2026  Protesilaos
+
+;; Author: Protesilaos &lt;info@protesilaos.com&gt;
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "31.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+;;; Commentary:
+;;
+;; This covers my VC-related extensions, for use in my Emacs setup:
+;; https://protesilaos.com/emacs/dotemacs.
+
+;;; Code:
+
+;;;; Window and buffer behaviour
+
+(define-advice vc-push (:around (&amp;rest args) prot-vc)
+  (let ((current-window (selected-window)))
+    (apply args)
+    (select-window current-window)))
+
+(define-advice vc-pull (:around (&amp;rest args) prot-vc)
+  (let ((current-window (selected-window)))
+    (apply args)
+    (select-window current-window)))
+
+;;;; Diff
+
+;;;###autoload
+(defun prot-vc-diff-dwim ()
+  "Show diff of buffer against file or against VC history."
+  (interactive)
+  (if-let* ((buffer (current-buffer))
+            (_ (buffer-modified-p buffer)))
+      (diff-buffer-with-file buffer)
+    (call-interactively #'vc-diff)))
+
+;;;; Git grep
+
+(defvar prot-vc-git-grep-history nil
+  "Minibuffer history for `prot-vc-git-grep'.")
+
+(defun prot-vc--get-root ()
+  "Return VC root."
+  (or (vc-root-dir)
+      (locate-dominating-file "." ".git")))
+
+;;;###autoload
+(defun prot-vc-git-grep (directory regexp)
+  "Use `vc-git-grep' with REGEXP in the current root Git DIRECTORY."
+  (interactive
+   (if-let* ((directory (prot-vc--get-root)))
+     (list
+      directory
+      (read-regexp
+       (format "vc-git-grep for REGEXP in `%s': " (propertize directory 'face 'warning))
+       nil 'prot-vc-git-grep-history))
+     (user-error "No Git directory found")))
+  (vc-git-grep regexp "*" directory))
+
+;;;; VC Clone
+
+(defvar prot-vc-clone-types
+  '((personal . "~/Git/Projects/")
+    (emacs-community . "~/Git/emacs-community/")
+    (general . "~/Git/general/")
+    (build . "~/Builds/"))
+  "Alist of (SYMBOL . PATH) for cloning Git repositories.
+SYMBOL is an arbitrary symbol describing the type of Git repository,
+which PATH is its corresponding filesystem location.")
+
+(defvar prot-vc-clone-type-prompt-history nil
+  "Minibuffer history for `prot-vc-clone-type-prompt'.")
+
+(defun prot-vc-clone--get-path (type)
+  "Return path corresponding to TYPE."
+  (and-let* ((type (intern type))
+             (path (alist-get type prot-vc-clone-types)))))
+
+(defun prot-vc-clone--format-name (url)
+  "Format name of VC project based on URL."
+  (let* ((strings (split-string url "[/]" :omit-nulls))
+         (length (length strings))
+         (butlast (nth (- length 2) strings))
+         (last (nth (- length 1) strings))
+         (last-two (list butlast last)))
+    (string-join last-two "-")))
+
+(defun prot-vc-clone-type-annotate (type)
+  "Annotate TYPE among `prot-vc-clone-types' with its path."
+  (when-let* ((path (prot-vc-clone--get-path type)))
+    (format " -- %s" path)))
+
+(defvar prot-vc-clone-completion-metadata
+  '((annotation-function . prot-vc-clone-type-annotate))
+  "Completion metadata for `prot-vc-clone-type-prompt'.")
+
+(defun prot-vc-clone-type-prompt ()
+  "Prompt for type among `prot-vc-clone-types' and return its path."
+  (let ((symbols (mapcar #'car prot-vc-clone-types))
+        (default (car prot-vc-clone-type-prompt-history)))
+    (completing-read
+     (format-prompt "Select VC project type" default)
+     (completion-table-with-metadata symbols prot-vc-clone-completion-metadata)
+     nil t nil 'prot-vc-clone-type-prompt-history default)))
+
+;;;###autoload
+(defun prot-vc-clone (remote type)
+  "Prompt for REMOTE of TYPE and clone it outright."
+  (interactive
+   (list
+    (read-string "Remote: " nil 'vc--remotes-history)
+    (prot-vc-clone-type-prompt)))
+  (if-let* ((path (prot-vc-clone--get-path type))
+            (name (prot-vc-clone--format-name remote))
+            (directory (expand-file-name name path)))
+      (vc-clone remote 'Git directory nil t)
+    (error "The type `%s' does not have a path in `prot-vc-clone-types'" type)))
+
+(provide 'prot-vc)
+;;; prot-vc.el ends here
+</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="outline-container-h:cc8b8fac-b9d4-4a61-a69b-a0c93efa254d" class="outline-2">
 <h2 id="h:cc8b8fac-b9d4-4a61-a69b-a0c93efa254d"><span class="section-number-2">7.</span> Frequently Asked Questions (FAQ)</h2>
@@ -21520,7 +21637,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgdfebbc7">
+<pre class="example" id="org3be5a1b">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -21552,7 +21669,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org7caeff7">
+<pre class="example" id="org3b8667b">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
