@@ -57,8 +57,8 @@ subcontinent. Each group has its own niche.
 
 Whenever I was lectured about "tolerance" was from those who have not
 used a pickax in their life; those who were not forced to work until
-their palms would start bleeding. That is what teaches you tolerance,
-not books.
+their palms would start bleeding. That is what teaches you tolerance
+for good, not books.
 
 ## Beware of comfortable ideologues
 
