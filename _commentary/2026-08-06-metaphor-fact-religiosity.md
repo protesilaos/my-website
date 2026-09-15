@@ -120,14 +120,18 @@ to aim for a state of clarity, instead of giving them grist for the
 mill they are caught in. I am not converting anyone to anything: they
 will know what to do once they put things in order.
 
+[ **UPDATE 2026-09-15 15:52 +0300:** The original blog post I was
+  commenting on is no longer available. I am removing the link and
+  inserting `[UNAVAILABLE WEBSITE]` where relevant. ]
+
 Against this backdrop, I extend what I have written thus far with
-commentary on the article titled [On becoming a magus](https://vnderthejunipertree.blogspot.com/2026/08/on-becoming-magus.html)
-from the _Under The Juniper Tree_ blog (hereinafter referred to as
-"the blog" in the interest of brevity). It gives me the pretext to
-expound on what I was anyway going to cover. Using excerpts from the
-blog makes my points more relatable, so I do not need to draw my own
-examples: I can rely instead on what another person states since it is
-representative of broader patterns of thought that I have encountered.
+commentary on the article titled _On becoming a magus_ from the
+`[UNAVAILABLE WEBSITE]` blog (hereinafter referred to as "the blog" in
+the interest of brevity). It gives me the pretext to expound on what I
+was anyway going to cover. Using excerpts from the blog makes my
+points more relatable, so I do not need to draw my own examples: I can
+rely instead on what another person states since it is representative
+of broader patterns of thought that I have encountered.
 
 ## Metaphor and symbolism
 
@@ -518,8 +522,7 @@ learnt.
 * * *
 
 **UPDATE 2026-08-11 12:52 +0300:** There is a follow-up article on the
-_Under The Juniper Tree_ blog titled [Seeker of the ancient
-beauty](https://vnderthejunipertree.blogspot.com/2026/08/seeker-of-ancient-beauty.html).
+`[UNAVAILABLE WEBSITE]` titled _Seeker of the ancient beauty_.
 
 I do not have anything to add that is not already foreshadowed above,
 so I will only comment on the questions, which are contained in this

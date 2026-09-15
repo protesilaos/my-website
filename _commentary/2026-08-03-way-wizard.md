@@ -3,8 +3,14 @@ title: "The way of the wizard"
 excerpt: "Comment on how the pop culture view of the wizard gives us a deeper appreciation of how we can operate in the world."
 ---
 
-Writing for the _Under The Juniper Tree_ blog, author "Gyro" comments
-on [the death of magick](https://vnderthejunipertree.blogspot.com/2026/07/the-death-of-magick.html):
+**UPDATE 2026-09-15 15:52 +0300:** The original blog post I was
+commenting on is no longer available. I am removing the link and
+inserting `[UNAVAILABLE WEBSITE]` where relevant.
+
+* * *
+
+Writing for the `[UNAVAILABLE WEBSITE]` the author comments on _the
+death of magick_:
 
 > I do not want to be performing sex rituals to summon demons á la
 > Epstein, but I want to feel that not everything can be reduced to
@@ -184,8 +190,8 @@ more realistic than it would otherwise seem.
 
 ## Summoning daemons
 
-Which brings me to the quote I have above from the _Under The Juniper
-Tree_ blog. Gods, daemons, spirits, or whatever you want to name them,
+Which brings me to the quote I have above from the `[UNAVAILABLE
+WEBSITE]`. Gods, daemons, spirits, or whatever you want to name them,
 do not answer calls. They do not hang out there waiting for us to show
 appreciation for them.
 
@@ -309,10 +315,10 @@ Perhaps, then, the safest option is become a wizard yourself.
 
 * * *
 
-**UPDATE 2026-08-03 21:46 +0300:** "Gyro" has a follow-up [On the
-nature of magick](https://vnderthejunipertree.blogspot.com/2026/08/on-nature-of-magick.html),
-which correctly points out that you cannot be a wizard as an
-individual and that there has to be a community in place.
+**UPDATE 2026-08-03 21:46 +0300:** The author has a follow-up at
+`[UNAVAILABLE WEBSITE]` _On the nature of magick_ which correctly
+points out that you cannot be a wizard as an individual and that there
+has to be a community in place.
 
 > How are we going to become mages if there is no magick, if the
 > spirits of the land are dead, our God silent and our traditions and
