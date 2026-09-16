@@ -19,7 +19,7 @@ everything people do. Sorted alphabetically:
 
 1. Boney M. - Rasputin <https://www.youtube.com/watch?v=16y1AkoZkmQ> (pretending I can pick one from Boney M.)
 2. Chumbawamba - Tubthumping <https://www.youtube.com/watch?v=2H5uWRjFsGc> (good energy to keep you going)
-3. Deep Purple - Soldier Of Fortune https://www.youtube.com/watch?v=AjIL2BemqBY (a personal story while you are catching your breath)
+3. Deep Purple - Soldier Of Fortune <https://www.youtube.com/watch?v=AjIL2BemqBY> (a personal story while you are catching your breath)
 4. Eagles - Hotel California <https://www.youtube.com/watch?v=09839DpTctU> (I am almost conventional at this point)
 5. GALA - Freed from desire <https://www.youtube.com/watch?v=p3l7fgvrEKM> (Will Grigg's on Fire!)
 6. Peter Nalitch - Guitar <https://www.youtube.com/watch?v=AOzkN8dHnjk> (the GOAT)
