@@ -1,6 +1,6 @@
 ---
 title: "A different kind of 'interpretation' with 10 English songs"
-excerpt: "English songs from a variety of styles that I like, plus philosophical commentary."
+excerpt: "English songs from a variety of styles that I like, plus some philosophical commentary."
 ---
 
 In these "interpretations" I typically pick a Greek song, translate
