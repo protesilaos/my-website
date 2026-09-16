@@ -47,7 +47,7 @@ all the plants. As such, you are creating an internal polyculture,
 which is resilient to disease. Diversity in harmony produces balance
 of the sort that is sustainable.
 
-Balance can also be enforced through uniformity,, adherence to dogma,
+Balance can also be enforced through uniformity, adherence to dogma,
 and brute force. This is the singlefacetedness of monoculture that
 delivers short-term results and longer-term malaise. In terms of
 everyday behaviour it runs counter to our nature at times, even when
