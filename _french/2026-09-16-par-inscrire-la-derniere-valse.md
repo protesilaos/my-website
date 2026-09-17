@@ -20,7 +20,7 @@ mots, pratiquer ma capacité d'écouter en français, et, en plus,
 apprécier de l'art plaisant.
 
 Voici mon inscription ci-dessous. Si je ne comprends pas quelque chose
-je vais le marquer avec «___».
+je vais le marquer avec `___`.
 
 ```
 La dernière valse par Julien Moreau
