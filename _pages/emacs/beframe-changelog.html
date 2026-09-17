@@ -15,6 +15,149 @@ project's main git repository: <a href="https://github.com/protesilaos/beframe">
 The newest release is at the top.  For further details, please consult
 the manual: <a href="https://protesilaos.com/emacs/beframe">https://protesilaos.com/emacs/beframe</a>.
 </p>
+<div id="outline-container-h:5fa3b772-be80-423e-8e5c-0444de4d449e" class="outline-2">
+<h2 id="h:5fa3b772-be80-423e-8e5c-0444de4d449e">Version 1.6.0 on 2026-09-17</h2>
+<div class="outline-text-2" id="text-h:5fa3b772-be80-423e-8e5c-0444de4d449e">
+<p>
+I rewrote large parts of <code>beframe.el</code> to make them more clear and/or
+to align them with the Elisp style I have developed over time. Those
+changes do not affect existing functionality.
+</p>
+
+<p>
+That granted, I have made user-facing changes that refine this
+otherwise stable package.
+</p>
+</div>
+<div id="outline-container-h:1835aa81-5bc7-4be8-a54a-0e3df464126b" class="outline-3">
+<h3 id="h:1835aa81-5bc7-4be8-a54a-0e3df464126b"><code>beframe-rename-frame</code> also renames the frame's scratch buffer</h3>
+<div class="outline-text-3" id="text-h:1835aa81-5bc7-4be8-a54a-0e3df464126b">
+<p>
+<code>beframe-mode</code> makes a scratch buffer for each new frame that is
+created if the user option <code>beframe-create-frame-scratch-buffer</code> is
+set to <code>t</code>. Those buffers are named like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil"><code>*scratch for frame 'beframe'*
+</code></pre>
+</div>
+
+<p>
+The commands <code>beframe-rename-frame</code> and <code>beframe-rename-current-frame</code>
+will now update the name of that buffer to reflect the new name of the frame.
+</p>
+
+<p>
+Read the docstring of <code>beframe-rename-frame</code> for the technicalities.
+</p>
+</div>
+</div>
+<div id="outline-container-h:e48fab0f-bdfb-4bff-adc8-7d9c4773b0af" class="outline-3">
+<h3 id="h:e48fab0f-bdfb-4bff-adc8-7d9c4773b0af">Commands to kill beframed buffers</h3>
+<div class="outline-text-3" id="text-h:e48fab0f-bdfb-4bff-adc8-7d9c4773b0af">
+<p>
+The command <code>beframe-kill-frame-buffers</code> deletes all buffers that
+belong to the given frame.
+</p>
+
+<p>
+The command <code>beframe-kill-frame-buffers-matching-regexp</code> deletes all
+of a frame's buffers that match the given regular expression.
+</p>
+
+<p>
+Both commands are subject to the user option <code>beframe-kill-buffers-no-confirm</code>.
+When it is set to <code>nil</code>, the above commands ask for confirmation while
+also displaying a menu with the buffers to be deleted. When the user
+option is set to <code>t</code>, they kill the buffers outright.
+</p>
+
+<p>
+Note though that Emacs may still prompt on a case-by-case basis, such
+as if the buffer is running a process.
+</p>
+</div>
+</div>
+<div id="outline-container-h:b9d10464-6d15-4bd6-8f16-085a330cf1f5" class="outline-3">
+<h3 id="h:b9d10464-6d15-4bd6-8f16-085a330cf1f5">Reorganised the <code>beframe-transient</code></h3>
+<div class="outline-text-3" id="text-h:b9d10464-6d15-4bd6-8f16-085a330cf1f5">
+<p>
+With the optional <code>(require 'beframe-transient)</code> the command
+<code>beframe-transient</code> becomes available. I have tweaked its layout to
+have one group of commands below the other. This makes it easier to
+read everything, regardless of font size. Plus, I do not need to make
+the code any more complex.
+</p>
+</div>
+</div>
+<div id="outline-container-h:d3b9eb0b-ca02-493d-9b15-d466b1075bb2" class="outline-3">
+<h3 id="h:d3b9eb0b-ca02-493d-9b15-d466b1075bb2"><code>beframe-mode</code> integrates with the <code>undelete-frame</code> command</h3>
+<div class="outline-text-3" id="text-h:d3b9eb0b-ca02-493d-9b15-d466b1075bb2">
+<p>
+The <code>undelete-frame</code> command restores a frame that was deleted. In the
+past, this would not restore the frame's original beframed buffer
+list. Now <code>beframe-mode</code> takes care to store the buffer list of each
+frame in case <code>undelete-frame</code> is invoked.
+</p>
+
+<p>
+Note that deleted buffers cannot be restored. This is merely a matter
+of associating live buffers with a frame (thus "beframing" them again
+exactly where they were).
+</p>
+</div>
+</div>
+<div id="outline-container-h:ef177647-f2d8-45d7-933d-fe993cce8e6a" class="outline-3">
+<h3 id="h:ef177647-f2d8-45d7-933d-fe993cce8e6a"><code>beframe-read-buffer</code> no longer ignores the predicate function</h3>
+<div class="outline-text-3" id="text-h:ef177647-f2d8-45d7-933d-fe993cce8e6a">
+<p>
+This concerns cases where <code>read-buffer</code> is using a predicate function.
+<code>beframe-read-buffer</code> takes over <code>read-buffer</code> when <code>beframe-mode</code> is
+enabled.
+</p>
+
+<p>
+Thanks to Daniel Russo for the modification. This was done in pull
+request 18: <a href="https://github.com/protesilaos/beframe/pull/18">https://github.com/protesilaos/beframe/pull/18</a>. The
+change is small, meaning that Daniel does not need to assign copyright
+to the Free Software Foundation.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-h:a4e574ce-6f72-4222-83e5-0c48a72d887a" class="outline-2">
+<h2 id="h:a4e574ce-6f72-4222-83e5-0c48a72d887a">Version 1.5.0 on 2026-02-04</h2>
+<div class="outline-text-2" id="text-h:a4e574ce-6f72-4222-83e5-0c48a72d887a">
+<p>
+This version fixes two bugs and makes other minor tweaks.
+</p>
+
+<p>
+The first bug pertains to the performance of the command
+<code>beframe-switch-buffer</code> or the command <code>switch-to-buffer</code> when
+<code>beframe-mode</code> is enabled: they were really slow when the list of
+buffers was long. Now they are always fast. Thanks to Alexandre
+Rousseau for reporting the problem in issue 17:
+<a href="https://github.com/protesilaos/beframe/issues/17">https://github.com/protesilaos/beframe/issues/17</a>.
+</p>
+
+<p>
+The second bug is more subtle. It is about persisting the completion
+metadata <code>category</code> value in all prompts that read a buffer, when
+<code>beframe-mode</code> is enabled. This change means that users who configure
+the user option <code>completion-category-overrides</code> will not get the
+expected results in buffer prompts affected by Beframe.
+</p>
+
+<p>
+Thanks to Stefan Monnier for commenting on the initial implementation,
+specifically telling me that <code>let</code> binding the metadata can affect
+nested minibuffers, which we do not want. This was done on the
+emacs-devel mailing list: <a href="https://lists.gnu.org/archive/html/emacs-devel/2025-12/msg00264.html">https://lists.gnu.org/archive/html/emacs-devel/2025-12/msg00264.html</a>.
+</p>
+</div>
+</div>
 <div id="outline-container-h:43536015-8c68-4aca-a02a-1a80f23350be" class="outline-2">
 <h2 id="h:43536015-8c68-4aca-a02a-1a80f23350be">Version 1.4.0 on 2025-06-28</h2>
 <div class="outline-text-2" id="text-h:43536015-8c68-4aca-a02a-1a80f23350be">
@@ -744,12 +887,12 @@ preferrable when deciding to switch buffers via consult-buffer.
 
 <p>
 Since beframe.el can be used as a consult source (see the manual),
-endowing beframe&#x2013;buffer-list with an arbitrary sort function greatly
+endowing beframe&ndash;buffer-list with an arbitrary sort function greatly
 improves the synergy between the two libraries.
 </p>
 
 <p>
-beframe.el | 56 <del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del>++</del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del>---------&#x2013;&#x2014;
+beframe.el | 56 <del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del><del>++</del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del></del>---------&ndash;&mdash;
 1 file changed, 42 insertions(+), 14 deletions(-)
 </p>
 </blockquote>
