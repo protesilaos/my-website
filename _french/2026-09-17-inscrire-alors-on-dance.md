@@ -10,7 +10,7 @@ pratiquer la longue française.
 Cette fois je suis sûr que l'artiste existe. _Stromae_ est Belge. Son
 chanson avec le titre «Alors on danse» est mélodique et profond: nous
 dansons pour oublier tous les problèmes. Je crois que c'est une bonne
-idée.
+idée: <https://www.youtube.com/watch?v=VHoT4N43jK8>.
 
 Si je ne comprends pas quelque chose, j'écris `___`.
 
