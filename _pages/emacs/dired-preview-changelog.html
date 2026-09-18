@@ -20,24 +20,158 @@ the manual: <a href="https://protesilaos.com/emacs/dired-preview">https://protes
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755">1. Version 0.6.0 on 2025-07-18</a></li>
-<li><a href="#h:bbcb8fc7-5738-4761-b0e8-853d74172a5a">2. Version 0.5.0 on 2025-04-09</a></li>
-<li><a href="#h:af454ee4-dcae-4a76-80c7-d4f9be7730c7">3. Version 0.4.0 on 2025-02-18</a></li>
-<li><a href="#h:d9780c65-4e70-4188-ae17-abdef97f7ea9">4. Version 0.3.0 on 2024-09-16</a></li>
-<li><a href="#h:4225d638-f5bb-4855-85c7-972ff40aad6d">5. Version 0.2.0 on 2024-05-07</a></li>
-<li><a href="#h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">6. Version 0.1.0 on 2023-07-08</a></li>
+<li><a href="#h:36c4b384-da08-4318-bea9-c313b6a5f3e3">1. Version 0.7.0 on 2026-09-18</a></li>
+<li><a href="#h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755">2. Version 0.6.0 on 2025-07-18</a></li>
+<li><a href="#h:bbcb8fc7-5738-4761-b0e8-853d74172a5a">3. Version 0.5.0 on 2025-04-09</a></li>
+<li><a href="#h:af454ee4-dcae-4a76-80c7-d4f9be7730c7">4. Version 0.4.0 on 2025-02-18</a></li>
+<li><a href="#h:d9780c65-4e70-4188-ae17-abdef97f7ea9">5. Version 0.3.0 on 2024-09-16</a></li>
+<li><a href="#h:4225d638-f5bb-4855-85c7-972ff40aad6d">6. Version 0.2.0 on 2024-05-07</a></li>
+<li><a href="#h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">7. Version 0.1.0 on 2023-07-08</a></li>
 </ul>
 </div>
 </div>
+<div id="outline-container-h:36c4b384-da08-4318-bea9-c313b6a5f3e3" class="outline-2">
+<h2 id="h:36c4b384-da08-4318-bea9-c313b6a5f3e3"><span class="section-number-2">1.</span> Version 0.7.0 on 2026-09-18</h2>
+<div class="outline-text-2" id="text-h:36c4b384-da08-4318-bea9-c313b6a5f3e3">
+<p>
+This version introduces a few refinements to an already stable code base.
+</p>
+</div>
+<div id="outline-container-h:5dd0509c-de0c-4ee0-b1b3-3c16b77d4643" class="outline-3">
+<h3 id="h:5dd0509c-de0c-4ee0-b1b3-3c16b77d4643"><span class="section-number-3">1.1.</span> The <code>dired-preview-ignored-extensions-regexp</code> becomes <code>dired-preview-ignored-extensions</code></h3>
+<div class="outline-text-3" id="text-h:5dd0509c-de0c-4ee0-b1b3-3c16b77d4643">
+<p>
+This change reflects the broadened flexibility of the user option.
+Before, it used to accept either a <code>nil</code> value or a regular expression
+(i.e. a single string). In addition to these, it can now accept a list
+of strings, each of which represents a file type extension.
+</p>
+
+<p>
+The default value is basically this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;; Illustration of the new value
+(setq dired-preview-ignored-extensions
+      '("mkv" "webm" "mp4"
+        "mp3" "ogg" "m4a" "flac" "wav"
+        "gz" "zst" "tar" "xz" "rar" "zip" "iso"
+        "epub" "pdf"
+        ".DS_Store"))
+</code></pre>
+</div>
+
+<p>
+And here is how it used to be:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;; Illustration of the old variable and its value
+(setq dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a\\|flac\\|wav"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)\\'"))
+</code></pre>
+</div>
+
+<p>
+Again, the old single regexp is supported, though I think the list is
+easier to write.
+</p>
+</div>
+</div>
+<div id="outline-container-h:63dc9f9b-15a2-4a7e-b235-f3215a31617d" class="outline-3">
+<h3 id="h:63dc9f9b-15a2-4a7e-b235-f3215a31617d"><span class="section-number-3">1.2.</span> New <code>dired-preview-hook</code> and the <code>dired-preview-with-window</code> macro</h3>
+<div class="outline-text-3" id="text-h:63dc9f9b-15a2-4a7e-b235-f3215a31617d">
+<p>
+The hook is run when a preview is displayed. Functions that need to
+act with the preview window as current can rely on the macro
+<code>dired-preview-with-window</code>. Look at the code to get an idea of how
+the macro is used.
+</p>
+
+<p>
+Thanks to dasoju for requesting the hook in issue 32:
+<a href="https://github.com/protesilaos/dired-preview/issues/32">https://github.com/protesilaos/dired-preview/issues/32</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:76e7a999-414e-4c74-8abe-f03571ac31ec" class="outline-3">
+<h3 id="h:76e7a999-414e-4c74-8abe-f03571ac31ec"><span class="section-number-3">1.3.</span> The <code>dired-preview-find-file</code> and <code>dired-preview-open-dwim</code> are robust</h3>
+<div class="outline-text-3" id="text-h:76e7a999-414e-4c74-8abe-f03571ac31ec">
+<p>
+They should always find the underlying file and do the right thing
+with it. Basically, they should always work if there is a preview
+window.
+</p>
+</div>
+</div>
+<div id="outline-container-h:9ee15f7f-eb71-4d63-84d6-2355aff3d7ba" class="outline-3">
+<h3 id="h:9ee15f7f-eb71-4d63-84d6-2355aff3d7ba"><span class="section-number-3">1.4.</span> The <code>dired-preview-image-extensions-regexp</code> is obsolete</h3>
+<div class="outline-text-3" id="text-h:9ee15f7f-eb71-4d63-84d6-2355aff3d7ba">
+<p>
+This was a user option since the early days of the package. I left it
+there by mistake. The manual was not mentioning it but it is possible
+that users have configured it.
+</p>
+
+<p>
+Its new name is <code>dired-preview-image-extensions</code> and it is just a
+variable (not a &ldquo;user option&rdquo;), meaning that users should configure it
+only if they know what they are doing.
+</p>
+</div>
+</div>
+<div id="outline-container-h:8f85c51f-2619-43f9-a84c-e47f2fc984e7" class="outline-3">
+<h3 id="h:8f85c51f-2619-43f9-a84c-e47f2fc984e7"><span class="section-number-3">1.5.</span> The preview trigger is more robust</h3>
+<div class="outline-text-3" id="text-h:8f85c51f-2619-43f9-a84c-e47f2fc984e7">
+<p>
+It should now work reliably and do what is expected of the preview. I
+fixed this in response to issue 33 by dasoju:
+<a href="https://github.com/protesilaos/dired-preview/issues/33">https://github.com/protesilaos/dired-preview/issues/33</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:821c2bd1-099f-4a49-a793-0c165f0dde8a" class="outline-3">
+<h3 id="h:821c2bd1-099f-4a49-a793-0c165f0dde8a"><span class="section-number-3">1.6.</span> The preview state is handled properly</h3>
+<div class="outline-text-3" id="text-h:821c2bd1-099f-4a49-a793-0c165f0dde8a">
+<p>
+The preview window is closed when it ought to without affecting the
+rest of the layout. Unexpected values are also handled gracefully.
+With regard to the latter, thanks to abdulnafe-t for reporting a bug
+which helped me notice this problem. The report is part of issue 34:
+<a href="https://github.com/protesilaos/dired-preview/issues/34">https://github.com/protesilaos/dired-preview/issues/34</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-h:3eb593c3-22e1-4aaf-afc8-fa96e42c72db" class="outline-3">
+<h3 id="h:3eb593c3-22e1-4aaf-afc8-fa96e42c72db"><span class="section-number-3">1.7.</span> The original value of <code>dired-dwim-target</code> is handled correctly</h3>
+<div class="outline-text-3" id="text-h:3eb593c3-22e1-4aaf-afc8-fa96e42c72db">
+<p>
+The <code>dired-dwim-target</code> is changed by the preview so that relevant
+Dired operations are not affected by the preview window. When we need
+to restore that variable to its original value, we now do it without
+hardcoding a preference.
+</p>
+
+<p>
+Thanks to qhga for bringing this matter to my attention in issue 36:
+<a href="https://github.com/protesilaos/dired-preview/issues/36">https://github.com/protesilaos/dired-preview/issues/36</a>.
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755" class="outline-2">
-<h2 id="h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755"><span class="section-number-2">1.</span> Version 0.6.0 on 2025-07-18</h2>
+<h2 id="h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755"><span class="section-number-2">2.</span> Version 0.6.0 on 2025-07-18</h2>
 <div class="outline-text-2" id="text-h:cdb4ee0e-5fd3-4958-9655-8b3ee6118755">
 <p>
 This is a small release that provides quality-of-life refinements.
 </p>
 </div>
 <div id="outline-container-h:b6b61050-6827-405b-8fc8-ee0ee51f1418" class="outline-3">
-<h3 id="h:b6b61050-6827-405b-8fc8-ee0ee51f1418"><span class="section-number-3">1.1.</span> Optionally do not trigger a preview when entering the directory</h3>
+<h3 id="h:b6b61050-6827-405b-8fc8-ee0ee51f1418"><span class="section-number-3">2.1.</span> Optionally do not trigger a preview when entering the directory</h3>
 <div class="outline-text-3" id="text-h:b6b61050-6827-405b-8fc8-ee0ee51f1418">
 <p>
 The new user option <code>dired-preview-trigger-on-start</code> controls whether
@@ -59,7 +193,7 @@ I did this is in response to issue 31 by dasoju: <a href="https://github.com/pro
 </div>
 </div>
 <div id="outline-container-h:20db592a-a282-4a63-a0f2-d64a6ded8ac2" class="outline-3">
-<h3 id="h:20db592a-a282-4a63-a0f2-d64a6ded8ac2"><span class="section-number-3">1.2.</span> Define which commands trigger a preview</h3>
+<h3 id="h:20db592a-a282-4a63-a0f2-d64a6ded8ac2"><span class="section-number-3">2.2.</span> Define which commands trigger a preview</h3>
 <div class="outline-text-3" id="text-h:20db592a-a282-4a63-a0f2-d64a6ded8ac2">
 <p>
 The <code>denote-preview-trigger-commands</code> is now declared as a &ldquo;user
@@ -71,7 +205,7 @@ same as before.
 </div>
 </div>
 <div id="outline-container-h:96178e26-80b4-4717-85b8-e51a2f6c17e4" class="outline-3">
-<h3 id="h:96178e26-80b4-4717-85b8-e51a2f6c17e4"><span class="section-number-3">1.3.</span> The preview does not interfere with <code>dired-dwim-target</code></h3>
+<h3 id="h:96178e26-80b4-4717-85b8-e51a2f6c17e4"><span class="section-number-3">2.3.</span> The preview does not interfere with <code>dired-dwim-target</code></h3>
 <div class="outline-text-3" id="text-h:96178e26-80b4-4717-85b8-e51a2f6c17e4">
 <p>
 Previous versions would make <code>dired-dwim-target</code> not return the
@@ -85,7 +219,7 @@ The bug was addressed in patch release <code>0.5.2</code>.
 </div>
 </div>
 <div id="outline-container-h:cc578a93-b441-4ddc-9f82-a3b643a80ab1" class="outline-3">
-<h3 id="h:cc578a93-b441-4ddc-9f82-a3b643a80ab1"><span class="section-number-3">1.4.</span> Fixed a temporary bug in <code>dired-preview-page-up</code></h3>
+<h3 id="h:cc578a93-b441-4ddc-9f82-a3b643a80ab1"><span class="section-number-3">2.4.</span> Fixed a temporary bug in <code>dired-preview-page-up</code></h3>
 <div class="outline-text-3" id="text-h:cc578a93-b441-4ddc-9f82-a3b643a80ab1">
 <p>
 It was missing the macro we define to perform operations in the
@@ -104,7 +238,7 @@ The bug was addressed in patch release <code>0.5.1</code>.
 </div>
 </div>
 <div id="outline-container-h:bbcb8fc7-5738-4761-b0e8-853d74172a5a" class="outline-2">
-<h2 id="h:bbcb8fc7-5738-4761-b0e8-853d74172a5a"><span class="section-number-2">2.</span> Version 0.5.0 on 2025-04-09</h2>
+<h2 id="h:bbcb8fc7-5738-4761-b0e8-853d74172a5a"><span class="section-number-2">3.</span> Version 0.5.0 on 2025-04-09</h2>
 <div class="outline-text-2" id="text-h:bbcb8fc7-5738-4761-b0e8-853d74172a5a">
 <p>
 This version contains a few bug fixes and minor refinements that
@@ -112,7 +246,7 @@ should improve the behaviour of the package.
 </p>
 </div>
 <div id="outline-container-h:0a4464ac-2f21-4c1e-8202-3bfe0b4eff93" class="outline-3">
-<h3 id="h:0a4464ac-2f21-4c1e-8202-3bfe0b4eff93"><span class="section-number-3">2.1.</span> Revised how preview windows are deleted</h3>
+<h3 id="h:0a4464ac-2f21-4c1e-8202-3bfe0b4eff93"><span class="section-number-3">3.1.</span> Revised how preview windows are deleted</h3>
 <div class="outline-text-3" id="text-h:0a4464ac-2f21-4c1e-8202-3bfe0b4eff93">
 <p>
 In the past, <code>dired-preview-mode</code> could delete windows that held
@@ -124,7 +258,7 @@ i.e. windows that were created just for preview purposes.
 </div>
 </div>
 <div id="outline-container-h:c5c0206a-57ce-4ad5-a74f-96275b8aaaf2" class="outline-3">
-<h3 id="h:c5c0206a-57ce-4ad5-a74f-96275b8aaaf2"><span class="section-number-3">2.2.</span> Directories no longer get misunderstood as &ldquo;large files&rdquo;</h3>
+<h3 id="h:c5c0206a-57ce-4ad5-a74f-96275b8aaaf2"><span class="section-number-3">3.2.</span> Directories no longer get misunderstood as &ldquo;large files&rdquo;</h3>
 <div class="outline-text-3" id="text-h:c5c0206a-57ce-4ad5-a74f-96275b8aaaf2">
 <p>
 We tweaked how we test the type of the buffer-to-be-preview such that
@@ -135,7 +269,7 @@ Mac computers that Sean Devlin brought to my attention in issue 27:
 </div>
 </div>
 <div id="outline-container-h:4dcf8881-9c07-4a8e-93fa-24bedfd61db2" class="outline-3">
-<h3 id="h:4dcf8881-9c07-4a8e-93fa-24bedfd61db2"><span class="section-number-3">2.3.</span> The <code>dired-preview-delay</code> has a 0.1 second minimum to avoid instability</h3>
+<h3 id="h:4dcf8881-9c07-4a8e-93fa-24bedfd61db2"><span class="section-number-3">3.3.</span> The <code>dired-preview-delay</code> has a 0.1 second minimum to avoid instability</h3>
 <div class="outline-text-3" id="text-h:4dcf8881-9c07-4a8e-93fa-24bedfd61db2">
 <p>
 A value of 0 could lead to a noticeably degraded experience while
@@ -146,7 +280,7 @@ matter in issue 2 on the GitLab mirror:
 </div>
 </div>
 <div id="outline-container-h:4d1b5c14-eb7d-473b-955a-3b3068b1a9ed" class="outline-3">
-<h3 id="h:4d1b5c14-eb7d-473b-955a-3b3068b1a9ed"><span class="section-number-3">2.4.</span> Files without an extension can also be ignored</h3>
+<h3 id="h:4d1b5c14-eb7d-473b-955a-3b3068b1a9ed"><span class="section-number-3">3.4.</span> Files without an extension can also be ignored</h3>
 <div class="outline-text-3" id="text-h:4d1b5c14-eb7d-473b-955a-3b3068b1a9ed">
 <p>
 The user option <code>dired-preview-ignored-extensions-regexp</code> will now
@@ -163,7 +297,7 @@ copyright to the Free Software Foundation.
 </div>
 </div>
 <div id="outline-container-h:7eb9ced9-03a7-4436-9392-6352737aee15" class="outline-3">
-<h3 id="h:7eb9ced9-03a7-4436-9392-6352737aee15"><span class="section-number-3">2.5.</span> The preview buffer is the &ldquo;other window&rdquo; for scrolling purposes</h3>
+<h3 id="h:7eb9ced9-03a7-4436-9392-6352737aee15"><span class="section-number-3">3.5.</span> The preview buffer is the &ldquo;other window&rdquo; for scrolling purposes</h3>
 <div class="outline-text-3" id="text-h:7eb9ced9-03a7-4436-9392-6352737aee15">
 <p>
 The commands which scroll the other window, such as
@@ -182,14 +316,14 @@ it is in effect when <code>dired-preview-mode</code> is enabled.
 </div>
 </div>
 <div id="outline-container-h:af454ee4-dcae-4a76-80c7-d4f9be7730c7" class="outline-2">
-<h2 id="h:af454ee4-dcae-4a76-80c7-d4f9be7730c7"><span class="section-number-2">3.</span> Version 0.4.0 on 2025-02-18</h2>
+<h2 id="h:af454ee4-dcae-4a76-80c7-d4f9be7730c7"><span class="section-number-2">4.</span> Version 0.4.0 on 2025-02-18</h2>
 <div class="outline-text-2" id="text-h:af454ee4-dcae-4a76-80c7-d4f9be7730c7">
 <p>
 This version contains several refinements and bug fixes.
 </p>
 </div>
 <div id="outline-container-h:309a2e0b-866a-45a6-b262-2d9f4c74531a" class="outline-3">
-<h3 id="h:309a2e0b-866a-45a6-b262-2d9f4c74531a"><span class="section-number-3">3.1.</span> Preview buffers have a mode line indicator</h3>
+<h3 id="h:309a2e0b-866a-45a6-b262-2d9f4c74531a"><span class="section-number-3">4.1.</span> Preview buffers have a mode line indicator</h3>
 <div class="outline-text-3" id="text-h:309a2e0b-866a-45a6-b262-2d9f4c74531a">
 <p>
 Preview buffers have a prefix to their name to make them stand out.
@@ -199,7 +333,7 @@ which is a string that defaults to <code>[P]</code>.
 </div>
 </div>
 <div id="outline-container-h:7e173b76-ee7b-4720-8ab3-06664f5decee" class="outline-3">
-<h3 id="h:7e173b76-ee7b-4720-8ab3-06664f5decee"><span class="section-number-3">3.2.</span> Control how preview buffers are cleaned up</h3>
+<h3 id="h:7e173b76-ee7b-4720-8ab3-06664f5decee"><span class="section-number-3">4.2.</span> Control how preview buffers are cleaned up</h3>
 <div class="outline-text-3" id="text-h:7e173b76-ee7b-4720-8ab3-06664f5decee">
 <p>
 The way <code>dired-preview</code> works is to display a buffer and then keep a
@@ -223,7 +357,7 @@ Thanks to artelse for discussing this with me in issue 20:
 </div>
 </div>
 <div id="outline-container-h:a51e6649-1f36-4f5b-9525-5541367d7bea" class="outline-3">
-<h3 id="h:a51e6649-1f36-4f5b-9525-5541367d7bea"><span class="section-number-3">3.3.</span> The <code>dired-preview-display-action-alist</code> has a new optional function</h3>
+<h3 id="h:a51e6649-1f36-4f5b-9525-5541367d7bea"><span class="section-number-3">4.3.</span> The <code>dired-preview-display-action-alist</code> has a new optional function</h3>
 <div class="outline-text-3" id="text-h:a51e6649-1f36-4f5b-9525-5541367d7bea">
 <p>
 The <code>dired-preview-display-action-alist</code> is the user option which
@@ -241,7 +375,7 @@ times the height of the Emacs frame.
 </div>
 </div>
 <div id="outline-container-h:e93c9c41-c1ad-4e88-945a-c42962441bbe" class="outline-3">
-<h3 id="h:e93c9c41-c1ad-4e88-945a-c42962441bbe"><span class="section-number-3">3.4.</span> Encypted files are no longer previewed</h3>
+<h3 id="h:e93c9c41-c1ad-4e88-945a-c42962441bbe"><span class="section-number-3">4.4.</span> Encypted files are no longer previewed</h3>
 <div class="outline-text-3" id="text-h:e93c9c41-c1ad-4e88-945a-c42962441bbe">
 <p>
 This is to ensure that potentially sensitive contents are not
@@ -250,7 +384,7 @@ displayed by accident, such as during a video call.
 </div>
 </div>
 <div id="outline-container-h:ec1bfadc-728e-4605-a8d7-25d1c595f9a1" class="outline-3">
-<h3 id="h:ec1bfadc-728e-4605-a8d7-25d1c595f9a1"><span class="section-number-3">3.5.</span> We no longer preview the &ldquo;self&rdquo; directory</h3>
+<h3 id="h:ec1bfadc-728e-4605-a8d7-25d1c595f9a1"><span class="section-number-3">4.5.</span> We no longer preview the &ldquo;self&rdquo; directory</h3>
 <div class="outline-text-3" id="text-h:ec1bfadc-728e-4605-a8d7-25d1c595f9a1">
 <p>
 We should not trigger a preview when the cursor is over the implicit
@@ -261,7 +395,7 @@ to Inkbottle007 for reporting the bug in issue 23:
 </div>
 </div>
 <div id="outline-container-h:078acf4c-cf38-4053-befd-600476970d1a" class="outline-3">
-<h3 id="h:078acf4c-cf38-4053-befd-600476970d1a"><span class="section-number-3">3.6.</span> Miscellaneous</h3>
+<h3 id="h:078acf4c-cf38-4053-befd-600476970d1a"><span class="section-number-3">4.6.</span> Miscellaneous</h3>
 <div class="outline-text-3" id="text-h:078acf4c-cf38-4053-befd-600476970d1a">
 <ul class="org-ul">
 <li>Fixed a scenario where we would try to delete the last available
@@ -298,7 +432,7 @@ the <code>display-buffer-alist</code>, where relevant.</li>
 </div>
 </div>
 <div id="outline-container-h:d9780c65-4e70-4188-ae17-abdef97f7ea9" class="outline-2">
-<h2 id="h:d9780c65-4e70-4188-ae17-abdef97f7ea9"><span class="section-number-2">4.</span> Version 0.3.0 on 2024-09-16</h2>
+<h2 id="h:d9780c65-4e70-4188-ae17-abdef97f7ea9"><span class="section-number-2">5.</span> Version 0.3.0 on 2024-09-16</h2>
 <div class="outline-text-2" id="text-h:d9780c65-4e70-4188-ae17-abdef97f7ea9">
 <p>
 This version brings some nice new features and makes small refinements
@@ -306,7 +440,7 @@ to the code base.
 </p>
 </div>
 <div id="outline-container-h:4d4e2b08-df93-4738-936b-70de1a056def" class="outline-3">
-<h3 id="h:4d4e2b08-df93-4738-936b-70de1a056def"><span class="section-number-3">4.1.</span> Run commands in the preview window</h3>
+<h3 id="h:4d4e2b08-df93-4738-936b-70de1a056def"><span class="section-number-3">5.1.</span> Run commands in the preview window</h3>
 <div class="outline-text-3" id="text-h:4d4e2b08-df93-4738-936b-70de1a056def">
 <p>
 The <code>dired-preview-mode-map</code> is active when <code>dired-preview-mode</code> is
@@ -379,7 +513,7 @@ functionality as other apps that specialise in handling image files.
 </div>
 </div>
 <div id="outline-container-h:90b9c693-c217-4760-a102-a7e04308bfd9" class="outline-3">
-<h3 id="h:90b9c693-c217-4760-a102-a7e04308bfd9"><span class="section-number-3">4.2.</span> Advanced users can rely on the <code>dired-preview-with-window</code> macro</h3>
+<h3 id="h:90b9c693-c217-4760-a102-a7e04308bfd9"><span class="section-number-3">5.2.</span> Advanced users can rely on the <code>dired-preview-with-window</code> macro</h3>
 <div class="outline-text-3" id="text-h:90b9c693-c217-4760-a102-a7e04308bfd9">
 <p>
 Use this in your custom functions to run some code with the preview
@@ -388,13 +522,13 @@ our code base:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun dired-preview-page-down ()
+<pre class="src src-emacs-lisp"><code>(defun dired-preview-page-down ()
   "Move a page down in the preview window.
 This technically runs `scroll-up-command'."
   (interactive)
   (dired-preview-with-window
     (call-interactively 'scroll-up-command)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -403,7 +537,7 @@ Remember to add them to the <code>dired-preview-mode-map</code>.
 </div>
 </div>
 <div id="outline-container-h:8c0034c1-9770-456f-b8db-40fe1db7754f" class="outline-3">
-<h3 id="h:8c0034c1-9770-456f-b8db-40fe1db7754f"><span class="section-number-3">4.3.</span> Placeholder window prevents preview jumpiness</h3>
+<h3 id="h:8c0034c1-9770-456f-b8db-40fe1db7754f"><span class="section-number-3">5.3.</span> Placeholder window prevents preview jumpiness</h3>
 <div class="outline-text-3" id="text-h:8c0034c1-9770-456f-b8db-40fe1db7754f">
 <p>
 Wtih <code>dired-preview-ignored-extensions-regexp</code> we can exclude certain
@@ -447,7 +581,7 @@ Foundation.
 </div>
 </div>
 <div id="outline-container-h:250662ef-3fd3-4abe-8cf7-71c72ce4619c" class="outline-3">
-<h3 id="h:250662ef-3fd3-4abe-8cf7-71c72ce4619c"><span class="section-number-3">4.4.</span> The <code>dired-preview-display-action-alist</code> replaces <code>dired-preview-display-action-alist-function</code></h3>
+<h3 id="h:250662ef-3fd3-4abe-8cf7-71c72ce4619c"><span class="section-number-3">5.4.</span> The <code>dired-preview-display-action-alist</code> replaces <code>dired-preview-display-action-alist-function</code></h3>
 <div class="outline-text-3" id="text-h:250662ef-3fd3-4abe-8cf7-71c72ce4619c">
 <p>
 The old symbol is an alias for the new one and users will be notified
@@ -467,7 +601,7 @@ Examples of both:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Use a function that returns an action alist:
+<pre class="src src-emacs-lisp"><code>;; Use a function that returns an action alist:
 (setq dired-preview-display-action-alist #'dired-preview-display-action-alist-dwim)
 
 ;; Use an action alist directly:
@@ -476,7 +610,7 @@ Examples of both:
         (side . bottom)
         (window-height . 0.2)
         (preserve-size . (t . t))))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -487,7 +621,7 @@ say, the width of the frame.
 </div>
 </div>
 <div id="outline-container-h:68fd4a03-7ca9-489c-93bc-efdaf8faaefc" class="outline-3">
-<h3 id="h:68fd4a03-7ca9-489c-93bc-efdaf8faaefc"><span class="section-number-3">4.5.</span> Preview of the next file works when marking for deletion</h3>
+<h3 id="h:68fd4a03-7ca9-489c-93bc-efdaf8faaefc"><span class="section-number-3">5.5.</span> Preview of the next file works when marking for deletion</h3>
 <div class="outline-text-3" id="text-h:68fd4a03-7ca9-489c-93bc-efdaf8faaefc">
 <p>
 When we mark a file for deletion, Dired moves the point to the next
@@ -503,7 +637,7 @@ more commands we need to include there, just let me know.
 </div>
 </div>
 <div id="outline-container-h:a06e0f9b-02d2-4a77-a259-eadaeff33c9e" class="outline-3">
-<h3 id="h:a06e0f9b-02d2-4a77-a259-eadaeff33c9e"><span class="section-number-3">4.6.</span> The <code>dired-preview-ignored-extensions-regexp</code> can be <code>nil</code></h3>
+<h3 id="h:a06e0f9b-02d2-4a77-a259-eadaeff33c9e"><span class="section-number-3">5.6.</span> The <code>dired-preview-ignored-extensions-regexp</code> can be <code>nil</code></h3>
 <div class="outline-text-3" id="text-h:a06e0f9b-02d2-4a77-a259-eadaeff33c9e">
 <p>
 This was always the intention, but the relevant code was not
@@ -513,14 +647,14 @@ accounting for that scenario. It should work now as intended.
 </div>
 </div>
 <div id="outline-container-h:4225d638-f5bb-4855-85c7-972ff40aad6d" class="outline-2">
-<h2 id="h:4225d638-f5bb-4855-85c7-972ff40aad6d"><span class="section-number-2">5.</span> Version 0.2.0 on 2024-05-07</h2>
+<h2 id="h:4225d638-f5bb-4855-85c7-972ff40aad6d"><span class="section-number-2">6.</span> Version 0.2.0 on 2024-05-07</h2>
 <div class="outline-text-2" id="text-h:4225d638-f5bb-4855-85c7-972ff40aad6d">
 <p>
 This release brings many small improvements and fixes some bugs.
 </p>
 </div>
 <div id="outline-container-h:e3652b69-aa81-4b71-9887-81052ff7f9f7" class="outline-3">
-<h3 id="h:e3652b69-aa81-4b71-9887-81052ff7f9f7"><span class="section-number-3">5.1.</span> The preview shows up right away on new directories</h3>
+<h3 id="h:e3652b69-aa81-4b71-9887-81052ff7f9f7"><span class="section-number-3">6.1.</span> The preview shows up right away on new directories</h3>
 <div class="outline-text-3" id="text-h:e3652b69-aa81-4b71-9887-81052ff7f9f7">
 <p>
 In the past, entering a new directory would not trigger a preview: it
@@ -538,7 +672,7 @@ Foundation.
 </div>
 </div>
 <div id="outline-container-h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82" class="outline-3">
-<h3 id="h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82"><span class="section-number-3">5.2.</span> Directories are previewed as well</h3>
+<h3 id="h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82"><span class="section-number-3">6.2.</span> Directories are previewed as well</h3>
 <div class="outline-text-3" id="text-h:8dae8cba-3ca7-43be-a4ba-5dd938b37f82">
 <p>
 The contents are displayed in a Dired buffer, using the current
@@ -548,7 +682,7 @@ too.
 </div>
 </div>
 <div id="outline-container-h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e" class="outline-3">
-<h3 id="h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e"><span class="section-number-3">5.3.</span> Large files are previewed in <code>hexl-mode</code></h3>
+<h3 id="h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e"><span class="section-number-3">6.3.</span> Large files are previewed in <code>hexl-mode</code></h3>
 <div class="outline-text-3" id="text-h:b4928def-5392-4e7b-8cb5-ed5c238b1b5e">
 <p>
 As the documentation of this mode suggests:
@@ -576,7 +710,7 @@ the now defunct mailing list:
 </div>
 </div>
 <div id="outline-container-h:ea324fd1-f808-420f-b019-250e161465ff" class="outline-3">
-<h3 id="h:ea324fd1-f808-420f-b019-250e161465ff"><span class="section-number-3">5.4.</span> Previews are displayed in a full-featured mode</h3>
+<h3 id="h:ea324fd1-f808-420f-b019-250e161465ff"><span class="section-number-3">6.4.</span> Previews are displayed in a full-featured mode</h3>
 <div class="outline-text-3" id="text-h:ea324fd1-f808-420f-b019-250e161465ff">
 <p>
 Before, we would delay the execution of the mode hooks to speed things
@@ -588,7 +722,7 @@ number of scenaria.
 </div>
 </div>
 <div id="outline-container-h:a4d6b125-5ef6-409d-aded-e7b1971ac87d" class="outline-3">
-<h3 id="h:a4d6b125-5ef6-409d-aded-e7b1971ac87d"><span class="section-number-3">5.5.</span> Files without an extension are still previewed</h3>
+<h3 id="h:a4d6b125-5ef6-409d-aded-e7b1971ac87d"><span class="section-number-3">6.5.</span> Files without an extension are still previewed</h3>
 <div class="outline-text-3" id="text-h:a4d6b125-5ef6-409d-aded-e7b1971ac87d">
 <p>
 This is a bug fix. Before, they would be considered as part of the
@@ -597,7 +731,7 @@ files to be ignored, per <code>dired-preview-ignored-extensions-regexp</code>.
 </div>
 </div>
 <div id="outline-container-h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b" class="outline-3">
-<h3 id="h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b"><span class="section-number-3">5.6.</span> Previews are not added to what <code>recentf-mode</code> tracks</h3>
+<h3 id="h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b"><span class="section-number-3">6.6.</span> Previews are not added to what <code>recentf-mode</code> tracks</h3>
 <div class="outline-text-3" id="text-h:67d61ed2-3e16-49a9-bd3a-61950d9ab81b">
 <p>
 Thanks to Juergen Hoetzel for reporting this issue and for tweaking my
@@ -609,7 +743,7 @@ Software Foundation.
 </div>
 </div>
 <div id="outline-container-h:493488b1-0f7d-4b44-b96d-4cd9a6bde352" class="outline-3">
-<h3 id="h:493488b1-0f7d-4b44-b96d-4cd9a6bde352"><span class="section-number-3">5.7.</span> A nil value for <code>split-width-threshold</code> still works</h3>
+<h3 id="h:493488b1-0f7d-4b44-b96d-4cd9a6bde352"><span class="section-number-3">6.7.</span> A nil value for <code>split-width-threshold</code> still works</h3>
 <div class="outline-text-3" id="text-h:493488b1-0f7d-4b44-b96d-4cd9a6bde352">
 <p>
 We no longer consider this an error and adapt the preview accordingly.
@@ -620,7 +754,7 @@ request 11 and does not require copyright assignment:
 </div>
 </div>
 <div id="outline-container-h:d8c42eea-a540-44fd-91b4-138fdba47288" class="outline-3">
-<h3 id="h:d8c42eea-a540-44fd-91b4-138fdba47288"><span class="section-number-3">5.8.</span> For developers: previews are done with <code>cl-defmethod</code></h3>
+<h3 id="h:d8c42eea-a540-44fd-91b4-138fdba47288"><span class="section-number-3">6.8.</span> For developers: previews are done with <code>cl-defmethod</code></h3>
 <div class="outline-text-3" id="text-h:d8c42eea-a540-44fd-91b4-138fdba47288">
 <p>
 Each file type will thus have its own method on how to display the
@@ -633,7 +767,7 @@ those two are the immediate priority.
 </div>
 </div>
 <div id="outline-container-h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189" class="outline-2">
-<h2 id="h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189"><span class="section-number-2">6.</span> Version 0.1.0 on 2023-07-08</h2>
+<h2 id="h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189"><span class="section-number-2">7.</span> Version 0.1.0 on 2023-07-08</h2>
 <div class="outline-text-2" id="text-h:99cbb3dd-a0f1-4d2b-a945-58531f4ab189">
 <p>
 The <code>dired-preview</code> package was in a public testing phase from
@@ -642,7 +776,7 @@ made in the interest of usability and robustness.
 </p>
 </div>
 <div id="outline-container-h:598de101-5c1f-4fbd-8f27-709375d8950b" class="outline-3">
-<h3 id="h:598de101-5c1f-4fbd-8f27-709375d8950b"><span class="section-number-3">6.1.</span> Global and buffer-local modes</h3>
+<h3 id="h:598de101-5c1f-4fbd-8f27-709375d8950b"><span class="section-number-3">7.1.</span> Global and buffer-local modes</h3>
 <div class="outline-text-3" id="text-h:598de101-5c1f-4fbd-8f27-709375d8950b">
 <p>
 The <code>dired-preview-mode</code> is a local minor mode, while
@@ -664,7 +798,7 @@ pointing it out: <a href="https://lists.sr.ht/~protesilaos/general-issues/%3Cm1z
 </div>
 </div>
 <div id="outline-container-h:b80cc550-24ee-4817-be8c-c24c5e98e4c2" class="outline-3">
-<h3 id="h:b80cc550-24ee-4817-be8c-c24c5e98e4c2"><span class="section-number-3">6.2.</span> Preview delay runs on an idle timer</h3>
+<h3 id="h:b80cc550-24ee-4817-be8c-c24c5e98e4c2"><span class="section-number-3">7.2.</span> Preview delay runs on an idle timer</h3>
 <div class="outline-text-3" id="text-h:b80cc550-24ee-4817-be8c-c24c5e98e4c2">
 <p>
 Originally, previews would run on a timer that would block Emacs.
@@ -675,7 +809,7 @@ for a customisable amount of seconds.  Refer to the user option
 </div>
 </div>
 <div id="outline-container-h:c298121a-5ba4-408b-b063-14022c307c47" class="outline-3">
-<h3 id="h:c298121a-5ba4-408b-b063-14022c307c47"><span class="section-number-3">6.3.</span> Trigger a preview in the post-command phase</h3>
+<h3 id="h:c298121a-5ba4-408b-b063-14022c307c47"><span class="section-number-3">7.3.</span> Trigger a preview in the post-command phase</h3>
 <div class="outline-text-3" id="text-h:c298121a-5ba4-408b-b063-14022c307c47">
 <p>
 In the original design, previews were triggered by bespoke
@@ -714,7 +848,7 @@ error:
 </div>
 </div>
 <div id="outline-container-h:3033401f-878d-4298-9256-228d6c249b3a" class="outline-3">
-<h3 id="h:3033401f-878d-4298-9256-228d6c249b3a"><span class="section-number-3">6.4.</span> The placement of the preview window is customisable</h3>
+<h3 id="h:3033401f-878d-4298-9256-228d6c249b3a"><span class="section-number-3">7.4.</span> The placement of the preview window is customisable</h3>
 <div class="outline-text-3" id="text-h:3033401f-878d-4298-9256-228d6c249b3a">
 <p>
 We arrange to display previews in a side window.  Due to the inherent
@@ -740,7 +874,7 @@ permission.
 </div>
 </div>
 <div id="outline-container-h:06e6249d-8755-450e-b65e-b8f999d982a4" class="outline-3">
-<h3 id="h:06e6249d-8755-450e-b65e-b8f999d982a4"><span class="section-number-3">6.5.</span> Window placement and deletion is more robust</h3>
+<h3 id="h:06e6249d-8755-450e-b65e-b8f999d982a4"><span class="section-number-3">7.5.</span> Window placement and deletion is more robust</h3>
 <div class="outline-text-3" id="text-h:06e6249d-8755-450e-b65e-b8f999d982a4">
 <p>
 The idea of &ldquo;preview&rdquo; windows is that they are not ordinary windows
@@ -758,7 +892,7 @@ information is shared with permission.
 </div>
 </div>
 <div id="outline-container-h:a2ee3d09-7356-465c-8627-bdc56e9ec303" class="outline-3">
-<h3 id="h:a2ee3d09-7356-465c-8627-bdc56e9ec303"><span class="section-number-3">6.6.</span> We no longer try to preview irregular files</h3>
+<h3 id="h:a2ee3d09-7356-465c-8627-bdc56e9ec303"><span class="section-number-3">7.6.</span> We no longer try to preview irregular files</h3>
 <div class="outline-text-3" id="text-h:a2ee3d09-7356-465c-8627-bdc56e9ec303">
 <p>
 Before, <code>dired-preview</code> would attempt to produce a preview of named
@@ -775,7 +909,7 @@ and for recommending the use of <code>file-regular-p</code> instead of
 </div>
 </div>
 <div id="outline-container-h:d8ba0949-76b0-4d3a-b0f3-1bfb62280483" class="outline-3">
-<h3 id="h:d8ba0949-76b0-4d3a-b0f3-1bfb62280483"><span class="section-number-3">6.7.</span> Preview buffers are killed up to a cumulative size threshold</h3>
+<h3 id="h:d8ba0949-76b0-4d3a-b0f3-1bfb62280483"><span class="section-number-3">7.7.</span> Preview buffers are killed up to a cumulative size threshold</h3>
 <div class="outline-text-3" id="text-h:d8ba0949-76b0-4d3a-b0f3-1bfb62280483">
 <p>
 In the original design, we were killing preview buffers all at once.
