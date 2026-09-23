@@ -30,8 +30,8 @@ dissuasive»).
 
 Aujourd'hui j'ai découvre le chanteur Joe Dassin. J'aime tous son
 chansons que j'ai écoute. Et maintenant je vais écouter à «Salut» et
-inscrire tous les paroles que je comprends. Je marque les mots
-inconnus avec `___`:
+inscrire tous les paroles que je comprends: <https://www.youtube.com/watch?v=OlNC6gK2y0I>.
+Je marque les mots inconnus avec `___`:
 
 ```
 Salut par Joe Dassin
