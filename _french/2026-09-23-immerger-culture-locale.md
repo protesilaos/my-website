@@ -79,5 +79,5 @@ Même si j'ai compris presque tous les paroles, il y a encore des
 expressions que je vois pour le première fois, comme «je m'étais fait
 des idées» et «je ne suis qu'un souvenir». Donc ce n'est pas seulement
 une question de connaître les mots mais de formuler les phrases comme
-une personne français. C'est pourquoi je veux m'immerger dans la
+une personne française. C'est pourquoi je veux m'immerger dans la
 culture locale.
