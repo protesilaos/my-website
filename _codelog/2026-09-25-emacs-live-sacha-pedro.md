@@ -1,5 +1,5 @@
 ---
-title: "Emacs live with Sacha Chua and Pedro about Org LaTeX export on 2026-09-25 at 13:00 Europe/Athens"
+title: "Emacs live with Sacha Chua and Pedro about Org LaTeX export on 2026-10-02 at 13:00 Europe/Athens"
 excerpt: "We will talk about Pedro's work on the Org LaTeX exporter."
 layout: vlog
 mediaid: "aEnacESU-DU"
