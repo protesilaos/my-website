@@ -145,6 +145,7 @@ From oldest to newest:
 - [Emacs for beginners with @linkarzu](https://protesilaos.com/codelog/2026-07-05-emacs-live-with-linkarzu/) (2026-07-05)
 - [Emacs Org basics with @linkarzu](https://protesilaos.com/codelog/2026-07-09-emacs-live-linkarzu-org-basics/) (2026-07-12)
 - [Emacs workflows, Org capture, and projects with @linkarzu](https://protesilaos.com/codelog/2026-08-01-emacs-live-linkarzu-projects/) (2026-08-01)
+- [Emacs live at the 'Root Access' show with @linkarzu, Rumen, and Ted](https://protesilaos.com/codelog/2026-09-27-emacs-live-root-access-show/) (2026-09-27)
 - [Emacs live stream with Sacha and Pedro about Org LaTeX export](https://protesilaos.com/codelog/2026-09-25-emacs-live-sacha-pedro/) (2026-10-02)
 
 ### Guest shows in French
