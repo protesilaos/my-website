@@ -123,6 +123,37 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - A ~2-hour [talk with Joshua Blais about Emacs and life issues](https://protesilaos.com/codelog/2026-03-05-emacs-and-philosophy-chat-with-joshua-blais/) (2026-03-05).
 
+## Guest shows
+
+These are videos that I was either invited to join or the person asked
+me if they could record our meeting and then publish the video on
+their platform. I am always open to this sort of thing, so do let me
+know if you want to do the same---life is too short to be shy!
+
+From oldest to newest:
+
+### Guest shows in English
+
+- [Emacs coaching with Sacha Chua](https://protesilaos.com/codelog/2026-03-31-emacs-coaching-with-sacha-chua/) (2026-03-31)
+- [Emacs live stream with Sacha Chua](https://protesilaos.com/codelog/2026-04-04-emacs-live-with-sacha-chua/) (2026-04-16)
+- [Emacs live stream with Sacha Chua about decent defaults](https://protesilaos.com/codelog/2026-04-22-emacs-live-with-sacha-chua/) (2026-04-30)
+- [Emacs coaching with Amin Bandali](https://protesilaos.com/codelog/2026-05-08-emacs-coaching-amin-bandali/) (2026-05-08)
+- [Emacs live stream with Sacha Chua and Philip Kaludercic](https://protesilaos.com/codelog/2026-05-04-emacs-live-sacha-chua-philip-kaludercic/) (2026-05-14)
+- [Emacs coaching with Amin Bandali about ffs, display-buffer-alist, Org, and more](https://protesilaos.com/codelog/2026-05-15-emacs-amin-bandali-ffs-display-buffer-org-capture/) (2026-05-15)
+- [Emacs live stream with Sacha Chua 'May I Recommend'](https://protesilaos.com/codelog/2026-05-27-emacs-live-sacha-chua-may-i-recommend/) (2026-05-28)
+- [Emacs live stream with Sacha Chua about underappreciated built-ins](https://protesilaos.com/codelog/2026-06-09-emacs-live-sacha-chua-built-ins/) (2026-06-11)
+- [Emacs for beginners with @linkarzu](https://protesilaos.com/codelog/2026-07-05-emacs-live-with-linkarzu/) (2026-07-05)
+- [Emacs Org basics with @linkarzu](https://protesilaos.com/codelog/2026-07-09-emacs-live-linkarzu-org-basics/) (2026-07-12)
+- [Emacs workflows, Org capture, and projects with @linkarzu](https://protesilaos.com/codelog/2026-08-01-emacs-live-linkarzu-projects/) (2026-08-01)
+- [Emacs live stream with Sacha and Pedro about Org LaTeX export](https://protesilaos.com/codelog/2026-09-25-emacs-live-sacha-pedro/) (2026-10-02)
+
+### Guest shows in French
+
+- [Emacs avec Sacha Chua et Richard Bonichon](https://protesilaos.com/french/2026-07-28-emacs-diffusion-en-direct-sacha-chua-richard-bonichon/) (2026-07-28)
+- [Emacs avec Sacha Chua et Fabrice Niessen part 1](https://protesilaos.com/french/2026-08-10-seance-en-direct-emacs-sacha-chua-fabrice-niessen/) (2026-08-14)
+- [Emacs avec Sacha Chua et Abdallah Maouche](https://protesilaos.com/french/2026-08-17-emacs-diffusion-direct-sacha-chua-abdallah-maouche/) (2026-08-20)
+- [Emacs avec Sacha Chua et Fabrice Niessen part 2](https://protesilaos.com/french/2026-08-26-emacs-direct-sacha-chua-fabrice-niessen/) (2026-08-27)
+
 ## Awards
 
 On 2022-03-19 the Free Software Foundation awarded me the _2021 Award
