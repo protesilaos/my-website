@@ -1,5 +1,5 @@
 ---
-title: "I updated my 'About me' page with 'guest appearances' section"
+title: "I updated my 'About me' page with a 'guest appearances' section"
 excerpt: "Announcement about the new 'guest appearances' section in my 'about me' page."
 ---
 
