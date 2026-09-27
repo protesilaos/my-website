@@ -123,7 +123,7 @@ the relevant projects here: <https://protesilaos.com/emacs>.
 
 - A ~2-hour [talk with Joshua Blais about Emacs and life issues](https://protesilaos.com/codelog/2026-03-05-emacs-and-philosophy-chat-with-joshua-blais/) (2026-03-05).
 
-## Guest shows
+## Guest appearances
 
 These are videos that I was either invited to join or the person asked
 me if they could record our meeting and then publish the video on
@@ -132,7 +132,7 @@ know if you want to do the same---life is too short to be shy!
 
 From oldest to newest:
 
-### Guest shows in English
+### Guest appearances in English
 
 - [Emacs coaching with Sacha Chua](https://protesilaos.com/codelog/2026-03-31-emacs-coaching-with-sacha-chua/) (2026-03-31)
 - [Emacs live stream with Sacha Chua](https://protesilaos.com/codelog/2026-04-04-emacs-live-with-sacha-chua/) (2026-04-16)
@@ -148,7 +148,7 @@ From oldest to newest:
 - [Emacs live at the 'Root Access' show with @linkarzu, Rumen, and Ted](https://protesilaos.com/codelog/2026-09-27-emacs-live-root-access-show/) (2026-09-27)
 - [Emacs live stream with Sacha and Pedro about Org LaTeX export](https://protesilaos.com/codelog/2026-09-25-emacs-live-sacha-pedro/) (2026-10-02)
 
-### Guest shows in French
+### Guest appearances in French
 
 - [Emacs avec Sacha Chua et Richard Bonichon](https://protesilaos.com/french/2026-07-28-emacs-diffusion-en-direct-sacha-chua-richard-bonichon/) (2026-07-28)
 - [Emacs avec Sacha Chua et Fabrice Niessen part 1](https://protesilaos.com/french/2026-08-10-seance-en-direct-emacs-sacha-chua-fabrice-niessen/) (2026-08-14)
