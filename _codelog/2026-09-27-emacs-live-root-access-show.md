@@ -1,5 +1,5 @@
 ---
-title: "Emacs: live at the 'Root Access' stream on 2026-09-27 at 21:00 Europe/Athens"
+title: "Emacs live at the 'Root Access' stream on 2026-09-27 at 21:00 Europe/Athens"
 excerpt: "I will join @linkarzu and the folks over at the Root Access podcast series to do a live stream about Emacs."
 layout: vlog
 mediaid: "c0qZ6QzpcVc"
