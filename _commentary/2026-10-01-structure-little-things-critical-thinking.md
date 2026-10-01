@@ -258,14 +258,14 @@ there follow other markers of good training.
 
 A person benefits from a leash in the same way. Historical societies
 did so through the expectation of gendered duties. Males were on a
-leash to control their innate aggression; an aggression that quickly
-degenerates into violent abuse and self-harm if left unchecked. They
-were pressured to pursue activities with a pro-social function, such
-as guards, priests, and coaches of various kinds. Similarly, women
-were expected to concentrate on motherhood and neighbouring activities
-(e.g. teachers, nurses) and to thus assume the pro-social function of
-social reproduction, starting from the extended family and extending
-to the community at-large.
+leash to control their innate aggression in favour of fatherhood; an
+aggression that quickly degenerates into violent abuse and self-harm
+if left unchecked. They were pressured to pursue activities with a
+pro-social function, such as guards, priests, and coaches of various
+kinds. Similarly, women were expected to concentrate on motherhood and
+neighbouring activities (e.g. teachers, nurses) and to thus assume the
+pro-social function of social reproduction, starting from the extended
+family and extending to the community at-large.
 
 Absent those two leashes, else the structure, society begins to
 disintegrate. Its energy is dispersed because that is exactly what is
