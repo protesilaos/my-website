@@ -7,7 +7,7 @@ permalink: /emacs/notmuch-indicator
 ---
 
 <p>
-This manual, written by Protesilaos Stavrou, describes the
+This manual, written by Protesilaos, describes the
 customization options for <code>notmuch-indicator</code> (or <code>notmuch-indicator.el</code>),
 and provides every other piece of information pertinent to it.
 </p>
@@ -32,7 +32,7 @@ Current development target is 1.4.0-dev.
 <li>GitHub: <a href="https://github.com/protesilaos/notmuch-indicator">https://github.com/protesilaos/notmuch-indicator</a></li>
 <li>GitLab: <a href="https://gitlab.com/protesilaos/notmuch-indicator">https://gitlab.com/protesilaos/notmuch-indicator</a></li>
 </ul></li>
-<li>Backronym: notmuch-&#x2026; Interested in Neatly Displayed Indicators
+<li>Backronym: notmuch-&hellip; Interested in Neatly Displayed Indicators
 that Count Any Terms Ordinarily Requested.</li>
 </ul>
 
@@ -163,16 +163,16 @@ placement of the <code>notmuch-indicator-mode-line-construct</code>.
 
 <p>
 For instance, a value like the following defines three searches (in
-the source code the quotes are escaped&#x2014;please check the Help buffer
-for the clean code (I dislike markup in doc strings)):
+the source code the quotes are escaped&mdash;please check the Help buffer
+for the clean code (I dislike markup in docstrings)):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq notmuch-indicator-args
+<pre class="src src-emacs-lisp"><code>(setq notmuch-indicator-args
      '((:terms "tag:unread and tag:inbox" :label "@")
         (:terms "from:bank and tag:bills and tag:unpaid" :label "😱")
         (:terms "--output threads tag:fans" :label "❤️")))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -186,7 +186,7 @@ Same idea as above, but with faces applied:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq notmuch-indicator-args
+<pre class="src src-emacs-lisp"><code>(setq notmuch-indicator-args
      '(( :terms "tag:unread and tag:inbox"
          :label "@"
          :label-face success)
@@ -197,7 +197,7 @@ Same idea as above, but with faces applied:
          :label "❤️"
          :label-face error
          :counter-face inherit)))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -280,7 +280,6 @@ M-x package-refresh-contents
 M-x package-install
 </pre>
 
-
 <p>
 And search for it.
 </p>
@@ -302,7 +301,7 @@ following commands in a shell prompt:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">cd ~/.emacs.d
+<pre class="src src-sh"><code>cd ~/.emacs.d
 
 # Create a directory for manually-installed packages
 mkdir manual-packages
@@ -312,7 +311,7 @@ cd manual-packages
 
 # Clone this repo, naming it "notmuch-indicator"
 git clone https://github.com/protesilaos/notmuch-indicator notmuch-indicator
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -320,9 +319,9 @@ Finally, in your <code>init.el</code> (or equivalent) evaluate this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; Make Elisp files in that directory available to the user.
+<pre class="src src-emacs-lisp"><code>;; Make Elisp files in that directory available to the user.
 (add-to-list 'load-path "~/.emacs.d/manual-packages/notmuch-indicator")
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -335,19 +334,60 @@ Everything is in place to set up the package.
 <h2 id="h:3969ff63-f4dc-42f7-a4d1-51f96b92dee2"><span class="section-number-2">4.</span> Sample configuration</h2>
 <div class="outline-text-2" id="text-h:3969ff63-f4dc-42f7-a4d1-51f96b92dee2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(require 'notmuch-indicator)
+<pre class="src src-emacs-lisp"><code>(use-package notmuch-indicator
+  :ensure t
+  :config
+  (setq notmuch-indicator-args
+        '((:terms "tag:unread and tag:inbox" :label "U" :label-face success)
+          (:terms "tag:unread and tag:package" :label "P" :label-face warning :counter-face inherit)
+          (:terms "tag:unread and tag:coach" :label "C" :label-face bold :counter-face error))
 
-(setq notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox" :label "U" :label-face success)
-        (:terms "tag:unread and tag:package" :label "P" :label-face warning :counter-face inherit)
-        (:terms "tag:unread and tag:coach" :label "C" :label-face bold :counter-face error))
+        notmuch-indicator-refresh-count (* 60 3)
+        notmuch-indicator-hide-empty-counters t
+        notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
 
-      notmuch-indicator-refresh-count (* 60 3)
-      notmuch-indicator-hide-empty-counters t
-      notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
+  (notmuch-indicator-mode 1))
+</code></pre>
+</div>
 
-(notmuch-indicator-mode 1)
-</pre>
+<p>
+And here is another example from my own Emacs configuration. It does
+not work as-is because it depends on some parts of my setup. This is
+only for you to have another view of how the package can be set up.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code>;; NOTE 2026-10-02: What I (Protesilaos) use right now:
+(use-package notmuch-indicator
+  :ensure t
+  :config
+  (setq notmuch-indicator-args
+        '(( :terms "tag:unread and (tag:inbox or tag:archiveinbox)"
+            :label "[U] "
+            ;; :label "💬 "
+            :label-face prot-modeline-indicator-cyan
+            :counter-face prot-modeline-indicator-cyan)
+          ( :terms "tag:unread and tag:package"
+            :label "[P] "
+            ;; :label "🛠️ "
+            :label-face prot-modeline-indicator-magenta
+            :counter-face prot-modeline-indicator-magenta)
+          ( :terms "tag:unread and tag:coach"
+            :label "[C] "
+            ;; :label "🏆 "
+            :label-face prot-modeline-indicator-red
+            :counter-face prot-modeline-indicator-red))
+
+        notmuch-indicator-refresh-count (* 60 3)
+        notmuch-indicator-hide-empty-counters t
+        notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
+
+  ;; I control its placement myself.  See prot-emacs-modeline.el where
+  ;; I set the `mode-line-format'.
+  (setq notmuch-indicator-add-to-mode-line-misc-info nil)
+
+  (notmuch-indicator-mode 1))
+</code></pre>
 </div>
 </div>
 <div id="outline-container-h:9deb5f28-2d0e-4e50-8a57-a65003f40967" class="outline-3">
@@ -361,7 +401,7 @@ list, such as with this arrangement:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq tab-bar-format
+<pre class="src src-emacs-lisp"><code>(setq tab-bar-format
       '( tab-bar-format-history
          tab-bar-format-tabs
          tab-bar-separator
@@ -370,7 +410,7 @@ list, such as with this arrangement:
          notmuch-indicator-tab-bar-format ; here it is
          tab-bar-separator
          tab-bar-format-global))
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -389,7 +429,7 @@ of help matters.
 </p>
 
 <dl class="org-dl">
-<dt>Author/maintainer</dt><dd>Protesilaos Stavrou.</dd>
+<dt>Author/maintainer</dt><dd>Protesilaos.</dd>
 
 <dt>Contributions to code or user feedback</dt><dd>Henrik Kjerringvåg, MikeS,
 Mohamed Suliman, Sébastien Delafond, Stefan Monnier, Yejun Su, Yusef
