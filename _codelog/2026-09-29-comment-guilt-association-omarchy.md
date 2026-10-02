@@ -5,6 +5,11 @@ layout: vlog
 mediaid: "Y6NdZYNCkdk"
 ---
 
+**UPDATE 2026-10-02 11:22 +0300:** A longer clip which better captures
+the vibe is here: <https://protesilaos.com/codelog/2026-10-02-omarchy-reasonableness/>.
+
+* * *
+
 This is an excerpt from the 'Root Access' live stream:
 <https://protesilaos.com/codelog/2026-09-27-emacs-live-root-access-show/>.
 
