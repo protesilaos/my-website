@@ -4,7 +4,7 @@ excerpt: 'Demo of the Doric themes for Emacs.'
 permalink: /emacs/doric-themes-pictures
 ---
 
-The following screen shots correspond to version `1.3.0`. The
+The following screen shots correspond to version `1.4.0-dev`. The
 typefaces on display come from my [Aporetic fonts](https://github.com/protesilaos/aporetic).
 
 **Enlarge the image**, because the smaller size can affect your
@@ -101,6 +101,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-marble-message.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-marble-magit.png' | absolute_url }}"><img alt="doric-marble theme sample" src="{{'/assets/images/doric/doric-marble-magit.png' | absolute_url }}"/></a>
+
+## doric-meadow
+
+<a href="{{'/assets/images/doric/doric-meadow.png' | absolute_url }}"><img alt="doric-meadow theme sample" src="{{'/assets/images/doric/doric-meadow.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-meadow-org.png' | absolute_url }}"><img alt="doric-meadow theme sample" src="{{'/assets/images/doric/doric-meadow-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-meadow-message.png' | absolute_url }}"><img alt="doric-meadow theme sample" src="{{'/assets/images/doric/doric-meadow-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-meadow-magit.png' | absolute_url }}"><img alt="doric-meadow theme sample" src="{{'/assets/images/doric/doric-meadow-magit.png' | absolute_url }}"/></a>
 
 ## doric-oak
 
@@ -211,6 +221,16 @@ subtle differences in colour.
 <a href="{{'/assets/images/doric/doric-mermaid-message.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid-message.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/doric/doric-mermaid-magit.png' | absolute_url }}"><img alt="doric-mermaid theme sample" src="{{'/assets/images/doric/doric-mermaid-magit.png' | absolute_url }}"/></a>
+
+## doric-mountain
+
+<a href="{{'/assets/images/doric/doric-mountain.png' | absolute_url }}"><img alt="doric-mountain theme sample" src="{{'/assets/images/doric/doric-mountain.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mountain-org.png' | absolute_url }}"><img alt="doric-mountain theme sample" src="{{'/assets/images/doric/doric-mountain-org.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mountain-message.png' | absolute_url }}"><img alt="doric-mountain theme sample" src="{{'/assets/images/doric/doric-mountain-message.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/doric/doric-mountain-magit.png' | absolute_url }}"><img alt="doric-mountain theme sample" src="{{'/assets/images/doric/doric-mountain-magit.png' | absolute_url }}"/></a>
 
 ## doric-obsidian
 
