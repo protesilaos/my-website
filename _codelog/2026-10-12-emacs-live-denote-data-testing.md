@@ -1,5 +1,5 @@
 ---
-title: "Emacs 'denote-data' testing live today, 2026-10-07, at 16:00 Europe/Athens"
+title: "Emacs 'denote-data' testing live today, 2026-10-12, at 16:00 Europe/Athens"
 excerpt: "I am doing a live stream where I will further test the new 'denote-data' feature for 'denote'."
 layout: vlog
 mediaid: "5xNWU8EcUeI"
