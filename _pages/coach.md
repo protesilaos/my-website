@@ -64,7 +64,7 @@ schedule a meeting that suits both parties.
 If we need a little bit more than one hour, I will still count it as
 one hour---no problem!
 
-Also, if you strongly believe that you should pay more that 10 EUR,
+Also, if you strongly believe that you should pay more than 10 EUR,
 then you are free to set your price.
 
 ## Payments
