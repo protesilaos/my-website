@@ -1,5 +1,5 @@
 ---
-title: "Emacs live continuing 'denote' maintenance and refinements (2026-10-15 26:30 Europe/Athens)"
+title: "Emacs live continuing 'denote' maintenance and refinements (2026-10-15 16:30 Europe/Athens)"
 excerpt: "I am doing a live stream where I will continue maintaining and refining my 'denote' package for Emacs."
 layout: vlog
 mediaid: "mBAhOCyYKlc"
