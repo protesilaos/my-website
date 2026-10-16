@@ -24,15 +24,14 @@ to edit and copy-paste more easily).
 * * *
 
 I am a philosopher, free software programmer, owner of a house I built
-myself in the Cyprus mountains, dog handler, hiker, industrious
-blogger, and polymath par excellence.
+myself in the mountains of Cyprus, dog handler, hiker, blogger, and
+polymath par excellence.
  
-My website is a de facto resource for self-learning. I contribute to
-GNU Emacs and free software in a number of ways, while I also write or
-talk about non-software-related issues.
+I contribute to GNU Emacs and free software in a number of ways, while
+I also write or talk about non-software-related issues.
 
-Everything I have ever written on my website since 2011 when I got
-started is available under copyleft terms: <https://protesilaos.com>.
+Everything I have ever written on my website since 2011 is available
+under copyleft terms.
 
 All my publications are free/libre and I shall never put anything
 behind a paywall. This also means that donations will not give you any
