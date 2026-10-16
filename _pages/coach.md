@@ -82,7 +82,9 @@ The payment methods are as follows:
 2. Send a payment **via PayPal**: <https://www.paypal.me/protesilaos>.
    PayPal takes a small percentage to process the transaction.
 
-3. Use a **direct bank transfer** via the [International Bank Account
+3. Donate **with Ko-fi**: <https://ko-fi.com/protesilaos>.
+
+4. Use a **direct bank transfer** via the [International Bank Account
    Number (IBAN)](https://en.wikipedia.org/wiki/International_Bank_Account_Number).
    My IBAN is `CY23 0090 0520 0005 2010 0144 6252`. Make sure you are
    specifying my legal name, namely, `Protesilaos Stavrou`, and are
