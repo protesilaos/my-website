@@ -65,5 +65,5 @@ Who are you really, my friend? What is it that made you read this far?
 You will consider as much the same way I shall. And there you will
 discover that at some level we are one.
 
-Take care,
+Take care,  
 A feral soul
