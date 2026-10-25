@@ -1,28 +1,11 @@
 ---
-title: "Coach/tutor on Emacs, Linux, and Life"
-subtitle: "One-on-one coaching at affordable prices"
-excerpt: "I provide private lessons or services on Emacs, Linux, and Life.  The prices are affordable."
+title: "Coach on Emacs, Linux, and life in general"
+excerpt: "I provide private lessons on Emacs, Linux, and life in general.  The price is affordable."
 permalink: /coach/
 redirect_from: /tutor/
 ---
 
-I provide private lessons or services on Emacs, Linux, and Life in
-general.  My skills as a coach:
-
-- Patient
-- Compassionate
-- Thoughtful
-- Friendly
-- Disciplined
-- Adaptable
-
-For more details on my competences, you can check the publications on
-my website, such as (i) my videos on philosophy, (ii) my Emacs
-tutorials, (iii) the numerous packages I have written and maintain for
-Emacs, (iv) my custom working environment on Linux, and (v) lots of
-other writings.
-
-## Private lessons via live video
+## Private live video meeting for 10 EUR per hour
 
 Private lessons are always one-on-one.  I will never ask you to be
 grouped together with another person nor involve a third party.
@@ -36,7 +19,9 @@ your skill level. Some examples:
   of built-in Emacs packages.
 
 Other topics can cover anything from Linux-related configurations to
-philosophy. We can even mix those together!
+philosophy and everyday life issues. We can even mix those together!
+
+Contact me: <https://protesilaos.com/contact/>.
 
 ### Benefits of one-on-one coaching
 
@@ -47,32 +32,7 @@ philosophy. We can even mix those together!
 - It is human interaction: we smile and have an easy time. No problem,
   no stress!
 
-### Frequency and duration of lessons
-
-The standard is one hour per session. Lessons can be longer (two or
-more hours) if you need. Multiple courses can be spread out throughout
-the week or month, at your discretion.
-
-## Work hours
-
-I am available every day of the week.  I currently live in Cyprus.
-The time zone is that of Europe/Athens.  Contact me and we will
-schedule a meeting that suits both parties.
-
-## Pricing is 10 EUR per hour
-
-If we need a little bit more than one hour, I will still count it as
-one hour---no problem!
-
-Also, if you strongly believe that you should pay more that 10 EUR,
-then you are free to set your price.
-
 ## Payments
-
-You are expected to pay after the private lesson is delivered. You
-never have to do it in advance, unless you want to.
-
-The payment methods are as follows:
 
 1. **GitHub Sponsors** one-time donation. GitHub does not charge extra
    fees and you can make one-off payments of an arbitrary value even
@@ -96,32 +56,14 @@ The payment methods are as follows:
 ## Prospective students
 
 I accept everyone regardless of their cultural background, sexual
-orientation, lifestyle choices, et cetera.  Due to the nature of the
-topics I cover, I expect students to be adults.  In principle, I can
-tutor younger people as well, provided I receive the express
-permission of their guardian.
+orientation, lifestyle choices, et cetera.
 
 ## Privacy policy
 
 I will not share your details with anyone nor publicise any
-potentially personally identifying information.  You are welcome to
-use a pseudonym.  If/when we do a video call, you are free to not
-activate the camera.
+potentially personally identifying information. You are welcome to use
+a pseudonym. You are free to not activate your camera during the call.
 
-## Preference for libre software
-
-I want us to rely on free software as much as possible.  This includes
-freedom-respecting file formats like `.txt`, `.md`, `.org`, as well as
-video call software like Jitsi or Jami:
-
-- <https://meet.jit.si/>
-- <https://jami.net/>
-
-I understand that sometimes we have to make compromises.  Please let
-me know about the specifics of your case and I will adapt accordingly.
-
-## Contact me
-
-I look forward to your message: <https://protesilaos.com/contact/>.
-There is no need for formalities such as "Sir". Call me by my name,
-"Protesilaos", or nickname: "Prot".
+I never record my meetings. You are free to do it for your own
+archive. You can even publish it, though tell me about it so I can
+post a link to it as well.
