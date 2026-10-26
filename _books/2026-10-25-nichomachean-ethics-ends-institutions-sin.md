@@ -1,5 +1,5 @@
 ---
-title: "Aristotle Nichomachean Ethics: on goals, institutions, sin of exaggeration"
+title: "Aristotle Nicomachean Ethics: on goals, institutions, sin of exaggeration"
 excerpt: "In this video I comment at length on Aristotle's Nicomachean Ethics. This is going to be part of a series."
 layout: vlog
 mediaid: "RF0rMmm7lCI"
