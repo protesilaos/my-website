@@ -17,3 +17,9 @@ Next time I will comment on eudaemonia, which is mistranslated as
 
 I notice, by the way, that the laptop is too shaky. I will check if I
 can fix this next time.
+
+* * *
+
+**UPDATE 2026-10-26 23:26 +0200:** I did the follow-up video, as
+promised. This is about criticism, happiness, good-spirit-ness:
+<https://protesilaos.com/books/2026-10-26-nicomachean-ethics-criticism-happiness-good-spirit-ness/>.
