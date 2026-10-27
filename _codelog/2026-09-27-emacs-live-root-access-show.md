@@ -2,8 +2,12 @@
 title: "Emacs live at the 'Root Access' stream on 2026-09-27 at 21:00 Europe/Athens"
 excerpt: "I will join @linkarzu and the folks over at the Root Access podcast series to do a live stream about Emacs."
 layout: vlog
-mediaid: "c0qZ6QzpcVc"
+mediaid: "dQ6X0-XCLIw"
 ---
+
+**UPDATE 2026-10-27 07:28 +0200:** There is a new link to this video.
+
+* * *
 
 Tonight I will join the livestream that @linkarzu hosts together with
 Rumen and Ted. We will talk about Emacs. The discussion is open to the
