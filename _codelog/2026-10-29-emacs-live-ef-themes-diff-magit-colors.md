@@ -1,6 +1,6 @@
 ---
 title: "Emacs live refining 'ef-themes' Diff/Magit colours at 2026-10-29 18:00 Europe/Athens"
-excerpt: "I am doing a live stream where I will start the work of abstracting the Modus themes core into its own library."
+excerpt: "I am doing a live stream where I will revise colours that are used for diff interfaces."
 layout: vlog
 mediaid: "JnDcXPzFsfA"
 ---
