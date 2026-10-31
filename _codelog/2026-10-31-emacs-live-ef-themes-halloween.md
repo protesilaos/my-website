@@ -14,6 +14,27 @@ Halloween. Depending on my progress, I will do two themes, actually.
 I will keep the chat open, in case there are any questions related to
 this or anything else---I always answer everything.
 
+## The `ef-halloween-dark` prototype
+
+I made some more tweaks and published the dark theme. There is more to
+do, but this is a good start. The light theme needs more work. Maybe
+during another live stream.
+
+```
+commit 3a9898e23da62d14b57faeae1af9ae05bb3c59f3
+Author: Protesilaos <info@protesilaos.com>
+Date:   Sat Oct 31 21:07:01 2026 +0200
+
+  Add PROTOTYPE of ef-halloween-dark
+  
+  I did most of this during the live stream earlier today:
+  <https://protesilaos.com/codelog/2026-10-31-emacs-live-ef-themes-halloween/>.
+
+ ef-halloween-dark-theme.el | 242 +++++++++++++++++++++++++++++++++++++++++++++
+ ef-themes.el               |   1 +
+ 2 files changed, 243 insertions(+)
+```
+
 ## About the `ef-themes`
 
 The `ef-themes` are a collection of light and dark themes for GNU
