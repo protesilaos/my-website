@@ -234,6 +234,7 @@ This section contains:
 - `ef-duo-dark`
 - `ef-elea-dark`
 - `ef-fig`
+- `ef-halloween-dark`
 - `ef-maris-dark`
 - `ef-melissa-dark`
 - `ef-night`
@@ -333,6 +334,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-fig-mail.png' | absolute_url }}"><img alt="ef-fig theme mail sample" src="{{'/assets/images/ef/ef-fig-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-fig-org.png' | absolute_url }}"><img alt="ef-fig theme org sample" src="{{'/assets/images/ef/ef-fig-org.png' | absolute_url }}"/></a>
+
+### ef-halloween-dark
+
+<a href="{{'/assets/images/ef/ef-halloween-dark.png' | absolute_url }}"><img alt="ef-halloween-dark theme sample" src="{{'/assets/images/ef/ef-halloween-dark.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-dark-git.png' | absolute_url }}"><img alt="ef-halloween-dark theme git sample" src="{{'/assets/images/ef/ef-halloween-dark-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-dark-mail.png' | absolute_url }}"><img alt="ef-halloween-dark theme mail sample" src="{{'/assets/images/ef/ef-halloween-dark-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-dark-org.png' | absolute_url }}"><img alt="ef-halloween-dark theme org sample" src="{{'/assets/images/ef/ef-halloween-dark-org.png' | absolute_url }}"/></a>
 
 ### ef-maris-dark
 
