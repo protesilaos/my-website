@@ -35,6 +35,23 @@ Date:   Sat Oct 31 21:07:01 2026 +0200
  2 files changed, 243 insertions(+)
 ```
 
+## The `ef-halloween-light` prototype
+
+And this is from the day after.
+
+```
+commit dd0c2ee019e79d5541e1a3e563cd27c8a744c1ae
+Author: Protesilaos <info@protesilaos.com>
+Date:   Sun Nov 1 07:51:01 2026 +0200
+
+  Add ef-halloween-light PROTOTYPE
+
+ contrasts.org               |  36 +++++++
+ ef-halloween-light-theme.el | 242 ++++++++++++++++++++++++++++++++++++++++++++
+ ef-themes.el                |   1 +
+ 3 files changed, 279 insertions(+)
+```
+
 ## About the `ef-themes`
 
 The `ef-themes` are a collection of light and dark themes for GNU
