@@ -15,6 +15,8 @@ pairs though, as certain colours cannot work in both cases.
 
 Always **click to enlarge the image** for best results.
 
+**UPDATE 2026-11-02 09:42 +0200:** Added `ef-halloween-light` as well.
+
 ### ef-halloween-dark
 
 <a href="{{'/assets/images/ef/ef-halloween-dark.png' | absolute_url }}"><img alt="ef-halloween-dark theme sample" src="{{'/assets/images/ef/ef-halloween-dark.png' | absolute_url }}"/></a>
@@ -24,6 +26,16 @@ Always **click to enlarge the image** for best results.
 <a href="{{'/assets/images/ef/ef-halloween-dark-mail.png' | absolute_url }}"><img alt="ef-halloween-dark theme mail sample" src="{{'/assets/images/ef/ef-halloween-dark-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-halloween-dark-org.png' | absolute_url }}"><img alt="ef-halloween-dark theme org sample" src="{{'/assets/images/ef/ef-halloween-dark-org.png' | absolute_url }}"/></a>
+
+### ef-halloween-light
+
+<a href="{{'/assets/images/ef/ef-halloween-light.png' | absolute_url }}"><img alt="ef-halloween-light theme sample" src="{{'/assets/images/ef/ef-halloween-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-git.png' | absolute_url }}"><img alt="ef-halloween-light theme git sample" src="{{'/assets/images/ef/ef-halloween-light-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-mail.png' | absolute_url }}"><img alt="ef-halloween-light theme mail sample" src="{{'/assets/images/ef/ef-halloween-light-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-org.png' | absolute_url }}"><img alt="ef-halloween-light theme org sample" src="{{'/assets/images/ef/ef-halloween-light-org.png' | absolute_url }}"/></a>
 
 ## Coming in version 2.3.0 (next stable release)
 

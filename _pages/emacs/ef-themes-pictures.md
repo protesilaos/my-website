@@ -29,6 +29,7 @@ This section contains:
 - `ef-eagle`
 - `ef-elea-light`
 - `ef-frost`
+- `ef-halloween-light`
 - `ef-kassio`
 - `ef-light`
 - `ef-maris-light`
@@ -120,6 +121,16 @@ This section contains:
 <a href="{{'/assets/images/ef/ef-frost-mail.png' | absolute_url }}"><img alt="ef-frost theme mail sample" src="{{'/assets/images/ef/ef-frost-mail.png' | absolute_url }}"/></a>
 
 <a href="{{'/assets/images/ef/ef-frost-org.png' | absolute_url }}"><img alt="ef-frost theme org sample" src="{{'/assets/images/ef/ef-frost-org.png' | absolute_url }}"/></a>
+
+### ef-halloween-light
+
+<a href="{{'/assets/images/ef/ef-halloween-light.png' | absolute_url }}"><img alt="ef-halloween-light theme sample" src="{{'/assets/images/ef/ef-halloween-light.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-git.png' | absolute_url }}"><img alt="ef-halloween-light theme git sample" src="{{'/assets/images/ef/ef-halloween-light-git.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-mail.png' | absolute_url }}"><img alt="ef-halloween-light theme mail sample" src="{{'/assets/images/ef/ef-halloween-light-mail.png' | absolute_url }}"/></a>
+
+<a href="{{'/assets/images/ef/ef-halloween-light-org.png' | absolute_url }}"><img alt="ef-halloween-light theme org sample" src="{{'/assets/images/ef/ef-halloween-light-org.png' | absolute_url }}"/></a>
 
 ### ef-kassio
 
