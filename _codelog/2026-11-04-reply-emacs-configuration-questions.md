@@ -9,7 +9,7 @@ general and (ii) it is easier for me to find it here.
 
 The specifics of my Emacs configuration:
 
-- <https://protesilaos.com/emacs/doteamcs>
+- <https://protesilaos.com/emacs/dotemacs>
 - <https://github.com/protesilaos/dotfiles/tree/master/emacs>
 
 * * *
