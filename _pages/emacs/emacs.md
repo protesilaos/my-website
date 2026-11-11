@@ -229,6 +229,16 @@ timers in a nice grid.
 + Video demonstration: <https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/>
 + Backronym: TMR May Ring; Timer Must Run.
 
+## Pub trivia
+
+A quiz to answer multiple choice questions. Invoke the command
+`pub-trivia` to get started.
+
++ Git repository: <https://github.com/protesilaos/pub-trivia>
++ Backronyms: Prot Understands Basic ... TRIVIA; PUB ... Trivia
+  Randomly Inserted Verily Inspire Angst.
++ Video demonstration (wrote it live!): <https://protesilaos.com/codelog/2026-11-11-emacs-pub-trivia-package-scratch/>
+
 ## GNOME accent theme switcher
 
 This is a small package that provides the minor mode
@@ -249,7 +259,7 @@ GNOME light/dark preference from inside Emacs. While the command
 color and changes it accordingly.
 
 + Git repository: <https://github.com/protesilaos/gnome-accent-theme-switcher>
-+ Video demonstration: <https://protesilaos.com/codelog/2026-02-13-emacs-gnome-accent-theme-switcher/>
++ Video demonstration (wrote it live!): <https://protesilaos.com/codelog/2026-02-13-emacs-gnome-accent-theme-switcher/>
 
 ## Institution calendar
 
