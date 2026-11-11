@@ -13,3 +13,10 @@ options. I expect this to take me more than three hours, but we will
 see.
 
 As usual, I will keep the chat open and shall answer all questions.
+
+**UPDATE 2026-11-11 17:34 +0200:** I created the Git repository right
+after the stream and also wrote the backronyms:
+
++ Git repository: <https://github.com/protesilaos/pub-trivia>
++ Backronyms: Prot Understands Basic ... TRIVIA; PUB ... Trivia
+  Randomly Inserted Verily Inspire Angst.
