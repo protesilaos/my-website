@@ -64,7 +64,7 @@ update for the needs of today:
 What follows explains the above or is an extension of them.
 
 
-# Table of Contents
+## Table of Contents
 
 1.  [The sin of exaggeration](#h:9df22656-3512-41dc-b9ce-e12d4fedc51c)
 2.  [Human&rsquo;s relationship with the limits](#h:80fe2adb-dd3d-48bd-abda-c5c373a5d594)
@@ -79,7 +79,7 @@ What follows explains the above or is an extension of them.
 
 <a id="h:9df22656-3512-41dc-b9ce-e12d4fedc51c"></a>
 
-# The sin of exaggeration
+## The sin of exaggeration
 
 Human has a tendency to exaggerate. From this arises evil. We say that
 &laquo;an apple a day keeps the doctor away&raquo;, yet we recognise that a
@@ -146,7 +146,7 @@ whatsoever (see [We reject miracles and idolatry](#h:5b5e051d-eb86-4898-adf0-9fc
 
 <a id="h:80fe2adb-dd3d-48bd-abda-c5c373a5d594"></a>
 
-# Human&rsquo;s relationship with the limits
+## Human&rsquo;s relationship with the limits
 
 Human does not define the limits. Those exist independently of our
 desires and institutions. If, as already noted, eating too many apples
@@ -239,7 +239,7 @@ is precisely where evil will emerge.
 
 <a id="h:5b5e051d-eb86-4898-adf0-9fc384511a8d"></a>
 
-# We reject miracles and idolatry
+## We reject miracles and idolatry
 
 Every society must resist the degenerative tendencies that human
 desire begets. Human seeks easy solutions and, through laziness,
@@ -314,7 +314,7 @@ view of their self and of the world around them.
 
 <a id="h:d37d7dd6-c2cc-4c7c-9332-5fe1263219e6"></a>
 
-# The exclusivity of love
+## The exclusivity of love
 
 Human cannot avoid trade-offs, a truth that holds even in the purest
 intentions and emotions. Let us focus our attention on love in order
@@ -368,7 +368,7 @@ rationalises or beautifies irresponsibility.
 
 <a id="h:60cf69e5-76bb-4535-b742-215a16e2ff07"></a>
 
-# The Fates of chance, choice, and the inevitable
+## The Fates of chance, choice, and the inevitable
 
 Human does not exercise complete control over their world. They are
 subject to the laws of nature. Every experience is framed by the
@@ -411,7 +411,7 @@ will.
 
 <a id="h:8c2c7bd6-870c-44c1-8d42-7b4aed8383d2"></a>
 
-# Embodied mind
+## Embodied mind
 
 Our religion requires worshippers to be responsible so that they
 operate, individually and collectively, within limits. Consequently,
@@ -476,7 +476,7 @@ perpetuation of our kind.
 
 <a id="h:300dcc96-5b3d-4eb0-8c1b-3aed11fb3211"></a>
 
-# The symbolism of the Olympic Games
+## The symbolism of the Olympic Games
 
 [ Translation note: in Greek we use the term &laquo;agons&raquo; instead of
   &laquo;games&raquo;, which is best translated as &laquo;struggles&raquo; in the sense of
@@ -519,7 +519,7 @@ ultimately ruin (see [We reject miracles and idolatry](#h:5b5e051d-eb86-4898-adf
 
 <a id="h:86390a41-0e58-4514-8bc3-05ade8068870"></a>
 
-# Triadicity
+## Triadicity
 
 We understand good and evil as gradations of the factors in the given
 case which are arranged in a certain constitution (see [The sin of exaggeration](#h:9df22656-3512-41dc-b9ce-e12d4fedc51c)).
@@ -558,7 +558,7 @@ relationships and thus recognise neither good nor evil.
 
 <a id="h:7b6191b2-1b18-43c6-8810-d24a094d86f7"></a>
 
-# Each person to their craft
+## Each person to their craft
 
 Religion is a collective affair. All societies distribute the total
 work among their members. Each person specialises in their craft and
