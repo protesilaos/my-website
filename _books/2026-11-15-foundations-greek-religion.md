@@ -3,6 +3,8 @@ title: "Foundations of the Greek Religion"
 excerpt: "The essence of the Greek ethnic religion, which is the religion of responsibility."
 ---
 
+[ This is a faithful translation of the original in Greek: [https://protesilaos.com/greek/2026-11-14-foundations-greek-religion/](https://protesilaos.com/greek/2026-11-14-foundations-greek-religion/) (2026-11-14). ]
+
 Religiosity is a collective affair. Through religion, each person
 comes into contact with fellow human beings within a framework of
 shared beliefs. The values that govern the community constitute the
