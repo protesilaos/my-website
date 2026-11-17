@@ -8,7 +8,6 @@ mediaid: "Lb1WfF4iRNA"
 [ The stream will be recorded. You can watch it later. ]
 
 Today I will implement some new features for my Emacs configuration. I
-will include the final code on my website, in the publication that
-will embed this video there.
+will include the final code on my website, as an update to this publication.
 
 As usual, I will keep the chat open and shall answer all questions.
