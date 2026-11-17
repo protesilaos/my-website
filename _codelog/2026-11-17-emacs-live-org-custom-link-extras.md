@@ -14,7 +14,11 @@ As usual, I will keep the chat open and shall answer all questions.
 
 **UPDATE 2026-11-17 18:52 +0200:** Pasting the code.
 
+**UPDATE 2026-11-17 19:24 +0200:** I forgot the `prot-text` part.
+
 ## The code I wrote during the livestream
+
+### Custom Org link types
 
 ```elisp
 ;;;; Custom link types
@@ -190,4 +194,53 @@ QUERY matches `prot-org-meetings-link-regexp'."
             (string-blank-p date))
     (error "The DATE cannot be nil or an empty string"))
   (insert (format "[[prot-meetings:%s since %s]]" person date)))
+```
+
+### Indent `text-mode` region
+
+```elisp
+(defun prot-text-insert-prefix (prefix string)
+  "Prepend PREFIX to every line of STRING."
+  (with-temp-buffer
+    (insert string)
+    (goto-char (point-min))
+    (insert prefix)
+    (while (and (forward-line 1)
+                (not (eobp)))
+      (goto-char (line-beginning-position))
+      (insert prefix))
+    (buffer-string)))
+
+(defmacro prot-text-define-prefix-command (scope prefix)
+  "Define command with SCOPE to insert PREFIX to string.
+SCOPE is a string that describes what the command will do.  PREFIX is
+the prefix as a string.
+
+The command will target the text between `region-beginning' and
+`region-end'.  It will produce and error if the region is not active."
+  `(defun ,(intern (format "prot-text-prefix-%s" scope)) (beginning end)
+     ,(format
+       "Add prefix `%s' to text between BEGINNING and END positions.
+Report an error if the region is not active."
+       prefix)
+     (interactive
+      (if (use-region-p)
+          (list (region-beginning) (region-end))
+        (error "The region is not active")))
+     (when (= beginning end)
+       (error "The BEGINNING and END cannot be equal"))
+     (let* ((text (buffer-substring beginning end))
+            (replacement (prot-text-insert-prefix ,prefix text)))
+       (replace-region-contents beginning end replacement))))
+
+;;;###autoload (autoload 'prot-text-prefix-blockquote "prot-text" nil t)
+;;;###autoload (autoload 'prot-text-prefix-indent "prot-text" nil t)
+(prot-text-define-prefix-command blockquote "> ")
+(prot-text-define-prefix-command indent "    ")
+
+(defvar-keymap prot-text-prefix-leader-map
+  :doc "Commands to insert prefix to the active region text."
+  :prefix 'prot-text-prefix-leader
+  "b" #'prot-text-prefix-blockquote
+  "i" #'prot-text-prefix-indent)
 ```
