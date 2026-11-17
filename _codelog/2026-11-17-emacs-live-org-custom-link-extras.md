@@ -244,3 +244,18 @@ Report an error if the region is not active."
   "b" #'prot-text-prefix-blockquote
   "i" #'prot-text-prefix-indent)
 ```
+
+## Emacs configuration
+
+My personal Emacs configuration.  It is comprehensive, both in terms of
+the [custom] code it contains as well as the documentation on what each
+piece of functionality does.
+
++ Website: <https://protesilaos.com/emacs/dotemacs>
++ Git repositories:
+  + GitHub: <https://github.com/protesilaos/dotfiles>
+  + GitLab: <https://gitlab.com/protesilaos/dotfiles>
++ Video demo: <https://protesilaos.com/codelog/2023-12-18-emacs-org-advanced-literate-conf/>
++ Backronym: Do Observe, Transpose, Examine, or Mirror All
+  Configurations, Stranger (dotemacs); Dotfiles Operate Transparently
+  For the Included Linux and Emacs Setups (dotfiles).
