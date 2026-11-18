@@ -93,8 +93,8 @@ The manual has a section about building on top of Modus. My
 
 The `ef-themes` are a collection of light and dark themes for GNU
 Emacs that provide colourful ("pretty") yet legible options for users
-who want something with a bit more flair than the `modus-themes` (also
-designed by me).
+who want something with a bit more flair than my `modus-themes` or my
+minimalist `doric-themes`.
 
 Starting with version `2.0.0`, the `ef-themes` are built on top of the
 `modus-themes`. This means that all customisation options of the Modus
