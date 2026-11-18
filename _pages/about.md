@@ -65,7 +65,7 @@ insights I develop are thus original and probably thought-provoking.
 
 ## About protesilaos.com and all my publications
 
-This website has been online since 2011. It contains more than 1500
+This website has been online since 2011. It contains more than ~2500
 in-depth entries on a wide range of topics, all of which are available
 under the appropriate _copyleft_ terms that ensure end user
 freedom—see the [license and resources](https://protesilaos.com/license/) page. I usually make
