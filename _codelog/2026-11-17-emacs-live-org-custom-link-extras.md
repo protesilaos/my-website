@@ -16,6 +16,9 @@ As usual, I will keep the chat open and shall answer all questions.
 
 **UPDATE 2026-11-17 19:24 +0200:** I forgot the `prot-text` part.
 
+**UPDATE 2026-11-20 11:04 +0200:** I decided to remove the `rgrep`
+call because I never liked its behaviour.
+
 ## The code I wrote during the livestream
 
 ### Custom Org link types
@@ -23,7 +26,7 @@ As usual, I will keep the chat open and shall answer all questions.
 ```elisp
 ;;;; Custom link types
 
-(defcustom prot-org-grep-directory "/tmp/testing/"
+(defcustom prot-org-grep-directory org-directory
   "Directory where prot-grep links search in with `rgrep'."
   :type 'directory)
 
@@ -31,9 +34,19 @@ As usual, I will keep the chat open and shall answer all questions.
   "Use QUERY to `rgrep' the `prot-org-grep-directory'."
   (let* ((current-file (file-name-nondirectory buffer-file-name))
          (grep-find-ignored-files (append (list current-file) grep-find-ignored-files))
-         (heading (format "\\*[\s\t]+.*%s" (regexp-quote query))))
-    ;; TODO 2026-11-17: Refine the FILES argument.
-    (rgrep heading ".*" prot-org-grep-directory nil)))
+         (heading (format "\\*+[\s\t]+\\<%s\\>" query)))
+    (compilation-start
+     (concat
+      "find " prot-org-grep-directory
+      " -path " (shell-quote-argument "*/.git") " -prune "
+      " -o -type f "
+      " -iname \"*.org\""
+      " -exec grep -inHER --color=auto " (shell-quote-argument heading) " "
+      (shell-quote-argument "{}")
+      " " (shell-quote-argument "+"))
+     'grep-mode
+     (lambda (_mode) (format "*prot-dired-grep-marked for `%s'*" query))
+     t)))
 
 (defvar prot-org-grep-complete-history nil
   "Minibuffer history for `prot-org-grep-complete'.")
@@ -63,14 +76,14 @@ As usual, I will keep the chat open and shall answer all questions.
  :face 'prot-org-grep-link)
 
 ;;;###autoload
-(defun prot-org-grep-insert (query)
+(defun prot-org-insert-grep-link (query)
   "Insert prot-grep link for QUERY.
 When called interactively, prompt for QUERY.  Else QUERY is a string."
   (interactive (list (prot-org-grep-complete)))
   (when (or (null query)
             (string-blank-p query))
     (error "The QUERY cannot be nil or an empty string"))
-  (insert (format "[[prot-grep:%s]]" query)))
+  (insert (format "[[%s]]" query)))
 
 ;; TODO 2026-11-17: I want to add an "until" logic.
 (defvar prot-org-meetings-link-regexp
@@ -117,7 +130,7 @@ Sort ENTRIES with `prot-org-meetings-sort'."
           (insert "\n\n"))))
     (display-buffer buffer)))
 
-(defcustom prot-org-meetings-file "/tmp/testing/meetings.org"
+(defcustom prot-org-meetings-file org-default-notes-file
   "The path to the file where prot-meetings links search in."
   :type 'file)
 
