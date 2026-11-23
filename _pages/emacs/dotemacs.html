@@ -9,8 +9,8 @@ redirect_from:
 ---
 
 <p>
-[ Last revised and exported on <b>2026-11-20 11:03:48 +0200</b> with a word
-  count of <b>122681</b>. ]
+[ Last revised and exported on <b>2026-11-23 09:02:33 +0200</b> with a word
+  count of <b>123042</b>. ]
 </p>
 
 <p>
@@ -372,6 +372,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <ul>
 <li><a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">5.11.8.1. Contents of my <code>.mbsyncrc</code></a></li>
 <li><a href="#h:c7b8940b-7452-429e-ba2d-dd39da5e9cd9">5.11.8.2. Contents of my <code>msmtp</code> configuration file</a></li>
+<li><a href="#h:3b6f434c-a9c3-4bfa-8a40-157d7f00b99a">5.11.8.3. The GMail setup with <code>lieer</code> and <code>notmuch</code></a></li>
 </ul>
 </li>
 </ul>
@@ -441,7 +442,7 @@ For the Included Linux and Emacs Setups (dotfiles).</li>
 <p>
 I track the emacs.git trunk, as I am the maintainer of several Emacs
 packages and a contributor to Emacs core. Here are my current settings
-(2026-11-20 11:03:48 +0200):
+(2026-11-23 09:02:33 +0200):
 </p>
 
 <div class="org-src-container">
@@ -535,7 +536,7 @@ Here is a schematic representation of this directory structure (files
 shown here may not reflect the latest state of the project):
 </p>
 
-<pre class="example" id="orge7fcca8">
+<pre class="example" id="org9c974de">
 ~/Git/Projects/dotfiles/emacs/.emacs.d $ tree -aF
 ./
 ├── early-init.el
@@ -615,7 +616,7 @@ the <code>stow</code> system package (all my dotfiles are stowed in place with
 this program):
 </p>
 
-<pre class="example" id="org978b01d">
+<pre class="example" id="orgb319e08">
 ~/Git/Projects/dotfiles $ stow -t $HOME emacs
 </pre>
 
@@ -623,7 +624,7 @@ this program):
 If I ever add/remove files, I do this instead:
 </p>
 
-<pre class="example" id="org29b4a47">
+<pre class="example" id="org0493f6a">
 ~/Git/Projects/dotfiles $ stow -t $HOME -R emacs
 </pre>
 
@@ -1546,7 +1547,7 @@ the expansion of the macro is nil, not the actual code with comments
 around it.
 </p>
 
-<pre class="example" id="org90d0325">
+<pre class="example" id="org578cbf7">
 (defmacro prot-emacs-comment (&amp;rest body)
   "Do nothing with BODY and return nil, with no side effects."
   (declare (indent defun))
@@ -1628,7 +1629,7 @@ directly from source, per the built-in <code>package-vc-install</code> function.
 Some examples of the forms together with the macroexpanded code:
 </p>
 
-<pre class="example" id="org13830c8">
+<pre class="example" id="orgedebc25">
 (prot-emacs-install modus-themes)
 ;; =&gt; (progn
 ;; =&gt;   (unless (package-installed-p 'modus-themes)
@@ -1712,7 +1713,7 @@ macro in action. I put the code it produces in a comment right below,
 for your convenience.
 </p>
 
-<pre class="example" id="org5cc5308">
+<pre class="example" id="org5cdfa0d">
 (prot-emacs-hook
   text-mode-hook
   test-fn-1)
@@ -1878,7 +1879,7 @@ autoloads in the configuration. They only apply to my setup, anyway.
 The macro works like this:
 </p>
 
-<pre class="example" id="org0423e86">
+<pre class="example" id="org967fad1">
 (prot-emacs-autoload test-fn-1 "test-file")
 ;; =&gt; (autoload #'test-fn-1 "test-file")
 
@@ -4438,7 +4439,7 @@ same result they would have had they been executed in a terminal
 emulator. For example:
 </p>
 
-<pre class="example" id="orgb708fad">
+<pre class="example" id="orga5e0b0e">
 echo -e "\e[31mThis text is red\e[0m"
 </pre>
 
@@ -4490,7 +4491,7 @@ described in great detail in the doc string of the variable
 <code>compilation-error-regexp-alist</code>. Here is a sample:
 </p>
 
-<pre class="example" id="orgab6a1ac">
+<pre class="example" id="org36bace1">
 (add-to-list 'compilation-error-regexp-alist-alist
              '(prot-sample
                "^[\s\t]*\\(?:.*(\\)\\(?1:.*\\):\\(?2:[0-9]+\\)?:\\(?3:[0-9]+\\)?"
@@ -7716,7 +7717,7 @@ command runs it deletes the popup frame. This way we do not end up
 with more frames than we need. Here is the sample of what it does:
 </p>
 
-<pre class="example" id="org4d10247">
+<pre class="example" id="orgc7f7226">
 (with-eval-after-load 'org-capture
   (add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame))
 
@@ -7744,7 +7745,7 @@ At my system level I also have keybindings bound to call the following
 daemon or <code>server-mode</code>):
 </p>
 
-<pre class="example" id="org4401d17">
+<pre class="example" id="org98c9b5a">
 # Run `org-capture` in a popup frame that is deleted after you are done.
 emacsclient -e '(prot-window-popup-org-capture)'
 
@@ -7822,7 +7823,7 @@ the variable <code>uniquify-buffer-name-style</code> does a good job at
 explaining the various patterns:
 </p>
 
-<pre class="example" id="org0ddc128">
+<pre class="example" id="org833e30e">
 For example, the files ‘/foo/bar/mumble/name’ and ‘/baz/quux/mumble/name’
 would have the following buffer names in the various styles:
 
@@ -7998,7 +7999,7 @@ Each element of the alist (i.e. one of the lists) is of the
 following form:
 </p>
 
-<pre class="example" id="orga4a3832">
+<pre class="example" id="orgfe8c2f0">
   (BUFFER-MATCHER
    FUNCTIONS-TO-DISPLAY-BUFFER
    OTHER-PARAMETERS)
@@ -9947,7 +9948,7 @@ file system path, with an optional extension for a match inside the
 file, as documented in the manual. Evaluate this inside of Emacs:
 </p>
 
-<pre class="example" id="org104ccd2">
+<pre class="example" id="org9a06455">
 (info "(org) Search Options")
 </pre>
 
@@ -10037,7 +10038,7 @@ We can load the requisite code for the languages we care about with
 something like the following:
 </p>
 
-<pre class="example" id="orgfe98608">
+<pre class="example" id="org867a75f">
 (require 'ob-python)
 
 ;; OR
@@ -10941,7 +10942,7 @@ client in a given file, do <code>M-x eglot</code>. To make this happen
 automatically for every newly visited file, add a hook like this:
 </p>
 
-<pre class="example" id="orgbc94bd9">
+<pre class="example" id="org7f44de8">
 (add-hook 'SOME-MAJOR-mode #'eglot-ensure)
 </pre>
 
@@ -11850,7 +11851,7 @@ user option <code>auth-sources</code>. I set it to a single GPG-encrypted entry.
 The contents of that file look like this:
 </p>
 
-<pre class="example" id="org955064c">
+<pre class="example" id="orgc369303">
 machine pub port 993 login SOME-USER-NAME-HERE-1 password SOME-PASSWORD-HERE
 machine inf port 993 login SOME-USER-NAME-HERE-2 password SOME-PASSWORD-HERE
 
@@ -11862,7 +11863,7 @@ machine mail.other-server.com port 465 login SOME-USER-NAME-HERE-2 password SOME
 Each line can be read as a map of key-value pairs. Think of it like this:
 </p>
 
-<pre class="example" id="orgf254fe1">
+<pre class="example" id="org04eb9e2">
 machine pub
 port 993
 login SOME-USER-NAME-HERE-1
@@ -11925,7 +11926,7 @@ When replying to emails I receive, I normally comment inline by citing
 the original message. Concretely, this looks like this:
 </p>
 
-<pre class="example" id="org51305eb">
+<pre class="example" id="orgaf432fe">
 &gt; Some text I am commenting on.
 
 My comment on it.
@@ -11937,7 +11938,7 @@ message includes the <code>From</code> and <code>Date</code> headers, so the ori
 I am replying to looks like this in my message composition buffer:
 </p>
 
-<pre class="example" id="org25a9457">
+<pre class="example" id="org40edc93">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -11959,7 +11960,7 @@ thus frequently elide text by marking it and then typing <code>C-c C-e</code>
 turns the region into a cited snippet that references the line count, like:
 </p>
 
-<pre class="example" id="org01bdee2">
+<pre class="example" id="org4eb8e88">
 &gt; From: Some Name &lt;name@domain.tld&gt;
 &gt; Date: Tue,  9 Jan 2024 06:58:38 +0200
 &gt;
@@ -12091,7 +12092,7 @@ worked fine for a long time until my outgoing messages started getting
 rejected as spam. Here is the Emacs part I used to have:
 </p>
 
-<pre class="example" id="org515d880">
+<pre class="example" id="orgc6a08ad">
 (use-package sendmail
   :ensure nil
   :after message
@@ -12222,7 +12223,7 @@ the accounts I set.
 At any rate, the format of <code>notmuch-identities</code> is like this:
 </p>
 
-<pre class="example" id="org75b6c94">
+<pre class="example" id="org62920ee">
 (setq notmuch-identities '("Protesilaos &lt;someone@somewhere.com&gt;" "Prot &lt;just-my-nickname@somewhere.com&gt;"))
 </pre>
 
@@ -12234,7 +12235,7 @@ root of the directory that <code>notmuch</code> indexes, so something like
 structure looks like this:
 </p>
 
-<pre class="example" id="orgd536b74">
+<pre class="example" id="orgb52a18b">
 (setq notmuch-fcc-dirs
       '(("someone@somewhere.com" . "someone/Sent")
         ("nickname@somewhere.com" . "nickname/Sent")))
@@ -13212,15 +13213,18 @@ I keep this here in case I need to test the setup.
 <h4 id="h:33151014-3621-4be6-9185-aacc34ee2d2c"><span class="section-number-4">5.11.8.</span> Overview of my email setup (<code>mbsync</code>, <code>msmtp</code>, mail indexer, and MUA)</h4>
 <div class="outline-text-4" id="text-h:33151014-3621-4be6-9185-aacc34ee2d2c">
 <p>
-I have a regular IMAP email setup. This is the protocol that allows
-the server to retain messages, which is of practical benefit for
-accessing mail on multiple machines.
+IMAP is the protocol that allows the server to retain messages and to
+copy them to all clients, such as the desktop and phone email apps.
+Standard IMAP relies on an authentication mechanism that involves the
+user&rsquo;s login credentials. Whereas the modern standard involves an
+additional mechanism known as OAuth2. This is used by email service
+providers such as GMail and Microsoft Outlook.
 </p>
 
 <p>
-A copy of my server&rsquo;s contents needs to be stored locally. This is
-valuable for backup purposes but also to remove old messages from the
-server where I no longer need them. Having all my mail locally also
+A copy of the server&rsquo;s contents can be stored locally. This is
+valuable for backup purposes but also to periodically remove old and
+unneeded messages from the server. Having all emails locally also
 provides the option to move to another email service provider by just
 syncing the local data to the new location while deleting the old one.
 More importantly though, local files can be indexed, granting us
@@ -13228,8 +13232,8 @@ access to a powerful search mechanism (more below).
 </p>
 
 <p>
-The program that communicates with the server to store email locally
-is called <code>mbsync</code>. For whatever reason, the system package is
+The standard program that communicates with the server to store email
+locally is called <code>mbsync</code>. For whatever reason, the system package is
 <code>isync</code>. This is true for Arch Linux and Debian. (I also heard it is
 the case with <code>homebrew</code>, but please check.)
 </p>
@@ -13333,6 +13337,10 @@ implements, which does not rely on <code>msmtp</code> (<a href="#h:c7c9815c-e259
 </p>
 
 <p>
+[ Also see: <a href="#h:3b6f434c-a9c3-4bfa-8a40-157d7f00b99a">The GMail setup with <code>lieer</code> and <code>notmuch</code></a>. ]
+</p>
+
+<p>
 This all sounds complex to anyone who expects email to be encapsulated
 in a single application. What we have here is the Unix paradigm in
 action. Need another program for mail indexing? Good, just swap out
@@ -13362,7 +13370,7 @@ file (<a href="#h:24f17614-ee3d-4cd1-bbe3-f53e4f39c281">The <code>prot-emacs-ema
 What you see there is three separate email accounts.
 </p>
 
-<pre class="example" id="orge1c8b3e">
+<pre class="example" id="orgeed67c4">
 # Gandi
 ####################################################################################################
 IMAPAccount gandi
@@ -13459,7 +13467,7 @@ as with <code>mbsync</code>, I retrieve the user name and password via commands
 that read from the <code>~/.authinfo</code> file (<a href="#h:bf540a85-12a6-4005-bf00-2ff3370e5adb">Contents of my <code>.mbsyncrc</code></a>).
 </p>
 
-<pre class="example" id="org5f8554d">
+<pre class="example" id="org90d01c0">
 # See my mbsync config, which is reflected here.
 # https://github.com/protesilaos/dotfiles
 
@@ -13500,6 +13508,60 @@ passwordeval "gpg -q --for-your-eyes-only -d ~/.authinfo.gpg | awk -F ' ' '/gand
 # Set a default account (I copied from man msmtp)
 account default : gandi
 </pre>
+</div>
+</div>
+<div id="outline-container-h:3b6f434c-a9c3-4bfa-8a40-157d7f00b99a" class="outline-5">
+<h5 id="h:3b6f434c-a9c3-4bfa-8a40-157d7f00b99a"><span class="section-number-5">5.11.8.3.</span> The GMail setup with <code>lieer</code> and <code>notmuch</code></h5>
+<div class="outline-text-5" id="text-h:3b6f434c-a9c3-4bfa-8a40-157d7f00b99a">
+<p>
+[ This extends what I have explained in <a href="#h:33151014-3621-4be6-9185-aacc34ee2d2c">Overview of my email setup (<code>mbsync</code> or <code>lieer</code>, <code>msmtp</code>, mail indexer, and MUA)</a>. ]
+</p>
+
+<p>
+Email is essential to my work. I use it to communicate with people and
+organise my life. Every message I send must be delivered reliably and
+I should have no issues with me being flagged as a spam account. That
+used to be the case with my old email setup which circa 2024 got be
+blocklisted by a service known as Spamhaus.
+</p>
+
+<p>
+In late 2026 I decided to switch to a Google Workspace account. This
+gives me the option to still use my custom domain name while relying
+on what effectively is your typical GMail setup.
+</p>
+
+<p>
+Syncing emails locally is done with the <code>lieer</code> program while indexing
+is handled by <code>notmuch</code>. I was already using the latter though <code>lieer</code>
+is the new tool that replaces <code>mbsync</code>.
+</p>
+
+<p>
+With <code>lieer</code> we connect to GMail using an OAuth2 authentication
+mechanism as opposed to typical IMAP. This is supposed to be more
+secure and thus preferable. Though it also involves more work on the
+user&rsquo;s side to configure the appropriate credentials.
+</p>
+
+<p>
+<code>lieer</code> provides its own application key for connecting to GMail
+though I prefer to maintain my own. That is done via the Google Cloud
+interface: you register a new project and then get the relevant keys.
+</p>
+
+<p>
+Beside synchronisation back and forth, <code>lieer</code> can convert <code>notmuch</code>
+tags to GMail labels. Those will be synced across devices and be
+available on the web interface as well. I do not really need this
+feature, though knowing it is available is a nice plus: I might have a
+good use for it.
+</p>
+
+<p>
+Beside those technicalities, the email experience inside of Emacs
+should be the same as what I had before.
+</p>
 </div>
 </div>
 </div>
@@ -13783,7 +13845,7 @@ string to the URL and them optional keywords. Those keywords are tags
 which expose the feed to relevant queries. Here is an example:
 </p>
 
-<pre class="example" id="org8cbfcde">
+<pre class="example" id="orgfeedc71">
 (setq elfeed-feeds '(("https://protesilaos.com/codelog.xml" emacs linux)
                      ("https://protesilaos.com/interpretations.xml" art philosophy)))
 </pre>
@@ -22000,7 +22062,7 @@ it (long-term though, as it is a lot of work to document everything).
 This question is about the following pattern:
 </p>
 
-<pre class="example" id="orgc513024">
+<pre class="example" id="orgd397f53">
 ;; I usually have this:
 (setq var-1 val-1)
 (setq var-2 val-2)
@@ -22032,7 +22094,7 @@ which themselves take some effort to figure out.
 This is about the following pattern:
 </p>
 
-<pre class="example" id="org738dc26">
+<pre class="example" id="orge65f849">
 (define-key some-map [remap old-command] #'new-command)
 </pre>
 
