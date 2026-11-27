@@ -1,6 +1,6 @@
 ---
 title: "Political notes on the Gospel of Matthew"
-excerpt: "Political commentary on the Gospel of Matthew."
+excerpt: "Political commentary on the Gospel of Matthew from the New Testament."
 ---
 
 This is a comment on politics.
